@@ -17,7 +17,7 @@
 
 - 训练脚本已支持 `--seed`，并保存 teacher SHA-256、训练配置和最佳 checkpoint 信息到 `run_metadata.json`。
 - 比较脚本会拒绝 teacher 或核心超参数不一致的 checkpoint，并默认保存带 artifact SHA-256 的 JSON。
-- 公平 B3-v2 训练仍待运行；当前机器没有已创建的 `spint` Conda 环境，当前会话也不可见 CUDA GPU。
+- 公平 B3-v2 训练仍待运行；本机两张 RTX 3090 与 CUDA 驱动已通过 PyTorch smoke test，项目 `spint` Conda 环境正在按 `SPINT-main/environment.yaml` 创建。
 
 ### 工作
 

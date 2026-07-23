@@ -68,7 +68,7 @@
 4. 建立真正的 SUA 泛化评估，而不继续沿用重复的 `heldin/heldout` loader 命名。
 5. 只有在结构增益稳定后，再做 SUA+MUA 联合训练或 context conditioning。
 
-训练与比较脚本已于 2026-07-23 补齐显式 seed、teacher SHA-256 校验、核心超参数一致性检查和 JSON 结果输出。当前公平 B3-v2 尚未运行；本机缺少 `spint` Conda 环境，且当前会话不可见 CUDA GPU。
+训练与比较脚本已于 2026-07-23 补齐显式 seed、teacher SHA-256 校验、核心超参数一致性检查和 JSON 结果输出。当前公平 B3-v2 尚未运行；本机两张 RTX 3090 与 CUDA 驱动已通过 PyTorch smoke test，项目 `spint` Conda 环境正在按 `SPINT-main/environment.yaml` 创建。
 
 完整验收标准见 [`ROADMAP.md`](ROADMAP.md)。
 
