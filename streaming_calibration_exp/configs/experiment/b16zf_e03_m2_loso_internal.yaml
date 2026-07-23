@@ -1,0 +1,33 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b16zf
+
+run_id: b16zf_e03_m2_loso_internal
+comparison_role: b16zf_internal_relaxed_identity_distillation
+tags: ["b16zf", "m2", "loso", "internal-selection", "b3-warmstart", "lambda-e-0.03"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 1
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  balance_session_batches: false
+  reshuffle_train_sampler_each_epoch: false
+
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  encoder_warmstart_path: ???
+  freeze_encoder_base: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.03
+  support_prediction_consistency_weight: 0.0
+
+trainer:
+  max_epochs: 20
+
+callbacks:
+  early_stopping:
+    patience: 5

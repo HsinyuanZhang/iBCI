@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - final_heldout_eval
+
+run_id: final_heldout_eval_b3_d64
+model:
+  variant: B3
+  hidden_dim: 64

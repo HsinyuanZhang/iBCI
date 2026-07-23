@@ -1,0 +1,8 @@
+defaults:
+  - _streaming_base
+
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+variant: B5
+num_emas: 4
+hidden_dim: 64
+learnable_ema_alpha: false

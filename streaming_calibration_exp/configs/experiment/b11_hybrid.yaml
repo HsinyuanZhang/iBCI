@@ -1,0 +1,14 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b11
+
+run_id: b11_hybrid_fir_count
+tags: ["b11", "hybrid", "fir", "count", "dropout"]
+model:
+  hidden_dim: 64
+  num_filters: 4
+  kernel_size: 5
+  neuron_dropout_mode: uniform
+  neuron_dropout_p_low: 0.0
+  neuron_dropout_p_high: 0.30

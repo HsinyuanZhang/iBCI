@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b6
+
+run_id: b6_fir_r4_k5_screen
+tags: ["b6", "fir", "r4", "k5", "screen"]
+model:
+  num_filters: 4
+  kernel_size: 5

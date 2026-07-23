@@ -1,0 +1,12 @@
+root_dir: .
+data_dir: ${paths.root_dir}/../SPINT-main/data/
+log_dir: ${paths.root_dir}/logs/
+artifact_dir: ${paths.root_dir}/outputs/streaming_calibration
+output_dir: ${hydra:runtime.output_dir}
+work_dir: ${hydra:runtime.cwd}
+
+# Matched FP32 teacher (Gate 0)
+teacher_ckpt_path: ${paths.root_dir}/../SPINT-main/logs/train/runs/2026-07-07-16-05-16/checkpoints/best_ckpt/epoch_034.ckpt
+
+# M1 teacher (trained 2026-07-21, 50 epochs)
+m1_teacher_ckpt_path: ${paths.root_dir}/../SPINT-main/logs/train/runs/2026-07-21-19-11-01/checkpoints/best_ckpt/epoch_019.ckpt

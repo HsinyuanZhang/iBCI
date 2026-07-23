@@ -1,0 +1,8 @@
+defaults:
+  - _streaming_base
+
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+variant: B11
+hidden_dim: 64
+num_filters: 4
+kernel_size: 5

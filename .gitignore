@@ -1,0 +1,51 @@
+# Local agent and editor state
+.agents/
+.codex/
+.planning/
+.qoder/
+.idea/
+.vscode/
+.DS_Store
+
+# Python caches and local environments
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hydra/
+.venv/
+venv/
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+
+# Raw neural data, checkpoints, and packaged models
+*.nwb
+*.ckpt
+*.pt
+*.pth
+*.pkl
+*.onnx
+*.pdf
+
+# Large or reproducible experiment artifacts
+SPINT-main/data/*
+!SPINT-main/data/.gitkeep
+SPINT-main/local_data/
+SPINT-main/logs/*
+!SPINT-main/logs/.gitkeep
+sua_exploration/data/
+sua_exploration/checkpoints/
+streaming_calibration_exp/logs/
+streaming_calibration_exp/outputs/
+software-to-hardware/runs/*
+!software-to-hardware/runs/.gitkeep
+
+# Runtime output
+lightning_logs/
+wandb/
+*.log

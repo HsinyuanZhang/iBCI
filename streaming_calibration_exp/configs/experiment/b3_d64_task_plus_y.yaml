@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3
+
+run_id: b3_d64_task_plus_y
+comparison_role: loss_ablation
+tags: ["b3", "d64", "ablation", "task_plus_y", "loso", "r1"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  loss_mode: task_plus_y
+  lambda_y: 1.0
+  lambda_E: 0.0

@@ -1,0 +1,4 @@
+_target_: lightning.pytorch.callbacks.EarlyStopping
+monitor: val_heldin/r2_mean
+patience: 10
+mode: max

@@ -1,0 +1,19 @@
+# @package _global_
+# Phase R4 cubic hardware probe. Set loss_mode to Phase R1 winner at launch time.
+
+defaults:
+  - override /model: streaming_b6
+
+run_id: b6_fir_r4_k5_loso_probe
+comparison_role: hardware_probe
+tags: ["b6", "fir", "r4", "k5", "loso", "hardware_probe"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  num_filters: 4
+  kernel_size: 5
+  hidden_dim: 64
+  freeze_decoder: true
+  # loss_mode / lambda_y / lambda_E must be overridden to the R1 winner before launch.

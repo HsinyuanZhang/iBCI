@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b5
+
+run_id: b5_ema_r4_screen
+tags: ["b5", "ema", "r4", "screen"]
+model:
+  num_emas: 4

@@ -1,0 +1,32 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b16zf
+
+run_id: b16zf_tb_m2_loso_internal
+comparison_role: b16zf_internal_tempered_session_balance
+tags: ["b16zf", "m2", "loso", "internal-selection", "b3-warmstart", "tempered-session-balance", "fixed-epoch-order"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 1
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  balance_session_batches: 0.5
+  reshuffle_train_sampler_each_epoch: false
+
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  encoder_warmstart_path: ???
+  freeze_encoder_base: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 20
+
+callbacks:
+  early_stopping:
+    patience: 5

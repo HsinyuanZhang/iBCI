@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b14
+
+run_id: b14_ternarized_early_pool
+tags: ["b14", "ternarized", "ste", "multiplier-free"]
+model:
+  hidden_dim: 64

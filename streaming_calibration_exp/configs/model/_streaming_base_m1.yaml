@@ -1,0 +1,40 @@
+# Streaming base for M1 task.
+# Differs from _streaming_base.yaml in:
+#   task, behavior_scaling_factor, predict_scaled_behavior,
+#   window_size, trial_length, calibration_n_trials.
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 1.0e-4
+  weight_decay: 0.0
+
+scheduler: null
+compile: false
+
+task: m1
+teacher_ckpt_path: ${paths.m1_teacher_ckpt_path}
+window_size: ${data.window_size}
+trial_length: ${data.max_trial_length}
+pad_value: ${data.pad_value}
+freeze_decoder: true
+loss_mode: task_plus_y_plus_E
+lambda_y: 1.0
+lambda_E: 0.1
+decode_last_timestep_only: true
+predict_scaled_behavior: false      # M1: no scaling
+behavior_scaling_factor: 1.0        # M1: identity
+
+id_hidden_dim: 128
+hidden_dim: 64
+num_emas: 4
+num_filters: 4
+kernel_size: 5
+learnable_ema_alpha: false
+sparsity_k: 16
+
+# Neuron dropout (kept for parity, disabled by default)
+neuron_dropout_mode: none
+neuron_dropout_p_low: 0.0
+neuron_dropout_p_high: 0.3
+neuron_dropout_block_size: 4
+neuron_dropout_warmup_epochs: 10

@@ -1,0 +1,14 @@
+third_party/catalyst
+====================
+
+This directory contains two classes adopted from catalyst v21.5 (PyPI release;
+GitHub tag `v21.05`):
+
+- `_DatasetFromSampler`
+- `DistributedSamplerWrapper`
+
+  https://github.com/catalyst-team/catalyst/blob/v21.05/catalyst/data/sampler.py
+
+Licensed under Apache License, Version 2.0 (see `LICENSE`).
+
+We used these two classes for distributed training of SPINT. No modification was made.

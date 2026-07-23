@@ -1,0 +1,34 @@
+third_party/falcon_challenge
+============================
+
+This directory contains files adapted from the FALCON challenge repo:
+
+  https://github.com/snel-repo/falcon-challenge
+
+Licensed under MIT License (see `LICENSE`).
+
+Files and modifications
+-----------------------
+
+- `filtering.py`
+  Adapted from the FALCON filtering utils. Provides `apply_exponential_filter` and `NEURAL_TAU_MS`,
+  the causal exponential smoother applied to spike-count features for both
+  training and calibration.
+
+- `spint_decoder.py`
+  Adapted from the FALCON sample decoder. Rewritten to (a) load a SPINT
+  Lightning checkpoint produced by `src/train.py`, (b) read all
+  hyperparameters from the run's `.hydra/config.yaml`, (c) derive the
+  calibration directory from the same Hydra config, (d) apply the
+  exponential filter to calibration spikes when `smooth_calibration=True`,
+  and (e) implement the `BCIDecoder` interface from `falcon_challenge`.
+
+- `spint_sample.py`
+  Adapted from the FALCON sample evaluation entry point. Modified to
+  import `SpintDecoder` from this package.
+
+- `spint_sample.Dockerfile`
+  Adapted from the FALCON sample Dockerfile. Parameterized via
+  `--build-arg TASK=<m1|m2|h1>` and `--build-arg BATCH_SIZE=...` so a
+  single Dockerfile builds an image for any FALCON task. Bundles the
+  packaged SPINT decoder pickle at `data/decoder.pkl`.

@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "SPINT: Spatial Permutation-Invariant Neural Transformer for Consistent Intracortical Motor Decoding"
+type: software
+license: BSD-3-Clause
+url: "https://github.com/shlizee/SPINT"
+authors:
+  - family-names: Le
+    given-names: Trung
+    affiliation: University of Washington
+  - family-names: Fang
+    given-names: Hao
+    affiliation: University of Washington
+  - family-names: Li
+    given-names: Jingyuan
+    affiliation: University of Washington
+  - family-names: Nguyen
+    given-names: Tung
+    affiliation: University of California, Los Angeles
+  - family-names: Mi
+    given-names: Lu
+    affiliation: Tsinghua University
+  - family-names: Orsborn
+    given-names: Amy
+    affiliation: University of Washington
+  - family-names: "S\xFCmb\xFCl"
+    given-names: Uygar
+    affiliation: Allen Institute for Brain Science
+  - family-names: Shlizerman
+    given-names: Eli
+    affiliation: University of Washington
+preferred-citation:
+  type: conference-paper
+  title: "SPINT: Spatial Permutation-Invariant Neural Transformer for Consistent Intracortical Motor Decoding"
+  authors:
+    - family-names: Le
+      given-names: Trung
+    - family-names: Fang
+      given-names: Hao
+    - family-names: Li
+      given-names: Jingyuan
+    - family-names: Nguyen
+      given-names: Tung
+    - family-names: Mi
+      given-names: Lu
+    - family-names: Orsborn
+      given-names: Amy
+    - family-names: "S\xFCmb\xFCl"
+      given-names: Uygar
+    - family-names: Shlizerman
+      given-names: Eli
+  collection-title: "Advances in Neural Information Processing Systems (NeurIPS)"
+  year: 2025

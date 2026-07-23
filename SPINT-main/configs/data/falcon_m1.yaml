@@ -1,0 +1,21 @@
+_target_: src.data.falcon_datamodule.FalconDataModule
+
+task: m1
+data_dir: ${paths.data_dir}/000941/
+heldin_session_names: ['']
+batch_size: 32
+window_size: 100
+calibration_n_trials: 10
+
+random_calibration: true
+smooth_calibration: false
+max_trial_length: 1024
+standardize_covariates: false
+use_intertrials: true
+use_calib_intertrials: false
+trial_feature_type: 'raw'
+interpolate_trials: true
+interpolate_trials_kind: 'cubic'
+pad_value: -1.0
+num_workers: null
+pin_memory: false

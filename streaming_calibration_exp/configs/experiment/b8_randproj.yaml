@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b8
+
+run_id: b8_randproj_d64
+tags: ["b8", "randproj", "d64", "dropout"]
+model:
+  hidden_dim: 64
+  neuron_dropout_mode: uniform
+  neuron_dropout_p_low: 0.0
+  neuron_dropout_p_high: 0.30

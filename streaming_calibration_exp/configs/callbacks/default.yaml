@@ -1,0 +1,40 @@
+# All callbacks defined inline (no defaults merge) to avoid a root-level _target_
+# that would shadow nested checkpoint/early-stop configs during Hydra composition.
+
+override_epoch_step:
+  _target_: src.callbacks.override_epoch_step.OverrideEpochStepCallback
+
+early_stopping:
+  _target_: lightning.pytorch.callbacks.EarlyStopping
+  monitor: val_heldin/r2_mean
+  patience: 10
+  mode: max
+
+lr_monitor:
+  _target_: lightning.pytorch.callbacks.LearningRateMonitor
+  logging_interval: epoch
+
+model_summary:
+  _target_: lightning.pytorch.callbacks.RichModelSummary
+  max_depth: -1
+
+best_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/best_ckpt
+  filename: epoch_{epoch:03d}
+  monitor: val_heldin/r2_mean
+  mode: max
+  save_last: true
+  auto_insert_metric_name: false
+  save_top_k: 3
+
+periodic_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/periodic_ckpt
+  filename: epoch_{epoch:03d}
+  monitor: val_heldin/r2_mean
+  mode: max
+  save_last: true
+  auto_insert_metric_name: false
+  every_n_epochs: 10
+  save_top_k: -1

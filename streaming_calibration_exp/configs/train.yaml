@@ -1,0 +1,25 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: falcon_m2
+  - model: streaming_b2
+  - callbacks: default
+  - logger: tensorboard
+  - trainer: gpu
+  - paths: default
+  - extras: default
+  - hydra: default
+  - experiment: null
+
+task_name: train
+tags: ["streaming_calibration"]
+train: true
+test: true
+ckpt_path: null
+seed: 42
+run_id: null
+comparison_role: null
+optimized_metric: val_heldin/r2_mean
+baseline_metrics_path: ${paths.artifact_dir}/b0_baseline/metrics_per_session.csv
+require_baseline_validation: true

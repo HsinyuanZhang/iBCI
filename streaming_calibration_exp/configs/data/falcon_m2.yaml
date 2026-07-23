@@ -1,0 +1,29 @@
+_target_: src.data.falcon_datamodule.FalconDataModule
+
+task: m2
+data_dir: ${paths.data_dir}/000953/
+heldin_session_names: ['']
+batch_size: 32
+window_size: 50
+calibration_n_trials: 33
+
+random_calibration: true
+smooth_calibration: false
+max_trial_length: 100
+standardize_covariates: false
+use_intertrials: true
+use_calib_intertrials: false
+trial_feature_type: raw
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+validation_protocol: minival  # minival | loso | rotation_5_2
+loso_fold: null
+rotation_id: 0
+include_heldout_in_fit: false
+include_heldout_in_test: false
+num_workers: 4
+pin_memory: true
+sampler_seed: ${seed}
+balance_session_batches: false
+reshuffle_train_sampler_each_epoch: false

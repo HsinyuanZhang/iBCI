@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b7
+
+run_id: b7_d64_count_cond
+tags: ["b7", "d64", "count-conditioned", "dropout"]
+model:
+  hidden_dim: 64
+  neuron_dropout_mode: uniform
+  neuron_dropout_p_low: 0.0
+  neuron_dropout_p_high: 0.30

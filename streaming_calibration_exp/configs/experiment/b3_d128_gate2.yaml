@@ -1,0 +1,17 @@
+# @package _global_
+# Phase R2 Gate2 capacity recovery. Override loss_mode to the R1 winner before launch.
+
+defaults:
+  - override /model: streaming_b3
+
+run_id: b3_d128_gate2
+comparison_role: gate2_candidate
+tags: ["b3", "d128", "gate2", "loso"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 128
+  freeze_decoder: true
+  # loss_mode / lambda_y / lambda_E must be overridden to the R1 winner before launch.

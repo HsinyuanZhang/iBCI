@@ -1,0 +1,3 @@
+numpy>=1.22
+# required for b3_ckpt_quant_validate.py and optional --torch-check
+torch

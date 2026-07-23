@@ -1,0 +1,13 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3
+
+run_id: b3_d64_dropout_block4
+tags: ["b3", "d64", "dropout", "block"]
+model:
+  hidden_dim: 64
+  neuron_dropout_mode: block
+  neuron_dropout_p_low: 0.0
+  neuron_dropout_p_high: 0.30
+  neuron_dropout_block_size: 4

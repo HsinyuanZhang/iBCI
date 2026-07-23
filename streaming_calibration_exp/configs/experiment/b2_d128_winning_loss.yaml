@@ -1,0 +1,17 @@
+# @package _global_
+# Optional Phase R2 conditional复核: B2-D128 with R1 winning loss.
+
+defaults:
+  - override /model: streaming_b2
+
+run_id: b2_d128_winning_loss
+comparison_role: gate2_candidate
+tags: ["b2", "d128", "gate2", "loso"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  id_hidden_dim: 128
+  freeze_decoder: true
+  # loss_mode / lambda_y / lambda_E must be overridden to the R1 winner before launch.

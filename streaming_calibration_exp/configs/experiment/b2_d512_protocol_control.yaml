@@ -1,0 +1,20 @@
+# @package _global_
+# Phase R1 protocol control: B2 LatePool D=512, task+y+E, LOSO fold 0.
+# Answers student/LOSO recipe capacity ceiling under frozen decoder.
+
+defaults:
+  - override /model: streaming_b2
+
+run_id: b2_d512_protocol_control
+comparison_role: protocol_control
+tags: ["b2", "d512", "protocol_control", "loso", "r1"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  id_hidden_dim: 512
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+  freeze_decoder: true

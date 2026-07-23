@@ -1,0 +1,13 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3
+
+run_id: b3_d128_diag
+tags: ["b3", "d128", "diag", "loso"]
+data:
+  validation_protocol: loso
+  include_heldout_in_test: false
+model:
+  hidden_dim: 128
+  loss_mode: task_plus_y_plus_E

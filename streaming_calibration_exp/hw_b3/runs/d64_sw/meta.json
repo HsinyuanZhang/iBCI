@@ -1,0 +1,87 @@
+{
+  "variant": "B3_EarlyPool",
+  "shapes": {
+    "T": 100,
+    "D": 64,
+    "W": 50,
+    "N": 96,
+    "M": 4,
+    "seed": 0
+  },
+  "stage_shapes": {
+    "calib": [
+      4,
+      100,
+      96
+    ],
+    "pre_linear": [
+      4,
+      96,
+      64
+    ],
+    "feat": [
+      4,
+      96,
+      64
+    ],
+    "sum_after_trial": [
+      4,
+      96,
+      64
+    ],
+    "sum_feat": [
+      96,
+      64
+    ],
+    "mean_feat": [
+      96,
+      64
+    ],
+    "post0_linear": [
+      96,
+      64
+    ],
+    "post0_relu": [
+      96,
+      64
+    ],
+    "post1_linear": [
+      96,
+      64
+    ],
+    "post1_relu": [
+      96,
+      64
+    ],
+    "E": [
+      96,
+      50
+    ],
+    "S0_x_m0_n0": [
+      100
+    ],
+    "S1_pre_linear_m0_n0": [
+      64
+    ],
+    "S2_feat_m0_n0": [
+      64
+    ],
+    "S4_mean_n0": [
+      64
+    ],
+    "S5_post0_relu_n0": [
+      64
+    ],
+    "S6_post1_relu_n0": [
+      64
+    ],
+    "S7_E_n0": [
+      50
+    ]
+  },
+  "notes": [
+    "Linear convention: y = x @ W.T + b, W shape [out, in] (PyTorch nn.Linear).",
+    "feat == ReLU(pre_linear); accumulate feat over M then mean; then post MLP.",
+    "Local vectors S0..S7 are neuron0 (and trial0 where applicable) for quick RTL probes."
+  ]
+}

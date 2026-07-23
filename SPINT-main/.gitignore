@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.egg-info/
+
+# IDE
+.vscode/
+
+# SPINT — user-generated content
+/data/         # user-downloaded DANDI datasets
+/logs/         # training run outputs (checkpoints, tensorboard, configs)
+/local_data/   # packaged decoder pickles
+

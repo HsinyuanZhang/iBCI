@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b1
+
+run_id: gate1_b1_streaming
+tags: ["gate1", "b1", "exact_streaming"]
+train: false
+test: false

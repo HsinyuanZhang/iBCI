@@ -1,0 +1,33 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b16zfd
+
+run_id: b16zfd_m2_loso_internal
+comparison_role: b16zfd_internal_log_fano_branch_dropout
+tags: ["b16zfd", "m2", "loso", "internal-selection", "b3-warmstart", "branch-dropout-0.25"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 1
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  balance_session_batches: false
+  reshuffle_train_sampler_each_epoch: false
+
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  encoder_warmstart_path: ???
+  freeze_encoder_base: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+  support_prediction_consistency_weight: 0.0
+
+trainer:
+  max_epochs: 20
+
+callbacks:
+  early_stopping:
+    patience: 5

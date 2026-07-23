@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b12
+
+run_id: b12_streaming_hash_k4
+tags: ["b12", "streaming", "hash", "k4"]
+model:
+  hidden_dim: 64
+  sparsity_k: 4

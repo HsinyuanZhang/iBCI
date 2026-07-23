@@ -1,0 +1,33 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: falcon_m2
+  - paths: default
+  - extras: default
+  - hydra: default
+
+task_name: eval_b0
+tags: ["b0", "baseline", "gate0"]
+seed: 42
+run_id: b0_baseline
+
+data:
+  validation_protocol: minival
+  include_heldout_in_fit: false
+  include_heldout_in_test: true
+
+teacher_ckpt_path: ${paths.teacher_ckpt_path}
+
+model:
+  _target_: src.models.falcon_module.FalconLitModule
+  variant: B0
+
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  accelerator: auto
+  devices: 1
+  logger: false
+
+paths:
+  artifact_dir: ${paths.root_dir}/outputs/streaming_calibration

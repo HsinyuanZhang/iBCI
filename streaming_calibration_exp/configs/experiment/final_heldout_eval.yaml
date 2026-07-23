@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b2
+
+run_id: final_heldout_eval
+tags: ["final", "heldout_eval"]
+train: false
+test: true
+require_baseline_validation: false
+optimized_metric: null
+ckpt_path: ???
+# Match model dims to the locked checkpoint (see variant-specific presets below).
+
+data:
+  validation_protocol: minival
+  include_heldout_in_fit: false
+  include_heldout_in_test: true

@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1180" viewBox="0 0 1800 1180">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#071522"/>
+      <stop offset="55%" stop-color="#0b2130"/>
+      <stop offset="100%" stop-color="#07131d"/>
+    </linearGradient>
+    <linearGradient id="meanGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#147d92"/>
+      <stop offset="100%" stop-color="#19a5a0"/>
+    </linearGradient>
+    <linearGradient id="varGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8a4ac2"/>
+      <stop offset="100%" stop-color="#c15ed0"/>
+    </linearGradient>
+    <linearGradient id="outGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d8902f"/>
+      <stop offset="100%" stop-color="#e8b447"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.34"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#79d6e7"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#efb34e"/>
+    </marker>
+    <style>
+      .title { font-family: 'Droid Sans Fallback',sans-serif; font-size: 42px; font-weight: 700; fill: #f4fbff; }
+      .subtitle { font-family: 'Droid Sans Fallback',sans-serif; font-size: 20px; font-weight: 400; fill: #a9cad7; }
+      .section { font-family: 'Droid Sans Fallback',sans-serif; font-size: 23px; font-weight: 700; fill: #f5fbff; }
+      .label { font-family: 'Droid Sans Fallback',sans-serif; font-size: 18px; font-weight: 600; fill: #edf8fc; }
+      .body { font-family: 'Droid Sans Fallback',sans-serif; font-size: 16px; font-weight: 400; fill: #cce0e8; }
+      .small { font-family: 'Droid Sans Fallback',sans-serif; font-size: 14px; font-weight: 400; fill: #a9c3ce; }
+      .formula { font-family: 'DejaVu Sans Mono','Droid Sans Fallback',monospace; font-size: 17px; font-weight: 500; fill: #f5fbff; }
+      .badge { font-family: 'Droid Sans Fallback',sans-serif; font-size: 15px; font-weight: 700; fill: #071522; }
+      .box { fill: #102b3b; stroke: #356879; stroke-width: 2; rx: 18; filter: url(#shadow); }
+      .softbox { fill: #0d2533; stroke: #295464; stroke-width: 1.5; rx: 14; }
+      .arrow { fill: none; stroke: #79d6e7; stroke-width: 3; marker-end: url(#arrow); }
+      .arrowGold { fill: none; stroke: #efb34e; stroke-width: 3; marker-end: url(#arrowGold); }
+      .divider { stroke: #244a59; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1180" fill="url(#bg)"/>
+  <circle cx="1660" cy="90" r="240" fill="#123f50" opacity="0.23"/>
+  <circle cx="90" cy="1080" r="250" fill="#3b1f58" opacity="0.16"/>
+
+  <text x="70" y="70" class="title">B16-ZF：B3 安全回退 + 跨 Trial 可靠性残差</text>
+  <text x="70" y="108" class="subtitle">顶层原理：均值描述“这个通道通常怎么响应”，log-Fano 描述“它跨 trial 有多可靠”</text>
+
+  <!-- Reuse ribbon -->
+  <rect x="70" y="135" width="330" height="58" rx="16" fill="#d4f1f7"/>
+  <text x="95" y="160" class="badge">SUA：N = sorted single units</text>
+  <text x="95" y="181" class="small" fill="#133544">同一拓扑；按 SUA 数据单独训练</text>
+  <rect x="430" y="135" width="350" height="58" rx="16" fill="#eadcf7"/>
+  <text x="455" y="160" class="badge">MUA：N = electrode / threshold channels</text>
+  <text x="455" y="181" class="small" fill="#3e2554">同一拓扑；按 MUA 数据单独训练</text>
+  <path d="M400 164 L430 164" class="arrow"/>
+  <rect x="810" y="135" width="910" height="58" rx="16" fill="#132f3d" stroke="#3c6a78"/>
+  <text x="840" y="160" class="label">复用边界：</text>
+  <text x="955" y="160" class="body">复用 architecture / streaming protocol，不默认零样本复用 checkpoint</text>
+  <text x="840" y="181" class="small">T、W 或输入统计分布变化时应重新训练；当前 M2 示例为 T=100、D=64、W=50、M=33</text>
+
+  <!-- Main flow -->
+  <rect x="55" y="235" width="220" height="250" class="box"/>
+  <text x="80" y="273" class="section">校准支持集</text>
+  <text x="80" y="310" class="formula">C [B,M,T,N]</text>
+  <line x1="80" y1="330" x2="250" y2="330" class="divider"/>
+  <text x="80" y="360" class="body">M 个校准 trials</text>
+  <text x="80" y="388" class="body">T：每个 trial 的时间轴</text>
+  <text x="80" y="416" class="body">N：SUA unit 或 MUA channel</text>
+  <text x="80" y="454" class="small">逐 trial 输入，无需保存全部支持集</text>
+
+  <rect x="320" y="235" width="235" height="250" class="box"/>
+  <text x="345" y="273" class="section">共享 Trial 投影</text>
+  <text x="345" y="313" class="formula">xₘ,ₙ ∈ Rᵀ</text>
+  <rect x="345" y="340" width="185" height="62" rx="12" fill="url(#meanGrad)"/>
+  <text x="365" y="366" class="label">Linear T → D</text>
+  <text x="390" y="390" class="body">+ ReLU</text>
+  <text x="345" y="435" class="formula">hₘ,ₙ ∈ Rᴰ</text>
+  <text x="345" y="462" class="small">所有通道共用权重；通道间不交互</text>
+
+  <rect x="600" y="220" width="280" height="280" class="box"/>
+  <text x="625" y="258" class="section">流式二阶矩状态</text>
+  <rect x="625" y="285" width="230" height="58" rx="12" fill="#124151"/>
+  <text x="645" y="311" class="formula">S₁ ← S₁ + hₘ</text>
+  <text x="645" y="333" class="small">sum_feat [B,N,D]</text>
+  <rect x="625" y="355" width="230" height="58" rx="12" fill="#4b2c65"/>
+  <text x="645" y="381" class="formula">S₂ ← S₂ + hₘ²</text>
+  <text x="645" y="403" class="small">sum_feat_sq [B,N,D]</text>
+  <text x="625" y="442" class="formula">count ← count + 1</text>
+  <text x="625" y="470" class="small">支持状态 = 2 × B × N × D 个数</text>
+
+  <rect x="925" y="220" width="310" height="280" class="box"/>
+  <text x="950" y="258" class="section">Finalize：均值 + log-Fano</text>
+  <text x="950" y="300" class="formula">μ = S₁ / M</text>
+  <text x="950" y="338" class="formula">v = max(S₂/M − μ², 0)</text>
+  <text x="950" y="376" class="formula">r = log(1 + v / max(|μ|, ε))</text>
+  <line x1="950" y1="400" x2="1210" y2="400" class="divider"/>
+  <text x="950" y="431" class="body">μ：跨 trial 的典型响应</text>
+  <text x="950" y="459" class="body">r：发放尺度归一化的波动/可靠性</text>
+  <text x="950" y="485" class="small">ε = 1e−3；μ、v、r 均为 [B,N,D]</text>
+
+  <rect x="1280" y="210" width="465" height="390" class="box"/>
+  <text x="1305" y="250" class="section">B3 主干 + 零初始化方差残差</text>
+  <rect x="1310" y="280" width="390" height="82" rx="14" fill="url(#meanGrad)"/>
+  <text x="1335" y="310" class="label">B3 mean path（从配对 B3 复制并冻结）</text>
+  <text x="1335" y="340" class="formula">aμ = Wμ μ + bμ    D → D</text>
+  <rect x="1310" y="382" width="390" height="82" rx="14" fill="url(#varGrad)"/>
+  <text x="1335" y="412" class="label">log-Fano residual（当前仅此支路训练）</text>
+  <text x="1335" y="442" class="formula">av = Wv r    D → D；Wv 初始化为 0</text>
+  <circle cx="1505" cy="495" r="24" fill="#f0b74f"/>
+  <text x="1496" y="503" class="badge">+</text>
+  <text x="1545" y="502" class="formula">z = aμ + av</text>
+  <rect x="1310" y="532" width="390" height="46" rx="12" fill="url(#outGrad)"/>
+  <text x="1340" y="561" class="label" fill="#1c2630">post_tail：ReLU → D×D → ReLU → D×W</text>
+
+  <!-- Main arrows -->
+  <path d="M275 360 L320 360" class="arrow"/>
+  <path d="M555 360 L600 360" class="arrow"/>
+  <path d="M880 360 L925 360" class="arrow"/>
+  <path d="M1235 330 L1280 330" class="arrow"/>
+  <text x="285" y="345" class="small">逐 trial</text>
+
+  <!-- Identity output and decoder -->
+  <rect x="630" y="630" width="360" height="82" rx="18" fill="#173a48" stroke="#efb34e" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="660" y="664" class="section">神经元身份 / 校准向量</text>
+  <text x="660" y="695" class="formula">E = post_tail(z)  [B,N,W]</text>
+  <path d="M1510 600 C1510 655 1220 670 990 670" class="arrowGold"/>
+
+  <rect x="70" y="750" width="265" height="130" class="box"/>
+  <text x="95" y="787" class="section">在线 Query 神经信号</text>
+  <text x="95" y="825" class="formula">X [B,W,N]</text>
+  <text x="95" y="855" class="small">与校准支持集分开到达</text>
+
+  <rect x="425" y="750" width="300" height="130" class="box"/>
+  <text x="450" y="787" class="section">对齐并注入身份</text>
+  <text x="450" y="825" class="formula">Xᵀ [B,N,W] + E</text>
+  <text x="450" y="855" class="small">每个 channel token 加自己的 E</text>
+
+  <rect x="825" y="735" width="480" height="160" class="box"/>
+  <text x="850" y="775" class="section">冻结的 SPINT Decoder</text>
+  <text x="850" y="815" class="body">read-in Linear → Transformer cross-attention → output head</text>
+  <text x="850" y="847" class="small">decoder 参数冻结，但梯度可沿 E 回传到 encoder</text>
+  <text x="850" y="875" class="small">推理阶段 encoder 与 decoder 都是固定权重</text>
+
+  <rect x="1405" y="750" width="300" height="130" rx="18" fill="#3e3218" stroke="#efb34e" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1435" y="790" class="section">行为输出</text>
+  <text x="1435" y="828" class="formula">Ŷ [B,W,C]</text>
+  <text x="1435" y="858" class="small">例如速度 / 运动学变量</text>
+
+  <path d="M335 815 L425 815" class="arrow"/>
+  <path d="M725 815 L825 815" class="arrow"/>
+  <path d="M1305 815 L1405 815" class="arrowGold"/>
+  <path d="M810 712 L810 735" class="arrowGold"/>
+
+  <!-- Bottom summary panels -->
+  <rect x="55" y="955" width="530" height="175" class="softbox"/>
+  <text x="80" y="990" class="section">为什么适合 SUA / MUA 共用拓扑</text>
+  <text x="80" y="1024" class="body">✓ N 轴逐通道独立：不假设 spike sorting 或电极物理关系</text>
+  <text x="80" y="1054" class="body">✓ 参数量不随 N 增长；状态与计算仅按 O(ND) 线性扩展</text>
+  <text x="80" y="1084" class="body">✓ 同一个统计定义同时刻画 SUA unit 与 MUA channel 的稳定性</text>
+  <text x="80" y="1112" class="small">注意：当前项目定义是“同架构、分开训练”，不是 SUA↔MUA checkpoint 零样本迁移</text>
+
+  <rect x="620" y="955" width="500" height="175" class="softbox"/>
+  <text x="645" y="990" class="section">硬件友好部分</text>
+  <text x="645" y="1024" class="body">✓ 单遍流式：S₁ / S₂ / count，无需缓存 M 个 trials</text>
+  <text x="645" y="1054" class="body">✓ Dense MAC、ReLU、加法、平方；无 O(N²) attention</text>
+  <text x="645" y="1084" class="body">✓ Wv=0 时精确退回 B3，部署风险可控</text>
+  <text x="645" y="1112" class="small">N=96,D=64,T=100,M=33：21.762M MAC/session，仅比 B3 高约 1.84%</text>
+
+  <rect x="1155" y="955" width="590" height="175" class="softbox"/>
+  <text x="1180" y="990" class="section">仍需硬件化处理的部分</text>
+  <text x="1180" y="1024" class="body">△ 除法与 log1p：建议 reciprocal + LUT / 分段线性近似</text>
+  <text x="1180" y="1054" class="body">△ 二阶矩使 support state 变为 49,152 B（FP32，B3 的 2×）</text>
+  <text x="1180" y="1084" class="body">△ 当前 peak live state 87,552 B；定点累加/INT16 状态可继续压缩</text>
+  <text x="1180" y="1112" class="small">当前预处理还使用 cubic interpolation；它是上游成本，不是 B16-ZF 核心算子</text>
+
+  <text x="1725" y="1156" text-anchor="end" class="small">依据项目实现：streaming_encoders.py / streaming_spint.py</text>
+</svg>

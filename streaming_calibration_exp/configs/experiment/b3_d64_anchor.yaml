@@ -1,0 +1,17 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3
+
+run_id: b3_d64_anchor
+comparison_role: loss_ablation_reference
+tags: ["b3", "d64", "anchor", "loso", "loss_ablation"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 64
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1

@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b13
+
+run_id: b13_ensemble_proj_hash
+tags: ["b13", "ensemble", "proj", "hash"]
+model:
+  hidden_dim: 64
+  sparsity_k: 16

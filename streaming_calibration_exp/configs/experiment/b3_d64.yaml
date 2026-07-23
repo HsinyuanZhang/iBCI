@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3
+
+run_id: b3_d64_screen
+tags: ["b3", "d64", "screen"]
+model:
+  hidden_dim: 64
