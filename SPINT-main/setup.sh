@@ -6,8 +6,17 @@
 
 set -e
 
-mamba env create -f environment.yaml
-mamba run -n spint pip install -e .
+export PYTHONNOUSERSITE=1
+
+if command -v mamba >/dev/null 2>&1; then
+    ENV_TOOL=mamba
+else
+    ENV_TOOL=conda
+fi
+
+"$ENV_TOOL" env create -f environment.yaml
+"$ENV_TOOL" run -n spint python -m pip install --no-deps falcon-challenge==1.0.2
+"$ENV_TOOL" run -n spint python -m pip install -e .
 
 echo
 echo "Done. To use the environment, run:"

@@ -220,7 +220,6 @@ dependencies:
       - edit-distance==1.0.6
       - email-validator==2.2.0
       - etelemetry==0.3.1
-      - falcon-challenge==1.0.2
       - fasteners==0.19
       - fonttools==4.54.1
       - fqdn==1.5.1
@@ -254,7 +253,6 @@ dependencies:
       - multidict==6.1.0
       - natsort==8.4.0
       - numcodecs==0.13.1
-      - numpy==1.26.4
       - nwbinspector==0.5.2
       - optuna==2.10.1
       - pandas==2.2.3
