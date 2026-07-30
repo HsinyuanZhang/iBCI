@@ -112,7 +112,7 @@ The raw idea list is deliberately wider than the final program.
 | R5 | FiLM activity conditioning | retain only low-rank/zero-init |
 | R6 | full bilinear tensor | merge into low-rank FiLM; reject unbounded capacity |
 | R7 | B3T+T4 composition | retain |
-| R8 | truly bin-streaming B3T | retain as engineering prerequisite |
+| R8 | truly bin-streaming B3T | implemented 2026-07-31; retain as engineering prerequisite |
 | R9 | raw waveform/template encoder | defer |
 | R10 | retry raw waveform concat | reject: repeats F1/F2 |
 | R11 | absolute electrode table | defer/kill: D ineffective |
@@ -151,20 +151,29 @@ attains non-inferiority to T4@50 using `M_T4<=20/25`; otherwise no larger fusion
 effective_heterogeneous) and is about -31% parameters/-65% session MAC versus B3. Its
 combination with functional T4 tests a principled composition.
 
-**Boundary and minimal implementation.** Current `TemporalBasisEarlyPoolEncoder/B3T` is not
-bin-streaming: `supports_bin_streaming=False`, it accepts `push_trial(full [T,N])`, and its
-trial buffer is `N*T*4`. New `B3TStream` must never save the complete trial. At trial start
-allocate `[B,N,K]` (`K=12`) basis coefficient sums; each valid bin adds
-`x_t*basis[:,t]`; at end-of-trial use the existing learned `K->D` projection+ReLU and add to
-`sum_feat`; at finalize append selected T4/confidence once before `psi`. For `N=64`, this
-trial accumulator is ~3,072 B versus the present 25,600-B full trial buffer, plus ordinary
-`N*D` state. MAC remains `N*T*K + N*K*D` per trial plus post-pool/fusion.
+**Implemented boundary (2026-07-31).** `TemporalBasisEarlyPoolEncoder/B3T` and its
+side-feature subclass `B3TS` now expose the actual bin API
+`start_trial -> push_sample -> end_trial` with `supports_bin_streaming=True`. `B3TStream`
+is therefore an execution mode of the same learned B3T/B3TS network, not a second model
+whose extra name would require redundant accuracy training. At trial start it allocates only
+`[B,N,K]` (`K=12`) basis coefficient sums; each chronological valid bin adds
+`x_t*basis[:,t]`; at end-of-trial it applies the existing learned
+`K->D` projection+ReLU and adds to `sum_feat`. T4/TS4 is still appended only once at
+finalization before `psi`. No complete `[B,N,T]` trial appears in streaming state.
 
-**Controls/tests.** Factorial `B3/B3T/T4/B3TStream+T4/B3TStream+TS4`. Require batch versus
-full-trial versus bin-stream close/bit equivalence (with declared tolerance if arithmetic
-order differs), variable valid length/padding, unit+side permutation, T4-finalize contracts,
-no retained full trial, and corrected state/MAC `cost_profile`. Exact values, not the estimate
-of ~12,658 parameters and ~4.52M MAC/session, are reportable.
+For `N=64`, the exact transient accumulator is `64*12*4 = 3,072 B`, versus the former
+`64*100*4 = 25,600 B` full-trial assumption, plus the unchanged `64*64*4 = 16,384 B`
+support accumulator. MAC remains `N*T*K + N*K*D` per trial plus post-pool/fusion. The
+vectorized `push_trial` path is retained only as the training/reference implementation; it
+uses the same parameters, honors variable valid lengths, and is checked against bin
+execution.
+
+**Controls/tests.** Factorial `B3/B3T/T4/B3TStream+T4/B3TStream+TS4`. The implementation
+tests now cover batch versus vectorized full-trial exact equality, bin-stream agreement
+(`atol=2e-5`, because accumulation order differs), variable valid length and adversarial
+padding tails, chronological/end-of-trial guards, joint unit+side permutation, T4
+finalization, absence of retained full trials, and exact state/MAC `cost_profile`. The
+targeted CPU suite reports `19 passed`.
 
 **Kill rule.** Correct content contrast is mandatory. Advance only when B3TStream+T4 is
 non-inferior to T4@50 within -0.03 and exact parameters/MAC are both >=25% lower. If worse
@@ -304,9 +313,11 @@ and kills it if structured fusion loses to parameter-matched concat.
 membership within each session, not an implant-wide embedding. It has a sharp singleton
 boundary and an explicit eligibility/heterogeneity kill gate. Geometry remains blocked.
 
-**Objection: B3T is already streaming.** It is trial-streaming, not bin-streaming. The
-current encoder buffers/accepts a full trial and exposes no bin API. B3TStream is a new
-variant whose equivalence/state contract must pass before any accuracy claim.
+**Objection: B3T was only trial-streaming.** That objection was valid for the earlier
+implementation. Since 2026-07-31, B3T/B3TS expose a true bin API and retain only `[B,N,K]`
+current-trial coefficients. The batch/full/bin, padding, state and permutation contracts
+pass. Accuracy still has to pass the separately predeclared matched T4/B3T+T4/B3T+TS4
+experiment; the execution equivalence result is not itself an R² claim.
 
 These conclusions are constrained by [`CURRENT_RESULTS.md`](CURRENT_RESULTS.md) §§J-K,
 [`T4_OPTIMIZATION_DIRECTIONS.md`](T4_OPTIMIZATION_DIRECTIONS.md),

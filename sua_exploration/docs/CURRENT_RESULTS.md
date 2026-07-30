@@ -123,8 +123,13 @@ validation 与 formal 现在共享 checkpoint topology 重建，decoupled candid
 的 `fresh T4 / B3T+T4 / B3T+TS4` 效率 fallback。该分支不能替代第二个
 decoupled-K/V 实验。它目前
 实测静态成本目标为相对普通 T4 encoder 参数约 `−30.8%`、session-path MAC
-约 `−65.3%`、persistent online state 不增加，最终仍需 R² non-inferiority
-与 T4-content gates 才能称为 deployment improvement。
+约 `−65.3%`、persistent online state 不增加。2026-07-31 已补齐真正的
+bin-streaming 执行：`B3T/B3TS` 现在逐 bin 累积 `[N,K=12]`，不保存完整
+`[N,T=100]` trial；参考 `N=64` 下 transient trial state 从 `25,600 B`
+降至 `3,072 B`（`−88%`），batch/full/bin、padding 和 unit+side permutation
+目标测试为 `19 passed`。这只证明执行等价与成本，不是 R² 结果；最终仍需
+matched `B3T+T4` 的 non-inferiority 与 T4-content gates 才能称为 deployment
+improvement。
 
 只有最终 FP32 架构冻结后才量化 **identity encoder**；decoder 保持 FP32，复用
 其他平台上已有的 decoder QAT 无损证据，避免重复 GPU 消耗：

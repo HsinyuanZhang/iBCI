@@ -22,16 +22,25 @@ EXPECTED_COST = {
         "parameter_count": 18_290,
         "mac_per_session": 13_033_472,
         "support_state_bytes": 16_384,
+        "trial_buffer_bytes": 25_600,
+        "peak_live_state_bytes": 41_984,
+        "supports_bin_streaming": False,
     },
     "b3t_t4": {
         "parameter_count": 12_658,
         "mac_per_session": 4_524_032,
         "support_state_bytes": 16_384,
+        "trial_buffer_bytes": 3_072,
+        "peak_live_state_bytes": 19_456,
+        "supports_bin_streaming": True,
     },
     "b3t_ts4": {
         "parameter_count": 12_658,
         "mac_per_session": 4_524_032,
         "support_state_bytes": 16_384,
+        "trial_buffer_bytes": 3_072,
+        "peak_live_state_bytes": 19_456,
+        "supports_bin_streaming": True,
     },
 }
 EPOCHS = list(range(5, 13))

@@ -113,7 +113,10 @@ neither produces an effective candidate does the predeclared fresh
 That fallback may qualify by accuracy superiority or by deployment
 effectiveness: lower-2SE non-inferiority at `−0.03`, at least 25% measured
 parameter and session-MAC reduction, unchanged support state, and a strict
-positive T4-content gate. No branch authorizes INT8 to start before both
+positive T4-content gate. Its B3T/B3TS execution is now genuinely bin-streaming:
+only `[N,K=12]` current-trial basis coefficients are retained, not `[N,T=100]`;
+the learned network is unchanged and batch/full/bin equivalence is tested.
+No branch authorizes INT8 to start before both
 requested additional FP32 experiments have completed and the final FP32
 architecture has been selected.
 

@@ -222,16 +222,23 @@ Primary contrasts:
 - `B3T+T4 − B3T`: does T4 remain effective on the compressed temporal backbone?
 - `B3T+T4 − B3T+TS4`: is correct content still required?
 
-The reviewed `B3TS` implementation now makes this composition explicit. At the frozen
+The reviewed `B3TS` implementation now makes this composition explicit. Since
+2026-07-31, B3T/B3TS also expose a true chronological bin API: the hardware-facing
+execution retains `[N,K=12]` current-trial basis coefficients and never a complete
+`[N,T]` trial. This is the `B3TStream` execution of the same learned network, so it
+does not introduce a second set of weights or a redundant accuracy arm. At the frozen
 reference shape `N=64,T=100,M=30`, its measured `cost_profile()` is:
 
-| Encoder | learned parameters | MAC/session | support state |
-|---|---:|---:|---:|
-| fresh T4/B3S | 18,290 | 13,033,472 | 16,384 B |
-| B3T+T4/B3TS | 12,658 | 4,524,032 | 16,384 B |
+| Encoder | learned parameters | MAC/session | support state | transient trial state |
+|---|---:|---:|---:|---:|
+| fresh T4/B3S | 18,290 | 13,033,472 | 16,384 B | 25,600 B (`N*T`) |
+| B3TStream+T4/B3TS | 12,658 | 4,524,032 | 16,384 B | 3,072 B (`N*K`) |
 
 This is a 30.79% parameter reduction and 65.29% session-path MAC reduction with no support
-state increase. The fixed raised-cosine basis remains a non-persistent buffer. These are
+state increase and an 88% reduction of current-trial transient state. The fixed
+raised-cosine basis remains a non-persistent buffer. Batch versus vectorized full-trial is
+exact; bin-stream execution agrees within `atol=2e-5` under variable lengths and adversarial
+padding, and the targeted B3T/B3TS CPU suite reports `19 passed`. These are
 implementation/profile results, not an R² result.
 
 This variant is worth keeping even if it merely matches T4 within a predeclared `−0.03`

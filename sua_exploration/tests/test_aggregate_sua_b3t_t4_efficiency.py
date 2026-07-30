@@ -82,6 +82,9 @@ def test_load_cell_fail_closes_on_measured_cost_drift(tmp_path):
     assert len(sessions) == 6
     assert values.shape == (6,)
     assert cost["parameter_count"] == 12_658
+    assert cost["supports_bin_streaming"] is True
+    assert cost["trial_buffer_bytes"] == 3_072
+    assert cost["peak_live_state_bytes"] == 19_456
 
     metadata_path = tmp_path / "b3t_t4_metadata.json"
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
@@ -91,6 +94,23 @@ def test_load_cell_fail_closes_on_measured_cost_drift(tmp_path):
     artifact["run_metadata_sha256"] = hashlib.sha256(metadata_path.read_bytes()).hexdigest()
     path.write_text(json.dumps(artifact), encoding="utf-8")
     with pytest.raises(ValueError, match="cost parameter_count"):
+        load_cell(path, "b3t_t4", 42)
+
+
+def test_load_cell_rejects_non_streaming_b3t_receipt(tmp_path):
+    path = _write_cell(
+        tmp_path, arm="b3t_t4", variant="B3TS", side="t4"
+    )
+    metadata_path = tmp_path / "b3t_t4_metadata.json"
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    metadata["encoder_cost_profile_reference"]["supports_bin_streaming"] = False
+    metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
+    artifact = json.loads(path.read_text(encoding="utf-8"))
+    artifact["run_metadata_sha256"] = hashlib.sha256(
+        metadata_path.read_bytes()
+    ).hexdigest()
+    path.write_text(json.dumps(artifact), encoding="utf-8")
+    with pytest.raises(ValueError, match="cost supports_bin_streaming"):
         load_cell(path, "b3t_t4", 42)
 
 

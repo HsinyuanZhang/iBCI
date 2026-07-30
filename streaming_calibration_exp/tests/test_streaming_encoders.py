@@ -941,6 +941,131 @@ def test_b3t_permutation_invariance(shapes):
   assert torch.allclose(permuted_identity, identity[..., permutation, :], atol=1.0e-6)
 
 
+def _run_b3t_bin_stream(enc, calib, lengths, side_features=None):
+  batch_size, num_trials, _, num_neurons = calib.shape
+  state = enc.reset_stream(
+      batch_size, num_neurons, calib.device, calib.dtype
+  )
+  if side_features is not None:
+    state["side_features"] = side_features
+  for trial_idx in range(num_trials):
+    state = enc.start_trial(state, lengths[:, trial_idx])
+    valid_bins = int(lengths[:, trial_idx].max().item())
+    for time_idx in range(valid_bins):
+      state = enc.push_sample(
+          state, calib[:, trial_idx, time_idx], time_idx
+      )
+    state = enc.end_trial(state)
+  return enc.finalize_identity(state)
+
+
+@pytest.mark.parametrize("with_side", [False, True])
+def test_b3t_batch_full_trial_and_bin_stream_are_equivalent_with_padding(with_side):
+  torch.manual_seed(20260731)
+  if with_side:
+    enc = TemporalBasisSideFeatureEarlyPoolEncoder(
+        100, 50, hidden_dim=64, side_dim=4
+    )
+  else:
+    enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  enc.eval()
+  calib = torch.randn(2, 3, 100, 5)
+  lengths = torch.tensor([[100, 73, 41], [88, 52, 0]])
+  # Invalid tails are deliberately large.  Equivalence therefore proves that
+  # both software and bin-streaming paths honor the declared valid lengths.
+  for batch_idx in range(calib.shape[0]):
+    for trial_idx in range(calib.shape[1]):
+      calib[
+          batch_idx,
+          trial_idx,
+          int(lengths[batch_idx, trial_idx]):,
+      ] = 1_000.0
+  side = torch.randn(2, 5, 4) if with_side else None
+
+  with torch.no_grad():
+    batch = enc.forward_batch(
+        calib, trial_lengths=lengths, side_features=side
+    )
+    full_state = enc.reset_stream(2, 5, calib.device, calib.dtype)
+    if side is not None:
+      full_state["side_features"] = side
+    for trial_idx in range(calib.shape[1]):
+      full_state = enc.push_trial(
+          full_state,
+          calib[:, trial_idx],
+          trial_length=lengths[:, trial_idx],
+      )
+    full = enc.finalize_identity(full_state)
+    streamed = _run_b3t_bin_stream(enc, calib, lengths, side)
+
+  assert torch.equal(batch, full)
+  assert torch.allclose(streamed, full, atol=2.0e-5, rtol=1.0e-6)
+
+
+def test_b3t_bin_stream_state_never_retains_full_trial_and_cost_is_exact():
+  enc = TemporalBasisEarlyPoolEncoder(
+      trial_length=100, window_size=50, hidden_dim=64, num_basis=12
+  )
+  state = enc.reset_stream(2, 64, torch.device("cpu"), torch.float32)
+  assert enc.supports_bin_streaming is True
+  assert set(state) == {"sum_feat", "trial_count", "bin_state"}
+  state = enc.start_trial(state, torch.tensor([100, 63]))
+  assert set(state["bin_state"]) == {
+      "basis_coeff", "lengths", "next_time_idx"
+  }
+  assert state["bin_state"]["basis_coeff"].shape == (2, 64, 12)
+  assert all(
+      not (isinstance(value, torch.Tensor) and 100 in value.shape)
+      for value in state["bin_state"].values()
+  )
+
+  profile = enc.cost_profile(
+      num_neurons=64, trial_length=100, num_trials=30
+  )
+  assert profile.trial_buffer_bytes == 64 * 12 * 4 == 3_072
+  assert profile.support_state_bytes == 64 * 64 * 4 == 16_384
+  assert profile.peak_live_state_bytes == 19_456
+  assert profile.trial_buffer_bytes < 64 * 100 * 4
+
+
+def test_b3t_bin_stream_requires_chronological_complete_trial():
+  enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  state = enc.reset_stream(1, 3, torch.device("cpu"), torch.float32)
+  with pytest.raises(ValueError, match="requires start_trial"):
+    enc.push_sample(state, torch.zeros(1, 3), 0)
+  state = enc.start_trial(state, 3)
+  with pytest.raises(ValueError, match="chronological order"):
+    enc.push_sample(state, torch.zeros(1, 3), 1)
+  state = enc.push_sample(state, torch.zeros(1, 3), 0)
+  with pytest.raises(ValueError, match="before all valid bins"):
+    enc.end_trial(state)
+  state = enc.push_sample(state, torch.zeros(1, 3), 1)
+  state = enc.push_sample(state, torch.zeros(1, 3), 2)
+  state = enc.end_trial(state)
+  assert state["trial_count"] == 1
+  assert state["bin_state"] is None
+
+
+def test_b3ts_bin_stream_joint_unit_side_permutation_equivariance():
+  torch.manual_seed(20260801)
+  enc = TemporalBasisSideFeatureEarlyPoolEncoder(
+      100, 50, hidden_dim=64, side_dim=4
+  )
+  enc.eval()
+  calib = torch.randn(2, 3, 100, 7)
+  lengths = torch.tensor([[100, 78, 54], [91, 63, 39]])
+  side = torch.randn(2, 7, 4)
+  permutation = torch.tensor([3, 0, 6, 1, 5, 2, 4])
+  with torch.no_grad():
+    identity = _run_b3t_bin_stream(enc, calib, lengths, side)
+    permuted = _run_b3t_bin_stream(
+        enc, calib[..., permutation], lengths, side[:, permutation]
+    )
+  assert torch.allclose(
+      permuted, identity[:, permutation], atol=2.0e-5, rtol=1.0e-6
+  )
+
+
 def test_b3a_permutation_invariance(shapes):
   """Core set-based semantic: B3A attends over the trial axis only, per unit, so permuting
   neurons must permute the output identically with no cross-neuron leakage -- unlike B15,
@@ -1183,8 +1308,9 @@ def test_b3ts_t4_composes_b3t_with_side_features_without_new_streaming_state():
   assert torch.allclose(observed, expected, atol=1e-7, rtol=0.0)
 
   state = b3ts.reset_stream(2, 7, calib.device, calib.dtype)
-  assert set(state) == {"sum_feat", "trial_count"}
+  assert set(state) == {"sum_feat", "trial_count", "bin_state"}
   assert state["sum_feat"].shape == (2, 7, 64)
+  assert state["bin_state"] is None
 
 
 def test_b3ts_t4_meets_predeclared_parameter_mac_and_state_reductions():

@@ -691,6 +691,9 @@ def main() -> None:
             "trial_length": 100,
             "num_trials": args.calibration_n_trials,
         },
+        "supports_bin_streaming": bool(
+            model.student.id_encoder.supports_bin_streaming
+        ),
         **asdict(encoder_cost),
     }
     decoder_meta = run_metadata["decoder_architecture"]

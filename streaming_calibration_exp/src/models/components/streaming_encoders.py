@@ -860,11 +860,13 @@ class TemporalBasisEarlyPoolEncoder(CalibrationEncoder):
     because it cannot memorize session-specific per-bin idiosyncrasies, hypothesized to
     transfer better across sessions than B3's unconstrained projection
     (E3_E4_ENCODER_PROGRAM.md section 2.1). Both stages stay on the session-rate calibration
-    path (ASIC_DEPLOYMENT_CHARTER.md section 3), so this trade is close to free in compute;
-    the parameter reduction matters for weight SRAM, not for the session-path MAC budget.
+    path (ASIC_DEPLOYMENT_CHARTER.md section 3).  The hardware-facing bin API accumulates
+    only ``[B,N,K]`` current-trial coefficients and never retains ``[B,N,T]``; the dense
+    ``push_trial`` implementation remains only as a vectorized training/reference path.
     """
 
     variant = "B3T"
+    supports_bin_streaming = True
 
     def __init__(
         self,
@@ -893,12 +895,181 @@ class TemporalBasisEarlyPoolEncoder(CalibrationEncoder):
         basis_coeff = F.linear(trial, basis)  # [B,N,T] @ [K,T]^T -> [B,N,K], fixed weights
         return F.relu(self.basis_proj(basis_coeff))
 
-    def reset_stream(self, batch_size: int, num_neurons: int, device: torch.device, dtype: torch.dtype) -> Dict[str, Any]:
-        return {"sum_feat": torch.zeros(batch_size, num_neurons, self.hidden_dim, device=device, dtype=dtype), "trial_count": 0}
+    def reset_stream(
+        self,
+        batch_size: int,
+        num_neurons: int,
+        device: torch.device,
+        dtype: torch.dtype,
+    ) -> Dict[str, Any]:
+        return {
+            "sum_feat": torch.zeros(
+                batch_size,
+                num_neurons,
+                self.hidden_dim,
+                device=device,
+                dtype=dtype,
+            ),
+            "trial_count": 0,
+            "bin_state": None,
+        }
 
-    def push_trial(self, state: Dict[str, Any], trial: torch.Tensor, trial_length: Optional[Union[int, torch.Tensor]] = None) -> Dict[str, Any]:
+    def _validate_stream_lengths(
+        self,
+        state: Dict[str, Any],
+        trial_length: Union[int, torch.Tensor],
+    ) -> torch.Tensor:
+        batch_size = state["sum_feat"].shape[0]
+        device = state["sum_feat"].device
+        if isinstance(trial_length, int):
+            lengths = torch.full(
+                (batch_size,), trial_length, device=device, dtype=torch.long
+            )
+        else:
+            lengths = trial_length.to(device=device, dtype=torch.long).view(-1)
+            if lengths.numel() == 1 and batch_size > 1:
+                lengths = lengths.expand(batch_size)
+        if lengths.shape != (batch_size,):
+            raise ValueError(
+                f"B3T trial_length batch {tuple(lengths.shape)} != {(batch_size,)}"
+            )
+        if torch.any(lengths < 0) or torch.any(lengths > self.trial_length):
+            raise ValueError(
+                f"B3T trial lengths must be in [0,{self.trial_length}], got "
+                f"{lengths.tolist()}"
+            )
+        return lengths
+
+    def start_trial(
+        self,
+        state: Dict[str, Any],
+        trial_length: Optional[Union[int, torch.Tensor]] = None,
+    ) -> Dict[str, Any]:
+        """Allocate only the current trial's ``[B,N,K]`` basis accumulator.
+
+        This is the hardware-facing B3TStream path.  It deliberately does not
+        retain a ``[B,N,T]`` trial.  ``push_trial`` below remains a vectorized
+        training/reference path with the same arithmetic graph and parameters.
+        """
+        if state.get("bin_state") is not None:
+            raise ValueError("B3T start_trial called while another trial is active")
+        if trial_length is None:
+            raise ValueError("B3T start_trial requires trial_length")
+        lengths = self._validate_stream_lengths(state, trial_length)
+        batch_size, num_neurons = state["sum_feat"].shape[:2]
+        state["bin_state"] = {
+            "basis_coeff": torch.zeros(
+                batch_size,
+                num_neurons,
+                self.num_basis,
+                device=state["sum_feat"].device,
+                dtype=state["sum_feat"].dtype,
+            ),
+            "lengths": lengths,
+            "next_time_idx": 0,
+        }
+        return state
+
+    def push_sample(
+        self,
+        state: Dict[str, Any],
+        neural_bin: torch.Tensor,
+        time_idx: int = 0,
+    ) -> Dict[str, Any]:
+        """Accumulate one chronological bin without retaining earlier bins."""
+        bin_state = state.get("bin_state")
+        if bin_state is None:
+            raise ValueError("B3T push_sample requires start_trial first")
+        if not isinstance(time_idx, int):
+            raise TypeError("B3T time_idx must be an integer")
+        if time_idx != bin_state["next_time_idx"]:
+            raise ValueError(
+                "B3T bins must be pushed once in chronological order: "
+                f"expected {bin_state['next_time_idx']}, got {time_idx}"
+            )
+        if time_idx < 0 or time_idx >= self.trial_length:
+            raise ValueError(
+                f"B3T time_idx must be in [0,{self.trial_length - 1}], got {time_idx}"
+            )
+        neural_bin = _as_batch_neurons(neural_bin)
+        expected = tuple(state["sum_feat"].shape[:2])
+        if tuple(neural_bin.shape) != expected:
+            raise ValueError(
+                f"B3T neural bin shape {tuple(neural_bin.shape)} != {expected}"
+            )
+        neural_bin = neural_bin.to(
+            device=state["sum_feat"].device,
+            dtype=state["sum_feat"].dtype,
+        )
+        valid = (time_idx < bin_state["lengths"]).to(neural_bin.dtype)
+        basis_at_t = self.temporal_basis[:, time_idx].to(
+            device=neural_bin.device,
+            dtype=neural_bin.dtype,
+        )
+        bin_state["basis_coeff"] = bin_state["basis_coeff"] + (
+            neural_bin.unsqueeze(-1)
+            * valid[:, None, None]
+            * basis_at_t.view(1, 1, -1)
+        )
+        bin_state["next_time_idx"] += 1
+        return state
+
+    def end_trial(self, state: Dict[str, Any]) -> Dict[str, Any]:
+        bin_state = state.get("bin_state")
+        if bin_state is None:
+            raise ValueError("B3T end_trial requires start_trial first")
+        required_bins = (
+            int(bin_state["lengths"].max().item())
+            if bin_state["lengths"].numel()
+            else 0
+        )
+        if bin_state["next_time_idx"] < required_bins:
+            raise ValueError(
+                "B3T end_trial called before all valid bins were pushed: "
+                f"received {bin_state['next_time_idx']}, require {required_bins}"
+            )
+        feat = F.relu(self.basis_proj(bin_state["basis_coeff"]))
+        state["sum_feat"] = state["sum_feat"] + feat
+        state["trial_count"] += 1
+        state["bin_state"] = None
+        return state
+
+    def push_trial(
+        self,
+        state: Dict[str, Any],
+        trial: torch.Tensor,
+        trial_length: Optional[Union[int, torch.Tensor]] = None,
+    ) -> Dict[str, Any]:
+        """Vectorized training/reference equivalent of the bin-streaming path."""
+        if state.get("bin_state") is not None:
+            raise ValueError("B3T push_trial cannot run while a bin trial is active")
         trial = _trial_to_batch_neurons_time(trial)
-        feat = self._apply_pre_pool(trial)
+        if trial.shape[-1] != self.trial_length:
+            raise ValueError(
+                f"B3T expected {self.trial_length} time bins, got {trial.shape[-1]}"
+            )
+        lengths = (
+            torch.full(
+                (trial.shape[0],),
+                self.trial_length,
+                device=trial.device,
+                dtype=torch.long,
+            )
+            if trial_length is None
+            else self._validate_stream_lengths(state, trial_length)
+        )
+        if bool(torch.all(lengths == self.trial_length)):
+            # Preserve the established dense reference exactly for the common
+            # fixed-length training path.
+            feat = self._apply_pre_pool(trial)
+        else:
+            time = torch.arange(
+                self.trial_length, device=trial.device, dtype=torch.long
+            )
+            valid = time.view(1, 1, -1) < lengths.view(-1, 1, 1)
+            basis = self.temporal_basis.to(device=trial.device, dtype=trial.dtype)
+            basis_coeff = F.linear(trial * valid.to(trial.dtype), basis)
+            feat = F.relu(self.basis_proj(basis_coeff))
         state["sum_feat"] = state["sum_feat"] + feat
         state["trial_count"] += 1
         return state
@@ -912,7 +1083,10 @@ class TemporalBasisEarlyPoolEncoder(CalibrationEncoder):
         return num_neurons * self.hidden_dim * 4
 
     def _trial_buffer_bytes(self, num_neurons: int, trial_length: int) -> int:
-        return trial_length * num_neurons * 4
+        # B3TStream holds only the current [N,K] basis coefficient sum.  The
+        # [N,T] trial is an optional vectorized software input, not persistent
+        # deployment state.
+        return num_neurons * self.num_basis * 4
 
     def _mac_per_trial(self, num_neurons: int, trial_length: int) -> int:
         basis_mac = num_neurons * trial_length * self.num_basis
@@ -938,7 +1112,8 @@ class TemporalBasisSideFeatureEarlyPoolEncoder(TemporalBasisEarlyPoolEncoder):
     B3S's convention.  Thus the architecture starts as B3T rather than gaining
     an arbitrary random side-feature shortcut.  No trial list, unit table or
     online state is added: the persistent calibration accumulator remains
-    ``[B,N,H]`` and the side vector is consumed only at finalization.
+    ``[B,N,H]``, the transient bin-stream state is only ``[B,N,K]``, and the
+    side vector is consumed only at finalization.
     """
 
     variant = "B3TS"
