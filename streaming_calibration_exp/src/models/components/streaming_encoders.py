@@ -566,6 +566,18 @@ class CalibrationConfidenceFiLMEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
         if torch.count_nonzero(self.confidence_film.weight).item() or torch.count_nonzero(self.confidence_film.bias).item():
             raise RuntimeError("B3SCF warm-start must leave the zero-init FiLM head at zero")
 
+    def freeze_base_path(self) -> None:
+        """Freeze the selected-T4 substrate and tune only the matched fusion head.
+
+        This is deliberately shared by FiLM, shuffled-confidence, and additive
+        NoFiLM controls.  All three therefore optimize the exact same number of
+        parameters while the warm-started temporal path and post-pool mapping
+        remain fixed.
+        """
+        trainable_prefixes = ("confidence_context.", "confidence_film.")
+        for name, parameter in self.named_parameters():
+            parameter.requires_grad = name.startswith(trainable_prefixes)
+
     def _support_state_bytes(self, num_neurons: int) -> int:
         return super()._support_state_bytes(num_neurons)
 

@@ -335,8 +335,11 @@ analytic-SE expansion does not improve it (`R²=0.8885`).
 This does not establish decoding gain, but it sharpens the failure branch: if the matched
 FiLM screen fails, do not declare confidence uninformative and do not widen the descriptor
 set. Run one parameter-matched **residual-only** modulation round with a residual-only row
-shuffle. If that also fails against T4 continuation and NoFiLM, kill FiLM and advance to
-the independently motivated decoupled-K/V and B3TStream+T4 candidates.
+shuffle. The initial full-FiLM and shuffled-C fit-validation trajectories are nearly
+identical, so this fallback freezes the selected-T4 temporal/post-pool substrate and
+decoder and trains only the four confidence-head tensors (1,208 parameters) for all three
+matched residual arms. If that also fails against T4 continuation and NoFiLM, kill FiLM
+and advance to the independently motivated decoupled-K/V and B3TStream+T4 candidates.
 
 All five arms copy the same ordinary T4 final-epoch student encoder **and decoder**, discard
 optimizer state, and start with newly added residual heads at exactly zero:

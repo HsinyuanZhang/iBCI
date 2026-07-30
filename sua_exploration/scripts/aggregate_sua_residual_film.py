@@ -26,6 +26,12 @@ ARMS = (
     "residual_nofilm",
 )
 NEW_ARMS = ("residual_film", "residual_shuffle", "residual_nofilm")
+EXPECTED_HEAD_PARAMETERS = {
+    "id_encoder.confidence_context.0.weight",
+    "id_encoder.confidence_context.0.bias",
+    "id_encoder.confidence_film.weight",
+    "id_encoder.confidence_film.bias",
+}
 CONTRASTS = {
     "residual_film_vs_t4_continuation": "t4_continuation",
     "residual_film_vs_full_confidence_film": "film",
@@ -98,6 +104,26 @@ def aggregate(result_dir: Path, seeds: tuple[int, ...]) -> dict:
                     raise ValueError(
                         f"{path}: six-wide parameter-matched context receipt is missing"
                     )
+                if receipt.get("freeze_encoder_base") is not True:
+                    raise ValueError(
+                        f"{path}: selected-T4 encoder substrate was not frozen"
+                    )
+                if receipt.get("freeze_decoder") is not True:
+                    raise ValueError(
+                        f"{path}: selected-T4 decoder was not frozen"
+                    )
+                trainable_names = set(
+                    receipt.get("optimizer_trainable_parameter_names") or []
+                )
+                if trainable_names != EXPECTED_HEAD_PARAMETERS:
+                    raise ValueError(
+                        f"{path}: optimizer trainable set is not exactly the "
+                        "matched confidence head"
+                    )
+                if receipt.get("optimizer_trainable_parameter_count") != 1208:
+                    raise ValueError(
+                        f"{path}: expected exactly 1208 trainable head parameters"
+                    )
             rows.append(values)
             artifacts[arm][str(seed)] = str(path.resolve())
         matrices[arm] = np.asarray(rows, dtype=np.float64)
@@ -145,7 +171,9 @@ def aggregate(result_dir: Path, seeds: tuple[int, ...]) -> dict:
             "formal_test_evaluated": False,
             "optimization_basis": (
                 "27-session train-only future-fit audit: residual variance "
-                "predictive; geometry unsupported"
+                "predictive; geometry unsupported; full-confidence end-to-end "
+                "training trajectory was indistinguishable from shuffled-C, "
+                "so the selected-T4 substrate and decoder are frozen"
             ),
         },
         "selected_t4_anchor_sha256_by_seed": anchor_hashes,

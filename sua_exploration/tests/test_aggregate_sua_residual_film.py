@@ -48,6 +48,15 @@ def _write_arm(tmp_path, arm: str, *, mask=(True, False)):
             "confidence_mask": list(mask),
             "additive_only": arm == "residual_nofilm",
             "parameter_matched_six_wide_context": True,
+            "freeze_encoder_base": True,
+            "freeze_decoder": True,
+            "optimizer_trainable_parameter_names": [
+                "id_encoder.confidence_context.0.weight",
+                "id_encoder.confidence_context.0.bias",
+                "id_encoder.confidence_film.weight",
+                "id_encoder.confidence_film.bias",
+            ],
+            "optimizer_trainable_parameter_count": 1208,
         }
     metadata_path = tmp_path / f"{arm}_metadata.json"
     metadata_path.write_text(json.dumps(metadata), encoding="utf-8")
@@ -106,4 +115,15 @@ def test_residual_aggregate_rejects_unmasked_geometry(tmp_path):
             mask=(True, True) if arm == "residual_film" else (True, False),
         )
     with pytest.raises(ValueError, match="confidence mask"):
+        aggregate(tmp_path, (42,))
+
+
+def test_residual_aggregate_rejects_unfrozen_substrate(tmp_path):
+    for arm in ARM_CONFIG:
+        _write_arm(tmp_path, arm)
+    path = tmp_path / "residual_film_metadata.json"
+    metadata = json.loads(path.read_text(encoding="utf-8"))
+    metadata["confidence_film"]["freeze_encoder_base"] = False
+    path.write_text(json.dumps(metadata), encoding="utf-8")
+    with pytest.raises(ValueError, match="substrate was not frozen"):
         aggregate(tmp_path, (42,))

@@ -257,6 +257,14 @@ def main() -> None:
         help="Freeze teacher decoder (distillation mode). Default False = end-to-end.",
     )
     parser.add_argument(
+        "--freeze_encoder_base",
+        action="store_true",
+        help=(
+            "Freeze the warm-started encoder substrate and train only an "
+            "authorized residual/fusion head."
+        ),
+    )
+    parser.add_argument(
         "--loss_mode",
         type=str,
         default="task_only",
@@ -576,6 +584,7 @@ def main() -> None:
             "lambda_y": 1.0,
             "lambda_E": 0.1,
             "freeze_decoder": args.freeze_decoder,
+            "freeze_encoder_base": args.freeze_encoder_base,
             "decode_last_timestep_only": True,
             "behavior_scaling_factor": 5.0,
             "deterministic": True,
@@ -656,6 +665,7 @@ def main() -> None:
         hidden_dim=64,
         pad_value=-1.0,
         freeze_decoder=args.freeze_decoder,
+        freeze_encoder_base=args.freeze_encoder_base,
         loss_mode=args.loss_mode,
         lambda_y=1.0,
         lambda_E=0.1,
@@ -712,6 +722,11 @@ def main() -> None:
         model.student.id_encoder, "confidence_mask", None
     )
     if confidence_mask is not None:
+        trainable_names = sorted(
+            name
+            for name, parameter in model.student.named_parameters()
+            if parameter.requires_grad
+        )
         run_metadata["confidence_film"] = {
             "confidence_input_order": [
                 "log_residual_variance",
@@ -725,6 +740,14 @@ def main() -> None:
                 getattr(model.student.id_encoder, "additive_only", False)
             ),
             "parameter_matched_six_wide_context": True,
+            "freeze_encoder_base": bool(args.freeze_encoder_base),
+            "freeze_decoder": bool(args.freeze_decoder),
+            "optimizer_trainable_parameter_names": trainable_names,
+            "optimizer_trainable_parameter_count": sum(
+                parameter.numel()
+                for parameter in model.student.parameters()
+                if parameter.requires_grad
+            ),
         }
     decoder_meta = run_metadata["decoder_architecture"]
     decoder_meta["decoder_cost_comparison_receipt_reference_n64"] = (

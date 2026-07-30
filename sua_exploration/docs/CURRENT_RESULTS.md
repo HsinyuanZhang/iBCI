@@ -125,13 +125,21 @@ unit-specific `log residual variance`：
 content control、以及参数匹配的 residual-only additive NoFiLM。T4 四列和 geometry
 列在 residual-shuffle 中逐值不变。所有新臂仍使用同一个 selected T4
 `epoch_011` encoder+decoder warm-start、`30/50` 协议和 strict 27/6 manifest。
+完整 FiLM 与 shuffle-C 的早期 train/fit-validation 轨迹几乎重合（例如 epoch 3
+的 legacy held-in R² 分别为 `0.621197/0.621300`）；这不是跨 session decoding
+结论，但预先指出 end-to-end 更新的 4.6M 参数可能淹没 1,208 参数的小头。因此
+后备 residual-only 轮冻结 warm-started encoder substrate 和 decoder，只优化四个
+`confidence_context/confidence_film` tensors。三个 residual arms 的 optimizer
+trainable set 精确相同，均为 1,208 参数；完整五臂当前运行不受此修改影响。
 真实 cache 审计覆盖 33 train/validation sessions、1,938 units：T4 changed=0、
 geometry changed=0、residual marginal failures=0、residual order unchanged=0，formal
 path resolved=0。
 
 Fail-closed aggregate 要求 mask receipt 精确为 `[true,false]`、六维参数匹配收据、
-相同 anchor SHA 和 formal seal，并将 residual-FiLM 同时与 T4 continuation、
-residual-shuffle、residual-NoFiLM 比较。目标回归 `17 passed`，三臂 dry-run
+冻结 substrate/decoder、精确四 tensor/1,208 optimizer 参数、相同 anchor SHA 和
+formal seal，并将 residual-FiLM 同时与 T4 continuation、
+residual-shuffle、residual-NoFiLM 比较。冻结改动的目标回归 `13 passed`，并用
+真实 selected-T4 checkpoint 实例化三个 arm，均得到相同的 1,208 参数集合；三臂 dry-run
 确认只生成 `calibration_n=30 / pool_size=50` 的 validation 命令，没有启动训练。
 自动顺序现为 **完整 FiLM → decoupled K/V → residual-only 优化 → B3TStream+T4**；
 只有前两项都没有形成有效候选时 residual 优化才会使用 GPU。

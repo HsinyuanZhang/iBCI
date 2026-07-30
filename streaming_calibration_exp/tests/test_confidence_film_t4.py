@@ -143,6 +143,38 @@ def test_residual_only_builder_variants_keep_six_wide_parameter_matched_context(
     ) == 1
 
 
+def test_confidence_film_freeze_base_path_leaves_only_matched_head_trainable():
+    encoders = [
+        CalibrationConfidenceFiLMEarlyPoolEncoder(
+            100,
+            50,
+            64,
+            side_dim=6,
+            confidence_mask=(True, False),
+            additive_only=additive,
+        )
+        for additive in (False, True)
+    ]
+    expected = {
+        "confidence_context.0.weight",
+        "confidence_context.0.bias",
+        "confidence_film.weight",
+        "confidence_film.bias",
+    }
+    for encoder in encoders:
+        encoder.freeze_base_path()
+        trainable = {
+            name for name, parameter in encoder.named_parameters()
+            if parameter.requires_grad
+        }
+        assert trainable == expected
+        assert sum(
+            parameter.numel()
+            for parameter in encoder.parameters()
+            if parameter.requires_grad
+        ) == 1208
+
+
 def test_b3scf_build_fails_without_t4_and_rejects_non_t4_warmstart():
     with pytest.raises(ValueError, match="side_features"):
         build_encoder("B3SCF", window_size=50, trial_length=100, hidden_dim=16, side_dim=0)

@@ -336,8 +336,18 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     if self._freeze_encoder_base and self._tune_encoder_fusion:
       raise ValueError("freeze_encoder_base and tune_encoder_fusion are mutually exclusive")
     if self._freeze_encoder_base:
-      if not isinstance(id_encoder, (B3PreservingHighOrderStatsEncoder, B3PreservingReliabilityEncoder)):
-        raise ValueError("freeze_encoder_base currently requires a B3-preserving residual encoder")
+      if not isinstance(
+        id_encoder,
+        (
+          B3PreservingHighOrderStatsEncoder,
+          B3PreservingReliabilityEncoder,
+          CalibrationConfidenceFiLMEarlyPoolEncoder,
+        ),
+      ):
+        raise ValueError(
+          "freeze_encoder_base currently requires a B3-preserving residual "
+          "or calibration-confidence FiLM encoder"
+        )
       id_encoder.freeze_base_path()
     if self._tune_encoder_fusion:
       if not isinstance(id_encoder, B3PreservingHighOrderStatsEncoder):

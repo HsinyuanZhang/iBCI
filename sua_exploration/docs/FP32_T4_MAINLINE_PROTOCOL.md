@@ -131,8 +131,11 @@ train-only future-fit audit supports residual variance but not direction
 geometry, so this round keeps the exact six-wide FiLM parameterization and masks
 normalized geometry to zero. It runs residual-FiLM, residual-only row shuffle,
 and parameter-matched residual-NoFiLM, reusing the already matched full-FiLM and
-T4-continuation references. No descriptor widening or formal-test access is
-authorized.
+T4-continuation references. Because the early full-FiLM and shuffled-confidence
+fit-validation trajectories are indistinguishable, this fallback freezes the
+selected-T4 encoder substrate and decoder and optimizes exactly the four matched
+confidence-head tensors (1,208 parameters) in all three new arms. No descriptor
+widening or formal-test access is authorized.
 
 The confidence-FiLM Stage-0 contract is frozen as follows:
 

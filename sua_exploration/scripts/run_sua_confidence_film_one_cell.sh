@@ -35,6 +35,7 @@ DATA="$ROOT/sua_exploration/data/dandi_000688/sub-C"
 CACHE="$ROOT/sua_exploration/cache/dandi688_subc_co_v1"
 TEACHER="$ROOT/sua_exploration/checkpoints/teacher_mc_maze/best-epoch=083-val_heldin/r2_mean=0.9061.ckpt"
 MANIFEST="$ROOT/sua_exploration/configs/subc_co_27_6_strict_train_val_manifest.json"
+EXTRA_TRAIN_ARGS=()
 
 case "$ARM" in
   t4_continuation)
@@ -60,14 +61,17 @@ case "$ARM" in
   residual_film)
     VARIANT="B3SCFR"
     SIDE_FEATURES="t4cf_residual"
+    EXTRA_TRAIN_ARGS+=(--freeze_decoder --freeze_encoder_base)
     ;;
   residual_shuffle)
     VARIANT="B3SCFRS"
     SIDE_FEATURES="t4cf_residual_shuffled"
+    EXTRA_TRAIN_ARGS+=(--freeze_decoder --freeze_encoder_base)
     ;;
   residual_nofilm)
     VARIANT="B3SCFRA"
     SIDE_FEATURES="t4cf_residual"
+    EXTRA_TRAIN_ARGS+=(--freeze_decoder --freeze_encoder_base)
     ;;
   *)
     echo "Unsupported ARM=$ARM" >&2
@@ -130,6 +134,7 @@ TRAIN_COMMAND=(
   --require_gpu
   --disable_progress_bar
 )
+TRAIN_COMMAND+=("${EXTRA_TRAIN_ARGS[@]}")
 
 EVAL_COMMAND=(
   "$PY" -u "$ROOT/sua_exploration/scripts/eval_epoch_window_generic_dandi688.py"
