@@ -521,8 +521,8 @@ def main() -> None:
     dm.setup("fit")
     if args.side_features != "none":
         from mc_maze.unit_side_features import (
-            FEATURE_VERSION,
             compute_electrode_vocab_size,
+            feature_semantics_version,
             side_feature_stats_sha256,
             uses_electrode_ids,
             uses_electrode_relation_membership,
@@ -538,7 +538,7 @@ def main() -> None:
             num_electrodes = compute_electrode_vocab_size(train_paths)
             run_metadata["side_features"]["num_electrodes"] = num_electrodes
         run_metadata["side_features"].update({
-            "feature_version": FEATURE_VERSION,
+            "feature_version": feature_semantics_version(args.side_features),
             "normalization_sha256": side_feature_stats_sha256(side_mean, side_std),
         })
     run_metadata["session_splits"] = dm.session_splits

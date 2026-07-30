@@ -69,6 +69,20 @@ fi
 
 "$PY" "$ROOT/sua_exploration/scripts/assert_confidence_film_protocol.py" \
   --t4-budget "$M_T4" >/dev/null
+"$PY" - "$ARM" "$ROOT/sua_exploration" <<'PY'
+import sys
+sys.path.insert(0, sys.argv[2])
+from mc_maze.unit_side_features import feature_semantics_version
+
+arm = sys.argv[1]
+expected = 1 if arm == "t4_continuation" else 2
+group = "t4" if arm == "t4_continuation" else "t4cf"
+observed = feature_semantics_version(group)
+if observed != expected:
+    raise SystemExit(
+        f"{arm}: expected side-feature semantic version {expected}, got {observed}"
+    )
+PY
 
 NAME="${SCREEN_ID}_${ARM}_m${M_T4}_dandi688_co_s${SEED}"
 RUN_DIR="$ROOT/sua_exploration/checkpoints/$NAME"

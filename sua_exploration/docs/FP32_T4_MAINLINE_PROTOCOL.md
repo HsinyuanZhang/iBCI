@@ -126,6 +126,11 @@ The confidence-FiLM Stage-0 contract is frozen as follows:
 - confidence and T4 come from the same first-`M_T4` rewarded labelled/rate
   support; the evaluator records activity budget, labelled-feature budget and
   common evaluation boundary separately;
+- confidence semantic version 2 is
+  `[log residual variance, 0.5 log condition(a/c design covariance)]`; a
+  train-only prelaunch audit rejected the original covariance-area coordinate
+  as nearly duplicate (`r=.975`) and every candidate/aggregate must record
+  `feature_version=2`;
 - FiLM conditions on `[T4,C]`, modulates pooled activity `h`, and leaves the
   ordinary `post_pool([h',T4])` geometry unchanged;
 - five controls are T4 continuation, FiLM, confidence-shuffled FiLM,

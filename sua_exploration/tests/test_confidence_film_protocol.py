@@ -11,7 +11,14 @@ from mc_maze.confidence_film_protocol import (
     make_protocol,
     validate_protocol,
 )
+from mc_maze.unit_side_features import feature_semantics_version
 from scripts.aggregate_sua_confidence_film_t4_budget import summarize
+
+
+def test_confidence_feature_semantics_have_an_independent_cache_version():
+    assert feature_semantics_version("t4") == 1
+    assert feature_semantics_version("t4cf") == 2
+    assert feature_semantics_version("t4cf_confidence_shuffled") == 2
 
 
 def test_fixed_budget_protocol_supports_only_the_predeclared_t4_sweep():

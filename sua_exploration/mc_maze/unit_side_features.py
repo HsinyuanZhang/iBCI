@@ -32,6 +32,12 @@ logger = logging.getLogger(__name__)
 # Pseudo-MUA adds its own signal-view and electrode-mapping fields below, so it
 # can never collide with a sorted-unit entry without forcing a SUA cache churn.
 FEATURE_VERSION = 1
+# ``t4c`` changed once after a train-only input audit, before any confidence-
+# FiLM candidate was launched. Version 2 replaces the nearly duplicate
+# covariance-area coordinate with the scale-free a/c uncertainty shape. Keep
+# the global version at 1 so unrelated, already-validated waveform/T4 caches do
+# not churn; cache payloads use ``feature_semantics_version`` below.
+T4C_FEATURE_VERSION = 2
 WAVEFORM_SAMPLES = 48
 REPOL_WINDOW = 10
 NOISE_STD_EPS = 1e-6
@@ -64,7 +70,7 @@ TUNING_FEATURE_NAMES: dict[str, tuple[str, ...]] = {
     "t4": ("m_cos_phi", "m_sin_phi", "m", "b"),
     "t4c": (
         "m_cos_phi", "m_sin_phi", "m", "b",
-        "log_residual_variance", "c_fit_logdet_cac",
+        "log_residual_variance", "c_shape_log_condition_cac",
     ),
     "t8": tuple(f"dir_{k}" for k in range(TUNING_NUM_DIRECTIONS)),
 }
@@ -283,6 +289,15 @@ def base_feature_group(side_feature_group: str) -> str:
     return group
 
 
+def feature_semantics_version(side_feature_group: str) -> int:
+    """Semantic/cache version for the resolved continuous feature group."""
+    return (
+        T4C_FEATURE_VERSION
+        if base_feature_group(side_feature_group) == "t4c"
+        else FEATURE_VERSION
+    )
+
+
 def post_pool_side_dim(side_feature_group: str) -> int:
     """Total width concat to pooled hidden features before ``post_pool`` (continuous + embed).
 
@@ -398,7 +413,7 @@ def _side_stats_cache_path(
     signal_view: str = "sua",
 ) -> Path:
     payload = {
-        "cache_format_version": FEATURE_VERSION,
+        "cache_format_version": feature_semantics_version(feature_group),
         "kind": "side_feature_stats",
         "feature_group": feature_group,
         "pool_size": pool_size,
@@ -429,7 +444,7 @@ def _side_feature_cache_path(
     signal_view: str = "sua",
 ) -> Path:
     payload = {
-        "cache_format_version": FEATURE_VERSION,
+        "cache_format_version": feature_semantics_version(feature_group),
         "kind": "unit_side_features",
         "feature_group": feature_group,
         "pool_size": pool_size,
@@ -580,7 +595,7 @@ def tuning_fit_confidence_descriptor(
     selected_t4: np.ndarray | None = None,
     eps: float = 1.0e-8,
 ) -> np.ndarray:
-    """Fit-derived ``[log residual variance, 0.5 log det(C_ac)]``.
+    """Fit-derived ``[log residual variance, 0.5 log condition(C_ac)]``.
 
     Uses valid labelled *trial-level* rates from the first-M_T4 support and
     ``X=[1, cos(theta), sin(theta)]``. Residuals are evaluated against the
@@ -589,9 +604,12 @@ def tuning_fit_confidence_descriptor(
     uncertainty of the T4 value the encoder really receives even when the
     chronological support is direction-imbalanced.
 
-    ``C=sigma²(X'X)^-1`` and ``C_ac`` is its a/c block. The two coordinates
-    are intentionally somewhat redundant: residual variance is direct noise
-    while c_fit combines it with trial-count/design-balance precision.
+    ``C=sigma²(X'X)^-1`` and ``C_ac`` is its a/c block.  The first coordinate
+    measures unit-specific fit noise.  The condition-number coordinate is
+    scale-free, so it measures only session-level directional-design
+    anisotropy rather than repeating residual variance.  A train-only audit
+    rejected the former covariance-area coordinate because it correlated
+    0.975 with log residual variance.
     """
     directions = np.asarray(direction_indices, dtype=np.int64)
     valid = directions >= 0
@@ -633,10 +651,14 @@ def tuning_fit_confidence_descriptor(
     beta = np.asarray([b, a, c], dtype=np.float64)
     residual = response - design @ beta
     residual_variance = float(np.dot(residual, residual) / max(1, response.size - 3))
-    covariance = residual_variance * np.linalg.inv(design.T @ design)
-    c_ac = covariance[1:3, 1:3]
-    c_fit = 0.5 * math.log(max(float(np.linalg.det(c_ac)), 0.0) + eps)
-    return np.asarray([math.log(residual_variance + eps), c_fit], dtype=np.float32)
+    # The scale factor sigma² cancels from condition(C_ac), including for a
+    # zero-residual unit. Compute it from the design covariance directly to
+    # avoid an undefined condition number for an all-zero covariance matrix.
+    design_c_ac = np.linalg.inv(design.T @ design)[1:3, 1:3]
+    c_shape = 0.5 * math.log(max(float(np.linalg.cond(design_c_ac)), 1.0))
+    return np.asarray(
+        [math.log(residual_variance + eps), c_shape], dtype=np.float32
+    )
 
 
 def _unit_tuning_features(
@@ -817,8 +839,9 @@ def _compute_tuning_features_uncached(
             zero_spike += int(is_zero_spike)
             zero_modulation += int(is_zero_modulation)
 
+    semantic_version = feature_semantics_version(feature_group)
     cache_payload = {
-        "feature_version": FEATURE_VERSION,
+        "feature_version": semantic_version,
         "feature_group": feature_group,
         "pool_size": pool_size,
         **_pool_context_key(
@@ -831,7 +854,7 @@ def _compute_tuning_features_uncached(
         cache_payload["electrode_mapping"] = _electrode_mapping_fingerprint(nwb_path)
     metadata = SideFeatureMetadata(
         feature_group=feature_group,
-        feature_version=FEATURE_VERSION,
+        feature_version=semantic_version,
         pool_size=pool_size,
         cache_key=_cache_key(cache_payload),
         degenerate_unit_count=zero_spike + zero_modulation + insufficient_direction,
@@ -947,8 +970,9 @@ def compute_unit_side_features_uncached(
                 features[unit_idx, col_idx] = value
 
     degenerate = zero_spike + single_spike
+    semantic_version = feature_semantics_version(feature_group)
     cache_payload = {
-        "feature_version": FEATURE_VERSION,
+        "feature_version": semantic_version,
         "feature_group": feature_group,
         "pool_size": pool_size,
         **_pool_context_key(
@@ -960,7 +984,7 @@ def compute_unit_side_features_uncached(
     }
     metadata = SideFeatureMetadata(
         feature_group=feature_group,
-        feature_version=FEATURE_VERSION,
+        feature_version=semantic_version,
         pool_size=pool_size,
         cache_key=_cache_key(cache_payload),
         degenerate_unit_count=degenerate,

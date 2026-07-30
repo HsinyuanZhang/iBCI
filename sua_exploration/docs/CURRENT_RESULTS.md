@@ -48,6 +48,34 @@ chronological first-30，只评估 trial 30 之后的窗口；strict 27/6/6 mani
 exact-Wilcoxon 的全部预设门。权威 artifact：
 `results/sua_spint_t4_mainline_fp32_v1/aggregate.json`。
 
+### Confidence-FiLM：候选尚在运行，输入审计已完成
+
+普通 `T4@50` selected anchors（seeds 42/43/44）与五臂 matched continuation
+screen 已启动；本节目前**没有**声明 FiLM 性能结果。正式候选启动前只使用 27
+个 train sessions 做了 confidence 输入资格审计：
+
+- 原 v1 的 `log residual variance` 与 `0.5 log det(C_ac)` 在 within-session
+  centering 后相关达到 `0.975`，第二维几乎是第一维加一个 session 常数；
+- covariance-area 在 train sessions 间的标准差只有 `0.0087`；
+- scale-free directional uncertainty shape `0.5 log κ([(X'X)^−1]_{a,c})`
+  的 train-session 范围为 `0.024–0.180`，标准差 `0.0409`。
+
+因此，在没有查看任何 validation performance、且没有候选 arm 已启动的前提下，
+confidence v2 冻结为：
+
+```text
+C_i = [
+  log(unit_i residual variance + eps),
+  0.5 log condition(session a/c design covariance)
+]
+```
+
+第一维是 unit-specific fit noise，第二维是 session-level directional-balance
+geometry；二者不再重复同一噪声尺度。v2 使用独立 feature/cache semantic version，
+runner 与 fail-closed aggregator 均要求 `feature_version=2`，旧 v1 cache 不能混入。
+这只是输入设计审计，是否有效仍必须由
+`FiLM−T4 / FiLM−shuffle-C / FiLM−NoFiLM-match` 的 matched validation 结果证明。
+
 ### INT8 顺序：等待两个额外 FP32 实验
 
 先前“主线完成即自动量化”的 watcher 已停用。按 2026-07-30 的用户顺序，
@@ -55,6 +83,12 @@ exact-Wilcoxon 的全部预设门。权威 artifact：
 
 1. confidence-conditioned FiLM / 低标签 T4；
 2. T4-conditioned decoupled cross-attention（是否加入 confidence 取决于第 1 项）。
+
+若 FiLM Stage-0 阴性，已预注册的 `fresh T4 / B3T+T4 / B3T+TS4`
+效率分支也在量化前运行；它不能替代上述第二个 decoupled-K/V 实验。该分支目前
+实测静态成本目标为相对普通 T4 encoder 参数约 `−30.8%`、session-path MAC
+约 `−65.3%`、persistent online state 不增加，最终仍需 R² non-inferiority
+与 T4-content gates 才能称为 deployment improvement。
 
 只有最终 FP32 架构冻结后才量化 **identity encoder**；decoder 保持 FP32，复用
 其他平台上已有的 decoder QAT 无损证据，避免重复 GPU 消耗：

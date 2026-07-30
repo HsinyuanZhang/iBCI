@@ -283,7 +283,7 @@ study is explicitly declared, keep the B3 activity budget fixed at `M_activity=3
 the number of trials whose target labels/rates enter T4, and keep the common evaluation start
 at trial 50 so all arms see identical evaluation windows.
 
-#### Frozen Stage-0 implementation contract (2026-07-31)
+#### Frozen Stage-0 implementation contract, confidence v2 (2026-07-31)
 
 The reviewed implementation uses a cached six-vector `[T4(4), C(2)]` from exactly the same
 chronological first-`M_T4` rewarded labelled/rate support. It does **not** reuse activity from
@@ -293,11 +293,11 @@ trials outside that T4 support to manufacture confidence. The two confidence coo
 C_i =
 \left[
 \log(\hat{\sigma}_i^2+\epsilon),\
-\frac12\log(\det(C_{ac,i})+\epsilon)
+\frac12\log\kappa(G_{ac})
 \right],
 \qquad
-C_{ac,i} =
-\left[\hat{\sigma}_i^2(X^\top X)^{-1}\right]_{a,c}.
+G_{ac} =
+\left[(X^\top X)^{-1}\right]_{a,c}.
 \]
 
 Here `X=[1,cos(theta),sin(theta)]` is built only from valid target-labelled trials.
@@ -305,6 +305,15 @@ Here `X=[1,cos(theta),sin(theta)]` is built only from valid target-labelled tria
 equal-per-direction-mean fit**, not around a second trial-weighted refit. Thus the descriptor
 measures uncertainty of the T4 value the network really consumes under direction imbalance.
 Rank-3 and finite-condition checks fail closed before fitting.
+
+Before any FiLM candidate was launched, a 27-session **train-only input audit** found that the
+earlier covariance-area coordinate was nearly a duplicate of residual variance
+(`r=0.975` after within-session centering) and its between-session standard deviation was
+only `0.0087`. It was therefore replaced, without looking at validation performance, by the
+scale-free a/c uncertainty shape above. The resulting session geometry ranges from `0.024`
+to `0.180` on train sessions (`SD=0.0409`). Confidence v2 consequently has one
+unit-specific noise coordinate and one session-level directional-balance coordinate, and
+uses a distinct cache semantic version so v1 artifacts cannot be silently reused.
 
 All five arms copy the same ordinary T4 final-epoch student encoder **and decoder**, discard
 optimizer state, and start with newly added residual heads at exactly zero:

@@ -29,6 +29,13 @@ EXPECTED = {
     "nofilm_match": ("B3SCFA", "t4cf"),
     "film_ts4": ("B3SCF", "t4cf_ts4"),
 }
+EXPECTED_FEATURE_VERSION = {
+    "t4_continuation": 1,
+    "film": 2,
+    "confidence_shuffle": 2,
+    "nofilm_match": 2,
+    "film_ts4": 2,
+}
 CONTRASTS = {
     "film_vs_t4_continuation": "t4_continuation",
     "film_vs_confidence_shuffle": "confidence_shuffle",
@@ -143,6 +150,11 @@ def validate_arm(
         f"{path}: metadata group",
         (metadata.get("side_features") or {}).get("group"),
         group,
+    )
+    _require(
+        f"{path}: side-feature semantic version",
+        (metadata.get("side_features") or {}).get("feature_version"),
+        EXPECTED_FEATURE_VERSION[arm],
     )
     _require(
         f"{path}: activity calibration",

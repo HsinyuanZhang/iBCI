@@ -138,10 +138,10 @@ def test_fit_confidence_formula_and_component_controls_are_exact():
         observed, tuning_fit_confidence_descriptor(rates, directions)
     )
     residual_variance = np.sum((rates - design @ selected_beta) ** 2) / (rates.size - 3)
-    covariance = residual_variance * np.linalg.inv(design.T @ design)
+    design_covariance = np.linalg.inv(design.T @ design)
     expected = np.array([
         np.log(residual_variance + 1e-8),
-        0.5 * np.log(np.linalg.det(covariance[1:3, 1:3]) + 1e-8),
+        0.5 * np.log(np.linalg.cond(design_covariance[1:3, 1:3])),
     ], dtype=np.float32)
     assert np.allclose(observed, expected)
     trial_weighted_beta, *_ = np.linalg.lstsq(design, rates, rcond=None)
@@ -158,3 +158,49 @@ def test_fit_confidence_formula_and_component_controls_are_exact():
     assert np.array_equal(np.sort(confidence_shuffled[:, 4:], axis=0), np.sort(features[:, 4:], axis=0))
     with pytest.raises(ValueError, match="rank=3"):
         tuning_fit_confidence_descriptor(np.ones(3), np.array([0, 0, 1]))
+
+
+def test_fit_confidence_separates_unit_noise_scale_from_session_design_shape():
+    balanced_directions = np.tile(np.arange(8, dtype=np.int64), 2)
+    theta = np.asarray(
+        [CANONICAL_DIRECTIONS_RAD[index] for index in balanced_directions]
+    )
+    design = np.stack([np.ones_like(theta), np.cos(theta), np.sin(theta)], axis=1)
+    beta = np.array([4.0, 0.8, -0.3])
+    noise = np.linspace(-0.4, 0.4, balanced_directions.size)
+    rates = design @ beta + noise
+    selected_t4 = np.array([beta[1], beta[2], np.hypot(beta[1], beta[2]), beta[0]])
+
+    base = tuning_fit_confidence_descriptor(
+        rates, balanced_directions, selected_t4=selected_t4
+    )
+    scaled = tuning_fit_confidence_descriptor(
+        rates * 3.0,
+        balanced_directions,
+        selected_t4=selected_t4 * 3.0,
+    )
+    assert np.isclose(scaled[0] - base[0], 2.0 * np.log(3.0), atol=1e-5)
+    assert scaled[1] == base[1]
+
+    imbalanced_directions = np.array(
+        [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 7],
+        dtype=np.int64,
+    )
+    imbalanced_theta = np.asarray(
+        [CANONICAL_DIRECTIONS_RAD[index] for index in imbalanced_directions]
+    )
+    imbalanced_design = np.stack(
+        [
+            np.ones_like(imbalanced_theta),
+            np.cos(imbalanced_theta),
+            np.sin(imbalanced_theta),
+        ],
+        axis=1,
+    )
+    imbalanced_rates = imbalanced_design @ beta + noise
+    imbalanced = tuning_fit_confidence_descriptor(
+        imbalanced_rates,
+        imbalanced_directions,
+        selected_t4=selected_t4,
+    )
+    assert imbalanced[1] > base[1]
