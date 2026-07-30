@@ -28,6 +28,9 @@ EXPECTED = {
     "confidence_shuffle": ("B3SCFS", "t4cf_confidence_shuffled"),
     "nofilm_match": ("B3SCFA", "t4cf"),
     "film_ts4": ("B3SCF", "t4cf_ts4"),
+    "residual_film": ("B3SCFR", "t4cf_residual"),
+    "residual_shuffle": ("B3SCFRS", "t4cf_residual_shuffled"),
+    "residual_nofilm": ("B3SCFRA", "t4cf_residual"),
 }
 EXPECTED_FEATURE_VERSION = {
     "t4_continuation": 1,
@@ -35,6 +38,9 @@ EXPECTED_FEATURE_VERSION = {
     "confidence_shuffle": 2,
     "nofilm_match": 2,
     "film_ts4": 2,
+    "residual_film": 2,
+    "residual_shuffle": 2,
+    "residual_nofilm": 2,
 }
 CONTRASTS = {
     "film_vs_t4_continuation": "t4_continuation",

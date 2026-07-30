@@ -2,7 +2,8 @@
 # One-cell production runner for the reviewed confidence-conditioned T4 screen.
 #
 # Required environment:
-#   ARM={t4_continuation,film,confidence_shuffle,nofilm_match,film_ts4}
+#   ARM={t4_continuation,film,confidence_shuffle,nofilm_match,film_ts4,
+#        residual_film,residual_shuffle,residual_nofilm}
 #   SEED=<integer>
 #   GPU=<CUDA device index>
 #   ANCHOR=<ordinary T4 epoch_011.ckpt for the same seed and M_T4>
@@ -55,6 +56,18 @@ case "$ARM" in
   film_ts4)
     VARIANT="B3SCF"
     SIDE_FEATURES="t4cf_ts4"
+    ;;
+  residual_film)
+    VARIANT="B3SCFR"
+    SIDE_FEATURES="t4cf_residual"
+    ;;
+  residual_shuffle)
+    VARIANT="B3SCFRS"
+    SIDE_FEATURES="t4cf_residual_shuffled"
+    ;;
+  residual_nofilm)
+    VARIANT="B3SCFRA"
+    SIDE_FEATURES="t4cf_residual"
     ;;
   *)
     echo "Unsupported ARM=$ARM" >&2

@@ -69,6 +69,80 @@ def test_additive_nofilm_control_is_parameter_matched_and_zero_init_equivalent()
     assert torch.equal(additive.forward_batch(calib, side_features=side), baseline.forward_batch(calib, side_features=t4))
 
 
+def test_residual_only_film_is_parameter_matched_and_masks_geometry_exactly():
+    calib, _t4, side = _inputs()
+    full = CalibrationConfidenceFiLMEarlyPoolEncoder(
+        100, 50, 16, side_dim=6
+    )
+    residual_only = CalibrationConfidenceFiLMEarlyPoolEncoder(
+        100,
+        50,
+        16,
+        side_dim=6,
+        confidence_mask=(True, False),
+    )
+    residual_only.load_state_dict(full.state_dict(), strict=True)
+    with torch.no_grad():
+        residual_only.confidence_film.weight.fill_(0.05)
+    assert sum(p.numel() for p in full.parameters()) == sum(
+        p.numel() for p in residual_only.parameters()
+    )
+    assert "confidence_mask" not in residual_only.state_dict()
+    reference = residual_only.forward_batch(calib, side_features=side)
+    changed_geometry = side.clone()
+    changed_geometry[..., 5] += 100.0
+    changed_residual = side.clone()
+    changed_residual[..., 4] += 2.0
+    assert torch.equal(
+        residual_only.forward_batch(
+            calib, side_features=changed_geometry
+        ),
+        reference,
+    )
+    assert not torch.equal(
+        residual_only.forward_batch(
+            calib, side_features=changed_residual
+        ),
+        reference,
+    )
+
+
+def test_residual_only_builder_variants_keep_six_wide_parameter_matched_context():
+    residual = build_encoder(
+        "B3SCFR",
+        window_size=50,
+        trial_length=100,
+        hidden_dim=16,
+        side_dim=6,
+    )
+    shuffled = build_encoder(
+        "B3SCFRS",
+        window_size=50,
+        trial_length=100,
+        hidden_dim=16,
+        side_dim=6,
+    )
+    additive = build_encoder(
+        "B3SCFRA",
+        window_size=50,
+        trial_length=100,
+        hidden_dim=16,
+        side_dim=6,
+    )
+    assert torch.equal(
+        residual.confidence_mask, torch.tensor([1.0, 0.0])
+    )
+    assert torch.equal(shuffled.confidence_mask, residual.confidence_mask)
+    assert torch.equal(additive.confidence_mask, residual.confidence_mask)
+    assert additive.additive_only is True
+    assert len(
+        {
+            sum(parameter.numel() for parameter in encoder.parameters())
+            for encoder in (residual, shuffled, additive)
+        }
+    ) == 1
+
+
 def test_b3scf_build_fails_without_t4_and_rejects_non_t4_warmstart():
     with pytest.raises(ValueError, match="side_features"):
         build_encoder("B3SCF", window_size=50, trial_length=100, hidden_dim=16, side_dim=0)
@@ -152,8 +226,17 @@ def test_fit_confidence_formula_and_component_controls_are_exact():
     features = np.arange(30, dtype=np.float32).reshape(5, 6)
     t4_shuffled = permute_t4c_component(features, component="t4", permutation_seed=42)
     confidence_shuffled = permute_t4c_component(features, component="confidence", permutation_seed=42)
+    residual_shuffled = permute_t4c_component(
+        features, component="residual", permutation_seed=42
+    )
     assert np.array_equal(t4_shuffled[:, 4:], features[:, 4:])
     assert np.array_equal(confidence_shuffled[:, :4], features[:, :4])
+    assert np.array_equal(residual_shuffled[:, :4], features[:, :4])
+    assert np.array_equal(residual_shuffled[:, 5], features[:, 5])
+    assert np.array_equal(
+        np.sort(residual_shuffled[:, 4]), np.sort(features[:, 4])
+    )
+    assert not np.array_equal(residual_shuffled[:, 4], features[:, 4])
     assert np.array_equal(np.sort(t4_shuffled[:, :4], axis=0), np.sort(features[:, :4], axis=0))
     assert np.array_equal(np.sort(confidence_shuffled[:, 4:], axis=0), np.sort(features[:, 4:], axis=0))
     with pytest.raises(ValueError, match="rank=3"):

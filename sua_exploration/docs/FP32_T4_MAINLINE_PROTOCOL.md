@@ -125,6 +125,15 @@ FP32 checkpoint is the quantization reference; losing FP32 candidates are not
 quantized. Formal-test NWBs remain sealed throughout architecture selection and
 quantization.
 
+If both requested extra screens (full-confidence FiLM and decoupled K/V) fail,
+one evidence-driven optimization round is allowed before B3TStream+T4. The
+train-only future-fit audit supports residual variance but not direction
+geometry, so this round keeps the exact six-wide FiLM parameterization and masks
+normalized geometry to zero. It runs residual-FiLM, residual-only row shuffle,
+and parameter-matched residual-NoFiLM, reusing the already matched full-FiLM and
+T4-continuation references. No descriptor widening or formal-test access is
+authorized.
+
 The confidence-FiLM Stage-0 contract is frozen as follows:
 
 - `M_activity=30`; `M_T4∈{10,15,20,30,50}`; every arm evaluates trials `[50:]`;

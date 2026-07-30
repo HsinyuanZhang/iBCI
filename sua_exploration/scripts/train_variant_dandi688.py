@@ -105,6 +105,7 @@ def main() -> None:
             # Design A (learned electrode embedding concatenated alongside T4) needs no new
             # variant: it is plain B3S with --side_features t4e.
             "B3SEG", "B3SEA", "B3SCF", "B3SCFS", "B3SCFA",
+            "B3SCFR", "B3SCFRS", "B3SCFRA",
             # Stage-0 same-electrode membership relation / parameter-matched no-group control.
             "B3SER", "B3SERN",
         ],
@@ -311,7 +312,7 @@ def main() -> None:
         type=str,
         default=None,
         help=(
-            "Selected ordinary B3S/T4 full Lightning checkpoint. Required for B3SCF/B3SCFS/B3SCFA "
+            "Selected ordinary B3S/T4 full Lightning checkpoint. Required for confidence-FiLM variants "
             "so decoder and T4 substrate both start exactly from the selected baseline."
         ),
     )
@@ -334,7 +335,12 @@ def main() -> None:
         raise ValueError("--calibration_n_trials must be positive")
     # B3S (design A / F1-F3 / T4-T8) plus B3SEG (design D, gate) / B3SEA (design C, anchor) --
     # docs/ELECTRODE_ANCHOR_DESIGNS.md -- are the only variants that consume --side_features.
-    SIDE_FEATURE_VARIANTS = {"B3S", "B3TS", "B3SEG", "B3SEA", "B3SCF", "B3SCFS", "B3SCFA", "B3SER", "B3SERN"}
+    SIDE_FEATURE_VARIANTS = {
+        "B3S", "B3TS", "B3SEG", "B3SEA",
+        "B3SCF", "B3SCFS", "B3SCFA",
+        "B3SCFR", "B3SCFRS", "B3SCFRA",
+        "B3SER", "B3SERN",
+    }
     if args.side_features != "none" and args.variant not in SIDE_FEATURE_VARIANTS:
         raise ValueError(f"--side_features requires --variant in {sorted(SIDE_FEATURE_VARIANTS)}")
     # B3SEG/B3SEA are always built on a T4 substrate (docs/ELECTRODE_ANCHOR_DESIGNS.md): each
@@ -349,6 +355,9 @@ def main() -> None:
         "B3SCF": {"t4cf", "t4cf_ts4"},
         "B3SCFS": {"t4cf_confidence_shuffled"},
         "B3SCFA": {"t4cf"},
+        "B3SCFR": {"t4cf_residual"},
+        "B3SCFRS": {"t4cf_residual_shuffled"},
+        "B3SCFRA": {"t4cf_residual"},
         "B3SER": {"t4rel", "t4rel_membership_shuffled"},
         "B3SERN": {"t4rel_nogroup"},
     }
@@ -401,9 +410,12 @@ def main() -> None:
         electrode_embed_dim = ELECTRODE_EMBED_DIM if uses_electrode_embedding(args.side_features) else 0
         num_electrodes = 0
         relation_membership = uses_electrode_relation_membership(args.side_features)
-    if args.variant in {"B3SCF", "B3SCFS", "B3SCFA"} and args.encoder_warmstart_path is None:
+    if args.variant in {
+        "B3SCF", "B3SCFS", "B3SCFA",
+        "B3SCFR", "B3SCFRS", "B3SCFRA",
+    } and args.encoder_warmstart_path is None:
         raise ValueError(
-            "B3SCF/B3SCFS/B3SCFA require --encoder_warmstart_path from the selected ordinary T4 checkpoint; "
+            "confidence-FiLM variants require --encoder_warmstart_path from the selected ordinary T4 checkpoint; "
             "refusing a confounded from-scratch FiLM run"
         )
     if args.encoder_warmstart_path is not None and not Path(args.encoder_warmstart_path).expanduser().is_file():
@@ -696,6 +708,24 @@ def main() -> None:
         ),
         **asdict(encoder_cost),
     }
+    confidence_mask = getattr(
+        model.student.id_encoder, "confidence_mask", None
+    )
+    if confidence_mask is not None:
+        run_metadata["confidence_film"] = {
+            "confidence_input_order": [
+                "log_residual_variance",
+                "direction_geometry",
+            ],
+            "confidence_mask": [
+                bool(value)
+                for value in confidence_mask.detach().cpu().tolist()
+            ],
+            "additive_only": bool(
+                getattr(model.student.id_encoder, "additive_only", False)
+            ),
+            "parameter_matched_six_wide_context": True,
+        }
     decoder_meta = run_metadata["decoder_architecture"]
     decoder_meta["decoder_cost_comparison_receipt_reference_n64"] = (
         model.student.decoder_cost_comparison_receipt(

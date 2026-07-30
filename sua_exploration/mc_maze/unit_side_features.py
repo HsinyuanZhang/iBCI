@@ -114,6 +114,8 @@ SIDE_FEATURE_DIMS: dict[str, int] = {
     "t4cf": 6,
     "t4cf_ts4": 6,
     "t4cf_confidence_shuffled": 6,
+    "t4cf_residual": 6,
+    "t4cf_residual_shuffled": 6,
 }
 
 # Learned electrode-index embedding width for F3 (UNIT_SIDE_FEATURE_ABLATION.md section 6)
@@ -252,6 +254,8 @@ def confidence_component_shuffle(side_feature_group: str) -> str | None:
         return "t4"
     if side_feature_group == "t4cf_confidence_shuffled":
         return "confidence"
+    if side_feature_group == "t4cf_residual_shuffled":
+        return "residual"
     return None
 
 
@@ -259,10 +263,17 @@ def permute_t4c_component(features: np.ndarray, *, component: str, permutation_s
     """Permute one component along units while retaining every component marginal."""
     if features.ndim != 2 or features.shape[1] != 6:
         raise ValueError(f"t4c features must be [units,6], got {features.shape}")
-    if component not in {"t4", "confidence"}:
-        raise ValueError("component must be 't4' or 'confidence'")
+    if component not in {"t4", "confidence", "residual", "geometry"}:
+        raise ValueError(
+            "component must be 't4', 'confidence', 'residual', or 'geometry'"
+        )
     result = features.copy()
-    columns = slice(0, 4) if component == "t4" else slice(4, 6)
+    columns = {
+        "t4": slice(0, 4),
+        "confidence": slice(4, 6),
+        "residual": slice(4, 5),
+        "geometry": slice(5, 6),
+    }[component]
     result[:, columns] = features[np.random.RandomState(permutation_seed).permutation(features.shape[0]), columns]
     return result
 
@@ -284,6 +295,7 @@ def base_feature_group(side_feature_group: str) -> str:
     if group in {
         "t4e", "t4gate", "t4anchor", "t4rel", "t4rel_nogroup",
         "t4cf", "t4cf_ts4", "t4cf_confidence_shuffled",
+        "t4cf_residual", "t4cf_residual_shuffled",
     }:
         return "t4c" if group.startswith("t4cf") else "t4"
     return group

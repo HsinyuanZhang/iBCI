@@ -118,6 +118,24 @@ unit-specific `log residual variance`：
 `t4c_predictive_validity_train_m50_future80.json`
 （SHA-256 `8d331e47…ded`）。
 
+对应的优化轮已经实现但尚未占用 GPU。`B3SCFR/B3SCFRS/B3SCFRA` 继续读取同一个
+六维 `[T4(4), residual, geometry]` v2 artifact，并保留与完整 FiLM 完全相同的
+六维 MLP fan-in、rank 和参数量；唯一变化是把 normalized geometry 乘以 0，即
+替换为 train mean。三个新臂分别是 residual-only FiLM、只打乱 residual 一列的
+content control、以及参数匹配的 residual-only additive NoFiLM。T4 四列和 geometry
+列在 residual-shuffle 中逐值不变。所有新臂仍使用同一个 selected T4
+`epoch_011` encoder+decoder warm-start、`30/50` 协议和 strict 27/6 manifest。
+真实 cache 审计覆盖 33 train/validation sessions、1,938 units：T4 changed=0、
+geometry changed=0、residual marginal failures=0、residual order unchanged=0，formal
+path resolved=0。
+
+Fail-closed aggregate 要求 mask receipt 精确为 `[true,false]`、六维参数匹配收据、
+相同 anchor SHA 和 formal seal，并将 residual-FiLM 同时与 T4 continuation、
+residual-shuffle、residual-NoFiLM 比较。目标回归 `17 passed`，三臂 dry-run
+确认只生成 `calibration_n=30 / pool_size=50` 的 validation 命令，没有启动训练。
+自动顺序现为 **完整 FiLM → decoupled K/V → residual-only 优化 → B3TStream+T4**；
+只有前两项都没有形成有效候选时 residual 优化才会使用 GPU。
+
 ### Decoupled K/V：实现与硬件凭据完成，性能尚未运行
 
 第一阶段已冻结为五个同预算 FP32 arms：

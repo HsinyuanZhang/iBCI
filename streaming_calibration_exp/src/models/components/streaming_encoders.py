@@ -471,18 +471,41 @@ class CalibrationConfidenceFiLMEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
     variant = "B3SCF"
     t4_dim, confidence_dim = 4, 2
 
-    def __init__(self, trial_length: int, window_size: int, hidden_dim: int, side_dim: int = 6,
-                 film_rank: int = 8, additive_only: bool = False, num_post_layers: int = 3) -> None:
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        side_dim: int = 6,
+        film_rank: int = 8,
+        additive_only: bool = False,
+        confidence_mask: tuple[bool, bool] = (True, True),
+        num_post_layers: int = 3,
+    ) -> None:
         if side_dim != self.t4_dim + self.confidence_dim:
             raise ValueError("B3SCF requires side_features=[T4(4), fit_confidence(2)]")
         if film_rank <= 0:
             raise ValueError("B3SCF film_rank must be positive")
+        if len(confidence_mask) != self.confidence_dim or not any(confidence_mask):
+            raise ValueError(
+                "B3SCF confidence_mask must select at least one of "
+                "(residual_variance, direction_geometry)"
+            )
         # Preserve the ordinary T4 post_pool geometry: hidden(64) + T4(4).
         super().__init__(trial_length, window_size, hidden_dim, side_dim=self.t4_dim,
                          electrode_embed_dim=0, num_electrodes=0, num_post_layers=num_post_layers)
         self.input_side_dim = side_dim
         self.film_rank = int(film_rank)
         self.additive_only = bool(additive_only)
+        # Non-persistent and parameter-free: residual-only candidates retain
+        # exactly the same MLP geometry/parameter count as ordinary FiLM, but
+        # replace the unsupported geometry coordinate by its normalized train
+        # mean (zero).  This makes the optimized comparison parameter matched.
+        self.register_buffer(
+            "confidence_mask",
+            torch.tensor(confidence_mask, dtype=torch.float32),
+            persistent=False,
+        )
         self.confidence_context = nn.Sequential(
             nn.Linear(self.t4_dim + self.confidence_dim, self.film_rank), nn.ReLU()
         )
@@ -501,6 +524,10 @@ class CalibrationConfidenceFiLMEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
         if side is None or tuple(side.shape) != expected_shape:
             raise ValueError(f"B3SCF requires side_features shape {expected_shape}, got {None if side is None else tuple(side.shape)}")
         t4, confidence = side[..., :self.t4_dim], side[..., self.t4_dim:]
+        confidence = confidence * self.confidence_mask.to(
+            device=confidence.device,
+            dtype=confidence.dtype,
+        )
         modulation = self.confidence_film(
             self.confidence_context(torch.cat([t4, confidence], dim=-1))
         )
@@ -3336,14 +3363,29 @@ def build_encoder(
             electrode_embed_dim=electrode_embed_dim,
             num_electrodes=num_electrodes,
         )
-    elif variant in {"B3SCF", "B3SCFS", "B3SCFA"}:
+    elif variant in {
+        "B3SCF",
+        "B3SCFS",
+        "B3SCFA",
+        "B3SCFR",
+        "B3SCFRS",
+        "B3SCFRA",
+    }:
         if electrode_embed_dim != 0 or num_electrodes != 0:
             raise ValueError("B3SCF uses calibration confidence, not an electrode embedding/table")
         enc = CalibrationConfidenceFiLMEarlyPoolEncoder(
             trial_length, window_size, hidden_dim, side_dim=side_dim,
             # Additive uses the same 2H output and sums both halves, therefore
             # parameter-matched but without the gamma*h multiplication.
-            additive_only=(variant == "B3SCFA"),
+            additive_only=(variant in {"B3SCFA", "B3SCFRA"}),
+            # R variants are the train-only-audit-driven residual-only round.
+            # The geometry column remains in the six-wide artifact and network
+            # fan-in but is masked to normalized zero.
+            confidence_mask=(
+                (True, False)
+                if variant in {"B3SCFR", "B3SCFRS", "B3SCFRA"}
+                else (True, True)
+            ),
         )
     elif variant == "B3T":
         enc = TemporalBasisEarlyPoolEncoder(trial_length, window_size, hidden_dim)
