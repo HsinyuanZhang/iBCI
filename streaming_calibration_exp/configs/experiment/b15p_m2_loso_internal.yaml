@@ -1,0 +1,28 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b15p
+
+run_id: b15p_m2_loso_internal
+comparison_role: attention_capacity_internal_control
+tags: ["b15p", "m2", "loso", "internal-selection", "per-neuron-control"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 1
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 20
+
+callbacks:
+  early_stopping:
+    patience: 5

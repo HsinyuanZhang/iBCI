@@ -47,6 +47,8 @@ class MCMazeSessionDataset(Dataset):
         calib_trials: np.ndarray,
         window_size: int,
         session_name: str,
+        side_features: Optional[np.ndarray] = None,
+        electrode_ids: Optional[np.ndarray] = None,
     ):
         self.neural = neural_data
         self.behavior = behavior_data
@@ -54,6 +56,17 @@ class MCMazeSessionDataset(Dataset):
         self.calib_trials = torch.from_numpy(calib_trials).float()
         self.window_size = window_size
         self.session_name = session_name
+        # Per-unit, not per-window: the same [N_units, side_dim] tensor is returned for
+        # every item in this session (mirrors Dandi688MultiSessionDataset.__getitem__ in
+        # mc_maze/multisession_datamodule.py, the training-side dataset with the same
+        # optional-5th-tuple-element contract). None keeps __getitem__'s return arity at 4
+        # for every existing caller -- this is purely additive.
+        self.side_features = (
+            torch.from_numpy(side_features).float() if side_features is not None else None
+        )
+        self.electrode_ids = (
+            torch.from_numpy(electrode_ids).long() if electrode_ids is not None else None
+        )
 
     def __len__(self):
         return len(self.valid_starts)
@@ -63,6 +76,17 @@ class MCMazeSessionDataset(Dataset):
         end = start + self.window_size
         neural = torch.from_numpy(self.neural[start:end]).float()
         behavior = torch.from_numpy(self.behavior[start:end]).float()
+        if self.side_features is not None:
+            if self.electrode_ids is not None:
+                return (
+                    neural,
+                    behavior,
+                    self.calib_trials,
+                    self.session_name,
+                    self.side_features,
+                    self.electrode_ids,
+                )
+            return neural, behavior, self.calib_trials, self.session_name, self.side_features
         return neural, behavior, self.calib_trials, self.session_name
 
 

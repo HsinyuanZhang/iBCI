@@ -1,5 +1,6 @@
 """Training entry point for streaming calibration experiments."""
 import json
+import inspect
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -8,7 +9,7 @@ import hydra
 import lightning as L
 import rootutils
 from lightning import Callback, LightningDataModule, LightningModule, Trainer
-from lightning.pytorch.callbacks import ModelCheckpoint
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 from lightning.pytorch.loggers import Logger
 from omegaconf import DictConfig
 from omegaconf.base import ContainerMetadata, Metadata
@@ -22,6 +23,7 @@ from src.metrics.baseline import validate_baseline_prerequisites
 from src.metrics.run_artifacts import (
     METRICS_PER_SESSION_FIELDS,
     METRICS_SUMMARY_FIELDS,
+    assert_run_dir_is_fresh,
     build_test_metric_rows,
     ensure_run_dir,
     export_teacher_metadata,
@@ -59,11 +61,13 @@ def _allow_known_checkpoint_globals(ckpt_path: str) -> None:
     from pathlib import PosixPath
 
     safe_globals.append(PosixPath)
-    unsafe = set(torch.serialization.get_unsafe_globals_in_checkpoint(ckpt_path))
     allowed = {f"{item.__module__}.{item.__qualname__}" for item in safe_globals}
-    unexpected = unsafe.difference(allowed)
-    if unexpected:
-        raise RuntimeError(f"Refusing checkpoint with unexpected globals: {sorted(unexpected)}")
+    inspect_globals = getattr(torch.serialization, "get_unsafe_globals_in_checkpoint", None)
+    if inspect_globals is not None:
+        unsafe = set(inspect_globals(ckpt_path))
+        unexpected = unsafe.difference(allowed)
+        if unexpected:
+            raise RuntimeError(f"Refusing checkpoint with unexpected globals: {sorted(unexpected)}")
     torch.serialization.add_safe_globals(safe_globals)
 
 
@@ -90,6 +94,24 @@ def _write_hardware_cost_artifact(model: LightningModule, artifact_root: Path, c
             "note": "B4-B6 MAC counts valid bins only; cubic-interpolation flag reflects encoder capability.",
         },
     )
+
+
+def _drop_early_stopping(callbacks: List[Callback], *, enabled: bool) -> List[Callback]:
+    """M2 fixed-epoch-budget mode: drop EarlyStopping callbacks when requested.
+
+    Does not touch the callbacks config or delete the early-stopping callback
+    definition -- this only filters the already-instantiated callback list for this
+    run, so the default (``enabled=False``) path is unchanged. See
+    sua_exploration/docs/CURRENT_RESULTS.md section H.2 (unequal max-of-N selection
+    bias from variants training different numbers of epochs).
+    """
+    if not enabled:
+        return callbacks
+    kept = [callback for callback in callbacks if not isinstance(callback, EarlyStopping)]
+    dropped = len(callbacks) - len(kept)
+    if dropped:
+        log.info(f"no_early_stopping=true: dropped {dropped} EarlyStopping callback(s)")
+    return kept
 
 
 def _best_checkpoint_callback(callbacks: List[Callback]) -> Optional[ModelCheckpoint]:
@@ -195,6 +217,13 @@ def _export_run_metrics(
 
 @task_wrapper
 def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    # M1 hard assertion (sua_exploration/docs/CURRENT_RESULTS.md section H.4): the Hydra
+    # run directory is named to be unique per (run_id, loso_fold, seed) launch (see
+    # configs/hydra/default.yaml), but that is a naming precaution, not a guarantee.
+    # Refuse to train into a directory that already holds another run's checkpoints or
+    # tfevents rather than silently commingling two runs the way B15P/B3 fold1 did.
+    assert_run_dir_is_fresh(Path(cfg.paths.output_dir))
+
     if cfg.get("seed"):
         L.seed_everything(cfg.seed, workers=True)
 
@@ -218,6 +247,7 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     model: LightningModule = hydra.utils.instantiate(cfg.model)
 
     callbacks: List[Callback] = instantiate_callbacks(cfg.get("callbacks"))
+    callbacks = _drop_early_stopping(callbacks, enabled=bool(cfg.get("no_early_stopping", False)))
     logger: List[Logger] = instantiate_loggers(cfg.get("logger"))
     trainer: Trainer = hydra.utils.instantiate(
         cfg.trainer, callbacks=callbacks, logger=logger, use_distributed_sampler=False
@@ -256,7 +286,10 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         ckpt_path = _resolve_test_checkpoint(cfg, trainer, callbacks)
         if ckpt_path:
             _allow_known_checkpoint_globals(ckpt_path)
-        trainer.test(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=True)
+        test_kwargs = {"model": model, "datamodule": datamodule, "ckpt_path": ckpt_path}
+        if "weights_only" in inspect.signature(trainer.test).parameters:
+            test_kwargs["weights_only"] = True
+        trainer.test(**test_kwargs)
 
     metric_dict = {**train_metrics, **trainer.callback_metrics}
     _export_run_metrics(artifact_root, cfg, metric_dict, profile, ckpt_path, callbacks, trainer, datamodule)

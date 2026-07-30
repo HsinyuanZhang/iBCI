@@ -1,6 +1,6 @@
 # Cross-Task Validation: SPINT B3 Encoder on M1/M2/H1
 
-> **文档状态：MUA 通用性支线。** M1/M2 结果可作为 SUA/MUA 主线的 MUA 参考；H1 尚未完成。当前主线入口见 [`sua_exploration/README.md`](sua_exploration/README.md)。
+> **文档状态：MUA 通用性支线。** M1/M2 结果可作为 SUA/MUA 主线的 MUA 参考；H1 尚未完成。当前主线入口见 [`sua_exploration/README.md`](../sua_exploration/README.md)。
 
 ## 目标
 

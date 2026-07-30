@@ -146,10 +146,18 @@ def float_ratio_to_requant(eff_scale: np.ndarray, out_scale: float, shift: int =
     return IntegerRequant(mult=mult, shift=shift)
 
 
-def calibrate_frozen_scales(weights: B3Weights, calib_sessions: List[np.ndarray], session_names: List[str]) -> FrozenActivationScales:
+def calibrate_frozen_scales(
+    weights: B3Weights,
+    calib_sessions: List[np.ndarray],
+    session_names: List[str],
+    side_feature_sessions: Optional[List[np.ndarray]] = None,
+) -> FrozenActivationScales:
+    if side_feature_sessions is not None and len(side_feature_sessions) != len(calib_sessions):
+        raise ValueError("side_feature_sessions must align one-to-one with calib_sessions")
     max_abs = {k: 0.0 for k in ["input", "pre_relu", "mean", "post0_relu", "post1_relu", "E"]}
-    for calib in calib_sessions:
-        st = forward_b3_layered(calib, weights)
+    for index, calib in enumerate(calib_sessions):
+        side = None if side_feature_sessions is None else side_feature_sessions[index]
+        st = forward_b3_layered(calib, weights, side_features=side)
         max_abs["input"] = max(max_abs["input"], float(np.max(np.abs(calib))))
         max_abs["pre_relu"] = max(max_abs["pre_relu"], float(np.max(np.maximum(st["feat"], 0))))
         max_abs["mean"] = max(max_abs["mean"], float(np.max(np.maximum(st["mean_feat"], 0))))
@@ -269,7 +277,11 @@ def mean_int32_via_reciprocal(sum_i32: np.ndarray, recip: int, shift: int) -> np
     return prod.astype(np.int32)
 
 
-def forward_quant_engine(calib_fp: np.ndarray, bundle: QuantEngineBundle) -> Dict[str, Any]:
+def forward_quant_engine(
+    calib_fp: np.ndarray,
+    bundle: QuantEngineBundle,
+    side_features: np.ndarray | None = None,
+) -> Dict[str, Any]:
     ab = bundle.ablation
     abits = ab.activation_bits
     M, T, N = calib_fp.shape
@@ -314,6 +326,40 @@ def forward_quant_engine(calib_fp: np.ndarray, bundle: QuantEngineBundle) -> Dic
         mean_i32 = mean_act.astype(np.int32)
         diag["mean"] = {"path": "fp32_mean"}
 
+    required_side_dim = int(bundle.layers[1].w_fp.shape[1]) - D
+    if required_side_dim < 0:
+        raise ValueError(
+            f"post0 in_features {bundle.layers[1].w_fp.shape[1]} is smaller than D={D}"
+        )
+    if required_side_dim:
+        if side_features is None:
+            raise ValueError(
+                f"post0 requires side_dim={required_side_dim}, but side_features is missing"
+            )
+        side_features = np.asarray(side_features, dtype=np.float32)
+        if side_features.shape != (N, required_side_dim):
+            raise ValueError(
+                f"side_features must be {(N, required_side_dim)}, got {side_features.shape}"
+            )
+        if ab.activation_bits in (8, 16):
+            side_act, side_diag = quantize_tensor(
+                side_features, abits, bundle.scales.mean_scale(abits)
+            )
+        else:
+            side_act = side_features
+            side_diag = {"clip_count": 0, "path": "fp32_side"}
+        # Hardware contract: pooled activity and T4 use one shared post0 input
+        # scale, then concatenate in the integer domain.  There is no FP side
+        # bypass around the real 68->64 T4 layer.
+        mean_act = np.concatenate([mean_act, side_act], axis=-1)
+        diag["side"] = {
+            **side_diag,
+            "side_dim": required_side_dim,
+            "shared_post0_input_scale": float(bundle.scales.mean_scale(abits)),
+        }
+    elif side_features is not None and np.asarray(side_features).shape[-1] != 0:
+        raise ValueError("Plain B3 bundle does not accept non-empty side_features")
+
     def run_layer(x_in, layer, relu, key):
         acc32, acc64, ld = _linear_mixed(x_in, layer, ab)
         q, rq = _requant(acc32, layer, ab, relu=relu)
@@ -354,6 +400,7 @@ def forward_quant_engine(calib_fp: np.ndarray, bundle: QuantEngineBundle) -> Dic
         "feat": feat,
         "sum_feat_i32": sum_feat,
         "mean_i32": mean_i32,
+        "post0_input": mean_act,
     }
 
 

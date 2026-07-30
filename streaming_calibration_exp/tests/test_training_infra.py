@@ -81,6 +81,43 @@ def test_train_callbacks_compose_to_six_targets():
     assert "src.callbacks.override_epoch_step.OverrideEpochStepCallback" in targets
 
 
+def test_drop_early_stopping_is_noop_when_disabled():
+    from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint, RichModelSummary
+
+    from src.train import _drop_early_stopping
+
+    callbacks = [ModelCheckpoint(), EarlyStopping(monitor="x"), RichModelSummary()]
+    result = _drop_early_stopping(callbacks, enabled=False)
+    assert result is callbacks
+    assert len(result) == 3
+
+
+def test_drop_early_stopping_removes_early_stopping_when_enabled():
+    # M2 fixed-epoch-budget mode (sua_exploration/docs/CURRENT_RESULTS.md section H.2):
+    # --no_early_stopping / no_early_stopping=true must drop EarlyStopping so every
+    # variant trains exactly trainer.max_epochs, without touching other callbacks.
+    from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint, RichModelSummary
+
+    from src.train import _drop_early_stopping
+
+    checkpoint_cb = ModelCheckpoint()
+    summary_cb = RichModelSummary()
+    callbacks = [checkpoint_cb, EarlyStopping(monitor="x"), summary_cb]
+    result = _drop_early_stopping(callbacks, enabled=True)
+    assert result == [checkpoint_cb, summary_cb]
+    assert not any(isinstance(cb, EarlyStopping) for cb in result)
+
+
+def test_no_early_stopping_defaults_false_in_train_yaml():
+    from hydra import compose, initialize_config_dir
+    from pathlib import Path
+
+    cfg_dir = str(Path(__file__).resolve().parents[1] / "configs")
+    with initialize_config_dir(version_base="1.3", config_dir=cfg_dir):
+        cfg = compose(config_name="train.yaml", overrides=["experiment=b2_d128"])
+    assert cfg.get("no_early_stopping") is False
+
+
 def test_support_prediction_consistency_weight_is_nonnegative():
     with pytest.raises(ValueError, match="must be >= 0"):
         StreamingCalibrationLitModule(

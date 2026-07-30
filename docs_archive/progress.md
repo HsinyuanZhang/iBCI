@@ -1,6 +1,6 @@
 # Progress — 历史 ASIC/MUA 工作日志
 
-> 本文件保留旧阶段工作记录。当前 SUA/MUA 执行计划见 [`sua_exploration/ROADMAP.md`](sua_exploration/ROADMAP.md)。
+> 本文件保留旧阶段工作记录。当前 SUA/MUA 执行计划见 [`sua_exploration/ROADMAP.md`](../sua_exploration/ROADMAP.md)。
 
 ## 2026-07-10
 - Started detailed few-shot computation and data-flow analysis for research ASIC deployment.

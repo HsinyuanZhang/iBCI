@@ -20,6 +20,12 @@ ckpt_path: null
 seed: 42
 run_id: null
 comparison_role: null
+# M2 fixed-epoch-budget mode (sua_exploration/docs/CURRENT_RESULTS.md section H.2):
+# when true, any EarlyStopping callback is dropped before the Trainer is built, so every
+# variant trains for exactly trainer.max_epochs regardless of the validation metric.
+# Does not remove the early-stopping callback config itself -- default false preserves
+# the existing early-stopping path unchanged.
+no_early_stopping: false
 optimized_metric: val_heldin/r2_mean
 baseline_metrics_path: ${paths.artifact_dir}/b0_baseline/metrics_per_session.csv
 require_baseline_validation: true

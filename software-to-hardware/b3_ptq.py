@@ -42,10 +42,17 @@ def copy_weights(weights: B3Weights) -> B3Weights:
     )
 
 
-def collect_activation_stats(weights: B3Weights, calib_sessions: Sequence[np.ndarray]) -> ActivationStats:
+def collect_activation_stats(
+    weights: B3Weights,
+    calib_sessions: Sequence[np.ndarray],
+    side_feature_sessions: Sequence[np.ndarray] | None = None,
+) -> ActivationStats:
+    if side_feature_sessions is not None and len(side_feature_sessions) != len(calib_sessions):
+        raise ValueError("side_feature_sessions must align one-to-one with calib_sessions")
     chunks = {k: [] for k in TENSOR_KEYS}
-    for calib in calib_sessions:
-        st = forward_b3_layered(calib, weights)
+    for index, calib in enumerate(calib_sessions):
+        side = None if side_feature_sessions is None else side_feature_sessions[index]
+        st = forward_b3_layered(calib, weights, side_features=side)
         chunks["input"].append(np.abs(calib).astype(np.float64).ravel())
         chunks["pre_relu"].append(np.maximum(st["feat"], 0).astype(np.float64).ravel())
         chunks["mean"].append(np.maximum(st["mean_feat"], 0).astype(np.float64).ravel())

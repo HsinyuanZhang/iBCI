@@ -41,7 +41,7 @@ def write_json(path: Path, payload: dict) -> None:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--teacher_ckpt", type=str, required=True)
-    parser.add_argument("--variant", type=str, default="B15", choices=["B3", "B15", "B16"])
+    parser.add_argument("--variant", type=str, default="B15", choices=["B3", "B15P", "B15D", "B15", "B16"])
     parser.add_argument("--out_name", type=str, default=None)
     parser.add_argument("--data_dir", type=str,
                         default="sua_exploration/data/000128/sub-Jenkins")

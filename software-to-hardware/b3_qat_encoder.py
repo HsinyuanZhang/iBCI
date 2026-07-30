@@ -18,10 +18,15 @@ from b3_fake_quant import (
 from b3_quant_engine import FrozenActivationScales
 
 try:
-    from src.models.components.streaming_encoders import CalibrationEncoder, EarlyPoolEncoder
+    from src.models.components.streaming_encoders import (
+        CalibrationEncoder,
+        EarlyPoolEncoder,
+        SideFeatureEarlyPoolEncoder,
+    )
 except ImportError:
     CalibrationEncoder = nn.Module  # type: ignore
     EarlyPoolEncoder = nn.Module  # type: ignore
+    SideFeatureEarlyPoolEncoder = nn.Module  # type: ignore
 
 
 def _trial_to_bnt(trial: torch.Tensor) -> torch.Tensor:
@@ -47,11 +52,21 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
         quantize_activations: bool = True,
     ) -> None:
         super().__init__()
-        if not isinstance(base, EarlyPoolEncoder):
-            raise TypeError("QATEarlyPoolEncoder requires EarlyPoolEncoder")
+        if not isinstance(base, (EarlyPoolEncoder, SideFeatureEarlyPoolEncoder)):
+            raise TypeError(
+                "QATEarlyPoolEncoder requires EarlyPoolEncoder or "
+                "SideFeatureEarlyPoolEncoder"
+            )
         self.trial_length = base.trial_length
         self.window_size = base.window_size
         self.hidden_dim = base.hidden_dim
+        self.side_dim = int(getattr(base, "side_dim", 0))
+        self.electrode_embed_dim = int(getattr(base, "electrode_embed_dim", 0))
+        if self.electrode_embed_dim:
+            raise ValueError(
+                "T4 INT8 supports numeric side_features only; absolute electrode "
+                "embedding is outside this quantization contract"
+            )
         self.pad_value = base.pad_value
         self.num_trials = int(num_trials)
         self.recip_shift = int(recip_shift)
@@ -100,7 +115,36 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
         state["trial_count"] += 1
         return state
 
-    def forward_integer_with_stages(self, calib_fp: torch.Tensor) -> Dict[str, torch.Tensor]:
+    def _concat_side(
+        self,
+        mean_q: torch.Tensor,
+        side_features: Optional[torch.Tensor],
+    ) -> torch.Tensor:
+        if self.side_dim == 0:
+            if side_features is not None and side_features.shape[-1] != 0:
+                raise ValueError("Plain B3 QAT encoder does not accept side_features")
+            return mean_q
+        if side_features is None:
+            raise ValueError(f"B3S QAT encoder requires side_features dim={self.side_dim}")
+        if side_features.shape != (*mean_q.shape[:-1], self.side_dim):
+            raise ValueError(
+                "side_features shape must match pooled activity batch/unit axes: "
+                f"expected {(*mean_q.shape[:-1], self.side_dim)}, "
+                f"got {tuple(side_features.shape)}"
+            )
+        side_q = ste_quantize_symmetric(
+            side_features,
+            self.shared_scales.s_mean.value(),
+            -128,
+            127,
+        )
+        return torch.cat([mean_q, side_q], dim=-1)
+
+    def forward_integer_with_stages(
+        self,
+        calib_fp: torch.Tensor,
+        side_features: Optional[torch.Tensor] = None,
+    ) -> Dict[str, torch.Tensor]:
         """Bit-exact integer path; calib_fp [B,M,T,N] or [M,T,N]."""
         if calib_fp.dim() == 3:
             calib_fp = calib_fp.unsqueeze(0)
@@ -137,8 +181,9 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
             s_feat=self.shared_scales.s_feat.value(),
             s_mean=self.shared_scales.s_mean.value(),
         )
+        post0_input_q = self._concat_side(mean_q, side_features)
         post0_q, post0_acc = integer_linear_layer(
-            mean_q, self.post_linears[0].weight, self.post_linears[0].bias,
+            post0_input_q, self.post_linears[0].weight, self.post_linears[0].bias,
             self.shared_scales.s_mean.value(), self.shared_scales.s_post0.value(), relu=True,
         )
         post1_q, post1_acc = integer_linear_layer(
@@ -156,6 +201,7 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
             "feat_q": feat_all[-1] if feat_all else sum_feat,
             "sum_feat": sum_feat,
             "mean_q": mean_q,
+            "post0_input_q": post0_input_q,
             "post0_q": post0_q,
             "post1_q": post1_q,
             "post2_acc": post2_acc,
@@ -173,6 +219,7 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
             s_feat=self.shared_scales.s_feat.value(),
             s_mean=self.shared_scales.s_mean.value(),
         )
+        mean_q = self._concat_side(mean_q, state.get("side_features"))
         h, _ = integer_linear_layer(
             mean_q, self.post_linears[0].weight, self.post_linears[0].bias,
             self.shared_scales.s_mean.value(), self.shared_scales.s_post0.value(), relu=True,
@@ -187,11 +234,25 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
         )
         return acc * self.shared_scales.s_E.value()
 
-    def forward_batch(self, calib_trials: torch.Tensor, trial_lengths: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def forward_batch(
+        self,
+        calib_trials: torch.Tensor,
+        trial_lengths: Optional[torch.Tensor] = None,
+        side_features: Optional[torch.Tensor] = None,
+        electrode_ids: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
         del trial_lengths
-        return self.forward_integer_with_stages(calib_trials)["E_dequant"]
+        if electrode_ids is not None:
+            raise ValueError("T4 INT8 encoder does not consume electrode_ids")
+        return self.forward_integer_with_stages(
+            calib_trials, side_features=side_features
+        )["E_dequant"]
 
-    def forward_fp32_stages(self, calib_trials: torch.Tensor) -> Dict[str, torch.Tensor]:
+    def forward_fp32_stages(
+        self,
+        calib_trials: torch.Tensor,
+        side_features: Optional[torch.Tensor] = None,
+    ) -> Dict[str, torch.Tensor]:
         if calib_trials.dim() == 3:
             calib_trials = calib_trials.unsqueeze(0)
         batch_size = calib_trials.shape[0]
@@ -206,6 +267,16 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
         mean_feat = state["sum_feat"] / float(state["trial_count"])
         pre_relu_cat = torch.cat(pre_relu_all, dim=0)
         h = mean_feat
+        if self.side_dim:
+            if side_features is None:
+                raise ValueError(
+                    f"B3S FP shadow requires side_features dim={self.side_dim}"
+                )
+            if side_features.shape != (*mean_feat.shape[:-1], self.side_dim):
+                raise ValueError(
+                    f"side_features shape mismatch: {tuple(side_features.shape)}"
+                )
+            h = torch.cat([h, side_features], dim=-1)
         post0 = self.post_linears[0](h)
         post0_relu = torch.relu(post0)
         post1 = self.post_linears[1](post0_relu)
@@ -215,19 +286,32 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
             "input": calib_trials,
             "pre_relu": pre_relu_cat,
             "mean_feat": torch.relu(mean_feat),
+            "post0_input": h,
             "post0_relu": post0_relu,
             "post1_relu": post1_relu,
             "E": e,
         }
 
-    def forward_fp32(self, calib_trials: torch.Tensor) -> torch.Tensor:
-        return self.forward_fp32_stages(calib_trials)["E"]
+    def forward_fp32(
+        self,
+        calib_trials: torch.Tensor,
+        side_features: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        return self.forward_fp32_stages(
+            calib_trials, side_features=side_features
+        )["E"]
 
     @torch.no_grad()
-    def compute_quant_diagnostics(self, calib_fp: torch.Tensor) -> Dict[str, Any]:
+    def compute_quant_diagnostics(
+        self,
+        calib_fp: torch.Tensor,
+        side_features: Optional[torch.Tensor] = None,
+    ) -> Dict[str, Any]:
         s = self.shared_scales
-        stages = self.forward_fp32_stages(calib_fp)
-        return {
+        stages = self.forward_fp32_stages(
+            calib_fp, side_features=side_features
+        )
+        diagnostics = {
             "scales_relative": s.relative_to_init_dict(),
             "scales_current": s.as_dict(),
             "input": quant_saturation_stats(stages["input"], s.s_input.value(), -128, 127),
@@ -237,6 +321,15 @@ class QATEarlyPoolEncoder(CalibrationEncoder):
             "post1_out": quant_saturation_stats(stages["post1_relu"], s.s_post1.value(), 0, 127),
             "E": quant_saturation_stats(stages["E"], s.s_E.value(), -128, 127),
         }
+        if self.side_dim:
+            assert side_features is not None
+            diagnostics["side"] = quant_saturation_stats(
+                side_features, s.s_mean.value(), -128, 127
+            )
+            diagnostics["side"]["shared_post0_input_scale"] = float(
+                s.s_mean.value().detach().cpu()
+            )
+        return diagnostics
 
     def export_scales_dict(self) -> Dict[str, float]:
         return self.shared_scales.as_dict()

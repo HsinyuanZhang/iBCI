@@ -1,6 +1,6 @@
 # Findings — 历史 ASIC/MUA 审计记录
 
-> 本文件不是当前项目总状态。SUA/MUA 主线的当前结论见 [`sua_exploration/docs/CURRENT_RESULTS.md`](sua_exploration/docs/CURRENT_RESULTS.md)。
+> 本文件不是当前项目总状态。SUA/MUA 主线的当前结论见 [`sua_exploration/docs/CURRENT_RESULTS.md`](../sua_exploration/docs/CURRENT_RESULTS.md)。
 
 ## Repository Inventory
 - Two source papers are present in the workspace root.

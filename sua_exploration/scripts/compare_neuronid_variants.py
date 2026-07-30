@@ -18,7 +18,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "streaming_calibration_exp"))
 
-import numpy as np
 import torch
 from torchmetrics.regression import R2Score
 
@@ -144,15 +143,22 @@ def decode_with_identity(teacher: SpintModel, neural: torch.Tensor, identity: to
     return output.permute(0, 2, 1)
 
 
-def evaluate_variant(teacher, encoder, dm, behavior_scaling_factor, device, max_batches=200):
+def evaluate_variant(teacher, encoder, dm, behavior_scaling_factor, device, max_batches=None):
     r2 = R2Score(multioutput="variance_weighted").to(device)
     dl = dm.val_dataloader()[0]
 
-    all_id_student = []
-    all_id_teacher = []
+    identity_stats = {
+        "count": 0,
+        "student_sum": 0.0,
+        "teacher_sum": 0.0,
+        "student_squared_sum": 0.0,
+        "teacher_squared_sum": 0.0,
+        "cross_sum": 0.0,
+        "squared_error_sum": 0.0,
+    }
 
     for i, batch in enumerate(dl):
-        if i >= max_batches:
+        if max_batches is not None and i >= max_batches:
             break
         neural, behavior, calib, _ = batch
         neural, behavior, calib = neural.to(device), behavior.to(device), calib.to(device)
@@ -166,30 +172,51 @@ def evaluate_variant(teacher, encoder, dm, behavior_scaling_factor, device, max_
         target_last = behavior[:, -1:, :]
         r2.update(pred_last.reshape(-1, 2), target_last.reshape(-1, 2))
 
-        all_id_student.append(id_student.cpu())
-        all_id_teacher.append(id_teacher.cpu())
+        id_student_double = id_student.double()
+        id_teacher_double = id_teacher.double()
+        identity_stats["count"] += id_student_double.numel()
+        identity_stats["student_sum"] += id_student_double.sum().item()
+        identity_stats["teacher_sum"] += id_teacher_double.sum().item()
+        identity_stats["student_squared_sum"] += id_student_double.square().sum().item()
+        identity_stats["teacher_squared_sum"] += id_teacher_double.square().sum().item()
+        identity_stats["cross_sum"] += (id_student_double * id_teacher_double).sum().item()
+        identity_stats["squared_error_sum"] += (
+            id_student_double - id_teacher_double
+        ).square().sum().item()
 
     r2_val = r2.compute().item()
 
-    id_s = torch.cat(all_id_student, dim=0)
-    id_t = torch.cat(all_id_teacher, dim=0)
+    if identity_stats["count"] == 0:
+        raise ValueError("Validation dataloader produced no batches")
+    teacher_squared_sum = max(identity_stats["teacher_squared_sum"], 1e-12)
+    norm_mse = identity_stats["squared_error_sum"] / teacher_squared_sum
+    cosine_denom = max(
+        (identity_stats["student_squared_sum"] * teacher_squared_sum) ** 0.5,
+        1e-12,
+    )
+    cos_sim = max(-1.0, min(1.0, identity_stats["cross_sum"] / cosine_denom))
 
-    denom = (id_t ** 2).mean().clamp(min=1e-8)
-    norm_mse = ((id_s - id_t) ** 2).mean().item() / denom.item()
-
-    id_s_flat = id_s.reshape(-1)
-    id_t_flat = id_t.reshape(-1)
-    cos_sim = torch.nn.functional.cosine_similarity(id_s_flat.unsqueeze(0), id_t_flat.unsqueeze(0)).item()
-
-    s_np = id_s_flat.numpy()
-    t_np = id_t_flat.numpy()
-    pearson_r = np.corrcoef(s_np, t_np)[0, 1] if s_np.std() > 0 and t_np.std() > 0 else 0.0
+    count = identity_stats["count"]
+    centered_cross = identity_stats["cross_sum"] - (
+        identity_stats["student_sum"] * identity_stats["teacher_sum"] / count
+    )
+    centered_student_squared = max(
+        identity_stats["student_squared_sum"]
+        - identity_stats["student_sum"] ** 2 / count,
+        0.0,
+    )
+    centered_teacher_squared = max(
+        teacher_squared_sum - identity_stats["teacher_sum"] ** 2 / count,
+        0.0,
+    )
+    pearson_denom = (centered_student_squared * centered_teacher_squared) ** 0.5
+    pearson_r = centered_cross / pearson_denom if pearson_denom > 0.0 else 0.0
 
     return {
         "r2": r2_val,
         "identity_norm_mse": norm_mse,
         "identity_cosine": cos_sim,
-        "identity_pearson": float(pearson_r),
+        "identity_pearson": max(-1.0, min(1.0, pearson_r)),
     }
 
 
@@ -201,7 +228,12 @@ def main():
     parser.add_argument("--b16_ckpt", type=str, default=None)
     parser.add_argument("--data_dir", type=str, default="sua_exploration/data/000128/sub-Jenkins")
     parser.add_argument("--behavior_scaling_factor", type=float, default=5.0)
-    parser.add_argument("--max_batches", type=int, default=200)
+    parser.add_argument(
+        "--max_batches",
+        type=int,
+        default=None,
+        help="Limit validation batches for exploratory runs; default evaluates all batches.",
+    )
     parser.add_argument("--output_json", type=str, default=None)
     args = parser.parse_args()
 
@@ -257,7 +289,7 @@ def main():
     r2_teacher = R2Score(multioutput="variance_weighted").to(device)
     dl = dm.val_dataloader()[0]
     for i, batch in enumerate(dl):
-        if i >= args.max_batches:
+        if args.max_batches is not None and i >= args.max_batches:
             break
         neural, behavior, calib, _ = batch
         neural, behavior, calib = neural.to(device), behavior.to(device), calib.to(device)

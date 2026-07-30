@@ -1,8 +1,10 @@
 """Calibration encoders for streaming few-shot identity estimation (B0–B6)."""
 from __future__ import annotations
 
+import math
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from copy import deepcopy
+from dataclasses import dataclass, replace
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 import torch
@@ -166,11 +168,17 @@ class CalibrationEncoder(nn.Module, ABC):
         self,
         calib_trials: torch.Tensor,
         trial_lengths: Optional[torch.Tensor] = None,
+        side_features: Optional[torch.Tensor] = None,
+        electrode_ids: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
         if calib_trials.dim() != 4:
             raise ValueError(f"Expected [B,M,T,N], got {tuple(calib_trials.shape)}")
         batch_size, _, _, num_neurons = calib_trials.shape
         state = self.reset_stream(batch_size, num_neurons, calib_trials.device, calib_trials.dtype)
+        if side_features is not None:
+            state["side_features"] = side_features
+        if electrode_ids is not None:
+            state["electrode_ids"] = electrode_ids
         for trial_idx in range(calib_trials.shape[1]):
             length = None if trial_lengths is None else trial_lengths[:, trial_idx]
             state = self.push_trial(state, calib_trials[:, trial_idx], trial_length=length)
@@ -240,7 +248,15 @@ class BatchReferenceEncoder(CalibrationEncoder):
             raise ValueError("trial_count must be > 0 before finalize_identity")
         return self.fc_id_out(state["sum_phi"] / state["trial_count"])
 
-    def forward_batch(self, calib_trials: torch.Tensor, trial_lengths: Optional[torch.Tensor] = None) -> torch.Tensor:
+    def forward_batch(
+        self,
+        calib_trials: torch.Tensor,
+        trial_lengths: Optional[torch.Tensor] = None,
+        side_features: Optional[torch.Tensor] = None,
+        electrode_ids: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        if side_features is not None or electrode_ids is not None:
+            raise ValueError("B0 does not consume side features or electrode IDs")
         trials = calib_trials.permute(0, 1, 3, 2)
         phi = self.fc_id_in(trials)
         pooled = torch.mean(phi, dim=1)
@@ -345,6 +361,589 @@ class EarlyPoolEncoder(CalibrationEncoder):
         return num_trials * self._mac_per_trial(num_neurons, trial_length) + post
 
 
+class SideFeatureEarlyPoolEncoder(CalibrationEncoder):
+    """B3S: B3 with optional per-unit side features concat before psi."""
+
+    variant = "B3S"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        side_dim: int = 0,
+        electrode_embed_dim: int = 0,
+        num_electrodes: int = 0,
+        num_post_layers: int = 3,
+    ) -> None:
+        super().__init__()
+        self.trial_length = trial_length
+        self.window_size = window_size
+        self.hidden_dim = hidden_dim
+        self.side_dim = side_dim
+        self.electrode_embed_dim = electrode_embed_dim
+        self.num_electrodes = num_electrodes
+        self.pre_pool = nn.Sequential(nn.Linear(trial_length, hidden_dim), nn.ReLU())
+        post_side_dim = side_dim + electrode_embed_dim
+        post_in_dim = hidden_dim + post_side_dim
+        self.post_pool = _build_affine_stack(post_in_dim, hidden_dim, num_post_layers, window_size)
+        self.electrode_embed: nn.Embedding | None = None
+        if electrode_embed_dim > 0:
+            if num_electrodes <= 0:
+                raise ValueError("num_electrodes must be positive when electrode_embed_dim > 0")
+            self.electrode_embed = nn.Embedding(num_electrodes, electrode_embed_dim)
+            with torch.no_grad():
+                self.electrode_embed.weight.zero_()
+        if post_side_dim > 0:
+            with torch.no_grad():
+                self.post_pool[0].weight[:, hidden_dim:].zero_()
+
+    def reset_stream(self, batch_size: int, num_neurons: int, device: torch.device, dtype: torch.dtype) -> Dict[str, Any]:
+        return {"sum_feat": torch.zeros(batch_size, num_neurons, self.hidden_dim, device=device, dtype=dtype), "trial_count": 0}
+
+    def push_trial(self, state: Dict[str, Any], trial: torch.Tensor, trial_length: Optional[Union[int, torch.Tensor]] = None) -> Dict[str, Any]:
+        trial = _trial_to_batch_neurons_time(trial)
+        feat = self.pre_pool(trial)
+        state["sum_feat"] = state["sum_feat"] + feat
+        state["trial_count"] += 1
+        return state
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before finalize_identity")
+        mean_feat = state["sum_feat"] / state["trial_count"]
+        side_parts: list[torch.Tensor] = []
+        side = state.get("side_features")
+        if self.side_dim > 0:
+            if side is None:
+                raise ValueError("B3S requires side_features when side_dim > 0")
+            if side.shape[-1] != self.side_dim:
+                raise ValueError(
+                    f"B3S expected side_features with last dim {self.side_dim}, got {tuple(side.shape)}"
+                )
+            if side.shape[:-1] != mean_feat.shape[:-1]:
+                raise ValueError(
+                    "B3S side_features batch/neuron shape "
+                    f"{tuple(side.shape[:-1])} does not match pooled features {tuple(mean_feat.shape[:-1])}"
+                )
+            side_parts.append(side)
+        electrode_ids = state.get("electrode_ids")
+        if self.electrode_embed_dim > 0:
+            if electrode_ids is None:
+                raise ValueError("B3S requires electrode_ids when electrode_embed_dim > 0")
+            if electrode_ids.shape != mean_feat.shape[:2]:
+                raise ValueError(
+                    "B3S electrode_ids shape "
+                    f"{tuple(electrode_ids.shape)} does not match pooled features "
+                    f"{tuple(mean_feat.shape[:2])}"
+                )
+            assert self.electrode_embed is not None
+            side_parts.append(self.electrode_embed(electrode_ids.long()))
+        if side_parts:
+            mean_feat = torch.cat([mean_feat, *side_parts], dim=-1)
+        return self.post_pool(mean_feat)
+
+    def _support_state_bytes(self, num_neurons: int) -> int:
+        return num_neurons * self.hidden_dim * 4
+
+    def _trial_buffer_bytes(self, num_neurons: int, trial_length: int) -> int:
+        return trial_length * num_neurons * 4
+
+    def _mac_per_trial(self, num_neurons: int, trial_length: int) -> int:
+        return num_neurons * trial_length * self.hidden_dim
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        post_in_dim = self.hidden_dim + self.side_dim + self.electrode_embed_dim
+        post = num_neurons * _affine_mac_per_vector(post_in_dim, self.post_pool)
+        return num_trials * self._mac_per_trial(num_neurons, trial_length) + post
+
+
+class ElectrodeGateEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
+    """B3SEG (design D, docs/ELECTRODE_ANCHOR_DESIGNS.md): a T4-substrate B3S identity,
+    multiplicatively gated per unit by a learned per-ELECTRODE reliability scalar::
+
+        E_i <- E_i * (1 + tanh(g[electrode(i)]))
+
+    where ``E_i`` is plain T4's own ``post_pool`` output (``SideFeatureEarlyPoolEncoder``
+    with ``side_dim=4``, no electrode concat -- ``electrode_embed_dim`` is always 0 here,
+    never passed through to the base class) and ``g`` holds ``num_electrodes`` learnable
+    scalars, zero-initialized so the gate factor is exactly 1 for every unit at step 0: this
+    encoder is then functionally identical to plain T4 until ``g`` moves away from zero.
+
+    The mechanism is orthogonal to tuning content: it expresses "how much should this
+    recording SITE be trusted" (chronic noise, impedance drift, dead channels) -- a property
+    of the electrode, not of the sorted unit's measured direction tuning, and not something a
+    30-trial cosine-tuning fit can express on its own. ``g`` has exactly ``num_electrodes``
+    parameters (measured 94 for this dataset's 27-session train split via
+    ``compute_electrode_vocab_size`` -- see docs/ELECTRODE_ANCHOR_DESIGNS.md for why this is
+    not the nominal 96-channel array count).
+
+    Array-specific: ``g`` cannot transfer to a different implant or subject without
+    retraining -- electrode index is stable across sessions of the SAME array; sorted-unit
+    index is not (docs/ELECTRODE_ANCHOR_DESIGNS.md).
+    """
+
+    variant = "B3SEG"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        side_dim: int = 0,
+        num_electrodes: int = 0,
+        num_post_layers: int = 3,
+    ) -> None:
+        if num_electrodes <= 0:
+            raise ValueError("B3SEG requires num_electrodes > 0")
+        super().__init__(
+            trial_length,
+            window_size,
+            hidden_dim,
+            side_dim=side_dim,
+            electrode_embed_dim=0,
+            num_electrodes=0,
+            num_post_layers=num_post_layers,
+        )
+        self.num_electrodes = num_electrodes
+        self.electrode_gate = nn.Parameter(torch.zeros(num_electrodes))
+
+    def _validate_electrode_ids(self, electrode_ids: Optional[torch.Tensor], expected_shape: Tuple[int, int]) -> torch.Tensor:
+        if electrode_ids is None:
+            raise ValueError(f"{self.variant} requires electrode_ids")
+        if tuple(electrode_ids.shape) != tuple(expected_shape):
+            raise ValueError(
+                f"{self.variant} electrode_ids shape {tuple(electrode_ids.shape)} does not "
+                f"match identity {tuple(expected_shape)}"
+            )
+        if electrode_ids.numel() and (
+            int(electrode_ids.min()) < 0 or int(electrode_ids.max()) >= self.num_electrodes
+        ):
+            raise ValueError(
+                f"{self.variant} electrode id out of range [0,{self.num_electrodes - 1}]: "
+                f"min={int(electrode_ids.min())}, max={int(electrode_ids.max())}"
+            )
+        return electrode_ids.long()
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        identity = super().finalize_identity(state)  # [B, N, window_size] -- plain T4
+        electrode_ids = self._validate_electrode_ids(state.get("electrode_ids"), identity.shape[:2])
+        gate = 1.0 + torch.tanh(self.electrode_gate[electrode_ids])  # [B, N]
+        return identity * gate.unsqueeze(-1)
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        base = super()._mac_per_session(num_neurons, trial_length, num_trials)
+        # Elementwise gate multiply broadcast over the window_size identity: one MAC per
+        # (neuron, window-bin) plus a negligible per-neuron tanh, not separately counted (this
+        # cost model counts only MACs, matching every other encoder's convention here).
+        return base + num_neurons * self.window_size
+
+    def _requires_general_multiplier(self) -> bool:
+        return True
+
+
+class ElectrodeAnchorEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
+    """B3SEA (design C, docs/ELECTRODE_ANCHOR_DESIGNS.md): a T4-substrate B3S identity plus
+    a learned, globally-gained additive per-electrode anchor::
+
+        E_i <- psi(pooled_i, tuning_i) + alpha * M[electrode(i)]
+
+    where ``psi(pooled_i, tuning_i)`` is plain T4's own ``post_pool`` output (as in
+    ``ElectrodeGateEarlyPoolEncoder``, ``electrode_embed_dim`` is always 0 here), ``M`` is a
+    ``[num_electrodes, window_size]`` learnable table (``nn.Embedding``, zero-initialized),
+    and ``alpha`` is a single learnable scalar initialized to 0 -- so ``E_i`` equals plain
+    T4's identity exactly at step 0 (``alpha=0`` alone guarantees this regardless of ``M``'s
+    own initial values; ``M`` is zero-initialized anyway for a cleaner start).
+
+    This literally implements the original "anchor the drifting sorted-unit identity to a
+    stable electrode-indexed substrate" hypothesis, and -- unlike design A's concat embedding,
+    which the transformer's own weights must learn to interpret from scratch -- it can act as
+    a direct additive regularizer on a tuning estimate that is noisy because it comes from
+    only 30 calibration trials: a low value of ``alpha`` pulls the identity toward a stable,
+    session-independent electrode prior without discarding T4's own per-session estimate.
+
+    Array-specific (see ElectrodeGateEarlyPoolEncoder docstring): ``M`` cannot transfer to a
+    different implant/subject without retraining.
+    """
+
+    variant = "B3SEA"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        side_dim: int = 0,
+        num_electrodes: int = 0,
+        num_post_layers: int = 3,
+    ) -> None:
+        if num_electrodes <= 0:
+            raise ValueError("B3SEA requires num_electrodes > 0")
+        super().__init__(
+            trial_length,
+            window_size,
+            hidden_dim,
+            side_dim=side_dim,
+            electrode_embed_dim=0,
+            num_electrodes=0,
+            num_post_layers=num_post_layers,
+        )
+        self.num_electrodes = num_electrodes
+        self.electrode_anchor = nn.Embedding(num_electrodes, window_size)
+        with torch.no_grad():
+            self.electrode_anchor.weight.zero_()
+        self.anchor_alpha = nn.Parameter(torch.zeros(()))
+
+    def _validate_electrode_ids(self, electrode_ids: Optional[torch.Tensor], expected_shape: Tuple[int, int]) -> torch.Tensor:
+        if electrode_ids is None:
+            raise ValueError(f"{self.variant} requires electrode_ids")
+        if tuple(electrode_ids.shape) != tuple(expected_shape):
+            raise ValueError(
+                f"{self.variant} electrode_ids shape {tuple(electrode_ids.shape)} does not "
+                f"match identity {tuple(expected_shape)}"
+            )
+        if electrode_ids.numel() and (
+            int(electrode_ids.min()) < 0 or int(electrode_ids.max()) >= self.num_electrodes
+        ):
+            raise ValueError(
+                f"{self.variant} electrode id out of range [0,{self.num_electrodes - 1}]: "
+                f"min={int(electrode_ids.min())}, max={int(electrode_ids.max())}"
+            )
+        return electrode_ids.long()
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        identity = super().finalize_identity(state)  # [B, N, window_size] -- plain T4
+        electrode_ids = self._validate_electrode_ids(state.get("electrode_ids"), identity.shape[:2])
+        anchor = self.electrode_anchor(electrode_ids)  # [B, N, window_size]
+        return identity + self.anchor_alpha * anchor
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        base = super()._mac_per_session(num_neurons, trial_length, num_trials)
+        # Anchor lookup is a free gather; the alpha-scale and add are one MAC each per
+        # (neuron, window-bin).
+        return base + 2 * num_neurons * self.window_size
+
+
+class SameElectrodeRelationEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
+    """B3SER: T4 substrate plus an equality-only same-electrode residual.
+
+    This is deliberately not an electrode-ID embedding/table.  ``electrode_ids``
+    are used only to segment a session's units into equality groups.  The
+    relation sees each unit's T4-conditioned identity and T4 side vector,
+    subtracts its segmented group mean, then projects that deviation to the
+    identity space.  It is O(N) in units and has no attention matrix.
+
+    Crucially, the residual output is bias-free.  Therefore all singleton
+    groups have zero deviation and zero log-count in every optimizer state;
+    pseudo-MUA's one-channel-per-electrode boundary is exactly its plain-T4
+    substrate, not merely a zero-init property.
+    """
+
+    variant = "B3SER"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        side_dim: int = 0,
+        relation_dim: int = 8,
+        use_group_relation: bool = True,
+        num_post_layers: int = 3,
+    ) -> None:
+        if side_dim <= 0:
+            raise ValueError("B3SER requires T4 side_dim > 0")
+        if relation_dim <= 0:
+            raise ValueError("relation_dim must be positive")
+        super().__init__(
+            trial_length, window_size, hidden_dim, side_dim=side_dim,
+            electrode_embed_dim=0, num_electrodes=0, num_post_layers=num_post_layers,
+        )
+        self.relation_dim = int(relation_dim)
+        self.use_group_relation = bool(use_group_relation)
+        self.relation_unit = nn.Sequential(
+            nn.Linear(window_size + side_dim, relation_dim), nn.ReLU()
+        )
+        # no bias: singleton residual stays exactly zero after any optimizer step
+        self.relation_output = nn.Linear(relation_dim + 1, window_size, bias=False)
+        nn.init.zeros_(self.relation_output.weight)
+
+    @staticmethod
+    def _validate_memberships(
+        memberships: Optional[torch.Tensor], expected_shape: Tuple[int, int]
+    ) -> torch.Tensor:
+        if memberships is None:
+            raise ValueError("B3SER requires equality-only electrode memberships")
+        if tuple(memberships.shape) != tuple(expected_shape):
+            raise ValueError(
+                f"B3SER memberships shape {tuple(memberships.shape)} does not match identity {tuple(expected_shape)}"
+            )
+        if memberships.numel() and int(memberships.min()) < 0:
+            raise ValueError("B3SER memberships must be non-negative")
+        return memberships.long()
+
+    @staticmethod
+    def _segmented_mean(values: torch.Tensor, memberships: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Segmented sum/count mean, without a dense unit-by-unit matrix."""
+        means = torch.empty_like(values)
+        row_counts = torch.empty((*memberships.shape, 1), dtype=values.dtype, device=values.device)
+        for batch_index in range(values.shape[0]):
+            labels = memberships[batch_index]
+            group_count = int(labels.max().item()) + 1 if labels.numel() else 0
+            sums = torch.zeros((group_count, values.shape[-1]), dtype=values.dtype, device=values.device)
+            counts = torch.zeros((group_count, 1), dtype=values.dtype, device=values.device)
+            sums.index_add_(0, labels, values[batch_index])
+            counts.index_add_(0, labels, torch.ones((labels.numel(), 1), dtype=values.dtype, device=values.device))
+            means[batch_index] = (sums / counts.clamp_min(1.0))[labels]
+            row_counts[batch_index] = counts[labels]
+        return means, row_counts
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        identity = super().finalize_identity(state)
+        side = state.get("side_features")
+        if side is None or tuple(side.shape[:2]) != tuple(identity.shape[:2]):
+            raise ValueError("B3SER requires aligned T4 side_features")
+        unit = self.relation_unit(torch.cat([identity, side], dim=-1))
+        if not self.use_group_relation:
+            # Parameter-matched no-group MLP: keep exactly the relation unit and
+            # output widths, but do not consume a membership or group statistic.
+            relation_input = torch.cat([unit, torch.zeros_like(unit[..., :1])], dim=-1)
+            return identity + self.relation_output(relation_input)
+        memberships = self._validate_memberships(state.get("electrode_ids"), identity.shape[:2])
+        group_mean, counts = self._segmented_mean(unit, memberships)
+        relation_input = torch.cat([unit - group_mean, torch.log(counts)], dim=-1)
+        return identity + self.relation_output(relation_input)
+
+    def _support_state_bytes(self, num_neurons: int) -> int:
+        # Streaming support accumulator plus the finalize-time unit relation
+        # tensor; no N² allocation is ever retained.
+        return num_neurons * (self.hidden_dim + self.relation_dim + 1) * 4
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        base = super()._mac_per_session(num_neurons, trial_length, num_trials)
+        relation = num_neurons * (
+            (self.window_size + self.side_dim) * self.relation_dim
+            + (self.relation_dim + 1) * self.window_size
+        )
+        return base + relation
+
+
+def _raised_cosine_temporal_basis(trial_length: int, num_bumps: int) -> torch.Tensor:
+    """``[num_bumps, trial_length]`` fixed raised-cosine basis evenly tiling one trial.
+
+    Row ``k`` is a single raised-cosine "bump" ``0.5*(1+cos(...))`` centered at one of
+    ``num_bumps`` evenly spaced points across ``[0, trial_length-1]``, with a half-width equal
+    to the center spacing so adjacent bumps overlap smoothly (the classic raised-cosine/Hann
+    tiling used for GLM temporal bases, e.g. Pillow et al. 2005 -- without their log-time
+    stretch, since a calibration trial here is a fixed ``trial_length``-bin window rather than
+    an unbounded post-spike history).
+    """
+    if num_bumps < 2:
+        raise ValueError("num_bumps must be >= 2 to tile a trial")
+    positions = torch.arange(trial_length, dtype=torch.float32)
+    centers = torch.linspace(0, trial_length - 1, num_bumps)
+    spacing = centers[1] - centers[0]
+    basis = torch.zeros(num_bumps, trial_length, dtype=torch.float32)
+    for bump_idx in range(num_bumps):
+        phase = (positions - centers[bump_idx]) * (math.pi / spacing)
+        phase = phase.clamp(min=-math.pi, max=math.pi)
+        basis[bump_idx] = 0.5 * (1.0 + torch.cos(phase))
+    return basis
+
+
+class TemporalBasisEarlyPoolEncoder(CalibrationEncoder):
+    """B3T: B3 with phi's raw ``Linear(trial_length -> hidden_dim)`` replaced by a FIXED
+    raised-cosine temporal basis projection followed by a small learned linear.
+
+    B3's ``pre_pool`` is one learned ``Linear(100 -> 64)`` applied per trial: 6,400 weight
+    parameters free to fit arbitrary per-timebin structure, including structure specific to
+    one training session's timing quirks. This encoder instead fixes phi's temporal filters to
+    a ``K=12`` raised-cosine basis tiling the trial -- registered as a non-persistent buffer,
+    not a learned ``nn.Parameter``, so it never appears in ``.parameters()``/the optimizer or
+    in the checkpoint's learned-weight SRAM -- and learns only a small ``Linear(12 -> 64)`` on
+    top of the resulting 12 basis coefficients (768 weight parameters). The basis restricts phi
+    to smooth temporal profiles: far more parameter-efficient than the raw projection, and
+    because it cannot memorize session-specific per-bin idiosyncrasies, hypothesized to
+    transfer better across sessions than B3's unconstrained projection
+    (E3_E4_ENCODER_PROGRAM.md section 2.1). Both stages stay on the session-rate calibration
+    path (ASIC_DEPLOYMENT_CHARTER.md section 3), so this trade is close to free in compute;
+    the parameter reduction matters for weight SRAM, not for the session-path MAC budget.
+    """
+
+    variant = "B3T"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        num_basis: int = 12,
+        num_post_layers: int = 3,
+    ) -> None:
+        super().__init__()
+        self.trial_length = trial_length
+        self.window_size = window_size
+        self.hidden_dim = hidden_dim
+        self.num_basis = num_basis
+        self.register_buffer(
+            "temporal_basis",
+            _raised_cosine_temporal_basis(trial_length, num_basis),
+            persistent=False,
+        )
+        self.basis_proj = nn.Linear(num_basis, hidden_dim)
+        self.post_pool = _build_affine_stack(hidden_dim, hidden_dim, num_post_layers, window_size)
+
+    def _apply_pre_pool(self, trial: torch.Tensor) -> torch.Tensor:
+        """``trial`` is ``[B, N, T]``; returns ``[B, N, hidden_dim]``."""
+        basis = self.temporal_basis.to(device=trial.device, dtype=trial.dtype)
+        basis_coeff = F.linear(trial, basis)  # [B,N,T] @ [K,T]^T -> [B,N,K], fixed weights
+        return F.relu(self.basis_proj(basis_coeff))
+
+    def reset_stream(self, batch_size: int, num_neurons: int, device: torch.device, dtype: torch.dtype) -> Dict[str, Any]:
+        return {"sum_feat": torch.zeros(batch_size, num_neurons, self.hidden_dim, device=device, dtype=dtype), "trial_count": 0}
+
+    def push_trial(self, state: Dict[str, Any], trial: torch.Tensor, trial_length: Optional[Union[int, torch.Tensor]] = None) -> Dict[str, Any]:
+        trial = _trial_to_batch_neurons_time(trial)
+        feat = self._apply_pre_pool(trial)
+        state["sum_feat"] = state["sum_feat"] + feat
+        state["trial_count"] += 1
+        return state
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before finalize_identity")
+        return self.post_pool(state["sum_feat"] / state["trial_count"])
+
+    def _support_state_bytes(self, num_neurons: int) -> int:
+        return num_neurons * self.hidden_dim * 4
+
+    def _trial_buffer_bytes(self, num_neurons: int, trial_length: int) -> int:
+        return trial_length * num_neurons * 4
+
+    def _mac_per_trial(self, num_neurons: int, trial_length: int) -> int:
+        basis_mac = num_neurons * trial_length * self.num_basis
+        proj_mac = num_neurons * self.num_basis * self.hidden_dim
+        return basis_mac + proj_mac
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        post = num_neurons * _affine_mac_per_vector(self.hidden_dim, self.post_pool)
+        return num_trials * self._mac_per_trial(num_neurons, trial_length) + post
+
+
+class TrialAttentionEarlyPoolEncoder(CalibrationEncoder):
+    """B3A: B3 with the mean-pool over the M calibration trials replaced by learned,
+    per-unit attention over the *trial* axis.
+
+    This is a different hypothesis from B15 and the two must never be conflated. B15 attends
+    across the *neuron* axis at a single pooled time point (cross-neuron relationships --
+    "does this unit's identity depend on other units' calibration statistics"); that evidence
+    was retracted 2026-07-25 (ROADMAP.md P2, ATTENTION_ARCHITECTURE_SCREEN.md). B3A attends
+    across the *trial* axis, independently per unit -- "which of this unit's M calibration
+    trials are more informative/reliable" -- and never mixes information across neurons at
+    all: every neuron's identity is computed purely from that neuron's own M trial features,
+    exactly as isolated as B3's per-neuron mean. A B3A result is not evidence about B15's
+    neuron-axis attention, or vice versa; later analyses must keep this distinction explicit
+    (E3_E4_ENCODER_PROGRAM.md section 2.2).
+
+    B3's ``push_trial`` incrementally accumulates ``sum_feat = sum_m phi(trial_m)`` and never
+    retains individual trials -- sufficient for a plain running mean, but the trial-attention
+    weights depend on all M trials jointly, so an O(1)-in-M running sum cannot support them.
+    This class instead keeps a per-trial feature list in its own state dict
+    (``state["trial_feats"]``) built up across ``push_trial`` calls. That is a local,
+    additive change to this one subclass's *state schema*; the abstract
+    ``reset_stream``/``push_trial``/``finalize_identity`` *signatures* every sibling encoder
+    depends on are untouched.
+    """
+
+    variant = "B3A"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        num_post_layers: int = 3,
+    ) -> None:
+        super().__init__()
+        self.trial_length = trial_length
+        self.window_size = window_size
+        self.hidden_dim = hidden_dim
+        self.pre_pool = nn.Sequential(nn.Linear(trial_length, hidden_dim), nn.ReLU())
+        # Per-unit scalar attention score for each trial's pooled feature vector, softmax-
+        # normalized over the trial axis in finalize_identity. Zero-initialized so every
+        # trial starts with an identical (zero) score -- softmax is then exactly uniform and
+        # finalize_identity reproduces B3's plain mean bit-for-bit at warm start (see
+        # test_b3a_zero_init_matches_b3_plain_mean); training is free to sharpen the
+        # distribution away from uniform from there.
+        self.trial_attn_score = nn.Linear(hidden_dim, 1)
+        self.post_pool = _build_affine_stack(hidden_dim, hidden_dim, num_post_layers, window_size)
+        nn.init.zeros_(self.trial_attn_score.weight)
+        nn.init.zeros_(self.trial_attn_score.bias)
+
+    def reset_stream(self, batch_size: int, num_neurons: int, device: torch.device, dtype: torch.dtype) -> Dict[str, Any]:
+        return {"trial_feats": [], "trial_count": 0}
+
+    def push_trial(self, state: Dict[str, Any], trial: torch.Tensor, trial_length: Optional[Union[int, torch.Tensor]] = None) -> Dict[str, Any]:
+        trial = _trial_to_batch_neurons_time(trial)
+        feat = self.pre_pool(trial)  # [B,N,D]
+        state["trial_feats"].append(feat)
+        state["trial_count"] += 1
+        return state
+
+    def _trial_attention_weights(self, state: Dict[str, Any]) -> torch.Tensor:
+        """``[B, M, N]`` softmax attention weights over the trial axis (per batch/unit)."""
+        stacked = torch.stack(state["trial_feats"], dim=1)  # [B,M,N,D]
+        scores = self.trial_attn_score(stacked).squeeze(-1)  # [B,M,N]
+        return torch.softmax(scores, dim=1)
+
+    def attention_weights(self, state: Dict[str, Any]) -> torch.Tensor:
+        """Public accessor for ``[B, M, N]`` trial attention weights (diagnostics/tests only;
+        finalize_identity recomputes these internally rather than calling this method)."""
+        return self._trial_attention_weights(state)
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before finalize_identity")
+        stacked = torch.stack(state["trial_feats"], dim=1)  # [B,M,N,D]
+        weights = self._trial_attention_weights(state)  # [B,M,N]
+        pooled = (stacked * weights.unsqueeze(-1)).sum(dim=1)  # [B,N,D]
+        return self.post_pool(pooled)
+
+    def _support_state_bytes(self, num_neurons: int) -> int:
+        # O(1)-in-M steady support (mirrors B3's running accumulator); the real O(M) retained-
+        # trial cost is added in cost_profile() below, where num_trials is in scope.
+        return num_neurons * self.hidden_dim * 4
+
+    def _trial_buffer_bytes(self, num_neurons: int, trial_length: int) -> int:
+        return trial_length * num_neurons * 4
+
+    def _mac_per_trial(self, num_neurons: int, trial_length: int) -> int:
+        return num_neurons * trial_length * self.hidden_dim
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        pre_pool_total = num_trials * self._mac_per_trial(num_neurons, trial_length)
+        attn_score = num_trials * num_neurons * self.hidden_dim  # Linear(D,1) per trial per neuron
+        post = num_neurons * _affine_mac_per_vector(self.hidden_dim, self.post_pool)
+        return pre_pool_total + attn_score + post
+
+    def cost_profile(self, num_neurons: int, trial_length: int, num_trials: int) -> EncoderCostProfile:
+        profile = super().cost_profile(num_neurons, trial_length, num_trials)
+        # Unlike every other encoder in this file, B3A cannot reduce M calibration trials to
+        # an O(1) running accumulator (the attention weights depend on all M trials jointly),
+        # so it must retain every trial's [N,D] pre_pool feature until finalize_identity: real
+        # O(M) live state. The shared _support_state_bytes(num_neurons)/_peak_live_state_bytes
+        # (num_neurons, trial_length) helpers have no num_trials argument -- every other
+        # encoder in this file is O(1) in M, so the base API never needed one -- so the O(M)
+        # correction is applied here instead, where num_trials is in scope, rather than by
+        # changing those shared helper signatures (which ~25 sibling encoders also use).
+        retained_trial_feats_bytes = num_trials * num_neurons * self.hidden_dim * 4
+        return replace(
+            profile,
+            support_state_bytes=retained_trial_feats_bytes,
+            peak_live_state_bytes=profile.trial_buffer_bytes + retained_trial_feats_bytes,
+        )
+
+
 class RelationalEarlyPoolEncoder(CalibrationEncoder):
     """B15: B3 + cross-neuron self-attention to model SUA split/merge relationships."""
     variant = "B15"
@@ -390,6 +989,100 @@ class RelationalEarlyPoolEncoder(CalibrationEncoder):
         attn_mac = num_neurons * num_neurons * self.hidden_dim * 3
         post = num_neurons * _affine_mac_per_vector(self.hidden_dim, self.post_pool)
         return num_trials * self._mac_per_trial(num_neurons, trial_length) + attn_mac + post
+
+
+class DiagonalRelationalEarlyPoolEncoder(RelationalEarlyPoolEncoder):
+    """B15D: B15 with an always-diagonal attention mask.
+
+    This preserves B15's QKV, output projection, residual, and LayerNorm while
+    forbidding every cross-neuron interaction during both training and inference.
+    """
+
+    variant = "B15D"
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before finalize_identity")
+        mean_feat = state["sum_feat"] / state["trial_count"]
+        num_neurons = mean_feat.shape[1]
+        attention_mask = torch.full(
+            (num_neurons, num_neurons),
+            float("-inf"),
+            device=mean_feat.device,
+            dtype=mean_feat.dtype,
+        )
+        attention_mask.fill_diagonal_(0.0)
+        attn_out, _ = self.cross_neuron_attn(
+            mean_feat,
+            mean_feat,
+            mean_feat,
+            attn_mask=attention_mask,
+            need_weights=False,
+        )
+        mean_feat = self.attn_norm(mean_feat + attn_out)
+        return self.post_pool(mean_feat)
+
+
+class PerNeuronResidualEarlyPoolEncoder(CalibrationEncoder):
+    """B15P: parameter-matched per-neuron residual control for B15.
+
+    The residual MLP has exactly the same parameter count as B15's
+    MultiheadAttention block for any hidden dimension.  It controls for extra
+    capacity, residual routing, and LayerNorm without exchanging information
+    between neurons.
+    """
+
+    variant = "B15P"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        num_post_layers: int = 3,
+    ) -> None:
+        super().__init__()
+        self.trial_length = trial_length
+        self.window_size = window_size
+        self.hidden_dim = hidden_dim
+        self.pre_pool = nn.Sequential(nn.Linear(trial_length, hidden_dim), nn.ReLU())
+        self.residual_in = nn.Linear(hidden_dim, 2 * hidden_dim)
+        self.residual_out = nn.Linear(2 * hidden_dim, hidden_dim)
+        self.layer_scale = nn.Parameter(torch.ones(hidden_dim))
+        self.attn_norm = nn.LayerNorm(hidden_dim)
+        self.post_pool = _build_affine_stack(hidden_dim, hidden_dim, num_post_layers, window_size)
+
+    def reset_stream(self, batch_size: int, num_neurons: int, device: torch.device, dtype: torch.dtype) -> Dict[str, Any]:
+        return {"sum_feat": torch.zeros(batch_size, num_neurons, self.hidden_dim, device=device, dtype=dtype), "trial_count": 0}
+
+    def push_trial(self, state: Dict[str, Any], trial: torch.Tensor, trial_length: Optional[Union[int, torch.Tensor]] = None) -> Dict[str, Any]:
+        trial = _trial_to_batch_neurons_time(trial)
+        feat = self.pre_pool(trial)
+        state["sum_feat"] = state["sum_feat"] + feat
+        state["trial_count"] += 1
+        return state
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before finalize_identity")
+        mean_feat = state["sum_feat"] / state["trial_count"]
+        residual = self.residual_out(F.gelu(self.residual_in(mean_feat)))
+        mean_feat = self.attn_norm(mean_feat + self.layer_scale * residual)
+        return self.post_pool(mean_feat)
+
+    def _support_state_bytes(self, num_neurons: int) -> int:
+        return num_neurons * self.hidden_dim * 4
+
+    def _trial_buffer_bytes(self, num_neurons: int, trial_length: int) -> int:
+        return trial_length * num_neurons * 4
+
+    def _mac_per_trial(self, num_neurons: int, trial_length: int) -> int:
+        return num_neurons * trial_length * self.hidden_dim
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        residual = num_neurons * 4 * self.hidden_dim * self.hidden_dim
+        post = num_neurons * _affine_mac_per_vector(self.hidden_dim, self.post_pool)
+        return num_trials * self._mac_per_trial(num_neurons, trial_length) + residual + post
 
 
 class HighOrderStatsEncoder(CalibrationEncoder):
@@ -2269,20 +2962,85 @@ def build_encoder(
     sparsity_k: int = 16,
     pad_value: float = -1.0,
     id_num_heads: int = 4,
+    side_dim: int = 0,
+    electrode_embed_dim: int = 0,
+    num_electrodes: int = 0,
 ) -> CalibrationEncoder:
     variant = variant.upper()
     if variant in {"B0", "BATCH"}:
         if teacher_fc_id_in is None or teacher_fc_id_out is None:
             raise ValueError("B0 requires teacher fc_id modules")
-        enc = BatchReferenceEncoder(teacher_fc_id_in, teacher_fc_id_out, window_size)
+        enc = BatchReferenceEncoder(
+            deepcopy(teacher_fc_id_in), deepcopy(teacher_fc_id_out), window_size
+        )
+        for parameter in enc.parameters():
+            parameter.requires_grad = True
     elif variant == "B1":
         if teacher_fc_id_in is None or teacher_fc_id_out is None:
             raise ValueError("B1 requires teacher fc_id modules")
-        enc = TrialStreamingEncoder(teacher_fc_id_in, teacher_fc_id_out, window_size)
+        enc = TrialStreamingEncoder(
+            deepcopy(teacher_fc_id_in), deepcopy(teacher_fc_id_out), window_size
+        )
+        for parameter in enc.parameters():
+            parameter.requires_grad = True
     elif variant == "B2":
         enc = LatePoolEncoder(trial_length, window_size, id_hidden_dim)
     elif variant == "B3":
         enc = EarlyPoolEncoder(trial_length, window_size, hidden_dim)
+    elif variant == "B3S":
+        enc = SideFeatureEarlyPoolEncoder(
+            trial_length,
+            window_size,
+            hidden_dim,
+            side_dim=side_dim,
+            electrode_embed_dim=electrode_embed_dim,
+            num_electrodes=num_electrodes,
+        )
+    elif variant == "B3T":
+        enc = TemporalBasisEarlyPoolEncoder(trial_length, window_size, hidden_dim)
+    elif variant == "B3A":
+        enc = TrialAttentionEarlyPoolEncoder(trial_length, window_size, hidden_dim)
+    elif variant == "B3SEG":
+        # Design D (docs/ELECTRODE_ANCHOR_DESIGNS.md): electrode_embed_dim must be 0 -- B3SEG's
+        # electrode mechanism is its own separately-parameterized gate on psi's OUTPUT, not the
+        # concat-at-input mechanism electrode_embed_dim controls on the B3S base class.
+        if electrode_embed_dim != 0:
+            raise ValueError(
+                f"B3SEG does not use electrode_embed_dim (concat mechanism); got {electrode_embed_dim}"
+            )
+        enc = ElectrodeGateEarlyPoolEncoder(
+            trial_length,
+            window_size,
+            hidden_dim,
+            side_dim=side_dim,
+            num_electrodes=num_electrodes,
+        )
+    elif variant == "B3SEA":
+        # Design C (docs/ELECTRODE_ANCHOR_DESIGNS.md): same electrode_embed_dim constraint as
+        # B3SEG above -- B3SEA's anchor table is additive on psi's OUTPUT, not a concat.
+        if electrode_embed_dim != 0:
+            raise ValueError(
+                f"B3SEA does not use electrode_embed_dim (concat mechanism); got {electrode_embed_dim}"
+            )
+        enc = ElectrodeAnchorEarlyPoolEncoder(
+            trial_length,
+            window_size,
+            hidden_dim,
+            side_dim=side_dim,
+            num_electrodes=num_electrodes,
+        )
+    elif variant == "B3SER":
+        if electrode_embed_dim != 0 or num_electrodes != 0:
+            raise ValueError("B3SER uses equality-only memberships, not an electrode embedding/table")
+        enc = SameElectrodeRelationEarlyPoolEncoder(
+            trial_length, window_size, hidden_dim, side_dim=side_dim, use_group_relation=True
+        )
+    elif variant == "B3SERN":
+        if electrode_embed_dim != 0 or num_electrodes != 0:
+            raise ValueError("B3SERN is a no-group MLP and uses no electrode table")
+        enc = SameElectrodeRelationEarlyPoolEncoder(
+            trial_length, window_size, hidden_dim, side_dim=side_dim, use_group_relation=False
+        )
     elif variant == "B4":
         enc = StatsStreamingEncoder(window_size, hidden_dim)
     elif variant == "B5":
@@ -2305,6 +3063,15 @@ def build_encoder(
         enc = EnsembleRandomHashEncoder(trial_length, window_size, hidden_dim=hidden_dim, sparsity_k=sparsity_k)
     elif variant == "B14":
         enc = TernarizedEarlyPoolEncoder(trial_length, window_size, hidden_dim=hidden_dim)
+    elif variant == "B15P":
+        enc = PerNeuronResidualEarlyPoolEncoder(trial_length, window_size, hidden_dim)
+    elif variant == "B15D":
+        enc = DiagonalRelationalEarlyPoolEncoder(
+            trial_length,
+            window_size,
+            hidden_dim,
+            num_heads=id_num_heads,
+        )
     elif variant == "B15":
         enc = RelationalEarlyPoolEncoder(trial_length, window_size, hidden_dim, num_heads=id_num_heads)
     elif variant == "B16":

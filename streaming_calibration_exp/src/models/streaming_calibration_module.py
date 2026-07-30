@@ -83,6 +83,15 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     neuron_dropout_block_size: int = 4,
     neuron_dropout_warmup_epochs: int = 10,
     support_prediction_consistency_weight: float = 0.0,
+    identity_mode: Literal["calibrated", "learned_prior"] = "calibrated",
+    fixed_slot_count: int = 0,
+    fixed_slot_dim: int = 32,
+    fixed_slot_mode: str = "soft",
+    fixed_slot_fusion: str = "film",
+    fixed_slot_temperature: float = 1.0,
+    side_dim: int = 0,
+    electrode_embed_dim: int = 0,
+    num_electrodes: int = 0,
   ) -> None:
     super().__init__()
     self.save_hyperparameters(ignore=["optimizer", "scheduler", "net"])
@@ -155,8 +164,22 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     self._support_prediction_consistency_weight = float(
       support_prediction_consistency_weight
     )
+    self._identity_mode = identity_mode
+    self._fixed_slot_count = int(fixed_slot_count)
+    self._fixed_slot_dim = int(fixed_slot_dim)
+    self._fixed_slot_mode = fixed_slot_mode
+    self._fixed_slot_fusion = fixed_slot_fusion
+    self._fixed_slot_temperature = float(fixed_slot_temperature)
+    self._side_dim = int(side_dim)
+    self._electrode_embed_dim = int(electrode_embed_dim)
+    self._num_electrodes = int(num_electrodes)
+    self.population_identity: nn.Parameter | None = None
     if self._support_prediction_consistency_weight < 0.0:
       raise ValueError("support_prediction_consistency_weight must be >= 0")
+    if self._fixed_slot_count < 0:
+      raise ValueError("fixed_slot_count must be >= 0")
+    if self._fixed_slot_count > 0 and self._fixed_slot_dim <= 0:
+      raise ValueError("fixed_slot_dim must be positive when fixed slots are enabled")
     self._neuron_dropout: NeuronDropoutStrategy | None = None
 
   @staticmethod
@@ -215,6 +238,9 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       learnable_ema_alpha=self._learnable_ema_alpha,
       sparsity_k=self._sparsity_k,
       pad_value=self._pad_value,
+      side_dim=self._side_dim,
+      electrode_embed_dim=self._electrode_embed_dim,
+      num_electrodes=self._num_electrodes,
     )
     copy_teacher_id_weights(id_encoder, self.teacher)
 
@@ -240,7 +266,25 @@ class StreamingCalibrationLitModule(pl.LightningModule):
         raise ValueError("tune_encoder_fusion currently requires a B16Z-family encoder")
       id_encoder.freeze_for_fusion_tuning()
 
-    self.student = StreamingSpintModel(decoder=decoder, id_encoder=id_encoder)
+    self.student = StreamingSpintModel(
+      decoder=decoder,
+      id_encoder=id_encoder,
+      fixed_slot_count=self._fixed_slot_count,
+      fixed_slot_dim=self._fixed_slot_dim,
+      fixed_slot_mode=self._fixed_slot_mode,
+      fixed_slot_fusion=self._fixed_slot_fusion,
+      fixed_slot_temperature=self._fixed_slot_temperature,
+    )
+    if self._identity_mode == "learned_prior":
+      for parameter in self.student.id_encoder.parameters():
+        parameter.requires_grad = False
+      if self._tune_encoder_fusion:
+        raise ValueError("learned_prior mode does not use encoder fusion tuning")
+      self.population_identity = nn.Parameter(
+        torch.zeros(1, 1, self._window_size, dtype=torch.float32)
+      )
+      if not isinstance(self.population_identity, nn.Parameter):
+        raise RuntimeError("population identity parameter failed to initialize")
     if self._freeze_decoder:
       self.student.freeze_decoder()
 
@@ -285,7 +329,14 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     return ((e_student - e_teacher) ** 2).mean() / denom
 
   def model_step(self, batch: Tuple[torch.Tensor, ...]) -> Dict[str, Any]:
-    neural, behavior_target, calib, session_name = batch
+    electrode_ids = None
+    if len(batch) == 6:
+      neural, behavior_target, calib, session_name, side_features, electrode_ids = batch
+    elif len(batch) == 5:
+      neural, behavior_target, calib, session_name, side_features = batch
+    else:
+      neural, behavior_target, calib, session_name = batch
+      side_features = None
     assert self.student is not None and self.teacher is not None
 
     dropout_mask = None
@@ -295,7 +346,14 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       calib = apply_mask_to_calib(calib, dropout_mask)
       neural = apply_mask_to_neural(neural, dropout_mask)
 
-    y_student, e_student = self.student(neural, calib_trials=calib)
+    if self._identity_mode == "learned_prior":
+      if self.population_identity is None:
+        raise RuntimeError("population_identity is not initialized")
+      y_student, e_student = self.student(neural, identity=self.population_identity)
+    else:
+      y_student, e_student = self.student(
+        neural, calib_trials=calib, side_features=side_features, electrode_ids=electrode_ids
+      )
     y_student, behavior_target = self._slice_last_timestep(y_student, behavior_target)
 
     loss = self.mse_loss(y_student, behavior_target)
@@ -306,7 +364,10 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     if compute_teacher_metrics:
       y_teacher, e_teacher = self._teacher_targets(neural, calib)
       pred_distill_mse = self.mse_loss(y_student, y_teacher)
-      identity_mse = masked_identity_mse(e_student, e_teacher, dropout_mask)
+      if self._identity_mode == "learned_prior":
+        identity_mse = torch.tensor(float("nan"), device=loss.device)
+      else:
+        identity_mse = masked_identity_mse(e_student, e_teacher, dropout_mask)
       if self.training:
         if self._loss_mode in {"task_plus_y", "task_plus_y_plus_E"}:
           loss = loss + self._lambda_y * pred_distill_mse
@@ -333,11 +394,27 @@ class StreamingCalibrationLitModule(pl.LightningModule):
         raise ValueError(
           "support prediction consistency currently requires neuron_dropout_mode=none"
         )
-      neural, _, calib, _ = batch
+      if len(batch) == 6:
+        neural, _, calib, _, side_features, electrode_ids = batch
+      elif len(batch) == 5:
+        neural, _, calib, _, side_features = batch
+        electrode_ids = None
+      else:
+        neural, _, calib, _ = batch
+        side_features = None
+        electrode_ids = None
       if neural.shape[0] > 1:
         assert self.student is not None
         alternate_calib = calib.roll(shifts=1, dims=0)
-        alternate_pred, _ = self.student(neural, calib_trials=alternate_calib)
+        if self._identity_mode == "learned_prior":
+          alternate_pred, _ = self.student(neural, identity=self.population_identity)
+        else:
+          student_kwargs = {"calib_trials": alternate_calib}
+          if side_features is not None:
+            student_kwargs["side_features"] = side_features
+          if electrode_ids is not None:
+            student_kwargs["electrode_ids"] = electrode_ids
+          alternate_pred, _ = self.student(neural, **student_kwargs)
         alternate_pred, _ = self._slice_last_timestep(
           alternate_pred, alternate_pred
         )
@@ -421,6 +498,8 @@ class StreamingCalibrationLitModule(pl.LightningModule):
 
   def configure_optimizers(self) -> Dict[str, Any]:
     assert self.student is not None
+    if self._identity_mode == "learned_prior" and self._tune_encoder_fusion:
+      raise ValueError("learned_prior mode is incompatible with tune_encoder_fusion")
     params: Any = list(self.student.trainable_encoder_parameters())
     if self._tune_encoder_fusion:
       base_lr = getattr(self._optimizer_factory, "keywords", {}).get("lr")
@@ -435,7 +514,11 @@ class StreamingCalibrationLitModule(pl.LightningModule):
         },
       ]
     if not self._freeze_decoder:
-      params = list(self.student.parameters())
+      params = [p for p in self.student.parameters() if p.requires_grad]
+    if self._identity_mode == "learned_prior":
+      if self.population_identity is None:
+        raise RuntimeError("learned_prior mode requires population_identity parameter")
+      params = list(params) + [self.population_identity]
     optimizer = self._optimizer_factory(params=params)
     if self._scheduler_factory is not None:
       scheduler = self._scheduler_factory(optimizer=optimizer)

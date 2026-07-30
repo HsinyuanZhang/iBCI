@@ -6,6 +6,7 @@ import hashlib
 import json
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -329,6 +330,55 @@ def ensure_run_dir(base_dir: Path | str, run_id: str) -> Path:
     return run_dir
 
 
+class RunDirectoryCollisionError(RuntimeError):
+    """Raised when a resolved run/checkpoint directory already holds training output.
+
+    M1 fix (sua_exploration/docs/CURRENT_RESULTS.md section H.4): two seeds of the same
+    MUA variant/fold once resolved to the same Hydra run directory because it was named
+    from a second-resolution timestamp alone, and two concurrent processes silently
+    commingled checkpoints and tfevents there. configs/hydra/default.yaml now makes
+    collisions astronomically unlikely by naming the directory after run_id/fold/seed and
+    a microsecond timestamp, but naming alone is probabilistic, not a guarantee -- Hydra
+    itself creates run directories with ``exist_ok=True`` before user code ever runs, so
+    a directory-naming fix cannot be enforced as a hard precondition from the outside.
+    ``assert_run_dir_is_fresh`` is the deterministic backstop: it is called at the very
+    start of training and raises instead of silently writing into (or reading stale
+    checkpoints from) a directory that already contains another run's output.
+    """
+
+
+def assert_run_dir_is_fresh(run_dir: Path | str) -> None:
+    """Hard-fail if ``run_dir`` already contains checkpoint or tfevents files.
+
+    Hydra (and train_variant_dandi688.py's own ``output_dir.mkdir``) always creates the
+    run directory with ``exist_ok=True`` and may already have written bookkeeping files
+    into it (job logs, ``.hydra/*.yaml``, ``hparams.yaml``, ``run_metadata.json``) before
+    this check runs -- those are expected and are not evidence of a collision. Only
+    ``*.ckpt`` files and TensorBoard ``*tfevents*`` files are treated as proof that a
+    previous or concurrent run already occupies this directory, matching the evidence
+    used to diagnose the M1 bug (Lightning `-v1` dedup-suffixed checkpoints and
+    interleaved tfevents streams from two PIDs in one directory).
+    """
+    run_dir = Path(run_dir)
+    if not run_dir.exists():
+        return
+    offending = sorted(
+        str(path) for path in run_dir.rglob("*")
+        if path.is_file() and (path.suffix == ".ckpt" or "tfevents" in path.name)
+    )
+    if not offending:
+        return
+    preview = offending[:5]
+    remainder = len(offending) - len(preview)
+    suffix = f" (+{remainder} more)" if remainder > 0 else ""
+    raise RunDirectoryCollisionError(
+        f"Refusing to reuse run directory {run_dir}: it already contains "
+        f"checkpoint/tfevents files from a previous or concurrent run: {preview}{suffix}. "
+        "Every (variant, fold, seed) launch must resolve to its own run directory; see "
+        "sua_exploration/docs/CURRENT_RESULTS.md section H.4."
+    )
+
+
 def write_resolved_config(run_dir: Path, cfg: DictConfig) -> None:
     OmegaConf.save(cfg, run_dir / "resolved_config.yaml")
 
@@ -336,7 +386,7 @@ def write_resolved_config(run_dir: Path, cfg: DictConfig) -> None:
 def write_environment(run_dir: Path) -> None:
     lines = [
         f"timestamp_utc={datetime.now(timezone.utc).isoformat()}",
-        f"python={subprocess.check_output(['python', '--version'], text=True).strip()}",
+        f"python={subprocess.check_output([sys.executable, '--version'], text=True).strip()}",
     ]
     try:
         import torch
@@ -397,6 +447,12 @@ def write_run_metadata(
         "best_epoch": extract_best_epoch(checkpoint_manifest),
         "artifact_dir": str(artifact_root.resolve()),
         "exported_at_utc": datetime.now(timezone.utc).isoformat(),
+        # M2 fixed-epoch-budget provenance (sua_exploration/docs/CURRENT_RESULTS.md
+        # section H.2): record whether early stopping was disabled for this run and the
+        # configured epoch ceiling, so downstream comparisons can tell whether every
+        # variant actually trained the same number of epochs.
+        "no_early_stopping": bool(cfg.get("no_early_stopping", False)),
+        "max_epochs": cfg.trainer.get("max_epochs") if hasattr(cfg, "trainer") else None,
     }
     (run_dir / "run_metadata.json").write_text(json.dumps(payload, indent=2) + "\n")
 

@@ -6,10 +6,25 @@ defaults:
   - override job_logging: colorlog
 
 # output directory, generated dynamically on each run
+#
+# M1 fix (sua_exploration/docs/CURRENT_RESULTS.md section H.4; ROADMAP.md section M):
+# the previous template was `${now:%Y-%m-%d-%H-%M-%S}` alone -- second resolution, no
+# run identity. Two processes launched within the same wall-clock second (e.g. two
+# seeds of the same variant/fold dispatched to two GPUs by
+# sua_exploration/scripts/run_attention_architecture_screen.sh) resolved to the exact
+# same directory and silently commingled checkpoints and tfevents from two PIDs, so
+# Lightning's `-v1` dedup-suffixed files could no longer be attributed to a seed. The
+# directory name now also carries run_id/loso_fold/seed -- the same ingredients
+# src.metrics.run_artifacts.make_run_id() already uses for the artifact directory -- plus
+# a microsecond-resolution timestamp. src/train.py additionally hard-asserts at startup
+# (assert_run_dir_is_fresh) that a freshly resolved run directory contains no
+# checkpoints/tfevents yet, so any residual collision aborts loudly instead of reusing
+# the directory. data.loso_fold is read defensively via oc.select because non-LOSO data
+# configs do not all define it.
 run:
-  dir: ${paths.log_dir}/${task_name}/runs/${now:%Y-%m-%d-%H-%M-%S}
+  dir: ${paths.log_dir}/${task_name}/runs/${now:%Y-%m-%d-%H-%M-%S-%f}_rid-${run_id}_f${oc.select:data.loso_fold,null}_s${seed}
 sweep:
-  dir: ${paths.log_dir}/${task_name}/multiruns/${now:%Y-%m-%d-%H-%M-%S}
+  dir: ${paths.log_dir}/${task_name}/multiruns/${now:%Y-%m-%d-%H-%M-%S-%f}_rid-${run_id}_s${seed}
   subdir: ${hydra.job.num}
 
 job_logging:

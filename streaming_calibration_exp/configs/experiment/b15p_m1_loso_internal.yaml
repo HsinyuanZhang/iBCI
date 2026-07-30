@@ -1,0 +1,28 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b15p_m1
+  - override /data: falcon_m1
+
+run_id: b15p_m1_loso_internal
+tags: ["b15p", "m1", "loso", "internal-selection", "per-neuron-control"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 0
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 20
+
+callbacks:
+  early_stopping:
+    patience: 5

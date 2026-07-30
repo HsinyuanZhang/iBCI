@@ -1,0 +1,6 @@
+defaults:
+  - _streaming_base_m1
+
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+variant: B15P
+hidden_dim: 64

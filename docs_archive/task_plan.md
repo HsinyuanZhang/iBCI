@@ -1,6 +1,6 @@
 # Task Plan — 历史 ASIC 审计
 
-> 本文件记录较早的 few-shot ASIC 分析任务，不是当前项目总计划。当前主线计划见 [`sua_exploration/ROADMAP.md`](sua_exploration/ROADMAP.md)。
+> 本文件记录较早的 few-shot ASIC 分析任务，不是当前项目总计划。当前主线计划见 [`sua_exploration/ROADMAP.md`](../sua_exploration/ROADMAP.md)。
 
 ## Goal
 Analyze the repository's few-shot learning path at tensor/operator level and assess a research ASIC deployment architecture with explicit compute, memory, bandwidth, precision, and validation requirements.

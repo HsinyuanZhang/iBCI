@@ -64,7 +64,8 @@ def relu(x: np.ndarray) -> np.ndarray:
 class B3Weights:
     pre_w: np.ndarray  # [D, T]
     pre_b: np.ndarray  # [D]
-    post0_w: np.ndarray  # [D, D]
+    # B3: [D, D].  B3S/T4: [D, D + side_dim].
+    post0_w: np.ndarray
     post0_b: np.ndarray  # [D]
     post1_w: np.ndarray  # [D, D]
     post1_b: np.ndarray  # [D]
@@ -99,8 +100,15 @@ def random_calib(shapes: B3Shapes, rng: np.random.Generator) -> np.ndarray:
 def forward_b3_layered(
     calib: np.ndarray,
     weights: B3Weights,
+    side_features: np.ndarray | None = None,
 ) -> Dict[str, np.ndarray]:
-    """calib: [M, T, N]. Returns named stages for HW compare."""
+    """calib: [M, T, N]. Returns named stages for HW compare.
+
+    ``side_features`` extends the same golden to B3S/T4.  It is a per-unit
+    matrix ``[N, side_dim]`` concatenated to the pooled activity immediately
+    before ``post0``.  Plain B3 remains byte-for-byte compatible when it is
+    omitted.
+    """
     if calib.ndim != 3:
         raise ValueError(f"calib must be [M,T,N], got {calib.shape}")
     M, T, N = calib.shape
@@ -123,7 +131,28 @@ def forward_b3_layered(
             feat_trials[m, n] = pre_act
 
     sum_feat = feat_trials.sum(axis=0)  # [N, D]
-    mean_feat = sum_feat / float(M)
+    pooled_mean_feat = sum_feat / float(M)
+    post0_in_features = int(weights.post0_w.shape[1])
+    required_side_dim = post0_in_features - D
+    if required_side_dim < 0:
+        raise ValueError(
+            f"post0_w in_features {post0_in_features} is smaller than pooled D={D}"
+        )
+    if required_side_dim == 0:
+        if side_features is not None and side_features.shape[-1] != 0:
+            raise ValueError("Plain B3 weights do not accept non-empty side_features")
+        mean_feat = pooled_mean_feat
+    else:
+        if side_features is None:
+            raise ValueError(
+                f"post0_w requires side_dim={required_side_dim}, but side_features is missing"
+            )
+        side_features = np.asarray(side_features, dtype=np.float32)
+        if side_features.shape != (N, required_side_dim):
+            raise ValueError(
+                f"side_features must be {(N, required_side_dim)}, got {side_features.shape}"
+            )
+        mean_feat = np.concatenate([pooled_mean_feat, side_features], axis=-1)
 
     post0_lin = linear(mean_feat, weights.post0_w, weights.post0_b)
     post0_act = relu(post0_lin)
@@ -145,7 +174,13 @@ def forward_b3_layered(
         "feat": feat_trials.astype(np.float32),  # [M, N, D]  (== pre_relu)
         "sum_after_trial": sum_after.astype(np.float32),  # [M, N, D]
         "sum_feat": sum_feat.astype(np.float32),  # [N, D]
-        "mean_feat": mean_feat.astype(np.float32),  # [N, D]
+        "pooled_mean_feat": pooled_mean_feat.astype(np.float32),  # [N, D]
+        "side_features": (
+            np.empty((N, 0), dtype=np.float32)
+            if side_features is None
+            else side_features.astype(np.float32)
+        ),
+        "mean_feat": mean_feat.astype(np.float32),  # post0 input [N, D(+S)]
         "post0_linear": post0_lin.astype(np.float32),
         "post0_relu": post0_act.astype(np.float32),
         "post1_linear": post1_lin.astype(np.float32),
@@ -162,7 +197,11 @@ def forward_b3_layered(
     }
 
 
-def streaming_forward_matches_batch(calib: np.ndarray, weights: B3Weights) -> np.ndarray:
+def streaming_forward_matches_batch(
+    calib: np.ndarray,
+    weights: B3Weights,
+    side_features: np.ndarray | None = None,
+) -> np.ndarray:
     """Explicit push_trial / finalize path; returns E[N,W]."""
     M, T, N = calib.shape
     D = weights.pre_w.shape[0]
@@ -172,6 +211,15 @@ def streaming_forward_matches_batch(calib: np.ndarray, weights: B3Weights) -> np
             x = calib[m, :, n]
             sum_feat[n] += relu(linear(x, weights.pre_w, weights.pre_b))
     mean_feat = sum_feat / float(M)
+    required_side_dim = int(weights.post0_w.shape[1]) - D
+    if required_side_dim:
+        if side_features is None or side_features.shape != (N, required_side_dim):
+            raise ValueError(
+                f"side_features must be {(N, required_side_dim)} for streaming B3S"
+            )
+        mean_feat = np.concatenate(
+            [mean_feat, np.asarray(side_features, dtype=np.float32)], axis=-1
+        )
     h = relu(linear(mean_feat, weights.post0_w, weights.post0_b))
     h = relu(linear(h, weights.post1_w, weights.post1_b))
     return linear(h, weights.post2_w, weights.post2_b)

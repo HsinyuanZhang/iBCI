@@ -1,4 +1,6 @@
-# Local agent and editor state
+# ---------------------------------------------------------------------------
+# Local agent, IDE, and operating-system state
+# ---------------------------------------------------------------------------
 .agents/
 .codex/
 .planning/
@@ -6,24 +8,45 @@
 .idea/
 .vscode/
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
 
-# Python caches and local environments
+# ---------------------------------------------------------------------------
+# Python environments, caches, coverage, and build products
+# ---------------------------------------------------------------------------
 **/__pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
 .hydra/
 .venv/
 venv/
+build/
+dist/
 
+# ---------------------------------------------------------------------------
 # Secrets and machine-local configuration
+# ---------------------------------------------------------------------------
 .env
 .env.*
 !.env.example
 
-# Raw neural data, checkpoints, and packaged models
+# ---------------------------------------------------------------------------
+# Raw neural data and learned/model artifacts
+#
+# Source code, small JSON manifests, and human-readable specifications belong
+# in Git. Raw datasets, checkpoints, exported weights, and packaged models do
+# not. A release that intentionally needs one of these artifacts should use a
+# separate artifact store and record its SHA-256 in a tracked manifest.
+# ---------------------------------------------------------------------------
 *.nwb
 *.ckpt
 *.pt
@@ -31,21 +54,48 @@ venv/
 *.pkl
 *.onnx
 *.pdf
+*.zip
+*.h5
+*.hdf5
+*.npz
+*.npy
 
-# Large or reproducible experiment artifacts
+# ---------------------------------------------------------------------------
+# Repository-local datasets
+# ---------------------------------------------------------------------------
 SPINT-main/data/*
 !SPINT-main/data/.gitkeep
 SPINT-main/local_data/
-SPINT-main/logs/*
-!SPINT-main/logs/.gitkeep
 sua_exploration/data/
 sua_exploration/checkpoints/
+
+# ---------------------------------------------------------------------------
+# Runtime logs, caches, experiment outputs, and generated result artifacts
+#
+# `sua_exploration/results/` contains multi-GB logs and continuously changing
+# artifacts. Scientific conclusions and protocol decisions are tracked in
+# `sua_exploration/docs/`; authoritative local result files are referenced by
+# path and hash there but are not mirrored through GitHub.
+# ---------------------------------------------------------------------------
+SPINT-main/logs/*
+!SPINT-main/logs/.gitkeep
+sua_exploration/cache/
+sua_exploration/results/
+sua_exploration/logs/
+sua_exploration/outputs/
 streaming_calibration_exp/logs/
 streaming_calibration_exp/outputs/
+streaming_calibration_exp/hw_b3/runs/
 software-to-hardware/runs/*
 !software-to-hardware/runs/.gitkeep
+planB_tempconv/outputs/
 
-# Runtime output
+# RTL/golden tools are tracked; their generated vectors and DUT dumps are not.
+rtl_handoff/golden/runs/
+rtl_handoff/golden/vectors/
+rtl_handoff/golden/dut/
+
+# Generic framework runtime directories.
 lightning_logs/
 wandb/
 *.log

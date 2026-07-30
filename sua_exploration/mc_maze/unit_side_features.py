@@ -1,0 +1,1097 @@
+"""Per-unit side features for DANDI 000688 SUA: calibration-pool spike waveforms (F1/F2)
+and calibration-pool directional tuning (T4/T8, E3_E4_ENCODER_PROGRAM.md section 1)."""
+from __future__ import annotations
+
+import hashlib
+import json
+import logging
+import math
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Sequence
+
+import fcntl
+import h5py
+import numpy as np
+from pynwb import NWBHDF5IO
+
+from mc_maze.multisession_datamodule import (
+    _cache_key,
+    _exclusive_cache_lock,
+    _source_fingerprint,
+    _write_npz_atomically,
+    calibration_pool_end_time,
+    electrode_ids_from_units,
+    list_datamodule_rewarded_trials,
+    session_name_from_path,
+)
+
+logger = logging.getLogger(__name__)
+
+# Existing SUA cache keys deliberately retain version 1/payload compatibility.
+# Pseudo-MUA adds its own signal-view and electrode-mapping fields below, so it
+# can never collide with a sorted-unit entry without forcing a SUA cache churn.
+FEATURE_VERSION = 1
+WAVEFORM_SAMPLES = 48
+REPOL_WINDOW = 10
+NOISE_STD_EPS = 1e-6
+TEMPLATE_MAX_EPS = 1e-6
+TRAIN_CLIP_QUANTILES = (0.01, 0.99)
+
+FEATURE_GROUPS: dict[str, tuple[str, ...]] = {
+    "f1": ("p2p", "noise_std", "snr"),
+    "f2": ("p2p", "noise_std", "snr", "pt_width", "pt_ratio", "repol_slope"),
+}
+
+# E3 directional tuning features (E3_E4_ENCODER_PROGRAM.md section 1.2): computed from the
+# calibration-pool trials' per-direction mean firing rates, not from waveforms, so they are
+# kept in a separate registry from FEATURE_GROUPS above (whose values are the scalar-name
+# tuples consumed by _scalar_features_from_template -- a waveform-specific mechanism that
+# does not apply here). "t4" is the cosine-tuning fit [m*cos(phi), m*sin(phi), m, b]; "t8" is
+# the raw per-direction mean-rate vector. Both use the same fixed canonical direction order
+# (CANONICAL_DIRECTIONS_RAD below) so column k means the same physical direction in every
+# session.
+TUNING_NUM_DIRECTIONS = 8
+# Fixed, session-independent center-out target directions (radians), ascending, matching the
+# (-pi, pi] convention numpy's arctan2 and this dataset's target_dir column both use (verified
+# 2026-07-25 against sub-C ses-CO-20151103: observed unique target_dir values are exactly
+# these 8, 45 degrees apart). This order is the canonical t8 column order for every session --
+# it is derived from the fixed task geometry, never fit per session, so it cannot drift.
+CANONICAL_DIRECTIONS_RAD: tuple[float, ...] = tuple(
+    -3.0 * math.pi / 4.0 + k * (math.pi / 4.0) for k in range(TUNING_NUM_DIRECTIONS)
+)
+TUNING_FEATURE_NAMES: dict[str, tuple[str, ...]] = {
+    "t4": ("m_cos_phi", "m_sin_phi", "m", "b"),
+    "t8": tuple(f"dir_{k}" for k in range(TUNING_NUM_DIRECTIONS)),
+}
+# Modulation depth m = hypot(a, c) below which a unit's cosine tuning fit is treated as flat
+# (no detectable direction preference). Rates are in Hz; this mirrors the NOISE_STD_EPS /
+# TEMPLATE_MAX_EPS "numerically zero" convention already used for the waveform features above
+# rather than a fraction of firing rate, since m=0 is a meaningful, not just numerically
+# fragile, degenerate value here (a genuinely untuned unit).
+MODULATION_EPS = 1e-6
+
+SIDE_FEATURE_DIMS: dict[str, int] = {
+    "none": 0,
+    "f1": 3,
+    "f2": 6,
+    "f3": 6,
+    "fs1": 3,
+    "fs2": 6,
+    "fs3": 6,
+    "t4": 4,
+    "t8": 8,
+    "ts4": 4,
+    "ts8": 8,
+    # T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md). All three reuse T4's
+    # own 4-dim cosine-tuning fit as the continuous side_dim concatenated at the psi input;
+    # none of them widen that concat beyond T4 except "t4e" (design A), whose extra 8 dims
+    # come from ELECTRODE_EMBED_DIM via uses_electrode_embedding()/post_pool_side_dim() below,
+    # not from this table.
+    "t4e": 4,
+    "t4e_shuffled": 4,
+    "t4gate": 4,
+    "t4gate_shuffled": 4,
+    "t4anchor": 4,
+    "t4anchor_shuffled": 4,
+    # Stage-0 same-electrode relation. These retain the already-validated T4
+    # values; the new content is equality-based membership, not an absolute
+    # electrode lookup or a retry of waveform/SNR concat.
+    "t4rel": 4,
+    "t4rel_membership_shuffled": 4,
+    "t4rel_nogroup": 4,
+}
+
+# Learned electrode-index embedding width for F3 (UNIT_SIDE_FEATURE_ABLATION.md section 6)
+# and for design A ("t4e", docs/ELECTRODE_ANCHOR_DESIGNS.md).
+ELECTRODE_EMBED_DIM = 8
+
+# Every feature-group token this module knows how to compute (real groups only; shuffled
+# controls resolve to one of these via base_feature_group before compute_unit_side_features_
+# uncached / fit_side_feature_stats / load_unit_side_features ever see them). Used for the
+# "is this a known feature_group" validity checks below instead of FEATURE_GROUPS alone,
+# since FEATURE_GROUPS is deliberately waveform-only (see TUNING_FEATURE_NAMES above).
+# t4e/t4gate/t4anchor are NOT added here: base_feature_group() resolves all three straight to
+# "t4" (already a KNOWN_FEATURE_GROUPS member via TUNING_FEATURE_NAMES), exactly the same
+# indirection "f3" uses to reach "f2" -- see the "f3" test in test_side_feature_encoder.py's
+# test_known_feature_groups_covers_waveform_and_tuning_real_groups, which asserts fs1/fs3/ts4
+# (any group that only ever appears post-resolution) are absent from this set.
+KNOWN_FEATURE_GROUPS: frozenset[str] = (
+    frozenset(FEATURE_GROUPS) | frozenset(TUNING_FEATURE_NAMES) | frozenset({"f3"})
+)
+
+# Dimension-matched shuffled controls (UNIT_SIDE_FEATURE_ABLATION.md section 6, revised
+# 2026-07-25): FS1 permutes the same 3-dim F1 feature set along the unit axis; FS2 permutes
+# the same 6-dim F2 feature set. The original single 6-dim "fs" compared a 3-dim F1 against
+# a 6-dim control -- i.e. two different post_pool architectures (fan_in 67 vs 70) whose RNG
+# streams diverge from the first layer on -- which the charter now documents as a defect
+# (F1-FS confounded side_dim with feature content). Every content gate must only ever
+# compare a feature group against its own dimension-matched control. TS4/TS8 extend the same
+# pattern to the E3 tuning features (E3_E4_ENCODER_PROGRAM.md section 1.2): TS4 permutes T4
+# along the unit axis, TS8 permutes T8. t4e_shuffled/t4gate_shuffled/t4anchor_shuffled extend
+# it again to the T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md): each
+# permutes only the ELECTRODE ID assignment along the unit axis (never the T4 tuning values,
+# which stay correctly attached to their real unit) -- the same electrode-shuffle pattern FS3
+# established, not the feature-shuffle pattern FS1/FS2/TS4/TS8 use. See
+# is_electrode_shuffle_control below.
+SHUFFLED_CONTROL_BASE_FEATURE_GROUP: dict[str, str] = {
+    "fs1": "f1",
+    "fs2": "f2",
+    "fs3": "f3",
+    "ts4": "t4",
+    "ts8": "t8",
+    "t4e_shuffled": "t4e",
+    "t4gate_shuffled": "t4gate",
+    "t4anchor_shuffled": "t4anchor",
+    "t4rel_membership_shuffled": "t4rel",
+}
+
+# Group tokens whose electrode mechanism is a learned CONCAT embedding at the psi input (F3's
+# mechanism, reused unchanged by design A / "t4e"). Narrower than uses_electrode_ids() below:
+# this set gates post_pool_side_dim()'s +ELECTRODE_EMBED_DIM and train_variant_dandi688.py's
+# electrode_embed_dim -- i.e. "does the SideFeatureEarlyPoolEncoder base class itself need to
+# build an nn.Embedding and widen post_pool's input". Design D/C ("t4gate"/"t4anchor") do NOT
+# belong here: they apply their own, separately-parameterized electrode mechanism to psi's
+# OUTPUT (see ElectrodeGateEarlyPoolEncoder/ElectrodeAnchorEarlyPoolEncoder in
+# streaming_encoders.py), not a concat at its input, so they must not also widen post_pool.
+_ELECTRODE_EMBED_CONCAT_GROUPS: frozenset[str] = frozenset({"f3", "fs3", "t4e", "t4e_shuffled"})
+
+# Group tokens that need per-unit electrode ids attached to the dataset at all (superset of
+# _ELECTRODE_EMBED_CONCAT_GROUPS above): every T4-substrate electrode design (A/D/C) and F3/FS3
+# need electrode_ids loaded and num_electrodes computed, regardless of which mechanism (concat
+# embedding, multiplicative gate, or additive anchor) actually consumes them downstream. This
+# is the gate multisession_datamodule.py / eval_adaptation_dandi688.py / train_variant_dandi688.py
+# (the num_electrodes branch) must use; uses_electrode_embedding() remains the narrower gate for
+# the concat-specific wiring described above.
+_ELECTRODE_ID_GROUPS: frozenset[str] = _ELECTRODE_EMBED_CONCAT_GROUPS | frozenset(
+    {"t4gate", "t4gate_shuffled", "t4anchor", "t4anchor_shuffled",
+     "t4rel", "t4rel_membership_shuffled"}
+)
+
+# Electrode-shuffle (not feature-shuffle) controls: permute electrode id assignment only.
+_ELECTRODE_SHUFFLE_CONTROLS: frozenset[str] = frozenset(
+    {"fs3", "t4e_shuffled", "t4gate_shuffled", "t4anchor_shuffled",
+     "t4rel_membership_shuffled"}
+)
+
+
+def is_shuffled_control(side_feature_group: str) -> bool:
+    """True for permuted-control tokens (fs1, fs2, fs3, ts4, ts8, t4e_shuffled,
+    t4gate_shuffled, t4anchor_shuffled)."""
+    return side_feature_group in SHUFFLED_CONTROL_BASE_FEATURE_GROUP
+
+
+def uses_electrode_embedding(side_feature_group: str) -> bool:
+    """True when the encoder must build a learned electrode-index CONCAT embedding at the
+    psi input (F3's mechanism: f3/fs3, and design A's t4e/t4e_shuffled). False for design
+    D/C (t4gate/t4anchor and their shuffled controls), whose electrode mechanism is NOT a
+    concat -- see uses_electrode_ids() for the broader "needs electrode ids at all" gate
+    those designs (and this function's own groups) share.
+    """
+    return side_feature_group in _ELECTRODE_EMBED_CONCAT_GROUPS
+
+
+def uses_electrode_ids(side_feature_group: str) -> bool:
+    """True when per-unit electrode ids (and num_electrodes) must be attached/computed at
+    all, regardless of mechanism: F3/FS3 and every T4-substrate electrode design (A: t4e /
+    D: t4gate / C: t4anchor, plus their shuffled controls). Superset of
+    uses_electrode_embedding(); data-loading call sites (multisession_datamodule.py,
+    eval_adaptation_dandi688.py, train_variant_dandi688.py's num_electrodes branch) must use
+    this, not the narrower uses_electrode_embedding(), or D/C's own electrode tables would
+    never receive electrode ids / a correctly-sized vocabulary.
+    """
+    return side_feature_group in _ELECTRODE_ID_GROUPS
+
+
+def is_electrode_shuffle_control(side_feature_group: str) -> bool:
+    """True for FS3 and the T4-substrate electrode shuffled controls (t4e_shuffled,
+    t4gate_shuffled, t4anchor_shuffled): permute electrode ids along the unit axis, never
+    the continuous feature values (waveform scalars or T4 tuning) themselves."""
+    return side_feature_group in _ELECTRODE_SHUFFLE_CONTROLS
+
+
+def uses_electrode_relation_membership(side_feature_group: str) -> bool:
+    """True for Stage-0 equality-only same-electrode relation tokens.
+
+    Unlike ``uses_electrode_ids``, this does not authorize an absolute-ID table:
+    callers may use IDs solely for equality-based segmented groups.  In
+    pseudo-MUA view each physical channel is necessarily a singleton group.
+    """
+    return side_feature_group in {"t4rel", "t4rel_membership_shuffled"}
+
+
+def is_feature_shuffle_control(side_feature_group: str) -> bool:
+    """True when continuous side features are permuted along the unit axis (fs1/fs2/ts4/ts8)."""
+    return is_shuffled_control(side_feature_group) and not is_electrode_shuffle_control(
+        side_feature_group
+    )
+
+
+def base_feature_group(side_feature_group: str) -> str:
+    """The waveform/tuning registry key to compute and z-score for ``side_feature_group``.
+
+    Identity for "f1"/"f2"/"t4"/"t8" (and for anything else, e.g. "none"); resolves shuffled
+    controls to the real feature set they permute ("fs1" -> "f1", "fs2" -> "f2"). F3/FS3
+    reuse the F2 waveform scalars; only the electrode assignment (and FS3's permutation of
+    it) differs. The T4-substrate electrode designs (t4e/t4gate/t4anchor and their shuffled
+    controls, docs/ELECTRODE_ANCHOR_DESIGNS.md) all resolve to "t4" the same way -- every one
+    of them reuses T4's own cosine-tuning fit unchanged; only the electrode mechanism differs
+    between them.
+    """
+    group = SHUFFLED_CONTROL_BASE_FEATURE_GROUP.get(side_feature_group, side_feature_group)
+    if group == "f3":
+        return "f2"
+    if group in {"t4e", "t4gate", "t4anchor", "t4rel", "t4rel_nogroup"}:
+        return "t4"
+    return group
+
+
+def post_pool_side_dim(side_feature_group: str) -> int:
+    """Total width concat to pooled hidden features before ``post_pool`` (continuous + embed).
+
+    Only meaningful for groups whose electrode mechanism IS a concat embedding
+    (uses_electrode_embedding()); design D/C add ELECTRODE_EMBED_DIM to nothing -- their
+    electrode tables are separate parameters applied to psi's OUTPUT, not extra post_pool
+    input columns, so this function correctly returns just SIDE_FEATURE_DIMS for them (4, T4's
+    own width) rather than double-counting an embedding they do not concatenate.
+    """
+    dim = SIDE_FEATURE_DIMS.get(side_feature_group, 0)
+    if uses_electrode_embedding(side_feature_group):
+        return dim + ELECTRODE_EMBED_DIM
+    return dim
+
+
+@dataclass(frozen=True)
+class SideFeatureMetadata:
+    feature_group: str
+    feature_version: int
+    pool_size: int
+    cache_key: str
+    degenerate_unit_count: int
+    zero_spike_unit_count: int
+    single_spike_unit_count: int
+    zero_noise_std_unit_count: int
+    zero_template_max_unit_count: int
+    # E3 tuning-only degenerate reasons (0 for waveform feature groups f1/f2). Defaulted so
+    # every existing keyword-argument call site (all of which predate these fields) keeps
+    # working unchanged.
+    zero_modulation_unit_count: int = 0
+    insufficient_direction_unit_count: int = 0
+
+
+def _pool_context_key(
+    *,
+    bin_size_ms: int,
+    window_size: int,
+    trial_result_filter: str,
+) -> dict[str, int | str]:
+    return {
+        "bin_size_ms": bin_size_ms,
+        "window_size": window_size,
+        "trial_result_filter": trial_result_filter,
+    }
+
+
+def _validate_signal_view(signal_view: str) -> None:
+    if signal_view not in {"sua", "pseudo_mua"}:
+        raise ValueError(
+            "signal_view must be one of {'sua', 'pseudo_mua'}; "
+            f"got {signal_view!r}"
+        )
+
+
+def _electrode_mapping_fingerprint(nwb_path: Path) -> str:
+    """Stable hash of the sorted-unit -> NWB-electrode mapping for cache identity.
+
+    A source-file fingerprint is normally sufficient, but this explicit mapping
+    component documents and enforces the semantic dependency of pseudo-MUA T4:
+    changing which sorted units belong to an electrode must never reuse the old
+    channel-level tuning matrix or train normalization statistics.
+    """
+    with NWBHDF5IO(str(nwb_path), "r") as io:
+        nwb = io.read()
+        if nwb.units is None:
+            raise ValueError(f"NWB file has no units table: {nwb_path}")
+        electrode_ids = electrode_ids_from_units(nwb.units.to_dataframe())
+    return hashlib.sha256(electrode_ids.tobytes()).hexdigest()
+
+
+def pool_trial_rates_by_electrode(
+    trial_rates: np.ndarray,
+    electrode_ids: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Sum per-sorted-unit trial rates into deterministic electrode channels.
+
+    ``trial_rates`` has shape ``[units, trials]``.  Rates may be summed because
+    every unit's count is divided by the same trial duration.  This is purposely
+    not an average of fitted/unit T4 rows: the aggregate channel rate for every
+    pool trial is formed first, and the existing directional cosine fit then sees
+    exactly the pseudo-MUA signal presented to the model.
+    """
+    if trial_rates.ndim != 2:
+        raise ValueError(f"Expected trial rates [units, trials], got {trial_rates.shape}")
+    if electrode_ids.ndim != 1 or electrode_ids.shape[0] != trial_rates.shape[0]:
+        raise ValueError(
+            "electrode_ids must contain exactly one value per unit; got "
+            f"{electrode_ids.shape} for {trial_rates.shape[0]} units"
+        )
+    channel_ids, inverse = np.unique(electrode_ids, return_inverse=True)
+    pooled = np.zeros((channel_ids.size, trial_rates.shape[1]), dtype=np.float64)
+    np.add.at(pooled, inverse, trial_rates)
+    return pooled, channel_ids
+
+
+def permute_side_feature_rows(features: np.ndarray, *, permutation_seed: int) -> np.ndarray:
+    """Deterministically permute only the channel/unit axis of a side matrix."""
+    if features.ndim != 2:
+        raise ValueError(f"Expected side features [rows, dims], got {features.shape}")
+    generator = np.random.RandomState(permutation_seed)
+    return features[generator.permutation(features.shape[0])]
+
+
+def _side_stats_cache_path(
+    cache_dir: Path,
+    train_files: Sequence[Path],
+    *,
+    feature_group: str,
+    pool_size: int,
+    bin_size_ms: int,
+    window_size: int,
+    trial_result_filter: str,
+    signal_view: str = "sua",
+) -> Path:
+    payload = {
+        "cache_format_version": FEATURE_VERSION,
+        "kind": "side_feature_stats",
+        "feature_group": feature_group,
+        "pool_size": pool_size,
+        **_pool_context_key(
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+        ),
+        "train_sources": [_source_fingerprint(path) for path in train_files],
+    }
+    if signal_view == "pseudo_mua":
+        payload["signal_view"] = signal_view
+        payload["train_electrode_mappings"] = [
+            _electrode_mapping_fingerprint(path) for path in train_files
+        ]
+    return cache_dir / "side_feature_stats" / f"{_cache_key(payload)[:20]}.npz"
+
+
+def _side_feature_cache_path(
+    cache_dir: Path,
+    nwb_path: Path,
+    *,
+    feature_group: str,
+    pool_size: int,
+    bin_size_ms: int,
+    window_size: int,
+    trial_result_filter: str,
+    signal_view: str = "sua",
+) -> Path:
+    payload = {
+        "cache_format_version": FEATURE_VERSION,
+        "kind": "unit_side_features",
+        "feature_group": feature_group,
+        "pool_size": pool_size,
+        **_pool_context_key(
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+        ),
+        "source": _source_fingerprint(nwb_path),
+    }
+    if signal_view == "pseudo_mua":
+        payload["signal_view"] = signal_view
+        payload["electrode_mapping"] = _electrode_mapping_fingerprint(nwb_path)
+    key = _cache_key(payload)[:20]
+    return cache_dir / "side_features" / f"{session_name_from_path(nwb_path)}_{key}.npz"
+
+
+def _linear_slope(values: np.ndarray) -> float:
+    if values.size < 2:
+        return 0.0
+    x = np.arange(values.size, dtype=np.float64)
+    slope, _ = np.polyfit(x, values.astype(np.float64), 1)
+    return float(slope)
+
+
+def _scalar_features_from_template(
+    template: np.ndarray,
+    residuals: np.ndarray,
+) -> dict[str, float]:
+    p2p = float(template.max() - template.min())
+    noise_std = float(residuals.std()) if residuals.size else 0.0
+    if noise_std <= NOISE_STD_EPS:
+        snr = 0.0
+    else:
+        snr = p2p / noise_std
+    argmax = int(template.argmax())
+    argmin = int(template.argmin())
+    pt_width = float(abs(argmax - argmin))
+    template_max = float(template.max())
+    template_min = float(template.min())
+    if abs(template_max) <= TEMPLATE_MAX_EPS:
+        pt_ratio = 0.0
+    else:
+        pt_ratio = float(abs(template_min) / abs(template_max))
+    trough = argmin
+    window_end = min(trough + REPOL_WINDOW, template.size)
+    repol_segment = template[trough:window_end]
+    repol_slope = _linear_slope(repol_segment)
+    return {
+        "p2p": p2p,
+        "noise_std": noise_std,
+        "snr": snr,
+        "pt_width": pt_width,
+        "pt_ratio": pt_ratio,
+        "repol_slope": repol_slope,
+    }
+
+
+def _unit_spike_bounds(waveforms_index_index: np.ndarray, unit_idx: int) -> tuple[int, int]:
+    start = 0 if unit_idx == 0 else int(waveforms_index_index[unit_idx - 1])
+    end = int(waveforms_index_index[unit_idx])
+    return start, end
+
+
+def _read_unit_waveform_block(
+    waveforms: h5py.Dataset,
+    waveforms_index: h5py.Dataset,
+    spike_start: int,
+    num_spikes: int,
+) -> np.ndarray:
+    """Read ``num_spikes`` consecutive waveforms for one unit in a single h5py slice."""
+    if num_spikes <= 0:
+        raise ValueError("num_spikes must be positive")
+    first_global = spike_start
+    last_global = spike_start + num_spikes - 1
+    block_start = int(waveforms_index[first_global]) - WAVEFORM_SAMPLES
+    block_end = int(waveforms_index[last_global])
+    block = waveforms[block_start:block_end, 0].astype(np.float32)
+    expected = num_spikes * WAVEFORM_SAMPLES
+    if block.size != expected:
+        raise ValueError(
+            f"Expected {expected} waveform samples for {num_spikes} spikes, got {block.size}"
+        )
+    return block.reshape(num_spikes, WAVEFORM_SAMPLES)
+
+
+def _in_pool_spike_prefix(
+    spike_times: np.ndarray,
+    pool_end_time: float,
+) -> tuple[int, np.ndarray]:
+    """Return the count and boolean mask for the in-pool prefix of a unit spike train."""
+    if spike_times.size and not np.all(spike_times[:-1] <= spike_times[1:]):
+        raise ValueError("Unit spike_times must be non-decreasing")
+    in_pool = spike_times <= pool_end_time
+    if not np.any(in_pool):
+        return 0, in_pool
+    last_in_pool = int(np.where(in_pool)[0][-1])
+    if not np.all(in_pool[: last_in_pool + 1]):
+        raise ValueError("In-pool spikes must form a prefix of the unit spike train")
+    return last_in_pool + 1, in_pool
+
+
+def _nearest_canonical_direction_index(target_dir_rad: float) -> int:
+    """Snap a raw ``target_dir`` angle (radians) to the closest of the 8
+    ``CANONICAL_DIRECTIONS_RAD``, using circular (mod 2*pi) distance.
+
+    Circular distance (rather than plain subtraction) makes this robust to any sign/wrap
+    convention a session might use for the boundary angle (+pi vs -pi are the same physical
+    direction), and to any sub-ULP floating differences -- it does not rely on bit-identical
+    values across sessions.
+    """
+    directions = np.asarray(CANONICAL_DIRECTIONS_RAD, dtype=np.float64)
+    wrapped = (directions - target_dir_rad + math.pi) % (2.0 * math.pi) - math.pi
+    return int(np.argmin(np.abs(wrapped)))
+
+
+def _fit_cosine_tuning(directions_rad: np.ndarray, mean_rates: np.ndarray) -> tuple[float, float, float, float]:
+    """Least-squares fit of ``rate(theta) = b + a*cos(theta) + c*sin(theta)``, which is the
+    same model as ``b + m*cos(theta - phi)`` with ``a = m*cos(phi)``, ``c = m*sin(phi)``.
+
+    Returns ``(a, c, m, b)`` -- i.e. exactly the four T4 dimensions in order, so callers never
+    need ``phi`` itself. ``directions_rad``/``mean_rates`` must be the same length and hold one
+    row per *distinct* direction actually observed in the calibration pool (not one row per
+    trial): fitting the per-direction means, not the raw per-trial rates, matches
+    E3_E4_ENCODER_PROGRAM.md section 1.2 ("fit ... over the pool trials' mean firing rates per
+    direction") and does not implicitly reweight directions by how many pool trials happened to
+    land on them.
+
+    Requires only >=1 rows to run without raising (``np.linalg.lstsq`` returns the minimum-norm
+    solution for an underdetermined system); callers must apply the
+    ``len(present_directions) < 2`` degeneracy gate themselves (E3_E4_ENCODER_PROGRAM.md section
+    1.4) before calling this, since that gate is a session-wide fact shared by every unit, not a
+    per-fit numerical failure this function would detect.
+    """
+    design = np.stack(
+        [np.ones_like(directions_rad), np.cos(directions_rad), np.sin(directions_rad)], axis=1
+    )
+    coefficients, *_ = np.linalg.lstsq(design, mean_rates, rcond=None)
+    b, a, c = (float(value) for value in coefficients)
+    m = float(math.hypot(a, c))
+    return a, c, m, b
+
+
+def _unit_tuning_features(
+    trial_rates: np.ndarray,
+    direction_indices: np.ndarray,
+    present_directions: Sequence[int],
+) -> tuple[np.ndarray, np.ndarray, bool, bool]:
+    """T4/T8 features for one unit, plus ``(is_zero_spike, is_zero_modulation)`` flags.
+
+    ``trial_rates`` is this unit's per-pool-trial firing rate (Hz), ``direction_indices`` is
+    the parallel per-pool-trial canonical direction index (``-1`` for a trial with no usable
+    ``target_dir``), and ``present_directions`` is the sorted set of distinct direction indices
+    with at least one pool trial. The caller guarantees ``len(present_directions) >= 2``: the
+    "fewer than 2 distinct directions" degeneracy is a session-wide fact (every unit shares the
+    same pool trials/directions) handled once by the orchestrator below, not re-detected here.
+
+    A unit with zero spikes across every pool trial gets the exact all-zero fill for both T4 and
+    T8: for T8 that zero is the *correct* rate (no observed spikes -> 0 Hz in every direction),
+    and for T4 it is the limit of the fit for an identically-zero target vector (b=m=0), not an
+    arbitrary sentinel -- so this never disagrees with what an unguarded fit would have produced,
+    it just avoids relying on that implicitly and gives an explicit, metadata-counted reason.
+    """
+    t8 = np.zeros(TUNING_NUM_DIRECTIONS, dtype=np.float32)
+    if not np.any(trial_rates):
+        return np.zeros(4, dtype=np.float32), t8, True, False
+
+    thetas = np.empty(len(present_directions), dtype=np.float64)
+    per_direction_mean = np.empty(len(present_directions), dtype=np.float64)
+    for row, direction_index in enumerate(present_directions):
+        mask = direction_indices == direction_index
+        mean_rate = float(trial_rates[mask].mean())
+        t8[direction_index] = mean_rate
+        per_direction_mean[row] = mean_rate
+        thetas[row] = CANONICAL_DIRECTIONS_RAD[direction_index]
+
+    a, c, m, b = _fit_cosine_tuning(thetas, per_direction_mean)
+    # See SIDE_FEATURE_DIMS/E3_E4_ENCODER_PROGRAM.md section 1.4 (also restated on
+    # compute_unit_side_features_uncached below): we emit [m*cos(phi), m*sin(phi), m, b] = [a,
+    # c, m, b], never [cos(phi), sin(phi), m, b]. a and c are already rate-scaled (same units
+    # and magnitude as m and b), so per-column train-only z-scoring (fit_side_feature_stats /
+    # _fit_robust_stats, applied uniformly to all SIDE_FEATURE_DIMS columns downstream) treats
+    # them exactly like any other rate-like scalar. Emitting bare cos(phi)/sin(phi) instead
+    # would be a pure direction unit vector on [-1, 1] with no rate information, and z-scoring
+    # its two components independently (different train std per column) would rescale it into
+    # an ellipse and destroy the "this pair is a single angle" geometry -- so that
+    # decomposition is deliberately avoided rather than normalized around.
+    t4 = np.array([a, c, m, b], dtype=np.float32)
+    is_zero_modulation = m <= MODULATION_EPS
+    return t4, t8, False, is_zero_modulation
+
+
+def _pool_trial_rate_matrix(nwb_path: Path, pool_trials: Sequence[dict]) -> tuple[np.ndarray, int]:
+    """Per-unit, per-pool-trial firing rate (Hz), shape ``[num_units, len(pool_trials)]``.
+
+    Counts only spikes within ``[start_time, stop_time)`` of each pool trial (the same
+    half-open convention ``np.searchsorted`` default ``side="left"`` gives the bin-edge
+    filtering elsewhere in this file/``multisession_datamodule.py``) -- never spikes from
+    outside the pool trial windows (leakage discipline, E3_E4_ENCODER_PROGRAM.md section 3).
+    """
+    starts = np.asarray([trial["start_time"] for trial in pool_trials], dtype=np.float64)
+    stops = np.asarray([trial["stop_time"] for trial in pool_trials], dtype=np.float64)
+    durations = stops - starts
+    if np.any(durations <= 0):
+        raise ValueError("Pool trial stop_time must be strictly after start_time")
+
+    with NWBHDF5IO(str(nwb_path), "r") as io:
+        nwb = io.read()
+        if nwb.units is None:
+            raise ValueError(f"NWB file has no units table: {nwb_path}")
+        units_df = nwb.units.to_dataframe()
+        num_units = len(units_df)
+        rates = np.zeros((num_units, len(pool_trials)), dtype=np.float64)
+        for unit_idx in range(num_units):
+            spike_times = np.asarray(units_df.iloc[unit_idx]["spike_times"], dtype=np.float64)
+            if spike_times.size and not np.all(spike_times[:-1] <= spike_times[1:]):
+                raise ValueError(f"Unit {unit_idx}: spike_times must be non-decreasing")
+            start_idx = np.searchsorted(spike_times, starts)
+            stop_idx = np.searchsorted(spike_times, stops)
+            rates[unit_idx] = (stop_idx - start_idx).astype(np.float64) / durations
+    return rates, num_units
+
+
+def _compute_tuning_features_uncached(
+    nwb_path: Path,
+    *,
+    feature_group: str,
+    pool_size: int,
+    bin_size_ms: int,
+    window_size: int,
+    trial_result_filter: str,
+    signal_view: str = "sua",
+) -> tuple[np.ndarray, SideFeatureMetadata]:
+    """E3 directional tuning features (T4/T8), computed from the first ``pool_size`` rewarded
+    trials only -- the identical pool boundary F1/F2 use, via the same
+    ``list_datamodule_rewarded_trials`` filter (not reimplemented)."""
+    if feature_group not in TUNING_FEATURE_NAMES:
+        raise ValueError(f"Unsupported tuning feature_group {feature_group!r}")
+    _validate_signal_view(signal_view)
+
+    pool_trials = list_datamodule_rewarded_trials(
+        nwb_path,
+        bin_size_ms=bin_size_ms,
+        window_size=window_size,
+        trial_result_filter=trial_result_filter,
+    )
+    if len(pool_trials) < pool_size:
+        raise ValueError(
+            f"{session_name_from_path(nwb_path)}: only {len(pool_trials)} rewarded trials "
+            f"pass the datamodule filter; pool_size={pool_size} required"
+        )
+    pool_trials = pool_trials[:pool_size]
+
+    direction_indices = np.array(
+        [
+            _nearest_canonical_direction_index(trial["target_dir"])
+            if trial.get("target_dir") is not None
+            else -1
+            for trial in pool_trials
+        ],
+        dtype=np.int64,
+    )
+    present_directions = sorted({int(index) for index in direction_indices if index >= 0})
+
+    rates, num_units = _pool_trial_rate_matrix(nwb_path, pool_trials)
+    # In pseudo-MUA view, calibration trial rates are aggregated by physical
+    # electrode *before* the per-direction means and cosine fit are computed.
+    # Never average sorted-unit T4 values: that would in general differ from a
+    # fit to the summed channel spike train.
+    if signal_view == "pseudo_mua":
+        with NWBHDF5IO(str(nwb_path), "r") as io:
+            nwb = io.read()
+            if nwb.units is None:
+                raise ValueError(f"NWB file has no units table: {nwb_path}")
+            electrode_ids = electrode_ids_from_units(nwb.units.to_dataframe())
+        rates, _ = pool_trial_rates_by_electrode(rates, electrode_ids)
+    num_channels = rates.shape[0]
+
+    t4 = np.zeros((num_channels, 4), dtype=np.float32)
+    t8 = np.zeros((num_channels, TUNING_NUM_DIRECTIONS), dtype=np.float32)
+    zero_spike = 0
+    zero_modulation = 0
+    insufficient_direction = 0
+
+    if len(present_directions) < 2:
+        # Session-wide degeneracy shared by every unit (E3_E4_ENCODER_PROGRAM.md section 1.4):
+        # with fewer than 2 distinct pool directions, b/a/c are not identifiable from any
+        # unit's data (an underdetermined linear system with <2 independent equations), so
+        # every unit gets the fixed all-zero fill rather than an arbitrary lstsq minimum-norm
+        # answer. Expected to essentially never trigger in practice (ROADMAP.md: the first 30
+        # rewarded trials already cover all 8 directions on the sessions checked), but must
+        # still degrade to a fixed, counted, finite value rather than raising or emitting NaN.
+        insufficient_direction = num_channels
+    else:
+        for unit_idx in range(num_channels):
+            unit_t4, unit_t8, is_zero_spike, is_zero_modulation = _unit_tuning_features(
+                rates[unit_idx], direction_indices, present_directions
+            )
+            t4[unit_idx] = unit_t4
+            t8[unit_idx] = unit_t8
+            zero_spike += int(is_zero_spike)
+            zero_modulation += int(is_zero_modulation)
+
+    cache_payload = {
+        "feature_version": FEATURE_VERSION,
+        "feature_group": feature_group,
+        "pool_size": pool_size,
+        **_pool_context_key(
+            bin_size_ms=bin_size_ms, window_size=window_size, trial_result_filter=trial_result_filter
+        ),
+        "source": _source_fingerprint(nwb_path),
+    }
+    if signal_view == "pseudo_mua":
+        cache_payload["signal_view"] = signal_view
+        cache_payload["electrode_mapping"] = _electrode_mapping_fingerprint(nwb_path)
+    metadata = SideFeatureMetadata(
+        feature_group=feature_group,
+        feature_version=FEATURE_VERSION,
+        pool_size=pool_size,
+        cache_key=_cache_key(cache_payload),
+        degenerate_unit_count=zero_spike + zero_modulation + insufficient_direction,
+        zero_spike_unit_count=zero_spike,
+        single_spike_unit_count=0,
+        zero_noise_std_unit_count=0,
+        zero_template_max_unit_count=0,
+        zero_modulation_unit_count=zero_modulation,
+        insufficient_direction_unit_count=insufficient_direction,
+    )
+    features = t4 if feature_group == "t4" else t8
+    return features, metadata
+
+
+def compute_unit_side_features_uncached(
+    nwb_path: Path,
+    *,
+    feature_group: str,
+    pool_size: int,
+    bin_size_ms: int = 20,
+    window_size: int = 50,
+    trial_result_filter: str = "R",
+    pool_end_time: float | None = None,
+    signal_view: str = "sua",
+) -> tuple[np.ndarray, SideFeatureMetadata]:
+    _validate_signal_view(signal_view)
+    if feature_group in TUNING_FEATURE_NAMES:
+        # T4/T8 are computed per pool *trial* (direction-conditioned mean firing rate), not
+        # from a single spike-time prefix cutoff, so pool_end_time -- only meaningful for the
+        # waveform prefix read below -- does not apply here. The leakage boundary is still
+        # exactly the same pool_size'th rewarded trial (_compute_tuning_features_uncached
+        # slices list_datamodule_rewarded_trials(...)[:pool_size], the identical trial list
+        # calibration_pool_end_time itself is built from).
+        return _compute_tuning_features_uncached(
+            nwb_path,
+            feature_group=feature_group,
+            pool_size=pool_size,
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+            signal_view=signal_view,
+        )
+    if signal_view != "sua":
+        raise ValueError(
+            "pseudo_mua side features currently support only directional tuning "
+            "groups ('t4'/'t8'); waveform features are sorted-unit only"
+        )
+    if feature_group not in FEATURE_GROUPS:
+        raise ValueError(f"Unsupported feature_group {feature_group!r}")
+    feature_names = FEATURE_GROUPS[feature_group]
+
+    if pool_end_time is None:
+        pool_end_time = calibration_pool_end_time(
+            nwb_path,
+            pool_size=pool_size,
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+        )
+
+    with NWBHDF5IO(str(nwb_path), "r") as io:
+        nwb = io.read()
+        if nwb.units is None:
+            raise ValueError(f"NWB file has no units table: {nwb_path}")
+        units_df = nwb.units.to_dataframe()
+        num_units = len(units_df)
+        if "waveforms" not in nwb.units.colnames:
+            raise ValueError(f"NWB units table has no waveforms column: {nwb_path}")
+
+    features = np.zeros((num_units, len(feature_names)), dtype=np.float32)
+    zero_spike = single_spike = zero_noise = zero_template_max = 0
+
+    with h5py.File(nwb_path, "r") as handle:
+        waveforms = handle["units/waveforms"]
+        waveforms_index = handle["units/waveforms_index"]
+        waveforms_index_index = np.asarray(handle["units/waveforms_index_index"])
+
+        for unit_idx in range(num_units):
+            spike_start, spike_end = _unit_spike_bounds(waveforms_index_index, unit_idx)
+            spike_times = np.asarray(units_df.iloc[unit_idx]["spike_times"], dtype=np.float64)
+            expected_spikes = spike_end - spike_start
+            if spike_times.size != expected_spikes:
+                raise ValueError(
+                    f"Unit {unit_idx}: spike_times length {spike_times.size} != "
+                    f"waveforms_index span {expected_spikes}"
+                )
+
+            num_in_pool, _ = _in_pool_spike_prefix(spike_times, pool_end_time)
+            if num_in_pool == 0:
+                zero_spike += 1
+                continue
+            if num_in_pool == 1:
+                single_spike += 1
+
+            stacked = _read_unit_waveform_block(
+                waveforms, waveforms_index, spike_start, num_in_pool
+            )
+            template = stacked.mean(axis=0)
+            residuals = stacked - template
+            scalars = _scalar_features_from_template(template, residuals.reshape(-1))
+            if scalars["noise_std"] <= NOISE_STD_EPS:
+                zero_noise += 1
+            if abs(float(template.max())) <= TEMPLATE_MAX_EPS:
+                zero_template_max += 1
+            for col_idx, name in enumerate(feature_names):
+                value = scalars[name]
+                if not np.isfinite(value):
+                    value = 0.0
+                features[unit_idx, col_idx] = value
+
+    degenerate = zero_spike + single_spike
+    cache_payload = {
+        "feature_version": FEATURE_VERSION,
+        "feature_group": feature_group,
+        "pool_size": pool_size,
+        **_pool_context_key(
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+        ),
+        "source": _source_fingerprint(nwb_path),
+    }
+    metadata = SideFeatureMetadata(
+        feature_group=feature_group,
+        feature_version=FEATURE_VERSION,
+        pool_size=pool_size,
+        cache_key=_cache_key(cache_payload),
+        degenerate_unit_count=degenerate,
+        zero_spike_unit_count=zero_spike,
+        single_spike_unit_count=single_spike,
+        zero_noise_std_unit_count=zero_noise,
+        zero_template_max_unit_count=zero_template_max,
+    )
+    return features, metadata
+
+
+def _fit_robust_stats(stacked: np.ndarray) -> tuple[np.ndarray, np.ndarray, int]:
+    q_low, q_high = TRAIN_CLIP_QUANTILES
+    lower = np.quantile(stacked, q_low, axis=0)
+    upper = np.quantile(stacked, q_high, axis=0)
+    clipped = np.clip(stacked, lower, upper)
+    clipped_count = int(np.sum((stacked < lower) | (stacked > upper)))
+    mean = clipped.mean(axis=0).astype(np.float32)
+    std = clipped.std(axis=0).astype(np.float32)
+    std[std < 1e-8] = 1.0
+    return mean, std, clipped_count
+
+
+def fit_side_feature_stats(
+    train_files: Sequence[Path],
+    *,
+    feature_group: str,
+    pool_size: int,
+    cache_dir: Path | None = None,
+    bin_size_ms: int = 20,
+    window_size: int = 50,
+    trial_result_filter: str = "R",
+    signal_view: str = "sua",
+) -> tuple[np.ndarray, np.ndarray]:
+    """Train-only mean/std for z-scoring side features."""
+    if feature_group not in KNOWN_FEATURE_GROUPS:
+        raise ValueError(f"Unsupported feature_group {feature_group!r}")
+    _validate_signal_view(signal_view)
+
+    if cache_dir is not None:
+        cache_path = _side_stats_cache_path(
+            cache_dir,
+            train_files,
+            feature_group=feature_group,
+            pool_size=pool_size,
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+            signal_view=signal_view,
+        )
+        with _exclusive_cache_lock(cache_path):
+            if cache_path.is_file():
+                try:
+                    with np.load(cache_path, allow_pickle=False) as cache:
+                        mean = cache["mean"].astype(np.float32, copy=False)
+                        std = cache["std"].astype(np.float32, copy=False)
+                    logger.info("Loaded cached side-feature statistics from %s", cache_path)
+                    return mean, std
+                except (KeyError, OSError, ValueError) as exc:
+                    logger.warning("Discarding unreadable side-feature stats cache %s: %s", cache_path, exc)
+                    cache_path.unlink(missing_ok=True)
+
+    chunks: list[np.ndarray] = []
+    for nwb_path in train_files:
+        raw, _ = compute_unit_side_features_uncached(
+            nwb_path,
+            feature_group=feature_group,
+            pool_size=pool_size,
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+            signal_view=signal_view,
+        )
+        chunks.append(raw)
+    stacked = np.concatenate(chunks, axis=0)
+    mean, std, clipped_count = _fit_robust_stats(stacked)
+    logger.info(
+        "Fitted side-feature stats for %s: clipped %d scalar values before mean/std",
+        feature_group,
+        clipped_count,
+    )
+
+    if cache_dir is not None:
+        cache_path = _side_stats_cache_path(
+            cache_dir,
+            train_files,
+            feature_group=feature_group,
+            pool_size=pool_size,
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+            signal_view=signal_view,
+        )
+        with _exclusive_cache_lock(cache_path):
+            _write_npz_atomically(
+                cache_path,
+                mean=mean,
+                std=std,
+                clipped_count=np.asarray(clipped_count, dtype=np.int64),
+            )
+            logger.info("Cached side-feature statistics at %s", cache_path)
+    return mean, std
+
+
+def load_unit_side_features(
+    nwb_path: Path,
+    *,
+    feature_group: str,
+    pool_size: int,
+    mean: np.ndarray,
+    std: np.ndarray,
+    cache_dir: Path | None = None,
+    permutation_seed: int | None = None,
+    bin_size_ms: int = 20,
+    window_size: int = 50,
+    trial_result_filter: str = "R",
+    signal_view: str = "sua",
+) -> tuple[np.ndarray, SideFeatureMetadata]:
+    """Load normalized per-unit (SUA) or per-electrode (pseudo-MUA) features."""
+    if feature_group not in KNOWN_FEATURE_GROUPS:
+        raise ValueError(f"Unsupported feature_group {feature_group!r}")
+    _validate_signal_view(signal_view)
+
+    raw: np.ndarray
+    metadata: SideFeatureMetadata
+    compute_kwargs = {
+        "feature_group": feature_group,
+        "pool_size": pool_size,
+        "bin_size_ms": bin_size_ms,
+        "window_size": window_size,
+        "trial_result_filter": trial_result_filter,
+        "signal_view": signal_view,
+    }
+    if cache_dir is None:
+        raw, metadata = compute_unit_side_features_uncached(nwb_path, **compute_kwargs)
+    else:
+        cache_path = _side_feature_cache_path(
+            cache_dir,
+            nwb_path,
+            feature_group=feature_group,
+            pool_size=pool_size,
+            bin_size_ms=bin_size_ms,
+            window_size=window_size,
+            trial_result_filter=trial_result_filter,
+            signal_view=signal_view,
+        )
+        with _exclusive_cache_lock(cache_path):
+            if cache_path.is_file():
+                try:
+                    with np.load(cache_path, allow_pickle=False) as cache:
+                        raw = cache["features"].astype(np.float32, copy=False)
+                        metadata = SideFeatureMetadata(
+                            feature_group=str(cache["feature_group"].item()),
+                            feature_version=int(cache["feature_version"].item()),
+                            pool_size=int(cache["pool_size"].item()),
+                            cache_key=str(cache["cache_key"].item()),
+                            degenerate_unit_count=int(cache["degenerate_unit_count"].item()),
+                            zero_spike_unit_count=int(cache["zero_spike_unit_count"].item()),
+                            single_spike_unit_count=int(cache["single_spike_unit_count"].item()),
+                            zero_noise_std_unit_count=int(cache["zero_noise_std_unit_count"].item()),
+                            zero_template_max_unit_count=int(cache["zero_template_max_unit_count"].item()),
+                            # Added for T4/T8 (E3); absent from any cache file written before
+                            # this change (including f1/f2 caches already on disk), which is
+                            # exactly what the surrounding except (KeyError, ...) below is for
+                            # -- an old-format hit here is discarded and recomputed rather than
+                            # crashing.
+                            zero_modulation_unit_count=int(cache["zero_modulation_unit_count"].item()),
+                            insufficient_direction_unit_count=int(
+                                cache["insufficient_direction_unit_count"].item()
+                            ),
+                        )
+                    logger.info("Loaded cached side features for %s from %s", nwb_path.name, cache_path)
+                except (KeyError, OSError, ValueError) as exc:
+                    logger.warning("Discarding unreadable side-feature cache %s: %s", cache_path, exc)
+                    cache_path.unlink(missing_ok=True)
+                    raw, metadata = compute_unit_side_features_uncached(nwb_path, **compute_kwargs)
+                    _write_npz_atomically(
+                        cache_path,
+                        features=raw,
+                        feature_group=np.asarray(metadata.feature_group),
+                        feature_version=np.asarray(metadata.feature_version),
+                        pool_size=np.asarray(metadata.pool_size),
+                        cache_key=np.asarray(metadata.cache_key),
+                        degenerate_unit_count=np.asarray(metadata.degenerate_unit_count),
+                        zero_spike_unit_count=np.asarray(metadata.zero_spike_unit_count),
+                        single_spike_unit_count=np.asarray(metadata.single_spike_unit_count),
+                        zero_noise_std_unit_count=np.asarray(metadata.zero_noise_std_unit_count),
+                        zero_template_max_unit_count=np.asarray(metadata.zero_template_max_unit_count),
+                        zero_modulation_unit_count=np.asarray(metadata.zero_modulation_unit_count),
+                        insufficient_direction_unit_count=np.asarray(
+                            metadata.insufficient_direction_unit_count
+                        ),
+                    )
+            else:
+                raw, metadata = compute_unit_side_features_uncached(nwb_path, **compute_kwargs)
+                _write_npz_atomically(
+                    cache_path,
+                    features=raw,
+                    feature_group=np.asarray(metadata.feature_group),
+                    feature_version=np.asarray(metadata.feature_version),
+                    pool_size=np.asarray(metadata.pool_size),
+                    cache_key=np.asarray(metadata.cache_key),
+                    degenerate_unit_count=np.asarray(metadata.degenerate_unit_count),
+                    zero_spike_unit_count=np.asarray(metadata.zero_spike_unit_count),
+                    single_spike_unit_count=np.asarray(metadata.single_spike_unit_count),
+                    zero_noise_std_unit_count=np.asarray(metadata.zero_noise_std_unit_count),
+                    zero_template_max_unit_count=np.asarray(metadata.zero_template_max_unit_count),
+                    zero_modulation_unit_count=np.asarray(metadata.zero_modulation_unit_count),
+                    insufficient_direction_unit_count=np.asarray(
+                        metadata.insufficient_direction_unit_count
+                    ),
+                )
+                logger.info("Cached side features for %s at %s", nwb_path.name, cache_path)
+
+    normalized = ((raw - mean) / std).astype(np.float32)
+    if permutation_seed is not None:
+        normalized = permute_side_feature_rows(
+            normalized, permutation_seed=permutation_seed
+        )
+    return normalized, metadata
+
+
+def load_session_electrode_ids(nwb_path: Path) -> np.ndarray:
+    """Per-sorted-unit NWB electrode indices for one session (not z-scored)."""
+    with NWBHDF5IO(nwb_path, "r") as io:
+        units_df = io.read().units.to_dataframe()
+    return electrode_ids_from_units(units_df)
+
+
+def permute_electrode_ids(
+    electrode_ids: np.ndarray,
+    *,
+    permutation_seed: int,
+) -> np.ndarray:
+    """Return a copy of ``electrode_ids`` permuted along the unit axis."""
+    generator = np.random.RandomState(permutation_seed)
+    perm = generator.permutation(electrode_ids.shape[0])
+    return electrode_ids[perm].astype(np.int64, copy=False)
+
+
+def compute_electrode_vocab_size(nwb_paths: Sequence[Path]) -> int:
+    """Largest electrode index + 1 across sessions (shared ``nn.Embedding`` vocabulary)."""
+    max_id = -1
+    for nwb_path in nwb_paths:
+        ids = load_session_electrode_ids(nwb_path)
+        if ids.size:
+            max_id = max(max_id, int(ids.max()))
+    if max_id < 0:
+        raise ValueError("No electrode ids found across the supplied NWB files")
+    return max_id + 1
+
+
+def side_feature_stats_sha256(mean: np.ndarray, std: np.ndarray) -> str:
+    payload = {
+        "mean": mean.astype(np.float32).tolist(),
+        "std": std.astype(np.float32).tolist(),
+    }
+    serialized = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()

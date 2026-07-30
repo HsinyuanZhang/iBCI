@@ -19,6 +19,7 @@ from src.models.components.streaming_encoders import (
     B3PreservingTemporalMeanFanoEncoder,
     BatchReferenceEncoder,
     CountConditionedEarlyPoolEncoder,
+    DiagonalRelationalEarlyPoolEncoder,
     EarlyPoolEncoder,
     EMAStreamingEncoder,
     EnsembleRandomHashEncoder,
@@ -28,14 +29,18 @@ from src.models.components.streaming_encoders import (
     HybridFIRCountEncoder,
     LatePoolEncoder,
     PopulationStatsEncoder,
+    PerNeuronResidualEarlyPoolEncoder,
     RelationalEarlyPoolEncoder,
     SparseBinaryHashEncoder,
     StatsStreamingEncoder,
     StreamingHashEncoder,
+    TemporalBasisEarlyPoolEncoder,
     TernarizedEarlyPoolEncoder,
+    TrialAttentionEarlyPoolEncoder,
     TrialStreamingEncoder,
     _build_affine_stack,
     _count_affine_layers,
+    _raised_cosine_temporal_basis,
     build_encoder,
 )
 
@@ -80,6 +85,42 @@ def test_b0_b1_equivalence(teacher_mlp, shapes):
     assert torch.allclose(e0, e1, atol=1e-6)
 
 
+def test_b0_builder_clones_frozen_teacher_and_accepts_common_forward_api(
+    teacher_mlp, shapes
+):
+    for parameter in teacher_mlp.parameters():
+        parameter.requires_grad = False
+    b0 = build_encoder(
+        "B0",
+        window_size=shapes["window"],
+        teacher_fc_id_in=teacher_mlp.fc_id_in,
+        teacher_fc_id_out=teacher_mlp.fc_id_out,
+    )
+    assert b0.fc_id_in is not teacher_mlp.fc_id_in
+    assert b0.fc_id_out is not teacher_mlp.fc_id_out
+    assert all(parameter.requires_grad for parameter in b0.parameters())
+
+    calib = torch.randn(
+        shapes["batch"],
+        shapes["trials"],
+        shapes["trial_len"],
+        shapes["neurons"],
+    )
+    observed = b0.forward_batch(
+        calib,
+        side_features=None,
+        electrode_ids=None,
+    )
+    expected = BatchReferenceEncoder(
+        teacher_mlp.fc_id_in,
+        teacher_mlp.fc_id_out,
+        shapes["window"],
+    ).forward_batch(calib)
+    assert torch.allclose(observed, expected, atol=1e-6)
+    with pytest.raises(ValueError, match="does not consume side features"):
+        b0.forward_batch(calib, side_features=torch.ones(1))
+
+
 def test_b2_parameter_count_matches_design():
     enc = LatePoolEncoder(100, 50, 128, num_id_layers=3)
     assert sum(p.numel() for p in enc.parameters()) == 85_426
@@ -93,6 +134,71 @@ def test_b3_parameter_count_matches_design():
 def test_b16_parameter_count_matches_design():
     enc = HighOrderStatsEncoder(100, 50, 64, num_post_layers=3)
     assert sum(p.numel() for p in enc.parameters()) == 22_130
+
+
+def test_b15_controls_match_full_attention_parameter_count():
+    full = RelationalEarlyPoolEncoder(100, 50, 64, num_heads=4)
+    diagonal = DiagonalRelationalEarlyPoolEncoder(100, 50, 64, num_heads=4)
+    per_neuron = PerNeuronResidualEarlyPoolEncoder(100, 50, 64)
+    expected = sum(parameter.numel() for parameter in full.parameters())
+    assert expected == 34_802
+    assert sum(parameter.numel() for parameter in diagonal.parameters()) == expected
+    assert sum(parameter.numel() for parameter in per_neuron.parameters()) == expected
+
+
+@pytest.mark.parametrize(
+    "encoder",
+    [
+        DiagonalRelationalEarlyPoolEncoder(100, 50, 64, num_heads=4),
+        PerNeuronResidualEarlyPoolEncoder(100, 50, 64),
+    ],
+)
+def test_b15_controls_are_per_neuron_local(encoder, shapes):
+    torch.manual_seed(23)
+    encoder.eval()
+    calibration = torch.randn(1, shapes["trials"], shapes["trial_len"], 4)
+    changed = calibration.clone()
+    changed[..., 3] += 10.0
+    with torch.no_grad():
+        original_identity = encoder.forward_batch(calibration)
+        changed_identity = encoder.forward_batch(changed)
+    assert torch.allclose(original_identity[..., :3, :], changed_identity[..., :3, :], atol=1.0e-6)
+
+
+def test_b15_full_attention_changes_when_another_neuron_changes(shapes):
+    torch.manual_seed(29)
+    full = RelationalEarlyPoolEncoder(100, 50, 64, num_heads=4).eval()
+    diagonal = DiagonalRelationalEarlyPoolEncoder(100, 50, 64, num_heads=4).eval()
+    diagonal.load_state_dict(full.state_dict())
+    calibration = torch.randn(1, shapes["trials"], shapes["trial_len"], 4)
+    changed = calibration.clone()
+    changed[..., 3] += 10.0
+    with torch.no_grad():
+        full_original = full.forward_batch(calibration)
+        full_changed = full.forward_batch(changed)
+        diagonal_original = diagonal.forward_batch(calibration)
+        diagonal_changed = diagonal.forward_batch(changed)
+    assert not torch.allclose(full_original[..., :3, :], full_changed[..., :3, :], atol=1.0e-6)
+    assert torch.allclose(diagonal_original[..., :3, :], diagonal_changed[..., :3, :], atol=1.0e-6)
+
+
+@pytest.mark.parametrize(
+    "encoder",
+    [
+        RelationalEarlyPoolEncoder(100, 50, 64, num_heads=4),
+        DiagonalRelationalEarlyPoolEncoder(100, 50, 64, num_heads=4),
+        PerNeuronResidualEarlyPoolEncoder(100, 50, 64),
+    ],
+)
+def test_b15_family_is_neuron_permutation_equivariant(encoder, shapes):
+    torch.manual_seed(31)
+    encoder.eval()
+    calibration = torch.randn(1, shapes["trials"], shapes["trial_len"], 7)
+    permutation = torch.tensor([3, 0, 6, 1, 5, 2, 4])
+    with torch.no_grad():
+        identity = encoder.forward_batch(calibration)
+        permuted_identity = encoder.forward_batch(calibration[..., permutation])
+    assert torch.allclose(permuted_identity, identity[..., permutation, :], atol=1.0e-6)
 
 
 def test_b16_accumulates_cross_trial_mean_and_variance():
@@ -673,6 +779,8 @@ def test_b11_no_trial_buffer():
         ("B12", {"hidden_dim": 64, "sparsity_k": 4}),
         ("B13", {"hidden_dim": 64, "sparsity_k": 16}),
         ("B14", {"hidden_dim": 64}),
+        ("B15P", {"hidden_dim": 64}),
+        ("B15D", {"hidden_dim": 64}),
         ("B15", {"hidden_dim": 64}),
         ("B16", {"hidden_dim": 64}),
     ],
@@ -792,3 +900,256 @@ def test_b14_ternarize_disabled_uses_multiplier():
   enc = TernarizedEarlyPoolEncoder(100, 50, hidden_dim=64, ternarize_pre=False, ternarize_post=False)
   profile = enc.cost_profile(num_neurons=96, trial_length=100, num_trials=33)
   assert profile.requires_general_multiplier is True
+
+
+# ---------------------------------------------------------------------------
+# E4: B3T (TemporalBasisEarlyPoolEncoder) and B3A (TrialAttentionEarlyPoolEncoder)
+# sua_exploration/docs/E3_E4_ENCODER_PROGRAM.md section 2.
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("num_trials,num_neurons", [(1, 1), (3, 4), (6, 96)])
+def test_b3t_forward_shape_independent_of_m_and_n(num_trials, num_neurons):
+  enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  calib = torch.randn(2, num_trials, 100, num_neurons)
+  enc.eval()
+  with torch.no_grad():
+    out = enc.forward_batch(calib)
+  assert out.shape == (2, num_neurons, 50)
+
+
+@pytest.mark.parametrize("num_trials,num_neurons", [(1, 1), (3, 4), (6, 96)])
+def test_b3a_forward_shape_independent_of_m_and_n(num_trials, num_neurons):
+  enc = TrialAttentionEarlyPoolEncoder(100, 50, hidden_dim=64)
+  calib = torch.randn(2, num_trials, 100, num_neurons)
+  enc.eval()
+  with torch.no_grad():
+    out = enc.forward_batch(calib)
+  assert out.shape == (2, num_neurons, 50)
+
+
+def test_b3t_permutation_invariance(shapes):
+  torch.manual_seed(41)
+  enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  enc.eval()
+  calib = torch.randn(1, shapes["trials"], shapes["trial_len"], 7)
+  permutation = torch.tensor([3, 0, 6, 1, 5, 2, 4])
+  with torch.no_grad():
+    identity = enc.forward_batch(calib)
+    permuted_identity = enc.forward_batch(calib[..., permutation])
+  assert torch.allclose(permuted_identity, identity[..., permutation, :], atol=1.0e-6)
+
+
+def test_b3a_permutation_invariance(shapes):
+  """Core set-based semantic: B3A attends over the trial axis only, per unit, so permuting
+  neurons must permute the output identically with no cross-neuron leakage -- unlike B15,
+  which attends over the neuron axis and is explicitly NOT permutation invariant in that
+  sense (it is permutation *equivariant* through a shared attention block, but neuron j's
+  output depends on every other neuron's features). B3A must be equivariant with each
+  neuron's output depending only on that neuron's own trials, which this also verifies via
+  the changed-neuron isolation check below."""
+  torch.manual_seed(43)
+  enc = TrialAttentionEarlyPoolEncoder(100, 50, hidden_dim=64)
+  with torch.no_grad():
+    enc.trial_attn_score.weight.normal_()
+    enc.trial_attn_score.bias.normal_()
+  enc.eval()
+  calib = torch.randn(1, 6, 100, 7)
+  permutation = torch.tensor([3, 0, 6, 1, 5, 2, 4])
+  with torch.no_grad():
+    identity = enc.forward_batch(calib)
+    permuted_identity = enc.forward_batch(calib[..., permutation])
+  assert torch.allclose(permuted_identity, identity[..., permutation, :], atol=1.0e-6)
+
+
+def test_b3a_is_per_neuron_local_like_b3_not_cross_neuron_like_b15():
+  """B3A attends over the trial axis independently per unit and must never mix information
+  across neurons -- changing one neuron's calibration data must not change any other
+  neuron's identity. This is the property that keeps B3A a distinct hypothesis from B15's
+  neuron-axis attention (E3_E4_ENCODER_PROGRAM.md section 2.2): B15 fails this exact check
+  (test_b15_full_attention_changes_when_another_neuron_changes in this file)."""
+  torch.manual_seed(47)
+  enc = TrialAttentionEarlyPoolEncoder(100, 50, hidden_dim=64)
+  with torch.no_grad():
+    enc.trial_attn_score.weight.normal_()
+    enc.trial_attn_score.bias.normal_()
+  enc.eval()
+  calibration = torch.randn(1, 6, 100, 4)
+  changed = calibration.clone()
+  changed[..., 3] += 10.0
+  with torch.no_grad():
+    original_identity = enc.forward_batch(calibration)
+    changed_identity = enc.forward_batch(changed)
+  assert torch.allclose(original_identity[..., :3, :], changed_identity[..., :3, :], atol=1.0e-6)
+  assert not torch.allclose(original_identity[..., 3, :], changed_identity[..., 3, :], atol=1.0e-6)
+
+
+def test_b3t_parameter_count_matches_design():
+  enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64, num_basis=12, num_post_layers=3)
+  # basis_proj: Linear(12,64) = 12*64+64 = 832; post_pool (unchanged 3-layer 64-stack, same
+  # as B3's): 64*64+64 + 64*64+64 + 64*50+50 = 11,570. temporal_basis is a non-persistent
+  # buffer and contributes 0 (excluded from .parameters()).
+  assert sum(p.numel() for p in enc.parameters()) == 832 + 11_570 == 12_402
+
+
+def test_b3t_has_fewer_parameters_than_b3():
+  b3 = EarlyPoolEncoder(100, 50, hidden_dim=64)
+  b3t = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  n_b3 = sum(p.numel() for p in b3.parameters())
+  n_b3t = sum(p.numel() for p in b3t.parameters())
+  assert n_b3t < n_b3, f"B3T ({n_b3t}) should have fewer parameters than B3 ({n_b3})"
+
+
+def test_b3a_parameter_count_matches_design():
+  enc = TrialAttentionEarlyPoolEncoder(100, 50, hidden_dim=64, num_post_layers=3)
+  # pre_pool: Linear(100,64) = 100*64+64 = 6,464 (same as B3). trial_attn_score:
+  # Linear(64,1) = 64*1+1 = 65. post_pool: 11,570 (same as B3). Total = B3's 18,034 + 65.
+  assert sum(p.numel() for p in enc.parameters()) == 6_464 + 65 + 11_570 == 18_099
+
+
+def test_b3t_basis_is_buffer_not_trainable():
+  enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64, num_basis=12)
+  assert "temporal_basis" in dict(enc.named_buffers())
+  param_names = [name for name, _ in enc.named_parameters()]
+  assert "temporal_basis" not in param_names
+  assert enc.temporal_basis.requires_grad is False
+  # "non-persistent buffer" (E3_E4_ENCODER_PROGRAM.md section 2.1): excluded from
+  # state_dict()/checkpoints, unlike B8's persistent `projection` buffer -- the basis is
+  # reconstructed identically from (trial_length, num_basis) every time, so it need not be
+  # serialized at all.
+  assert "temporal_basis" not in enc.state_dict()
+
+
+def test_b3t_basis_shape_and_fixed_across_instances():
+  a = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64, num_basis=12)
+  b = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64, num_basis=12)
+  assert a.temporal_basis.shape == (12, 100)
+  # Unlike B8's seeded-random buffer, the raised-cosine basis is a deterministic function of
+  # (trial_length, num_basis) only -- no seed argument, always identical across instances.
+  assert torch.equal(a.temporal_basis, b.temporal_basis)
+
+
+def test_raised_cosine_basis_tiles_without_nan_and_is_bounded():
+  basis = _raised_cosine_temporal_basis(trial_length=100, num_bumps=12)
+  assert basis.shape == (12, 100)
+  assert torch.isfinite(basis).all()
+  assert torch.all(basis >= 0.0) and torch.all(basis <= 1.0)
+  # Every bump has some nonzero support (otherwise it would carry zero information).
+  assert torch.all(basis.sum(dim=1) > 0.0)
+
+
+def test_b3t_zero_init_basis_proj_gives_deterministic_finite_output():
+  enc = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  enc.eval()
+  calib = torch.randn(2, 4, 100, 6)
+  with torch.no_grad():
+    out_a = enc.forward_batch(calib)
+    out_b = enc.forward_batch(calib)
+  assert torch.isfinite(out_a).all()
+  assert torch.equal(out_a, out_b)
+
+
+def test_b3a_zero_init_matches_b3_plain_mean(shapes):
+  """At warm start (trial_attn_score zero-initialized), softmax over an all-zero score
+  vector is exactly uniform, so B3A's attention-weighted sum must reduce to B3's plain
+  mean bit-for-bit given identical pre_pool/post_pool weights -- proving the attention
+  mechanism is a strict generalization of B3's pooling, not an unrelated architecture."""
+  torch.manual_seed(9)
+  b3 = EarlyPoolEncoder(100, 50, 64)
+  b3a = TrialAttentionEarlyPoolEncoder(100, 50, 64)
+  b3a.pre_pool.load_state_dict(b3.pre_pool.state_dict())
+  b3a.post_pool.load_state_dict(b3.post_pool.state_dict())
+  b3.eval()
+  b3a.eval()
+  calib = torch.randn(shapes["batch"], shapes["trials"], shapes["trial_len"], shapes["neurons"])
+  with torch.no_grad():
+    out_b3 = b3.forward_batch(calib)
+    out_b3a = b3a.forward_batch(calib)
+  assert torch.allclose(out_b3, out_b3a, atol=1e-5)
+
+
+def test_b3a_attention_weights_are_not_degenerate_uniform_mean():
+  """After perturbing trial_attn_score away from its zero-init fixed point, the resulting
+  attention distribution must actually differ across trials -- i.e. B3A is not silently
+  reproducing a uniform mean under real (trained-like) weights."""
+  torch.manual_seed(5)
+  enc = TrialAttentionEarlyPoolEncoder(trial_length=100, window_size=50, hidden_dim=64)
+  with torch.no_grad():
+    enc.trial_attn_score.weight.normal_(mean=0.0, std=1.0)
+    enc.trial_attn_score.bias.normal_(mean=0.0, std=1.0)
+  enc.eval()
+  num_trials, num_neurons = 6, 5
+  calib = torch.randn(2, num_trials, 100, num_neurons)
+  state = enc.reset_stream(2, num_neurons, calib.device, calib.dtype)
+  for trial_idx in range(calib.shape[1]):
+    state = enc.push_trial(state, calib[:, trial_idx])
+  with torch.no_grad():
+    weights = enc.attention_weights(state)
+  assert weights.shape == (2, num_trials, num_neurons)
+  assert torch.all(weights >= 0.0)
+  assert torch.allclose(weights.sum(dim=1), torch.ones(2, num_neurons), atol=1e-5)
+  uniform = torch.full_like(weights, 1.0 / num_trials)
+  assert not torch.allclose(weights, uniform, atol=1e-3)
+  # Not just "not uniform on average" -- some per-(batch,neuron) trial distribution must be
+  # meaningfully sharpened away from uniform (a weak global asymmetry would not be enough
+  # evidence that trial-axis attention is doing real work).
+  max_weight = weights.max(dim=1).values
+  assert torch.any(max_weight > 2.0 / num_trials)
+
+
+def test_b3a_state_retains_all_m_trials_not_a_running_sum():
+  """Documents the concrete state-schema difference from B3: state["trial_feats"] grows by
+  one entry per push_trial call (a list, not an O(1) accumulator), which is exactly why
+  B3A cannot reuse the base sum_feat pattern for trial-axis attention."""
+  enc = TrialAttentionEarlyPoolEncoder(100, 50, hidden_dim=64)
+  calib = torch.randn(1, 5, 100, 3)
+  state = enc.reset_stream(1, 3, calib.device, calib.dtype)
+  assert state["trial_feats"] == []
+  for trial_idx in range(calib.shape[1]):
+    state = enc.push_trial(state, calib[:, trial_idx])
+    assert len(state["trial_feats"]) == trial_idx + 1
+    assert state["trial_feats"][-1].shape == (1, 3, 64)
+  assert state["trial_count"] == 5
+
+
+def test_b3t_build_encoder_registered(shapes):
+  enc = build_encoder("B3T", window_size=shapes["window"], trial_length=shapes["trial_len"], hidden_dim=64)
+  assert isinstance(enc, TemporalBasisEarlyPoolEncoder)
+  assert enc.variant == "B3T"
+  calib = torch.randn(1, shapes["trials"], shapes["trial_len"], shapes["neurons"])
+  enc.eval()
+  with torch.no_grad():
+    out = enc.forward_batch(calib)
+  assert out.shape == (1, shapes["neurons"], shapes["window"])
+
+
+def test_b3a_build_encoder_registered(shapes):
+  enc = build_encoder("B3A", window_size=shapes["window"], trial_length=shapes["trial_len"], hidden_dim=64)
+  assert isinstance(enc, TrialAttentionEarlyPoolEncoder)
+  assert enc.variant == "B3A"
+  calib = torch.randn(1, shapes["trials"], shapes["trial_len"], shapes["neurons"])
+  enc.eval()
+  with torch.no_grad():
+    out = enc.forward_batch(calib)
+  assert out.shape == (1, shapes["neurons"], shapes["window"])
+
+
+def test_b3a_cost_profile_reports_o_m_state_growth():
+  """B3A's peak live state must actually scale with num_trials (M) -- unlike every other
+  encoder in this file, which is O(1) in M -- since it retains every trial's [N,D] feature
+  instead of an O(1) running accumulator (E3_E4_ENCODER_PROGRAM.md section 2.2)."""
+  enc = TrialAttentionEarlyPoolEncoder(100, 50, hidden_dim=64)
+  small = enc.cost_profile(num_neurons=96, trial_length=100, num_trials=10)
+  large = enc.cost_profile(num_neurons=96, trial_length=100, num_trials=30)
+  assert large.support_state_bytes == 3 * small.support_state_bytes
+  assert large.peak_live_state_bytes > small.peak_live_state_bytes
+  assert small.support_state_bytes == 10 * 96 * 64 * 4
+
+
+def test_b3t_cost_profile_has_fewer_pre_pool_mac_than_b3():
+  """The fixed K=12 basis genuinely reduces pre_pool MAC (T*K + K*D), not just weight
+  storage -- distinct from B8, whose fixed projection keeps B3's T*D MAC shape."""
+  b3 = EarlyPoolEncoder(100, 50, hidden_dim=64)
+  b3t = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  b3_profile = b3.cost_profile(num_neurons=96, trial_length=100, num_trials=33)
+  b3t_profile = b3t.cost_profile(num_neurons=96, trial_length=100, num_trials=33)
+  assert b3t_profile.mac_per_trial < b3_profile.mac_per_trial

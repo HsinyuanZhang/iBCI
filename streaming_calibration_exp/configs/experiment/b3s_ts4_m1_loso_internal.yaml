@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - b3s_t4_m1_loso_internal
+
+run_id: native_mua_ts4_m1_loso_internal
+tags: ["native-mua", "ts4", "m1", "loso", "internal-only"]
+
+data:
+  side_feature_group: ts4

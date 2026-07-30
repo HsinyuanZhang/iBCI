@@ -1,6 +1,6 @@
 # SPINT→片上 M2：历史下一步计划（含 BrainDistill 精读）
 
-> **文档状态：MUA/ASIC 历史支线。** 当前项目主线已切换为 [`sua_exploration/README.md`](sua_exploration/README.md) 所述的 SUA/MUA 共享编码器探索。本文保留作为 decoder 压缩和片上部署背景，不代表当前执行优先级。
+> **文档状态：MUA/ASIC 历史支线。** 当前项目主线已切换为 [`sua_exploration/README.md`](../sua_exploration/README.md) 所述的 SUA/MUA 共享编码器探索。本文保留作为 decoder 压缩和片上部署背景，不代表当前执行优先级。
 
 > 定位：精读 BrainDistill(2601.17625) 后，明确"哪些借鉴、哪些必须发散"，并沿两条轴——(A) 调整 few-shot 对齐网络、(B) 尚未有人试过的时间卷积——给出可执行的下一步。
 > 关联：`SPINT_deployment_cost_analysis.md`（开销/ASIC 视角 + ridge few-shot 验证）。

@@ -23,6 +23,14 @@ from third_party.falcon_challenge.filtering import (
     NEURAL_TAU_MS,
 )
 from src.data.validation_protocol import loso_split, rotation_5_2_split
+from src.data.falcon_t4_features import (
+    T4_DIM,
+    calibration_target_angles,
+    deterministic_row_permutation,
+    fit_train_t4_stats,
+    t4_from_trial_sums,
+    validate_trial_label_alignment,
+)
 
 
 class FalconDataset(Dataset):
@@ -45,6 +53,10 @@ class FalconDataset(Dataset):
         interpolate_trials=False,
         interpolate_trials_kind='linear',
         pad_value=-1.0,
+        side_feature_group='none',
+        side_feature_shuffle_seed=0,
+        side_feature_mean=None,
+        side_feature_std=None,
     ):
         """
         Initializes the FalconDataModule.
@@ -63,6 +75,16 @@ class FalconDataset(Dataset):
         self.calibration_n_trials = calibration_n_trials
         self.random_calibration = random_calibration
         self.trial_feature_type = trial_feature_type
+        self.side_feature_group = str(side_feature_group).lower()
+        if self.side_feature_group not in {'none', 't4', 'ts4'}:
+            raise ValueError(f"Unsupported FALCON side_feature_group {side_feature_group!r}")
+        self.side_feature_shuffle_seed = int(side_feature_shuffle_seed)
+        self.side_feature_mean = None if side_feature_mean is None else np.asarray(side_feature_mean, dtype=np.float32)
+        self.side_feature_std = None if side_feature_std is None else np.asarray(side_feature_std, dtype=np.float32)
+        if self.side_feature_mean is not None and self.side_feature_mean.shape != (T4_DIM,):
+            raise ValueError("Native FALCON T4 mean must have shape (4,)")
+        if self.side_feature_std is not None and self.side_feature_std.shape != (T4_DIM,):
+            raise ValueError("Native FALCON T4 std must have shape (4,)")
         self.split = split
         self.window_size = window_size
         pre_history = window_size - 1
@@ -92,6 +114,7 @@ class FalconDataset(Dataset):
         self.calib_neural = {}
         self.calib_covariates = {}
         self.calib_trial_change = {}
+        self.calib_target_angles_raw = {}
         self.calib_neural_active_segments = {}
         self.calib_covariates_active_segments = {}
         for session_name, data_dict in calib_sessions_dict.items():
@@ -104,6 +127,12 @@ class FalconDataset(Dataset):
             calib_eval_mask = data_dict["eval_mask"]
             calib_still_times = np.all(np.abs(calib_covariates) < 0.001, axis=1)
             calib_active_times = ~calib_still_times
+            calib_target_angles = None
+            if self.side_feature_group != 'none':
+                calib_target_angles = np.asarray(data_dict['trial_target_angles'], dtype=np.float32)
+                validate_trial_label_alignment(
+                    calib_trial_change, calib_target_angles, source=f"{session_name} raw calibration"
+                )
 
             # find active segments in calibration data (for H1)
             calib_active_segments = []
@@ -133,26 +162,54 @@ class FalconDataset(Dataset):
                     calib_eval_mask = calib_eval_mask & calib_active_times
                 calib_neural = calib_neural[calib_eval_mask]
                 calib_covariates = calib_covariates[calib_eval_mask]
+                if calib_target_angles is not None:
+                    calib_target_angles = calib_target_angles[
+                        np.asarray(calib_eval_mask, dtype=bool)[np.flatnonzero(calib_trial_change)]
+                    ]
                 calib_trial_change = calib_trial_change[calib_eval_mask]
             self.calib_neural[session_name] = calib_neural
             self.calib_covariates[session_name] = calib_covariates
             self.calib_trial_change[session_name] = calib_trial_change
+            if self.side_feature_group != 'none':
+                validate_trial_label_alignment(
+                    calib_trial_change, calib_target_angles, source=f"{session_name} filtered calibration"
+                )
+                self.calib_target_angles_raw[session_name] = calib_target_angles
 
         self.calib_trialized_neural = {}
         self.calib_n_trials = {}
         self.calib_trial_start_indices = {}
         self.calib_trialized_neural_features = {}
+        self.calib_trial_spike_sums = {}
+        self.calib_trial_lengths = {}
+        self.calib_trial_target_angles = {}
+        self._side_feature_cache = {}
         for session_name, trial_change in self.calib_trial_change.items():
             calib_neural = self.calib_neural[session_name]
             calib_covariates = self.calib_covariates[session_name]
             trial_starts = np.where(trial_change == True)[0]
+            target_angles = self.calib_target_angles_raw.get(
+                session_name, np.asarray([], dtype=np.float32)
+            )
+            if self.side_feature_group != 'none' and target_angles.shape != (trial_starts.shape[0],):
+                raise ValueError(
+                    f"Native FALCON T4 label/trial mismatch for {session_name}: "
+                    f"angles={target_angles.shape}, starts={trial_starts.shape}"
+                )
             calib_trialized_neural = []
             calib_trialized_covariates = []
             trial_start_indices = []
+            trial_spike_sums = []
+            trial_lengths = []
             for i in range(trial_starts.shape[0]):
                 start_idx = trial_starts[i]
                 end_idx = trial_starts[i + 1] if i + 1 < trial_starts.shape[0] else calib_neural.shape[0]
                 trial_neural = calib_neural[start_idx:end_idx, :]
+                valid_length = min(trial_neural.shape[0], max_trial_length)
+                if valid_length <= 0:
+                    raise ValueError(f"Empty calibration trial for {session_name} at index {i}")
+                trial_spike_sums.append(trial_neural[:valid_length].sum(axis=0, dtype=np.float64))
+                trial_lengths.append(valid_length)
                 if interpolate_trials:
                     # interpolate trial_neural and trial_covariates to max_trial_length
                     x_original = np.linspace(0, 1, trial_neural.shape[0])
@@ -169,6 +226,10 @@ class FalconDataset(Dataset):
                 trial_start_indices.append(start_idx)
             self.calib_trialized_neural[session_name] = np.array(calib_trialized_neural) # MxTtxN
             self.calib_trial_start_indices[session_name] = np.array(trial_start_indices) # M
+            self.calib_trial_spike_sums[session_name] = np.asarray(trial_spike_sums, dtype=np.float32)
+            self.calib_trial_lengths[session_name] = np.asarray(trial_lengths, dtype=np.int64)
+            if self.side_feature_group != 'none':
+                self.calib_trial_target_angles[session_name] = target_angles
             if self.calibration_n_trials < 1.0: # if self.calibration_n_trials is a ratio:
                 self.calib_n_trials[session_name] = int(self.calibration_n_trials * self.calib_trialized_neural[session_name].shape[0]) # M'
             else: # else self.calibration_n_trials is number of trials to be sampled:
@@ -219,7 +280,51 @@ class FalconDataset(Dataset):
                 calib_trialized_neural_features = np.mean(calib_trialized_neural_features, axis=0, keepdims=False) # M'x(Tt//2 + 1)xN -> (Tt//2 + 1)xN
                 calib_trialized_neural_features = np.transpose(calib_trialized_neural_features, (1, 0)).astype(np.float32) # (Tt//2 + 1)xN -> Nx(Tt//2 + 1)
 
-        return neural_window, covariate_window, calib_trialized_neural_features, session_name
+        if self.side_feature_group == 'none':
+            return neural_window, covariate_window, calib_trialized_neural_features, session_name
+        return (
+            neural_window,
+            covariate_window,
+            calib_trialized_neural_features,
+            session_name,
+            self._native_t4_side_features(session_name, calib_start_trial_idx, calib_n_trials),
+        )
+
+    def set_native_t4_normalization(self, mean: np.ndarray, std: np.ndarray) -> None:
+        if self.side_feature_group == 'none':
+            raise ValueError("Cannot set T4 statistics when side features are disabled")
+        self.side_feature_mean = np.asarray(mean, dtype=np.float32)
+        self.side_feature_std = np.asarray(std, dtype=np.float32)
+        if self.side_feature_mean.shape != (T4_DIM,) or self.side_feature_std.shape != (T4_DIM,):
+            raise ValueError("Native FALCON T4 normalization must have shape (4,)")
+        self._side_feature_cache.clear()
+
+    def native_t4_statistics_inputs(self, session_names):
+        return (
+            {name: self.calib_trial_spike_sums[name] for name in session_names},
+            {name: self.calib_trial_lengths[name] for name in session_names},
+            {name: self.calib_trial_target_angles[name] for name in session_names},
+        )
+
+    def _native_t4_side_features(self, session_name, start_trial_idx, calib_n_trials):
+        if self.side_feature_mean is None or self.side_feature_std is None:
+            raise RuntimeError("Native FALCON T4 statistics must be fitted from train sessions before use")
+        key = (session_name, int(start_trial_idx), int(calib_n_trials))
+        if key not in self._side_feature_cache:
+            stop = start_trial_idx + calib_n_trials
+            raw = t4_from_trial_sums(
+                self.calib_trial_spike_sums[session_name][start_trial_idx:stop],
+                self.calib_trial_lengths[session_name][start_trial_idx:stop],
+                self.calib_trial_target_angles[session_name][start_trial_idx:stop],
+                source=f"{session_name}[{start_trial_idx}:{stop}]",
+            )
+            values = ((raw - self.side_feature_mean) / self.side_feature_std).astype(np.float32)
+            if self.side_feature_group == 'ts4':
+                values = values[deterministic_row_permutation(
+                    values.shape[0], session_name=session_name, seed=self.side_feature_shuffle_seed
+                )]
+            self._side_feature_cache[key] = values
+        return self._side_feature_cache[key]
 
 class SessionBatchSampler(Sampler):
     def __init__(
@@ -428,6 +533,8 @@ class FalconDataModule(pl.LightningDataModule):
         sampler_seed: int = 42,
         balance_session_batches: float | bool = False,
         reshuffle_train_sampler_each_epoch: bool = False,
+        side_feature_group: str = "none",
+        side_feature_shuffle_seed: int = 0,
         ) -> None:
         """
         Initialize a `FALCONDataModule`.
@@ -482,7 +589,7 @@ class FalconDataModule(pl.LightningDataModule):
         fold_id = self.hparams.loso_fold
         if self.hparams.validation_protocol == "rotation_5_2":
             fold_id = self.hparams.rotation_id
-        return {
+        manifest = {
             "validation_protocol": self.hparams.validation_protocol,
             "fold_id": fold_id,
             "train_sessions": list(getattr(self, "train_session_names", [])),
@@ -490,8 +597,23 @@ class FalconDataModule(pl.LightningDataModule):
             "heldout_evaluated_in_fit": bool(self.hparams.include_heldout_in_fit),
             "heldout_evaluated_in_test": bool(self.hparams.include_heldout_in_test),
         }
+        normalization = getattr(self, "native_t4_normalization", None)
+        if normalization is not None:
+            encoded = {
+                "feature_group": normalization["feature_group"],
+                "train_sessions": list(normalization["train_sessions"]),
+                "mean": np.asarray(normalization["mean"], dtype=np.float32).tolist(),
+                "std": np.asarray(normalization["std"], dtype=np.float32).tolist(),
+            }
+            import hashlib, json
+            encoded["sha256"] = hashlib.sha256(json.dumps(encoded, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            manifest["native_t4_normalization"] = encoded
+        return manifest
 
-    def _build_heldout_dataset(self, covariates_mean, covariates_std, task_config) -> None:
+    def _build_heldout_dataset(
+        self, covariates_mean, covariates_std, task_config,
+        *, side_feature_group: str, side_feature_mean, side_feature_std,
+    ) -> None:
         if getattr(self, "val_heldout_dataset", None) is not None:
             return
         val_calib_heldout_files = sorted([f for f in self.hparams.data_dir.rglob("*held-out-calib*.nwb")])
@@ -505,6 +627,10 @@ class FalconDataModule(pl.LightningDataModule):
                 covariates_mean=covariates_mean,
                 covariates_std=covariates_std,
                 use_intertrials=self.hparams.use_intertrials,
+                # T4 labels are read solely from this held-out *calibration* NWB's
+                # trials.tgt_loc.  Query/evaluation covariates never enter feature
+                # construction; they remain present only as the supervised test target.
+                include_trial_targets=side_feature_group != 'none',
             )
         self.val_heldout_dataset = FalconDataset(
             sessions_dict=self.val_calib_heldout_sessions,
@@ -524,6 +650,10 @@ class FalconDataModule(pl.LightningDataModule):
             interpolate_trials=self.hparams.interpolate_trials,
             interpolate_trials_kind=self.hparams.interpolate_trials_kind,
             pad_value=self.hparams.pad_value,
+            side_feature_group=side_feature_group,
+            side_feature_shuffle_seed=self.hparams.side_feature_shuffle_seed,
+            side_feature_mean=side_feature_mean,
+            side_feature_std=side_feature_std,
         )
         self.val_heldout_batch_sampler = SessionBatchSampler(
             self.val_heldout_dataset, self.batch_size_per_device, shuffle=False
@@ -553,6 +683,24 @@ class FalconDataModule(pl.LightningDataModule):
                 )
             self.batch_size_per_device = self.hparams.batch_size // self.trainer.world_size
 
+        if (
+            str(self.hparams.side_feature_group).lower() != 'none'
+            and self.hparams.include_heldout_in_fit
+        ):
+            raise ValueError(
+                "Native FALCON T4 permits held-out calibration labels only at test; "
+                "include_heldout_in_fit must remain false"
+            )
+        if (
+            str(self.hparams.side_feature_group).lower() != 'none'
+            and self.hparams.random_calibration
+        ):
+            raise ValueError(
+                "Native FALCON T4 currently requires random_calibration=false: arbitrary "
+                "short M1 support windows can be direction-rank-deficient. Matched F0/T4/TS4 "
+                "cells must all use the deterministic first-support protocol."
+            )
+
         task_config = FalconConfig(task=FalconTask.__dict__[self.hparams.task],)
         train_calib_heldin_files = sorted([f for f in self.hparams.data_dir.rglob('*held-in-calib*.nwb') if any(session_name in f.name for session_name in self.hparams.heldin_session_names)])
         val_heldin_files = sorted([f for f in self.hparams.data_dir.rglob('*held-in-minival*.nwb') if any(session_name in f.name for session_name in self.hparams.heldin_session_names)])
@@ -574,6 +722,7 @@ class FalconDataModule(pl.LightningDataModule):
                                                                                            task_config.task, 
                                                                                            standardize_covariates=self.hparams.standardize_covariates,
                                                                                            use_intertrials=self.hparams.use_intertrials,
+                                                                                           include_trial_targets=str(self.hparams.side_feature_group).lower() != 'none',
                                                                                            )
                 covariates_mean = self.train_calib_heldin_sessions[session_name]['covariates_mean']
                 covariates_std = self.train_calib_heldin_sessions[session_name]['covariates_std']
@@ -585,6 +734,7 @@ class FalconDataModule(pl.LightningDataModule):
                 covariates_mean=covariates_mean, 
                 covariates_std=covariates_std,
                 use_intertrials=self.hparams.use_intertrials,
+                include_trial_targets=str(self.hparams.side_feature_group).lower() != 'none',
             )
         for f in val_heldin_files:
             session_name = f.name.split('_')[1].split('.')[0]
@@ -595,6 +745,7 @@ class FalconDataModule(pl.LightningDataModule):
                 covariates_mean=covariates_mean, 
                 covariates_std=covariates_std, 
                 use_intertrials=self.hparams.use_intertrials,
+                include_trial_targets=False,
             )
         all_heldin_sessions = list(self.train_calib_heldin_sessions.keys())
         train_sessions, val_heldin_sessions = self._resolve_train_val_sessions(all_heldin_sessions)
@@ -608,6 +759,7 @@ class FalconDataModule(pl.LightningDataModule):
         train_calib_sessions = train_query_sessions
         val_query_sessions = self._subset_sessions(self.val_heldin_sessions, val_heldin_sessions)
         val_calib_sessions = self._subset_sessions(self.train_calib_heldin_sessions, val_heldin_sessions)
+        side_feature_group = str(self.hparams.side_feature_group).lower()
 
         self.train_dataset = FalconDataset(
             sessions_dict=train_query_sessions,
@@ -627,7 +779,22 @@ class FalconDataModule(pl.LightningDataModule):
             interpolate_trials=self.hparams.interpolate_trials,
             interpolate_trials_kind=self.hparams.interpolate_trials_kind,
             pad_value=self.hparams.pad_value,
+            side_feature_group=side_feature_group,
+            side_feature_shuffle_seed=self.hparams.side_feature_shuffle_seed,
         )
+        side_feature_mean = side_feature_std = None
+        if side_feature_group != 'none':
+            sums, lengths, angles = self.train_dataset.native_t4_statistics_inputs(train_sessions)
+            side_feature_mean, side_feature_std = fit_train_t4_stats(
+                sums, lengths, angles, train_sessions, int(self.hparams.calibration_n_trials)
+            )
+            self.train_dataset.set_native_t4_normalization(side_feature_mean, side_feature_std)
+            self.native_t4_normalization = {
+                'feature_group': side_feature_group,
+                'mean': side_feature_mean,
+                'std': side_feature_std,
+                'train_sessions': list(train_sessions),
+            }
         self.val_heldin_dataset = FalconDataset(
             sessions_dict=val_query_sessions,
             calib_sessions_dict=val_calib_sessions,
@@ -646,6 +813,10 @@ class FalconDataModule(pl.LightningDataModule):
             interpolate_trials=self.hparams.interpolate_trials,
             interpolate_trials_kind=self.hparams.interpolate_trials_kind,
             pad_value=self.hparams.pad_value,
+            side_feature_group=side_feature_group,
+            side_feature_shuffle_seed=self.hparams.side_feature_shuffle_seed,
+            side_feature_mean=side_feature_mean,
+            side_feature_std=side_feature_std,
         )
         self.val_heldout_dataset = None
 
@@ -671,7 +842,12 @@ class FalconDataModule(pl.LightningDataModule):
         self.val_heldin_batch_sampler = SessionBatchSampler(self.val_heldin_dataset, self.batch_size_per_device, shuffle=False)
 
         if self._needs_heldout_data(stage):
-            self._build_heldout_dataset(covariates_mean, covariates_std, task_config)
+            self._build_heldout_dataset(
+                covariates_mean, covariates_std, task_config,
+                side_feature_group=side_feature_group,
+                side_feature_mean=side_feature_mean,
+                side_feature_std=side_feature_std,
+            )
 
         if dist.is_available() and dist.is_initialized():
             logging.info(f"World size: {dist.get_world_size()}")
@@ -685,9 +861,26 @@ class FalconDataModule(pl.LightningDataModule):
                 shuffle=False,
             )
 
-    def prepare_session_data(self, session_data_file, task, standardize_covariates=False, covariates_mean=None, covariates_std=None, use_intertrials=True):
+    def prepare_session_data(self, session_data_file, task, standardize_covariates=False, covariates_mean=None, covariates_std=None, use_intertrials=True, include_trial_targets=False):
         session_data_dict = {}
         neural, covariates, trial_change, eval_mask = self.load_data(session_data_file, task, use_intertrials=use_intertrials)
+        if include_trial_targets:
+            # The target source is the calibration NWB trials table, never query/evaluation
+            # covariates.  Validate before and after optional intertrial filtering so a
+            # change in FALCON's trialization cannot silently attach wrong labels.
+            _, _, raw_trial_change, raw_eval_mask = self.load_data(
+                session_data_file, task, use_intertrials=True
+            )
+            target_angles = calibration_target_angles(Path(session_data_file), task)
+            validate_trial_label_alignment(raw_trial_change, target_angles, source=str(session_data_file))
+            if use_intertrials:
+                retained_angles = target_angles
+            else:
+                retained_angles = target_angles[
+                    np.asarray(raw_eval_mask, dtype=bool)[np.flatnonzero(raw_trial_change)]
+                ]
+            validate_trial_label_alignment(trial_change, retained_angles, source=str(session_data_file))
+            session_data_dict['trial_target_angles'] = retained_angles.astype(np.float32, copy=False)
         session_data_dict['neural'] = neural.astype(np.float32)
         covariates = covariates.astype(np.float32)
         standardized_covariates, covariates_mean, covariates_std = self.standardize(covariates, covariates_mean, covariates_std)
