@@ -62,6 +62,10 @@ CANONICAL_DIRECTIONS_RAD: tuple[float, ...] = tuple(
 )
 TUNING_FEATURE_NAMES: dict[str, tuple[str, ...]] = {
     "t4": ("m_cos_phi", "m_sin_phi", "m", "b"),
+    "t4c": (
+        "m_cos_phi", "m_sin_phi", "m", "b",
+        "log_residual_variance", "c_fit_logdet_cac",
+    ),
     "t8": tuple(f"dir_{k}" for k in range(TUNING_NUM_DIRECTIONS)),
 }
 # Modulation depth m = hypot(a, c) below which a unit's cosine tuning fit is treated as flat
@@ -100,6 +104,10 @@ SIDE_FEATURE_DIMS: dict[str, int] = {
     "t4rel": 4,
     "t4rel_membership_shuffled": 4,
     "t4rel_nogroup": 4,
+    # Cached [T4(4), fit-confidence(2)] from the same first-M_T4 support.
+    "t4cf": 6,
+    "t4cf_ts4": 6,
+    "t4cf_confidence_shuffled": 6,
 }
 
 # Learned electrode-index embedding width for F3 (UNIT_SIDE_FEATURE_ABLATION.md section 6)
@@ -227,6 +235,32 @@ def is_feature_shuffle_control(side_feature_group: str) -> bool:
     )
 
 
+def confidence_component_shuffle(side_feature_group: str) -> str | None:
+    """Return the cached t4c component shuffled by a confidence-FiLM control.
+
+    These controls must not use the generic row shuffle: ``t4cf_ts4`` moves
+    only T4 (columns 0:4), while ``t4cf_confidence_shuffled`` moves only C
+    (columns 4:6), preserving the other component's unit alignment.
+    """
+    if side_feature_group == "t4cf_ts4":
+        return "t4"
+    if side_feature_group == "t4cf_confidence_shuffled":
+        return "confidence"
+    return None
+
+
+def permute_t4c_component(features: np.ndarray, *, component: str, permutation_seed: int) -> np.ndarray:
+    """Permute one component along units while retaining every component marginal."""
+    if features.ndim != 2 or features.shape[1] != 6:
+        raise ValueError(f"t4c features must be [units,6], got {features.shape}")
+    if component not in {"t4", "confidence"}:
+        raise ValueError("component must be 't4' or 'confidence'")
+    result = features.copy()
+    columns = slice(0, 4) if component == "t4" else slice(4, 6)
+    result[:, columns] = features[np.random.RandomState(permutation_seed).permutation(features.shape[0]), columns]
+    return result
+
+
 def base_feature_group(side_feature_group: str) -> str:
     """The waveform/tuning registry key to compute and z-score for ``side_feature_group``.
 
@@ -241,8 +275,11 @@ def base_feature_group(side_feature_group: str) -> str:
     group = SHUFFLED_CONTROL_BASE_FEATURE_GROUP.get(side_feature_group, side_feature_group)
     if group == "f3":
         return "f2"
-    if group in {"t4e", "t4gate", "t4anchor", "t4rel", "t4rel_nogroup"}:
-        return "t4"
+    if group in {
+        "t4e", "t4gate", "t4anchor", "t4rel", "t4rel_nogroup",
+        "t4cf", "t4cf_ts4", "t4cf_confidence_shuffled",
+    }:
+        return "t4c" if group.startswith("t4cf") else "t4"
     return group
 
 
@@ -536,6 +573,72 @@ def _fit_cosine_tuning(directions_rad: np.ndarray, mean_rates: np.ndarray) -> tu
     return a, c, m, b
 
 
+def tuning_fit_confidence_descriptor(
+    trial_rates: np.ndarray,
+    direction_indices: np.ndarray,
+    *,
+    selected_t4: np.ndarray | None = None,
+    eps: float = 1.0e-8,
+) -> np.ndarray:
+    """Fit-derived ``[log residual variance, 0.5 log det(C_ac)]``.
+
+    Uses valid labelled *trial-level* rates from the first-M_T4 support and
+    ``X=[1, cos(theta), sin(theta)]``. Residuals are evaluated against the
+    actual selected T4 coefficients (the existing equal-per-direction-mean
+    cosine fit), not against a second trial-weighted refit. Thus this measures
+    uncertainty of the T4 value the encoder really receives even when the
+    chronological support is direction-imbalanced.
+
+    ``C=sigma²(X'X)^-1`` and ``C_ac`` is its a/c block. The two coordinates
+    are intentionally somewhat redundant: residual variance is direct noise
+    while c_fit combines it with trial-count/design-balance precision.
+    """
+    directions = np.asarray(direction_indices, dtype=np.int64)
+    valid = directions >= 0
+    valid_directions = directions[valid]
+    theta = np.asarray(
+        [CANONICAL_DIRECTIONS_RAD[int(index)] for index in valid_directions]
+    )
+    response = np.asarray(trial_rates, dtype=np.float64)[valid]
+    if response.size < 3:
+        raise ValueError("t4c confidence requires at least three valid labelled trials")
+    design = np.stack([np.ones_like(theta), np.cos(theta), np.sin(theta)], axis=1)
+    rank = int(np.linalg.matrix_rank(design))
+    condition = float(np.linalg.cond(design)) if rank == 3 else math.inf
+    if rank != 3 or not math.isfinite(condition):
+        raise ValueError(
+            f"t4c confidence requires rank=3 finite-condition design; got rank={rank}, condition={condition}"
+        )
+    if selected_t4 is None:
+        present_directions = sorted({int(index) for index in valid_directions})
+        direction_theta = np.asarray(
+            [CANONICAL_DIRECTIONS_RAD[index] for index in present_directions],
+            dtype=np.float64,
+        )
+        direction_means = np.asarray(
+            [
+                response[valid_directions == index].mean()
+                for index in present_directions
+            ],
+            dtype=np.float64,
+        )
+        a, c, _m, b = _fit_cosine_tuning(direction_theta, direction_means)
+    else:
+        selected = np.asarray(selected_t4, dtype=np.float64)
+        if selected.shape != (4,) or not np.isfinite(selected).all():
+            raise ValueError(
+                f"selected_t4 must be one finite four-vector, got {selected.shape}"
+            )
+        a, c, _m, b = (float(value) for value in selected)
+    beta = np.asarray([b, a, c], dtype=np.float64)
+    residual = response - design @ beta
+    residual_variance = float(np.dot(residual, residual) / max(1, response.size - 3))
+    covariance = residual_variance * np.linalg.inv(design.T @ design)
+    c_ac = covariance[1:3, 1:3]
+    c_fit = 0.5 * math.log(max(float(np.linalg.det(c_ac)), 0.0) + eps)
+    return np.asarray([math.log(residual_variance + eps), c_fit], dtype=np.float32)
+
+
 def _unit_tuning_features(
     trial_rates: np.ndarray,
     direction_indices: np.ndarray,
@@ -673,9 +776,23 @@ def _compute_tuning_features_uncached(
 
     t4 = np.zeros((num_channels, 4), dtype=np.float32)
     t8 = np.zeros((num_channels, TUNING_NUM_DIRECTIONS), dtype=np.float32)
+    confidence = np.zeros((num_channels, 2), dtype=np.float32)
     zero_spike = 0
     zero_modulation = 0
     insufficient_direction = 0
+
+    design_rank = 0
+    design_condition = math.inf
+    if present_directions:
+        theta = np.asarray([CANONICAL_DIRECTIONS_RAD[index] for index in present_directions])
+        design = np.stack([np.ones_like(theta), np.cos(theta), np.sin(theta)], axis=1)
+        design_rank = int(np.linalg.matrix_rank(design))
+        design_condition = float(np.linalg.cond(design)) if design_rank == 3 else math.inf
+    if feature_group == "t4c" and (design_rank != 3 or not math.isfinite(design_condition)):
+        raise ValueError(
+            f"{session_name_from_path(nwb_path)}: t4c requires rank=3 finite-condition design; "
+            f"got rank={design_rank}, condition={design_condition}"
+        )
 
     if len(present_directions) < 2:
         # Session-wide degeneracy shared by every unit (E3_E4_ENCODER_PROGRAM.md section 1.4):
@@ -693,6 +810,10 @@ def _compute_tuning_features_uncached(
             )
             t4[unit_idx] = unit_t4
             t8[unit_idx] = unit_t8
+            if feature_group == "t4c":
+                confidence[unit_idx] = tuning_fit_confidence_descriptor(
+                    rates[unit_idx], direction_indices, selected_t4=unit_t4
+                )
             zero_spike += int(is_zero_spike)
             zero_modulation += int(is_zero_modulation)
 
@@ -721,7 +842,11 @@ def _compute_tuning_features_uncached(
         zero_modulation_unit_count=zero_modulation,
         insufficient_direction_unit_count=insufficient_direction,
     )
-    features = t4 if feature_group == "t4" else t8
+    features = (
+        t4 if feature_group == "t4"
+        else np.concatenate([t4, confidence], axis=1) if feature_group == "t4c"
+        else t8
+    )
     return features, metadata
 
 

@@ -347,7 +347,13 @@ def main() -> None:
         "t4gate", "t4gate_shuffled",
         "t4anchor", "t4anchor_shuffled",
         "t4rel", "t4rel_membership_shuffled", "t4rel_nogroup",
+        "t4cf", "t4cf_ts4", "t4cf_confidence_shuffled",
     }
+    label_feature_pool_size = (
+        (metadata.get("side_features") or {}).get("pool_size")
+        if side_feature_group in label_derived_side_groups
+        else None
+    )
 
     data_dir = Path(args.data_dir).expanduser().resolve() if args.data_dir else Path(metadata["data_dir"])
     teacher_ckpt = (
@@ -445,6 +451,7 @@ def main() -> None:
             "calibration_n": args.calibration_n,
             "train_activity_calibration_n": metadata.get("training", {}).get("calibration_n_trials"),
             "evaluation_forward_calibration_n": args.calibration_n,
+            "label_feature_calibration_n": label_feature_pool_size,
             "pool_size": args.pool_size,
             "protocol_metric_source": (
                 "select_gradient_free_protocol_dandi688."
@@ -468,7 +475,7 @@ def main() -> None:
             side_feature_group in label_derived_side_groups
         ),
         "calibration_feature_label_scope": (
-            f"chronological_trials[0:{args.calibration_n}]"
+            f"chronological_rewarded_trials[0:{label_feature_pool_size}]"
             if side_feature_group in label_derived_side_groups
             else None
         ),

@@ -1,7 +1,7 @@
 # Current Results: SUA/MUA Shared Encoder
 
 **状态：当前结果摘要**  
-**更新：2026-07-30**
+**更新：2026-07-31**
 
 ## FP32 T4 主线补强与 INT8 接续
 
@@ -26,24 +26,37 @@ chronological first-33 held-out calibration prefix 下完成配对；T4 只额�
 不是隐藏 EvalAI query/test。权威 artifact：
 `results/m2_spint_t4_mainline_fp32_v1/aggregate.json`。
 
-### SUA：修正矩阵运行中
+### SUA：修正矩阵 9/9 完成并通过全部 gate
 
-SUA 正在运行原始 SPINT IDEncoder（B0）/T4/TS4 × seeds 42/43/44。训练和评估
-的 activity calibration、T4 label pool、evaluation exclusion pool 全部统一为
-chronological first-30，只评估 trial 30 之后的窗口；strict 27/6/6 manifest
-下六个 formal-test NWB 不打开。两张 RTX 3090 按 seed 并行，完成后由
-`aggregate_sua_spint_t4_mainline.py` fail-closed 聚合。
+原始 SPINT IDEncoder（B0）/T4/TS4 × seeds 42/43/44 已完成严格配对。训练和
+评估的 activity calibration、T4 label pool、evaluation exclusion pool 全部统一为
+chronological first-30，只评估 trial 30 之后的窗口；strict 27/6/6 manifest 下
+六个 formal-test NWB 保持封存。Fail-closed 聚合接受全部 9 个 artifact：
 
-预设验收门为 mean delta `≥+0.03`、3/3 seed 正、6/6 session 正、层次
-bootstrap 95% CI 下界 `>0`、六 session exact paired Wilcoxon
-two-sided `p≤0.05`。完整协议、runner 和 INT8 依赖关系见
-[`FP32_T4_MAINLINE_PROTOCOL.md`](FP32_T4_MAINLINE_PROTOCOL.md)。
+| Arm | mean R² |
+|---|---:|
+| original SPINT B0 | 0.236417 |
+| T4 | **0.574976** |
+| TS4 | 0.284528 |
 
-### INT8 自动接续
+- `T4−B0 = +0.338559`：3/3 seeds、6/6 sessions 为正，hierarchical
+  95% CI `[+0.273083,+0.435412]`，exact paired Wilcoxon `p=.03125`；
+- `T4−TS4 = +0.290448`：3/3 seeds、6/6 sessions 为正，hierarchical
+  95% CI `[+0.203539,+0.395563]`，exact paired Wilcoxon `p=.03125`。
 
-SUA 完整聚合出现后，只要 `T4−B0 > 0`、`T4−TS4 > 0` 且协议审计通过，
-watcher 就自动启动量化；量化启动不再等待更严格的 `+0.03` 论文主张 gate。
-本轮按用户指定只量化 **T4/B3S identity encoder**，decoder 保持 FP32，复用
+两项均通过 mean delta `≥+0.03`、3/3 seed、6/6 session、bootstrap-CI 和
+exact-Wilcoxon 的全部预设门。权威 artifact：
+`results/sua_spint_t4_mainline_fp32_v1/aggregate.json`。
+
+### INT8 顺序：等待两个额外 FP32 实验
+
+先前“主线完成即自动量化”的 watcher 已停用。按 2026-07-30 的用户顺序，
+当前先运行：
+
+1. confidence-conditioned FiLM / 低标签 T4；
+2. T4-conditioned decoupled cross-attention（是否加入 confidence 取决于第 1 项）。
+
+只有最终 FP32 架构冻结后才量化 **identity encoder**；decoder 保持 FP32，复用
 其他平台上已有的 decoder QAT 无损证据，避免重复 GPU 消耗：
 
 - `pre_pool`、真实 `post0: 68→64`、`post1`、`post2` 全部 W8A8；
@@ -58,7 +71,7 @@ watcher 就自动启动量化；量化启动不再等待更严格的 `+0.03` 论
 - 任一门失败自动进入固定 8-epoch encoder QAT；QAT 可使用 27 个 train
   sessions 的训练标签，但不用 validation 选 epoch，formal test 继续封存。
 
-自动入口为 `watch_and_launch_t4_encoder_int8.sh`，最终结果目录为
+量化入口在架构选择前不得启动；未来结果目录为
 `results/sua_spint_t4_encoder_int8_v1/`。结论必须写作
 “**T4 encoder INT8 + FP decoder**”，不能写作本轮完成了 full-model INT8。
 

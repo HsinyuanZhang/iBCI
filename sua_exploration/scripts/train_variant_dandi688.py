@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import sys
+from dataclasses import asdict
 from datetime import datetime
 from functools import partial
 from pathlib import Path
@@ -84,13 +85,13 @@ def main() -> None:
         type=str,
         default="B3",
         choices=[
-            "B0", "B3", "B3S", "B3T", "B3A", "B15P", "B15D", "B15", "B16",
+            "B0", "B3", "B3S", "B3T", "B3TS", "B3A", "B15P", "B15D", "B15", "B16",
             # T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md):
             # B3SEG = design D (per-electrode reliability gate on T4's identity output),
             # B3SEA = design C (additive per-electrode anchor on T4's identity output).
             # Design A (learned electrode embedding concatenated alongside T4) needs no new
             # variant: it is plain B3S with --side_features t4e.
-            "B3SEG", "B3SEA",
+            "B3SEG", "B3SEA", "B3SCF", "B3SCFS", "B3SCFA",
             # Stage-0 same-electrode membership relation / parameter-matched no-group control.
             "B3SER", "B3SERN",
         ],
@@ -246,6 +247,7 @@ def main() -> None:
             # cross-validation below.
             "t4e", "t4e_shuffled", "t4gate", "t4gate_shuffled", "t4anchor", "t4anchor_shuffled",
             "t4rel", "t4rel_membership_shuffled", "t4rel_nogroup",
+            "t4cf", "t4cf_ts4", "t4cf_confidence_shuffled",
         ],
         default="none",
         help=(
@@ -274,6 +276,15 @@ def main() -> None:
             "The matched SPINT/T4 mainline sets this equal to --side_feature_pool_size."
         ),
     )
+    parser.add_argument(
+        "--encoder_warmstart_path",
+        type=str,
+        default=None,
+        help=(
+            "Selected ordinary B3S/T4 full Lightning checkpoint. Required for B3SCF/B3SCFS/B3SCFA "
+            "so decoder and T4 substrate both start exactly from the selected baseline."
+        ),
+    )
     args = parser.parse_args()
     if args.max_epochs <= 0 or args.patience < 0:
         raise ValueError("--max_epochs must be positive and --patience must be non-negative")
@@ -289,7 +300,7 @@ def main() -> None:
         raise ValueError("--calibration_n_trials must be positive")
     # B3S (design A / F1-F3 / T4-T8) plus B3SEG (design D, gate) / B3SEA (design C, anchor) --
     # docs/ELECTRODE_ANCHOR_DESIGNS.md -- are the only variants that consume --side_features.
-    SIDE_FEATURE_VARIANTS = {"B3S", "B3SEG", "B3SEA", "B3SER", "B3SERN"}
+    SIDE_FEATURE_VARIANTS = {"B3S", "B3TS", "B3SEG", "B3SEA", "B3SCF", "B3SCFS", "B3SCFA", "B3SER", "B3SERN"}
     if args.side_features != "none" and args.variant not in SIDE_FEATURE_VARIANTS:
         raise ValueError(f"--side_features requires --variant in {sorted(SIDE_FEATURE_VARIANTS)}")
     # B3SEG/B3SEA are always built on a T4 substrate (docs/ELECTRODE_ANCHOR_DESIGNS.md): each
@@ -301,6 +312,9 @@ def main() -> None:
     GATE_ANCHOR_VARIANT_SIDE_FEATURES = {
         "B3SEG": {"t4gate", "t4gate_shuffled"},
         "B3SEA": {"t4anchor", "t4anchor_shuffled"},
+        "B3SCF": {"t4cf", "t4cf_ts4"},
+        "B3SCFS": {"t4cf_confidence_shuffled"},
+        "B3SCFA": {"t4cf"},
         "B3SER": {"t4rel", "t4rel_membership_shuffled"},
         "B3SERN": {"t4rel_nogroup"},
     }
@@ -318,6 +332,11 @@ def main() -> None:
             f"--side_features {args.side_features!r} requires --variant B3SEG/B3SEA (its "
             "gate/anchor mechanism does not exist on plain B3S), not B3S"
         )
+    if args.variant == "B3TS" and args.side_features not in {"t4", "ts4"}:
+        raise ValueError(
+            "B3TS is the predeclared temporal-functional screen and requires "
+            "--side_features t4 or ts4"
+        )
     if args.side_features == "none":
         side_dim = 0
         electrode_embed_dim = 0
@@ -334,16 +353,26 @@ def main() -> None:
         electrode_embed_dim = ELECTRODE_EMBED_DIM if uses_electrode_embedding(args.side_features) else 0
         num_electrodes = 0
         relation_membership = uses_electrode_relation_membership(args.side_features)
+    if args.variant in {"B3SCF", "B3SCFS", "B3SCFA"} and args.encoder_warmstart_path is None:
+        raise ValueError(
+            "B3SCF/B3SCFS/B3SCFA require --encoder_warmstart_path from the selected ordinary T4 checkpoint; "
+            "refusing a confounded from-scratch FiLM run"
+        )
+    if args.encoder_warmstart_path is not None and not Path(args.encoder_warmstart_path).expanduser().is_file():
+        raise FileNotFoundError(f"Encoder warm-start does not exist: {args.encoder_warmstart_path}")
     if args.side_features == "none":
         relation_membership = False
-    from mc_maze.unit_side_features import is_shuffled_control
+    from mc_maze.unit_side_features import confidence_component_shuffle, is_shuffled_control
 
     # fs1/fs2 permute their dimension-matched base feature group (f1/f2 respectively)
     # along the unit axis; the permutation itself is seeded from --seed so it is
     # reproducible per run but independent across seeds (UNIT_SIDE_FEATURE_ABLATION.md
     # section 6). Computed once and reused for both run_metadata provenance and the
     # datamodule constructor below so the two can never silently drift apart.
-    side_permutation_seed = args.seed if is_shuffled_control(args.side_features) else None
+    side_permutation_seed = (
+        args.seed if is_shuffled_control(args.side_features)
+        or confidence_component_shuffle(args.side_features) is not None else None
+    )
     if args.require_gpu and not torch.cuda.is_available():
         raise RuntimeError("--require_gpu was set but CUDA is unavailable")
     if args.accelerator == "gpu" and not torch.cuda.is_available():
@@ -400,6 +429,14 @@ def main() -> None:
         "seed": args.seed,
         "teacher_checkpoint": str(teacher_ckpt),
         "teacher_sha256": sha256_file(teacher_ckpt),
+        "encoder_warmstart_path": (
+            str(Path(args.encoder_warmstart_path).expanduser().resolve())
+            if args.encoder_warmstart_path else None
+        ),
+        "encoder_warmstart_sha256": (
+            sha256_file(Path(args.encoder_warmstart_path).expanduser())
+            if args.encoder_warmstart_path else None
+        ),
         "data_dir": str(data_dir),
         "train_val_manifest": str(manifest_path) if manifest_path else None,
         "train_val_manifest_sha256": sha256_file(manifest_path) if manifest_path else None,
@@ -546,10 +583,30 @@ def main() -> None:
         side_dim=side_dim,
         electrode_embed_dim=electrode_embed_dim,
         num_electrodes=num_electrodes if args.side_features != "none" else 0,
+        encoder_warmstart_path=args.encoder_warmstart_path,
         optimizer=optimizer,
         scheduler=None,
         compile=False,
     )
+    # Build the student once before Trainer.fit so the exact instantiated
+    # encoder—not a hand-maintained estimate—can be receipted in metadata.
+    # Lightning's later setup("fit") is idempotent.
+    model.setup("fit")
+    assert model.student is not None
+    encoder_cost = model.student.id_encoder.cost_profile(
+        num_neurons=64,
+        trial_length=100,
+        num_trials=args.calibration_n_trials,
+    )
+    run_metadata["encoder_cost_profile_reference"] = {
+        "reference_shape": {
+            "num_neurons": 64,
+            "trial_length": 100,
+            "num_trials": args.calibration_n_trials,
+        },
+        **asdict(encoder_cost),
+    }
+    write_json(run_metadata_path, run_metadata)
     configure_multisession_metrics(model, dm)
 
     checkpoint_cb = ModelCheckpoint(

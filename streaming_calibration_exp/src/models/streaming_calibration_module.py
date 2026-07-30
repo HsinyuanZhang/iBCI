@@ -24,6 +24,7 @@ from src.models.components.streaming_encoders import (
   B3PreservingHighOrderStatsEncoder,
   B3PreservingNormalizedHighOrderStatsEncoder,
   B3PreservingReliabilityEncoder,
+  CalibrationConfidenceFiLMEarlyPoolEncoder,
   build_encoder,
   copy_teacher_id_weights,
 )
@@ -45,6 +46,43 @@ def load_encoder_warmstart_state(
   if load_b3_state is None:
     raise ValueError("Warm-start keys do not match the encoder and it has no B3 mapping")
   load_b3_state(state)
+
+
+def load_selected_t4_full_student_warmstart(
+  decoder: nn.Module, id_encoder: nn.Module, path: Path
+) -> None:
+  """Restore an exact selected T4 *student* into a continuation target.
+
+  ``freeze_decoder=False`` is the mainline setting, so an encoder-only restart
+  would confound a FiLM comparison with a fresh teacher decoder.  This accepts
+  only a full Lightning checkpoint, copies the selected ``student.decoder``
+  plus the ordinary B3S/T4 encoder, and deliberately ignores optimizer state.
+  B3SCF leaves only its newly introduced FiLM tensors at their declared zero
+  initialization.
+  """
+  payload = torch.load(path, map_location="cpu", weights_only=True)
+  if not isinstance(payload, dict) or not isinstance(payload.get("state_dict"), dict):
+    raise ValueError("selected T4 warm-start must be a full Lightning checkpoint with state_dict")
+  full_state = payload["state_dict"]
+  decoder_prefix = "student.decoder."
+  encoder_prefix = "student.id_encoder."
+  decoder_state = {
+    key[len(decoder_prefix):]: value for key, value in full_state.items()
+    if isinstance(key, str) and key.startswith(decoder_prefix)
+  }
+  state = {
+    key[len(encoder_prefix):]: value for key, value in full_state.items()
+    if isinstance(key, str) and key.startswith(encoder_prefix)
+  }
+  if set(decoder_state) != set(decoder.state_dict()):
+    raise ValueError("selected T4 decoder state does not exactly match the continuation decoder")
+  if not state or not all(isinstance(value, torch.Tensor) for value in decoder_state.values()) or not all(isinstance(value, torch.Tensor) for value in state.values()):
+    raise ValueError("selected T4 checkpoint contains non-tensor or missing student weights")
+  decoder.load_state_dict(decoder_state, strict=True)
+  if isinstance(id_encoder, CalibrationConfidenceFiLMEarlyPoolEncoder):
+    id_encoder.load_t4_state_dict(state)
+  else:
+    load_encoder_warmstart_state(id_encoder, state)
 
 
 class StreamingCalibrationLitModule(pl.LightningModule):
@@ -245,15 +283,12 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     copy_teacher_id_weights(id_encoder, self.teacher)
 
     if self._encoder_warmstart_path:
-      if not isinstance(id_encoder, (B3PreservingHighOrderStatsEncoder, B3PreservingReliabilityEncoder)):
-        raise ValueError("encoder_warmstart_path currently requires a B3-preserving residual encoder")
+      if not isinstance(id_encoder, (B3PreservingHighOrderStatsEncoder, B3PreservingReliabilityEncoder, CalibrationConfidenceFiLMEarlyPoolEncoder,)) and self._variant != "B3S":
+        raise ValueError("encoder_warmstart_path is authorized only for T4 continuation or B3-preserving residual encoders")
       warmstart_path = Path(self._encoder_warmstart_path)
       if not warmstart_path.is_file():
         raise FileNotFoundError(f"Encoder warm-start does not exist: {warmstart_path}")
-      b3_state = torch.load(warmstart_path, map_location="cpu", weights_only=True)
-      if not isinstance(b3_state, dict) or not all(isinstance(value, torch.Tensor) for value in b3_state.values()):
-        raise ValueError("encoder_warmstart_path must contain a plain encoder tensor state dict")
-      load_encoder_warmstart_state(id_encoder, b3_state)
+      load_selected_t4_full_student_warmstart(decoder, id_encoder, warmstart_path)
 
     if self._freeze_encoder_base and self._tune_encoder_fusion:
       raise ValueError("freeze_encoder_base and tune_encoder_fusion are mutually exclusive")

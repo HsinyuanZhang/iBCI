@@ -1,7 +1,7 @@
 # T4 network optimization directions
 
 **Status:** analysis and candidate convergence; no new experiment launched  
-**Updated:** 2026-07-29  
+**Updated:** 2026-07-30<br>
 **Evidence base:** DANDI 000688 sub-C/CO validation development evidence only
 
 ## 0. Starting point
@@ -143,6 +143,7 @@ retained so they are not rediscovered and rerun later.
 | C13 | Circular/SO(2)-equivariant phase encoding | Coordinate-rotation generalization | Later external-scope idea |
 | C14 | Static electrode anchor/embed tables | Stable array-specific prior | **Kill/defer:** gate already failed |
 | C15 | Larger attention, longer training, or generic SWA tuning | More capacity/optimization | **Kill:** no mechanism and prior evidence is weak/negative |
+| C16 | T4-conditioned decoupled cross-attention with identity-only keys and activity-only values | Separate “which unit?” from “what is it doing now?” in the decoder | Conditional after Rank 3; decoder-changing experiment |
 
 ## 5. Convergence filters and kill criteria
 
@@ -221,20 +222,34 @@ Primary contrasts:
 - `B3T+T4 − B3T`: does T4 remain effective on the compressed temporal backbone?
 - `B3T+T4 − B3T+TS4`: is correct content still required?
 
-Estimated from the existing cost models, adding four T4 inputs to B3T's first post-pool layer
-would give roughly 12,658 learned parameters versus T4's 18,290, and about 4.52M versus
-13.03M session-path MACs at the reference shape. That is approximately 31% fewer parameters
-and 65% fewer MACs; the implementation must make `cost_profile()` compute the exact values
-rather than treating this estimate as a result.
+The reviewed `B3TS` implementation now makes this composition explicit. At the frozen
+reference shape `N=64,T=100,M=30`, its measured `cost_profile()` is:
+
+| Encoder | learned parameters | MAC/session | support state |
+|---|---:|---:|---:|
+| fresh T4/B3S | 18,290 | 13,033,472 | 16,384 B |
+| B3T+T4/B3TS | 12,658 | 4,524,032 | 16,384 B |
+
+This is a 30.79% parameter reduction and 65.29% session-path MAC reduction with no support
+state increase. The fixed raised-cosine basis remains a non-persistent buffer. These are
+implementation/profile results, not an R² result.
 
 This variant is worth keeping even if it merely matches T4 within a predeclared `−0.03`
 non-inferiority margin, because it would dominate on deployment cost.
 
+The fail-closed experiment uses fresh, matched `T4`, `B3T+T4`, and `B3T+TS4` runs with the
+same strict split, seeds, first-30 activity/T4 support, 12-epoch window and trials `[30:]`
+evaluation. Deployment effectiveness requires the paired seed-level lower-2SE bound for
+`B3T+T4−T4` to be at least `−0.03`, both measured reductions to be at least 25%, no state
+increase, and the full strict `B3T+T4−B3T+TS4` content gate. Accuracy superiority remains a
+separate sufficient path.
+
 ### Rank 3 — Confidence-conditioned FiLM, not electrode reliability lookup
 
-T4 is currently fitted from 50 rewarded calibration-pool trials, but the network receives no
-explicit information about fit uncertainty. The failed T4GATE used a fixed scalar indexed by
-electrode; it cannot know whether **this session's** T4 estimate is reliable.
+The matched SUA mainline fits T4 from 30 rewarded calibration trials; the label-efficiency
+screen additionally builds an ordinary `T4@50` reference. Neither receives explicit
+information about fit uncertainty. The failed T4GATE used a fixed scalar indexed by electrode;
+it cannot know whether **this session's** T4 estimate is reliable.
 
 Candidate confidence descriptors, computed only from the calibration block:
 
@@ -250,7 +265,7 @@ The smallest structured fusion is:
 h_i = temporal_activity_embedding(unit_i)
 [gamma_i, beta_i] = small_mlp(T4_i, confidence_i)
 h'_i = (1 + gamma_i) * h_i + beta_i
-E_i = post_pool(h'_i)
+E_i = post_pool([h'_i, T4_i])
 ```
 
 Zero-initialize `gamma/beta` so the model starts exactly as the selected T4 baseline. Use a
@@ -268,7 +283,116 @@ study is explicitly declared, keep the B3 activity budget fixed at `M_activity=3
 the number of trials whose target labels/rates enter T4, and keep the common evaluation start
 at trial 50 so all arms see identical evaluation windows.
 
-### Rank 4 — Direct functional readout as the simplicity control
+#### Frozen Stage-0 implementation contract (2026-07-31)
+
+The reviewed implementation uses a cached six-vector `[T4(4), C(2)]` from exactly the same
+chronological first-`M_T4` rewarded labelled/rate support. It does **not** reuse activity from
+trials outside that T4 support to manufacture confidence. The two confidence coordinates are:
+
+\[
+C_i =
+\left[
+\log(\hat{\sigma}_i^2+\epsilon),\
+\frac12\log(\det(C_{ac,i})+\epsilon)
+\right],
+\qquad
+C_{ac,i} =
+\left[\hat{\sigma}_i^2(X^\top X)^{-1}\right]_{a,c}.
+\]
+
+Here `X=[1,cos(theta),sin(theta)]` is built only from valid target-labelled trials.
+`hat(sigma)^2` is the trial-rate residual variance around the **actual selected T4
+equal-per-direction-mean fit**, not around a second trial-weighted refit. Thus the descriptor
+measures uncertainty of the T4 value the network really consumes under direction imbalance.
+Rank-3 and finite-condition checks fail closed before fitting.
+
+All five arms copy the same ordinary T4 final-epoch student encoder **and decoder**, discard
+optimizer state, and start with newly added residual heads at exactly zero:
+
+- `T4 continuation`;
+- `FiLM(C)`;
+- `FiLM(shuffle C)`, shuffling only confidence columns while T4 remains aligned;
+- `NoFiLM-match(C)`, the same conditioning/head parameter count but additive-only, with no
+  `gamma*h` interaction;
+- `FiLM(TS4)`, shuffling only T4 columns while confidence remains aligned.
+
+At initialization the aligned-T4 arms (T4 continuation, FiLM, confidence-shuffle and
+NoFiLM-match) are bitwise equal to the anchor; `FiLM(TS4)` deliberately differs only through
+its shuffled T4-to-unit assignment. Confidence never enters the original 68-wide post-pool
+input directly: only `[h',T4]` does. The final cached online identity remains `E[N,50]`;
+confidence, gamma and beta are calibration-finalization temporaries, so persistent online
+state and 50 Hz online MACs are unchanged.
+
+The seed-42 Stage-0 screen is only a triage result. Calling the mechanism `effective` requires
+three predeclared seeds and all three contrasts `FiLM−T4`, `FiLM−shuffle-C`, and
+`FiLM−NoFiLM-match` to pass the common `+0.03`, 3/3 seed, 6/6 session, bootstrap-CI and exact
+Wilcoxon gates. `FiLM−TS4` remains a T4-content diagnostic.
+
+### Rank 4 — T4-conditioned decoupled cross-attention
+
+This candidate changes how the decoder consumes identity. It is not another neuron-axis
+self-attention layer and it does not prune tokens. The current coupled path is approximately:
+
+```text
+z_i = readin(x_i + E_i)
+K_i = W_K z_i
+V_i = W_V z_i
+```
+
+so functional identity and instantaneous activity jointly determine both attention selection
+and content. The minimum decoupled candidate is:
+
+```text
+Q_j = learned_behavior_query_j
+K_i = f_key(E_i, T4_i)
+V_i = f_value(x_i)
+alpha_ji = softmax_i(Q_j K_i^T / sqrt(d))
+y_j = sum_i alpha_ji V_i
+```
+
+The intended interpretation is: the key answers “what functional unit is this?”, the value
+answers “what is this unit doing now?”, and the fixed query asks which population evidence is
+relevant to each behavioral output. All `N` tokens remain. Shared per-unit projections keep
+parameter count independent of `N`, and attention remains `O(CND)` rather than adding an
+`O(N^2)` neuron-neuron interaction.
+
+The hardware attraction is stronger than the asymptotic statement alone: `K(E,T4)` is
+session-static and can be cached after calibration, while only `V(x)` must be recomputed on
+the 50 Hz path. The implementation must report the actual cached-key state and online MACs;
+it may not count session-static work as free without including its storage.
+
+This is a decoder-changing experiment. It cannot be presented as a frozen-decoder encoder
+ablation, because the existing SPINT attention projections were trained for `readin(x+E)`.
+The clean comparison must train or distill the coupled and decoupled decoder variants under
+the same train sessions, optimizer budget, checkpoint rule and parameter envelope.
+
+Minimum first-stage arms:
+
+- coupled T4 baseline: current `readin(x+E)` path;
+- decoupled `K(E,T4), V(x)`;
+- decoupled `K(E,TS4), V(x)` content control;
+- parameter-matched decoupled `K(E), V(x)` without direct T4;
+- activity-key control `K(x), V(x)` to measure the cost of removing instantaneous activity
+  from attention selection.
+
+Confidence is deliberately excluded from this first stage. It enters the key only if Rank 3
+first establishes that calibration-block confidence is useful. Optional attention bias is
+also a later ablation, not part of the minimum candidate.
+
+Advance by either of two predeclared outcomes:
+
+1. superiority: at least `+0.03 R²` over the coupled T4 baseline with the shared V4
+   consistency gates; or
+2. deployment non-inferiority: paired lower 2SE bound at least `−0.03`, a positive
+   `T4−TS4` key-content contrast, and at least 25% lower measured online decoder MACs with
+   cached keys.
+
+The main kill condition is mechanistic: if removing activity from the key costs more than
+`0.03 R²`, do not add confidence or larger key networks to rescue the factorization. That
+failure would show that state-dependent attention selection, not just functional identity,
+is important in this decoder.
+
+### Rank 5 — Direct functional readout as the simplicity control
 
 The current path maps pooled activity plus T4 through a three-layer MLP into a 50-bin identity,
 adds it to neural tokens, and lets the frozen decoder's cross-attention interpret it.
@@ -288,7 +412,7 @@ Keep this small and factorized. If it approaches T4 within `0.03 R²` while usin
 weight SRAM, the simpler model is the contribution. If it fails, it strengthens the case that
 the richer activity-conditioned identity is necessary.
 
-### Rank 5 — Paired-view co-training for one SUA/pseudo-MUA weight set
+### Rank 6 — Paired-view co-training for one SUA/pseudo-MUA weight set
 
 The bridge currently trains separate models. Because pseudo-MUA is deterministically derived
 from SUA with a known unit→electrode map, it provides a controlled paired augmentation:
@@ -336,7 +460,7 @@ cross-session identity and fixed-shape hardware tokenization, but it must beat:
 Core tension: **session specificity vs cross-session sharing**. The functional descriptor must
 be remeasured each session, but the function that consumes it should be shared.
 
-## 9. Three validation experiments
+## 9. Four validation experiments
 
 ### Experiment A — T4 attribution screen
 
@@ -359,21 +483,35 @@ be remeasured each session, but the function that consumes it should be shared.
 ### Experiment C — confidence and calibration-budget pilot
 
 - Primary sweep: fix B3 activity identity at `M_activity=30`, vary labeled T4 fit budget
-  `M_T4=5/10/15/20/30/50`, and keep evaluation fixed to trials `[50:]`.
+  `M_T4=10/15/20/30/50`, and keep evaluation fixed to trials `[50:]`.
 - Secondary joint-latency sweep, only if the primary sweep succeeds: set
   `M_activity=M_T4` and compare total calibration latency at a separately frozen common
   evaluation boundary.
-- Arms: concat T4, concat T4+confidence, confidence-FiLM, confidence-shuffled control.
+- Arms: selected-T4 continuation, confidence-FiLM, confidence-shuffled FiLM,
+  parameter-matched additive NoFiLM, and T4-shuffled FiLM.
 - Primary claim: reduce required labeled calibration trials relative to the measured
   `T4@50`, not merely improve a nominal 30-trial condition that has not been run.
 - Stop rule: confidence must either add at least `+0.03` at a fixed budget or reach the
-  `T4@50` baseline within `0.03` using at most 25 labeled trials.
+  `T4@50` baseline within `0.03` using at most 20 labeled trials.
 - Coverage rule: report the number of distinct target directions and per-direction counts at
   every budget. Before low-budget runs, replace the current `<2 directions` guard with a
   design-matrix rank/condition-number guard: fitting `[b,a,c]` requires rank 3, so two
   directions are still underdetermined even though `np.linalg.lstsq` returns a minimum-norm
   value. A rank-deficient arm is a declared measurement degeneracy, not evidence against the
   network.
+
+### Experiment D — decoder key/value factorization
+
+- Run only after the selected T4 representation is frozen; add confidence only if Experiment C
+  passes its confidence gate.
+- Compare the coupled baseline, decoupled T4, decoupled TS4, identity-only key and activity-key
+  control under the same decoder training/distillation and fixed checkpoint rule.
+- Report paired R², the correct-content contrast, exact learned parameters, cached-key bytes,
+  session-rate MACs and 50 Hz online MACs.
+- Primary question: can session-static functional keys preserve behavior decoding while moving
+  a material fraction of key computation out of the online path?
+- Kill the branch if activity-free keys are worse than coupled T4 by more than `0.03 R²`; do
+  not respond by adding a larger decoder in the same screen.
 
 ## 10. Two-week feasibility pilot
 
@@ -406,6 +544,10 @@ be remeasured each session, but the function that consumes it should be shared.
 This pilot deliberately does not combine component changes, B3T, confidence and multi-view loss
 in one run. Each addition earns the right to enter the next stage.
 
+The decoupled decoder is explicitly outside this first two-week pilot. It begins only after the
+T4 representation and confidence decision are frozen, so an encoder-side interaction and a
+decoder-side key/value factorization are not confounded.
+
 ## 11. Strongest objection and response
 
 **Objection:** T4 uses behavioral direction labels, and its apparent “functional identity”
@@ -418,6 +560,15 @@ target-label-shuffle screen separates direction from rate scale; the calibration
 quantifies the supervision cost; pseudo-MUA remains a controlled invariance test only; and
 real threshold-crossing MUA requires a separate external replication before any cross-signal
 generalization claim.
+
+**Decoder-specific objection:** a key computed only from session-static identity cannot change
+attention weights with instantaneous population activity, so the factorization may remove a
+useful behavior-dependent routing mechanism.
+
+**Response:** treat this as the central falsifiable boundary, not an implementation defect.
+The activity-key control measures it directly; a loss greater than `0.03 R²` kills the branch,
+while non-inferiority plus lower online MACs supports the cached-functional-key deployment
+claim.
 
 ## 12. External design precedents
 

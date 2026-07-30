@@ -966,11 +966,13 @@ class Dandi688MultiSessionDataModule(pl.LightningDataModule):
                 if self.side_feature_group is not None:
                     from mc_maze.unit_side_features import (
                         base_feature_group,
+                        confidence_component_shuffle,
                         is_electrode_shuffle_control,
                         is_feature_shuffle_control,
                         load_session_electrode_ids,
                         load_unit_side_features,
                         permute_electrode_ids,
+                        permute_t4c_component,
                         uses_electrode_ids,
                         uses_electrode_relation_membership,
                     )
@@ -995,6 +997,17 @@ class Dandi688MultiSessionDataModule(pl.LightningDataModule):
                         trial_result_filter=self.trial_result_filter,
                         signal_view=self.signal_view,
                     )
+                    component_shuffle = confidence_component_shuffle(self.side_feature_group)
+                    if component_shuffle is not None:
+                        if self.side_permutation_seed is None:
+                            raise ValueError(
+                                f"{self.side_feature_group} requires a non-None side_permutation_seed"
+                            )
+                        side_features = permute_t4c_component(
+                            side_features,
+                            component=component_shuffle,
+                            permutation_seed=self.side_permutation_seed,
+                        )
                     if side_features.shape[0] != record.neural.shape[1]:
                         raise ValueError(
                             f"{record.name}: side_features units {side_features.shape[0]} "

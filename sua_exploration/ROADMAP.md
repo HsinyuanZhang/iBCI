@@ -21,9 +21,20 @@
 
 1. **M2 FP32：T4 vs 本地 full SPINT**——同一个 chronological first-33
    calibration prefix；T4 可使用其中 target labels；all-held-in T4 三种子。
-2. **SUA FP32：T4 vs 原始 SPINT B0**——B0/T4/TS4 × 三种子，activity、
-   label side-pool 与 evaluation pool 均为 first-30；formal test 封存。
-3. **INT8**——只有前两项通过冻结门槛后，才依次做 PTQ、必要时 QAT。
+2. **SUA FP32：T4 vs 原始 SPINT B0——已完成并 strict-positive。**
+   B0/T4/TS4 × 三种子，activity、label side-pool 与 evaluation pool 均为
+   first-30；`T4−B0=+0.33856`、`T4−TS4=+0.29045`，全部预设 gate 通过，
+   formal test 仍封存。
+3. **额外实验 1：confidence-conditioned FiLM**——固定 activity budget 和
+   common evaluation start，测试 calibration confidence 能否将 labeled T4
+   budget 从 50 降到 10/15/20，同时保持普通 `T4@50` 的性能。
+4. **额外实验 2：T4-conditioned decoupled cross-attention**——在 T4 表征
+   冻结后公平比较 coupled decoder 与 `K(E,T4),V(x)`；只有第 3 项通过时才把
+   confidence 加入 key。
+5. **INT8**——只量化前述 FP32 实验选出的最终架构，依次做 encoder PTQ、
+   必要时 QAT；decoder 量化不在本地重复。
+6. **Formal held-out**——最终架构和量化状态全部冻结、G1 scope 治理解决后
+   才执行一次，模型选择期间保持 test sessions 封存。
 
 协议与验收规则：
 [`docs/FP32_T4_MAINLINE_PROTOCOL.md`](docs/FP32_T4_MAINLINE_PROTOCOL.md)。
@@ -46,6 +57,8 @@ view。当前执行重点从“修测量”转为“拆解并优化 T4，同时�
 | **T4GATE** | T4 + 静态 electrode reliability gate | ⛔ **`ineffective`**。T4GATE−T4 `−0.0108 ± 0.0049 SE`；停止该方向。见 §K.3 |
 | **N-MUA** | 原生 FALCON M1/M2 的 F0/T4/TS4 | ✅ **internal 18/18 + local held-out-calib test-only replay 18/18 完成**。held-out replay 中 M2 `T4−F0=+0.06979`、`T4−TS4=+0.06201`，均 3/3 cells 正；M1 两项略负。使用 chronological first-10/33、校准无反向传播；不是隐藏 EvalAI test。见 [`docs/NATIVE_MUA_T4_M1_M2_PROGRAM.md`](docs/NATIVE_MUA_T4_M1_M2_PROGRAM.md) |
 | **SUA-REL0** | 同电极 source-separation Stage-0 | ⛔ **`ineffective`，停止**。完整 4 arms × 3 seeds：`REL−T4=−0.00144`（0/3 seed 正），`REL−REL-NG=+0.00650` 也排除 `+0.03`；不补 seed、不进入 relative amplitude。见 [`docs/SUA_AUXILIARY_STAGE0.md`](docs/SUA_AUXILIARY_STAGE0.md) |
+| **T4-CFILM** | 拟合置信度 × pooled activity FiLM | 🧪 **代码与 CPU 合约完成；SUA 主线 strict gate 已通过，`T4@50` 三种子锚点正在排队运行。** `M_activity=30`、`M_T4=10/15/20/30/50`、共同从 trial 50 评估；五臂含 T4 continuation、C-shuffle、NoFiLM 参数匹配与 TS4。seed-42 只作 triage，三 seed 严格门通过后才能称 `effective`。 |
+| **T4-B3T** | 流式 temporal basis × T4 | 🧪 **实现、成本审计、CPU tests 与 fail-closed runner/aggregator 已完成，等待 T4-CFILM triage 后接续。** 实测参数 `18,290→12,658`（−30.79%）、session MAC `13.03M→4.52M`（−65.29%）、support state 不变；将以 fresh T4/B3T+T4/B3T+TS4 判断 `−0.03` 非劣与 T4-content gate。 |
 | **T4-NEXT** | T4 分量归因与网络融合优化 | 🧭 **可做，但需保留任务异质性**。优先 `[a,c] / m / b` 分解、T4×B3T 与低标签 learning curve；硬件流简化最后。不得复活已失败的静态 electrode gate 或同电极 relation。见 [`docs/T4_OPTIMIZATION_DIRECTIONS.md`](docs/T4_OPTIMIZATION_DIRECTIONS.md) |
 
 ### E1/E2/E4 最终结果
@@ -377,5 +390,9 @@ self-attention 不是本项目的有效机制；B15 相对 B3 的增益约 84% �
    SUA、M1、M2，不把 M2 的强结果外推到 M1。
 2. 停止同电极 relation、relative amplitude、静态 SNR/waveform gate 与
    electrode lookup；现有阴性 artifact 足以关闭这些路线。
-3. T4 硬件流简化保持最低优先级，只在分量和低标签结果明确后推进。
-4. 处理 G1、G2；随后再考虑 fixed-slot router 的 top-K/random/activity 对照。
+3. 若 calibration confidence 在低标签预算下通过 gate，再做 zero-init low-rank
+   FiLM；随后才测试 `K(E,T4),V(x)` 的 decoupled cross-attention。后者是
+   decoder-changing 实验，必须与 coupled decoder 公平训练/蒸馏，并报告缓存 key
+   后的实际在线 MAC，不能写成冻结 decoder 的 encoder 改进。
+4. T4 硬件流简化保持最低优先级，只在分量和低标签结果明确后推进。
+5. 处理 G1、G2；随后再考虑 fixed-slot router 的 top-K/random/activity 对照。

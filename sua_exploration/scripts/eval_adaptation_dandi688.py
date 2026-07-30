@@ -378,9 +378,11 @@ def attach_side_features(
     from mc_maze.unit_side_features import (
         is_electrode_shuffle_control,
         is_feature_shuffle_control,
+        confidence_component_shuffle,
         load_session_electrode_ids,
         load_unit_side_features,
         permute_electrode_ids,
+        permute_t4c_component,
         uses_electrode_ids,
         uses_electrode_relation_membership,
     )
@@ -399,6 +401,13 @@ def attach_side_features(
         trial_result_filter="R",
         signal_view=str(rec.get("signal_view", "sua")),
     )
+    component_shuffle = confidence_component_shuffle(side_feature_group)
+    if component_shuffle is not None:
+        if permutation_seed is None:
+            raise ValueError(f"{side_feature_group} requires a non-None permutation_seed")
+        side_features = permute_t4c_component(
+            side_features, component=component_shuffle, permutation_seed=permutation_seed
+        )
     if side_features.shape[0] != rec["n_units"]:
         raise ValueError(
             f"{rec['name']}: side_features units {side_features.shape[0]} != "

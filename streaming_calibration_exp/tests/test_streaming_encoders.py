@@ -31,10 +31,12 @@ from src.models.components.streaming_encoders import (
     PopulationStatsEncoder,
     PerNeuronResidualEarlyPoolEncoder,
     RelationalEarlyPoolEncoder,
+    SideFeatureEarlyPoolEncoder,
     SparseBinaryHashEncoder,
     StatsStreamingEncoder,
     StreamingHashEncoder,
     TemporalBasisEarlyPoolEncoder,
+    TemporalBasisSideFeatureEarlyPoolEncoder,
     TernarizedEarlyPoolEncoder,
     TrialAttentionEarlyPoolEncoder,
     TrialStreamingEncoder,
@@ -1153,3 +1155,62 @@ def test_b3t_cost_profile_has_fewer_pre_pool_mac_than_b3():
   b3_profile = b3.cost_profile(num_neurons=96, trial_length=100, num_trials=33)
   b3t_profile = b3t.cost_profile(num_neurons=96, trial_length=100, num_trials=33)
   assert b3t_profile.mac_per_trial < b3_profile.mac_per_trial
+
+
+def test_b3ts_t4_composes_b3t_with_side_features_without_new_streaming_state():
+  torch.manual_seed(20260731)
+  b3t = TemporalBasisEarlyPoolEncoder(100, 50, hidden_dim=64)
+  b3ts = TemporalBasisSideFeatureEarlyPoolEncoder(
+      100, 50, hidden_dim=64, side_dim=4
+  )
+  b3ts.basis_proj.load_state_dict(b3t.basis_proj.state_dict())
+  with torch.no_grad():
+    base_linears = [layer for layer in b3t.post_pool if isinstance(layer, torch.nn.Linear)]
+    side_linears = [layer for layer in b3ts.post_pool if isinstance(layer, torch.nn.Linear)]
+    for index, (base, side) in enumerate(zip(base_linears, side_linears)):
+      if index == 0:
+        side.weight[:, :64].copy_(base.weight)
+        side.weight[:, 64:].zero_()
+      else:
+        side.weight.copy_(base.weight)
+      side.bias.copy_(base.bias)
+
+  calib = torch.randn(2, 5, 100, 7)
+  t4 = torch.randn(2, 7, 4)
+  with torch.no_grad():
+    expected = b3t.forward_batch(calib)
+    observed = b3ts.forward_batch(calib, side_features=t4)
+  assert torch.allclose(observed, expected, atol=1e-7, rtol=0.0)
+
+  state = b3ts.reset_stream(2, 7, calib.device, calib.dtype)
+  assert set(state) == {"sum_feat", "trial_count"}
+  assert state["sum_feat"].shape == (2, 7, 64)
+
+
+def test_b3ts_t4_meets_predeclared_parameter_mac_and_state_reductions():
+  t4 = SideFeatureEarlyPoolEncoder(100, 50, hidden_dim=64, side_dim=4)
+  b3ts = TemporalBasisSideFeatureEarlyPoolEncoder(
+      100, 50, hidden_dim=64, side_dim=4
+  )
+  t4_profile = t4.cost_profile(num_neurons=64, trial_length=100, num_trials=30)
+  b3ts_profile = b3ts.cost_profile(num_neurons=64, trial_length=100, num_trials=30)
+
+  assert t4_profile.parameter_count == 18_290
+  assert b3ts_profile.parameter_count == 12_658
+  assert t4_profile.mac_per_session == 13_033_472
+  assert b3ts_profile.mac_per_session == 4_524_032
+  assert b3ts_profile.parameter_count <= 0.75 * t4_profile.parameter_count
+  assert b3ts_profile.mac_per_session <= 0.75 * t4_profile.mac_per_session
+  assert b3ts_profile.support_state_bytes == t4_profile.support_state_bytes == 16_384
+
+
+def test_b3ts_builder_requires_predeclared_t4_side_width():
+  encoder = build_encoder(
+      "B3TS", window_size=50, trial_length=100, hidden_dim=64, side_dim=4
+  )
+  assert isinstance(encoder, TemporalBasisSideFeatureEarlyPoolEncoder)
+  assert encoder.variant == "B3TS"
+  with pytest.raises(ValueError, match="side_dim > 0"):
+    build_encoder(
+        "B3TS", window_size=50, trial_length=100, hidden_dim=64, side_dim=0
+    )

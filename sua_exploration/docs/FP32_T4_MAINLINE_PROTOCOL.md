@@ -1,10 +1,17 @@
 # FP32 T4 Mainline Protocol
 
-**Status:** M2 complete and positive; SUA running; encoder-INT8 watcher armed  
-**Frozen:** 2026-07-30  
-**Order:** finish the matched SUA matrix; if both SUA T4 contrasts are strictly
-positive and the protocol audit passes, immediately run encoder PTQ, followed
-automatically by encoder QAT if required.
+**Status:** M2 complete and task-heterogeneous; SUA 9/9 complete and strict-positive;
+confidence-FiLM code/CPU contracts reviewed with `T4@50` anchors running; encoder-INT8 deferred
+
+**Baseline protocol frozen:** 2026-07-30
+
+**Execution-order amendment:** 2026-07-30, per user decision
+
+**Order:** finish the matched SUA matrix, then run the two predeclared FP32
+architecture experiments: (1) confidence-conditioned FiLM with the labeled-T4
+budget sweep and (2) T4-conditioned decoupled cross-attention. Freeze the
+selected final FP32 architecture before running encoder PTQ, followed by
+encoder QAT only if required. The baseline acceptance rules below are unchanged.
 
 ## Claims under test
 
@@ -48,6 +55,15 @@ reproduction of the original SPINT identity encoder, not merely B3/F0.
 Matrix: `B0/T4/TS4 × seeds 42,43,44`. Runner:
 `sua_exploration/scripts/run_sua_spint_t4_mainline.sh`.
 
+Completed strict aggregate:
+
+- arm means: B0 `0.236417`, T4 `0.574976`, TS4 `0.284528`;
+- `T4−B0=+0.338559`, 3/3 seeds and 6/6 sessions positive, bootstrap
+  95% CI `[+0.273083,+0.435412]`, exact Wilcoxon `p=.03125`;
+- `T4−TS4=+0.290448`, 3/3 seeds and 6/6 sessions positive, bootstrap
+  95% CI `[+0.203539,+0.395563]`, exact Wilcoxon `p=.03125`;
+- both contrasts pass every frozen gate; formal-test files remain unopened.
+
 ## Acceptance rule
 
 For the primary contrast (`T4−SPINT` on M2; `T4−B0` on SUA), all conditions
@@ -77,11 +93,54 @@ side-feature pool, epoch budget, checkpoint rule, or formal-test isolation.
 
 Do not use quantization to rescue a failed FP32 claim.
 
-The automatic launch threshold is deliberately distinct from the stronger
-paper-claim threshold above: launch when the strict SUA aggregate has
-`T4−B0 > 0` and `T4−TS4 > 0`, with the complete protocol audit passing.  This
-tests quantizability as soon as T4 has a positive signal; it does not promote a
-sub-`+0.03` result to the main FP32 claim.
+Quantization is downstream of FP32 architecture selection. The former automatic
+launch after the baseline aggregate is disabled. The strict SUA aggregate must
+still have `T4−B0 > 0` and `T4−TS4 > 0`, with the complete protocol audit
+passing, before either additional architecture experiment can advance.
+
+The two intervening experiments use validation-development sessions only:
+
+1. confidence-conditioned FiLM tests whether calibration confidence can reduce
+   the labeled T4 budget while keeping a fixed activity budget and common
+   evaluation boundary;
+2. decoupled cross-attention tests `K(E,T4), V(x)` after the T4 representation
+   is frozen, adding confidence to the key only if the first experiment passes
+   its gate.
+
+If the confidence-FiLM mechanism fails its control gates, the predeclared
+mechanism-driven optimization round is fresh `T4 / B3T+T4 / B3T+TS4` before any
+decoder-changing rescue. It may qualify by accuracy superiority or by
+deployment effectiveness: lower-2SE non-inferiority at `−0.03`, at least 25%
+measured parameter and session-MAC reduction, unchanged support state, and a
+strict positive T4-content gate. This branch does not authorize INT8 to start
+early; the requested additional FP32 experiment order is still preserved.
+
+Only the selected final architecture advances to encoder PTQ/QAT. Its paired
+FP32 checkpoint is the quantization reference; losing FP32 candidates are not
+quantized. Formal-test NWBs remain sealed throughout architecture selection and
+quantization.
+
+The confidence-FiLM Stage-0 contract is frozen as follows:
+
+- `M_activity=30`; `M_T4∈{10,15,20,30,50}`; every arm evaluates trials `[50:]`;
+- confidence and T4 come from the same first-`M_T4` rewarded labelled/rate
+  support; the evaluator records activity budget, labelled-feature budget and
+  common evaluation boundary separately;
+- FiLM conditions on `[T4,C]`, modulates pooled activity `h`, and leaves the
+  ordinary `post_pool([h',T4])` geometry unchanged;
+- five controls are T4 continuation, FiLM, confidence-shuffled FiLM,
+  parameter-matched additive NoFiLM and T4-shuffled FiLM;
+- every arm copies the same ordinary T4 `epoch_011.ckpt` student encoder and
+  decoder, starts new residual parameters at zero and discards optimizer state;
+- a one-seed screen may only trigger expansion. `effective` requires three
+  seeds and strict success for `FiLM−T4`, `FiLM−confidence-shuffle` and
+  `FiLM−NoFiLM`.
+
+Implementation entrypoints:
+
+- `sua_exploration/scripts/run_sua_t4_budget_baseline_one_cell.sh`
+- `sua_exploration/scripts/run_sua_confidence_film_one_cell.sh`
+- `sua_exploration/scripts/aggregate_sua_confidence_film_t4_budget.py`
 
 Per the 2026-07-30 scope decision, this repository does not repeat decoder
 quantization already completed on another platform.  The local experiment is:
@@ -106,7 +165,8 @@ quantization already completed on another platform.  The local experiment is:
 
 Automation:
 
-- `sua_exploration/scripts/watch_and_launch_t4_encoder_int8.sh`
+- `sua_exploration/scripts/watch_and_launch_t4_encoder_int8.sh` (disabled after
+  the execution-order amendment; restart only after final architecture freeze)
 - `sua_exploration/scripts/run_t4_encoder_int8_after_positive.sh`
 - `sua_exploration/scripts/eval_t4_encoder_int8_dandi688.py`
 - `sua_exploration/scripts/train_t4_encoder_qat_dandi688.py`

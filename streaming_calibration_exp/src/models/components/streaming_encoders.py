@@ -458,6 +458,100 @@ class SideFeatureEarlyPoolEncoder(CalibrationEncoder):
         return num_trials * self._mac_per_trial(num_neurons, trial_length) + post
 
 
+class CalibrationConfidenceFiLMEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
+    """Selected T4 substrate with fit-derived confidence applied to pooled ``h``.
+
+    ``side_features`` is the cached six-vector ``[T4(4), confidence(2)]``
+    computed from the same first-``M_T4`` labelled/rate support.  Confidence is
+    never derived from the separate activity ``M_activity=30`` stream.  The
+    original post-pool input remains exactly ``[h', T4]`` (64+4=68); FiLM is
+    ``h'=(1+gamma)h+beta`` before that unchanged post-pool stack.
+    """
+
+    variant = "B3SCF"
+    t4_dim, confidence_dim = 4, 2
+
+    def __init__(self, trial_length: int, window_size: int, hidden_dim: int, side_dim: int = 6,
+                 film_rank: int = 8, additive_only: bool = False, num_post_layers: int = 3) -> None:
+        if side_dim != self.t4_dim + self.confidence_dim:
+            raise ValueError("B3SCF requires side_features=[T4(4), fit_confidence(2)]")
+        if film_rank <= 0:
+            raise ValueError("B3SCF film_rank must be positive")
+        # Preserve the ordinary T4 post_pool geometry: hidden(64) + T4(4).
+        super().__init__(trial_length, window_size, hidden_dim, side_dim=self.t4_dim,
+                         electrode_embed_dim=0, num_electrodes=0, num_post_layers=num_post_layers)
+        self.input_side_dim = side_dim
+        self.film_rank = int(film_rank)
+        self.additive_only = bool(additive_only)
+        self.confidence_context = nn.Sequential(
+            nn.Linear(self.t4_dim + self.confidence_dim, self.film_rank), nn.ReLU()
+        )
+        # Always emit 2H so NoFiLM-match has exactly the FiLM parameter count.
+        self.confidence_film = nn.Linear(self.film_rank, 2 * hidden_dim)
+        with torch.no_grad():
+            self.confidence_film.weight.zero_()
+            self.confidence_film.bias.zero_()
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before B3SCF finalization")
+        side = state.get("side_features")
+        mean_feat = state["sum_feat"] / state["trial_count"]
+        expected_shape = (*mean_feat.shape[:2], self.input_side_dim)
+        if side is None or tuple(side.shape) != expected_shape:
+            raise ValueError(f"B3SCF requires side_features shape {expected_shape}, got {None if side is None else tuple(side.shape)}")
+        t4, confidence = side[..., :self.t4_dim], side[..., self.t4_dim:]
+        modulation = self.confidence_film(
+            self.confidence_context(torch.cat([t4, confidence], dim=-1))
+        )
+        if self.additive_only:
+            residual_a, residual_b = modulation.chunk(2, dim=-1)
+            mean_feat = mean_feat + residual_a + residual_b
+        else:
+            gamma, beta = modulation.chunk(2, dim=-1)
+            mean_feat = (1.0 + gamma) * mean_feat + beta
+        return self.post_pool(torch.cat([mean_feat, t4], dim=-1))
+
+    def load_t4_state_dict(self, state_dict: Dict[str, torch.Tensor]) -> None:
+        """Load an ordinary selected B3S/T4 encoder without touching FiLM weights.
+
+        This intentionally accepts only the exact T4 substrate keys.  A source
+        checkpoint that contains FiLM parameters, an electrode table, or a
+        different post-pool layout is rejected rather than partly loaded.
+        """
+        base_keys = set(self.state_dict()) - {
+            "confidence_context.0.weight",
+            "confidence_context.0.bias",
+            "confidence_film.weight",
+            "confidence_film.bias",
+        }
+        if set(state_dict) != base_keys:
+            raise ValueError(
+                "B3SCF warm-start must be an exact ordinary B3S/T4 encoder state dict"
+            )
+        missing, unexpected = self.load_state_dict(state_dict, strict=False)
+        expected_missing = {
+            "confidence_context.0.weight", "confidence_context.0.bias",
+            "confidence_film.weight", "confidence_film.bias",
+        }
+        if set(missing) != expected_missing or unexpected:
+            raise RuntimeError("B3SCF T4 warm-start violated its exact state mapping")
+        if torch.count_nonzero(self.confidence_film.weight).item() or torch.count_nonzero(self.confidence_film.bias).item():
+            raise RuntimeError("B3SCF warm-start must leave the zero-init FiLM head at zero")
+
+    def _support_state_bytes(self, num_neurons: int) -> int:
+        return super()._support_state_bytes(num_neurons)
+
+    def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
+        base = super()._mac_per_session(num_neurons, trial_length, num_trials)
+        film = num_neurons * (
+            (self.t4_dim + self.confidence_dim) * self.film_rank
+            + self.film_rank * (2 * self.hidden_dim)
+            + 2 * self.hidden_dim
+        )
+        return base + film
+
+
 class ElectrodeGateEarlyPoolEncoder(SideFeatureEarlyPoolEncoder):
     """B3SEG (design D, docs/ELECTRODE_ANCHOR_DESIGNS.md): a T4-substrate B3S identity,
     multiplicatively gated per unit by a learned per-ELECTRODE reliability scalar::
@@ -828,6 +922,77 @@ class TemporalBasisEarlyPoolEncoder(CalibrationEncoder):
     def _mac_per_session(self, num_neurons: int, trial_length: int, num_trials: int) -> int:
         post = num_neurons * _affine_mac_per_vector(self.hidden_dim, self.post_pool)
         return num_trials * self._mac_per_trial(num_neurons, trial_length) + post
+
+
+class TemporalBasisSideFeatureEarlyPoolEncoder(TemporalBasisEarlyPoolEncoder):
+    """B3TS: B3T's streaming temporal basis with aligned per-unit side features.
+
+    This is the direct temporal-functional composition requested by the T4
+    optimization program: the activity path is exactly B3T's fixed
+    ``T -> K=12`` raised-cosine projection plus learned ``K -> H`` map, while
+    the final session-rate identity is ``post_pool([mean_h, side])``.  With
+    ``side_dim=4`` it implements B3T+T4; the identical architecture with TS4
+    is the unit-alignment content control.
+
+    The side columns of the first post-pool layer are zero-initialized, matching
+    B3S's convention.  Thus the architecture starts as B3T rather than gaining
+    an arbitrary random side-feature shortcut.  No trial list, unit table or
+    online state is added: the persistent calibration accumulator remains
+    ``[B,N,H]`` and the side vector is consumed only at finalization.
+    """
+
+    variant = "B3TS"
+
+    def __init__(
+        self,
+        trial_length: int,
+        window_size: int,
+        hidden_dim: int,
+        side_dim: int = 0,
+        num_basis: int = 12,
+        num_post_layers: int = 3,
+    ) -> None:
+        if side_dim <= 0:
+            raise ValueError("B3TS requires side_dim > 0")
+        super().__init__(
+            trial_length,
+            window_size,
+            hidden_dim,
+            num_basis=num_basis,
+            num_post_layers=num_post_layers,
+        )
+        self.side_dim = int(side_dim)
+        self.post_pool = _build_affine_stack(
+            hidden_dim + self.side_dim,
+            hidden_dim,
+            num_post_layers,
+            window_size,
+        )
+        with torch.no_grad():
+            self.post_pool[0].weight[:, hidden_dim:].zero_()
+
+    def finalize_identity(self, state: Dict[str, Any]) -> torch.Tensor:
+        if state["trial_count"] == 0:
+            raise ValueError("trial_count must be > 0 before B3TS finalization")
+        mean_feat = state["sum_feat"] / state["trial_count"]
+        side = state.get("side_features")
+        expected_shape = (*mean_feat.shape[:2], self.side_dim)
+        if side is None or tuple(side.shape) != expected_shape:
+            raise ValueError(
+                f"B3TS requires side_features shape {expected_shape}, got "
+                f"{None if side is None else tuple(side.shape)}"
+            )
+        return self.post_pool(torch.cat([mean_feat, side], dim=-1))
+
+    def _mac_per_session(
+        self, num_neurons: int, trial_length: int, num_trials: int
+    ) -> int:
+        post = num_neurons * _affine_mac_per_vector(
+            self.hidden_dim + self.side_dim, self.post_pool
+        )
+        return num_trials * self._mac_per_trial(
+            num_neurons, trial_length
+        ) + post
 
 
 class TrialAttentionEarlyPoolEncoder(CalibrationEncoder):
@@ -2996,8 +3161,26 @@ def build_encoder(
             electrode_embed_dim=electrode_embed_dim,
             num_electrodes=num_electrodes,
         )
+    elif variant in {"B3SCF", "B3SCFS", "B3SCFA"}:
+        if electrode_embed_dim != 0 or num_electrodes != 0:
+            raise ValueError("B3SCF uses calibration confidence, not an electrode embedding/table")
+        enc = CalibrationConfidenceFiLMEarlyPoolEncoder(
+            trial_length, window_size, hidden_dim, side_dim=side_dim,
+            # Additive uses the same 2H output and sums both halves, therefore
+            # parameter-matched but without the gamma*h multiplication.
+            additive_only=(variant == "B3SCFA"),
+        )
     elif variant == "B3T":
         enc = TemporalBasisEarlyPoolEncoder(trial_length, window_size, hidden_dim)
+    elif variant == "B3TS":
+        if electrode_embed_dim != 0 or num_electrodes != 0:
+            raise ValueError("B3TS consumes continuous side features, not an electrode table")
+        enc = TemporalBasisSideFeatureEarlyPoolEncoder(
+            trial_length,
+            window_size,
+            hidden_dim,
+            side_dim=side_dim,
+        )
     elif variant == "B3A":
         enc = TrialAttentionEarlyPoolEncoder(trial_length, window_size, hidden_dim)
     elif variant == "B3SEG":
