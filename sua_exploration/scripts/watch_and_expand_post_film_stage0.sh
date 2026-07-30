@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # Aggregate/expand FiLM, run decoupled K/V, then one evidence-driven
-# residual-only optimization before the B3TStream+T4 fallback.
+# train-audit-selected low-label shrinkage and residual-only optimization
+# before the B3TStream+T4 fallback.
 #
 # Ordering is intentional:
 #   1. user-requested confidence-FiLM;
 #   2. user-requested decoupled K/V;
-#   3. residual-only FiLM only if both requested screens are ineffective;
-#   4. B3TStream+T4 efficiency only if the optimized round is also ineffective.
+#   3. M_T4=15 uncertainty-shrunk T4 if both requested screens are ineffective;
+#   4. residual-only FiLM if the evidence-selected shrinkage is ineffective;
+#   5. B3TStream+T4 efficiency only if the optimized rounds are ineffective.
 #
 # This watcher never launches INT8 or formal-test evaluation.
 set -euo pipefail
@@ -21,6 +23,11 @@ FILM_RUNNER="$ROOT/sua_exploration/scripts/run_sua_confidence_film_one_cell.sh"
 KV_RESULTS="$ROOT/sua_exploration/results/sua_t4_decoupled_kv_v1"
 KV_RUNNER="$ROOT/sua_exploration/scripts/run_sua_decoupled_kv_one_cell.sh"
 KV_AGG="$ROOT/sua_exploration/scripts/aggregate_sua_decoupled_kv.py"
+SHRINK_RESULTS="$ROOT/sua_exploration/results/sua_t4_shrinkage_m15_v1"
+SHRINK_RUNNER="$ROOT/sua_exploration/scripts/run_sua_t4_shrinkage_one_cell.sh"
+SHRINK_AGG="$ROOT/sua_exploration/scripts/aggregate_sua_t4_shrinkage.py"
+SHRINK_STAGE0="$SHRINK_RESULTS/aggregate_seed42.json"
+SHRINK_3SEED="$SHRINK_RESULTS/aggregate_3seed.json"
 RESIDUAL_AGG="$ROOT/sua_exploration/scripts/aggregate_sua_residual_film.py"
 RESIDUAL_STAGE0="$FILM_RESULTS/aggregate_residual_seed42.json"
 RESIDUAL_3SEED="$FILM_RESULTS/aggregate_residual_3seed.json"
@@ -28,9 +35,10 @@ B3T_RESULTS="$ROOT/sua_exploration/results/sua_b3t_t4_efficiency_v1"
 B3T_RUNNER="$ROOT/sua_exploration/scripts/run_sua_b3t_t4_one_cell.sh"
 LOG="$FILM_RESULTS/logs/post_stage0_aggregate_watcher.log"
 KV_ARMS=(coupled_t4 kv_e_t4 kv_e_ts4 kv_e_only kv_x_only)
+SHRINK_ARMS=(t4_m15 t4w3_m15 ts4w3_m15)
 
 mkdir -p "$(dirname "$LOG")"
-exec >"$LOG" 2>&1
+exec >>"$LOG" 2>&1
 
 wait_for_file() {
   local path="$1"
@@ -64,6 +72,27 @@ run_kv_seed() {
   local gpu="$2"
   for arm in "${KV_ARMS[@]}"; do
     run_kv_arm "$arm" "$seed" "$gpu"
+  done
+}
+
+run_shrink_arm() {
+  local arm="$1"
+  local seed="$2"
+  local gpu="$3"
+  local result="$SHRINK_RESULTS/${arm}_s${seed}.json"
+  if [[ -f "$result" ]]; then
+    echo "[$(date -Is)] skip existing shrinkage result $result"
+    return
+  fi
+  echo "[$(date -Is)] launch shrinkage arm=$arm seed=$seed gpu=$gpu"
+  env ARM="$arm" SEED="$seed" GPU="$gpu" "$SHRINK_RUNNER" --launch
+}
+
+run_shrink_seed() {
+  local seed="$1"
+  local gpu="$2"
+  for arm in "${SHRINK_ARMS[@]}"; do
+    run_shrink_arm "$arm" "$seed" "$gpu"
   done
 }
 
@@ -174,7 +203,54 @@ if [[ "$film_effective" == "true" || "$kv_effective" == "true" ]]; then
   exit 0
 fi
 
-echo "[$(date -Is)] no verified FiLM/KV mechanism; running residual-only FiLM optimization"
+echo "[$(date -Is)] no verified FiLM/KV mechanism; running M_T4=15 shrinkage Stage-0"
+(
+  run_shrink_arm t4_m15 42 0
+  run_shrink_arm t4w3_m15 42 0
+) &
+shrink_lane0=$!
+(
+  run_shrink_arm ts4w3_m15 42 1
+) &
+shrink_lane1=$!
+wait "$shrink_lane0"
+wait "$shrink_lane1"
+
+"$PY" "$SHRINK_AGG" \
+  --result-dir "$SHRINK_RESULTS" \
+  --reference-dir "$FILM_RESULTS" \
+  --seeds 42 \
+  --out "$SHRINK_STAGE0"
+echo "[$(date -Is)] wrote seed-42 M_T4=15 shrinkage aggregate"
+
+shrink_effective=false
+if jq -e '.stage0_descriptive_mechanism_and_label_reduction_pass == true' \
+  "$SHRINK_STAGE0" >/dev/null; then
+  echo "[$(date -Is)] shrinkage Stage-0 passed; expanding seeds 43/44"
+  run_shrink_seed 43 0 &
+  shrink_pid43=$!
+  run_shrink_seed 44 1 &
+  shrink_pid44=$!
+  wait "$shrink_pid43"
+  wait "$shrink_pid44"
+  "$PY" "$SHRINK_AGG" \
+    --result-dir "$SHRINK_RESULTS" \
+    --reference-dir "$FILM_RESULTS" \
+    --seeds 42,43,44 \
+    --out "$SHRINK_3SEED"
+  if jq -e '.formal_effectiveness_pass == true' \
+    "$SHRINK_3SEED" >/dev/null; then
+    shrink_effective=true
+  fi
+  echo "[$(date -Is)] shrinkage three-seed effective=$shrink_effective"
+fi
+
+if [[ "$shrink_effective" == "true" ]]; then
+  echo "[$(date -Is)] verified low-label shrinkage; stop before INT8/formal"
+  exit 0
+fi
+
+echo "[$(date -Is)] no verified FiLM/KV/shrinkage mechanism; running residual-only FiLM optimization"
 (
   run_film_arm residual_film 42 0
   run_film_arm residual_nofilm 42 0

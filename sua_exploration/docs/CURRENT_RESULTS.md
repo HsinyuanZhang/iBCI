@@ -144,6 +144,42 @@ residual-shuffle、residual-NoFiLM 比较。冻结改动的目标回归 `13 pass
 自动顺序现为 **完整 FiLM → decoupled K/V → residual-only 优化 → B3TStream+T4**；
 只有前两项都没有形成有效候选时 residual 优化才会使用 GPU。
 
+### 低标签 T4 shrinkage：train-only 代理结果为正，GPU pilot 已预注册
+
+完整 FiLM 的早期轨迹提示 M50 可能不是 confidence 最有价值的工作点，因此又做了
+一个严格 train-only、nested leave-one-session-out audit。对每个单位只收缩 T4 的
+`a,c,m`，保留 intercept `b`：
+
+`factor=(a²+c²)/(a²+c²+λ·σ²·trace([(X'X)^-1]ac))`。
+
+每个 fold 只用另外 26 个 training sessions 选择 family/λ，再在被留出的 training
+session 后续 trials `[M:50]` 上评分；27 train receipts 与 strict manifest 完全一致，
+validation/formal opened 均为 false。结果：
+
+| M_T4 | nested LOSO 选择 | geometric future-rate MSE ratio | 改善 sessions | pilot gate |
+|---:|---|---:|---:|---|
+| 10 | Wiener λ=3，27/27 folds | **0.9283** | 26/27 | pass |
+| 15 | Wiener λ=3，27/27 folds | **0.9537** | 27/27 | pass |
+| 20 | Wiener λ=3，27/27 folds | **0.9725** | 23/27 | pass |
+| 30 | Wiener λ=1/3 | 0.9899 | 19/27 | fail |
+
+固定、无需 fold tuning 的 Wiener λ=1 在 M10/M15 也分别改善 27/27 sessions，
+MSE ratio 为 `0.9441/0.9623`，说明结论不是脆弱的单点超参数效应。权威本地
+artifact 是 `results/sua_t4_confidence_shrinkage_audit_v1/train_loso_m10_30.json`
+（SHA-256 `71928d62…6e12`）。这仍只是 future-rate proxy，不是 decoding R²。
+
+GPU pilot 选择 **M_T4=15**：相比 M50 减少 70% labelled trials，同时 train-only
+proxy 在 27/27 sessions 改善。固定候选 `t4w3`/control `ts4w3` 已实现为四维缓存
+特征，Wiener λ=3 在任何 validation 运行前冻结。Stage-0 三臂为 ordinary T4@15、
+T4W3@15、TS4W3@15；均保持 `M_activity=30`、共同 eval start 50、12 epochs 和
+strict 27/6 manifest，并与现有 T4@50 reference 比较。通过条件同时要求：
+T4W3@15 对 T4@15、TS4W3@15 的机制增益通过门槛，且对 T4@50 的平均 R² 差距不超过
+0.03。33 个 train/validation sessions 的前 15 rewarded trials 全部 rank-3，
+最少覆盖 7 个方向，最大 condition `1.887`；formal path opened=0。
+
+自动顺序更新为 **完整 FiLM → decoupled K/V → M15 shrinkage → residual-head-only
+FiLM → B3TStream+T4**。M15 shrinkage 仅在前两项没有验证出有效候选时占用 GPU。
+
 ### Decoupled K/V：实现与硬件凭据完成，性能尚未运行
 
 第一阶段已冻结为五个同预算 FP32 arms：

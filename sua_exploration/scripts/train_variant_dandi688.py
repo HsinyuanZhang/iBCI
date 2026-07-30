@@ -280,13 +280,15 @@ def main() -> None:
     parser.add_argument(
         "--side_features",
         choices=[
-            "none", "f1", "f2", "f3", "fs1", "fs2", "fs3", "t4", "t8", "ts4", "ts8",
+            "none", "f1", "f2", "f3", "fs1", "fs2", "fs3",
+            "t4", "t8", "ts4", "ts8", "t4w3", "ts4w3",
             # T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md), variant
             # B3S (design A) or B3SEG/B3SEA (designs D/C) only -- see the variant/side_features
             # cross-validation below.
             "t4e", "t4e_shuffled", "t4gate", "t4gate_shuffled", "t4anchor", "t4anchor_shuffled",
             "t4rel", "t4rel_membership_shuffled", "t4rel_nogroup",
             "t4cf", "t4cf_ts4", "t4cf_confidence_shuffled",
+            "t4cf_residual", "t4cf_residual_shuffled",
         ],
         default="none",
         help=(

@@ -341,6 +341,17 @@ decoder and trains only the four confidence-head tensors (1,208 parameters) for 
 matched residual arms. If that also fails against T4 continuation and NoFiLM, kill FiLM
 and advance to the independently motivated decoupled-K/V and B3TStream+T4 candidates.
 
+A simpler low-label branch now has stronger train-only support than another M50 fusion.
+Shrink only T4's modulation coefficients with
+`q=(a²+c²)/(a²+c²+3·sigma²·trace([(X'X)^-1]ac))`, set
+`(a',c',m')=q·(a,c,m)`, and leave `b` unchanged. Nested LOSO across the 27 training
+sessions independently selected Wiener strength 3 in all 27 folds at M10, M15 and M20.
+At M15 the later-trial geometric rate-MSE ratio is `0.9537`, with improvement in 27/27
+sessions. This motivates one fixed M15 decoding pilot—ordinary T4, aligned T4W3 and
+unit-shuffled TS4W3—against the existing M50 reference. It is a candidate, not yet a
+decoding result; validation and formal data played no role in selecting its formula,
+budget or strength.
+
 All five arms copy the same ordinary T4 final-epoch student encoder **and decoder**, discard
 optimizer state, and start with newly added residual heads at exactly zero:
 

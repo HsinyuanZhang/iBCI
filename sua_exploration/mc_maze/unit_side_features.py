@@ -38,6 +38,10 @@ FEATURE_VERSION = 1
 # the global version at 1 so unrelated, already-validated waveform/T4 caches do
 # not churn; cache payloads use ``feature_semantics_version`` below.
 T4C_FEATURE_VERSION = 2
+# Selected by a fully train-only, leave-one-session-out audit.  This constant is
+# frozen before any validation decoding run; it is not tuned per held-out
+# session.  See results/sua_t4_confidence_shrinkage_audit_v1.
+T4_WIENER_SHRINK_STRENGTH = 3.0
 WAVEFORM_SAMPLES = 48
 REPOL_WINDOW = 10
 NOISE_STD_EPS = 1e-6
@@ -68,6 +72,12 @@ CANONICAL_DIRECTIONS_RAD: tuple[float, ...] = tuple(
 )
 TUNING_FEATURE_NAMES: dict[str, tuple[str, ...]] = {
     "t4": ("m_cos_phi", "m_sin_phi", "m", "b"),
+    "t4w3": (
+        "wiener3_m_cos_phi",
+        "wiener3_m_sin_phi",
+        "wiener3_m",
+        "b",
+    ),
     "t4c": (
         "m_cos_phi", "m_sin_phi", "m", "b",
         "log_residual_variance", "c_shape_log_condition_cac",
@@ -90,8 +100,10 @@ SIDE_FEATURE_DIMS: dict[str, int] = {
     "fs2": 6,
     "fs3": 6,
     "t4": 4,
+    "t4w3": 4,
     "t8": 8,
     "ts4": 4,
+    "ts4w3": 4,
     "ts8": 8,
     # T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md). All three reuse T4's
     # own 4-dim cosine-tuning fit as the continuous side_dim concatenated at the psi input;
@@ -155,6 +167,7 @@ SHUFFLED_CONTROL_BASE_FEATURE_GROUP: dict[str, str] = {
     "fs2": "f2",
     "fs3": "f3",
     "ts4": "t4",
+    "ts4w3": "t4w3",
     "ts8": "t8",
     "t4e_shuffled": "t4e",
     "t4gate_shuffled": "t4gate",
@@ -673,6 +686,60 @@ def tuning_fit_confidence_descriptor(
     )
 
 
+def uncertainty_wiener_shrink_t4(
+    t4: np.ndarray,
+    log_residual_variance: np.ndarray,
+    direction_indices: np.ndarray,
+    *,
+    strength: float = T4_WIENER_SHRINK_STRENGTH,
+    eps: float = 1.0e-8,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Shrink T4's ``a,c`` using fit uncertainty; keep ``b`` unchanged.
+
+    For unit ``i``, signal power is ``a_i²+c_i²`` and uncertainty power is
+    ``sigma_i² trace([(X'X)^-1]_{a,c})`` from the same labelled support.  The
+    frozen Wiener factor is ``signal/(signal + strength*uncertainty)``.
+    """
+    features = np.asarray(t4, dtype=np.float64)
+    log_variance = np.asarray(log_residual_variance, dtype=np.float64)
+    if features.ndim != 2 or features.shape[1] != 4:
+        raise ValueError(f"t4 must be [units,4], got {features.shape}")
+    if log_variance.shape != (features.shape[0],):
+        raise ValueError(
+            "log_residual_variance must have one value per T4 unit"
+        )
+    if (
+        not np.isfinite(features).all()
+        or not np.isfinite(log_variance).all()
+        or not math.isfinite(strength)
+        or strength < 0.0
+    ):
+        raise ValueError("T4 shrinkage inputs and strength must be finite/nonnegative")
+    directions = np.asarray(direction_indices, dtype=np.int64)
+    valid = directions >= 0
+    theta = np.asarray(
+        [CANONICAL_DIRECTIONS_RAD[int(index)] for index in directions[valid]],
+        dtype=np.float64,
+    )
+    design = np.stack(
+        [np.ones_like(theta), np.cos(theta), np.sin(theta)],
+        axis=1,
+    )
+    if int(np.linalg.matrix_rank(design)) != 3:
+        raise ValueError("T4 shrinkage requires a rank-3 labelled direction design")
+    covariance_trace = float(
+        np.trace(np.linalg.inv(design.T @ design)[1:3, 1:3])
+    )
+    signal = np.square(features[:, 0]) + np.square(features[:, 1])
+    uncertainty = np.exp(log_variance) * covariance_trace
+    factors = signal / (signal + strength * uncertainty + eps)
+    factors = np.clip(factors, 0.0, 1.0)
+    shrunk = features.copy()
+    shrunk[:, :2] *= factors[:, None]
+    shrunk[:, 2] = np.hypot(shrunk[:, 0], shrunk[:, 1])
+    return shrunk.astype(np.float32), factors.astype(np.float32)
+
+
 def _unit_tuning_features(
     trial_rates: np.ndarray,
     direction_indices: np.ndarray,
@@ -822,9 +889,12 @@ def _compute_tuning_features_uncached(
         design = np.stack([np.ones_like(theta), np.cos(theta), np.sin(theta)], axis=1)
         design_rank = int(np.linalg.matrix_rank(design))
         design_condition = float(np.linalg.cond(design)) if design_rank == 3 else math.inf
-    if feature_group == "t4c" and (design_rank != 3 or not math.isfinite(design_condition)):
+    if feature_group in {"t4c", "t4w3"} and (
+        design_rank != 3 or not math.isfinite(design_condition)
+    ):
         raise ValueError(
-            f"{session_name_from_path(nwb_path)}: t4c requires rank=3 finite-condition design; "
+            f"{session_name_from_path(nwb_path)}: {feature_group} requires "
+            "rank=3 finite-condition design; "
             f"got rank={design_rank}, condition={design_condition}"
         )
 
@@ -844,7 +914,7 @@ def _compute_tuning_features_uncached(
             )
             t4[unit_idx] = unit_t4
             t8[unit_idx] = unit_t8
-            if feature_group == "t4c":
+            if feature_group in {"t4c", "t4w3"}:
                 confidence[unit_idx] = tuning_fit_confidence_descriptor(
                     rates[unit_idx], direction_indices, selected_t4=unit_t4
                 )
@@ -877,11 +947,18 @@ def _compute_tuning_features_uncached(
         zero_modulation_unit_count=zero_modulation,
         insufficient_direction_unit_count=insufficient_direction,
     )
-    features = (
-        t4 if feature_group == "t4"
-        else np.concatenate([t4, confidence], axis=1) if feature_group == "t4c"
-        else t8
-    )
+    if feature_group == "t4w3":
+        features, _shrink_factors = uncertainty_wiener_shrink_t4(
+            t4,
+            confidence[:, 0],
+            direction_indices,
+        )
+    elif feature_group == "t4":
+        features = t4
+    elif feature_group == "t4c":
+        features = np.concatenate([t4, confidence], axis=1)
+    else:
+        features = t8
     return features, metadata
 
 

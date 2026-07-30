@@ -126,7 +126,18 @@ quantized. Formal-test NWBs remain sealed throughout architecture selection and
 quantization.
 
 If both requested extra screens (full-confidence FiLM and decoupled K/V) fail,
-one evidence-driven optimization round is allowed before B3TStream+T4. The
+the first evidence-driven optimization is a low-label T4 shrinkage pilot before
+the residual-FiLM fallback. A 27-training-session nested-LOSO audit selected a
+single Wiener strength of 3 in every fold at `M_T4=10/15/20`; `M_T4=15` reduced
+future-rate geometric MSE to `0.9537` of ordinary T4 in 27/27 sessions while
+using 70% fewer labelled trials than T4@50. The decoding pilot freezes that
+hyperparameter before validation, compares T4W3@15 against ordinary T4@15,
+TS4W3@15 and T4@50, keeps `M_activity=30`, and evaluates every arm from trial
+50. It may advance only if the mechanism controls pass and T4W3@15 is within
+0.03 R² of T4@50.
+
+If that pilot also fails, one residual-FiLM optimization round is allowed
+before B3TStream+T4. The
 train-only future-fit audit supports residual variance but not direction
 geometry, so this round keeps the exact six-wide FiLM parameterization and masks
 normalized geometry to zero. It runs residual-FiLM, residual-only row shuffle,
