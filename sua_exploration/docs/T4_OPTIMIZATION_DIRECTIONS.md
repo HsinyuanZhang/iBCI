@@ -322,6 +322,22 @@ to `0.180` on train sessions (`SD=0.0409`). Confidence v2 consequently has one
 unit-specific noise coordinate and one session-level directional-balance coordinate, and
 uses a distinct cache semantic version so v1 artifacts cannot be silently reused.
 
+A second train-only audit tests predictive validity rather than mere non-duplication. For
+each of the same 27 training sessions, it fits T4/confidence on rewarded trials `[0:M]` and
+scores the frozen cosine fit on later rates (`[M:50]` for `M=10/15/20/30`; `[50:80]` for
+`M=50`). A leave-one-session-out ridge model using T4 alone is compared with the same model
+plus confidence. Current confidence improves future-error R² by `+0.155`, `+0.175`,
+`+0.204`, and `+0.237` at `M=10/15/20/30`, and by `+0.358` at `M=50`. At `M=50`,
+residual variance alone has `rho=0.932` with future error and gives `R²=0.8908`; geometry
+has only `rho=0.070`, and the two-coordinate model gives `R²=0.8902`. Exposure/entropy/
+analytic-SE expansion does not improve it (`R²=0.8885`).
+
+This does not establish decoding gain, but it sharpens the failure branch: if the matched
+FiLM screen fails, do not declare confidence uninformative and do not widen the descriptor
+set. Run one parameter-matched **residual-only** modulation round with a residual-only row
+shuffle. If that also fails against T4 continuation and NoFiLM, kill FiLM and advance to
+the independently motivated decoupled-K/V and B3TStream+T4 candidates.
+
 All five arms copy the same ordinary T4 final-epoch student encoder **and decoder**, discard
 optimizer state, and start with newly added residual heads at exactly zero:
 

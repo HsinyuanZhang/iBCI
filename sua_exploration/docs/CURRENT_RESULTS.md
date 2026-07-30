@@ -76,6 +76,48 @@ runner 与 fail-closed aggregator 均要求 `feature_version=2`，旧 v1 cache �
 这只是输入设计审计，是否有效仍必须由
 `FiLM−T4 / FiLM−shuffle-C / FiLM−NoFiLM-match` 的 matched validation 结果证明。
 
+#### Train-only predictive-validity audit：residual variance 确实有信号
+
+为避免把“输入不重复”误当成“输入有用”，随后增加了完全独立于 decoding
+validation 的 train-only 外推检查。它只打开 strict manifest 的 27 个 train
+sessions；validation/formal NWB 打开数均为 0。对每个 session 和 unit：
+
+1. 用 chronological rewarded trials `[0:M]` 拟合冻结 T4/confidence；
+2. 不更新任何权重；
+3. 用该 T4 预测同一 train session 的后续 trial rates；
+4. 用 leave-one-session-out ridge 检查 confidence 在 T4 四维之外能否预测
+   `log future cosine-prediction MSE`。
+
+`M∈{10,15,20,30}`、统一以 `[M:50]` 为未来窗口时，每个预算均覆盖 27 sessions /
+1,613 units：
+
+| M_T4 | T4-only LOSO R² | + current C(2) | 增量 |
+|---:|---:|---:|---:|
+| 10 | 0.5631 | 0.7177 | **+0.1546** |
+| 15 | 0.5531 | 0.7277 | **+0.1747** |
+| 20 | 0.5411 | 0.7453 | **+0.2042** |
+| 30 | 0.5079 | 0.7450 | **+0.2371** |
+
+对当前正在训练的 `M_T4=50`，另用 train-session trials `[50:80]` 检查：
+T4-only `R²=0.5324`，加入当前 confidence 后为 `0.8902`，增量
+**`+0.3578`**；median per-session R² 为 `0.8525`。但贡献几乎全部来自
+unit-specific `log residual variance`：
+
+- residual variance 与未来误差 Spearman `ρ=0.9323`；
+- directional geometry 与未来误差只有 `ρ=0.0703`；
+- `T4 + residual-only` 的 LOSO `R²=0.8908`，略高于当前两维的 `0.8902`；
+- 再加入 exposure、entropy、analytic-SE 的 expanded set 为 `0.8885`，没有增加。
+
+因此，**confidence 本身具有很强的 train-session 外推有效性，但当前证据支持的
+核心是 residual variance，不是 geometry**。若正在运行的 FiLM 最终失败，应
+解释为融合/优化失败，不能解释为 reliability signal 不存在；下一轮优先使用
+参数匹配的 residual-only mask 和对应 residual-shuffle，而不是继续扩展描述量。
+这仍不是 decoding R² 结果，不能替代五臂 validation gate。权威本地 artifacts：
+`results/sua_t4_confidence_film_v1/t4c_predictive_validity_train_m10_30.json`
+（SHA-256 `f2c608f0…5f74`）与
+`t4c_predictive_validity_train_m50_future80.json`
+（SHA-256 `8d331e47…ded`）。
+
 ### Decoupled K/V：实现与硬件凭据完成，性能尚未运行
 
 第一阶段已冻结为五个同预算 FP32 arms：
