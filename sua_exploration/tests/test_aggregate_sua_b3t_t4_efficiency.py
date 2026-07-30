@@ -102,6 +102,7 @@ def test_strict_superiority_requires_three_seeds_not_a_positive_pilot():
         seeds=(42,),
         sessions=sessions,
     )
+    assert one_seed["passes_stage0_descriptive_gates"] is True
     assert one_seed["passes_strict_superiority"] is False
     assert one_seed["strict_superiority_gates"]["at_least_three_predeclared_seeds"] is False
 

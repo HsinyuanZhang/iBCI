@@ -182,12 +182,15 @@ def summarize(
     except ValueError:
         p_value = 1.0
     ci = hierarchical_ci(delta)
-    gates = {
+    stage0_gates = {
         "mean_delta_at_least_0p03": float(delta.mean()) >= 0.03,
-        "all_seed_means_positive": bool(np.all(seed_means > 0.0)),
+        "all_observed_seed_means_positive": bool(np.all(seed_means > 0.0)),
         "all_six_session_means_positive": bool(np.all(session_means > 0.0)),
-        "hierarchical_bootstrap_95ci_lower_positive": ci[0] > 0.0,
         "session_paired_exact_wilcoxon_two_sided_le_0p05": p_value <= 0.05,
+    }
+    gates = {
+        **stage0_gates,
+        "hierarchical_bootstrap_95ci_lower_positive": ci[0] > 0.0,
         "at_least_three_predeclared_seeds": len(seeds) >= 3,
     }
     return {
@@ -202,6 +205,8 @@ def summarize(
         "positive_session_count": int((session_means > 0.0).sum()),
         "hierarchical_bootstrap_95ci": ci,
         "session_paired_exact_wilcoxon_two_sided_p": p_value,
+        "stage0_descriptive_gates": stage0_gates,
+        "passes_stage0_descriptive_gates": all(stage0_gates.values()),
         "strict_superiority_gates": gates,
         "passes_strict_superiority": all(gates.values()),
     }
@@ -279,6 +284,17 @@ def main() -> None:
         "t4_content_strict_gate": content["passes_strict_superiority"],
     }
     efficiency_pass = all(efficiency_gates.values())
+    stage0_efficiency_gates = {
+        "observed_mean_delta_at_least_minus_0p03": float(seed_delta.mean()) >= -0.03,
+        "parameter_reduction_at_least_25pct": parameter_reduction >= 0.25,
+        "session_mac_reduction_at_least_25pct": mac_reduction >= 0.25,
+        "no_support_state_increase": state_change <= 0,
+        "t4_content_stage0_gate": content["passes_stage0_descriptive_gates"],
+    }
+    stage0_efficiency_pass = all(stage0_efficiency_gates.values())
+    stage0_candidate = (
+        accuracy["passes_stage0_descriptive_gates"] or stage0_efficiency_pass
+    )
     effective = accuracy["passes_strict_superiority"] or efficiency_pass
 
     payload = {
@@ -316,6 +332,11 @@ def main() -> None:
             "gates": efficiency_gates,
             "passes_all_gates": efficiency_pass,
         },
+        "stage0_efficiency_screen": {
+            "gates": stage0_efficiency_gates,
+            "passes_all_gates": stage0_efficiency_pass,
+        },
+        "stage0_candidate_for_multiseed_expansion": stage0_candidate,
         "effective_by_accuracy_superiority": accuracy["passes_strict_superiority"],
         "effective_by_deployment_efficiency": efficiency_pass,
         "overall_effective": effective,
