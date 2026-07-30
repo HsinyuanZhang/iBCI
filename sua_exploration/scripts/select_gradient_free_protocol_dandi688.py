@@ -98,6 +98,20 @@ def load_frozen_model(
         fixed_slot_mode=str(hyper_parameters.get("fixed_slot_mode", "soft")),
         fixed_slot_fusion=str(hyper_parameters.get("fixed_slot_fusion", "film")),
         fixed_slot_temperature=float(hyper_parameters.get("fixed_slot_temperature", 1.0)),
+        decoder_mode=str(hyper_parameters.get("decoder_mode", "coupled")),
+        decoupled_key_mode=str(
+            hyper_parameters.get("decoupled_key_mode", "e_t4")
+        ),
+        decoupled_key_dim=int(hyper_parameters.get("decoupled_key_dim", 32)),
+        decoupled_value_dim=int(
+            hyper_parameters.get("decoupled_value_dim", 32)
+        ),
+        decoupled_num_heads=int(
+            hyper_parameters.get("decoupled_num_heads", 2)
+        ),
+        decoupled_key_permutation_seed=hyper_parameters.get(
+            "decoupled_key_permutation_seed"
+        ),
         side_dim=int(hyper_parameters.get("side_dim", 0)),
         electrode_embed_dim=int(hyper_parameters.get("electrode_embed_dim", 0)),
         num_electrodes=int(hyper_parameters.get("num_electrodes", 0)),

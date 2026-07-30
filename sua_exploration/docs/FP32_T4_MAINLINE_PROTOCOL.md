@@ -107,13 +107,15 @@ The two intervening experiments use validation-development sessions only:
    is frozen, adding confidence to the key only if the first experiment passes
    its gate.
 
-If the confidence-FiLM mechanism fails its control gates, the predeclared
-mechanism-driven optimization round is fresh `T4 / B3T+T4 / B3T+TS4` before any
-decoder-changing rescue. It may qualify by accuracy superiority or by
-deployment effectiveness: lower-2SE non-inferiority at `−0.03`, at least 25%
-measured parameter and session-MAC reduction, unchanged support state, and a
-strict positive T4-content gate. This branch does not authorize INT8 to start
-early; the requested additional FP32 experiment order is still preserved.
+The fixed execution order is confidence-FiLM, then decoupled K/V. Only if
+neither produces an effective candidate does the predeclared fresh
+`T4 / B3T+T4 / B3T+TS4` mechanism-driven efficiency round run as a fallback.
+That fallback may qualify by accuracy superiority or by deployment
+effectiveness: lower-2SE non-inferiority at `−0.03`, at least 25% measured
+parameter and session-MAC reduction, unchanged support state, and a strict
+positive T4-content gate. No branch authorizes INT8 to start before both
+requested additional FP32 experiments have completed and the final FP32
+architecture has been selected.
 
 Only the selected final architecture advances to encoder PTQ/QAT. Its paired
 FP32 checkpoint is the quantization reference; losing FP32 candidates are not

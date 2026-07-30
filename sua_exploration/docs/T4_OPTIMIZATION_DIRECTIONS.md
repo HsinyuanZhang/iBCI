@@ -384,6 +384,21 @@ Minimum first-stage arms:
 - activity-key control `K(x), V(x)` to measure the cost of removing instantaneous activity
   from attention selection.
 
+Frozen Stage-0 implementation contract (2026-07-31):
+
+- the legacy coupled implementation is untouched; every arm trains a fresh decoder from the
+  same teacher with `M_activity=30`, `M_T4=50`, common `eval_start=50`, 12 epochs and the
+  fixed epoch 5–12 score rule;
+- the identity encoder always receives aligned real T4. The TS4 control permutes only the
+  decoder-key T4 rows, so it isolates key content rather than destroying the encoder input;
+- the decoupled path is one layer with two heads and `D_k=D_v=32`; it caches only the
+  projected `K[N,32]`, recomputes `V(x)` online, and introduces no `N²` neuron attention;
+- at the actual `D=512`, coupled-64-head teacher configuration and reference `N=64`, the
+  configured decoder-path receipt is 57,970,688 MAC/frame and 12,800 B persistent
+  `E[N,50]` state for coupled T4, versus 4,997,120 MAC/frame and 8,192 B persistent
+  `K[N,32]` state for cached decoupled K/V: `−91.38%` MAC and `−36%` state. These are
+  implementation-derived decoder-path counts, not a joint end-to-end latency measurement.
+
 Confidence is deliberately excluded from this first stage. It enters the key only if Rank 3
 first establishes that calibration-block confidence is useful. Optional attention bias is
 also a later ablation, not part of the minimum candidate.
@@ -393,8 +408,8 @@ Advance by either of two predeclared outcomes:
 1. superiority: at least `+0.03 R²` over the coupled T4 baseline with the shared V4
    consistency gates; or
 2. deployment non-inferiority: paired lower 2SE bound at least `−0.03`, a positive
-   `T4−TS4` key-content contrast, and at least 25% lower measured online decoder MACs with
-   cached keys.
+   `T4−TS4` key-content contrast, and at least 25% lower measured online decoder MACs and
+   no larger persistent session state with cached keys.
 
 The main kill condition is mechanistic: if removing activity from the key costs more than
 `0.03 R²`, do not add confidence or larger key networks to rescue the factorization. That

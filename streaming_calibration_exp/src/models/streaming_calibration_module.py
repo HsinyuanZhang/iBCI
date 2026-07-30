@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any, Dict, Literal, Tuple
 
 import lightning.pytorch as pl
+import numpy as np
 import torch
 import torch.nn as nn
 from torchmetrics import MaxMetric, MeanMetric
@@ -130,6 +131,14 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     side_dim: int = 0,
     electrode_embed_dim: int = 0,
     num_electrodes: int = 0,
+    decoder_mode: Literal["coupled", "decoupled"] = "coupled",
+    decoupled_key_mode: Literal[
+      "e_t4", "e_ts4", "e_only", "x_only"
+    ] = "e_t4",
+    decoupled_key_dim: int = 32,
+    decoupled_value_dim: int = 32,
+    decoupled_num_heads: int = 2,
+    decoupled_key_permutation_seed: int | None = None,
   ) -> None:
     super().__init__()
     self.save_hyperparameters(ignore=["optimizer", "scheduler", "net"])
@@ -211,6 +220,12 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     self._side_dim = int(side_dim)
     self._electrode_embed_dim = int(electrode_embed_dim)
     self._num_electrodes = int(num_electrodes)
+    self._decoder_mode = decoder_mode
+    self._decoupled_key_mode = decoupled_key_mode
+    self._decoupled_key_dim = int(decoupled_key_dim)
+    self._decoupled_value_dim = int(decoupled_value_dim)
+    self._decoupled_num_heads = int(decoupled_num_heads)
+    self._decoupled_key_permutation_seed = decoupled_key_permutation_seed
     self.population_identity: nn.Parameter | None = None
     if self._support_prediction_consistency_weight < 0.0:
       raise ValueError("support_prediction_consistency_weight must be >= 0")
@@ -218,6 +233,34 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       raise ValueError("fixed_slot_count must be >= 0")
     if self._fixed_slot_count > 0 and self._fixed_slot_dim <= 0:
       raise ValueError("fixed_slot_dim must be positive when fixed slots are enabled")
+    if self._decoder_mode not in {"coupled", "decoupled"}:
+      raise ValueError("decoder_mode must be 'coupled' or 'decoupled'")
+    if self._decoupled_key_mode not in {"e_t4", "e_ts4", "e_only", "x_only"}:
+      raise ValueError(
+        "decoupled_key_mode must be one of {'e_t4','e_ts4','e_only','x_only'}"
+      )
+    if self._decoder_mode == "decoupled" and self._fixed_slot_count > 0:
+      raise ValueError("decoupled K/V requires fixed_slot_count=0")
+    if self._decoder_mode == "decoupled" and self._identity_mode != "calibrated":
+      raise ValueError("decoupled K/V requires identity_mode='calibrated'")
+    if self._decoder_mode == "decoupled" and self._side_dim != 4:
+      raise ValueError("decoupled K/V pilot requires the real four-dimensional T4 side input")
+    if (
+      self._decoupled_key_dim <= 0
+      or self._decoupled_value_dim <= 0
+      or self._decoupled_num_heads <= 0
+    ):
+      raise ValueError("decoupled key/value dimensions and head count must be positive")
+    if (
+      self._decoder_mode == "decoupled"
+      and self._decoupled_key_mode == "e_ts4"
+      and self._decoupled_key_permutation_seed is None
+    ):
+      raise ValueError("e_ts4 requires decoupled_key_permutation_seed")
+    if self._decoder_mode == "decoupled" and self._encoder_warmstart_path:
+      raise ValueError(
+        "decoupled K/V uses a fresh common-teacher fit, not a selected-T4 continuation"
+      )
     self._neuron_dropout: NeuronDropoutStrategy | None = None
 
   @staticmethod
@@ -309,6 +352,12 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       fixed_slot_mode=self._fixed_slot_mode,
       fixed_slot_fusion=self._fixed_slot_fusion,
       fixed_slot_temperature=self._fixed_slot_temperature,
+      decoder_mode=self._decoder_mode,
+      decoupled_key_mode=self._decoupled_key_mode,
+      decoupled_key_dim=self._decoupled_key_dim,
+      decoupled_value_dim=self._decoupled_value_dim,
+      decoupled_num_heads=self._decoupled_num_heads,
+      decoupled_direct_feature_dim=4,
     )
     if self._identity_mode == "learned_prior":
       for parameter in self.student.id_encoder.parameters():
@@ -363,6 +412,34 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     denom = (e_teacher**2).mean().clamp_min(1e-8)
     return ((e_student - e_teacher) ** 2).mean() / denom
 
+  def decoder_key_features(
+    self, side_features: torch.Tensor | None
+  ) -> torch.Tensor | None:
+    """Construct the decoder-only functional key input.
+
+    The encoder always receives the aligned real T4 tensor. Only this returned
+    tensor changes between ``e_t4`` and ``e_ts4``, so TS4 cannot contaminate E.
+    """
+    if self._decoder_mode != "decoupled":
+      return None
+    if side_features is None or side_features.ndim != 3 or side_features.shape[-1] != 4:
+      raise ValueError(
+        "decoupled K/V requires aligned T4 side_features with shape [B,N,4]"
+      )
+    if self._decoupled_key_mode == "e_t4":
+      return side_features
+    if self._decoupled_key_mode == "e_ts4":
+      assert self._decoupled_key_permutation_seed is not None
+      order = np.random.RandomState(
+        self._decoupled_key_permutation_seed
+      ).permutation(side_features.shape[1])
+      index = torch.as_tensor(order, device=side_features.device)
+      return side_features.index_select(1, index)
+    if self._decoupled_key_mode == "e_only":
+      return torch.zeros_like(side_features)
+    # x_only constructs K from the live activity tensor in StreamingSpintModel.
+    return None
+
   def model_step(self, batch: Tuple[torch.Tensor, ...]) -> Dict[str, Any]:
     electrode_ids = None
     if len(batch) == 6:
@@ -386,8 +463,13 @@ class StreamingCalibrationLitModule(pl.LightningModule):
         raise RuntimeError("population_identity is not initialized")
       y_student, e_student = self.student(neural, identity=self.population_identity)
     else:
+      decoder_key_features = self.decoder_key_features(side_features)
       y_student, e_student = self.student(
-        neural, calib_trials=calib, side_features=side_features, electrode_ids=electrode_ids
+        neural,
+        calib_trials=calib,
+        side_features=side_features,
+        decoder_key_features=decoder_key_features,
+        electrode_ids=electrode_ids,
       )
     y_student, behavior_target = self._slice_last_timestep(y_student, behavior_target)
 
@@ -449,6 +531,9 @@ class StreamingCalibrationLitModule(pl.LightningModule):
             student_kwargs["side_features"] = side_features
           if electrode_ids is not None:
             student_kwargs["electrode_ids"] = electrode_ids
+          decoder_key_features = self.decoder_key_features(side_features)
+          if decoder_key_features is not None:
+            student_kwargs["decoder_key_features"] = decoder_key_features
           alternate_pred, _ = self.student(neural, **student_kwargs)
         alternate_pred, _ = self._slice_last_timestep(
           alternate_pred, alternate_pred
@@ -572,6 +657,15 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     self.setup("fit")
     assert self.student is not None
     return self.student.id_encoder.cost_profile(num_neurons, trial_length, num_trials)
+
+  def decoupled_cost_receipt(
+    self, *, batch_size: int = 1, num_neurons: int = 64
+  ) -> dict[str, object]:
+    self.setup("fit")
+    assert self.student is not None
+    return self.student.decoupled_cost_receipt(
+      batch_size=batch_size, num_neurons=num_neurons
+    )
 
   def test_step(self, batch, batch_idx: int, dataloader_idx: int = 0) -> None:
     out = self.model_step(batch)

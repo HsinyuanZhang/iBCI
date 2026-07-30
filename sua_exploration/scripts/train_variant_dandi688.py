@@ -11,6 +11,7 @@ from functools import partial
 from pathlib import Path
 
 import lightning.pytorch as pl
+import numpy as np
 import torch
 import torch.nn as nn
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
@@ -55,6 +56,18 @@ def sha256_file(path: Path) -> str:
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1 << 20), b""):
             digest.update(chunk)
+    return digest.hexdigest()
+
+
+def sha256_tensor_state(state: dict[str, torch.Tensor]) -> str:
+    """Stable receipt hash for an initialized module/state subset."""
+    digest = hashlib.sha256()
+    for name, tensor in sorted(state.items()):
+        value = tensor.detach().cpu().contiguous()
+        digest.update(name.encode("utf-8"))
+        digest.update(str(tuple(value.shape)).encode("ascii"))
+        digest.update(str(value.dtype).encode("ascii"))
+        digest.update(value.view(torch.uint8).numpy().tobytes())
     return digest.hexdigest()
 
 
@@ -126,6 +139,23 @@ def main() -> None:
         default=1.0,
         help="Positive softmax temperature for the calibration-derived slot routing.",
     )
+    parser.add_argument(
+        "--decoder_mode",
+        choices=["coupled", "decoupled"],
+        default="coupled",
+        help="Use legacy coupled K=V attention or the static-key/activity-value pilot.",
+    )
+    parser.add_argument(
+        "--decoupled_key_mode",
+        choices=["e_t4", "e_ts4", "e_only", "x_only"],
+        default="e_t4",
+        help=(
+            "Decoupled key source. Encoder input remains aligned real T4 for every mode; "
+            "e_ts4 shuffles only the direct decoder-key T4 component."
+        ),
+    )
+    parser.add_argument("--decoupled_key_dim", type=int, default=32)
+    parser.add_argument("--decoupled_value_dim", type=int, default=32)
     parser.add_argument("--out_name", type=str, default=None)
     parser.add_argument(
         "--data_dir",
@@ -294,6 +324,10 @@ def main() -> None:
         raise ValueError("--fixed_slot_dim must be positive when fixed slots are enabled")
     if args.fixed_slot_temperature <= 0.0:
         raise ValueError("--fixed_slot_temperature must be positive")
+    if args.decoupled_key_dim <= 0 or args.decoupled_value_dim <= 0:
+        raise ValueError("--decoupled_key_dim/--decoupled_value_dim must be positive")
+    if args.decoder_mode == "decoupled" and args.fixed_slot_count > 0:
+        raise ValueError("--decoder_mode decoupled requires --fixed_slot_count 0")
     if args.side_feature_pool_size <= 0:
         raise ValueError("--side_feature_pool_size must be positive")
     if args.calibration_n_trials <= 0:
@@ -337,6 +371,20 @@ def main() -> None:
             "B3TS is the predeclared temporal-functional screen and requires "
             "--side_features t4 or ts4"
         )
+    if args.decoder_mode == "decoupled":
+        if args.variant != "B3S" or args.side_features != "t4":
+            raise ValueError(
+                "decoupled K/V requires --variant B3S --side_features t4; "
+                "the encoder input must stay aligned in every key-control arm"
+            )
+        if args.encoder_warmstart_path is not None:
+            raise ValueError(
+                "decoupled K/V is a fresh common-teacher fit and rejects warm-start"
+            )
+        if args.decoupled_key_dim != 32 or args.decoupled_value_dim != 32:
+            raise ValueError(
+                "the predeclared decoupled pilot fixes key/value dimensions at 32"
+            )
     if args.side_features == "none":
         side_dim = 0
         electrode_embed_dim = 0
@@ -425,6 +473,34 @@ def main() -> None:
                 if args.fixed_slot_count > 0
                 else None
             ),
+        },
+        "decoder_architecture": {
+            "mode": args.decoder_mode,
+            "key_mode": (
+                args.decoupled_key_mode if args.decoder_mode == "decoupled" else None
+            ),
+            "key_width": (
+                args.decoupled_key_dim if args.decoder_mode == "decoupled" else None
+            ),
+            "value_width": (
+                args.decoupled_value_dim if args.decoder_mode == "decoupled" else None
+            ),
+            "num_layers": 1 if args.decoder_mode == "decoupled" else None,
+            "num_heads": 2 if args.decoder_mode == "decoupled" else None,
+            "encoder_side_input": (
+                "aligned_real_t4" if args.decoder_mode == "decoupled" else None
+            ),
+            "decoder_key_input": (
+                args.decoupled_key_mode if args.decoder_mode == "decoupled" else None
+            ),
+            "key_permutation_seed": (
+                args.seed
+                if args.decoder_mode == "decoupled"
+                and args.decoupled_key_mode == "e_ts4"
+                else None
+            ),
+            "fixed_slot_count": args.fixed_slot_count,
+            "fresh_common_teacher_fit": args.decoder_mode == "decoupled",
         },
         "seed": args.seed,
         "teacher_checkpoint": str(teacher_ckpt),
@@ -580,6 +656,17 @@ def main() -> None:
         fixed_slot_mode=args.fixed_slot_mode,
         fixed_slot_fusion=args.fixed_slot_fusion,
         fixed_slot_temperature=args.fixed_slot_temperature,
+        decoder_mode=args.decoder_mode,
+        decoupled_key_mode=args.decoupled_key_mode,
+        decoupled_key_dim=args.decoupled_key_dim,
+        decoupled_value_dim=args.decoupled_value_dim,
+        decoupled_num_heads=2,
+        decoupled_key_permutation_seed=(
+            args.seed
+            if args.decoder_mode == "decoupled"
+            and args.decoupled_key_mode == "e_ts4"
+            else None
+        ),
         side_dim=side_dim,
         electrode_embed_dim=electrode_embed_dim,
         num_electrodes=num_electrodes if args.side_features != "none" else 0,
@@ -606,6 +693,90 @@ def main() -> None:
         },
         **asdict(encoder_cost),
     }
+    decoder_meta = run_metadata["decoder_architecture"]
+    decoder_meta["decoder_cost_comparison_receipt_reference_n64"] = (
+        model.student.decoder_cost_comparison_receipt(
+            batch_size=1, num_neurons=64
+        )
+    )
+    decoder_meta["shared_decoder_base_sha256"] = sha256_tensor_state(
+        {
+            name: tensor
+            for name, tensor in model.student.decoder.state_dict().items()
+            if (
+                name.startswith("fc_in.")
+                or name.startswith("fc_out.")
+                or name == "rep"
+                or ".norm" in name
+                or ".ffn." in name
+            )
+        }
+    )
+    if args.decoder_mode == "decoupled":
+        assert model.student.decoupled_transformer is not None
+        decoupled = model.student.decoupled_transformer
+        with torch.no_grad():
+            dummy_key_input = torch.zeros(
+                1, 64, 50 + 4, dtype=torch.float32
+            )
+            dummy_state = decoupled.derive_static_key(dummy_key_input)
+        decoder_meta["online_cost_receipt_reference_n64"] = (
+            model.decoupled_cost_receipt(batch_size=1, num_neurons=64)
+        )
+        decoder_meta["persistent_cache_receipt_reference_n64"] = (
+            decoupled.cache_receipt(dummy_state)
+            if args.decoupled_key_mode != "x_only"
+            else {
+                "applicable": False,
+                "reason": "x_only key is dynamic and stores no static session key",
+                "cache_bytes": 0,
+            }
+        )
+        decoder_meta["new_projection_init_sha256"] = sha256_tensor_state(
+            {
+                name: tensor
+                for name, tensor in decoupled.state_dict().items()
+                if any(
+                    token in name
+                    for token in (
+                        "query_proj",
+                        "key_proj",
+                        "value_proj",
+                        "out_proj",
+                        "key_norm",
+                        "value_norm",
+                    )
+                )
+            }
+        )
+        decoder_meta["parameter_counts"] = {
+            "student_total": sum(
+                parameter.numel() for parameter in model.student.parameters()
+            ),
+            "optimizer_trainable": sum(
+                parameter.numel()
+                for parameter in model.student.parameters()
+                if parameter.requires_grad
+            ),
+            "identity_encoder": sum(
+                parameter.numel()
+                for parameter in model.student.id_encoder.parameters()
+            ),
+            "decoupled_attention": sum(
+                parameter.numel() for parameter in decoupled.parameters()
+            ),
+            "identity_key_active_for_task": args.decoupled_key_mode != "x_only",
+        }
+        if args.decoupled_key_mode == "e_ts4":
+            decoder_meta["key_permutation_sha256_by_session"] = {
+                session: hashlib.sha256(
+                    np.random.RandomState(args.seed)
+                    .permutation(unit_count)
+                    .astype(np.int64)
+                    .tobytes()
+                ).hexdigest()
+                for session, unit_count in sorted(dm.session_unit_counts.items())
+            }
     write_json(run_metadata_path, run_metadata)
     configure_multisession_metrics(model, dm)
 

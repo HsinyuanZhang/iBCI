@@ -3,8 +3,8 @@
 #
 # If all three Stage-0 mechanism contrasts pass, expand the exact five-arm
 # screen to seeds 43/44 using their matching final-epoch T4 anchors. Otherwise,
-# spend the next round on the predeclared fresh T4/B3T+T4/B3T+TS4 efficiency
-# experiment. No quantization or formal-test evaluation is launched here.
+# run the user-requested decoupled-K/V five-arm Stage-0 before any B3T fallback.
+# No quantization or formal-test evaluation is launched here.
 set -euo pipefail
 
 ROOT="/home/xinyuan/Work_host/SPINT"
@@ -14,7 +14,7 @@ POLL_SECONDS="${POLL_SECONDS:-20}"
 FILM_RESULTS="$ROOT/sua_exploration/results/sua_t4_confidence_film_v1"
 FILM_AGGREGATE="$FILM_RESULTS/aggregate_m50_seed42.json"
 FILM_RUNNER="$ROOT/sua_exploration/scripts/run_sua_confidence_film_one_cell.sh"
-B3T_RUNNER="$ROOT/sua_exploration/scripts/run_sua_b3t_t4_one_cell.sh"
+KV_RUNNER="$ROOT/sua_exploration/scripts/run_sua_decoupled_kv_one_cell.sh"
 LOG="$FILM_RESULTS/logs/post_stage0_lane${LANE}.log"
 
 if [[ "$LANE" != "0" && "$LANE" != "1" ]]; then
@@ -50,21 +50,21 @@ if jq -e '.budgets["50"].stage0_descriptive_mechanism_pass == true' \
     echo "[$(date -Is)] complete FiLM arm=$arm seed=$SEED lane=$LANE gpu=$GPU"
   done
 else
-  echo "[$(date -Is)] FiLM Stage-0 failed; starting B3T+T4 mechanism round lane=$LANE"
+  echo "[$(date -Is)] FiLM Stage-0 failed; starting decoupled-K/V Stage-0 lane=$LANE"
   if [[ "$LANE" == "0" ]]; then
-    ARMS=(b3t_t4 t4)
+    ARMS=(coupled_t4 kv_e_t4 kv_e_only)
   else
     # Lane 1 may still be preparing the seed-44 T4@50 anchor. Its result is the
     # explicit GPU-release receipt from the preceding scheduler.
     while [[ ! -f "$FILM_RESULTS/t4m50_s44.json" ]]; do
       sleep "$POLL_SECONDS"
     done
-    ARMS=(b3t_ts4)
+    ARMS=(kv_e_ts4 kv_x_only)
   fi
   for arm in "${ARMS[@]}"; do
-    echo "[$(date -Is)] launch B3T arm=$arm seed=42 lane=$LANE gpu=$GPU"
-    env ARM="$arm" SEED=42 GPU="$GPU" "$B3T_RUNNER" --launch
-    echo "[$(date -Is)] complete B3T arm=$arm seed=42 lane=$LANE gpu=$GPU"
+    echo "[$(date -Is)] launch K/V arm=$arm seed=42 lane=$LANE gpu=$GPU"
+    env ARM="$arm" SEED=42 GPU="$GPU" "$KV_RUNNER" --launch
+    echo "[$(date -Is)] complete K/V arm=$arm seed=42 lane=$LANE gpu=$GPU"
   done
 fi
 

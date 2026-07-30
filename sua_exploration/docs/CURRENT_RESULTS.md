@@ -76,6 +76,34 @@ runner 与 fail-closed aggregator 均要求 `feature_version=2`，旧 v1 cache �
 这只是输入设计审计，是否有效仍必须由
 `FiLM−T4 / FiLM−shuffle-C / FiLM−NoFiLM-match` 的 matched validation 结果证明。
 
+### Decoupled K/V：实现与硬件凭据完成，性能尚未运行
+
+第一阶段已冻结为五个同预算 FP32 arms：
+
+- coupled `readin(x+E)` T4 baseline；
+- decoupled `K(E,T4), V(x)`；
+- decoupled `K(E,TS4), V(x)`；
+- decoupled `K(E), V(x)`；
+- activity-key control `K(x), V(x)`。
+
+所有 arm 使用 fresh decoder、同一个 teacher、27/6 train/validation manifest、
+`M_activity=30`、`M_T4=50`、共同 `eval_start=50`、12 epochs 和固定
+epoch 5–12 checkpoint score。TS4 只打乱 decoder key 的 T4 行；identity
+encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成 key 机制效果。
+
+在实际 teacher 配置（`D=512`、coupled 64 heads；decoupled 2 heads、
+`D_k=D_v=32`）和参考 `N=64` 下，静态成本收据为：
+
+| decoder path | configured MAC/frame | persistent session state |
+|---|---:|---:|
+| coupled T4 | 57,970,688 | 12,800 B (`E[N,50]`) |
+| cached decoupled K/V | 4,997,120 | 8,192 B (`K[N,32]`) |
+
+即 decoder-path 配置 MAC 约下降 `91.38%`，持久状态下降 `36%`；这不是整机
+实测 latency。缓存只保存 projected key，不保存原始 T4/confidence，也没有
+`N²` neuron self-attention。**目前尚无该五臂的 R² 结果**，所以硬件数字不能
+单独构成有效性结论；它将在 FiLM Stage-0 后自动开始。
+
 ### INT8 顺序：等待两个额外 FP32 实验
 
 先前“主线完成即自动量化”的 watcher 已停用。按 2026-07-30 的用户顺序，
@@ -84,8 +112,9 @@ runner 与 fail-closed aggregator 均要求 `feature_version=2`，旧 v1 cache �
 1. confidence-conditioned FiLM / 低标签 T4；
 2. T4-conditioned decoupled cross-attention（是否加入 confidence 取决于第 1 项）。
 
-若 FiLM Stage-0 阴性，已预注册的 `fresh T4 / B3T+T4 / B3T+TS4`
-效率分支也在量化前运行；它不能替代上述第二个 decoupled-K/V 实验。该分支目前
+固定顺序为 FiLM → decoupled K/V；仅当两者均未给出有效改进时，才运行已预注册
+的 `fresh T4 / B3T+T4 / B3T+TS4` 效率 fallback。该分支不能替代第二个
+decoupled-K/V 实验。它目前
 实测静态成本目标为相对普通 T4 encoder 参数约 `−30.8%`、session-path MAC
 约 `−65.3%`、persistent online state 不增加，最终仍需 R² non-inferiority
 与 T4-content gates 才能称为 deployment improvement。

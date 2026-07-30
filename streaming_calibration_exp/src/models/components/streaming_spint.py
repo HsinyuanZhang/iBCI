@@ -1,12 +1,16 @@
 """SPINT decoder wrapper with pluggable streaming calibration encoder."""
 from __future__ import annotations
 
-from typing import Any, Optional, Tuple
+from typing import Any, Literal, Optional, Tuple
 
 import torch
 import torch.nn as nn
 
-from src.models.components.spint import SpintModel
+from src.models.components.spint import (
+    CachedDecoupledMultiLayerCrossAttention,
+    DecoupledKVState,
+    SpintModel,
+)
 from src.models.components.streaming_encoders import CalibrationEncoder
 
 
@@ -174,12 +178,38 @@ class StreamingSpintModel(nn.Module):
         fixed_slot_mode: str = "soft",
         fixed_slot_fusion: str = "film",
         fixed_slot_temperature: float = 1.0,
+        decoder_mode: Literal["coupled", "decoupled"] = "coupled",
+        decoupled_key_mode: Literal[
+            "e_t4", "e_ts4", "e_only", "x_only"
+        ] = "e_t4",
+        decoupled_key_dim: int = 32,
+        decoupled_value_dim: int = 32,
+        decoupled_num_heads: int = 2,
+        decoupled_direct_feature_dim: int = 4,
     ) -> None:
         super().__init__()
+        if decoder_mode not in {"coupled", "decoupled"}:
+            raise ValueError("decoder_mode must be 'coupled' or 'decoupled'")
+        if decoupled_key_mode not in {"e_t4", "e_ts4", "e_only", "x_only"}:
+            raise ValueError(
+                "decoupled_key_mode must be one of "
+                "{'e_t4','e_ts4','e_only','x_only'}"
+            )
+        if decoupled_direct_feature_dim <= 0:
+            raise ValueError("decoupled_direct_feature_dim must be positive")
+        if decoder_mode == "decoupled" and fixed_slot_count > 0:
+            raise ValueError(
+                "decoupled K/V requires fixed_slot_count=0 so unit keys remain explicit"
+            )
+        if decoder_mode == "decoupled" and decoder.num_layers != 1:
+            raise ValueError("The state-neutral decoupled K/V pilot requires num_layers=1")
         self.decoder = decoder
         self.id_encoder = id_encoder
         self.window_size = decoder.window_size
         self._decoder_frozen = False
+        self.decoder_mode = decoder_mode
+        self.decoupled_key_mode = decoupled_key_mode
+        self.decoupled_direct_feature_dim = decoupled_direct_feature_dim
         self.fixed_slot_router = (
             CalibrationFixedSlotRouter(
                 window_size=decoder.window_size,
@@ -192,6 +222,31 @@ class StreamingSpintModel(nn.Module):
             if fixed_slot_count > 0
             else None
         )
+        self.decoupled_transformer = (
+            CachedDecoupledMultiLayerCrossAttention(
+                num_layers=1,
+                d_model=decoder.model_dim,
+                nhead=decoupled_num_heads,
+                key_input_dim=decoder.window_size + decoupled_direct_feature_dim,
+                value_input_dim=decoder.window_size,
+                key_dim=decoupled_key_dim,
+                value_dim=decoupled_value_dim,
+                dim_feedforward=decoder.transformer.layers[0].ffn[0].out_features,
+                dropout=decoder.tf_drop_rate,
+                cache_reference_width=decoder.window_size,
+            )
+            if decoder_mode == "decoupled"
+            else None
+        )
+        if self.decoupled_transformer is not None:
+            # Transfer every shape-compatible transformer-base tensor from the
+            # immutable teacher decoder. Q/K/V/out projections and input norms
+            # remain the only newly initialized decoupled parameters.
+            legacy = decoder.transformer.layers[0]
+            decoupled = self.decoupled_transformer.layers[0]
+            decoupled.norm1.load_state_dict(legacy.norm1.state_dict(), strict=True)
+            decoupled.norm2.load_state_dict(legacy.norm2.state_dict(), strict=True)
+            decoupled.ffn.load_state_dict(legacy.ffn.state_dict(), strict=True)
 
     def compute_identity(
         self,
@@ -246,6 +301,295 @@ class StreamingSpintModel(nn.Module):
         output = self.decoder.fc_out(transformer_output)
         return output.permute(0, 2, 1)
 
+    def _expanded_identity(
+        self, identity: torch.Tensor, batch_size: int, num_neurons: int
+    ) -> torch.Tensor:
+        if identity.ndim != 3 or identity.shape[-1] != self.window_size:
+            raise ValueError(
+                f"identity must have shape [B,N,{self.window_size}], "
+                f"got {tuple(identity.shape)}"
+            )
+        if identity.shape[0] == 1 and batch_size > 1:
+            identity = identity.expand(batch_size, -1, -1)
+        if identity.shape[:2] != (batch_size, num_neurons):
+            raise ValueError(
+                "identity batch/unit dimensions must match neural input; got "
+                f"{tuple(identity.shape[:2])} vs {(batch_size, num_neurons)}"
+            )
+        return identity
+
+    def _decoupled_key_input(
+        self,
+        identity: torch.Tensor,
+        decoder_key_features: torch.Tensor | None,
+    ) -> torch.Tensor:
+        if decoder_key_features is None:
+            if self.decoupled_key_mode != "e_only":
+                raise ValueError(
+                    f"{self.decoupled_key_mode} requires decoder_key_features"
+                )
+            decoder_key_features = identity.new_zeros(
+                *identity.shape[:2], self.decoupled_direct_feature_dim
+            )
+        if decoder_key_features.ndim != 3:
+            raise ValueError(
+                "decoder_key_features must have shape [B,N,D], got "
+                f"{tuple(decoder_key_features.shape)}"
+            )
+        if decoder_key_features.shape[:2] != identity.shape[:2]:
+            raise ValueError(
+                "decoder_key_features batch/unit dimensions must match identity"
+            )
+        if decoder_key_features.shape[-1] != self.decoupled_direct_feature_dim:
+            raise ValueError(
+                "decoder_key_features last dimension must be "
+                f"{self.decoupled_direct_feature_dim}, got "
+                f"{decoder_key_features.shape[-1]}"
+            )
+        return torch.cat([identity, decoder_key_features], dim=-1)
+
+    def derive_decoupled_kv_state(
+        self,
+        identity: torch.Tensor,
+        decoder_key_features: torch.Tensor | None = None,
+    ) -> DecoupledKVState:
+        """Build the calibration-only projected K cache.
+
+        This method intentionally remains differentiable for training. A
+        deployment caller may invoke it under ``torch.no_grad()`` and discard
+        ``identity``/``decoder_key_features`` immediately afterward.
+        """
+        if self.decoupled_transformer is None:
+            raise RuntimeError("derive_decoupled_kv_state requires decoder_mode='decoupled'")
+        if self.decoupled_key_mode == "x_only":
+            raise RuntimeError("x_only uses a dynamic activity key and has no static K state")
+        key_input = self._decoupled_key_input(identity, decoder_key_features)
+        return self.decoupled_transformer.derive_static_key(key_input)
+
+    def _apply_decoder_neuron_dropout(self, src: torch.Tensor) -> torch.Tensor:
+        batch_size, num_neurons = src.shape[:2]
+        dropout_mask = torch.ones(
+            batch_size, num_neurons, device=src.device, dtype=src.dtype
+        )
+        if not self._decoder_frozen:
+            if self.decoder.dynamic_dropout and self.training:
+                import random
+
+                probability = random.uniform(
+                    self.decoder.dynamic_dropout_low,
+                    self.decoder.dynamic_dropout_high,
+                )
+                dropout_mask = torch.nn.functional.dropout(
+                    dropout_mask, p=probability, training=True
+                )
+            elif self.decoder.dropout_rate > 0.0 and self.training:
+                dropout_mask = torch.nn.functional.dropout(
+                    dropout_mask, p=self.decoder.dropout_rate, training=True
+                )
+        return src * dropout_mask.unsqueeze(-1)
+
+    def decode_with_decoupled_kv_state(
+        self,
+        neural: torch.Tensor,
+        state: DecoupledKVState,
+    ) -> torch.Tensor:
+        """Online V(x) decode using a previously cached static K."""
+        if self.decoupled_transformer is None:
+            raise RuntimeError(
+                "decode_with_decoupled_kv_state requires decoder_mode='decoupled'"
+            )
+        if self.decoupled_key_mode == "x_only":
+            raise RuntimeError("x_only has no static K state")
+        src = self._apply_decoder_neuron_dropout(neural.permute(0, 2, 1))
+        if self._decoder_frozen:
+            self.decoder.eval()
+            self.decoupled_transformer.eval()
+        query = self.decoder.fc_in(self.decoder.rep).to(src)
+        query = query.repeat(src.shape[0], 1, 1)
+        transformer_output, _ = self.decoupled_transformer.forward_cached(
+            query, state, src
+        )
+        return self.decoder.fc_out(transformer_output).permute(0, 2, 1)
+
+    def decode_with_decoupled_identity(
+        self,
+        neural: torch.Tensor,
+        identity: torch.Tensor,
+        decoder_key_features: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        """Training/reference path for static-identity or dynamic-activity keys."""
+        if self.decoupled_transformer is None:
+            raise RuntimeError(
+                "decode_with_decoupled_identity requires decoder_mode='decoupled'"
+            )
+        src = self._apply_decoder_neuron_dropout(neural.permute(0, 2, 1))
+        batch_size, num_neurons = src.shape[:2]
+        identity = self._expanded_identity(identity, batch_size, num_neurons)
+        if self._decoder_frozen:
+            self.decoder.eval()
+            self.decoupled_transformer.eval()
+        query = self.decoder.fc_in(self.decoder.rep).to(src)
+        query = query.repeat(batch_size, 1, 1)
+        if self.decoupled_key_mode == "x_only":
+            zeros = src.new_zeros(
+                batch_size, num_neurons, self.decoupled_direct_feature_dim
+            )
+            key_input = torch.cat([src, zeros], dim=-1)
+            transformer_output, _ = self.decoupled_transformer(
+                query, key_input, src
+            )
+        else:
+            state = self.derive_decoupled_kv_state(
+                identity, decoder_key_features=decoder_key_features
+            )
+            transformer_output, _ = self.decoupled_transformer.forward_cached(
+                query, state, src
+            )
+        return self.decoder.fc_out(transformer_output).permute(0, 2, 1)
+
+    def decoupled_cost_receipt(
+        self, *, batch_size: int, num_neurons: int
+    ) -> dict[str, object]:
+        if self.decoupled_transformer is None:
+            raise RuntimeError("decoupled_cost_receipt requires decoder_mode='decoupled'")
+        receipt = self.decoupled_transformer.online_cost_receipt(
+            batch_size=batch_size,
+            num_queries=self.decoder.num_covariates,
+            num_units=num_neurons,
+        )
+        receipt["key_mode"] = self.decoupled_key_mode
+        receipt["static_key_cache_applicable"] = self.decoupled_key_mode != "x_only"
+        receipt["fixed_slot_count"] = 0
+        return receipt
+
+    def decoder_cost_comparison_receipt(
+        self, *, batch_size: int = 1, num_neurons: int = 64
+    ) -> dict[str, object]:
+        """Exact configured-MAC comparison for legacy coupled vs decoupled paths.
+
+        Counts the Linear/attention/FFN MACs executed by this source, including
+        the query read-in and output projection shared by both paths. Elementwise
+        activations, norms, softmax and additions are reported as exclusions.
+        """
+        if batch_size <= 0 or num_neurons <= 0:
+            raise ValueError("batch_size and num_neurons must be positive")
+        decoder = self.decoder
+        batch = batch_size
+        units = num_neurons
+        covariates = decoder.num_covariates
+        window = decoder.window_size
+        model_dim = decoder.model_dim
+        feedforward = decoder.transformer.layers[0].ffn[0].out_features
+
+        query_readin = batch * covariates * (
+            window * model_dim + model_dim * model_dim
+        )
+        ffn = batch * covariates * 2 * model_dim * feedforward
+        output_readout = batch * covariates * model_dim * window
+        source_readin = batch * units * (
+            window * model_dim + model_dim * model_dim
+        )
+        coupled_qkv = batch * (
+            covariates * model_dim * model_dim
+            + 2 * units * model_dim * model_dim
+        )
+        coupled_attention_output = (
+            batch * covariates * model_dim * model_dim
+        )
+        coupled_scores = batch * covariates * units * model_dim
+        coupled_weighted_values = coupled_scores
+        coupled_total = (
+            source_readin
+            + query_readin
+            + coupled_qkv
+            + coupled_attention_output
+            + coupled_scores
+            + coupled_weighted_values
+            + ffn
+            + output_readout
+        )
+        coupled = {
+            "source_readin": source_readin,
+            "query_readin": query_readin,
+            "qkv_projections": coupled_qkv,
+            "attention_output_projection": coupled_attention_output,
+            "qk_scores": coupled_scores,
+            "weighted_values": coupled_weighted_values,
+            "ffn": ffn,
+            "output_readout": output_readout,
+            "total": coupled_total,
+            "persistent_state_width": window,
+            "persistent_state_bytes_fp32": batch * units * window * 4,
+        }
+        result: dict[str, object] = {
+            "schema_version": 1,
+            "reference_shape": {
+                "batch_size": batch,
+                "num_units": units,
+                "num_covariates": covariates,
+                "window_size": window,
+                "model_dim": model_dim,
+                "feedforward_dim": feedforward,
+            },
+            "coupled": coupled,
+            "counted_operations": "Linear, attention matmul, and FFN MACs",
+            "excluded_operations": [
+                "elementwise_add",
+                "activation",
+                "normalization",
+                "softmax",
+                "dropout",
+            ],
+        }
+        if self.decoupled_transformer is None:
+            result["active_mode"] = "coupled"
+            return result
+
+        core = self.decoupled_transformer.online_cost_receipt(
+            batch_size=batch,
+            num_queries=covariates,
+            num_units=units,
+        )
+        core_online = core["online_macs_per_frame"]
+        assert isinstance(core_online, dict)
+        decoupled_total = (
+            query_readin
+            + int(core_online["query_projection"])
+            + int(core_online["value_projection"])
+            + int(core_online["qk_scores"])
+            + int(core_online["weighted_values"])
+            + int(core_online["output_projection"])
+            + ffn
+            + output_readout
+        )
+        static_key = self.decoupled_key_mode != "x_only"
+        state_width = (
+            self.decoupled_transformer.num_layers
+            * self.decoupled_transformer.key_dim
+            if static_key
+            else 0
+        )
+        result["active_mode"] = "decoupled"
+        result["decoupled"] = {
+            "key_mode": self.decoupled_key_mode,
+            "query_readin": query_readin,
+            **core_online,
+            "ffn": ffn,
+            "output_readout": output_readout,
+            "total": decoupled_total,
+            "online_mac_reduction_fraction_vs_coupled": (
+                1.0 - decoupled_total / coupled_total
+            ),
+            "persistent_state_width": state_width,
+            "persistent_state_bytes_fp32": batch * units * state_width * 4,
+            "persistent_state_nonincreasing_vs_coupled": state_width <= window,
+            "static_key_projection_calibration_only_macs": core[
+                "calibration_only_macs"
+            ]["static_key_projection"],
+            "no_unit_quadratic_term": core_online["no_unit_quadratic_term"],
+        }
+        return result
+
     @torch.no_grad()
     def derive_fixed_slot_state(
         self,
@@ -291,6 +635,7 @@ class StreamingSpintModel(nn.Module):
         calib_trials: Optional[torch.Tensor] = None,
         identity: Optional[torch.Tensor] = None,
         side_features: Optional[torch.Tensor] = None,
+        decoder_key_features: Optional[torch.Tensor] = None,
         electrode_ids: Optional[torch.Tensor] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         neuron_gate = None
@@ -307,7 +652,20 @@ class StreamingSpintModel(nn.Module):
                     side_features=side_features,
                     electrode_ids=electrode_ids,
                 )
-        behavior = self.decode_with_identity(neural, identity, neuron_gate=neuron_gate)
+        if self.decoder_mode == "coupled":
+            behavior = self.decode_with_identity(
+                neural, identity, neuron_gate=neuron_gate
+            )
+        else:
+            if neuron_gate is not None:
+                raise ValueError(
+                    "decoupled K/V does not support encoder-provided neuron gates"
+                )
+            behavior = self.decode_with_decoupled_identity(
+                neural,
+                identity,
+                decoder_key_features=decoder_key_features,
+            )
         return behavior, identity
 
     def freeze_decoder(self) -> int:
@@ -315,14 +673,22 @@ class StreamingSpintModel(nn.Module):
         for param in self.decoder.parameters():
             param.requires_grad = False
             frozen += param.numel()
+        if self.decoupled_transformer is not None:
+            for param in self.decoupled_transformer.parameters():
+                param.requires_grad = False
+                frozen += param.numel()
         self._decoder_frozen = True
         self.decoder.eval()
+        if self.decoupled_transformer is not None:
+            self.decoupled_transformer.eval()
         return frozen
 
     def train(self, mode: bool = True):
         super().train(mode)
         if self._decoder_frozen:
             self.decoder.eval()
+            if self.decoupled_transformer is not None:
+                self.decoupled_transformer.eval()
         return self
 
     def trainable_encoder_parameters(self):
