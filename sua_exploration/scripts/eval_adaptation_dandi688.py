@@ -85,6 +85,48 @@ HIDDEN_DIM = 64
 PAD_VALUE = -1.0
 
 
+def checkpoint_architecture_kwargs(checkpoint: dict) -> dict:
+    """Reconstruct optional student topology fields from checkpoint hparams.
+
+    Validation and formal evaluation must instantiate the same module topology
+    before strict state loading.  The defaults preserve every legacy coupled
+    checkpoint that predates these fields.
+    """
+    hyper_parameters = checkpoint.get("hyper_parameters") or {}
+    return {
+        "fixed_slot_count": int(hyper_parameters.get("fixed_slot_count", 0)),
+        "fixed_slot_dim": int(hyper_parameters.get("fixed_slot_dim", 32)),
+        "fixed_slot_mode": str(hyper_parameters.get("fixed_slot_mode", "soft")),
+        "fixed_slot_fusion": str(
+            hyper_parameters.get("fixed_slot_fusion", "film")
+        ),
+        "fixed_slot_temperature": float(
+            hyper_parameters.get("fixed_slot_temperature", 1.0)
+        ),
+        "decoder_mode": str(hyper_parameters.get("decoder_mode", "coupled")),
+        "decoupled_key_mode": str(
+            hyper_parameters.get("decoupled_key_mode", "e_t4")
+        ),
+        "decoupled_key_dim": int(
+            hyper_parameters.get("decoupled_key_dim", 32)
+        ),
+        "decoupled_value_dim": int(
+            hyper_parameters.get("decoupled_value_dim", 32)
+        ),
+        "decoupled_num_heads": int(
+            hyper_parameters.get("decoupled_num_heads", 2)
+        ),
+        "decoupled_key_permutation_seed": hyper_parameters.get(
+            "decoupled_key_permutation_seed"
+        ),
+        "side_dim": int(hyper_parameters.get("side_dim", 0)),
+        "electrode_embed_dim": int(
+            hyper_parameters.get("electrode_embed_dim", 0)
+        ),
+        "num_electrodes": int(hyper_parameters.get("num_electrodes", 0)),
+    }
+
+
 def parse_split_counts(text: str) -> tuple[int, int, int]:
     raw_parts = text.split(",")
     if len(raw_parts) != 3:
@@ -500,7 +542,23 @@ def eval_r2_with_zero_identity(model, dataset: MCMazeSessionDataset, device: tor
         neural = neural.to(device)
         behavior = behavior.to(device)
         identity = zero_identity_for_neural(neural)
-        y = model.student.decode_with_identity(neural, identity)
+        if model.student.decoder_mode == "coupled":
+            y = model.student.decode_with_identity(neural, identity)
+        else:
+            direct_key_features = (
+                None
+                if model.student.decoupled_key_mode == "x_only"
+                else identity.new_zeros(
+                    identity.shape[0],
+                    identity.shape[1],
+                    model.student.decoupled_direct_feature_dim,
+                )
+            )
+            y = model.student.decode_with_decoupled_identity(
+                neural,
+                identity,
+                decoder_key_features=direct_key_features,
+            )
         y = decode_last_behavior(y)
         r2.update(y.flatten(start_dim=0, end_dim=1), behavior[:, -1:, :].flatten(start_dim=0, end_dim=1))
     return float(r2.compute().item())
@@ -542,10 +600,12 @@ def eval_r2(model, dataset: MCMazeSessionDataset, device: torch.device) -> float
             side_features = side_features.to(device)
         if electrode_ids is not None:
             electrode_ids = electrode_ids.to(device)
+        decoder_key_features = model.decoder_key_features(side_features)
         y, _ = model.student(
             neural,
             calib_trials=calib,
             side_features=side_features,
+            decoder_key_features=decoder_key_features,
             electrode_ids=electrode_ids,
         )
         y = decode_last_behavior(y)
@@ -587,10 +647,12 @@ def finetune(
                 side_features = side_features.to(device)
             if electrode_ids is not None:
                 electrode_ids = electrode_ids.to(device)
+            decoder_key_features = model.decoder_key_features(side_features)
             y, _ = model.student(
                 neural,
                 calib_trials=calib,
                 side_features=side_features,
+                decoder_key_features=decoder_key_features,
                 electrode_ids=electrode_ids,
             )
             y = y[:, -1:, :] / BEHAVIOR_SCALING_FACTOR
@@ -744,6 +806,7 @@ def main() -> None:
     run_metadata_path = Path(protocol_lock["training_run_metadata"])
     if not run_metadata_path.is_file() or sha256_file(run_metadata_path) != protocol_lock["training_run_metadata_sha256"]:
         raise ValueError("Protocol-lock training run metadata is missing or has a SHA-256 mismatch")
+    run_metadata = json.loads(run_metadata_path.read_text())
 
     split_counts = parse_split_counts(args.split_counts)
     ks = sorted({int(k) for k in args.ks.split(",")})
@@ -801,10 +864,32 @@ def main() -> None:
         raise ValueError("Current formal test scope differs from the protocol lock")
     if session_splits != source.get("session_splits") or session_unit_counts != source.get("session_unit_counts"):
         raise ValueError("Current discovered session split or unit counts drift from validation source")
-    behavior_mean, behavior_std = fit_behavior_stats(train_files, bin_size_ms=20)
+    cache_dir_raw = source.get("cache_dir")
+    cache_dir = (
+        Path(cache_dir_raw).expanduser().resolve()
+        if cache_dir_raw is not None
+        else None
+    )
+    signal_view = str(
+        source.get("signal_view", run_metadata.get("signal_view", "sua"))
+    )
+    if signal_view != str(run_metadata.get("signal_view", "sua")):
+        raise ValueError("Formal source signal_view differs from training metadata")
+    behavior_mean, behavior_std = fit_behavior_stats(
+        train_files, bin_size_ms=20, cache_dir=cache_dir
+    )
+    side_feature_config = load_side_feature_stats_for_run_metadata(
+        run_metadata, train_files, cache_dir
+    )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Loading Step-1 checkpoint: {ckpt_path}")
+    try:
+        ckpt = torch.load(str(ckpt_path), map_location="cpu", weights_only=True)
+    except Exception:
+        # Locally-trained trusted Lightning checkpoint; weights_only=True rejects
+        # callback/hparam objects, so fall back to full unpickling here.
+        ckpt = torch.load(str(ckpt_path), map_location="cpu", weights_only=False)
     model = StreamingCalibrationLitModule(
         task="mc_maze",
         variant=args.variant,
@@ -819,18 +904,11 @@ def main() -> None:
         decode_last_timestep_only=True,
         predict_scaled_behavior=True,
         behavior_scaling_factor=BEHAVIOR_SCALING_FACTOR,
+        **checkpoint_architecture_kwargs(ckpt),
         compile=False,
     )
     model.setup("fit")
-    try:
-        ckpt = torch.load(str(ckpt_path), map_location="cpu", weights_only=True)
-    except Exception:
-        # Locally-trained trusted Lightning checkpoint; weights_only=True rejects
-        # callback/hparam objects, so fall back to full unpickling here.
-        ckpt = torch.load(str(ckpt_path), map_location="cpu", weights_only=False)
     model.load_state_dict(ckpt["state_dict"], strict=True)
-    for parameter in model.parameters():
-        parameter.requires_grad = False
     for parameter in model.parameters():
         parameter.requires_grad = False
     model.to(device)
@@ -873,7 +951,32 @@ def main() -> None:
     paired_delta_vs_no_calibration: dict[str, float] = {}
     formal_trial_selections: dict[str, dict] = {}
     for nwb_path in test_files:
-        rec = load_session_with_trials(nwb_path, **common_bin_kwargs)
+        rec = load_session_with_trials(
+            nwb_path,
+            **common_bin_kwargs,
+            cache_dir=cache_dir,
+            signal_view=signal_view,
+        )
+        if side_feature_config is not None:
+            (
+                side_feature_group,
+                waveform_feature_group,
+                side_pool_size,
+                permutation_seed,
+                side_mean,
+                side_std,
+            ) = side_feature_config
+            rec = attach_side_features(
+                rec,
+                nwb_path,
+                side_feature_group=side_feature_group,
+                waveform_feature_group=waveform_feature_group,
+                pool_size=side_pool_size,
+                permutation_seed=permutation_seed,
+                mean=side_mean,
+                std=side_std,
+                cache_dir=cache_dir,
+            )
         sname = rec["name"]
         n_trials = len(rec["trials"])
         print(f"\n[{sname}] units={rec['n_units']} trials={n_trials}")
@@ -966,6 +1069,8 @@ def main() -> None:
         "seed": args.seed,
         "split_counts": list(split_counts),
         "max_units_exclusive": args.max_units_exclusive,
+        "cache_dir": str(cache_dir) if cache_dir is not None else None,
+        "signal_view": signal_view,
         "session_splits": session_splits,
         "session_unit_counts": session_unit_counts,
         "session_files": {
@@ -976,7 +1081,15 @@ def main() -> None:
         "deployment_protocol": {
             "name": "gradient_free_streaming_calibration",
             "deployment_config": "gradient_free_calibrated",
-            "calibration_input": "held-out session spikes only",
+            "calibration_input": (
+                "held-out session spikes plus calibration-block target labels/rates "
+                "for the frozen side-feature estimator"
+                if side_feature_config is not None
+                else "held-out session spikes only"
+            ),
+            "uses_calibration_target_labels_for_side_features": (
+                side_feature_config is not None
+            ),
             "disjoint_trial_policy": {
                 "calibration_trials": "selected calibration trials within pool[0:pool_size]" if protocol_lock else "trials[0:calibration_n_trials]",
                 "default_evaluation_trials": "trials[pool_size:]" if protocol_lock else "trials[calibration_n_trials:]",

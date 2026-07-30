@@ -27,6 +27,7 @@ from eval_adaptation_dandi688 import (
     WINDOW_SIZE,
     attach_side_features,
     build_calib_trials_for_indices,
+    checkpoint_architecture_kwargs,
     eval_r2,
     eval_r2_with_zero_identity,
     load_session_with_trials,
@@ -85,7 +86,6 @@ def load_frozen_model(
     identity_mode: str = "calibrated",
 ):
     checkpoint = torch.load(str(ckpt_path), map_location="cpu", weights_only=False)
-    hyper_parameters = checkpoint.get("hyper_parameters", {})
     model = StreamingCalibrationLitModule(
         task="mc_maze", variant=variant, teacher_ckpt_path=str(teacher_ckpt),
         window_size=WINDOW_SIZE, trial_length=TRIAL_LENGTH, id_hidden_dim=ID_HIDDEN_DIM,
@@ -93,28 +93,7 @@ def load_frozen_model(
         loss_mode="task_only", decode_last_timestep_only=True,
         predict_scaled_behavior=True, behavior_scaling_factor=BEHAVIOR_SCALING_FACTOR,
         identity_mode=identity_mode,
-        fixed_slot_count=int(hyper_parameters.get("fixed_slot_count", 0)),
-        fixed_slot_dim=int(hyper_parameters.get("fixed_slot_dim", 32)),
-        fixed_slot_mode=str(hyper_parameters.get("fixed_slot_mode", "soft")),
-        fixed_slot_fusion=str(hyper_parameters.get("fixed_slot_fusion", "film")),
-        fixed_slot_temperature=float(hyper_parameters.get("fixed_slot_temperature", 1.0)),
-        decoder_mode=str(hyper_parameters.get("decoder_mode", "coupled")),
-        decoupled_key_mode=str(
-            hyper_parameters.get("decoupled_key_mode", "e_t4")
-        ),
-        decoupled_key_dim=int(hyper_parameters.get("decoupled_key_dim", 32)),
-        decoupled_value_dim=int(
-            hyper_parameters.get("decoupled_value_dim", 32)
-        ),
-        decoupled_num_heads=int(
-            hyper_parameters.get("decoupled_num_heads", 2)
-        ),
-        decoupled_key_permutation_seed=hyper_parameters.get(
-            "decoupled_key_permutation_seed"
-        ),
-        side_dim=int(hyper_parameters.get("side_dim", 0)),
-        electrode_embed_dim=int(hyper_parameters.get("electrode_embed_dim", 0)),
-        num_electrodes=int(hyper_parameters.get("num_electrodes", 0)),
+        **checkpoint_architecture_kwargs(checkpoint),
         compile=False,
     )
     model.setup("fit")

@@ -104,6 +104,13 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 `N²` neuron self-attention。**目前尚无该五臂的 R² 结果**，所以硬件数字不能
 单独构成有效性结论；它将在 FiLM Stage-0 后自动开始。
 
+未来 formal-held-out 入口也已在不打开 test NWB 的条件下做了兼容性修复：
+validation 与 formal 现在共享 checkpoint topology 重建，decoupled candidate 会将
+真实/TS4 key feature 送入独立 key path，zero-identity control 则同时清零
+`E` 与 direct T4 key；formal 产物会显式披露 calibration target labels/rates
+用于冻结 side-feature estimator。相关 CPU/fixture 回归通过，但 formal test
+仍未运行、receipt 仍未创建。
+
 ### INT8 顺序：等待两个额外 FP32 实验
 
 先前“主线完成即自动量化”的 watcher 已停用。按 2026-07-30 的用户顺序，
