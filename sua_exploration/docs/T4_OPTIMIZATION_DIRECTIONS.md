@@ -691,6 +691,14 @@ commands pass shell and dry-run audits. The detached post-v2 watcher is active a
 its state in `results/sua_t4_head_oracle_v1/logs/evidence_gated_post_v2_watcher.log`;
 the oracle itself remains unlaunched and therefore has no R² result yet.
 
+A second detached handoff is also fail-closed: only a strictly recomputed failed oracle
+aggregate can launch the four M15 arms. It expands seeds 43/44 only after seed 42 passes
+both its aligned-versus-shuffled content gate and `−0.03 R²` non-inferiority to T4@50.
+Failure stops for analysis rather than silently entering residual-FiLM; success stops after
+the three-seed aggregate, before formal or INT8. The existing M15 estimator/encoder/
+aggregate selection reports **77 passing tests**, and the handoff state is auditable in
+`results/sua_t4_shrinkage_m15_v1/logs/evidence_gated_post_oracle_watcher.log`.
+
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
 bias by least squares; `bk` is omitted because it contributes a per-query constant that

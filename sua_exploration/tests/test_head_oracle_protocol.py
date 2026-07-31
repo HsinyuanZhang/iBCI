@@ -14,6 +14,7 @@ _SCRIPT_DIR = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(_SCRIPT_DIR))
 
 import aggregate_sua_head_oracle as aggregate_module
+import validate_head_oracle_failure_gate as oracle_failure_gate
 import validate_v2_decoupled_failure_gate as failure_gate
 from aggregate_sua_head_oracle import _validate_metadata
 from train_variant_dandi688_head_oracle import validate_args
@@ -332,3 +333,61 @@ def test_v2_failure_gate_recomputes_and_rejects_a_passing_candidate(
             v1_result_dir=tmp_path,
             seeds=(42,),
         )
+
+
+def test_oracle_failure_gate_recomputes_before_m15(
+    monkeypatch, tmp_path
+):
+    aggregate_path = tmp_path / "aggregate.json"
+    payload = {
+        "generated_at": "old",
+        "diagnostic_stage0_gates": {"pass": False},
+        "formal_effectiveness_pass": False,
+        "no_test_files_evaluated": True,
+    }
+    aggregate_path.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(
+        oracle_failure_gate,
+        "aggregate",
+        lambda *args, **kwargs: {
+            **payload,
+            "generated_at": "new",
+        },
+    )
+    oracle_failure_gate.validate_failure_gate(
+        aggregate_path=aggregate_path,
+        result_dir=tmp_path,
+        v1_result_dir=tmp_path,
+        seeds=(42,),
+    )
+    passing = {
+        **payload,
+        "diagnostic_stage0_gates": {"pass": True},
+    }
+    aggregate_path.write_text(json.dumps(passing), encoding="utf-8")
+    monkeypatch.setattr(
+        oracle_failure_gate,
+        "aggregate",
+        lambda *args, **kwargs: {
+            **passing,
+            "generated_at": "new",
+        },
+    )
+    with pytest.raises(ValueError, match="diagnostic passed"):
+        oracle_failure_gate.validate_failure_gate(
+            aggregate_path=aggregate_path,
+            result_dir=tmp_path,
+            v1_result_dir=tmp_path,
+            seeds=(42,),
+        )
+
+
+def test_post_oracle_scheduler_does_not_launch_formal_or_int8():
+    source = (
+        _SCRIPT_DIR / "schedule_m15_after_head_oracle_failure.sh"
+    ).read_text(encoding="utf-8")
+    assert "validate_head_oracle_failure_gate.py" in source
+    assert "aggregate_sua_t4_shrinkage.py" in source
+    assert "--seeds 42,43,44" in source
+    assert "eval_formal" not in source
+    assert "run_t4_encoder_int8" not in source

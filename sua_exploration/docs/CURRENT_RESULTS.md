@@ -389,6 +389,16 @@ decode；新协议/篡改测试为 `5 passed`，head-oracle 核心/adapter/runti
 `M_activity=30/M_T4=50/eval[50:]/epochs5--12` 命令；尚未启动 oracle GPU，
 所以这里仍不是 R² 结果。
 
+oracle 失败后的 M15 handoff 也已改为严格证据门控：detached watcher 先用
+`validate_head_oracle_failure_gate.py` 对双臂 artifact 和 aggregate 做完整重算，
+只有 exact-head diagnostic 明确失败才启动四个 M15 arms。seed 42 同时通过各自
+aligned-vs-shuffled T4 content gate 与相对 T4@50 的 `−0.03` non-inferiority 后，
+才允许 GPU0/GPU1 分别扩展 seeds 43/44；否则停下分析，不自动进入 residual-FiLM。
+该 watcher 不包含 formal 或 INT8 入口，状态日志为
+`results/sua_t4_shrinkage_m15_v1/logs/evidence_gated_post_oracle_watcher.log`。
+四臂 dry-run、shell audit 通过，既有 shrinkage/encoder/aggregate 选择为
+`77 passed`；这仍是 execution readiness，不是 M15 task R²。
+
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为
 `9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`。
 rank-48 aggregate Q/K bilinear proxy 保留 `57.95%` 能量，rank-64
