@@ -48,11 +48,36 @@ chronological first-30，只评估 trial 30 之后的窗口；strict 27/6/6 mani
 exact-Wilcoxon 的全部预设门。权威 artifact：
 `results/sua_spint_t4_mainline_fp32_v1/aggregate.json`。
 
-### Confidence-FiLM：候选尚在运行，输入审计已完成
+### Confidence-FiLM：三个关键 matched controls 已否定机制，TS4 diagnostic 仍在运行
 
-普通 `T4@50` selected anchors（seeds 42/43/44）与五臂 matched continuation
-screen 已启动；本节目前**没有**声明 FiLM 性能结果。正式候选启动前只使用 27
-个 train sessions 做了 confidence 输入资格审计：
+Seed-42 的四个 aligned-T4 arms 已完成 strict validation；第五个
+`FiLM(TS4)` 只用于补齐 T4-content diagnostic，仍在运行。因此以下是通过逐臂
+receipt 校验的 **fail-closed interim result**，不是尚未生成的五臂 final aggregate：
+
+| Arm | mean R² |
+|---|---:|
+| T4 continuation | 0.590273 |
+| FiLM(C) | **0.593672** |
+| FiLM(shuffle C) | 0.590890 |
+| NoFiLM-match(C) | 0.592974 |
+| FiLM(TS4) | pending |
+
+- `FiLM−T4 continuation = +0.003399`：4/6 sessions 为正，95% CI
+  `[-0.000141,+0.006661]`，exact paired Wilcoxon `p=.21875`；
+- `FiLM−shuffle C = +0.002782`：5/6 sessions 为正，95% CI
+  `[-0.004685,+0.008329]`，`p=.4375`；
+- `FiLM−NoFiLM-match = +0.000698`：3/6 sessions 为正，95% CI
+  `[-0.002204,+0.003696]`，`p=.6875`。
+
+三项都远低于预注册的 `+0.03`，都未达到 6/6 session 为正，CI/Wilcoxon 门也
+未通过。故即使 TS4 diagnostic 尚未结束，当前 Confidence-FiLM 的 seed-42
+Stage-0 已经数学上不可能通过；不扩展 seeds 43/44。这个结论只否定当前融合
+机制，不否定 residual variance 所含的可靠性信号。四臂均使用同一 strict 27/6
+train/validation manifest、`M_activity=30`、`M_T4=50`、共同 eval start 50、
+epochs 5–12 score window 和同一个 selected-T4 anchor SHA
+`cf533e7c…128273d`；formal held-out 未打开。
+
+正式候选启动前只使用 27 个 train sessions 做了 confidence 输入资格审计：
 
 - 原 v1 的 `log residual variance` 与 `0.5 log det(C_ac)` 在 within-session
   centering 后相关达到 `0.975`，第二维几乎是第一维加一个 session 常数；
@@ -109,8 +134,9 @@ unit-specific `log residual variance`：
 - 再加入 exposure、entropy、analytic-SE 的 expanded set 为 `0.8885`，没有增加。
 
 因此，**confidence 本身具有很强的 train-session 外推有效性，但当前证据支持的
-核心是 residual variance，不是 geometry**。若正在运行的 FiLM 最终失败，应
-解释为融合/优化失败，不能解释为 reliability signal 不存在；下一轮优先使用
+核心是 residual variance，不是 geometry**。完整 FiLM 已被三个关键 matched
+controls 否定，应解释为融合/优化失败，不能解释为 reliability signal 不存在；
+后备优化轮优先使用
 参数匹配的 residual-only mask 和对应 residual-shuffle，而不是继续扩展描述量。
 这仍不是 decoding R² 结果，不能替代五臂 validation gate。权威本地 artifacts：
 `results/sua_t4_confidence_film_v1/t4c_predictive_validity_train_m10_30.json`
@@ -141,8 +167,9 @@ formal seal，并将 residual-FiLM 同时与 T4 continuation、
 residual-shuffle、residual-NoFiLM 比较。冻结改动的目标回归 `13 passed`，并用
 真实 selected-T4 checkpoint 实例化三个 arm，均得到相同的 1,208 参数集合；三臂 dry-run
 确认只生成 `calibration_n=30 / pool_size=50` 的 validation 命令，没有启动训练。
-自动顺序现为 **完整 FiLM → decoupled K/V → residual-only 优化 → B3TStream+T4**；
-只有前两项都没有形成有效候选时 residual 优化才会使用 GPU。
+自动顺序现为 **完整 FiLM → decoupled K/V → M15 shrinkage → residual-only
+优化 → B3TStream+T4**；只有前两项都没有形成有效候选时 M15 shrinkage 才会
+使用 GPU，residual 优化位于其后。
 
 ### 低标签 T4 shrinkage：train-only 代理结果为正，GPU pilot 已预注册
 
@@ -206,7 +233,8 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 即 decoder-path 配置 MAC 约下降 `91.38%`，持久状态下降 `36%`；这不是整机
 实测 latency。缓存只保存 projected key，不保存原始 T4/confidence，也没有
 `N²` neuron self-attention。**目前尚无该五臂的 R² 结果**，所以硬件数字不能
-单独构成有效性结论；它将在 FiLM Stage-0 后自动开始。
+单独构成有效性结论；它将在 FiLM 五臂 final aggregate 生成后自动开始。FiLM
+所需的三个关键机制门目前都已不可能通过，TS4 结束只负责补齐诊断和触发该接棒。
 
 未来 formal-held-out 入口也已在不打开 test NWB 的条件下做了兼容性修复：
 validation 与 formal 现在共享 checkpoint topology 重建，decoupled candidate 会将

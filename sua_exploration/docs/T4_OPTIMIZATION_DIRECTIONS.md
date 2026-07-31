@@ -362,6 +362,34 @@ optimizer state, and start with newly added residual heads at exactly zero:
   `gamma*h` interaction;
 - `FiLM(TS4)`, shuffling only T4 columns while confidence remains aligned.
 
+#### Seed-42 matched interim result (2026-07-31; TS4 diagnostic pending)
+
+Four aligned-T4 arms have completed strict validation and passed their individual
+protocol/receipt checks. The fifth `FiLM(TS4)` arm is still running, so this is a fail-closed
+interim result rather than the final five-arm aggregate:
+
+| Arm | mean R² |
+|---|---:|
+| T4 continuation | 0.590273 |
+| FiLM(C) | **0.593672** |
+| FiLM(shuffle C) | 0.590890 |
+| NoFiLM-match(C) | 0.592974 |
+| FiLM(TS4) | pending |
+
+The required contrasts are already negative under the predeclared mechanism gates:
+
+- `FiLM−T4 continuation = +0.003399`, 4/6 sessions positive, 95% CI
+  `[-0.000141,+0.006661]`, exact paired Wilcoxon `p=.21875`;
+- `FiLM−shuffle C = +0.002782`, 5/6 positive, 95% CI
+  `[-0.004685,+0.008329]`, `p=.4375`;
+- `FiLM−NoFiLM-match = +0.000698`, 3/6 positive, 95% CI
+  `[-0.002204,+0.003696]`, `p=.6875`.
+
+All three miss the `+0.03`, 6/6-session, CI and Wilcoxon gates. Consequently this
+Confidence-FiLM version cannot pass seed-42 Stage 0 and will not expand to more seeds,
+irrespective of the pending TS4 diagnostic. This rejects the current fusion mechanism, not
+the train-only predictive value of residual variance. Formal held-out data remain sealed.
+
 At initialization the aligned-T4 arms (T4 continuation, FiLM, confidence-shuffle and
 NoFiLM-match) are bitwise equal to the anchor; `FiLM(TS4)` deliberately differs only through
 its shuffled T4-to-unit assignment. Confidence never enters the original 68-wide post-pool
