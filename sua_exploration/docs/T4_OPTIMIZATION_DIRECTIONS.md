@@ -662,7 +662,11 @@ now lives in `streaming_calibration_exp/src/models/head_oracle_module.py`; it bi
 permutation seed, teacher and active-factor hashes into checkpoints, excludes the copied
 legacy transformer from the optimizer, and verifies restored factors after strict state
 loading. The expanded decoupled regression selection reports **95 passing tests**.
-Standalone checkpoint reconstruction, fixed-window evaluation and the GPU runner remain
+Strict standalone checkpoint reconstruction now lives in
+`sua_exploration/scripts/head_oracle_runtime.py`; it whitelists the production hparams,
+requires the 64-head/exact-softmax receipt, binds the teacher SHA, restores state strictly
+and verifies the active factor hash after loading. The expanded decoupled regression
+selection reports **98 passing tests**. Fixed-window evaluation and the GPU runner remain
 intentionally gated on a v2 failure.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
