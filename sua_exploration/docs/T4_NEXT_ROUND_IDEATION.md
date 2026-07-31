@@ -224,6 +224,13 @@ predeclared optimization policy additionally enables the existing attention
 output projection; it cannot silently unfreeze the rest of the backbone.
 Component/selector plus adjacent wrapper regression is `31 passed`.
 
+A standalone strict checkpoint runtime is also ready. It reconstructs only the
+recorded topology and refuses restoration if the teacher SHA, selected-T4
+anchor SHA, residual-factor SHA, training policy, or aligned/shuffled seed
+differs from the checkpoint receipt. The focused component/selector/runtime
+suite is `20 passed`. This is evaluation readiness only: there is still no
+training runner or GPU authorization before the upstream gates finish.
+
 At `N=64, rank=8`, the residual map costs `264,192` calibration-only MAC and
 adds a 131,072-byte FP32 full-width cache. The online Linear/attention/FFN MAC
 count remains the coupled `57,970,688` plus an elementwise key addition, so this

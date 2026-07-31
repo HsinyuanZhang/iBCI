@@ -418,6 +418,9 @@ selector 强制使用完整 selected-T4 checkpoint 而不是 fresh teacher resta
 实际 seed-42 anchor（SHA `cf533e…273d`）设置后仍逐 bit 等价，optimizer 精确只含
 两个 residual factor tensor。唯一预注册优化策略额外开放既有 attention
 `out_proj`，不能任意解冻 backbone；wrapper 联合回归 `31 passed`。
+strict checkpoint runtime 也已就绪：恢复时绑定 teacher、selected-T4 anchor、
+residual factor、训练策略和 aligned/shuffled seed 的 SHA/receipt，聚焦联合测试
+`20 passed`。这仍只是 evaluation readiness，没有训练 runner 或提前 GPU 权限。
 `N=64,rank=8` 时只新增 `264,192` calibration-only MAC 和 `131,072 B` FP32
 residual state，在线主 MAC 仍为 coupled 的 `57,970,688` 加 elementwise key
 addition，因此它是 accuracy candidate，不是硬件简化候选。是否接入 GPU 仍由
