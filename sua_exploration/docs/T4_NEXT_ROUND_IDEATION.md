@@ -1,7 +1,10 @@
 # T4 next-round ideation after negative extension results
 
-**Status:** contingency design plus isolated component readiness; no arm is
-authorized before the active v1 → v2 → exact-head/M15 evidence gates finish.
+**Status:** the hardware-first v2/exact-head chain was stopped on
+2026-07-31 after severe early mismatch. The active selection experiment is now
+only the paired ordinary-T4/TS4 `M_T4=15` label-reduction test. The
+baseline-preserving residual component remains a contingency and is not
+authorized before the M15 gate finishes.
 
 **Evidence boundary:** this document uses completed train/validation results and
 source/cost audits already recorded in `CURRENT_RESULTS.md`. It opens no new

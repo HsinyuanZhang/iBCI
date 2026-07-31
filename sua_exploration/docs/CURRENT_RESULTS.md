@@ -5,6 +5,21 @@
 
 ## FP32 T4 主线补强与 INT8 接续
 
+### 2026-07-31 16:09 HKT：主线已收缩到低标签 T4
+
+用户确认不再为早期即明显失配的架构继续消耗 GPU。`decoupled v2`
+的 `E-T4/E-TS4` seed-42 训练分别在仅产生 2/1 个 checkpoint 后人工终止；
+对应自动续跑器、`exact-head` oracle 和旧的串行 watcher 也已停止。终止前的
+held-in 读数约为 `0.06`，远低于 coupled T4 的约 `0.58`，但因为没有走完预注册的
+epochs 5--12 固定前向窗口，**只能作为 kill signal，不能作为正式 R² 对比**。
+已有 checkpoint 和日志均保留，formal held-out 未打开。
+
+当前唯一活动的 FP32 选择实验是 `M_T4=15` 的 ordinary T4/TS4 配对：
+`M_activity=30`、共同 evaluation start 为 trial 50、seed 42、同一
+teacher/manifest/训练预算。T4 与 TS4 已分别在 GPU1/GPU0 并行；只有
+`T4@15−TS4@15` 保留真实内容效应，且 `T4@15−T4@50 ≥ −0.03 R²`，才扩展
+seeds 43/44。该实验完成前不打开 formal held-out，也不开始 INT8。
+
 ### M2：修正矩阵已完成
 
 M2 的 all-held-in T4/TS4 三种子已与本地 full-SPINT B0 在同一个
@@ -278,10 +293,11 @@ sessions 为正。因此 raw T4 direct branch 不但没有救回静态 E key，�
 1/6 sessions 为正；
 这说明 v1 的随机小型 dynamic activity-key/value decoder 本身也不能承载任务，
 进一步排除了“只要去掉静态 E 就能恢复”的解释。strict aggregate 判定
-`stage0_descriptive_mechanism_pass=false`、`formal_effectiveness_pass=false`；
-evidence watcher 已于 15:38 HKT 在 GPU0/GPU1 启动
-teacher-readin/teacher-initialized v2 的 E-T4/E-TS4 首对 arms。所有上述结果
-仍是严格 architecture validation，formal held-out 未打开。
+`stage0_descriptive_mechanism_pass=false`、`formal_effectiveness_pass=false`。
+teacher-readin/teacher-initialized v2 的 E-T4/E-TS4 首对 arms 曾于 15:38 HKT
+启动，但已按本节顶部记录的收缩决定于 16:08 HKT 停止，不再进入后续
+exact-head 链。所有上述完成结果仍是严格 architecture validation，formal
+held-out 未打开。
 
 首轮开始前另做了一个完全不打开 neural dataset 的 teacher-checkpoint 谱审计，
 用来约束“若首轮失败，下一轮应该改哪里”。原 attention 投影在 rank 32 时只保留
