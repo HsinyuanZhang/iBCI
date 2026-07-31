@@ -111,7 +111,7 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
         self.dim_feedforward = int(dim_feedforward)
 
         self.norm1 = nn.LayerNorm(d_model)
-        self.query_proj = nn.Linear(d_model, key_dim, bias=False)
+        self.query_proj = nn.Linear(d_model, key_dim, bias=True)
         self.key_proj = nn.Linear(d_model, key_dim, bias=False)
         self.direct_key_proj = nn.Linear(direct_feature_dim, key_dim, bias=False)
         self.value_proj = nn.Linear(d_model, value_dim, bias=False)
@@ -148,10 +148,13 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
 
         Q/K factorize a rank-limited proxy for the sum of teacher heads'
         pre-softmax bilinear forms, ``Wq.T @ Wk / sqrt(teacher_head_dim)``.
-        V/output factorize the linear composition ``Wo @ Wv``.  Neither proxy
-        preserves head-wise softmax.  Q/K/V in-projection biases are omitted
-        deliberately and reported separately.  SVD is performed in float64 on
-        CPU, then copied to this module's dtype and device.
+        V/output factorize the linear composition ``Wo @ Wv``. Neither proxy
+        preserves head-wise softmax. The key-dependent affine logit induced by
+        teacher ``bq`` is least-squares projected into the low-rank query bias;
+        ``bk`` produces only a per-query constant and is softmax-invariant.
+        The teacher value bias contribution ``Wo @ bv`` is folded into the
+        output bias. SVD is performed in float64 on CPU, then copied to this
+        module's dtype and device.
         """
         if teacher_attn.embed_dim != self.d_model:
             raise ValueError(
@@ -194,8 +197,40 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
         wout_low = uv[:, : self.value_dim] * sqrt_sv[None, :]
         wv_low = sqrt_sv[:, None] * vhv[: self.value_dim, :]
 
+        in_bias = teacher_attn.in_proj_bias
+        if in_bias is None:
+            bq = torch.zeros(self.d_model, dtype=torch.float64)
+            bk = torch.zeros(self.d_model, dtype=torch.float64)
+            bv = torch.zeros(self.d_model, dtype=torch.float64)
+        else:
+            bq, bk, bv = (
+                part.detach().to(device="cpu", dtype=torch.float64)
+                for part in in_bias.chunk(3, dim=0)
+            )
+        # In the aggregate teacher-logit proxy, bq creates the only
+        # key-dependent affine term. Solve B.T @ a ~= sqrt(Dk/dh) Wk.T @ bq.
+        query_bias_target = (
+            math.sqrt(self.key_dim / teacher_head_dim) * (wk.T @ bq)
+        )
+        query_bias_low = torch.linalg.lstsq(
+            wk_low.T, query_bias_target[:, None]
+        ).solution[:, 0]
+        query_bias_reconstruction = wk_low.T @ query_bias_low
+        query_bias_target_norm = torch.linalg.vector_norm(query_bias_target)
+        query_bias_residual = torch.linalg.vector_norm(
+            query_bias_reconstruction - query_bias_target
+        )
+        query_bias_relative_residual = (
+            0.0
+            if float(query_bias_target_norm) == 0.0
+            else float(query_bias_residual / query_bias_target_norm)
+        )
+
         self.query_proj.weight.copy_(
             wq_low.to(self.query_proj.weight)
+        )
+        self.query_proj.bias.copy_(
+            query_bias_low.to(self.query_proj.bias)
         )
         self.key_proj.weight.copy_(
             wk_low.to(self.key_proj.weight)
@@ -206,27 +241,28 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
         self.out_proj.weight.copy_(
             wout_low.to(self.out_proj.weight)
         )
-        if teacher_attn.out_proj.bias is None:
-            self.out_proj.bias.zero_()
-        else:
-            self.out_proj.bias.copy_(
-                teacher_attn.out_proj.bias.detach().to(self.out_proj.bias)
+        teacher_out_bias = (
+            torch.zeros(self.d_model, dtype=torch.float64)
+            if teacher_attn.out_proj.bias is None
+            else teacher_attn.out_proj.bias.detach().to(
+                device="cpu", dtype=torch.float64
             )
+        )
+        folded_out_bias = teacher_out_bias + wo @ bv
+        self.out_proj.bias.copy_(
+            folded_out_bias.to(self.out_proj.bias)
+        )
         self.direct_key_proj.weight.zero_()
         self.norm1.load_state_dict(teacher_norm1.state_dict(), strict=True)
         self.norm2.load_state_dict(teacher_norm2.state_dict(), strict=True)
         self.ffn.load_state_dict(teacher_ffn.state_dict(), strict=True)
 
-        in_bias = teacher_attn.in_proj_bias
-        if in_bias is None:
-            bq_norm = bk_norm = bv_norm = 0.0
-        else:
-            bq, bk, bv = in_bias.detach().chunk(3, dim=0)
-            bq_norm = float(torch.linalg.vector_norm(bq))
-            bk_norm = float(torch.linalg.vector_norm(bk))
-            bv_norm = float(torch.linalg.vector_norm(bv))
+        bq_norm = float(torch.linalg.vector_norm(bq))
+        bk_norm = float(torch.linalg.vector_norm(bk))
+        bv_norm = float(torch.linalg.vector_norm(bv))
         factors = {
             "query_proj.weight": self.query_proj.weight,
+            "query_proj.bias": self.query_proj.bias,
             "key_proj.weight": self.key_proj.weight,
             "value_proj.weight": self.value_proj.weight,
             "out_proj.weight": self.out_proj.weight,
@@ -235,10 +271,10 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
         }
         return {
             "schema_version": 1,
-            "strategy": (
-                "teacher_weight_only_bias_omitting_global_bilinear_svd"
+            "strategy": "teacher_affine_proxy_global_bilinear_svd",
+            "bias_policy": (
+                "bq_lstsq_bk_softmax_invariant_bv_folded_into_output"
             ),
-            "bias_policy": "qkv_in_projection_bias_omitted",
             "teacher_embed_dim": self.d_model,
             "teacher_head_count": teacher_attn.num_heads,
             "teacher_head_dim": teacher_head_dim,
@@ -258,10 +294,22 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
                 sv, self.value_dim
             ),
             "vo_retained_energy": _retained_energy(sv, self.value_dim),
-            "teacher_q_bias_l2_omitted": bq_norm,
-            "teacher_k_bias_l2_omitted": bk_norm,
-            "teacher_v_bias_l2_omitted": bv_norm,
-            "teacher_out_proj_bias_copied": teacher_attn.out_proj.bias is not None,
+            "teacher_q_bias_l2": bq_norm,
+            "teacher_k_bias_l2_softmax_invariant": bk_norm,
+            "teacher_v_bias_l2_folded_into_output": bv_norm,
+            "query_bias_relative_lstsq_residual": query_bias_relative_residual,
+            "construction_residual_dtype": "float64",
+            "teacher_out_proj_bias_copied": (
+                teacher_attn.out_proj.bias is not None
+            ),
+            "teacher_value_bias_folded_into_output_eval_exact": True,
+            "teacher_value_bias_fold_exactness": (
+                "eval_only_attention_dropout_disabled"
+            ),
+            "teacher_attention_dropout_probability": float(
+                teacher_attn.dropout
+            ),
+            "teacher_training_attention_dropout_preserved": False,
             "direct_key_branch_zero_initialized": bool(
                 torch.count_nonzero(self.direct_key_proj.weight) == 0
             ),

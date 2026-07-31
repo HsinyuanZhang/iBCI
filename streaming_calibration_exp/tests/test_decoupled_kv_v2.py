@@ -1,6 +1,7 @@
 """CPU contracts for the representation-preserving decoupled K/V follow-up."""
 from __future__ import annotations
 
+import copy
 import math
 
 import pytest
@@ -74,7 +75,9 @@ def test_teacher_svd_initialization_reconstructs_truncated_linear_maps():
     assert receipt["teacher_headwise_softmax_preserved"] is False
     assert receipt["qk_object"] == "sum_of_teacher_pre_softmax_bilinear_forms"
     assert receipt["vo_object"] == "linear_value_output_composition_only"
-    assert receipt["bias_policy"] == "qkv_in_projection_bias_omitted"
+    assert receipt["bias_policy"] == (
+        "bq_lstsq_bk_softmax_invariant_bv_folded_into_output"
+    )
     assert receipt["exact_teacher_mha_equivalence"] is False
     assert receipt["direct_key_branch_zero_initialized"] is True
     assert len(receipt["factor_sha256"]) == 64
@@ -98,7 +101,7 @@ def test_teacher_svd_initialization_reconstructs_truncated_linear_maps():
     )
 
 
-def test_bias_omission_policy_reports_each_teacher_qkv_segment():
+def test_affine_bias_policy_maps_q_folds_v_and_marks_k_softmax_invariant():
     attn, norm1, norm2, ffn = _teacher_layer()
     assert attn.in_proj_bias is not None
     with torch.no_grad():
@@ -120,10 +123,101 @@ def test_bias_omission_policy_reports_each_teacher_qkv_segment():
         teacher_norm2=norm2,
         teacher_ffn=ffn,
     )
-    assert receipt["teacher_q_bias_l2_omitted"] == pytest.approx(4.0)
-    assert receipt["teacher_k_bias_l2_omitted"] == pytest.approx(8.0)
-    assert receipt["teacher_v_bias_l2_omitted"] == pytest.approx(12.0)
-    assert torch.equal(module.out_proj.bias, attn.out_proj.bias)
+    assert receipt["teacher_q_bias_l2"] == pytest.approx(4.0)
+    assert receipt["teacher_k_bias_l2_softmax_invariant"] == pytest.approx(8.0)
+    assert receipt["teacher_v_bias_l2_folded_into_output"] == pytest.approx(12.0)
+    expected_out_bias = (
+        attn.out_proj.bias.detach().double()
+        + attn.out_proj.weight.detach().double()
+        @ bv.detach().double()
+    )
+    assert torch.allclose(
+        module.out_proj.bias.detach().double(),
+        expected_out_bias,
+        atol=2e-6,
+        rtol=2e-6,
+    )
+    wq, wk, _ = attn.in_proj_weight.detach().double().chunk(3, dim=0)
+    del wq
+    target = math.sqrt(6 / 4) * (
+        wk.T @ bq.detach().double()
+    )
+    reconstructed = (
+        module.key_proj.weight.detach().double().T
+        @ module.query_proj.bias.detach().double()
+    )
+    actual_relative_residual = float(
+        torch.linalg.vector_norm(reconstructed - target)
+        / torch.linalg.vector_norm(target)
+    )
+    assert receipt["query_bias_relative_lstsq_residual"] == pytest.approx(
+        actual_relative_residual, abs=1e-6
+    )
+    assert receipt["teacher_value_bias_folded_into_output_eval_exact"] is True
+    assert receipt["teacher_value_bias_fold_exactness"] == (
+        "eval_only_attention_dropout_disabled"
+    )
+    assert receipt["teacher_training_attention_dropout_preserved"] is False
+    assert receipt["construction_residual_dtype"] == "float64"
+
+
+def test_teacher_key_bias_is_headwise_softmax_invariant_in_eval():
+    attn, _, _, _ = _teacher_layer()
+    attn.eval()
+    changed = copy.deepcopy(attn)
+    changed.eval()
+    assert changed.in_proj_bias is not None
+    with torch.no_grad():
+        _, bk, _ = changed.in_proj_bias.chunk(3, dim=0)
+        bk.copy_(torch.linspace(-50.0, 50.0, bk.numel()))
+    query = torch.randn(3, 2, 16)
+    source = torch.randn(3, 7, 16)
+    original_output, original_weights = attn(
+        query, source, source, need_weights=True
+    )
+    changed_output, changed_weights = changed(
+        query, source, source, need_weights=True
+    )
+    assert torch.allclose(
+        original_weights, changed_weights, atol=2e-6, rtol=2e-6
+    )
+    assert torch.allclose(
+        original_output, changed_output, atol=2e-6, rtol=2e-6
+    )
+
+
+def test_value_bias_fold_receipt_marks_attention_dropout_training_boundary():
+    torch.manual_seed(23)
+    attn = nn.MultiheadAttention(
+        16, 4, dropout=0.2, batch_first=True
+    )
+    norm1 = nn.LayerNorm(16)
+    norm2 = nn.LayerNorm(16)
+    ffn = nn.Sequential(
+        nn.Linear(16, 32),
+        nn.ReLU(),
+        nn.Dropout(0.2),
+        nn.Linear(32, 16),
+    )
+    module = TeacherSVDDecoupledCrossAttention(
+        d_model=16,
+        key_dim=6,
+        value_dim=8,
+        direct_feature_dim=4,
+        dim_feedforward=32,
+        dropout=0.2,
+    )
+    receipt = module.initialize_from_teacher(
+        teacher_attn=attn,
+        teacher_norm1=norm1,
+        teacher_norm2=norm2,
+        teacher_ffn=ffn,
+    )
+    assert receipt["teacher_attention_dropout_probability"] == pytest.approx(0.2)
+    assert receipt["teacher_value_bias_fold_exactness"] == (
+        "eval_only_attention_dropout_disabled"
+    )
+    assert receipt["teacher_training_attention_dropout_preserved"] is False
 
 
 def test_static_cache_is_exact_and_cached_forward_skips_key_projection(monkeypatch):

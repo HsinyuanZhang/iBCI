@@ -270,8 +270,8 @@ decoder MAC/frame，相对 coupled 下降 `56.08%`；`K[N,48]` 为 12,288 B，
 该 v2 的旁路核心已实现于
 `streaming_calibration_exp/src/models/components/decoupled_kv_v2.py`，但在 v1
 五臂全部结束前**没有**接入 `StreamingSpintModel` 或训练 runner，避免后启动的
-v1 arms 读到不同实现。当前 CPU 合同覆盖 teacher weight-only/bias-omitting
-SVD 的 Q/K scale 与 V/out 方向、single-head/64-head 非等价边界、独立
+v1 arms 读到不同实现。当前 CPU 合同覆盖 teacher affine-proxy SVD 的
+Q/K scale 与 V/out 方向、single-head/64-head 非等价边界、独立
 `K(h_x),V(h_x)` 动态控制、只缓存 projected K、static/x-only 精确成本、
 direct-T4 零初始化、梯度和 unit permutation；相关 decoupled 回归为
 `31 passed`。
@@ -286,6 +286,18 @@ direct feature。未使用的 legacy transformer 与 teacher-ID 参数被冻结�
 end-to-end optimizer state。核心、adapter、旧 v1 与 formal 入口的相关回归现为
 `42 passed`。这些旁路文件仍未被生产 selector 或 v1 runner import；该实现状态
 只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
+
+实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为
+`9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`。
+rank-48 aggregate Q/K bilinear proxy 保留 `57.95%` 能量，rank-64
+`Wo@Wv` 保留 `87.87%`；teacher `bq/bk/bv` L2 分别约为
+`0.3304/0.0687/0.3050`。当前 affine 初始化用 least squares 将影响
+unit-relative logits 的 `bq` 映射到 query bias（relative residual `12.71%`），
+`bk` 仅形成 softmax 会抵消的行常数，`Wo@bv` 则折叠进 output bias。该审计
+打开 0 dataset、0 cache、0 validation 和 0 formal，仅证明初始化账本，不是
+R² 或 teacher-attention reconstruction 分数。`Wo@bv` 折叠只在 eval、
+attention-dropout 关闭且 probability 行和为 1 时精确；训练态下它只是确定性
+初始化 proxy，不是完整 affine 等价。
 
 另一个 selected-anchor、strict 27-train-cache-only 审计检查了联合
 `LayerNorm([E,T4])`。1,613 个 train units 中，T4 占 `4/54=7.41%` 坐标，

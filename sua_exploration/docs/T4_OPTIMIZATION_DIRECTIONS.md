@@ -513,7 +513,7 @@ R² result or measured end-to-end latency.
 An isolated implementation scaffold now exists in
 `streaming_calibration_exp/src/models/components/decoupled_kv_v2.py`. It is deliberately
 not imported by `StreamingSpintModel` or the v1 runner while the sequential five-arm v1
-screen is in flight. Its CPU contracts cover the weight-only, Q/K/V-bias-omitting SVD
+screen is in flight. Its CPU contracts cover the affine-proxy SVD
 orientation and score scale, the non-equivalence to 64 head-wise softmaxes, a dedicated
 dynamic `K(h_x),V(h_x)` path with no direct-feature call or cache, exact static/dynamic
 cost receipts, projected-K-only state, gradients and unit permutation. The related
@@ -531,6 +531,20 @@ on the base class's generic non-coupled branch. The combined new/legacy/formal d
 suite reports 42 passing tests. Neither bypass module is imported by the active v1 screen.
 This is implementation readiness, not accuracy evidence; production-selector integration
 is conditional on the v1 result diagnosis above.
+
+The initialization was subsequently tightened from weight-only to an affine proxy. The
+teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
+bias by least squares; `bk` is omitted because it contributes a per-query constant that
+softmax cancels; and the constant value contribution `Wo@bv` is folded into the output
+bias. A trusted-checkpoint-only audit of the actual teacher (SHA256
+`9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`) reports
+`57.95%` retained energy for the aggregate rank-48 Q/K bilinear proxy, `87.87%` for
+rank-64 `Wo@Wv`, and a `12.71%` relative least-squares residual for the mapped query-bias
+term. It opened zero datasets, caches, validation sessions and formal sessions. These
+numbers support the initialization construction but remain checkpoint diagnostics, not R²
+or teacher-attention reconstruction scores. The `Wo@bv` fold into output bias is exact only
+in evaluation when attention-dropout is disabled and probability rows sum to one; during
+training it is a deterministic initialization proxy, not exact affine preservation.
 
 The v1 result determines which optimization is justified:
 
