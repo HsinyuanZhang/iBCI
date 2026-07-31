@@ -58,6 +58,31 @@ GPU0 在 TS4 evaluator 写出结果并释放 compute PID 后，条件式 watcher
 预注册协议启动 `TS4W3@15 seed42`；GPU1 的 `T4W3@15 seed42` 继续运行。W3
 仍需同时通过自身 aligned−shuffled 内容门及相对 T4@50 的非劣门，才允许扩种子。
 
+### W3 aligned-first 早停与 M20 条件分流（结果前冻结）
+
+为避免在 aligned W3 已经不可能通过非劣门时继续浪费 control GPU，固定顺序改为：
+`T4W3@15` 完整结果先与同 seed 的 T4@50 比较。若
+`d50=T4W3@15−T4@50 ≥−0.03`，才继续完成 `TS4W3@15` 内容门；否则停止尚未完成的
+control，且不生成伪完整四臂结论。
+
+同时在任何 `T4W3@15` validation 结果出现前冻结以下一次性分流：
+
+- 仅当 `−0.05≤d50<−0.03` 且
+  `d15=T4W3@15−ordinary T4@15≥+0.015`，解释为 W3 估计器已有实质改善、但
+  15-trial 预算略低，允许进入 M20；
+- 其余 `d50<−0.03` 情形直接停止 W3 estimator 分支，转入已经预注册的
+  fresh `T4/B3TStream+T4/B3TStream+TS4`；
+- 上述边界不得根据当前 validation 结果修改。
+
+M20 是独立的 aligned-first screen：`M_activity=30`、`M_T4=20`、共同
+evaluation start 50、Wiener strength 3、seed 42、同一 strict manifest/teacher。
+机器 gate 会严格重验 M15 T4W3、ordinary T4@15 和 T4@50 后才允许启动
+`T4W3@20`；只有 `T4W3@20−T4@50≥−0.03` 才允许启动 `TS4W3@20`。最终
+M20 aggregate 必须重新嵌入完整 M15 selection receipt，不能只依赖曾经执行过的
+shell 命令。runner、validator、边界/错误 pool/label scope/Wiener receipt/formal
+seal/normalization/teacher drift 测试均已准备，独立复核为 **20 passed**；
+当前 M20 run/result 目录均不存在，formal test 未打开。
+
 ### 2026-07-31 17:09 HKT：真 CMP 空间邻域先验 Stage 0 判负
 
 为区分旧 electrode-id lookup 与真正的空间关系先验，新增严格 train-only、
