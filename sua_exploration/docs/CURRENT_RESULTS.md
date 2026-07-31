@@ -36,6 +36,28 @@ Wiener strength 3 来自上述完全 train-only 的 nested LOSO audit，不以�
 validation 结果调参。W3 仍必须独立通过 `T4W3@15−TS4W3@15` 内容门和相对
 T4@50 的非劣门，才允许扩种子。
 
+### 2026-07-31 18:05 HKT：ordinary T4@15 内容门通过，但低标签总门失败
+
+配对 `ts4_m15_s42.json` 已完成并通过 strict validator；固定 epochs 5--12 的
+ordinary pair 结果为：
+
+- `T4@15 = 0.524968953`；
+- `TS4@15 = 0.334013078`；
+- `T4@15−TS4@15 = +0.190955876`，6/6 validation sessions 为正；
+- session bootstrap 95% CI `[+0.150568,+0.232131]`，exact paired
+  Wilcoxon `p=.03125`。
+
+因此 15 个 labelled trials 已足以保留很强的、依赖 unit 对齐的 T4 内容效应；
+ordinary T4@15 的失败**不是 T4 内容消失**，而是相对 T4@50 的均值仍下降
+`−0.058842295 R²`，未达到预注册的 `−0.03` 非劣 margin。ordinary pair 的
+overall Stage-0 因此为 false，不扩 ordinary seeds 43/44。权威聚合 artifact：
+`results/sua_t4_shrinkage_m15_v1/aggregate_ordinary_pair_s42.json`；formal
+test 仍未打开。
+
+GPU0 在 TS4 evaluator 写出结果并释放 compute PID 后，条件式 watcher 已按
+预注册协议启动 `TS4W3@15 seed42`；GPU1 的 `T4W3@15 seed42` 继续运行。W3
+仍需同时通过自身 aligned−shuffled 内容门及相对 T4@50 的非劣门，才允许扩种子。
+
 ### 2026-07-31 17:09 HKT：真 CMP 空间邻域先验 Stage 0 判负
 
 为区分旧 electrode-id lookup 与真正的空间关系先验，新增严格 train-only、
