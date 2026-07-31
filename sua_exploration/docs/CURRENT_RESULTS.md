@@ -399,6 +399,29 @@ aligned-vs-shuffled T4 content gate 与相对 T4@50 的 `−0.03` non-inferiorit
 四臂 dry-run、shell audit 通过，既有 shrinkage/encoder/aggregate 选择为
 `77 passed`；这仍是 execution readiness，不是 M15 task R²。
 
+### Decoder 在线延迟：3090 无数据诊断
+
+利用 v1 最后一臂仍占用 GPU0、GPU1 已释放的空档，做了一个明确不参与模型选择的
+decoder-only latency audit。它不打开 neural data、calibration labels、validation
+或 formal sessions；三个模型顺序测量，统一为 FP32、`B=1,W=50`、200 warmup +
+5,000 CUDA-event iterations。物理 GPU1 为 RTX3090；因
+`CUDA_VISIBLE_DEVICES=1`，artifact 内逻辑 device index 为 0。
+
+| N | coupled | v2 cached-K | exact-head cached-K |
+|---:|---:|---:|---:|
+| 32 | 0.2824 ms | 0.2249 ms (`−20.36%`) | 0.2411 ms (`−14.62%`) |
+| 64 | 0.2873 ms | 0.2259 ms (`−21.35%`) | 0.2372 ms (`−17.45%`) |
+| 96 | 0.2848 ms | 0.2269 ms (`−20.33%`) | 0.2361 ms (`−17.09%`) |
+
+在 `N=64`，v2/exact 的 decoder-state refresh 分别为约 `0.0570/0.0440 ms`；
+persistent FP32 state 分别为 `12,288/131,072 B`，coupled E 为 `12,800 B`。
+因此 3090 上三者均远低于 50 Hz 的 20 ms 周期，但 MAC 的
+`−56.08%/−28.94%` 只兑现为约 `−21%/−17%` 的实测 decoder latency：小 batch
+kernel overhead 很明显，不能拿 MAC 比例冒充整机加速。该数据也再次说明
+exact-head 的 128 KiB state 只适合作为机制诊断。权威 artifact：
+`results/decoder_latency_rtx3090_v1.json`；其结果不能外推为目标硬件 latency，
+也不能支持任何精度结论。
+
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为
 `9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`。
 rank-48 aggregate Q/K bilinear proxy 保留 `57.95%` 能量，rank-64

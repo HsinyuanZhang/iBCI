@@ -699,6 +699,17 @@ the three-seed aggregate, before formal or INT8. The existing M15 estimator/enco
 aggregate selection reports **77 passing tests**, and the handoff state is auditable in
 `results/sua_t4_shrinkage_m15_v1/logs/evidence_gated_post_oracle_watcher.log`.
 
+A declared no-data RTX3090 latency audit was run while the second GPU would otherwise be
+idle. It opens no neural/calibration/validation/formal data and has no selection role.
+With FP32, `B=1,W=50,N=64`, 200 warmups and 5,000 CUDA-event iterations, decoder-only
+latency is `0.2873 ms/window` for coupled, `0.2259 ms` for v2 cached-K and `0.2372 ms`
+for exact-head cached-K. Thus the configured MAC reductions of `56.08%` and `28.94%`
+translate to only `21.35%` and `17.45%` latency reductions on this GPU; launch/kernel
+overhead dominates at small batch. All paths are far below a 20 ms 50 Hz period on a
+3090, but this is neither target-hardware nor end-to-end latency. At the same `N`, FP32
+decoder state is 12,800 B for coupled E, 12,288 B for v2 K and 131,072 B for exact K.
+The receipt is `results/decoder_latency_rtx3090_v1.json`.
+
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
 bias by least squares; `bk` is omitted because it contributes a per-query constant that
