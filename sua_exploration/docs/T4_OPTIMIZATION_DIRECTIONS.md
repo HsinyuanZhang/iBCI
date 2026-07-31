@@ -541,10 +541,32 @@ frozen and in eval mode, checkpoint receipts bind the teacher SHA and selector c
 the active factor SHA, and strict restore validates that active SHA after state loading.
 With optimizer, parent-model-step routing, checkpoint round-trip and fail-closed tests, the
 expanded core/adapter/wrapper/v1/formal/low-rank/key-normalization/SVD-audit suite reports
-55 passing tests. None of
-these bypass modules is imported by the active v1 screen. This is implementation readiness,
-not accuracy evidence; production-selector integration remains conditional on the v1 result
-diagnosis above.
+55 passing tests.
+
+The follow-up execution path is now standalone as well. The dedicated v2 trainer owns its
+strict datamodule construction, Lightning module, every-epoch checkpoints and schema-v2
+receipts; a dedicated fixed-protocol helper and epoch-window CLI own strict reconstruction
+and epochs 5–12 validation scoring. They neither import nor monkeypatch the active v1
+trainer/generic evaluator. Every restored checkpoint is cross-checked against teacher SHA,
+mode/dimension/seed receipts and its post-load active-factor SHA. A strict-manifest test
+confirms that only train/validation paths are counted while formal entries remain names,
+and a factor-tamper test rejects a state whose active hash differs from the checkpoint
+receipt. The one-cell v2 runner refuses launch until all five v1 seed-42 JSONs and their
+aggregate exist. The expanded decoupled suite reported 61 passing tests. No v2 GPU run
+had been launched at that checkpoint; this was execution and audit readiness, not accuracy
+evidence.
+
+The gate was subsequently tightened at every callable boundary. The fixed helper itself,
+not only its CLI, now rejects anything other than `first/n=30/pool=50`. Direct calls bind
+the manifest bytes and checkpoint teacher SHA to run metadata, reconstruct and verify the
+T4 feature-version/normalization SHA, require unpermuted data-side T4, and bind an e-TS4
+direct-key seed to the run seed. The one-cell launcher runs a dedicated v1 evidence
+validator that rejects malformed JSON, wrong seed/epoch windows, missing arms and drifted
+run-metadata receipts before starting v2. The runtime loader checks a whitelist of the
+training hparams and its test confirms `setup → on_load_checkpoint → strict load →
+active-factor validation` ordering. A production-constructor test also verifies that the
+actual wrapper hparams satisfy the runtime whitelist. With these negative gates, the
+expanded decoupled suite reports 69 passing tests.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query

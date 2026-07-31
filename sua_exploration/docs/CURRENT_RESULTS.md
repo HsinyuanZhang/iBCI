@@ -296,9 +296,33 @@ eval，不进入 optimizer；checkpoint 保存 teacher SHA、key 配置以及 ac
 SHA，并在 strict state restore 后重新校验。wrapper 的 optimizer、因果路由、
 parent `model_step`、checkpoint round-trip 和 fail-closed 合同加入后，核心、
 adapter、wrapper、旧 v1、formal fixture、low-rank/key-normalization 与 SVD
-audit 的相关回归共 `55 passed`。这些旁路文件仍未被生产 selector 或 v1 runner
-import；该实现状态
-只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
+audit 的相关回归当时共 `55 passed`。
+
+v2 后续执行也已改为完全独立入口：
+`train_variant_dandi688_decoupled_v2.py` 自行构造 strict datamodule、v2 Lightning
+module、every-epoch checkpoint 和 schema-v2 receipt；
+`select_teacher_readin_decoupled_kv_v2_protocol_dandi688.py` 与
+`eval_epoch_window_decoupled_v2_dandi688.py` 自行完成 strict checkpoint
+重建和 epochs 5–12 validation scoring，不 import 或 monkeypatch 活跃的 v1
+trainer/generic evaluator。每个 checkpoint 必须在 `setup` 后 strict restore，
+并通过 teacher SHA、mode/dim/seed 与 active-factor SHA 复核；strict manifest
+测试确认只 count train+validation paths，formal entries 只保留名字。单臂 shell
+runner 在 v1 五个 seed-42 JSON 和 aggregate 全部存在前拒绝 launch，因此不会让
+后启动的 v1 arms 读到不同实现。加入独立入口、factor-tamper 拒绝和 formal-path
+测试后，又将 fixed helper 锁死为 `first/n=30/pool=50`，在内层复核 manifest
+bytes、teacher SHA、T4 feature-version/normalization SHA 和 data-side aligned
+T4，并把 e-TS4 direct-key seed 绑定到 run seed。v2 one-cell launch 现在调用
+独立的 v1 gate validator；空/坏 JSON、错误 seed/epoch window、缺 arm、漂移的
+run-metadata SHA 均会拒绝。runtime loader 还对白名单训练 hparams 做完整复核，
+测试确认执行顺序为 `setup → on_load_checkpoint → strict load → active-factor
+validation`。完整 decoupled 相关回归现为 `69 passed`。这些文件尚未启动任何
+v2 GPU 训练；该状态是可执行与审计准备，不是 R² 结果。
+
+2026-07-31 11:15 HKT，旧的中央 post-FiLM watcher 已单独停止：它会在 v1
+Stage-0 失败后不区分“随机 read-in/初始化失败”和“T4 机制失败”而直接占用两卡
+启动 M15 shrinkage。两条 v1 GPU lane 与其顺序五臂任务均保持运行。五臂结果
+齐全后先由严格 aggregate 判别失败类型，再选择 v2 或 M15；这不是停止实验，而是
+防止错误 fallback 抢跑。
 
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为
 `9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`。

@@ -271,6 +271,19 @@ def test_checkpoint_receipt_tracks_restored_active_not_fresh_svd_factors(
     with pytest.raises(ValueError, match="v2_key_mode"):
         mismatched.on_load_checkpoint(checkpoint)
 
+    tampered = _module(freeze_decoder=False)
+    tampered.setup("fit")
+    tampered.on_load_checkpoint(checkpoint)
+    tampered_state = {
+        name: tensor.clone() for name, tensor in state.items()
+    }
+    tampered_state[
+        "student.decoupled_v2.direct_key_proj.weight"
+    ].add_(1.0)
+    tampered.load_state_dict(tampered_state, strict=True)
+    with pytest.raises(ValueError, match="active v2 factor hash"):
+        tampered.validate_loaded_v2_checkpoint_receipt()
+
 
 def test_distributed_setup_fails_closed_before_cpu_svd(monkeypatch):
     monkeypatch.setattr(
