@@ -48,11 +48,10 @@ chronological first-30，只评估 trial 30 之后的窗口；strict 27/6/6 mani
 exact-Wilcoxon 的全部预设门。权威 artifact：
 `results/sua_spint_t4_mainline_fp32_v1/aggregate.json`。
 
-### Confidence-FiLM：三个关键 matched controls 已否定机制，TS4 diagnostic 仍在运行
+### Confidence-FiLM 五臂 final：T4 content 很强，但 confidence 融合无效
 
-Seed-42 的四个 aligned-T4 arms 已完成 strict validation；第五个
-`FiLM(TS4)` 只用于补齐 T4-content diagnostic，仍在运行。因此以下是通过逐臂
-receipt 校验的 **fail-closed interim result**，不是尚未生成的五臂 final aggregate：
+Seed-42 五个 arms 已全部完成 strict validation，并通过逐臂 receipt 与独立
+aggregate 复算。以下是 final five-arm aggregate：
 
 | Arm | mean R² |
 |---|---:|
@@ -60,7 +59,7 @@ receipt 校验的 **fail-closed interim result**，不是尚未生成的五臂 f
 | FiLM(C) | **0.593672** |
 | FiLM(shuffle C) | 0.590890 |
 | NoFiLM-match(C) | 0.592974 |
-| FiLM(TS4) | pending |
+| FiLM(TS4) | 0.277239 |
 
 - `FiLM−T4 continuation = +0.003399`：4/6 sessions 为正，95% CI
   `[-0.000141,+0.006661]`，exact paired Wilcoxon `p=.21875`；
@@ -68,14 +67,17 @@ receipt 校验的 **fail-closed interim result**，不是尚未生成的五臂 f
   `[-0.004685,+0.008329]`，`p=.4375`；
 - `FiLM−NoFiLM-match = +0.000698`：3/6 sessions 为正，95% CI
   `[-0.002204,+0.003696]`，`p=.6875`。
+- `FiLM−TS4 = +0.316433`：6/6 sessions 为正，95% CI
+  `[+0.221798,+0.410750]`，`p=.03125`，通过 T4-content gate。
 
-三项都远低于预注册的 `+0.03`，都未达到 6/6 session 为正，CI/Wilcoxon 门也
-未通过。故即使 TS4 diagnostic 尚未结束，当前 Confidence-FiLM 的 seed-42
-Stage-0 已经数学上不可能通过；不扩展 seeds 43/44。这个结论只否定当前融合
-机制，不否定 residual variance 所含的可靠性信号。四臂均使用同一 strict 27/6
+前三项必要机制对照都远低于预注册的 `+0.03`，都未达到 6/6 session 为正，
+CI/Wilcoxon 门也未通过。因此 overall Stage-0 为 false，不扩展 seeds 43/44。TS4 的大幅下降同时
+证明 aligned T4 content 仍然关键；最终结论只否定当前 confidence 融合机制，
+不否定 T4 或 residual variance 所含的可靠性信号。五臂均使用同一 strict 27/6
 train/validation manifest、`M_activity=30`、`M_T4=50`、共同 eval start 50、
 epochs 5–12 score window 和同一个 selected-T4 anchor SHA
-`cf533e7c…128273d`；formal held-out 未打开。
+`cf533e7c…128273d`；formal held-out 未打开。权威 artifact：
+`results/sua_t4_confidence_film_v1/aggregate_m50_seed42.json`。
 
 正式候选启动前只使用 27 个 train sessions 做了 confidence 输入资格审计：
 
@@ -233,8 +235,9 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 即 decoder-path 配置 MAC 约下降 `91.38%`，持久状态下降 `36%`；这不是整机
 实测 latency。缓存只保存 projected key，不保存原始 T4/confidence，也没有
 `N²` neuron self-attention。**目前尚无该五臂的 R² 结果**，所以硬件数字不能
-单独构成有效性结论；它将在 FiLM 五臂 final aggregate 生成后自动开始。FiLM
-所需的三个关键机制门目前都已不可能通过，TS4 结束只负责补齐诊断和触发该接棒。
+单独构成有效性结论。FiLM final aggregate 确认失败后，fresh coupled baseline
+已于 2026-07-31 09:53 HKT 在 GPU0 启动；GPU1 在 seed-44 T4 anchor 释放后自动
+运行 `e_ts4/x_only`，两条 lane 随后补齐其余 arms。
 
 首轮开始前另做了一个完全不打开 neural dataset 的 teacher-checkpoint 谱审计，
 用来约束“若首轮失败，下一轮应该改哪里”。原 attention 投影在 rank 32 时只保留
