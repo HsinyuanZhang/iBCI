@@ -620,6 +620,8 @@ def main() -> None:
     dm.setup("fit")
     if args.side_features != "none":
         from mc_maze.unit_side_features import (
+            T4_WIENER_SHRINK_STRENGTH,
+            base_feature_group,
             compute_electrode_vocab_size,
             feature_semantics_version,
             side_feature_stats_sha256,
@@ -640,6 +642,16 @@ def main() -> None:
             "feature_version": feature_semantics_version(args.side_features),
             "normalization_sha256": side_feature_stats_sha256(side_mean, side_std),
         })
+        if base_feature_group(args.side_features) == "t4w3":
+            run_metadata["side_features"]["shrinkage"] = {
+                "family": "uncertainty_wiener_ac_modulation_only",
+                "strength": T4_WIENER_SHRINK_STRENGTH,
+                "intercept_b_shrunk": False,
+                "modulation_m_recomputed_from_shrunk_ac": True,
+                "selection_scope": (
+                    "fixed_from_train_only_nested_leave_one_session_out_audit"
+                ),
+            }
     run_metadata["session_splits"] = dm.session_splits
     run_metadata["trainer_fit_validation_loader_contract"] = {
         "loader_0_sessions": dm.session_splits["val"],

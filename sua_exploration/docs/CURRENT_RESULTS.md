@@ -206,6 +206,14 @@ T4W3@15 对 T4@15、TS4W3@15 的机制增益通过门槛，且对 T4@50 的平�
 0.03。33 个 train/validation sessions 的前 15 rewarded trials 全部 rank-3，
 最少覆盖 7 个方向，最大 condition `1.887`；formal path opened=0。
 
+在 GPU 启动前，artifact gate 已补强为：固定 Wiener-3 公式 receipt、result 与
+metadata SHA 绑定、teacher/strict-manifest 实际文件哈希和跨臂一致性、精确
+epochs 5--12/first/30/50 chronological 协议、固定六个 validation sessions、
+formal 文件列表为空、variant score 重算，以及 aligned/shuffled W3 normalization
+一致。负向 fixtures 覆盖公式强度、label budget、formal seal、score、normalization
+和 teacher drift；相关 side-feature/shrinkage 扩展回归为 **88 passed**。这仍是
+execution readiness，不是 decoding R² 结果，且当前没有启动 M15 GPU run。
+
 自动顺序更新为 **完整 FiLM → decoupled K/V → M15 shrinkage → residual-head-only
 FiLM → B3TStream+T4**。M15 shrinkage 仅在前两项没有验证出有效候选时占用 GPU。
 
