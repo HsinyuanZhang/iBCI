@@ -466,16 +466,22 @@ Frozen Stage-0 implementation contract (2026-07-31):
   `K[N,32]` state for cached decoupled K/V: `−91.38%` MAC and `−36%` state. These are
   implementation-derived decoder-path counts, not a joint end-to-end latency measurement.
 
-Runtime snapshot at 2026-07-31 12:09 HKT: the first strict result is the coupled-T4
-baseline at **0.583811248** over fixed epochs 5--12. It differs from the prior ordinary-T4
+Runtime snapshot at 2026-07-31 12:50 HKT: 2/5 strict seed-42 JSONs exist. The coupled-T4
+baseline is **0.583811248** over fixed epochs 5--12. It differs from the prior ordinary-T4
 seed-42 artifact (`0.585300757`) by only `−0.001489510`; the six-session paired exact
 Wilcoxon test is `p=1.0`, so the fresh runner reproduces the substrate closely enough for
-the new contrasts. The e-TS4 arm has written 10/12 checkpoints and the real-T4 decoupled
-arm 2/12; only 1/5 final JSONs exists. Their unselected training-validation trajectories
-are diagnostic, not protocol scores: real T4 is `0.096319/0.135636` for epochs 1/2 versus
-TS4 `0.068893/0.133223`, while coupled T4 starts at `0.589832/0.565385`. This early gap is
-consistent with the known removal of the pretrained read-in in v1 and cannot yet be used
-as a final factorization verdict.
+the new contrasts. The completed e-TS4 content-control arm is **0.137685923**. This
+coupled-minus-e-TS4 gap is not a clean T4-content effect because architecture and key
+content both change; the primary content contrast remains e-T4 minus e-TS4 within the same
+decoupled architecture.
+
+The real-T4 decoupled arm has written 6/12 checkpoints and x-only 2/12; e-only is queued.
+The unselected real-T4 training-validation trajectory through epoch 5 is
+`0.096319/0.135636/0.158041/0.140452/0.171714`. Its five epoch-matched differences from
+e-TS4 are all positive with a mean of approximately `+0.0128`, but this is a small,
+non-protocol diagnostic and remains far below the coupled trajectory. It must not be called
+a positive architecture result before the fixed epoch 5--12 JSON and six-session contrast
+exist. Both GPUs remain occupied, and the evidence scheduler is waiting for all five arms.
 
 A checkpoint-only spectral audit, run without opening train, validation or formal data,
 pre-registers the main capacity diagnostic if this first stage fails. Rank 32 retains only
@@ -599,6 +605,45 @@ fails, it runs the four v2 seed-42 arms. Only a passing v2 Stage-0 gate may laun
 then runs all four v2 arms before the three-seed aggregate. A failed v2 Stage-0 stops for
 mechanistic diagnosis. This scheduler never launches M15, formal held-out evaluation, or
 INT8.
+
+If v2 also fails, the next diagnostic is not another arbitrary rank increase. A bounded
+teacher-head-preserving oracle has been pre-designed to separate failure of the static-key
+semantics from failure caused by v2's global low-rank and single-softmax approximation:
+
+```text
+Q = teacher_WQ(teacher_norm1(teacher_fc_in(rep)))
+K = teacher_WK(teacher_norm1(teacher_fc_in(E)))   # calibration-only cache
+V = teacher_WV(teacher_norm1(teacher_fc_in(x)))   # online
+```
+
+It copies the teacher's actual 64-head Q/K/V and output projections, independent per-head
+softmaxes, `norm1/norm2`, FFN, `fc_in`, `fc_out`, and learned behavior queries. “Exact”
+means exact preservation of the teacher projection/head topology inside the new decoupled
+graph; it does **not** mean functional equivalence to coupled
+`teacher_fc_in(x+E)`, because that read-in is nonlinear.
+
+The minimum seed-42 oracle screen has only two new arms:
+
+- `oracle_e_t4`: aligned encoder T4 and aligned `E` rows in the cached decoder K path;
+- `oracle_e_ts4`: encoder T4 remains aligned, while only the decoder-K `E` rows receive a
+  fixed non-identity unit permutation; query, activity, V, and all weights remain matched.
+
+The existing same-seed coupled-T4 artifact is the performance anchor. The cache and
+on-the-fly K paths must be FP32-equal in eval mode, the two arms must begin with identical
+decoder tensor hashes, and the attention tensor must retain 64 heads. The seed-42
+go/no-go rule is positive oracle-T4-minus-oracle-TS4 in at least 5/6 sessions plus
+oracle-T4 no worse than `−0.03 R²` relative to coupled. Seed 42 is diagnostic only; any
+effectiveness claim still requires seeds 42/43/44 and a positive hierarchical-bootstrap
+content lower bound.
+
+At the reference `N=64,C=2,D=512,W=50`, the source-derived online receipt is
+**41,193,472 MAC/window**, a **28.94%** reduction from coupled's 57,970,688. Building the
+projected K cache costs 35,192,832 calibration-only MAC. The full-width K cache contains
+32,768 values: 128 KiB FP32, 64 KiB FP16, or 32 KiB INT8. Because FP32 K is 10.24 times
+the current 12.5 KiB E state, this oracle is a causal diagnostic and upper-bound probe,
+not the final low-state hardware candidate. If it succeeds while v2 fails, head-preserving
+compression is justified; if it also fails, stop rank/head expansion and move to the
+low-label M15/shrinkage branch.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
