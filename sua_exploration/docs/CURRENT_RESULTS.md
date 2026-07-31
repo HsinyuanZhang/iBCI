@@ -409,6 +409,16 @@ T4 完全相同，只测试 T4 是否能额外改变 attention selection，不�
 read-in/value。完整 16 个候选、kill criteria、三项验证和一次有界优化见
 [`T4_NEXT_ROUND_IDEATION.md`](T4_NEXT_ROUND_IDEATION.md)。
 
+该排名第一的 residual 现已完成**隔离组件**，但仍未接入 Lightning/runner 或
+GPU 队列。生产 teacher（`D=512, H=64, W=50`）无数据 smoke 验证：zero-init
+输出与普通 coupled T4 逐 bit 相同，cached/on-the-fly 逐 bit 相同；冻结
+backbone 后 residual 输出因子梯度范数为 `0.2102`，decoder/identity encoder
+梯度 tensor 数均为 0。聚焦测试 `6 passed`，相邻 adapter 回归 `38 passed`。
+`N=64,rank=8` 时只新增 `264,192` calibration-only MAC 和 `131,072 B` FP32
+residual state，在线主 MAC 仍为 coupled 的 `57,970,688` 加 elementwise key
+addition，因此它是 accuracy candidate，不是硬件简化候选。是否接入 GPU 仍由
+前述 v2 → exact-head/M15 证据门决定。
+
 ### Decoder 在线延迟：3090 无数据诊断
 
 利用 v1 最后一臂仍占用 GPU0、GPU1 已释放的空档，做了一个明确不参与模型选择的

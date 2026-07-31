@@ -1,7 +1,7 @@
 # T4 next-round ideation after negative extension results
 
-**Status:** contingency design only; no arm is authorized before the active
-v1 → v2 → exact-head/M15 evidence gates finish.
+**Status:** contingency design plus isolated component readiness; no arm is
+authorized before the active v1 → v2 → exact-head/M15 evidence gates finish.
 
 **Evidence boundary:** this document uses completed train/validation results and
 source/cost audits already recorded in `CURRENT_RESULTS.md`. It opens no new
@@ -194,3 +194,28 @@ Unlike FiLM, this path has direct access to attention selection and starts from
 the unchanged successful T4 function. If aligned and shuffled residuals remain
 indistinguishable, the branch is rejected after one seed rather than rescued by
 more capacity.
+
+## Isolated implementation readiness
+
+The winning component is implemented in
+`streaming_spint_t4_key_residual_adapter.py`, without a Lightning selector,
+runner or GPU launch. It preserves the existing `fc_in(x+E)`, query, value,
+64-head attention, output projection, norms, FFN and readout. The only new
+path is a shared `4 → rank → 512` T4 map whose output projection is exactly
+zero initialized and whose full-width result can be cached after calibration.
+The TS4 control permutes only the T4 rows used by this new residual; the
+ordinary identity encoder continues to receive aligned T4.
+
+The focused CPU suite is `6 passed`; the adjacent coupled/decoupled adapter
+regression suite is `38 passed`. A no-data smoke against the actual teacher
+checkpoint (`D=512`, 64 heads, `W=50`) establishes:
+
+- zero-init residual decode is bitwise identical to ordinary coupled T4;
+- cached and on-the-fly residual decode are bitwise identical;
+- after freezing the backbone, decoder and identity encoder have zero gradient
+  tensors while the residual output factor has a nonzero gradient.
+
+At `N=64, rank=8`, the residual map costs `264,192` calibration-only MAC and
+adds a 131,072-byte FP32 full-width cache. The online Linear/attention/FFN MAC
+count remains the coupled `57,970,688` plus an elementwise key addition, so this
+is explicitly an accuracy candidate rather than an efficiency candidate.
