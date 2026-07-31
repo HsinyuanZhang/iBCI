@@ -651,12 +651,15 @@ low-label M15/shrinkage branch.
 
 The isolated primitive is implemented in
 `streaming_calibration_exp/src/models/components/head_preserving_decoupled_oracle.py`;
-no active runner imports it. Its CPU contract proves exact FP32/eval equality to the
+the streaming wrapper is isolated in
+`streaming_calibration_exp/src/models/components/streaming_spint_head_oracle_adapter.py`,
+and no active runner imports either file. Their CPU contracts prove exact FP32/eval equality to the
 teacher layer when K and V receive the same hidden tensor, bit-exact cached versus
 on-the-fly K execution, preservation of the explicit head dimension, K-only permutation
-semantics, and the pre-registered cost totals. With these five contracts included, the
-full decoupled regression selection reports **86 passing tests**. A production adapter,
-checkpoint schema and GPU runner remain intentionally gated on a v2 failure.
+semantics, aligned encoder T4, absence of E/K work from the cached online graph, and the
+pre-registered cost totals. With the adapter contracts included, the full decoupled
+regression selection reports **90 passing tests**. A Lightning selector, strict checkpoint
+schema and GPU runner remain intentionally gated on a v2 failure.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
