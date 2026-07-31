@@ -284,7 +284,7 @@ batch，不重算 E/K。`x_only` 另有不接收 identity/calibration 的部署 
 而训练框架中计算的 E 只用于公共 metric；`e_only/x_only` 均拒绝调用方注入
 direct feature。未使用的 legacy transformer 与 teacher-ID 参数被冻结，不进入
 end-to-end optimizer state。核心、adapter、旧 v1 与 formal 入口的相关回归现为
-`42 passed`。这些旁路文件仍未被生产 selector 或 v1 runner import；该实现状态
+`45 passed`。这些旁路文件仍未被生产 selector 或 v1 runner import；该实现状态
 只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
 
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为

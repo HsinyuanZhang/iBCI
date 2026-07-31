@@ -528,7 +528,7 @@ without identity/calibration, while framework-side E is explicitly marked metric
 The e-only and x-only modes reject supplied direct features, unused legacy decoder modules
 are excluded from optimizer state, and adapter dispatch is explicit rather than relying
 on the base class's generic non-coupled branch. The combined new/legacy/formal decoupled
-suite reports 42 passing tests. Neither bypass module is imported by the active v1 screen.
+suite reports 45 passing tests. Neither bypass module is imported by the active v1 screen.
 This is implementation readiness, not accuracy evidence; production-selector integration
 is conditional on the v1 result diagnosis above.
 
