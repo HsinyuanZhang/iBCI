@@ -22,15 +22,17 @@ from aggregate_sua_confidence_film_t4_budget import (  # noqa: E402
 )
 
 
-PILOT_ARMS = ("t4_m15", "t4w3_m15", "ts4w3_m15")
+PILOT_ARMS = ("t4_m15", "ts4_m15", "t4w3_m15", "ts4w3_m15")
 EXPECTED_GROUP = {
     "t4_m15": "t4",
+    "ts4_m15": "ts4",
     "t4w3_m15": "t4w3",
     "ts4w3_m15": "ts4w3",
     "t4_m50": "t4",
 }
 EXPECTED_POOL = {
     "t4_m15": 15,
+    "ts4_m15": 15,
     "t4w3_m15": 15,
     "ts4w3_m15": 15,
     "t4_m50": 50,
@@ -241,7 +243,9 @@ def validate_arm(
         (metadata.get("fixed_slot") or {}).get("enabled"),
         False,
     )
-    expected_permutation = seed if arm == "ts4w3_m15" else None
+    expected_permutation = (
+        seed if arm in {"ts4_m15", "ts4w3_m15"} else None
+    )
     _require(f"{path}: permutation receipt", side.get("permutation_seed"), expected_permutation)
     session_splits = metadata.get("session_splits") or {}
     _require(
@@ -411,12 +415,23 @@ def aggregate(
         if len(manifest_hashes) != 1:
             raise ValueError(f"seed {seed}: strict manifest drift across arms")
         _require(
+            f"seed {seed}: aligned/shuffled ordinary T4 normalization",
+            provenance["t4_m15"][seed_key]["normalization_sha256"],
+            provenance["ts4_m15"][seed_key]["normalization_sha256"],
+        )
+        _require(
             f"seed {seed}: aligned/shuffled W3 normalization",
             provenance["t4w3_m15"][seed_key]["normalization_sha256"],
             provenance["ts4w3_m15"][seed_key]["normalization_sha256"],
         )
 
     mechanism = {
+        "t4_m15_vs_ts4_m15": summarize(
+            matrices["t4_m15"],
+            matrices["ts4_m15"],
+            seeds=seeds,
+            sessions=session_names,
+        ),
         "t4w3_m15_vs_t4_m15": summarize(
             matrices["t4w3_m15"],
             matrices["t4_m15"],
@@ -430,32 +445,55 @@ def aggregate(
             sessions=session_names,
         ),
     }
-    noninferiority = noninferiority_summary(
-        matrices["t4w3_m15"],
-        matrices["t4_m50"],
-        seeds=seeds,
-        sessions=session_names,
-    )
-    stage0 = bool(
-        all(
-            comparison["passes_stage0_descriptive_gates"]
-            for comparison in mechanism.values()
+    noninferiority = {
+        arm: noninferiority_summary(
+            matrices[arm],
+            matrices["t4_m50"],
+            seeds=seeds,
+            sessions=session_names,
         )
-        and noninferiority["stage0_within_margin"]
-    )
-    formal = bool(
-        all(
-            comparison["passes_formal_effectiveness_gates"]
-            for comparison in mechanism.values()
+        for arm in ("t4_m15", "t4w3_m15")
+    }
+    content_contrast = {
+        "t4_m15": mechanism["t4_m15_vs_ts4_m15"],
+        "t4w3_m15": mechanism["t4w3_m15_vs_ts4w3_m15"],
+    }
+    stage0_candidate = {
+        arm: bool(
+            content_contrast[arm]["passes_stage0_descriptive_gates"]
+            and noninferiority[arm]["stage0_within_margin"]
         )
-        and noninferiority["formal_within_margin"]
+        for arm in content_contrast
+    }
+    formal_candidate = {
+        arm: bool(
+            content_contrast[arm]["passes_formal_effectiveness_gates"]
+            and noninferiority[arm]["formal_within_margin"]
+        )
+        for arm in content_contrast
+    }
+    stage0 = any(stage0_candidate.values())
+    formal = any(formal_candidate.values())
+    selected_stage0 = (
+        "t4_m15"
+        if stage0_candidate["t4_m15"]
+        else "t4w3_m15"
+        if stage0_candidate["t4w3_m15"]
+        else None
+    )
+    selected_formal = (
+        "t4_m15"
+        if formal_candidate["t4_m15"]
+        else "t4w3_m15"
+        if formal_candidate["t4w3_m15"]
+        else None
     )
     if any(not math.isfinite(float(matrix.mean())) for matrix in matrices.values()):
         raise ValueError("non-finite arm score")
     return {
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
-        "purpose": "low_label_uncertainty_shrunk_t4_decoding_pilot",
+        "purpose": "low_label_t4_and_uncertainty_shrunk_t4_decoding_pilot",
         "claim_scope": "DANDI 000688 sub-C CO validation; formal test unopened",
         "protocol": {
             "M_activity": 30,
@@ -475,9 +513,21 @@ def aggregate(
             arm: float(matrix.mean()) for arm, matrix in matrices.items()
         },
         "mechanism_contrasts": mechanism,
-        "m15_shrink_vs_m50_t4_noninferiority": noninferiority,
+        "candidate_content_contrast": content_contrast,
+        "shrinkage_increment_contrast": mechanism[
+            "t4w3_m15_vs_t4_m15"
+        ],
+        "candidate_noninferiority_vs_t4_m50": noninferiority,
+        # Compatibility alias for the original three-arm pilot consumer.
+        "m15_shrink_vs_m50_t4_noninferiority": noninferiority[
+            "t4w3_m15"
+        ],
+        "stage0_candidate_pass": stage0_candidate,
+        "selected_stage0_candidate": selected_stage0,
         "stage0_descriptive_mechanism_and_label_reduction_pass": stage0,
         "formal_effectiveness_eligible": len(seeds) >= 3,
+        "formal_candidate_pass": formal_candidate,
+        "selected_formal_candidate": selected_formal,
         "formal_effectiveness_pass": formal,
     }
 

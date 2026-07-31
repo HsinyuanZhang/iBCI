@@ -35,7 +35,7 @@ B3T_RESULTS="$ROOT/sua_exploration/results/sua_b3t_t4_efficiency_v1"
 B3T_RUNNER="$ROOT/sua_exploration/scripts/run_sua_b3t_t4_one_cell.sh"
 LOG="$FILM_RESULTS/logs/post_stage0_aggregate_watcher.log"
 KV_ARMS=(coupled_t4 kv_e_t4 kv_e_ts4 kv_e_only kv_x_only)
-SHRINK_ARMS=(t4_m15 t4w3_m15 ts4w3_m15)
+SHRINK_ARMS=(t4_m15 ts4_m15 t4w3_m15 ts4w3_m15)
 
 mkdir -p "$(dirname "$LOG")"
 exec >>"$LOG" 2>&1
@@ -210,6 +210,7 @@ echo "[$(date -Is)] no verified FiLM/KV mechanism; running M_T4=15 shrinkage Sta
 ) &
 shrink_lane0=$!
 (
+  run_shrink_arm ts4_m15 42 1
   run_shrink_arm ts4w3_m15 42 1
 ) &
 shrink_lane1=$!

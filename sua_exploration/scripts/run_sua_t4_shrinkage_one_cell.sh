@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="/home/xinyuan/Work_host/SPINT"
 PY="${PYTHON_BIN:-/home/xinyuan/miniconda3/envs/spint/bin/python}"
 SCREEN_ID="${SCREEN_ID:-sua_t4_shrinkage_m15_v1}"
-ARM="${ARM:?ARM is required: t4_m15, t4w3_m15, or ts4w3_m15}"
+ARM="${ARM:?ARM is required: t4_m15, ts4_m15, t4w3_m15, or ts4w3_m15}"
 SEED="${SEED:?SEED is required}"
 GPU="${GPU:?GPU is required}"
 MODE="${1:---dry-run}"
@@ -25,12 +25,19 @@ MANIFEST="$ROOT/sua_exploration/configs/subc_co_27_6_strict_train_val_manifest.j
 case "$ARM" in
   t4_m15)
     SIDE_FEATURES="t4"
+    ESTIMATOR="ordinary_cosine_t4"
+    ;;
+  ts4_m15)
+    SIDE_FEATURES="ts4"
+    ESTIMATOR="ordinary_cosine_t4_unit_shuffled_control"
     ;;
   t4w3_m15)
     SIDE_FEATURES="t4w3"
+    ESTIMATOR="wiener_strength_3_t4"
     ;;
   ts4w3_m15)
     SIDE_FEATURES="ts4w3"
+    ESTIMATOR="wiener_strength_3_t4_unit_shuffled_control"
     ;;
   *)
     echo "Unsupported ARM=$ARM" >&2
@@ -110,7 +117,7 @@ mkdir -p "$LOGS"
 {
   echo "[$(date -Is)] START arm=$ARM seed=$SEED gpu=$GPU"
   echo "protocol=M_activity=$M_ACTIVITY; M_T4=$M_T4; evaluation=trials[$EVAL_START:]; strict 27/6; no formal test"
-  echo "shrinkage=wiener_strength_3_selected_train_only_nested_loso"
+  echo "estimator=$ESTIMATOR; wiener_strength_3_selected_train_only_nested_loso"
   CUDA_VISIBLE_DEVICES="$GPU" "${TRAIN_COMMAND[@]}"
   echo "[$(date -Is)] EVAL arm=$ARM seed=$SEED"
   CUDA_VISIBLE_DEVICES="$GPU" "${EVAL_COMMAND[@]}"

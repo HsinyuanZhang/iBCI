@@ -11,22 +11,26 @@ from scripts.aggregate_sua_t4_shrinkage import aggregate
 EPOCHS = list(range(5, 13))
 SCORES = {
     "t4_m15": 0.50,
+    "ts4_m15": 0.44,
     "t4w3_m15": 0.55,
     "ts4w3_m15": 0.49,
     "t4_m50": 0.57,
 }
 GROUPS = {
     "t4_m15": "t4",
+    "ts4_m15": "ts4",
     "t4w3_m15": "t4w3",
     "ts4w3_m15": "ts4w3",
     "t4_m50": "t4",
 }
 POOLS = {
     "t4_m15": 15,
+    "ts4_m15": 15,
     "t4w3_m15": 15,
     "ts4w3_m15": 15,
     "t4_m50": 50,
 }
+PILOT_ARMS = ("t4_m15", "ts4_m15", "t4w3_m15", "ts4w3_m15")
 SESSIONS = [
     "sub-C_ses-CO-20151103",
     "sub-C_ses-CO-20151104",
@@ -72,7 +76,9 @@ def _write_arm(directory, arm: str, seed: int = 42):
         "electrode_embed_dim": 0,
         "num_electrodes": 0,
         "uses_equality_only_relation_membership": False,
-        "permutation_seed": seed if arm == "ts4w3_m15" else None,
+        "permutation_seed": (
+            seed if arm in {"ts4_m15", "ts4w3_m15"} else None
+        ),
         "normalization_sha256": (
             "b" * 64
             if arm in {"t4w3_m15", "ts4w3_m15"}
@@ -186,7 +192,7 @@ def test_shrinkage_aggregate_accepts_positive_seed42_and_keeps_formal_closed(
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     result = aggregate(pilot, reference, (42,))
@@ -196,6 +202,11 @@ def test_shrinkage_aggregate_accepts_positive_seed42_and_keeps_formal_closed(
     )
     assert result["formal_effectiveness_eligible"] is False
     assert result["formal_effectiveness_pass"] is False
+    assert result["stage0_candidate_pass"] == {
+        "t4_m15": False,
+        "t4w3_m15": True,
+    }
+    assert result["selected_stage0_candidate"] == "t4w3_m15"
     assert (
         result["m15_shrink_vs_m50_t4_noninferiority"]["mean_delta_r2"]
         == pytest.approx(-0.02)
@@ -203,12 +214,42 @@ def test_shrinkage_aggregate_accepts_positive_seed42_and_keeps_formal_closed(
     assert result["protocol"]["formal_test_evaluated"] is False
 
 
+def test_shrinkage_aggregate_prefers_ordinary_t4_when_both_are_noninferior(
+    tmp_path,
+):
+    pilot = tmp_path / "pilot"
+    reference = tmp_path / "reference"
+    pilot.mkdir()
+    reference.mkdir()
+    for arm in PILOT_ARMS:
+        _write_arm(pilot, arm)
+    _write_arm(reference, "t4_m50")
+
+    path = pilot / "t4_m15_s42.json"
+    artifact = json.loads(path.read_text(encoding="utf-8"))
+    for epoch in EPOCHS:
+        artifact["per_epoch"][str(epoch)]["per_session_r2"] = {
+            session: 0.56 + index * 0.001
+            for index, session in enumerate(SESSIONS)
+        }
+        artifact["per_epoch_mean_r2"][str(epoch)] = 0.5625
+    artifact["variant_score"] = 0.5625
+    path.write_text(json.dumps(artifact), encoding="utf-8")
+
+    result = aggregate(pilot, reference, (42,))
+    assert result["stage0_candidate_pass"] == {
+        "t4_m15": True,
+        "t4w3_m15": True,
+    }
+    assert result["selected_stage0_candidate"] == "t4_m15"
+
+
 def test_shrinkage_aggregate_rejects_wrong_label_budget(tmp_path):
     pilot = tmp_path / "pilot"
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     path = pilot / "t4w3_m15_s42.json"
@@ -224,7 +265,7 @@ def test_shrinkage_aggregate_rejects_unsealed_formal_test(tmp_path):
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     path = pilot / "t4w3_m15_metadata_s42.json"
@@ -241,7 +282,7 @@ def test_shrinkage_aggregate_rejects_drifted_frozen_strength(tmp_path):
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     path = pilot / "t4w3_m15_metadata_s42.json"
@@ -258,7 +299,7 @@ def test_shrinkage_aggregate_rejects_drifted_variant_score(tmp_path):
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     path = pilot / "t4w3_m15_s42.json"
@@ -274,7 +315,7 @@ def test_shrinkage_aggregate_rejects_w3_normalization_drift(tmp_path):
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     path = pilot / "ts4w3_m15_metadata_s42.json"
@@ -291,7 +332,7 @@ def test_shrinkage_aggregate_rejects_teacher_drift_across_arms(tmp_path):
     reference = tmp_path / "reference"
     pilot.mkdir()
     reference.mkdir()
-    for arm in ("t4_m15", "t4w3_m15", "ts4w3_m15"):
+    for arm in PILOT_ARMS:
         _write_arm(pilot, arm)
     _write_arm(reference, "t4_m50")
     different_teacher = pilot / "different_teacher.ckpt"

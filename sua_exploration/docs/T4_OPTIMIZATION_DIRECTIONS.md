@@ -347,10 +347,14 @@ Shrink only T4's modulation coefficients with
 `(a',c',m')=q·(a,c,m)`, and leave `b` unchanged. Nested LOSO across the 27 training
 sessions independently selected Wiener strength 3 in all 27 folds at M10, M15 and M20.
 At M15 the later-trial geometric rate-MSE ratio is `0.9537`, with improvement in 27/27
-sessions. This motivates one fixed M15 decoding pilot—ordinary T4, aligned T4W3 and
-unit-shuffled TS4W3—against the existing M50 reference. It is a candidate, not yet a
-decoding result; validation and formal data played no role in selecting its formula,
-budget or strength.
+sessions. This motivates one fixed M15 decoding pilot with two matched pairs—ordinary
+T4/TS4 and T4W3/TS4W3—against the existing M50 reference. Each aligned candidate must
+preserve its own functional-content contrast and fall no more than `0.03 R²` below T4@50;
+if both pass, ordinary T4 is preferred. T4W3-minus-T4 is reported as the incremental
+shrinkage effect but is not required to exceed `+0.03 R²`, because the primary deployment
+gain is a 70% reduction in labelled T4 trials. This is a candidate, not yet a decoding
+result; validation and formal data played no role in selecting its formula, budget or
+strength.
 
 All five arms copy the same ordinary T4 final-epoch student encoder **and decoder**, discard
 optimizer state, and start with newly added residual heads at exactly zero:

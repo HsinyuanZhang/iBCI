@@ -199,19 +199,22 @@ artifact 是 `results/sua_t4_confidence_shrinkage_audit_v1/train_loso_m10_30.jso
 
 GPU pilot 选择 **M_T4=15**：相比 M50 减少 70% labelled trials，同时 train-only
 proxy 在 27/27 sessions 改善。固定候选 `t4w3`/control `ts4w3` 已实现为四维缓存
-特征，Wiener λ=3 在任何 validation 运行前冻结。Stage-0 三臂为 ordinary T4@15、
-T4W3@15、TS4W3@15；均保持 `M_activity=30`、共同 eval start 50、12 epochs 和
-strict 27/6 manifest，并与现有 T4@50 reference 比较。通过条件同时要求：
-T4W3@15 对 T4@15、TS4W3@15 的机制增益通过门槛，且对 T4@50 的平均 R² 差距不超过
-0.03。33 个 train/validation sessions 的前 15 rewarded trials 全部 rank-3，
-最少覆盖 7 个方向，最大 condition `1.887`；formal path opened=0。
+特征，Wiener λ=3 在任何 validation 运行前冻结。Stage-0 现为四臂：ordinary
+T4@15、TS4@15、T4W3@15、TS4W3@15；两条 GPU lane 各承担一个 aligned/control
+pair。所有臂保持 `M_activity=30`、共同 eval start 50、12 epochs 和 strict 27/6
+manifest，并与现有 T4@50 reference 比较。普通 T4 与 W3 各自必须同时通过对应的
+aligned−shuffled 内容门和相对 T4@50 的 `−0.03 R²` 非劣门；若二者都通过，优先
+选择无需 shrinkage 的 ordinary T4@15。`T4W3−T4` 作为 shrinkage 增量机制单独
+报告，但不再错误地要求标签减少 70% 的候选还必须额外提升 `+0.03 R²`。33 个
+train/validation sessions 的前 15 rewarded trials 全部 rank-3，最少覆盖 7 个
+方向，最大 condition `1.887`；formal path opened=0。
 
 在 GPU 启动前，artifact gate 已补强为：固定 Wiener-3 公式 receipt、result 与
 metadata SHA 绑定、teacher/strict-manifest 实际文件哈希和跨臂一致性、精确
 epochs 5--12/first/30/50 chronological 协议、固定六个 validation sessions、
-formal 文件列表为空、variant score 重算，以及 aligned/shuffled W3 normalization
+formal 文件列表为空、variant score 重算，以及两组 aligned/shuffled normalization
 一致。负向 fixtures 覆盖公式强度、label budget、formal seal、score、normalization
-和 teacher drift；相关 side-feature/shrinkage 扩展回归为 **88 passed**。这仍是
+和 teacher drift；相关 side-feature/shrinkage 扩展回归为 **89 passed**。这仍是
 execution readiness，不是 decoding R² 结果，且当前没有启动 M15 GPU run。
 
 自动顺序更新为 **完整 FiLM → decoupled K/V → M15 shrinkage → residual-head-only
