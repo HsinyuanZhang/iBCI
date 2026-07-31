@@ -31,6 +31,7 @@ DATA="$ROOT/sua_exploration/data/dandi_000688/sub-C"
 CACHE="$ROOT/sua_exploration/cache/dandi688_subc_co_v1"
 TEACHER="$ROOT/sua_exploration/checkpoints/teacher_mc_maze/best-epoch=083-val_heldin/r2_mean=0.9061.ckpt"
 MANIFEST="$ROOT/sua_exploration/configs/subc_co_27_6_strict_train_val_manifest.json"
+AGGREGATOR="$ROOT/sua_exploration/scripts/aggregate_sua_b3t_t4_efficiency.py"
 
 case "$ARM" in
   t4)
@@ -104,6 +105,11 @@ EVAL_COMMAND=(
 )
 
 if [[ "$MODE" == "--dry-run" ]]; then
+  if [[ "$ARM" == "b3t_ts4" ]]; then
+    echo "ALIGNED-FIRST CONTROL GATE (required before --launch):"
+    printf '%q ' "$PY" "$AGGREGATOR" --result-dir "$RESULTS" --seeds "$SEED" --aligned-only
+    echo
+  fi
   printf 'CUDA_VISIBLE_DEVICES=%q ' "$GPU"
   printf '%q ' "${TRAIN_COMMAND[@]}"
   echo
@@ -116,6 +122,16 @@ fi
 [[ -x "$PY" ]] || { echo "Missing Python: $PY" >&2; exit 1; }
 [[ -f "$TEACHER" ]] || { echo "Missing teacher checkpoint: $TEACHER" >&2; exit 1; }
 [[ -f "$MANIFEST" ]] || { echo "Missing strict manifest: $MANIFEST" >&2; exit 1; }
+if [[ "$ARM" == "b3t_ts4" ]]; then
+  [[ -f "$AGGREGATOR" ]] || { echo "Missing B3T aligned-first gate: $AGGREGATOR" >&2; exit 1; }
+  # Read-only and fail-closed before any run-directory, result-path, or log
+  # directory action. The TS4 content control is permitted only when the
+  # complete same-seed fresh T4 and B3T+T4 receipts are within -0.03 R2.
+  "$PY" "$AGGREGATOR" \
+    --result-dir "$RESULTS" \
+    --seeds "$SEED" \
+    --aligned-only
+fi
 [[ ! -e "$RUN_DIR" ]] || { echo "Refusing to reuse run directory: $RUN_DIR" >&2; exit 1; }
 [[ ! -e "$RESULT" ]] || { echo "Refusing to overwrite result: $RESULT" >&2; exit 1; }
 
@@ -125,6 +141,7 @@ mkdir -p "$LOGS"
   echo "protocol=M_activity=$M_ACTIVITY; M_T4=$M_T4; evaluation=trials[$EVAL_START:]; strict 27/6; no formal test"
   CUDA_VISIBLE_DEVICES="$GPU" "${TRAIN_COMMAND[@]}"
   echo "[$(date -Is)] EVAL arm=$ARM seed=$SEED"
+  [[ ! -e "$RESULT" ]] || { echo "Refusing to overwrite result before evaluation: $RESULT" >&2; exit 1; }
   CUDA_VISIBLE_DEVICES="$GPU" "${EVAL_COMMAND[@]}"
   echo "[$(date -Is)] DONE arm=$ARM seed=$SEED"
 } >"$LOG" 2>&1

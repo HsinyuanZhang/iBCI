@@ -111,9 +111,20 @@ formal test 未打开。
 
 冻结分流因此进入 B3T fallback。GPU0/GPU1 已分别 fresh 启动
 `T4 seed42` 与 `B3TStream+T4 seed42`；不复用 legacy T4。首个 aligned arm
-完成并释放 GPU 后再启动 `B3TStream+TS4 seed42`。seed42 只作 Stage-0：
-B3T 候选仍需同时通过相对 fresh T4 的 `−0.03` 效率非劣门、严格 T4 内容门及
-预注册成本门，才允许扩展 seeds 43/44。
+使用完全匹配的 `M_activity=M_T4=30`、evaluation start 30、12 epochs 与
+固定 epochs 5--12 评分窗口。两条 aligned arms 都完整产生严格 artifact 后，
+仅当 `B3TStream+T4−fresh T4 >=−0.03` 才允许启动
+`B3TStream+TS4 seed42`；否则直接停止该分支。seed42 只作 Stage-0：
+B3T 候选仍需同时通过相对 fresh T4 的效率非劣门、严格 T4 内容门及预注册
+成本门，才允许扩展 seeds 43/44。
+
+上述 aligned-first gate 在结果出现前已实现为只读、fail-closed 检查。它逐臂
+重验 exact validation sessions、teacher/manifest/normalization SHA、训练协议、
+固定 checkpoint 路径与 bytes SHA、formal seal 及完整成本 receipt；控制 runner
+在创建任何控制 run/result/log 路径前调用同 seed gate。正式种子被限制为
+`42/43/44`，聚合 artifact 禁止覆盖。CPU 回归为 **58 passed**，B3T streaming
+实现回归另为 **19 passed**。这里的 fresh T4@30 是 B3T 架构效率的匹配基线；
+T4@50 仍只作为低标签/置信度分支的独立参考，不混入该架构对比。
 
 ### 2026-07-31 17:09 HKT：真 CMP 空间邻域先验 Stage 0 判负
 

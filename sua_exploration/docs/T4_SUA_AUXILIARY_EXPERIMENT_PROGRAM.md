@@ -175,9 +175,21 @@ padding tails, chronological/end-of-trial guards, joint unit+side permutation, T
 finalization, absence of retained full trials, and exact state/MAC `cost_profile`. The
 targeted CPU suite reports `19 passed`.
 
+**Frozen execution gate (2026-07-31).** The architecture comparison uses matched fresh
+training with `M_activity=M_T4=30`, common evaluation start 30, 12 epochs and the fixed
+epochs 5--12 window. Seed 42 first runs fresh `T4` and `B3TStream+T4`. Only if their strict
+artifacts give `B3TStream+T4−fresh T4 >=−0.03` may the same-seed
+`B3TStream+TS4` content control start. The control runner invokes this read-only gate before
+creating a run, result or log path. Seeds are restricted to the predeclared `42/43/44`;
+checkpoint paths and byte hashes, teacher/manifest/normalization provenance, exact sessions,
+formal seal and complete cost receipts are fail-closed.
+
 **Kill rule.** Correct content contrast is mandatory. Advance only when B3TStream+T4 is
-non-inferior to T4@50 within -0.03 and exact parameters/MAC are both >=25% lower. If worse
-than -0.03, do not add FiLM on this substrate.
+non-inferior to the matched fresh T4@30 within -0.03 and exact parameters/MAC are both
+>=25% lower. T4@50 remains the reference for the separate label-efficiency question, not
+for this architecture comparison. If the aligned seed-42 arm is worse than -0.03, do not run
+the TS4 control and do not add FiLM on this substrate. If aligned non-inferiority passes but
+the strict T4-vs-TS4 content gate fails, stop after the control.
 
 ### C3. Low-rank activity-conditioned functional fusion
 
