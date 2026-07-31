@@ -236,6 +236,16 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 单独构成有效性结论；它将在 FiLM 五臂 final aggregate 生成后自动开始。FiLM
 所需的三个关键机制门目前都已不可能通过，TS4 结束只负责补齐诊断和触发该接棒。
 
+首轮开始前另做了一个完全不打开 neural dataset 的 teacher-checkpoint 谱审计，
+用来约束“若首轮失败，下一轮应该改哪里”。原 attention 投影在 rank 32 时只保留
+`Wq=29.82%`、`Wk=39.37%` 的平方奇异值能量；相比之下组合 value map
+`Wo@Wv` 保留 `76.94%`。rank 48 时对应为 `38.89%/47.49%/83.78%`。因此
+`Dk=32` 是比单独 `Dv=32` 更明确的容量风险。参考 `N=64` 下，
+`Dk=48,Dv=64` 的配置 MAC 仍比 coupled path 低 `91.11%`，静态 key width
+为 48，不超过现有 `E[N,50]` 状态。该证据只预注册失败后的宽度诊断，不能提前
+改写首轮或替代 R²；artifact：
+`results/sua_t4_decoupled_kv_v1/teacher_low_rank_audit.json`。
+
 未来 formal-held-out 入口也已在不打开 test NWB 的条件下做了兼容性修复：
 validation 与 formal 现在共享 checkpoint topology 重建，decoupled candidate 会将
 真实/TS4 key feature 送入独立 key path，zero-identity control 则同时清零

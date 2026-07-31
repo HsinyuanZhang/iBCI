@@ -464,6 +464,16 @@ Frozen Stage-0 implementation contract (2026-07-31):
   `K[N,32]` state for cached decoupled K/V: `−91.38%` MAC and `−36%` state. These are
   implementation-derived decoder-path counts, not a joint end-to-end latency measurement.
 
+A checkpoint-only spectral audit, run without opening train, validation or formal data,
+pre-registers the main capacity diagnostic if this first stage fails. Rank 32 retains only
+`29.82%` of teacher `Wq` energy and `39.37%` of `Wk` energy, while retaining `76.94%` of
+the effective `Wo@Wv` energy. At rank 48 those figures are `38.89%`, `47.49%` and
+`83.78%`. Consequently an under-trained or capacity-limited first stage should test key
+rank before attributing failure solely to value rank. `Dk=48,Dv=64` still gives a configured
+`91.11%` decoder-MAC reduction at `N=64`; its static key width is 48, no larger than the
+existing 50-wide identity state. This audit is not an R² result and does not alter the
+frozen `32/32` first-stage protocol.
+
 Confidence is deliberately excluded from this first stage. It enters the key only if Rank 3
 first establishes that calibration-block confidence is useful. Optional attention bias is
 also a later ablation, not part of the minimum candidate.
