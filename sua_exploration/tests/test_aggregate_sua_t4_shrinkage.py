@@ -5,7 +5,10 @@ import json
 
 import pytest
 
-from scripts.aggregate_sua_t4_shrinkage import aggregate
+from scripts.aggregate_sua_t4_shrinkage import (
+    aggregate,
+    aggregate_ordinary_pair,
+)
 
 
 EPOCHS = list(range(5, 13))
@@ -242,6 +245,51 @@ def test_shrinkage_aggregate_prefers_ordinary_t4_when_both_are_noninferior(
         "t4w3_m15": True,
     }
     assert result["selected_stage0_candidate"] == "t4_m15"
+
+
+def test_ordinary_pair_aggregate_does_not_require_deprioritized_w3_arms(
+    tmp_path,
+):
+    pilot = tmp_path / "pilot"
+    reference = tmp_path / "reference"
+    pilot.mkdir()
+    reference.mkdir()
+    for arm in ("t4_m15", "ts4_m15"):
+        _write_arm(pilot, arm)
+    _write_arm(reference, "t4_m50")
+
+    path = pilot / "t4_m15_s42.json"
+    artifact = json.loads(path.read_text(encoding="utf-8"))
+    for epoch in EPOCHS:
+        artifact["per_epoch"][str(epoch)]["per_session_r2"] = {
+            session: 0.56 + index * 0.001
+            for index, session in enumerate(SESSIONS)
+        }
+        artifact["per_epoch_mean_r2"][str(epoch)] = 0.5625
+    artifact["variant_score"] = 0.5625
+    path.write_text(json.dumps(artifact), encoding="utf-8")
+
+    result = aggregate_ordinary_pair(pilot, reference, (42,))
+    assert result["arm_mean_r2"] == pytest.approx(
+        {
+            "t4_m15": 0.5625,
+            "ts4_m15": 0.4425,
+            "t4_m50": 0.5725,
+        }
+    )
+    assert result["t4_m15_vs_ts4_m15"]["mean_paired_delta_r2"] == pytest.approx(
+        0.12
+    )
+    assert result["t4_m15_vs_t4_m50_noninferiority"][
+        "mean_delta_r2"
+    ] == pytest.approx(-0.01)
+    assert (
+        result["stage0_descriptive_mechanism_and_label_reduction_pass"]
+        is True
+    )
+    assert result["formal_effectiveness_eligible"] is False
+    assert result["formal_effectiveness_pass"] is False
+    assert result["protocol"]["formal_test_evaluated"] is False
 
 
 def test_shrinkage_aggregate_rejects_wrong_label_budget(tmp_path):

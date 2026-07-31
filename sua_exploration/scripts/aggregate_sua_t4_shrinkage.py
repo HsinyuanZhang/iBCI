@@ -23,6 +23,7 @@ from aggregate_sua_confidence_film_t4_budget import (  # noqa: E402
 
 
 PILOT_ARMS = ("t4_m15", "ts4_m15", "t4w3_m15", "ts4w3_m15")
+ORDINARY_PAIR_ARMS = ("t4_m15", "ts4_m15")
 EXPECTED_GROUP = {
     "t4_m15": "t4",
     "ts4_m15": "ts4",
@@ -353,6 +354,130 @@ def noninferiority_summary(
     }
 
 
+def aggregate_ordinary_pair(
+    result_dir: Path,
+    reference_dir: Path,
+    seeds: tuple[int, ...],
+) -> dict:
+    """Aggregate the narrowed ordinary T4/TS4 M15 experiment.
+
+    This path deliberately retains the strict per-artifact validator used by
+    the four-arm shrinkage experiment while removing any dependency on the
+    deprioritized W3 arms.
+    """
+
+    matrices: dict[str, np.ndarray] = {}
+    artifacts: dict[str, dict[str, str]] = {
+        arm: {} for arm in (*ORDINARY_PAIR_ARMS, "t4_m50")
+    }
+    provenance: dict[str, dict[str, dict[str, str]]] = {
+        arm: {} for arm in (*ORDINARY_PAIR_ARMS, "t4_m50")
+    }
+    session_names: list[str] | None = None
+
+    for arm in ORDINARY_PAIR_ARMS:
+        rows = []
+        for seed in seeds:
+            path = result_dir / f"{arm}_s{seed}.json"
+            sessions, values, receipt = validate_arm(
+                path,
+                arm=arm,
+                seed=seed,
+            )
+            if session_names is None:
+                session_names = sessions
+            elif sessions != session_names:
+                raise ValueError(f"{path}: validation session matrix differs")
+            rows.append(values)
+            artifacts[arm][str(seed)] = str(path.resolve())
+            provenance[arm][str(seed)] = receipt
+        matrices[arm] = np.asarray(rows, dtype=np.float64)
+
+    reference_rows = []
+    for seed in seeds:
+        path = reference_dir / f"t4m50_s{seed}.json"
+        sessions, values, receipt = validate_arm(
+            path,
+            arm="t4_m50",
+            seed=seed,
+        )
+        if sessions != session_names:
+            raise ValueError(f"{path}: M50 reference session matrix differs")
+        reference_rows.append(values)
+        artifacts["t4_m50"][str(seed)] = str(path.resolve())
+        provenance["t4_m50"][str(seed)] = receipt
+    matrices["t4_m50"] = np.asarray(reference_rows, dtype=np.float64)
+    assert session_names is not None
+
+    for seed in seeds:
+        seed_key = str(seed)
+        teacher_hashes = {
+            provenance[arm][seed_key]["teacher_sha256"]
+            for arm in (*ORDINARY_PAIR_ARMS, "t4_m50")
+        }
+        manifest_hashes = {
+            provenance[arm][seed_key]["manifest_sha256"]
+            for arm in (*ORDINARY_PAIR_ARMS, "t4_m50")
+        }
+        if len(teacher_hashes) != 1:
+            raise ValueError(f"seed {seed}: teacher checkpoint drift across arms")
+        if len(manifest_hashes) != 1:
+            raise ValueError(f"seed {seed}: strict manifest drift across arms")
+        _require(
+            f"seed {seed}: aligned/shuffled ordinary T4 normalization",
+            provenance["t4_m15"][seed_key]["normalization_sha256"],
+            provenance["ts4_m15"][seed_key]["normalization_sha256"],
+        )
+
+    content = summarize(
+        matrices["t4_m15"],
+        matrices["ts4_m15"],
+        seeds=seeds,
+        sessions=session_names,
+    )
+    noninferiority = noninferiority_summary(
+        matrices["t4_m15"],
+        matrices["t4_m50"],
+        seeds=seeds,
+        sessions=session_names,
+    )
+    stage0 = bool(
+        content["passes_stage0_descriptive_gates"]
+        and noninferiority["stage0_within_margin"]
+    )
+    formal = bool(
+        content["passes_formal_effectiveness_gates"]
+        and noninferiority["formal_within_margin"]
+    )
+    return {
+        "schema_version": 1,
+        "created_at": datetime.now().astimezone().isoformat(),
+        "purpose": "ordinary_t4_m15_low_label_paired_gate",
+        "claim_scope": "DANDI 000688 sub-C CO validation; formal test unopened",
+        "protocol": {
+            "M_activity": 30,
+            "M_T4_pilot": 15,
+            "M_T4_reference": 50,
+            "common_evaluation_start": 50,
+            "epochs": 12,
+            "scored_epoch_window": EPOCHS,
+            "seeds": list(seeds),
+            "sessions": session_names,
+            "formal_test_evaluated": False,
+        },
+        "artifacts": artifacts,
+        "provenance": provenance,
+        "arm_mean_r2": {
+            arm: float(matrix.mean()) for arm, matrix in matrices.items()
+        },
+        "t4_m15_vs_ts4_m15": content,
+        "t4_m15_vs_t4_m50_noninferiority": noninferiority,
+        "stage0_descriptive_mechanism_and_label_reduction_pass": stage0,
+        "formal_effectiveness_eligible": len(seeds) >= 3,
+        "formal_effectiveness_pass": formal,
+    }
+
+
 def aggregate(
     result_dir: Path,
     reference_dir: Path,
@@ -538,8 +663,14 @@ def main() -> None:
     parser.add_argument("--reference-dir", type=Path, required=True)
     parser.add_argument("--seeds", type=_parse_seeds, default=(42,))
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--ordinary-pair-only",
+        action="store_true",
+        help="aggregate only ordinary T4@15, TS4@15, and T4@50",
+    )
     args = parser.parse_args()
-    result = aggregate(
+    aggregate_fn = aggregate_ordinary_pair if args.ordinary_pair_only else aggregate
+    result = aggregate_fn(
         args.result_dir.expanduser().resolve(),
         args.reference_dir.expanduser().resolve(),
         args.seeds,
