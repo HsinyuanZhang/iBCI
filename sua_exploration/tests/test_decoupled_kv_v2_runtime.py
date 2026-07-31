@@ -626,9 +626,18 @@ def test_v2_entrypoints_do_not_import_active_v1_entrypoints():
     assert "run_sua_t4_shrinkage_one_cell" not in scheduler_source
     assert "eval_adaptation_dandi688" not in scheduler_source
     assert "aggregate_seed42.json" in scheduler_source
+    assert "aggregate_sua_decoupled_kv_v2.py" in scheduler_source
+    assert "aggregate_seeds42_43_44.json" in scheduler_source
+    assert "stage0_descriptive_candidate_pass" in scheduler_source
+    assert "run_v2_replication_seed 43 0" in scheduler_source
+    assert "run_v2_replication_seed 44 1" in scheduler_source
+    assert "run_v1_coupled_seed" in scheduler_source
+    assert "--seeds 42,43,44" in scheduler_source
     for arm in (
         "coupled_t4", "kv_e_t4", "kv_e_ts4", "kv_e_only", "kv_x_only"
     ):
+        assert arm in scheduler_source
+    for arm in ("kv2_e_t4", "kv2_e_ts4", "kv2_e_only", "kv2_x_only"):
         assert arm in scheduler_source
 
 

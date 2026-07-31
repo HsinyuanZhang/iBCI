@@ -592,6 +592,14 @@ initial reuse of the seed-42-only v1 launch validator that would have rejected v
 43/44. Multi-seed, negative-seed, chronological-order, exact-cost and receipt-drift tests
 now bring the full decoupled regression set to **70 passing tests**.
 
+The evidence scheduler uses this aggregate directly. If v1 passes at seed 42 it expands
+the complete matched v1 matrix to seeds 43/44 and writes a three-seed aggregate. If v1
+fails, it runs the four v2 seed-42 arms. Only a passing v2 Stage-0 gate may launch seeds
+43/44; each replication first produces its own v1 coupled-T4 baseline on the same seed,
+then runs all four v2 arms before the three-seed aggregate. A failed v2 Stage-0 stops for
+mechanistic diagnosis. This scheduler never launches M15, formal held-out evaluation, or
+INT8.
+
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
 bias by least squares; `bk` is omitted because it contributes a per-query constant that

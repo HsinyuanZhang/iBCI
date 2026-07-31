@@ -339,9 +339,13 @@ aggregate 误复用 seed-42-only launch gate、会错误拒绝 seeds 43/44 的�
 
 2026-07-31 11:15 HKT，旧的中央 post-FiLM watcher 已单独停止：它会在 v1
 Stage-0 失败后不区分“随机 read-in/初始化失败”和“T4 机制失败”而直接占用两卡
-启动 M15 shrinkage。两条 v1 GPU lane 与其顺序五臂任务均保持运行。五臂结果
-齐全后先由严格 aggregate 判别失败类型，再选择 v2 或 M15；这不是停止实验，而是
-防止错误 fallback 抢跑。
+启动 M15 shrinkage。两条 v1 GPU lane 与其顺序五臂任务均保持运行，新的
+evidence-gated watcher 只执行以下预注册分支：v1 seed-42 通过则并行补齐完整
+v1 seeds 43/44 并生成三 seed aggregate；v1 失败则运行 v2 seed-42 四臂。只有
+v2 seed-42 同时通过 coupled `−0.03` non-inferiority 和真实 T4 content gate，
+才为 seeds 43/44 各自先生成 paired v1 coupled baseline、再运行四个 v2 arms
+并聚合三 seed。任何失败都停在下一轮 FP32 诊断前；watcher 不启动 M15、
+formal held-out 或 INT8。
 
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为
 `9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`。
