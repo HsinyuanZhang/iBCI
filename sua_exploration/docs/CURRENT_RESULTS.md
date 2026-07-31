@@ -402,6 +402,13 @@ aligned-vs-shuffled T4 content gate 与相对 T4@50 的 `−0.03` non-inferiorit
 四臂 dry-run、shell audit 通过，既有 shrinkage/encoder/aggregate 选择为
 `77 passed`；这仍是 execution readiness，不是 M15 task R²。
 
+为避免所有当前分支失败后临时堆模块，下一轮候选已按现有负结果完成书面
+diverge/converge，但没有获得提前启动权。排名第一的是 **保留完整 coupled T4
+teacher、只增加 zero-init static T4 key residual**：它在初始化时与成功的普通
+T4 完全相同，只测试 T4 是否能额外改变 attention selection，不替换 activity
+read-in/value。完整 16 个候选、kill criteria、三项验证和一次有界优化见
+[`T4_NEXT_ROUND_IDEATION.md`](T4_NEXT_ROUND_IDEATION.md)。
+
 ### Decoder 在线延迟：3090 无数据诊断
 
 利用 v1 最后一臂仍占用 GPU0、GPU1 已释放的空档，做了一个明确不参与模型选择的

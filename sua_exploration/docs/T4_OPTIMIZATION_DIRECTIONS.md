@@ -702,6 +702,11 @@ the three-seed aggregate, before formal or INT8. The existing M15 estimator/enco
 aggregate selection reports **77 passing tests**, and the handoff state is auditable in
 `results/sua_t4_shrinkage_m15_v1/logs/evidence_gated_post_oracle_watcher.log`.
 
+The contingency design after these gates is documented in
+[`T4_NEXT_ROUND_IDEATION.md`](T4_NEXT_ROUND_IDEATION.md). Its first-ranked accuracy
+candidate preserves the entire successful coupled T4 function and adds only a
+zero-initialized static T4 key residual. It is not authorized to launch early.
+
 A declared no-data RTX3090 latency audit was run while the second GPU would otherwise be
 idle. It opens no neural/calibration/validation/formal data and has no selection role.
 With FP32, `B=1,W=50,N=64`, 200 warmups and 5,000 CUDA-event iterations, decoder-only
