@@ -55,8 +55,10 @@ from pathlib import Path
 from typing import Mapping, Sequence
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from dandi688_gradient_free_protocol import sha256_file
+from mc_maze.unit_side_features import side_features_use_behavior_labels
 from select_gradient_free_protocol_dandi688 import (
     evaluate_fixed_protocol_over_validation_sessions,
 )
@@ -341,17 +343,12 @@ def main() -> None:
     max_units_exclusive = metadata["max_units_exclusive"]
     signal_view = metadata.get("signal_view", "sua")
     side_feature_group = (metadata.get("side_features") or {}).get("group", "none")
-    label_derived_side_groups = {
-        "t4", "t8", "ts4", "ts8",
-        "t4e", "t4e_shuffled",
-        "t4gate", "t4gate_shuffled",
-        "t4anchor", "t4anchor_shuffled",
-        "t4rel", "t4rel_membership_shuffled", "t4rel_nogroup",
-        "t4cf", "t4cf_ts4", "t4cf_confidence_shuffled",
-    }
+    labels_used_by_side_features = side_features_use_behavior_labels(
+        side_feature_group
+    )
     label_feature_pool_size = (
         (metadata.get("side_features") or {}).get("pool_size")
-        if side_feature_group in label_derived_side_groups
+        if labels_used_by_side_features
         else None
     )
 
@@ -471,12 +468,10 @@ def main() -> None:
         "session_splits": session_splits,
         "session_unit_counts": session_unit_counts,
         "calibration_trial_selection_uses_behavior_labels": False,
-        "calibration_features_use_behavior_labels": (
-            side_feature_group in label_derived_side_groups
-        ),
+        "calibration_features_use_behavior_labels": labels_used_by_side_features,
         "calibration_feature_label_scope": (
             f"chronological_rewarded_trials[0:{label_feature_pool_size}]"
-            if side_feature_group in label_derived_side_groups
+            if labels_used_by_side_features
             else None
         ),
         "uses_behavior_labels_for_weight_updates": False,

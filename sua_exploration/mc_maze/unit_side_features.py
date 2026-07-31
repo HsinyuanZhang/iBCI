@@ -314,6 +314,19 @@ def base_feature_group(side_feature_group: str) -> str:
     return group
 
 
+def side_features_use_behavior_labels(side_feature_group: str) -> bool:
+    """Whether a side-feature token derives from rewarded trial behavior labels.
+
+    This is intentionally defined from the resolved feature substrate rather
+    than maintained as a second, hand-written token list in each evaluator.
+    Tuning groups consume rewarded trial direction/rate support; shuffled and
+    residual controls retain that same label-derived substrate.  Waveform-only
+    groups and ``none`` do not.
+    """
+
+    return base_feature_group(side_feature_group) in TUNING_FEATURE_NAMES
+
+
 def feature_semantics_version(side_feature_group: str) -> int:
     """Semantic/cache version for the resolved continuous feature group."""
     return (
