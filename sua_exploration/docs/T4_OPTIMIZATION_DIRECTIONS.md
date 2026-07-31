@@ -487,19 +487,28 @@ deployment margin, the first representation-preserving follow-up is pre-register
 ```text
 h_E_i = teacher_readin(E_i)
 h_x_i = teacher_readin(x_i)
-K_i = low_rank_key(h_E_i, T4_i)       # calibration-time, then cached
+K_i = low_rank_key(h_E_i) + W_T4 T4_i # calibration-time, then cached
 V_i = low_rank_value(h_x_i)           # online
 ```
 
-The candidate must initialize the low-rank attention maps from the teacher Q/K bilinear
-map and effective `Wo@Wv` map (or use an explicitly declared prediction-distillation
-warm-up); it may not compare another fully random small decoder and call the result a
-factorization test. With `Dk=48,Dv=64`, `N=64`, `C=2`, `D=512`, and the same counted
-Linear/attention/FFN MAC convention, this read-in-preserving path is estimated at
-25,462,784 decoder MAC/frame versus 57,970,688 for coupled (`−56.08%`). Its cached
-`K[N,48]` is 12,288 B, still `4%` smaller than `E[N,50]`; the static key projection
-adds 1,585,152 calibration-only MAC. These figures are a source-derived design budget,
-not an R² result or measured end-to-end latency.
+The candidate must use a single-head rank-48 approximation initialized from the teacher
+Q/K bilinear map and a rank-64 approximation of the effective `Wo@Wv` map (or use an
+explicitly declared prediction-distillation warm-up); it may not compare another fully
+random small decoder and call the result a factorization test. This initialization is
+**not** functionally equivalent to the teacher's 64 separate heads and their separate
+softmaxes. The direct `4→48` T4 branch starts at zero, and the T4/TS4/e-only arms must
+share bitwise-identical E, read-in, low-rank factors and any train-only bootstrap
+checkpoint. A per-arm distillation adaptation would invalidate the key-content contrast.
+
+With `Dk=48,Dv=64`, `N=64`, `C=2`, `D=512`, and the same counted
+Linear/attention/FFN MAC convention, this read-in-preserving static-key path is estimated
+at 25,462,784 decoder MAC/frame versus 57,970,688 for coupled (`−56.08%`). Its cached
+`K[N,48]` is 12,288 B, still `4%` smaller than `E[N,50]`. Calibration-only work is
+20,000,768 MAC: 18,415,616 for `teacher_readin(E)`, 1,572,864 for the hidden key
+projection, and 12,288 for the optional direct-T4 projection. The dynamic `K(x),V(x)`
+control cannot cache a key and costs 27,035,648 MAC/frame because its per-frame key
+projection adds 1,572,864 MAC. These figures are a source-derived design budget, not an
+R² result or measured end-to-end latency.
 
 The v1 result determines which optimization is justified:
 

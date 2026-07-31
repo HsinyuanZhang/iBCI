@@ -254,12 +254,18 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 projection 直接处理原始活动。因此 v1 若明显掉点，不能直接归因于“静态 key
 无效”。预注册的 representation-preserving v2 会分别计算
 `h_E=teacher_readin(E)`、`h_x=teacher_readin(x)`，再由 `[h_E,T4]` 生成静态
-low-rank key、由 `h_x` 生成在线 value，并用 teacher Q/K bilinear 与
-`Wo@Wv` 的低秩分解初始化（或显式声明短 prediction-distillation warm-up）。
+low-rank key、由 `h_x` 生成在线 value。实现必须使用 single-head rank-48
+teacher Q/K bilinear 近似与 rank-64 `Wo@Wv` 近似（或显式声明、所有 arm
+共用的 train-only prediction-distillation bootstrap）；它不等价于 teacher
+的 64 个独立 softmax heads。direct `4→48` T4 branch 从零初始化，T4/TS4/e-only
+只能改变这一 branch 的输入，不能改变 encoder 得到的 E，也不能各自单独 distill。
 在 `Dk=48,Dv=64,N=64` 的同一配置计数下，该路径约为 25,462,784
 decoder MAC/frame，相对 coupled 下降 `56.08%`；`K[N,48]` 为 12,288 B，
-仍比 `E[N,50]` 少 `4%`。这是失败后下一轮的设计预算，不是当前精度或整机
-latency 结果。
+仍比 `E[N,50]` 少 `4%`。每次校准还需单列 20,000,768 MAC：
+18,415,616 (`fc_in(E)`) + 1,572,864 (hidden key projection) + 12,288
+(direct T4 projection)。`x_only` 的 key 来自动态 `h_x`，不能缓存，在线总计
+27,035,648 MAC/frame、persistent key state 为 0。这是失败后下一轮的设计
+预算，不是当前精度或整机 latency 结果。
 
 另一个 selected-anchor、strict 27-train-cache-only 审计检查了联合
 `LayerNorm([E,T4])`。1,613 个 train units 中，T4 占 `4/54=7.41%` 坐标，
