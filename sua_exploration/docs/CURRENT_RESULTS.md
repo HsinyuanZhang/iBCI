@@ -220,7 +220,7 @@ execution readiness，不是 decoding R² 结果，且当前没有启动 M15 GPU
 自动顺序更新为 **完整 FiLM → decoupled K/V → M15 shrinkage → residual-head-only
 FiLM → B3TStream+T4**。M15 shrinkage 仅在前两项没有验证出有效候选时占用 GPU。
 
-### Decoupled K/V：五臂 seed-42 正在运行
+### Decoupled K/V v1：五臂 seed-42 最终失败
 
 第一阶段已冻结为五个同预算 FP32 arms：
 
@@ -250,14 +250,15 @@ aggregate 确认失败后，fresh coupled baseline 于 2026-07-31 09:53 HKT 在
 GPU0 启动；GPU1 在 seed-44 T4 anchor 释放后自动运行 `e_ts4/x_only`，两条
 lane 随后补齐其余 arms。
 
-截至 2026-07-31 14:21 HKT，4/5 个正式 seed-42 artifacts 已通过独立
-`validate_arm`。固定 epochs 5--12 分数为：
+截至 2026-07-31 15:38 HKT，5/5 个正式 seed-42 artifacts 和 strict
+aggregate 均已完成并通过独立 `validate_arm`。固定 epochs 5--12 分数为：
 
 | arm | R² |
 |---|---:|
 | coupled T4 | **0.583811248** |
 | decoupled `K(E,T4),V(x)` | 0.139152805 |
 | decoupled `K(E,TS4),V(x)` | 0.137685923 |
+| decoupled `K(E),V(x)` | 0.173976269 |
 | decoupled dynamic `K(x),V(x)` | −0.026209377 |
 
 coupled 与旧 ordinary T4 seed-42 的 `0.585300757` 仅差 `−0.001489510`，所以
@@ -269,13 +270,18 @@ direct-key 内容在 v1 中没有形成可靠效应。`E+T4−coupled` 为
 辩护。由于 v1 同时移除 pretrained activity read-in、随机初始化小 Q/K/V/out，
 这个结果否决的是 v1 实现，不是对 static-key 语义的最终否决。
 
-`x_only` 的正式 epoch-window 结果为 `−0.026209377`，只有 1/6 sessions 为正；
+`E-only` 的最终分数为 `0.173976269`，相对 coupled 为
+`−0.409834978`，0/6 sessions 为正，95% hierarchical CI
+`[−0.471825,−0.340264]`；`E+T4−E-only` 还为 `−0.034823465`，只有 3/6
+sessions 为正。因此 raw T4 direct branch 不但没有救回静态 E key，在这一实现中
+还略差于 E-only。`x_only` 的正式 epoch-window 结果为 `−0.026209377`，只有
+1/6 sessions 为正；
 这说明 v1 的随机小型 dynamic activity-key/value decoder 本身也不能承载任务，
-进一步排除了“只要去掉静态 E 就能恢复”的解释。`e_only` 已生成
-`epoch_003.ckpt`，五臂 aggregate 现在只等待这一臂，因为它仍是另一个预注册
-候选。五臂若无候选通过，evidence watcher
-将启动 teacher-readin/teacher-initialized v2。所有上述结果仍是严格 architecture
-validation，formal held-out 未打开。
+进一步排除了“只要去掉静态 E 就能恢复”的解释。strict aggregate 判定
+`stage0_descriptive_mechanism_pass=false`、`formal_effectiveness_pass=false`；
+evidence watcher 已于 15:38 HKT 在 GPU0/GPU1 启动
+teacher-readin/teacher-initialized v2 的 E-T4/E-TS4 首对 arms。所有上述结果
+仍是严格 architecture validation，formal held-out 未打开。
 
 首轮开始前另做了一个完全不打开 neural dataset 的 teacher-checkpoint 谱审计，
 用来约束“若首轮失败，下一轮应该改哪里”。原 attention 投影在 rank 32 时只保留
