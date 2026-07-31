@@ -36,6 +36,47 @@ Wiener strength 3 来自上述完全 train-only 的 nested LOSO audit，不以�
 validation 结果调参。W3 仍必须独立通过 `T4W3@15−TS4W3@15` 内容门和相对
 T4@50 的非劣门，才允许扩种子。
 
+### 2026-07-31 17:09 HKT：真 CMP 空间邻域先验 Stage 0 判负
+
+为区分旧 electrode-id lookup 与真正的空间关系先验，新增严格 train-only、
+免训练审计 `scripts/audit_electrode_spatial_prior.py`。外部 Limblab map 索引将
+Chewie.M1 指向 `1025-0394.cmp`；本地 CMP SHA-256 为
+`d5fb7d3e…d891d`。其 96 个 `(bank,pin)` 与全部 27 train + 6 validation NWB
+电极表均完全双射；实际 8-neighbor count 分布为
+`{4:8, 5:24, 7:4, 8:60}`，均值 `6.875`。正式 Stage 0 **只打开 27 个
+train sessions**，validation/formal NWB 均未打开。
+
+审计固定 Chebyshev radius 1、排除 unit 自身电极，并先对同一电极内 unit 的
+`(a,c)` 取均值，使每个相邻电极等权。无 occupied neighbor 时 target 为零，因而
+精确退化到现有 shrink-to-zero。每个 train session 用 chronological `[0:M]`
+拟合、`[M:50]` future-rate proxy 评分，并以 64 次坐标置换构造
+shuffled-neighbor null。该流程**不是 nested LOSO、不是 decoding R²，也不能直接
+预言 Stage 1**。
+
+空间相干本身没有通过：
+
+- `d=1` 邻接 `(a,c)` cosine 相对 coordinate-permutation 的均值仅
+  `+0.032323`；
+- 14/27 sessions 为正；
+- session bootstrap 95% CI
+  `[−0.008420,+0.075942]`，跨零。
+
+future-rate 结果更直接地否决了 handoff 提议的完整邻域收缩目标：
+
+| M_T4 | neighbor / zero MSE ratio | 改善 sessions | 95% CI（log ratio） | neighbor / shuffled ratio |
+|---:|---:|---:|---:|---:|
+| 10 | **1.14537** | 0/27 | `[+0.11209,+0.16279]` | 0.96143 |
+| 15 | **1.11938** | 0/27 | `[+0.09128,+0.13921]` | 0.96522 |
+| 20 | **1.10413** | 0/27 | `[+0.07898,+0.12387]` | 0.96783 |
+
+真实邻域比随机邻域少伤害约 3--4%，说明它可能含有很弱的相对结构；但在三个
+预算下，它都显著且 27/27 session 一致地劣于 zero prior。现有 W3 的
+shrink-to-zero 相对 ordinary T4 proxy 则分别为 `0.92830/0.95371/0.97248`。
+因此 strict artifact 判定 `passing_low_budgets=[]`、
+`stage1_candidate=false`：**不实现或启动 T4NBR GPU Stage 1，也不以
+pseudo-MUA 的 T4 增益替代空间相干证据。** 权威 artifact：
+`results/electrode_spatial_prior_stage0_v1/audit.json`。
+
 ### M2：修正矩阵已完成
 
 M2 的 all-held-in T4/TS4 三种子已与本地 full-SPINT B0 在同一个
