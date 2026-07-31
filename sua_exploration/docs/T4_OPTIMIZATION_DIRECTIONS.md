@@ -517,8 +517,20 @@ screen is in flight. Its CPU contracts cover the weight-only, Q/K/V-bias-omittin
 orientation and score scale, the non-equivalence to 64 head-wise softmaxes, a dedicated
 dynamic `K(h_x),V(h_x)` path with no direct-feature call or cache, exact static/dynamic
 cost receipts, projected-K-only state, gradients and unit permutation. The related
-decoupled suite reports 31 passing tests. This is implementation readiness, not accuracy
-evidence; integration is conditional on the v1 result diagnosis above.
+decoupled suite initially reported 31 passing tests.
+
+An equally isolated streaming adapter now lives in
+`streaming_calibration_exp/src/models/components/streaming_spint_v2_adapter.py`. For a
+static arm it executes `fc_in(E)` only when deriving K, while cached online decode executes
+only `fc_in(x)` and `fc_in(rep)`; a single-session key uses a non-owning batch-expanded
+view and is never reprojected. The dynamic x-only deployment API accepts neural activity
+without identity/calibration, while framework-side E is explicitly marked metric-only.
+The e-only and x-only modes reject supplied direct features, unused legacy decoder modules
+are excluded from optimizer state, and adapter dispatch is explicit rather than relying
+on the base class's generic non-coupled branch. The combined new/legacy/formal decoupled
+suite reports 42 passing tests. Neither bypass module is imported by the active v1 screen.
+This is implementation readiness, not accuracy evidence; production-selector integration
+is conditional on the v1 result diagnosis above.
 
 The v1 result determines which optimization is justified:
 

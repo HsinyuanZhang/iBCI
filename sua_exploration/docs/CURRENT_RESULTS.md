@@ -274,7 +274,18 @@ v1 arms 读到不同实现。当前 CPU 合同覆盖 teacher weight-only/bias-om
 SVD 的 Q/K scale 与 V/out 方向、single-head/64-head 非等价边界、独立
 `K(h_x),V(h_x)` 动态控制、只缓存 projected K、static/x-only 精确成本、
 direct-T4 零初始化、梯度和 unit permutation；相关 decoupled 回归为
-`31 passed`。该实现状态只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
+`31 passed`。
+
+旁路流式 adapter 随后实现于
+`streaming_calibration_exp/src/models/components/streaming_spint_v2_adapter.py`。
+它对 static arm 明确执行 `fc_in(E)` 一次生成可复用 K，在线只执行
+`fc_in(x)`/`fc_in(rep)`；`B=1` session key 通过 non-owning view 扩展到在线
+batch，不重算 E/K。`x_only` 另有不接收 identity/calibration 的部署 API，
+而训练框架中计算的 E 只用于公共 metric；`e_only/x_only` 均拒绝调用方注入
+direct feature。未使用的 legacy transformer 与 teacher-ID 参数被冻结，不进入
+end-to-end optimizer state。核心、adapter、旧 v1 与 formal 入口的相关回归现为
+`42 passed`。这些旁路文件仍未被生产 selector 或 v1 runner import；该实现状态
+只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
 
 另一个 selected-anchor、strict 27-train-cache-only 审计检查了联合
 `LayerNorm([E,T4])`。1,613 个 train units 中，T4 占 `4/54=7.41%` 坐标，
