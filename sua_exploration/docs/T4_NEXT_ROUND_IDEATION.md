@@ -198,13 +198,14 @@ more capacity.
 ## Isolated implementation readiness
 
 The winning component is implemented in
-`streaming_spint_t4_key_residual_adapter.py`, without a Lightning selector,
-runner or GPU launch. It preserves the existing `fc_in(x+E)`, query, value,
-64-head attention, output projection, norms, FFN and readout. The only new
-path is a shared `4 → rank → 512` T4 map whose output projection is exactly
-zero initialized and whose full-width result can be cached after calibration.
-The TS4 control permutes only the T4 rows used by this new residual; the
-ordinary identity encoder continues to receive aligned T4.
+`streaming_spint_t4_key_residual_adapter.py`. Its isolated Lightning selector
+is `t4_key_residual_module.py`; neither a runner nor a GPU launch exists yet.
+It preserves the existing `fc_in(x+E)`, query, value, 64-head attention, output
+projection, norms, FFN and readout. The only new path is a shared
+`4 → rank → 512` T4 map whose output projection is exactly zero initialized
+and whose full-width result can be cached after calibration. The TS4 control
+permutes only the T4 rows used by this new residual; the ordinary identity
+encoder continues to receive aligned T4.
 
 The focused CPU suite is `6 passed`; the adjacent coupled/decoupled adapter
 regression suite is `38 passed`. A no-data smoke against the actual teacher
@@ -214,6 +215,14 @@ checkpoint (`D=512`, 64 heads, `W=50`) establishes:
 - cached and on-the-fly residual decode are bitwise identical;
 - after freezing the backbone, decoder and identity encoder have zero gradient
   tensors while the residual output factor has a nonzero gradient.
+
+The selector requires a full selected-T4 Lightning checkpoint and refuses a
+fresh teacher restart. With the selected seed-42 anchor
+`cf533e…273d`, production setup again gives bitwise zero-init equality and an
+optimizer containing exactly the two residual factor tensors. Its only
+predeclared optimization policy additionally enables the existing attention
+output projection; it cannot silently unfreeze the rest of the backbone.
+Component/selector plus adjacent wrapper regression is `31 passed`.
 
 At `N=64, rank=8`, the residual map costs `264,192` calibration-only MAC and
 adds a 131,072-byte FP32 full-width cache. The online Linear/attention/FFN MAC
