@@ -466,6 +466,17 @@ Frozen Stage-0 implementation contract (2026-07-31):
   `K[N,32]` state for cached decoupled K/V: `−91.38%` MAC and `−36%` state. These are
   implementation-derived decoder-path counts, not a joint end-to-end latency measurement.
 
+Runtime snapshot at 2026-07-31 12:09 HKT: the first strict result is the coupled-T4
+baseline at **0.583811248** over fixed epochs 5--12. It differs from the prior ordinary-T4
+seed-42 artifact (`0.585300757`) by only `−0.001489510`; the six-session paired exact
+Wilcoxon test is `p=1.0`, so the fresh runner reproduces the substrate closely enough for
+the new contrasts. The e-TS4 arm has written 10/12 checkpoints and the real-T4 decoupled
+arm 2/12; only 1/5 final JSONs exists. Their unselected training-validation trajectories
+are diagnostic, not protocol scores: real T4 is `0.096319/0.135636` for epochs 1/2 versus
+TS4 `0.068893/0.133223`, while coupled T4 starts at `0.589832/0.565385`. This early gap is
+consistent with the known removal of the pretrained read-in in v1 and cannot yet be used
+as a final factorization verdict.
+
 A checkpoint-only spectral audit, run without opening train, validation or formal data,
 pre-registers the main capacity diagnostic if this first stage fails. Rank 32 retains only
 `29.82%` of teacher `Wq` energy and `39.37%` of `Wk` energy, while retaining `76.94%` of
@@ -566,7 +577,20 @@ run-metadata receipts before starting v2. The runtime loader checks a whitelist 
 training hparams and its test confirms `setup → on_load_checkpoint → strict load →
 active-factor validation` ordering. A production-constructor test also verifies that the
 actual wrapper hparams satisfy the runtime whitelist. With these negative gates, the
-expanded decoupled suite reports 69 passing tests.
+expanded decoupled suite initially reported 69 passing tests.
+
+A separate schema-v2 four-arm aggregator now cross-binds every result to the same-seed v1
+coupled-T4 artifact. It validates the chronological `trials[50:]` window, epochs 5--12,
+teacher/manifest/T4-normalization and active-factor receipts, deterministic TS4
+permutations, exact static/dynamic/coupled MAC totals, and zero formal-file access. Its
+Stage-0 rule requires a mean paired delta no worse than `−0.03` against coupled T4 plus a
+strictly positive real-T4 content contrast in every observed seed and all six sessions
+with exact Wilcoxon `p<=.05`. A single seed can never be called formally effective:
+formal status additionally requires seeds 42/43/44 and a positive
+hierarchical-bootstrap content lower bound. Main-agent review found and repaired an
+initial reuse of the seed-42-only v1 launch validator that would have rejected valid seeds
+43/44. Multi-seed, negative-seed, chronological-order, exact-cost and receipt-drift tests
+now bring the full decoupled regression set to **70 passing tests**.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query

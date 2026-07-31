@@ -209,7 +209,7 @@ T4W3@15 对 T4@15、TS4W3@15 的机制增益通过门槛，且对 T4@50 的平�
 自动顺序更新为 **完整 FiLM → decoupled K/V → M15 shrinkage → residual-head-only
 FiLM → B3TStream+T4**。M15 shrinkage 仅在前两项没有验证出有效候选时占用 GPU。
 
-### Decoupled K/V：实现与硬件凭据完成，性能尚未运行
+### Decoupled K/V：五臂 seed-42 正在运行
 
 第一阶段已冻结为五个同预算 FP32 arms：
 
@@ -234,10 +234,21 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 
 即 decoder-path 配置 MAC 约下降 `91.38%`，持久状态下降 `36%`；这不是整机
 实测 latency。缓存只保存 projected key，不保存原始 T4/confidence，也没有
-`N²` neuron self-attention。**目前尚无该五臂的 R² 结果**，所以硬件数字不能
-单独构成有效性结论。FiLM final aggregate 确认失败后，fresh coupled baseline
-已于 2026-07-31 09:53 HKT 在 GPU0 启动；GPU1 在 seed-44 T4 anchor 释放后自动
-运行 `e_ts4/x_only`，两条 lane 随后补齐其余 arms。
+`N²` neuron self-attention。硬件数字不能单独构成有效性结论。FiLM final
+aggregate 确认失败后，fresh coupled baseline 于 2026-07-31 09:53 HKT 在
+GPU0 启动；GPU1 在 seed-44 T4 anchor 释放后自动运行 `e_ts4/x_only`，两条
+lane 随后补齐其余 arms。
+
+截至 2026-07-31 12:09 HKT，首个正式 artifact `coupled_t4_m50_s42.json`
+已通过独立 `validate_arm`，固定 epoch 5--12 分数为 **0.583811248**。它与旧
+ordinary T4 seed-42 的 `0.585300757` 仅差 `−0.001489510`；六 session paired
+exact Wilcoxon `p=1.0`，因此新 runner 的 coupled 基准没有可见系统漂移。
+当前 `e_ts4` 为 10/12 checkpoints、`e_t4` 为 2/12，正式五臂 JSON 为 1/5。
+训练期 validation 轨迹仅作诊断：`e_t4` 前两 epoch 为
+`0.096319/0.135636`，对应 `e_ts4` 为 `0.068893/0.133223`，远低于 coupled
+首两 epoch 的 `0.589832/0.565385`。这与“v1 移除 pretrained read-in 导致
+representation collapse”的预注册混杂一致，但在固定窗口 JSON 完成前不能
+作为 v1 R² 结论。
 
 首轮开始前另做了一个完全不打开 neural dataset 的 teacher-checkpoint 谱审计，
 用来约束“若首轮失败，下一轮应该改哪里”。原 attention 投影在 rank 32 时只保留
@@ -315,8 +326,16 @@ T4，并把 e-TS4 direct-key seed 绑定到 run seed。v2 one-cell launch 现在
 独立的 v1 gate validator；空/坏 JSON、错误 seed/epoch window、缺 arm、漂移的
 run-metadata SHA 均会拒绝。runtime loader 还对白名单训练 hparams 做完整复核，
 测试确认执行顺序为 `setup → on_load_checkpoint → strict load → active-factor
-validation`。完整 decoupled 相关回归现为 `69 passed`。这些文件尚未启动任何
-v2 GPU 训练；该状态是可执行与审计准备，不是 R² 结果。
+validation`。四臂 v2 另有独立 fail-closed aggregate：它把每个 v2 arm 与同
+seed 的 v1 coupled-T4 baseline 绑定，复核 chronological trial-50 起评估、
+teacher/manifest/T4-normalization/active-factor/TS4-permutation receipts，
+并精确复算 25,462,784/27,035,648/57,970,688 MAC 账本。seed-42 只能通过
+descriptive Stage-0；formal effectiveness 必须使用预声明 seeds 42/43/44、
+所有 seed/session 内容差为正且 hierarchical CI 下界通过。主代理修复了初版
+aggregate 误复用 seed-42-only launch gate、会错误拒绝 seeds 43/44 的缺口，
+并增加 multi-seed/negative-seed 回归。完整 decoupled 相关回归现为
+`70 passed`。这些文件尚未启动任何 v2 GPU 训练；该状态是可执行与审计准备，
+不是 R² 结果。
 
 2026-07-31 11:15 HKT，旧的中央 post-FiLM watcher 已单独停止：它会在 v1
 Stage-0 失败后不区分“随机 read-in/初始化失败”和“T4 机制失败”而直接占用两卡
