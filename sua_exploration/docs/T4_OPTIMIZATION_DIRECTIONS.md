@@ -470,22 +470,21 @@ Frozen Stage-0 implementation contract (2026-07-31):
   `K[N,32]` state for cached decoupled K/V: `−91.38%` MAC and `−36%` state. These are
   implementation-derived decoder-path counts, not a joint end-to-end latency measurement.
 
-Runtime snapshot at 2026-07-31 12:50 HKT: 2/5 strict seed-42 JSONs exist. The coupled-T4
+Runtime snapshot at 2026-07-31 13:45 HKT: 3/5 strict seed-42 JSONs exist. The coupled-T4
 baseline is **0.583811248** over fixed epochs 5--12. It differs from the prior ordinary-T4
 seed-42 artifact (`0.585300757`) by only `−0.001489510`; the six-session paired exact
 Wilcoxon test is `p=1.0`, so the fresh runner reproduces the substrate closely enough for
-the new contrasts. The completed e-TS4 content-control arm is **0.137685923**. This
-coupled-minus-e-TS4 gap is not a clean T4-content effect because architecture and key
-content both change; the primary content contrast remains e-T4 minus e-TS4 within the same
-decoupled architecture.
+the new contrasts. The completed e-T4 and e-TS4 arms are **0.139152805** and
+**0.137685923**, respectively. Their clean content contrast is only `+0.001466882`, with
+3/6 sessions positive and exact paired Wilcoxon `p=1.0`. E-T4 is `−0.444658443` below
+coupled, with 0/6 sessions positive and `p=0.03125`. It therefore fails both the T4-content
+and `−0.03` deployment-noninferiority gates. This is a formal v1-candidate failure, not a
+static-key verdict, because v1 also removes the pretrained activity read-in and replaces
+the teacher projections with random 32-wide maps.
 
-The real-T4 decoupled arm has written 6/12 checkpoints and x-only 2/12; e-only is queued.
-The unselected real-T4 training-validation trajectory through epoch 5 is
-`0.096319/0.135636/0.158041/0.140452/0.171714`. Its five epoch-matched differences from
-e-TS4 are all positive with a mean of approximately `+0.0128`, but this is a small,
-non-protocol diagnostic and remains far below the coupled trajectory. It must not be called
-a positive architecture result before the fixed epoch 5--12 JSON and six-session contrast
-exist. Both GPUs remain occupied, and the evidence scheduler is waiting for all five arms.
+The x-only arm has written 8/12 checkpoints and e-only has started. Both GPUs remain
+occupied, and the evidence scheduler still waits for the full five-arm aggregate because
+e-only is a separately pre-registered candidate.
 
 A checkpoint-only spectral audit, run without opening train, validation or formal data,
 pre-registers the main capacity diagnostic if this first stage fails. Rank 32 retains only

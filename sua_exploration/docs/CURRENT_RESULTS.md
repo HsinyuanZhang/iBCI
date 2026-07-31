@@ -250,16 +250,28 @@ aggregate 确认失败后，fresh coupled baseline 于 2026-07-31 09:53 HKT 在
 GPU0 启动；GPU1 在 seed-44 T4 anchor 释放后自动运行 `e_ts4/x_only`，两条
 lane 随后补齐其余 arms。
 
-截至 2026-07-31 12:09 HKT，首个正式 artifact `coupled_t4_m50_s42.json`
-已通过独立 `validate_arm`，固定 epoch 5--12 分数为 **0.583811248**。它与旧
-ordinary T4 seed-42 的 `0.585300757` 仅差 `−0.001489510`；六 session paired
-exact Wilcoxon `p=1.0`，因此新 runner 的 coupled 基准没有可见系统漂移。
-当前 `e_ts4` 为 10/12 checkpoints、`e_t4` 为 2/12，正式五臂 JSON 为 1/5。
-训练期 validation 轨迹仅作诊断：`e_t4` 前两 epoch 为
-`0.096319/0.135636`，对应 `e_ts4` 为 `0.068893/0.133223`，远低于 coupled
-首两 epoch 的 `0.589832/0.565385`。这与“v1 移除 pretrained read-in 导致
-representation collapse”的预注册混杂一致，但在固定窗口 JSON 完成前不能
-作为 v1 R² 结论。
+截至 2026-07-31 13:45 HKT，3/5 个正式 seed-42 artifacts 已通过独立
+`validate_arm`。固定 epochs 5--12 分数为：
+
+| arm | R² |
+|---|---:|
+| coupled T4 | **0.583811248** |
+| decoupled `K(E,T4),V(x)` | 0.139152805 |
+| decoupled `K(E,TS4),V(x)` | 0.137685923 |
+
+coupled 与旧 ordinary T4 seed-42 的 `0.585300757` 仅差 `−0.001489510`，所以
+新 runner 基准没有可见系统漂移。正式 `E+T4−E+TS4` 仅
+`+0.001466882 R²`，3/6 sessions 为正，exact Wilcoxon `p=1.0`；真实 T4
+direct-key 内容在 v1 中没有形成可靠效应。`E+T4−coupled` 为
+`−0.444658443`，0/6 sessions 为正，`p=0.03125`，远超 `−0.03` 非劣 margin。
+因此 **v1 的 E+T4 候选已经明确失败**；不能用 `−91.38%` MAC 节省为该精度损失
+辩护。由于 v1 同时移除 pretrained activity read-in、随机初始化小 Q/K/V/out，
+这个结果否决的是 v1 实现，不是对 static-key 语义的最终否决。
+
+`x_only` 当前 8/12，`e_only` 已由 GPU0 自动启动；五臂 aggregate 仍需等待两者
+完成，因为 e-only 是另一个预注册候选。五臂若无候选通过，evidence watcher
+将启动 teacher-readin/teacher-initialized v2。所有上述结果仍是严格 architecture
+validation，formal held-out 未打开。
 
 首轮开始前另做了一个完全不打开 neural dataset 的 teacher-checkpoint 谱审计，
 用来约束“若首轮失败，下一轮应该改哪里”。原 attention 投影在 rank 32 时只保留
