@@ -250,7 +250,7 @@ aggregate 确认失败后，fresh coupled baseline 于 2026-07-31 09:53 HKT 在
 GPU0 启动；GPU1 在 seed-44 T4 anchor 释放后自动运行 `e_ts4/x_only`，两条
 lane 随后补齐其余 arms。
 
-截至 2026-07-31 13:45 HKT，3/5 个正式 seed-42 artifacts 已通过独立
+截至 2026-07-31 14:21 HKT，4/5 个正式 seed-42 artifacts 已通过独立
 `validate_arm`。固定 epochs 5--12 分数为：
 
 | arm | R² |
@@ -258,6 +258,7 @@ lane 随后补齐其余 arms。
 | coupled T4 | **0.583811248** |
 | decoupled `K(E,T4),V(x)` | 0.139152805 |
 | decoupled `K(E,TS4),V(x)` | 0.137685923 |
+| decoupled dynamic `K(x),V(x)` | −0.026209377 |
 
 coupled 与旧 ordinary T4 seed-42 的 `0.585300757` 仅差 `−0.001489510`，所以
 新 runner 基准没有可见系统漂移。正式 `E+T4−E+TS4` 仅
@@ -268,9 +269,11 @@ direct-key 内容在 v1 中没有形成可靠效应。`E+T4−coupled` 为
 辩护。由于 v1 同时移除 pretrained activity read-in、随机初始化小 Q/K/V/out，
 这个结果否决的是 v1 实现，不是对 static-key 语义的最终否决。
 
-截至 2026-07-31 14:02 HKT，`x_only` 已生成 `epoch_009.ckpt`（完成
-10/12 epochs），`e_only` 已生成 `epoch_000.ckpt`；五臂 aggregate 仍需等待两者
-完成，因为 e-only 是另一个预注册候选。五臂若无候选通过，evidence watcher
+`x_only` 的正式 epoch-window 结果为 `−0.026209377`，只有 1/6 sessions 为正；
+这说明 v1 的随机小型 dynamic activity-key/value decoder 本身也不能承载任务，
+进一步排除了“只要去掉静态 E 就能恢复”的解释。`e_only` 已生成
+`epoch_003.ckpt`，五臂 aggregate 现在只等待这一臂，因为它仍是另一个预注册
+候选。五臂若无候选通过，evidence watcher
 将启动 teacher-readin/teacher-initialized v2。所有上述结果仍是严格 architecture
 validation，formal held-out 未打开。
 

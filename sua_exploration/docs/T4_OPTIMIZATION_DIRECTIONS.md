@@ -470,7 +470,7 @@ Frozen Stage-0 implementation contract (2026-07-31):
   `K[N,32]` state for cached decoupled K/V: `−91.38%` MAC and `−36%` state. These are
   implementation-derived decoder-path counts, not a joint end-to-end latency measurement.
 
-Runtime snapshot at 2026-07-31 13:45 HKT: 3/5 strict seed-42 JSONs exist. The coupled-T4
+Runtime snapshot at 2026-07-31 14:21 HKT: 4/5 strict seed-42 JSONs exist. The coupled-T4
 baseline is **0.583811248** over fixed epochs 5--12. It differs from the prior ordinary-T4
 seed-42 artifact (`0.585300757`) by only `−0.001489510`; the six-session paired exact
 Wilcoxon test is `p=1.0`, so the fresh runner reproduces the substrate closely enough for
@@ -482,9 +482,12 @@ and `−0.03` deployment-noninferiority gates. This is a formal v1-candidate fai
 static-key verdict, because v1 also removes the pretrained activity read-in and replaces
 the teacher projections with random 32-wide maps.
 
-The x-only arm has written 8/12 checkpoints and e-only has started. Both GPUs remain
-occupied, and the evidence scheduler still waits for the full five-arm aggregate because
-e-only is a separately pre-registered candidate.
+The completed dynamic x-only control is **−0.026209377**, with only 1/6 sessions positive.
+Thus removing static E does not rescue v1: its randomly initialized compact
+activity-key/value decoder also fails to carry the task. E-only has written
+`epoch_003.ckpt`; the evidence scheduler still waits for the full five-arm aggregate
+because e-only is a separately pre-registered candidate. GPU1 was used during this wait
+for the declared no-data latency audit below, not for an out-of-order accuracy arm.
 
 A checkpoint-only spectral audit, run without opening train, validation or formal data,
 pre-registers the main capacity diagnostic if this first stage fails. Rank 32 retains only
