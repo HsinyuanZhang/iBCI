@@ -666,8 +666,29 @@ Strict standalone checkpoint reconstruction now lives in
 `sua_exploration/scripts/head_oracle_runtime.py`; it whitelists the production hparams,
 requires the 64-head/exact-softmax receipt, binds the teacher SHA, restores state strictly
 and verifies the active factor hash after loading. The expanded decoupled regression
-selection reports **98 passing tests**. Fixed-window evaluation and the GPU runner remain
-intentionally gated on a v2 failure.
+selection reported **98 passing tests** at that checkpoint.
+
+The complete isolated execution chain is now implemented:
+
+- `train_variant_dandi688_head_oracle.py` owns the full-teacher, world-size-one fit and
+  receipts every copied/active factor, optimizer scope, T4 normalization and exact cost;
+- `select_head_oracle_protocol_dandi688.py` and
+  `eval_epoch_window_head_oracle_dandi688.py` score only the six validation sessions over
+  fixed epochs 5--12, with `M_activity=30`, `M_T4=50` and common evaluation start 50;
+- `aggregate_sua_head_oracle.py` binds both arms to the same-seed v1 coupled baseline and
+  treats seed 42 as topology diagnosis only;
+- `validate_v2_decoupled_failure_gate.py` strictly recomputes the four-arm v2 aggregate
+  before an oracle launch;
+- `run_sua_head_oracle_one_cell.sh` exposes matched, fail-closed one-GPU arms; and
+- `schedule_after_decoupled_v2_stage0.sh` launches the two arms in parallel only when both
+  v2 candidates fail. A passing v2 remains under its own seeds-43/44 scheduler.
+
+Production-shape CPU smoke with the actual teacher checkpoint verifies both aligned and
+K-only-permuted forward paths, `[B,N,512]` projected K state and cached decode. The new
+protocol/tamper suite reports **5 passing tests**, while the selected oracle
+core/adapter/module/runtime/protocol suite reports **22 passing tests**. Both runner
+commands pass shell and dry-run audits. The post-v2 watcher is active as PID `812065`;
+the oracle itself remains unlaunched and therefore has no R² result yet.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query

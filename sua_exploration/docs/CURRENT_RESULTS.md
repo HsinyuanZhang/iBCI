@@ -268,7 +268,8 @@ direct-key 内容在 v1 中没有形成可靠效应。`E+T4−coupled` 为
 辩护。由于 v1 同时移除 pretrained activity read-in、随机初始化小 Q/K/V/out，
 这个结果否决的是 v1 实现，不是对 static-key 语义的最终否决。
 
-`x_only` 当前 8/12，`e_only` 已由 GPU0 自动启动；五臂 aggregate 仍需等待两者
+截至 2026-07-31 14:02 HKT，`x_only` 已生成 `epoch_009.ckpt`（完成
+10/12 epochs），`e_only` 已生成 `epoch_000.ckpt`；五臂 aggregate 仍需等待两者
 完成，因为 e-only 是另一个预注册候选。五臂若无候选通过，evidence watcher
 将启动 teacher-readin/teacher-initialized v2。所有上述结果仍是严格 architecture
 validation，formal held-out 未打开。
@@ -367,8 +368,24 @@ evidence-gated watcher 只执行以下预注册分支：v1 seed-42 通过则并�
 v1 seeds 43/44 并生成三 seed aggregate；v1 失败则运行 v2 seed-42 四臂。只有
 v2 seed-42 同时通过 coupled `−0.03` non-inferiority 和真实 T4 content gate，
 才为 seeds 43/44 各自先生成 paired v1 coupled baseline、再运行四个 v2 arms
-并聚合三 seed。任何失败都停在下一轮 FP32 诊断前；watcher 不启动 M15、
-formal held-out 或 INT8。
+并聚合三 seed。
+
+v2 失败后的等待也已消除：独立 post-v2 watcher（PID `812065`）在严格复算
+四个 v2 artifact 和 seed-42 aggregate 后，只在两个 v2 候选都失败时并行启动
+完整 64-head exact-head oracle 的 `E-T4/E-TS4` 两臂；若 v2 通过，它立即退出并
+把两卡留给原 v2 seeds 43/44 扩展。oracle 完成后只生成诊断 aggregate，不自动
+进入 M15、formal held-out 或 INT8。
+
+exact-head oracle 的独立执行链现已完整，包括 trainer、严格 checkpoint runtime、
+validation-only fixed epoch-window evaluator、双臂 fail-closed aggregate、
+v2-failure validator、单臂 GPU runner 和 evidence-gated watcher。它完整复制
+teacher 的 `fc_in`、64-head Q/K/V/out、headwise softmax、norm/FFN 和 `fc_out`；
+TS4 只固定置换 decoder-K 的 `E` 行，encoder 仍接收 aligned T4。生产形状的真实
+teacher CPU smoke 已验证两臂 forward、`[B,N,512]` projected-K state 和 cached
+decode；新协议/篡改测试为 `5 passed`，head-oracle 核心/adapter/runtime 联合
+选择为 `22 passed`。runner dry-run 已核对两臂完全匹配的
+`M_activity=30/M_T4=50/eval[50:]/epochs5--12` 命令；尚未启动 oracle GPU，
+所以这里仍不是 R² 结果。
 
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为
 `9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d`。

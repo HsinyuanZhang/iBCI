@@ -13,6 +13,14 @@ budget sweep and (2) T4-conditioned decoupled cross-attention. Freeze the
 selected final FP32 architecture before running encoder PTQ, followed by
 encoder QAT only if required. The baseline acceptance rules below are unchanged.
 
+**Evidence-gated amendment, 2026-07-31:** the first decoupled implementation
+failed, so a teacher-readin/teacher-initialized v2 runs next. If and only if its
+seed-42 four-arm screen also fails, a two-arm full-64-head oracle diagnoses
+static-key semantics before M15 is allowed to consume GPUs. The oracle is not
+the deployment candidate because its FP32 projected-key cache is 128 KiB at
+`N=64`; it exists to distinguish topology failure from low-rank/head-collapse
+failure. Neither branch opens formal sessions or starts INT8.
+
 ## Claims under test
 
 ### M2
