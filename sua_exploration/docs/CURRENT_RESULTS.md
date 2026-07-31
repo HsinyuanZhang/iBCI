@@ -126,6 +126,38 @@ B3T 候选仍需同时通过相对 fresh T4 的效率非劣门、严格 T4 内�
 实现回归另为 **19 passed**。这里的 fresh T4@30 是 B3T 架构效率的匹配基线；
 T4@50 仍只作为低标签/置信度分支的独立参考，不混入该架构对比。
 
+### B3T 失败时的唯一后备：M50 residual-only frozen head（未启动）
+
+为避免 B3T 若失败后重新扫参，结果出现前已经把下一轮收缩为一个候选：
+`M_T4=50` 的 residual-only confidence head；不再运行 M15 confidence sweep。
+选择 M50 的依据仅来自既有证据：residual variance 对 train-session
+future-fit error 的 Spearman `rho=0.9323`，`T4+residual` LOSO R² 为 `0.8908`，
+而 T4-only 为 `0.5324`。相反，ordinary T4@15 相对 T4@50 已下降
+`−0.058842`，至少要补回约 `+0.028842` 才刚达到 `−0.03` 非劣边界，而 W3
+实际只补回 `+0.000753`；因此 M15 不作为下一轮首击。
+
+若且仅若 B3T seed-42 分支失败，首轮新跑三个同 anchor arms：
+
+- `B3SCFR / t4cf_residual`：residual-only FiLM；
+- `B3SCFRS / t4cf_residual_shuffled`：只打乱 residual 的内容控制；
+- `B3SCFRA / t4cf_residual`：参数匹配 additive NoFiLM 控制。
+
+三臂固定 `M_activity=30`、`M_T4=50`、eval start 50、12 epochs、固定
+epochs 5--12、strict 27/6/6，并从同 seed ordinary-T4 `epoch_011` 完整
+student warm-start。Decoder 与 T4 encoder substrate 全冻结，只允许四个
+confidence-head tensors 更新，共 1,208 参数；已有同 anchor
+`t4_continuation` 与 full `film` 只作 immutable references，专用 runner
+不能启动它们。Seed 42 只有在 residual-FiLM 相对 T4 continuation、
+residual-shuffle 和 additive NoFiLM 三个对比都满足 mean `>=+0.03`、
+6/6 sessions 为正且 exact Wilcoxon `p<=.05` 时才扩 seeds 43/44。
+
+专用 strict aggregate 会实际打开每个 scored checkpoint，逐 tensor 证明
+31 个 decoder tensors 与 8 个 T4-substrate tensors 和 anchor 完全相同，同时
+检查四个 head 的精确形状/1,208 参数、optimizer receipt、residual permutation、
+checkpoint bytes SHA、teacher/manifest/normalization、固定 sessions、fit-loader
+formal isolation 与不可覆盖输出。该分支当前只完成代码/CPU/dry-run 准备，
+**没有启动 GPU，也没有打开 formal held-out**。
+
 ### 2026-07-31 17:09 HKT：真 CMP 空间邻域先验 Stage 0 判负
 
 为区分旧 electrode-id lookup 与真正的空间关系先验，新增严格 train-only、

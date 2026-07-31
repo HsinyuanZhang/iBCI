@@ -215,6 +215,18 @@ has not earned a claim.
 versus both selected concat baseline and matched MLP. At low budget, non-inferiority to T4@50
 within -0.03 is the alternate efficiency success. Otherwise stop raw waveform/amplitude work.
 
+**Frozen fallback amendment (2026-07-31).** The full-confidence M50 FiLM screen has already
+failed its matched mechanism controls, while train-only evidence localizes predictive
+reliability almost entirely to residual variance. If the currently running B3T+T4 efficiency
+branch also fails, the only permitted C3 retry is therefore the M50 residual-only frozen-head
+round; no M15 confidence sweep or larger confidence vector is allowed first. The selected
+ordinary-T4 encoder substrate and decoder remain byte-identical to the common `epoch_011`
+anchor at every scored checkpoint; only the four six-wide confidence-head tensors (1,208
+parameters) may update. The mandatory controls are residual row-shuffle and a parameter-matched
+additive NoFiLM head. Seed 42 must beat T4 continuation and both controls by at least `+0.03`
+with all six sessions positive and exact `p<=.05`, otherwise this confidence-fusion direction
+stops.
+
 ### C4. Same-electrode relation, conditional on a read-only eligibility audit
 
 **Why this is not a casual revival.** E3/E4 previously deferred same-electrode pooling because
