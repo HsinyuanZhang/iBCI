@@ -20,6 +20,22 @@ teacher/manifest/训练预算。T4 与 TS4 已分别在 GPU1/GPU0 并行；只�
 `T4@15−TS4@15` 保留真实内容效应，且 `T4@15−T4@50 ≥ −0.03 R²`，才扩展
 seeds 43/44。该实验完成前不打开 formal held-out，也不开始 INT8。
 
+### 2026-07-31 16:43 HKT：ordinary T4@15 非劣门失败，进入 W3 优化
+
+`t4_m15_s42.json` 已完成 strict `validate_arm`，teacher/manifest 与同 seed
+T4@50 reference 一致，formal test 未打开。固定 epochs 5--12 结果为：
+
+- `T4@15 = 0.524968953`；
+- `T4@50 = 0.583811248`；
+- `T4@15−T4@50 = −0.058842295`，6/6 validation sessions 均下降。
+
+因此 ordinary T4@15 已明确未达到 `−0.03 R²` 非劣 margin，不会据此扩展
+seeds 43/44。配对的 TS4@15 继续完成，以判断 15-trial ordinary T4 是否仍保留
+正确内容效应。空出的 GPU1 已启动唯一预注册的 estimator 优化 T4W3@15；
+Wiener strength 3 来自上述完全 train-only 的 nested LOSO audit，不以当前
+validation 结果调参。W3 仍必须独立通过 `T4W3@15−TS4W3@15` 内容门和相对
+T4@50 的非劣门，才允许扩种子。
+
 ### M2：修正矩阵已完成
 
 M2 的 all-held-in T4/TS4 三种子已与本地 full-SPINT B0 在同一个
