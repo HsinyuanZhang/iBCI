@@ -317,6 +317,18 @@ class TeacherSVDDecoupledCrossAttention(nn.Module):
             "factor_sha256": _tensor_state_sha256(factors),
         }
 
+    def factor_sha256(self) -> str:
+        """Hash the active low-rank/direct factors, including affine biases."""
+        return _tensor_state_sha256({
+            "query_proj.weight": self.query_proj.weight,
+            "query_proj.bias": self.query_proj.bias,
+            "key_proj.weight": self.key_proj.weight,
+            "value_proj.weight": self.value_proj.weight,
+            "out_proj.weight": self.out_proj.weight,
+            "out_proj.bias": self.out_proj.bias,
+            "direct_key_proj.weight": self.direct_key_proj.weight,
+        })
+
     def derive_static_key(
         self,
         hidden_identity: torch.Tensor,

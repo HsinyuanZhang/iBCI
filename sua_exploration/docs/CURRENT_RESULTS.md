@@ -284,7 +284,20 @@ batch，不重算 E/K。`x_only` 另有不接收 identity/calibration 的部署 
 而训练框架中计算的 E 只用于公共 metric；`e_only/x_only` 均拒绝调用方注入
 direct feature。未使用的 legacy transformer 与 teacher-ID 参数被冻结，不进入
 end-to-end optimizer state。核心、adapter、旧 v1 与 formal 入口的相关回归现为
-`45 passed`。这些旁路文件仍未被生产 selector 或 v1 runner import；该实现状态
+`45 passed`。
+
+隔离的 Lightning selector 随后实现于
+`streaming_calibration_exp/src/models/decoupled_kv_v2_module.py`。它先复用 parent
+构造的公共 teacher/encoder/decoder substrate，再只把 student 替换为 v2 adapter；
+硬性锁定 `B3S`、四维 T4、calibrated identity、无 fixed slots、无 warm-start、
+无 compile 和 `world_size=1`。`e_ts4` 只打乱 decoder direct-key 的 T4，encoder
+仍接收 aligned T4。未使用的 legacy transformer/teacher-ID 模块被冻结并保持
+eval，不进入 optimizer；checkpoint 保存 teacher SHA、key 配置以及 active factor
+SHA，并在 strict state restore 后重新校验。wrapper 的 optimizer、因果路由、
+parent `model_step`、checkpoint round-trip 和 fail-closed 合同加入后，核心、
+adapter、wrapper、旧 v1、formal fixture、low-rank/key-normalization 与 SVD
+audit 的相关回归共 `55 passed`。这些旁路文件仍未被生产 selector 或 v1 runner
+import；该实现状态
 只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
 
 实际 teacher checkpoint 的只读 SVD 审计也已完成，SHA256 为

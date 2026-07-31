@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import Literal, Optional, Tuple
 
 import torch
+from torch.nn.parameter import UninitializedParameter
 
 from .decoupled_kv_v2 import (
     HiddenDecoupledKVState,
@@ -77,6 +78,7 @@ class TeacherReadinDecoupledStreamingSpint(StreamingSpintModel):
         ):
             for parameter in unused.parameters():
                 parameter.requires_grad = False
+            unused.eval()
         self._v2_initialization_receipt[
             "unused_legacy_decoder_parameters_frozen"
         ] = True
@@ -89,7 +91,37 @@ class TeacherReadinDecoupledStreamingSpint(StreamingSpintModel):
 
     @property
     def v2_initialization_receipt(self) -> dict[str, object]:
-        return dict(self._v2_initialization_receipt)
+        receipt = dict(self._v2_initialization_receipt)
+        receipt["initial_factor_sha256"] = receipt.pop("factor_sha256")
+        receipt["active_factor_sha256"] = (
+            self.decoupled_v2.factor_sha256()
+        )
+        receipt["active_trainable_parameter_count"] = sum(
+            parameter.numel()
+            for parameter in self.parameters()
+            if parameter.requires_grad
+        )
+        inactive_parameters = [
+            parameter
+            for module in (
+                self.decoder.transformer,
+                self.decoder.fc_id_in,
+                self.decoder.fc_id_out,
+            )
+            for parameter in module.parameters()
+        ]
+        receipt["inactive_legacy_parameter_count"] = sum(
+            parameter.numel()
+            for parameter in inactive_parameters
+            if not isinstance(parameter, UninitializedParameter)
+        )
+        receipt["inactive_uninitialized_parameter_tensors"] = sum(
+            isinstance(parameter, UninitializedParameter)
+            for parameter in inactive_parameters
+        )
+        receipt["legacy_transformer_active_in_v2"] = False
+        receipt["legacy_transformer_trainable"] = False
+        return receipt
 
     def _expanded_direct_features(
         self,
@@ -329,6 +361,9 @@ class TeacherReadinDecoupledStreamingSpint(StreamingSpintModel):
 
     def train(self, mode: bool = True):
         super().train(mode)
+        self.decoder.transformer.eval()
+        self.decoder.fc_id_in.eval()
+        self.decoder.fc_id_out.eval()
         if self._decoder_frozen:
             self.decoupled_v2.eval()
         return self

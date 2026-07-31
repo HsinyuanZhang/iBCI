@@ -528,9 +528,23 @@ without identity/calibration, while framework-side E is explicitly marked metric
 The e-only and x-only modes reject supplied direct features, unused legacy decoder modules
 are excluded from optimizer state, and adapter dispatch is explicit rather than relying
 on the base class's generic non-coupled branch. The combined new/legacy/formal decoupled
-suite reports 45 passing tests. Neither bypass module is imported by the active v1 screen.
-This is implementation readiness, not accuracy evidence; production-selector integration
-is conditional on the v1 result diagnosis above.
+suite initially reported 45 passing tests.
+
+An isolated Lightning selector now lives in
+`streaming_calibration_exp/src/models/decoupled_kv_v2_module.py`. It reuses the common
+teacher/encoder/decoder substrate created by the parent setup and replaces only the student
+with the v2 adapter. It fail-closes unless the run is B3S with four-dimensional T4,
+calibrated identity, no fixed slots, no warm-start, no compile and `world_size=1`.
+For e-TS4, the encoder continues to receive aligned T4 while only the decoder direct-key
+input is deterministically permuted. Inactive legacy transformer/teacher-ID modules remain
+frozen and in eval mode, checkpoint receipts bind the teacher SHA and selector config to
+the active factor SHA, and strict restore validates that active SHA after state loading.
+With optimizer, parent-model-step routing, checkpoint round-trip and fail-closed tests, the
+expanded core/adapter/wrapper/v1/formal/low-rank/key-normalization/SVD-audit suite reports
+55 passing tests. None of
+these bypass modules is imported by the active v1 screen. This is implementation readiness,
+not accuracy evidence; production-selector integration remains conditional on the v1 result
+diagnosis above.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
