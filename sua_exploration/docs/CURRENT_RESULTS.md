@@ -83,6 +83,38 @@ shell 命令。runner、validator、边界/错误 pool/label scope/Wiener receip
 seal/normalization/teacher drift 测试均已准备，独立复核为 **20 passed**；
 当前 M20 run/result 目录均不存在，formal test 未打开。
 
+### 2026-07-31 19:10 HKT：W3 decoding 增量近零，停止 shrinkage/M20
+
+完成的 aligned `T4W3@15 seed42` 固定窗口结果为 `0.525721951`。严格 selector
+相对两个冻结 anchor 给出：
+
+- `T4W3@15−ordinary T4@15 = +0.000752998`；
+- `T4W3@15−T4@50 = −0.058089297`；
+- `m20_permitted=false`，机器 selector 退出码为 3。
+
+因此 train-only future-rate proxy 上的 W3 改善没有转化为 decoding 改善：
+它相对 ordinary T4@15 的增量不足 `+0.001 R²`，且仍远低于 `−0.03` 非劣
+margin，也不满足预先冻结的 M20 分流下界。按 aligned-first 早停规则，不启动
+M20；仍在运行的 `TS4W3@15` 经逐 PID 核验后在 7/12 checkpoints 处停止并保留
+日志/checkpoints，没有生成或声称正式 control score。W3 estimator 分支至此停止。
+
+首次 evaluator 输出曾将 W3 的标签 provenance 错写为
+`false/None/None`，原因是 generic evaluator 的硬编码集合遗漏 `t4w3/ts4w3`，
+而不是训练或 side-feature 计算未使用标签。修复后 provenance 统一由解析后的
+tuning substrate 推导；独立完整回归为 **129 passed**，commit 为 `c4ac509`。
+原 invalid JSON 以 SHA-256 `0f1bfad8…65eb50` 保留；同一 12 checkpoints
+仅重跑 evaluator 后，57 个 epoch/session 数值与旧输出逐值完全相同
+（max absolute difference `0.0`），只有 `label_feature_calibration_n=15`、
+`calibration_features_use_behavior_labels=true` 和 chronological rewarded
+label scope 等 receipt 字段被纠正。纠正后的 artifact 通过 strict validator，
+formal test 未打开。
+
+冻结分流因此进入 B3T fallback。GPU0/GPU1 已分别 fresh 启动
+`T4 seed42` 与 `B3TStream+T4 seed42`；不复用 legacy T4。首个 aligned arm
+完成并释放 GPU 后再启动 `B3TStream+TS4 seed42`。seed42 只作 Stage-0：
+B3T 候选仍需同时通过相对 fresh T4 的 `−0.03` 效率非劣门、严格 T4 内容门及
+预注册成本门，才允许扩展 seeds 43/44。
+
 ### 2026-07-31 17:09 HKT：真 CMP 空间邻域先验 Stage 0 判负
 
 为区分旧 electrode-id lookup 与真正的空间关系先验，新增严格 train-only、
