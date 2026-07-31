@@ -658,8 +658,13 @@ teacher layer when K and V receive the same hidden tensor, bit-exact cached vers
 on-the-fly K execution, preservation of the explicit head dimension, K-only permutation
 semantics, aligned encoder T4, absence of E/K work from the cached online graph, and the
 pre-registered cost totals. With the adapter contracts included, the full decoupled
-regression selection reports **90 passing tests**. A Lightning selector, strict checkpoint
-schema and GPU runner remain intentionally gated on a v2 failure.
+regression selection initially reported 90 passing tests. The isolated Lightning selector
+now lives in `streaming_calibration_exp/src/models/head_oracle_module.py`; it binds mode,
+permutation seed, teacher and active-factor hashes into checkpoints, excludes the copied
+legacy transformer from the optimizer, and verifies restored factors after strict state
+loading. The expanded decoupled regression selection reports **95 passing tests**.
+Standalone checkpoint reconstruction, fixed-window evaluation and the GPU runner remain
+intentionally gated on a v2 failure.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The
 teacher `bq` term that changes unit-relative logits is projected into the rank-48 query
