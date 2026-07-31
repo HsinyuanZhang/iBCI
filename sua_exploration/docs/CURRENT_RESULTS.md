@@ -246,6 +246,17 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 改写首轮或替代 R²；artifact：
 `results/sua_t4_decoupled_kv_v1/teacher_low_rank_audit.json`。
 
+另一个 selected-anchor、strict 27-train-cache-only 审计检查了联合
+`LayerNorm([E,T4])`。1,613 个 train units 中，T4 占 `4/54=7.41%` 坐标，
+归一化后能量占比中位 `8.00%`、平均 `10.00%`，所以没有证据认为 T4 因四维
+太少而被直接淹没。但在 `e_only` counterfactual 中把 T4 四维置零，会连带改变
+前 50 维 E 的归一化坐标：relative L2 中位 `5.81%`、P90 `17.37%`。因此
+`e_only` 不是严格的“只删除 direct T4”控制，`e_t4−e_ts4` 才是主要内容检验。
+若首轮需要机制清理，下一轮可用 `W_E LN(E)+W_T LN(T4)`；该改动不能因尺度
+假说而自动启动。receipt 为 27 train caches、0 train NWB、0 validation、
+0 formal；artifact：
+`results/sua_t4_decoupled_kv_v1/key_normalization_audit_train.json`。
+
 未来 formal-held-out 入口也已在不打开 test NWB 的条件下做了兼容性修复：
 validation 与 formal 现在共享 checkpoint topology 重建，decoupled candidate 会将
 真实/TS4 key feature 送入独立 key path，zero-identity control 则同时清零

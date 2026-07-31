@@ -474,6 +474,17 @@ rank before attributing failure solely to value rank. `Dk=48,Dv=64` still gives 
 existing 50-wide identity state. This audit is not an R² result and does not alter the
 frozen `32/32` first-stage protocol.
 
+A complementary selected-anchor audit uses only the 27 strict training caches. Across
+1,613 units, T4 occupies `4/54=7.41%` of the joint key coordinates but contributes median
+`8.00%` and mean `10.00%` of the energy after affine-free joint LayerNorm. Thus simple
+four-coordinate dilution is not supported. However, replacing T4 with zeros for the
+`e_only` control also changes the normalized E coordinates: median relative L2 drift
+`5.81%`, 90th percentile `17.37%`. The `e_only` comparison is consequently not a perfectly
+isolated direct-T4 deletion, while `e_t4−e_ts4` remains the primary content test. A later
+clean-mechanism round may use `W_E LN(E)+W_T LN(T4)`, but this is not justified as a default
+capacity fix. The audit opened 27 train caches, zero NWBs, zero validation sessions and zero
+formal sessions.
+
 Confidence is deliberately excluded from this first stage. It enters the key only if Rank 3
 first establishes that calibration-block confidence is useful. Optional attention bias is
 also a later ablation, not part of the minimum candidate.
