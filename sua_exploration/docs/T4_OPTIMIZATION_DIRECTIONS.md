@@ -510,6 +510,16 @@ control cannot cache a key and costs 27,035,648 MAC/frame because its per-frame 
 projection adds 1,572,864 MAC. These figures are a source-derived design budget, not an
 R² result or measured end-to-end latency.
 
+An isolated implementation scaffold now exists in
+`streaming_calibration_exp/src/models/components/decoupled_kv_v2.py`. It is deliberately
+not imported by `StreamingSpintModel` or the v1 runner while the sequential five-arm v1
+screen is in flight. Its CPU contracts cover the weight-only, Q/K/V-bias-omitting SVD
+orientation and score scale, the non-equivalence to 64 head-wise softmaxes, a dedicated
+dynamic `K(h_x),V(h_x)` path with no direct-feature call or cache, exact static/dynamic
+cost receipts, projected-K-only state, gradients and unit permutation. The related
+decoupled suite reports 31 passing tests. This is implementation readiness, not accuracy
+evidence; integration is conditional on the v1 result diagnosis above.
+
 The v1 result determines which optimization is justified:
 
 - if epochs 9–12 are still improving coherently, extend the matched training budget

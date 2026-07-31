@@ -267,6 +267,15 @@ decoder MAC/frame，相对 coupled 下降 `56.08%`；`K[N,48]` 为 12,288 B，
 27,035,648 MAC/frame、persistent key state 为 0。这是失败后下一轮的设计
 预算，不是当前精度或整机 latency 结果。
 
+该 v2 的旁路核心已实现于
+`streaming_calibration_exp/src/models/components/decoupled_kv_v2.py`，但在 v1
+五臂全部结束前**没有**接入 `StreamingSpintModel` 或训练 runner，避免后启动的
+v1 arms 读到不同实现。当前 CPU 合同覆盖 teacher weight-only/bias-omitting
+SVD 的 Q/K scale 与 V/out 方向、single-head/64-head 非等价边界、独立
+`K(h_x),V(h_x)` 动态控制、只缓存 projected K、static/x-only 精确成本、
+direct-T4 零初始化、梯度和 unit permutation；相关 decoupled 回归为
+`31 passed`。该实现状态只证明 follow-up 可以按预注册方式接线，不是 R² 结果。
+
 另一个 selected-anchor、strict 27-train-cache-only 审计检查了联合
 `LayerNorm([E,T4])`。1,613 个 train units 中，T4 占 `4/54=7.41%` 坐标，
 归一化后能量占比中位 `8.00%`、平均 `10.00%`，所以没有证据认为 T4 因四维
