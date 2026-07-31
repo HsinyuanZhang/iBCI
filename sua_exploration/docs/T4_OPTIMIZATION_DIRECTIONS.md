@@ -687,7 +687,8 @@ Production-shape CPU smoke with the actual teacher checkpoint verifies both alig
 K-only-permuted forward paths, `[B,N,512]` projected K state and cached decode. The new
 protocol/tamper suite reports **5 passing tests**, while the selected oracle
 core/adapter/module/runtime/protocol suite reports **22 passing tests**. Both runner
-commands pass shell and dry-run audits. The post-v2 watcher is active as PID `812065`;
+commands pass shell and dry-run audits. The detached post-v2 watcher is active and records
+its state in `results/sua_t4_head_oracle_v1/logs/evidence_gated_post_v2_watcher.log`;
 the oracle itself remains unlaunched and therefore has no R² result yet.
 
 The initialization was subsequently tightened from weight-only to an affine proxy. The

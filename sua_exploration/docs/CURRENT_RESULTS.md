@@ -370,10 +370,12 @@ v2 seed-42 同时通过 coupled `−0.03` non-inferiority 和真实 T4 content g
 才为 seeds 43/44 各自先生成 paired v1 coupled baseline、再运行四个 v2 arms
 并聚合三 seed。
 
-v2 失败后的等待也已消除：独立 post-v2 watcher（PID `812065`）在严格复算
+v2 失败后的等待也已消除：独立、detached 的 post-v2 watcher 在严格复算
 四个 v2 artifact 和 seed-42 aggregate 后，只在两个 v2 候选都失败时并行启动
 完整 64-head exact-head oracle 的 `E-T4/E-TS4` 两臂；若 v2 通过，它立即退出并
-把两卡留给原 v2 seeds 43/44 扩展。oracle 完成后只生成诊断 aggregate，不自动
+把两卡留给原 v2 seeds 43/44 扩展。当前存活状态可由
+`results/sua_t4_head_oracle_v1/logs/evidence_gated_post_v2_watcher.log` 审计；
+oracle 完成后只生成诊断 aggregate，不自动
 进入 M15、formal held-out 或 INT8。
 
 exact-head oracle 的独立执行链现已完整，包括 trainer、严格 checkpoint runtime、
