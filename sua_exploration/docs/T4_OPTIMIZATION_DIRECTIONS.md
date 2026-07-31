@@ -476,6 +476,40 @@ rank before attributing failure solely to value rank. `Dk=48,Dv=64` still gives 
 existing 50-wide identity state. This audit is not an R² result and does not alter the
 frozen `32/32` first-stage protocol.
 
+The source audit also exposes a second, distinct confound that width alone does not fix.
+The coupled teacher applies its pretrained `fc_in: 50→512→512` MLP to
+`x_i+E_i`; the Stage-0 decoupled path instead feeds raw 50-bin activity directly to a
+new random `50→32` value projection. Thus a large v1 accuracy loss cannot be attributed
+to key/value factorization alone: it may reflect removal of the teacher activity read-in
+and simultaneous random initialization of Q/K/V/out. If v1 fails beyond the `−0.03 R²`
+deployment margin, the first representation-preserving follow-up is pre-registered as:
+
+```text
+h_E_i = teacher_readin(E_i)
+h_x_i = teacher_readin(x_i)
+K_i = low_rank_key(h_E_i, T4_i)       # calibration-time, then cached
+V_i = low_rank_value(h_x_i)           # online
+```
+
+The candidate must initialize the low-rank attention maps from the teacher Q/K bilinear
+map and effective `Wo@Wv` map (or use an explicitly declared prediction-distillation
+warm-up); it may not compare another fully random small decoder and call the result a
+factorization test. With `Dk=48,Dv=64`, `N=64`, `C=2`, `D=512`, and the same counted
+Linear/attention/FFN MAC convention, this read-in-preserving path is estimated at
+25,462,784 decoder MAC/frame versus 57,970,688 for coupled (`−56.08%`). Its cached
+`K[N,48]` is 12,288 B, still `4%` smaller than `E[N,50]`; the static key projection
+adds 1,585,152 calibration-only MAC. These figures are a source-derived design budget,
+not an R² result or measured end-to-end latency.
+
+The v1 result determines which optimization is justified:
+
+- if epochs 9–12 are still improving coherently, extend the matched training budget
+  before changing capacity;
+- if the curve has plateaued and direct T4 content is positive, test `48/64` capacity;
+- if the curve has plateaued with a large coupled gap, use the read-in-preserving,
+  teacher-initialized/distilled candidate above rather than width-only random Q/K/V;
+- if `e_t4−e_ts4` is non-positive, do not claim that direct T4-conditioned keys work.
+
 A complementary selected-anchor audit uses only the 27 strict training caches. Across
 1,613 units, T4 occupies `4/54=7.41%` of the joint key coordinates but contributes median
 `8.00%` and mean `10.00%` of the energy after affine-free joint LayerNorm. Thus simple

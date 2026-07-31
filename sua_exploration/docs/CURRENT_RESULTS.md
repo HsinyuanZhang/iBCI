@@ -249,6 +249,18 @@ encoder 始终接收对齐的真实 T4，避免把 encoder 内容破坏误算成
 改写首轮或替代 R²；artifact：
 `results/sua_t4_decoupled_kv_v1/teacher_low_rank_audit.json`。
 
+源码审计同时发现，v1 不只改变 K/V 语义：它还移除了 coupled teacher 的
+预训练 `fc_in: 50→512→512` activity read-in，并用随机 `50→32` value
+projection 直接处理原始活动。因此 v1 若明显掉点，不能直接归因于“静态 key
+无效”。预注册的 representation-preserving v2 会分别计算
+`h_E=teacher_readin(E)`、`h_x=teacher_readin(x)`，再由 `[h_E,T4]` 生成静态
+low-rank key、由 `h_x` 生成在线 value，并用 teacher Q/K bilinear 与
+`Wo@Wv` 的低秩分解初始化（或显式声明短 prediction-distillation warm-up）。
+在 `Dk=48,Dv=64,N=64` 的同一配置计数下，该路径约为 25,462,784
+decoder MAC/frame，相对 coupled 下降 `56.08%`；`K[N,48]` 为 12,288 B，
+仍比 `E[N,50]` 少 `4%`。这是失败后下一轮的设计预算，不是当前精度或整机
+latency 结果。
+
 另一个 selected-anchor、strict 27-train-cache-only 审计检查了联合
 `LayerNorm([E,T4])`。1,613 个 train units 中，T4 占 `4/54=7.41%` 坐标，
 归一化后能量占比中位 `8.00%`、平均 `10.00%`，所以没有证据认为 T4 因四维
