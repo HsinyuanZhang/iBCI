@@ -2,7 +2,9 @@
 # Local agent, IDE, and operating-system state
 # ---------------------------------------------------------------------------
 .agents/
+.claude/
 .codex/
+.cursor/
 .planning/
 .qoder/
 .idea/
@@ -12,6 +14,9 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Managed and synchronized as an independent nested Git repository.
+/bci_paper_overleaf/
 
 # ---------------------------------------------------------------------------
 # Python environments, caches, coverage, and build products
