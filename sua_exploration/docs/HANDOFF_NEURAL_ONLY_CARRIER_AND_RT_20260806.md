@@ -189,7 +189,7 @@ Zero4 和 source-lineage 问题仍限制跨臂机制归因，但不改变 matche
 #### 3.5.1 2026-08-06 完成态审计
 
 权威 receipt：`../results/n4_m2_m24_heldout_v1/audit.json`（SHA-256
-`d503f2425ef8eec65f4a01369bf78c6522fd555ed81cc51307030005c2714fe6`）。两臂均为 fold 0、seed 42，
+`7a759f5e4c447d960ff0767f2c111df5c899c99c8bd63d9cc4d3d89203e38023`）。两臂均为 fold 0、seed 42，
 使用同一 6 个 held-out session、chronological support `[0,24)`、`query_start=24`，所有
 query window 均通过 full-history disjoint 审计。
 
