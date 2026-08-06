@@ -1,7 +1,41 @@
 # Current Results: SUA/MUA Shared Encoder
 
 **状态：当前结果摘要**  
-**更新：2026-07-31**
+**更新：2026-08-06 12:46 HKT**
+
+## 2026-08-06 12:46 HKT：N4 无标签载体在 M24 held-out 上归零，支持 T4 的任务对齐信息而非静态发放统计承重
+
+为检验“不使用任何行为标签，仅凭逐通道神经统计量是否足以复制 T4”，完成了宽度匹配的
+N4/NS4 对照。N4 从 chronological calibration prefix 内为每个通道计算四维
+`[mean_rate, Fano, lag-1 autocorrelation, population coupling]`，不读取 target direction、
+velocity 或其他行为量；NS4 对完整 N4 descriptor 作确定性跨通道行置换。两臂使用相同
+`side_dim=4`、网络族、fold、seed、support/query 边界和 held-out sessions，因此
+`N4−NS4` 是当前实验中可作机制解释的 matched contrast。
+
+M33 held-in LOSO screen 上，N4 相对 NS4 的 last-validation mean 为
+`0.533608−0.524008=+0.009600 R²`，6/7 folds 为正，但 paired `mean±2SE` 为
+`[-0.027319,+0.046518]`，leave-one-fold-out mean 可为负。这一 M33 弱 internal signal 没有在
+更低预算的 M24/q24 chronological-disjoint local held-out endpoint 上复现：
+
+| M24 held-out arm | 6-session mean R² | matched delta |
+|---|---:|---:|
+| N4 | `0.175550` | `+0.001588` vs NS4 |
+| NS4 | `0.173962` | — |
+
+逐 session `N4−NS4` 为
+`[-0.057608,+0.005310,-0.007598,-0.006903,+0.050795,+0.025533]`，仅 3/6 为正；
+paired SE `0.014910`，`mean±2SE=[-0.028232,+0.031408]`。因此正确的 channel attachment
+相对 row-shuffled control 没有可辨识收益，当前 N4 不能作为 T4 的无标签替代物，也不值得
+补跑更多 seed。
+
+这一结果为 T4 提供的是**有边界的机制支持**：仅向网络提供 session-stable 的静态发放率、
+离散度和相关性统计，不足以产生 T4 已观察到的 held-out 功能身份收益；真正值得保留的候选
+解释是 carrier 与任务变量之间的响应关联。它不能单独证明所有无标签/自监督表示都无效，
+也不能直接证明标签普遍必需。尤其本次 N4/NS4 使用 source fold 0，而旧冻结 M24 F0/T4
+使用 fold 1；非匹配背景差值 `N4−F0=+0.001649`、`N4−T4=-0.051236` 不得作为
+matched attribution。权威 receipt：
+`results/n4_m2_m24_heldout_v1/audit.json`；详细方法边界见
+`docs/HANDOFF_NEURAL_ONLY_CARRIER_AND_RT_20260806.md`。
 
 ## FP32 T4 主线补强与 INT8 接续
 
