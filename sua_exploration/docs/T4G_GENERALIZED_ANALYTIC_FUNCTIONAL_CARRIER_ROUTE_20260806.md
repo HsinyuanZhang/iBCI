@@ -1,8 +1,25 @@
 # T4G 路线：Generalized Analytic Functional Carrier（通用解析功能载体）
 
 **日期：2026-08-06**
-**状态：研究路线与实施锁定草案；不是 GPU、formal held-out 或 EvalAI 的启动授权。**
+**状态：Phase 0 的 circular primitive/合约测试与 Phase 1 native-M2 精确约化已通过；RT/M1 efficacy 尚未开始。本文不是 GPU、formal held-out 或 EvalAI 的启动授权。**
 **范围：**把现有 T4 放入一个更一般、但仍然低计算量和 target-session 无反向传播的载体家族。本文不修改、不中止、也不重新解释正在运行的 N4/NS4 作业。
+
+### 2026-08-06 实施进展
+
+已新增独立实现 `streaming_calibration_exp/src/data/afc4_features.py`，其 API 只接收 calibration response sums、exposure 与 source-declared 二维 task basis，不存在 query 输入；实现了截距不罚的闭式 OLS/ridge、circular specialisation、source-only normalizer、确定性 descriptor-row shuffle 和 label permutation。合约测试
+`streaming_calibration_exp/tests/test_afc4_features.py` 共 `5/5` 通过，包括合成系数回收、rank/shape fail-closed、shuffle 确定性，以及 circular AFC4 与 T4 的精确约化。
+
+Phase 1 receipt 为 `../results/t4g_m2_circular_equivalence_v1/audit.json`。审计采用 native-M2 fold 1 / seed 42 的真实 held-in 数据和各 budget 的真实冻结 B3S checkpoint，分别检查 `M=24` 与 `M=33`；每个 budget 均包含 6 个 source-train session 和 1 个 LOSO source-validation session，未构造 formal held-out dataset，也未读取 query label/covariate。结果如下：
+
+| 层级 | M=24 最大绝对误差 | M=33 最大绝对误差 |
+|---|---:|---:|
+| pre-normalization descriptor | `0.0` | `0.0` |
+| source-only mean / std | `0.0 / 0.0` | `0.0 / 0.0` |
+| normalized descriptor | `0.0` | `0.0` |
+| frozen row-shuffled descriptor | `0.0` | `0.0` |
+| real-checkpoint B3S encoder output（aligned / shuffled） | `0.0 / 0.0` | `0.0 / 0.0` |
+
+M24 每个 session 的 24-trial prefix 中有 12 个 finite directional trial、12 个 centre/rest unlabeled trial；M33 中为 16 个 finite directional trial、17 个 centre/rest unlabeled trial。所有 14 个 budget×session design 均为 rank 3，condition number 为 `1.584–2.643`。因此现在可以作出的结论是：**当 basis 为 `[cosθ,sinθ]`、`λ=0`，并锁定相同 exposure、valid mask、source normalizer 与 B3S checkpoint 时，`afc4_circ` 在实现层面就是 native T4 的精确特例。**这只通过了正确性 gate，不代表 AFC4 在 RT/M1 上已经带来新的 R² 增益。
 
 ## 1. 结论先行
 
