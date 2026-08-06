@@ -2,7 +2,7 @@
 
 **日期：2026-08-06**
 **给：负责执行的 AI / 研究者**
-**状态：实验 A 的 M24 CPU 预检和 M33 held-in LOSO Stage 1 已完成；Stage 1 按预声明符号门机械通过但效应弱，M24 held-out 尚未启动。实验 B（RT）未启动。**
+**状态：实验 A 的 M24 CPU 预检、M33 held-in LOSO Stage 1 和 M24 chronological-disjoint held-out 均已完成；held-out 上 N4−NS4 仅 +0.00159 R²（3/6 session 正），没有有意义的载体特异性证据。实验 B（RT）未启动。**
 
 **前置阅读（数字引用前必读）**
 
@@ -155,9 +155,9 @@ F0 回答"有没有逐通道标签值多少分"，回答不了"这个标签是�
 #### 3.4.1 2026-08-06 完成态审计
 
 权威本地 receipt：`../results/n4_m2_internal_loso_v1/audit.json`（SHA-256
-`95d292a3cecf06c9687a3b0bbefc721e19670d1ade0bed5bcb6fb16fa9241126`）。正式集合为原始顺序
+`3869867a305b690efc4badacbb3c8bb085b7f96d7badbbb02257f15dbeba95c9`）。正式集合为原始顺序
 launcher 产生的 `N4/NS4 × folds 0..6 × seed42` 共 14 cells；一个 N4 1-epoch smoke
-和 11:40 左右两条额外 fold-0 run 已排除。所有正式 cells 都有 finite test metric；
+和 11:40 左右两条独立的 **M24 held-out** fold-0 run 已从本 M33 internal aggregate 排除（它们不是重复 run，见 §3.5）。所有正式 cells 都有 finite test metric；
 N4 均到 epoch 11，NS4 fold5 在共同 EarlyStopping 规则下止于 epoch 10，因此同时报告
 两种既有指标口径，禁止结果后选择较好者。
 
@@ -173,10 +173,8 @@ session bootstrap 95% 区间为 `[-0.02794,+0.03959]`，leave-one-fold-out mean 
 `+0.01 R²`、区间跨零且有一个明显反向 fold，是 weak/indeterminate efficacy
 signal。**它不能证明 held-out 有效、不能证明 N4 接近 T4，也不能支持“标签不重要”。
 
-Stage 1 通过只使 M24 held-out 成为条件性候选，不自动授权启动。Stage 2 前仍须：统一
-fail-closed 与当前 `fill_median` 退化政策、冻结唯一 checkpoint/metric rule、核对 N4/T4
-实际 neural exposure、加入 width-matched Zero4、补 estimator/no-leakage tests，并锁定
-source fold/seed/checkpoint lineage。
+Stage 1 当时只构成启动 held-out 的弱筛选信号；随后完成的 Stage 2 见下一节。退化政策、
+Zero4 和 source-lineage 问题仍限制跨臂机制归因，但不改变 matched N4−NS4 已经接近零的事实。
 
 ### 3.5 阶段 2：冻结 M24 held-out（仅在阶段 1 通过后）
 
@@ -187,6 +185,29 @@ source fold/seed/checkpoint lineage。
 - **G1 有效性**：`N4 − F0 ≥ +0.03`
 - **G2 特异性**：`N4 − NS4 > 0`
 - **G3 非劣（本实验的真问题）**：`N4 − T4 ≥ −0.03`
+
+#### 3.5.1 2026-08-06 完成态审计
+
+权威 receipt：`../results/n4_m2_m24_heldout_v1/audit.json`（SHA-256
+`d503f2425ef8eec65f4a01369bf78c6522fd555ed81cc51307030005c2714fe6`）。两臂均为 fold 0、seed 42，
+使用同一 6 个 held-out session、chronological support `[0,24)`、`query_start=24`，所有
+query window 均通过 full-history disjoint 审计。
+
+| 臂 | held-out mean R² | 与另一臂之差 |
+|---|---:|---:|
+| N4 | 0.175550 | +0.001588 vs NS4 |
+| NS4 | 0.173962 | — |
+
+逐 session 的 `N4−NS4` 为
+`[-0.05761,+0.00531,-0.00760,-0.00690,+0.05079,+0.02553]`：仅 **3/6** 为正，
+paired SE `0.01491`，`mean ± 2SE=[-0.02823,+0.03141]`。所以 G2 虽按“均值大于零”这个
+过弱的标量规则机械过线，但实际效应约为零且没有跨 session 一致性。**正确结论是：N4
+在 local held-out 上没有显示正确 channel attachment 相对 row shuffle 的有意义收益。**
+
+旧冻结 F0/T4/K4/KS4 receipt 是 fold 1，而本次 N4/NS4 是 fold 0；因此虽然 session、M24、
+query window 与 seed 相同，source train/validation split 和 checkpoint 不同。仅作非匹配背景，
+`N4−F0=+0.00165`、`N4−T4=-0.05124`；二者不得包装成 matched G1/G3 机制检验。
+但 G2 已经近零，足以否定当前四维 N4 作为 T4 替代物的主要假设，不值得为它补跑更多 seed。
 
 **关于 `+0.03` 这个数字的重要说明（勿误用）**：它是 M24 K4 cell **当时为该 cell 预先声明的效应门**，**不是**本程序已冻结的全局效应下限。`carrier_perf/protocol.py` 中的 `PRACTICAL_EFFECT_FLOOR` **故意保持为 `None`**，并有单测 `test_no_prewritten_effect_floor` 守着；P0N 明确要求"在 `fold2_seed43` 存在且有经审阅的 receipt 冻结之前，不得写入 `PRACTICAL_EFFECT_FLOOR` 或 GPU 阈值"，而 `fold2_seed43` 至今缺失（见 `../carrier_perf_program/docs/PROGRAM_STATUS.md` P0N 行）。
 

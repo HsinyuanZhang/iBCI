@@ -1,0 +1,72 @@
+{
+  "schema": "n4_m2_m24_heldout_audit_v1",
+  "created_at": "2026-08-06T13:10:00+08:00",
+  "status": "COMPLETE_MATCHED_N4_NS4_NO_HELDOUT_SPECIFICITY",
+  "scope": {
+    "task": "FALCON M2",
+    "evaluation": "local chronological-disjoint held-out replay; held out from fit, not hidden EvalAI test",
+    "calibration_trials": 24,
+    "query_start_trial": 24,
+    "fold": 0,
+    "seed": 42,
+    "heldout_sessions": 6,
+    "arms": [
+      "N4",
+      "NS4"
+    ]
+  },
+  "run_directories": {
+    "N4": "streaming_calibration_exp/outputs/streaming_calibration/B3S_f0_s42_20260806_114002",
+    "NS4": "streaming_calibration_exp/outputs/streaming_calibration/B3S_f0_s42_20260806_114007"
+  },
+  "heldout_r2": {
+    "N4_mean": 0.17555045,
+    "NS4_mean": 0.17396224,
+    "mean_delta_N4_minus_NS4": 0.00158822,
+    "positive_sessions": 3,
+    "n_sessions": 6,
+    "paired_sd": 0.036521624,
+    "paired_se": 0.01490989,
+    "mean_plus_minus_2se": [
+      -0.028231561,
+      0.031408001
+    ],
+    "per_session_delta": {
+      "ses-2020-10-30-Run1": -0.05760779,
+      "ses-2020-10-30-Run2": 0.00530973,
+      "ses-2020-11-18-Run1": -0.00759783,
+      "ses-2020-11-19-Run1": -0.00690268,
+      "ses-2020-11-24-Run1": 0.05079489,
+      "ses-2020-11-24-Run2": 0.025533
+    }
+  },
+  "predeclared_gate_readout": {
+    "G2_rule": "N4 - NS4 > 0",
+    "G2_scalar_pass": true,
+    "G2_consistency": "3/6 sessions positive",
+    "interpretation": "The scalar sign is mechanically positive, but the effect is only +0.00159 R2, balanced 3/6 by session, and its 2SE interval crosses zero widely. This is no meaningful held-out evidence that the correctly attached N4 content helps relative to its row-shuffled control."
+  },
+  "cross_lineage_comparator_warning": {
+    "frozen_reference_fold": 1,
+    "n4_ns4_fold": 0,
+    "frozen_reference_means": {
+      "F0": 0.1739009667,
+      "T4": 0.2267863783
+    },
+    "unmatched_operational_differences": {
+      "N4_minus_F0": 0.0016494833,
+      "N4_minus_T4": -0.0512359283
+    },
+    "interpretation": "The held-out sessions, M24 boundary, query windows, and seed match, but source train/validation fold and checkpoints do not. These differences may be quoted only as unmatched operational context, not as matched G1/G3 mechanism attribution."
+  },
+  "artifact_sha256": {
+    "N4_metrics_per_session.csv": "f5a902cc46582f9971b30c460e357c8a10eb096c02cb0286a36f6c64e0da3580",
+    "N4_metrics_summary.csv": "1c048ddebdd07dfca9e02c3d7b7db02981c9d0eed72a0429718c24b634320b8a",
+    "N4_split_manifest.json": "3e01f98df03bd9146c6dc1c304cfe0ce81bcf63aa3c3dec9a16528cd48880ced",
+    "N4_checkpoint_manifest.json": "8346bb4733e90f37e8f175b7424c1e77fbf2827aecab81a61b32f0aab7dbb362",
+    "NS4_metrics_per_session.csv": "4c3f1aec0f55c1e0534f2d902eab20f29e9ec067ac1ec659b8c1f65fd4d59f1a",
+    "NS4_metrics_summary.csv": "98e91e4fd2e96663792397e75f0d963ae07ef2a422ab340c824004d5e12a0ff2",
+    "NS4_split_manifest.json": "372e1deba6d02e729dd2a04d7c3a6b6e5230ca1a874d124f531b2ab887cde5bf",
+    "NS4_checkpoint_manifest.json": "93513be7e8c05dc1a14489535dc661334c412535f0b9008ba23e62b64fff7b74"
+  }
+}

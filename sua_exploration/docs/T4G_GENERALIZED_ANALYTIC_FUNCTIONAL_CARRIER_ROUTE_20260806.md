@@ -26,11 +26,13 @@ T4 的有价值部分不是 `sin/cos` 这两个数本身，而是一个部署契
 > **N4 状态边界（2026-08-06）：**M33 held-in LOSO Stage 1 已完成。N4 相对 NS4 在
 > last-validation / selected-checkpoint 两个口径分别为 `+0.009600`（6/7 folds 正）和
 > `+0.010004`（5/7 正），所以按预声明的纯符号门机械通过；但两种不确定区间都跨零，且
-> leave-one-fold-out mean 可为负。这是 weak internal attachment signal，不是 held-out
-> efficacy、不是 `N4≈T4`、也不是标签结论。M24 matched held-out 尚未运行，因此不得把
-> N4 写入论文结果段或路线终止结论。权威本地 receipt 为
-> `../results/n4_m2_internal_loso_v1/audit.json`（SHA-256
-> `95d292a3cecf06c9687a3b0bbefc721e19670d1ade0bed5bcb6fb16fa9241126`）。
+> leave-one-fold-out mean 可为负。随后完成的 M24 chronological-disjoint local held-out
+> 上，`N4=0.175550`、`NS4=0.173962`，即 `N4−NS4=+0.001588` 且仅 3/6 session 为正，
+> 没有有意义的 held-out attachment evidence。N4/NS4 使用 fold 0，而旧冻结 F0/T4 使用
+> fold 1，所以跨谱系差值只能作背景、不能作 matched attribution；但 matched N4−NS4
+> 已足以停止当前 N4 替代物。权威 receipts 为
+> `../results/n4_m2_internal_loso_v1/audit.json` 与
+> `../results/n4_m2_m24_heldout_v1/audit.json`。
 
 ### 2.1 已核验的事实
 
@@ -38,7 +40,7 @@ T4 的有价值部分不是 `sin/cos` 这两个数本身，而是一个部署契
 2. native T4 的实际估计式是每 trial rate 上的连续角度一阶谐波最小二乘；其输出为 `[a,c,sqrt(a^2+c^2),b]`，并对 rank-deficient design fail-closed。M2 的 `theta` 是相对于 `(0.5,0.5)` 的 target polar angle；M1 的 `theta` 是 `tgt_loc` 中的方位角。这和 SUA 的“8 canonical direction、逐方向均值”实现不是同一个 estimator，跨 setting 绝不可把二者都笼统称为同一个 T4 数值。
 3. RT 的 trial-level `target_dir` 在 15/15 sub-C RT session 中为 rank-1；普通 T4 在该任务是**未定义**，不是一个可参与 `T4` vs `AFC4` 胜负比较的弱基线。RT 具有连续 `Position/Velocity/Acceleration`，且一个 trial 含多次 reach；整 trial 平均 velocity 已被既有审计证明会抵消运动方向，不能作为 AFC4 条件变量。
 4. M1 的输出是 16-D EMG，而现有 T4 用目标方位角。M1 的旧 support/query overlap 结论已被撤回；仓库已有的可构造 local development endpoint 是 support `[0,10)`、checkpoint selection `[10,210)`、sealed report `[210,end)`。已完成的 D4、学习式 E4 与 temporal-prototype 分支各有自己的停机结论，不能把 AFC4-EMG 偷换成这些已停止分支的 rescue。
-5. 现有 M2 N4 CPU precheck 已标记为 `completed_cpu_only` 且通过其 split-half gate；随后 M33 held-in LOSO Stage 1 也按其预声明符号门机械通过，但效应弱且不确定区间跨零。两者都不是 held-out efficacy、更不是关于标签的最终证据。更重要的是，脚本和 production datamodule 实际传入 `degeneracy_policy="fill_median"`，而相关 handoff 写的是 fail-closed/`raise`。所以这些结果可作为当前实现的 exploratory/internal signal，**不能在未重新核对或修复政策一致性前作为严格 deployment gate 的唯一依据**。
+5. 现有 M2 N4 CPU precheck 通过 split-half gate，M33 held-in LOSO Stage 1 按其预声明符号门机械通过但效应弱；真正的 M24 local held-out 上 `N4−NS4=+0.001588`、3/6 session 正，当前 N4 的正确 attachment 没有可辨识收益。脚本和 production datamodule 实际传入 `degeneracy_policy="fill_median"`，而相关 handoff 写的是 fail-closed/`raise`；这进一步限制严格 deployment claim，但不是 held-out 近零效应的解释性补救。该结果排除的是当前四维 N4，不证明所有无标签载体都无效，也不单独证明 T4 标签机制。
 
 ### 2.2 如果未来观察到“N4 显著不如 T4”，什么时候才支持标签—响应关联重要？
 
