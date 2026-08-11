@@ -2,14 +2,18 @@
 
 **Updated:** 2026-08-11 HKT
 
-**Purpose:** live processes, terminalization state, and cleanup queue only
+**Purpose:** live processes, terminalization state, and cleanup state only
 **Scientific authority:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
+
+**Non-A2 live state:** no RT or H1 process is active; both accuracy programs are terminal. Separately owned
+supervision-density controls are intentionally outside this board. The stale dead H1 Phase-2 preflight tmux session
+was removed during the final live-state audit.
 
 This file is intentionally short. Historical queues, proposals, launch incidents, and closed hypotheses belong in
 immutable receipts or Git history, not in the live control surface.
 
-## 1. Active mainline — RT sparse endpoint carrier
+## 1. Terminal mainline — RT sparse endpoint carrier
 
 | field | frozen value / current state |
 |---|---|
@@ -38,7 +42,8 @@ folds4--14 B2 gate also passes with mean/median `+0.311178/+0.304175` and 11/11 
 `c36ec0e31ed913ed4e8077f9a4d9d634d53529ce037ad06af1f48d279b16820e`.
 
 These values may be written as terminal development evidence. Dense Full is separate context only: its mean is
-`0.445189` versus T4d `0.448176` (average difference `+0.002987`), without a superiority/equivalence claim. Do not
+`0.445189` versus T4d `0.448176` (average difference `+0.002987`), without a superiority, equivalence, or
+non-inferiority claim. Do not
 describe endpoint-derived RT labels as native annotation-cost evidence.
 
 ## 2. Completed RT terminal sequence
@@ -77,7 +82,7 @@ checked the exact 5×5 grid, fixed checkpoint/config lineage, shared queries, un
 backpropagation. CI64 retains positive content and attachment contrasts, but doubling the interface width is
 negative on average and fails both the historical width condition and the predeclared `+0.03` practical gate.
 
-## 4. Closed results relevant to the active decision
+## 4. Closed results and scope boundaries
 
 | route | terminal result | disposition |
 |---|---|---|
@@ -86,7 +91,7 @@ negative on average and fails both the historical width condition and the predec
 | H1 all-source official | held-out `0.274939±0.127206` vs paper-LR SPINT `0.261492±0.148717` | system-level dense-covariate evidence |
 | M1 carrier content | official T4 below Original; matched EMG-AFC4 `−0.00652` | negative boundary; no rescue |
 
-## 5. Documentation closure queue
+## 5. Documentation maintenance state
 
 1. keep `HANDOFF_MAINLINE_CLOSURE_20260811.md` as the sole current handoff;
 2. keep README and ROADMAP concise and pointing to that handoff;
@@ -94,6 +99,10 @@ negative on average and fails both the historical width condition and the predec
 4. keep the completed terminal sparse-RT replacement consistent across both Overleaf sources;
 5. keep the terminal H1 CI64 width result in its secondary compact-consumer role;
 6. demote older `HANDOFF_*`, `AGENT_BRIEF_*`, and dated reviews to historical/archive status.
+
+All six items are complete for the RT/H1 scope. The six-page H1 organizer-held wording now states only that the
+organizer-reported mean is higher, and the matched H1 content figure includes its five-date bootstrap interval;
+Overleaf commit `c0cbc52` is synchronized with its remote.
 
 The terminal RT paper update has been applied at the following locations:
 
@@ -109,26 +118,35 @@ The terminal RT paper update has been applied at the following locations:
 
 The dense Full/B2 result remains a separate historical estimand. The sparse T4d mainline reports
 T4d--Zero4 and T4d--exact-query B2; its comparison with dense Full is retained only as a separate arm-mean context
-statement, without fold-wise detail or a superiority/equivalence claim. Preserve the Stage0B/Stage1 constructibility result as a separate layer, remove only the terminal-accuracy
+statement, without fold-wise detail or a superiority, equivalence, or non-inferiority claim. Preserve the
+Stage0B/Stage1 constructibility result as a separate layer, remove only the terminal-accuracy
 `pending` language, and retain the caveat that endpoint-derived directions do not restore a native annotation-cost
 claim. Any `single-seed RT` or `RT $\pm2$SE` sentence must name whether it describes historical dense Stage-R or
 sparse Stage-2. Broad `sparse trial- or event-level supervision` language must distinguish endpoint-derived RT
 evidence from the negative H1 sparse-scalar boundary; historical `+0.2799/+0.2775` continuous-velocity contrasts
 remain dense Full--B4/Zero4 results.
 
-The former 12/14-fold placeholders are obsolete now that the terminal bundle and B2 companion have closed. Replace
-them in place; do not retain a second partial-results table beside the terminal table.
+The former 12/14-fold placeholders were removed when the terminal bundle and B2 companion closed; do not
+reintroduce a partial-results table beside the terminal table.
 
 No active protocol/script/test/receipt-referenced document may be deleted merely because its conclusion is old.
 
-## 6. Post-terminal cleanup and GitHub queue
+## 6. Post-terminal cleanup and GitHub state
 
 RT and H1 terminal runners have exited. A fresh process, handle, path-reference, size, and SHA audit found 60
 `periodic_ckpt/last.ckpt` aliases under the completed RT-R4 budget-response root that were byte-identical to their
 same-run retained `best_ckpt/last.ckpt` peers. All 60 periodic paths were preserved as hardlinks to those peers,
 reclaiming 3,886,714,880 allocated bytes (about 3.620 GiB). The pre/post audit, every path pair, SHA, mode, inode
 transition, and recovery rule are recorded in
-`sua_exploration/manifests/rt_r4_periodic_last_hardlink_dedup_20260811.json`;
+`sua_exploration/manifests/rt_r4_periodic_last_hardlink_dedup_20260811.json`.
+
+A separate audit of the terminal Stage-2 source root then proved 14 same-run `last.ckpt` aliases byte-identical to
+retained epoch checkpoints and unreferenced by receipts. Those paths were converted to hardlinks, preserving every
+path, SHA, and selected-epoch receipt binding while reclaiming `906,891,264` allocated bytes. Manifest:
+`sua_exploration/manifests/rt_terminal_stage2_last_ckpt_hardlink_dedup_20260811.json`, SHA
+`e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`. Source/canonical result bundles, split
+manifests, selected epochs, and unique logs remain untouched.
+
 - retain all immutable receipts, terminal aggregates, query digests, and canonical best checkpoints;
 - do not commit generated JSON results, checkpoints, logs, `results/`, or `pilot_artifacts/`;
 - run focused tests and `git diff --check`;
@@ -150,6 +168,6 @@ receipts. No active protocol, terminal artifact, or paper source was moved.
 
 - No new T4/RT architecture or label-budget arms after viewing these target results.
 - No CI64-driven H64 escalation in this closure.
-- No quantization work before the FP32 scientific result is frozen.
+- Quantization is deferred and is not authorized by this closure board.
 - No M1 rescue, H1 carrier redesign, deeper FiLM, attention, fixed-K, or label-free carrier experiments.
 - Any missing provenance/query/no-BP invariant causes fail-closed terminalization, not post-hoc repair of the score.
