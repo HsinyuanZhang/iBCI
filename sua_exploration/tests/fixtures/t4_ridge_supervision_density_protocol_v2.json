@@ -1,0 +1,99 @@
+{
+  "schema": "t4_ridge_supervision_density_protocol_v2",
+  "protocol_id": "t4_ridge_supervision_density_portable_v2_20260811",
+  "source_snapshot_sha256": "760b542aae5d1f99fb3b8dda086927bc9afc73ea57527c71f43167071b9a285c",
+  "source_snapshot": {
+    "claim_scope": {
+      "quantity": "algorithmic target-supervision consumption",
+      "2d_row_definition": "One finite two-dimensional velocity target supplied to a Ridge fit row.",
+      "scalar_coordinate_definition": "Two scalar coordinates per finite two-dimensional velocity target row.",
+      "not_claimed": [
+        "human annotation cost or effort",
+        "independent samples or effective sample size",
+        "equal-information, equal-architecture, or equal-compute comparison",
+        "a causal explanation for accuracy differences"
+      ],
+      "external_view_deduplication": "Count each session's shared behavior-target trace once; validate recorded SUA and pseudo-MUA receipt sets have identical Ridge50 consumed-row counts."
+    },
+    "external_subject_m": {
+      "t4_direction_scalars_per_session": 50,
+      "ridge_target": "finite causal last-bin two-dimensional velocity targets from first-50 calibration windows",
+      "views": ["sua", "pseudo_mua"],
+      "rows": [
+        {"session_id": "sub-M_ses-CO-20140307", "ridge50_finite_velocity_2d_rows": 9744},
+        {"session_id": "sub-M_ses-CO-20140626", "ridge50_finite_velocity_2d_rows": 9110},
+        {"session_id": "sub-M_ses-CO-20140627", "ridge50_finite_velocity_2d_rows": 7585},
+        {"session_id": "sub-M_ses-CO-20141203", "ridge50_finite_velocity_2d_rows": 10085},
+        {"session_id": "sub-M_ses-CO-20150511", "ridge50_finite_velocity_2d_rows": 8820},
+        {"session_id": "sub-M_ses-CO-20150512", "ridge50_finite_velocity_2d_rows": 8248},
+        {"session_id": "sub-M_ses-CO-20150610", "ridge50_finite_velocity_2d_rows": 8935},
+        {"session_id": "sub-M_ses-CO-20150611", "ridge50_finite_velocity_2d_rows": 8977},
+        {"session_id": "sub-M_ses-CO-20150612", "ridge50_finite_velocity_2d_rows": 15668},
+        {"session_id": "sub-M_ses-CO-20150615", "ridge50_finite_velocity_2d_rows": 14105},
+        {"session_id": "sub-M_ses-CO-20150616", "ridge50_finite_velocity_2d_rows": 11644},
+        {"session_id": "sub-M_ses-CO-20150617", "ridge50_finite_velocity_2d_rows": 11997},
+        {"session_id": "sub-M_ses-CO-20150623", "ridge50_finite_velocity_2d_rows": 8918},
+        {"session_id": "sub-M_ses-CO-20150625", "ridge50_finite_velocity_2d_rows": 8346},
+        {"session_id": "sub-M_ses-CO-20150626", "ridge50_finite_velocity_2d_rows": 7543}
+      ],
+      "recorded_receipt_bindings": {
+        "ridge50_pseudo_mua_receipt_set": {
+          "path_pattern": "sua_exploration/results/dandi_000688_subm_f0_pv_ridge_v1_full_20260805/commits/*/pseudo_mua/ridge50/deterministic.json",
+          "path_sha256_pairs_sha256": "4b61fdad3fed4a54ed7f293be50489dd700396580da3a19bffe5ffe9a069d46f",
+          "receipt_count": 15
+        },
+        "ridge50_sua_receipt_set": {
+          "path_pattern": "sua_exploration/results/dandi_000688_subm_f0_pv_ridge_v1_full_20260805/commits/*/sua/ridge50/deterministic.json",
+          "path_sha256_pairs_sha256": "9ca9c5291cfa41b1bf42098dcedff55dffae39184a7f69e217b82921d9013bd2",
+          "receipt_count": 15
+        },
+        "t4_sua_seed42_receipt_set": {
+          "path_pattern": "sua_exploration/results/dandi_000688_subm_co_three_arm_v9_formal_20260805/commits/*/sua/shared_t4/seed_42.json",
+          "path_sha256_pairs_sha256": "5ef8634e88521ea9d87e06decf0598d56857cf0b38340ca2b2d4e18c4bf62ea0",
+          "receipt_count": 15
+        },
+        "ridge_aggregate": {
+          "path": "sua_exploration/results/dandi_000688_subm_f0_pv_ridge_v1_full_20260805/aggregate/endpoint_aggregate_torchmetrics151.json",
+          "sha256": "ffccd91fc128edb7ad6199671f2e32d0c6c450cdff4f2b3d734a1815b176ebc0"
+        },
+        "ridge_run_manifest": {
+          "path": "sua_exploration/results/dandi_000688_subm_f0_pv_ridge_v1_full_20260805/run_manifest.json",
+          "sha256": "9828035e29f9152f95e1c046737bfa5bb350e263b5a7b3a1ada8a2ad07721b6c"
+        },
+        "t4_contract_sha256": "9f06357a46544312c3a8b405fa6fa8800c2bb5edb5c344764156294e773e1ca6",
+        "t4_run_manifest": {
+          "path": "sua_exploration/results/dandi_000688_subm_co_three_arm_v9_formal_20260805/run_manifest.json",
+          "sha256": "f8f9c0371bdf98d72807bb0563041b384c4ed8e39b0b167e6ebde976b4f455b0"
+        }
+      }
+    },
+    "native_m2_m24": {
+      "t4_finite_direction_scalars_per_session": 12,
+      "ridge_target": "finite two-dimensional velocity targets in 50-bin support-history rows from chronological M24 support",
+      "scope": "local fixed-lambda=1 Ridge24-W50 descriptive closure only; not a ridge-family or compute claim",
+      "rows": [
+        {"session_id": "ses-2020-10-30-Run1", "ridge24_w50_finite_velocity_2d_rows": 1460, "support_target_bins_sha256": "3907eaa208ceb7d4b7972086f21314135c66513286a38302ed9b7e696faa0f7f"},
+        {"session_id": "ses-2020-10-30-Run2", "ridge24_w50_finite_velocity_2d_rows": 1482, "support_target_bins_sha256": "b50b4468fa7152ee13478a270e001ffb2c3bdf500a38ea9a88889eb63e222617"},
+        {"session_id": "ses-2020-11-18-Run1", "ridge24_w50_finite_velocity_2d_rows": 1451, "support_target_bins_sha256": "a7615233cd0ea0ec96128c5ea292a9cb82816594e1d481a3dc8325de1d3940b3"},
+        {"session_id": "ses-2020-11-19-Run1", "ridge24_w50_finite_velocity_2d_rows": 1698, "support_target_bins_sha256": "fe687e2316c48a7b15f4cf21214e0444d8f8769d9f543bd5fc54da7f3c688388"},
+        {"session_id": "ses-2020-11-24-Run1", "ridge24_w50_finite_velocity_2d_rows": 1622, "support_target_bins_sha256": "f9ded611a26932e19644e954b652bea132086edd5170bc1fde324e958a7b5d94"},
+        {"session_id": "ses-2020-11-24-Run2", "ridge24_w50_finite_velocity_2d_rows": 1647, "support_target_bins_sha256": "553f17dc7b0279daddeff07ae64e1bb790085b3e7cd1273a95255762a8740701"}
+      ],
+      "recorded_receipt_bindings": {
+        "native_ridge_aggregate": {
+          "path": "sua_exploration/results/native_m2_m24_ridge_w50_v1_20260806_rootreview/aggregate/endpoint_aggregate_torchmetrics151.json",
+          "sha256": "df0aa5c257d9d68d3287c5f63aedebb72ac3502ad43e03431f34e8e21c72ee9d"
+        },
+        "native_ridge_preflight_receipt_set": {
+          "path_pattern": "sua_exploration/results/native_m2_m24_ridge_w50_v1_20260806_rootreview/preflight/shard_[ab].json",
+          "path_sha256_pairs_sha256": "d070136cd1720a02aaaae3c03656d6116206a9e12f2a4241a344f6fadc604ce9",
+          "receipt_count": 2
+        },
+        "native_t4_calibration_contract": {
+          "finite_direction_scalars_per_session": 12,
+          "description": "Chronological M24 T4 fit consumes 12 finite target-direction scalars per session after the recorded finite-direction policy."
+        }
+      }
+    }
+  }
+}
