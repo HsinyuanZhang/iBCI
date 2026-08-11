@@ -143,6 +143,12 @@ final result remains similar, the scientific reading is that
 one endpoint-direction label per reach preserves dense-carrier accuracy while the correct carrier content strongly
 beats Zero4. It is not evidence that T4d is superior or equivalent to Full. Fold13 is currently running.
 
+The nonterminal aggregate is reconstructed from the 39 immutable closed cell receipts matching
+`cells/f{00..12}_{rt_sparse_endpoint_t4d,afc4_vel,zero4}.json`. The ordered SHA256-of-SHA256 digest over those
+receipts is `fb0963e7f0a6265ec11522ad45ca2062f67754e05b7cb209a3cdd23a3b643653`. The runner does not emit an
+independent partial-aggregate artifact; therefore this digest documents only the placeholder inputs and must not be
+promoted as a terminal receipt.
+
 After 45/45 cells, the independent terminal verifier must pass. Then the 15 sealed B2 checkpoints will be evaluated
 forward-only on the exact Stage-2 query windows. B2 will not be retrained, reselected, or updated.
 

@@ -34,7 +34,10 @@ Arm means are T4d/Full/Zero4 `0.430038/0.423912/0.152172`. Fold12 closed at
 `0.1702397929/0.1551501609/0.0874419085`, with matched target `ses-RT-20150317`, query start trial24,
 92,160 windows, and common ordered-query digest prefixes `b8bf42e93f35/570cedf4168f/4ed352207764`
 (windows/target-mask/joint). All 13 paired folds have passed the one-shot/no-backprop/state-immutability checks.
-Matrix manifest SHA begins `93a1aa35...b3ca4`.
+The ordered SHA256-of-SHA256 digest over the 39 closed cell receipts is
+`fb0963e7f0a6265ec11522ad45ca2062f67754e05b7cb209a3cdd23a3b643653`; this is provenance for the
+nonterminal placeholder, not a terminal artifact. Matrix manifest SHA is
+`93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`.
 
 Do not write these values into the paper as terminal, equivalence, or native annotation-cost evidence.
 
