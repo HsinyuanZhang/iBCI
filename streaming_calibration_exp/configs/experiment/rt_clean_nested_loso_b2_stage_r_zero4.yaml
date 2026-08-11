@@ -1,0 +1,56 @@
+# @package _global_
+
+# Stage-R B2/LatePool reference, remote-compatible no-carrier alias.
+#
+# RtNestedLossoDataModule deliberately requires a named arm and does not expose
+# a literal ``none`` arm.  ``zero4`` is its documented width-matched all-zero
+# [N,4] arm: it fits no descriptor and consumes no behavioral labels.  B2 has
+# side_dim=0, so its LatePool encoder does not read this tensor at all.  This
+# config is therefore semantically the same no-carrier B2 reference as the
+# original Stage-R proposal, while remaining constructible on the 5070Ti
+# worktree.  It is an additive alias; the original ``..._stage_r.yaml`` stays
+# unchanged so its failed D128 record remains an auditable plumbing incident.
+defaults:
+  - override /data: rt_nested_loso_m24
+  - override /model: streaming_b2
+
+task: rt
+run_id: rt_clean_nested_loso_m24_b2_stage_r_zero4
+tags: ["rt", "stage_r", "b2", "clean_nested_loso", "m24", "zero4_no_carrier_alias", "source_only_selection", "development_only"]
+
+train: true
+test: false
+no_early_stopping: true
+require_baseline_validation: false
+optimized_metric: val_heldin/r2_mean
+
+data:
+  # This is not a T4/K4 carrier: the loader returns exact zeros and performs
+  # no target/velocity fit.  Model variant B2 is side_dim=0 and ignores it.
+  side_feature_group: zero4
+  loso_fold: 0
+
+model:
+  task: rt
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+  id_hidden_dim: 1024
+
+trainer:
+  max_epochs: 35
+
+callbacks:
+  rt_nested_selection_receipt:
+    _target_: src.callbacks.rt_nested_selection_receipt.RtNestedSelectionReceipt
+    output_path: ${paths.output_dir}/rt_nested_selection_receipt.json
+    split_manifest_path: ${paths.output_dir}/split_manifest.json
+    config_path: ${paths.output_dir}/.hydra/config.yaml
+    run_id: ${run_id}
+    # Record the implementation alias faithfully.  The preflight additionally
+    # records the canonical experiment semantics: B2 without a side carrier.
+    arm: ${data.side_feature_group}
+    outer_loso_fold: ${data.outer_loso_fold}
+    seed: ${seed}
+    monitor: val_heldin/r2_mean

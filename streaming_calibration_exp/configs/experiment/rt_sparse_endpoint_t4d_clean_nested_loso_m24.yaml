@@ -1,0 +1,16 @@
+# @package _global_
+# Frozen matched-training declaration for the production T4d arm.
+defaults:
+  - rt_clean_nested_loso_m24
+
+run_id: rt_sparse_endpoint_t4d_clean_nested_loso_m24
+tags: ["rt", "sparse_endpoint", "t4d", "m24", "nested_loso", "development_only"]
+
+data:
+  side_feature_group: rt_sparse_endpoint_t4d
+  loso_fold: 0
+
+# Match the existing clean Full/Zero comparison: same B3S model, seed,
+# M24/query boundary, W50, pool4096, optimizer defaults, and 35 epochs.
+trainer:
+  max_epochs: 35

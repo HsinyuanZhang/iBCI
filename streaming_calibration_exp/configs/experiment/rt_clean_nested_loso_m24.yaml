@@ -1,0 +1,48 @@
+# @package _global_
+
+defaults:
+  - override /data: rt_nested_loso_m24
+  - override /model: streaming_b3s_t4
+
+task: rt
+run_id: rt_clean_nested_loso_m24
+tags: ["rt", "clean_nested_loso", "m24", "source_only_selection", "development_only"]
+
+# The clean fit must not call Trainer.test: the DataModule intentionally has
+# no test loader.  The explicit outer evaluator runs after this command and
+# consumes the selected inner-validation checkpoint.
+train: true
+test: false
+no_early_stopping: true
+require_baseline_validation: false
+optimized_metric: val_heldin/r2_mean
+
+data:
+  side_feature_group: null
+  loso_fold: 0
+
+model:
+  task: rt
+  # Preserve the existing RT joint model; only the data split/selection policy
+  # changes in this clean repair.
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+
+trainer:
+  max_epochs: 35
+
+callbacks:
+  # Fit-end identity receipt; the evaluator refuses a checkpoint without this
+  # exact inner-validation provenance.
+  rt_nested_selection_receipt:
+    _target_: src.callbacks.rt_nested_selection_receipt.RtNestedSelectionReceipt
+    output_path: ${paths.output_dir}/rt_nested_selection_receipt.json
+    split_manifest_path: ${paths.output_dir}/split_manifest.json
+    config_path: ${paths.output_dir}/.hydra/config.yaml
+    run_id: ${run_id}
+    arm: ${data.side_feature_group}
+    outer_loso_fold: ${data.outer_loso_fold}
+    seed: ${seed}
+    monitor: val_heldin/r2_mean

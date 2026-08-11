@@ -12,6 +12,7 @@ from src.models.components.spint import (
     SpintModel,
 )
 from src.models.components.streaming_encoders import CalibrationEncoder
+from src.models.components.rt_ld_gain import CarrierLiveActivityGain, RtLdLiveGainState
 
 
 class CalibrationFixedSlotRouter(nn.Module):
@@ -238,6 +239,9 @@ class StreamingSpintModel(nn.Module):
             if decoder_mode == "decoupled"
             else None
         )
+        # This stays absent for all existing paths.  The RT L-D module attaches
+        # it only after this common decoder/encoder backbone is fully built.
+        self.live_activity_gain: CarrierLiveActivityGain | None = None
         if self.decoupled_transformer is not None:
             # Transfer every shape-compatible transformer-base tensor from the
             # immutable teacher decoder. Q/K/V/out projections and input norms
@@ -258,11 +262,47 @@ class StreamingSpintModel(nn.Module):
             calib_trials, side_features=side_features, electrode_ids=electrode_ids
         )
 
+    def attach_rt_ld_live_gain(self, carrier_dim: int = 4) -> CarrierLiveActivityGain:
+        """Attach the sole L-D parameter block after common-backbone creation."""
+        if self.live_activity_gain is not None:
+            raise RuntimeError("RT L-D live gain has already been attached")
+        if self.decoder_mode != "coupled" or self.fixed_slot_router is not None:
+            raise ValueError("RT L-D requires the ordinary coupled, per-unit SPINT decoder")
+        self.live_activity_gain = CarrierLiveActivityGain(
+            carrier_dim=carrier_dim, window_size=self.window_size
+        )
+        return self.live_activity_gain
+
+    def derive_rt_ld_live_gain_state(self, carrier: torch.Tensor) -> RtLdLiveGainState:
+        if self.live_activity_gain is None:
+            raise RuntimeError("RT L-D live gain is not attached")
+        return self.live_activity_gain.derive_state(carrier)
+
+    def rt_ld_live_gain_receipt(self, *, batch_size: int, num_neurons: int) -> dict[str, object]:
+        if self.live_activity_gain is None:
+            raise RuntimeError("RT L-D live gain is not attached")
+        return self.live_activity_gain.receipt(
+            batch_size=batch_size, num_units=num_neurons
+        )
+
+    def decode_with_rt_ld_live_gain_state(
+        self,
+        neural: torch.Tensor,
+        identity: torch.Tensor,
+        state: RtLdLiveGainState,
+    ) -> torch.Tensor:
+        """Online RT L-D decode using a calibration-derived per-bin gain cache."""
+        return self.decode_with_identity(
+            neural, identity, live_gain_state=state
+        )
+
     def decode_with_identity(
         self,
         neural: torch.Tensor,
         identity: torch.Tensor,
         neuron_gate: torch.Tensor | None = None,
+        live_gain_features: torch.Tensor | None = None,
+        live_gain_state: RtLdLiveGainState | None = None,
     ) -> torch.Tensor:
         """neural: [B,W,N], identity: [B,N,W] -> behavior [B,W,C].
 
@@ -270,6 +310,16 @@ class StreamingSpintModel(nn.Module):
         forward path must remain differentiable w.r.t. identity E.
         """
         src = neural.permute(0, 2, 1)
+        if live_gain_features is not None and live_gain_state is not None:
+            raise ValueError("Pass RT L-D gain features or a cached gain state, not both")
+        if live_gain_features is not None:
+            if self.live_activity_gain is None:
+                raise RuntimeError("RT L-D gain features supplied without an attached gain module")
+            src = self.live_activity_gain(src, live_gain_features)
+        elif live_gain_state is not None:
+            if self.live_activity_gain is None:
+                raise RuntimeError("RT L-D gain state supplied without an attached gain module")
+            src = self.live_activity_gain.apply_state(src, live_gain_state)
         if neuron_gate is not None:
             src = src * neuron_gate
         if self.fixed_slot_router is None:
@@ -637,6 +687,7 @@ class StreamingSpintModel(nn.Module):
         side_features: Optional[torch.Tensor] = None,
         decoder_key_features: Optional[torch.Tensor] = None,
         electrode_ids: Optional[torch.Tensor] = None,
+        live_gain_features: Optional[torch.Tensor] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         neuron_gate = None
         if identity is None:
@@ -654,7 +705,8 @@ class StreamingSpintModel(nn.Module):
                 )
         if self.decoder_mode == "coupled":
             behavior = self.decode_with_identity(
-                neural, identity, neuron_gate=neuron_gate
+                neural, identity, neuron_gate=neuron_gate,
+                live_gain_features=live_gain_features,
             )
         else:
             if neuron_gate is not None:

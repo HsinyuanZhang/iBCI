@@ -1,0 +1,42 @@
+# Fit-time RT data contract for clean nested LOSO.
+# The outer target is identified by `loso_fold` but is never opened by this
+# DataModule.  Use src/rt_clean_nested_loso_eval.py after checkpoint selection
+# for the explicit one-shot outer-target pass.
+_target_: src.data.rt_nested_loso_datamodule.RtNestedLossoDataModule
+
+task: rt
+data_dir: ${paths.root_dir}/../sua_exploration/data/dandi_000688/sub-C/
+batch_size: 32
+window_size: 50
+calibration_n_trials: 24
+# Keep the saved Hydra snapshot explicit: the Stage-R receipt contract audits
+# the deployment boundary as the integer M=24, and this is semantically the
+# same value as the former local interpolation.
+query_start_trial: 24
+
+random_calibration: false
+smooth_calibration: false
+max_trial_length: 100
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+
+validation_protocol: nested_loso
+# Keep the historical `loso_fold` name so Hydra's run-directory uniqueness
+# includes the outer fold.  The DataModule accepts both aliases and requires
+# them to agree.
+loso_fold: 0
+outer_loso_fold: ${.loso_fold}
+
+# No implicit arm: the dedicated runner must pass one explicitly.
+side_feature_group: null
+side_feature_shuffle_seed: ${seed}
+
+session_window_budget: 4096
+session_balanced_sampling: true
+sampler_reshuffle_each_epoch: true
+expected_session_count: 15
+
+num_workers: 4
+pin_memory: true
+sampler_seed: ${seed}

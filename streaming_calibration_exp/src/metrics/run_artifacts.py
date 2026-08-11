@@ -411,6 +411,25 @@ def make_run_id(cfg: DictConfig) -> str:
     return f"{base}{fold_suffix}_s{seed}_{stamp}"
 
 
+def _teacher_exposure_attestation(split_manifest: Mapping[str, Any]) -> Dict[str, Any]:
+    """Return only teacher-exposure facts explicitly attested by the split.
+
+    A generic student artifact writer cannot infer a teacher checkpoint's
+    training scope.  Missing evidence is represented as ``null`` rather than
+    the historical hard-coded ``True``.
+    """
+
+    value = split_manifest.get("teacher_seen_validation_session")
+    if value is not None and not isinstance(value, bool):
+        raise ValueError(
+            "split_manifest.teacher_seen_validation_session must be boolean or null"
+        )
+    return {
+        "teacher_seen_validation_session": value,
+        "teacher_seen_validation_session_attested": value is not None,
+    }
+
+
 def write_run_metadata(
     run_dir: Path,
     *,
@@ -426,6 +445,7 @@ def write_run_metadata(
 
     model_cfg = cfg.model
     resolved_cfg = OmegaConf.to_container(cfg, resolve=False)
+    teacher_exposure = _teacher_exposure_attestation(split_manifest)
     payload: Dict[str, Any] = {
         "run_id": run_id,
         "comparison_role": cfg.get("comparison_role"),
@@ -441,7 +461,12 @@ def write_run_metadata(
         "heldout_evaluated_in_fit": split_manifest.get("heldout_evaluated_in_fit"),
         "heldout_evaluated_in_test": split_manifest.get("heldout_evaluated_in_test"),
         "preprocessing": _preprocessing_label(resolved_cfg),
-        "teacher_seen_validation_session": True,
+        # The generic artifact writer cannot infer the teacher's training
+        # scope from a student split.  Historical receipts hard-coded True,
+        # which falsely reported exposure even for source-only teachers.
+        # Preserve an explicit attestation when a specialized split supplies
+        # one; otherwise fail closed to unknown/null.
+        **teacher_exposure,
         "selected_by_metric": selected_metric,
         "selected_metric_value": selected_metric_value,
         "best_epoch": extract_best_epoch(checkpoint_manifest),

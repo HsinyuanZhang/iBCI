@@ -10,6 +10,8 @@ compile: false
 
 task: m2
 teacher_ckpt_path: ${paths.teacher_ckpt_path}
+teacher_receipt_path: null
+require_clean_teacher_receipt: false
 window_size: ${data.window_size}
 trial_length: ${data.max_trial_length}
 pad_value: ${data.pad_value}

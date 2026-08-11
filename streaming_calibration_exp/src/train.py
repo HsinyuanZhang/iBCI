@@ -268,6 +268,14 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         log_hyperparameters(object_dict)
 
     if cfg.get("train"):
+        # The strict M1 source-only decoder must emit its provenance receipt
+        # from the exact loader state before any optimizer step.  Data modules
+        # have no Lightning ``on_fit_start`` hook, hence this explicit, narrow
+        # capability check.  Ordinary data modules are unaffected.
+        if hasattr(datamodule, "write_source_only_manifest"):
+            datamodule.setup("fit")
+            receipt = datamodule.write_source_only_manifest(cfg.paths.output_dir)
+            log.info("Wrote source-only decoder manifest: %s", receipt)
         log.info("Starting training!")
         if cfg.get("ckpt_path") not in (None, "", "null"):
             _allow_known_checkpoint_globals(str(cfg.ckpt_path))

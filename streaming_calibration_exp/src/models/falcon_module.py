@@ -35,12 +35,23 @@ DATASET_NAMES = {
     'mc_maze': {
         'heldin': ['mc_maze_ses-full'],
         'heldout': ['mc_maze_ses-full'],
-    }
+    },
+    'rt': {
+        'heldin': [
+            'ses-RT-20131009', 'ses-RT-20131010', 'ses-RT-20131011',
+            'ses-RT-20131028', 'ses-RT-20131029', 'ses-RT-20131209',
+            'ses-RT-20131210', 'ses-RT-20131212', 'ses-RT-20131213',
+            'ses-RT-20131217', 'ses-RT-20131218', 'ses-RT-20150316',
+            'ses-RT-20150317', 'ses-RT-20150318', 'ses-RT-20150320',
+        ],
+        'heldout': [],
+    },
 }
 DATASET_NUM_NEURONS = {
     'm1': 64,
     'm2': 96,
     'h1': 176,
+    'rt': 96,
 }
 
 

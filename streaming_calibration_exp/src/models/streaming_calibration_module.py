@@ -36,6 +36,24 @@ from src.models.falcon_module import DATASET_NAMES
 LossMode = Literal["task_only", "task_plus_y", "task_plus_y_plus_E"]
 
 
+def split_ssc_t4_support_views(calib: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+  """Return the frozen, disjoint even/odd M24 activity views for SSC-T4.
+
+  The T4 side descriptor is deliberately *not* split: it remains the ordinary
+  full-M24 descriptor in both branches.  This helper is intentionally separate
+  from the legacy batch-roll consistency path, which compared unrelated batch
+  rows and is identically uninformative for fixed chronological support.
+  """
+  if calib.ndim != 4 or calib.shape[1] != 24:
+    raise ValueError(
+      "SSC-T4 requires full chronological M24 calibration tensor [B,24,T,N]"
+    )
+  even, odd = calib[:, 0::2], calib[:, 1::2]
+  if even.shape[1] != 12 or odd.shape[1] != 12:
+    raise RuntimeError("SSC-T4 M24 split did not produce two M12 views")
+  return even, odd
+
+
 def load_encoder_warmstart_state(
   id_encoder: nn.Module, state: Dict[str, torch.Tensor]
 ) -> None:
@@ -93,6 +111,8 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     variant: str,
     teacher_ckpt_path: str,
     window_size: int,
+    teacher_receipt_path: str | None = None,
+    require_clean_teacher_receipt: bool = False,
     trial_length: int = 100,
     id_hidden_dim: int = 128,
     hidden_dim: int = 64,
@@ -122,6 +142,7 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     neuron_dropout_block_size: int = 4,
     neuron_dropout_warmup_epochs: int = 10,
     support_prediction_consistency_weight: float = 0.0,
+    ssc_t4_prediction_consistency_weight: float = 0.0,
     identity_mode: Literal["calibrated", "learned_prior"] = "calibrated",
     fixed_slot_count: int = 0,
     fixed_slot_dim: int = 32,
@@ -149,6 +170,7 @@ class StreamingCalibrationLitModule(pl.LightningModule):
 
     self.train_loss = MeanMetric()
     self.train_support_prediction_consistency = MeanMetric()
+    self.train_ssc_t4_prediction_consistency = MeanMetric()
     self.val_heldin_loss = MeanMetric()
     self.val_heldout_loss = MeanMetric()
     self.val_identity_mse = MeanMetric()
@@ -178,6 +200,8 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     )
 
     self._teacher_ckpt_path = teacher_ckpt_path
+    self._teacher_receipt_path = teacher_receipt_path
+    self._require_clean_teacher_receipt = require_clean_teacher_receipt
     self._variant = variant
     self._window_size = window_size
     self._trial_length = trial_length
@@ -211,6 +235,9 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     self._support_prediction_consistency_weight = float(
       support_prediction_consistency_weight
     )
+    self._ssc_t4_prediction_consistency_weight = float(
+      ssc_t4_prediction_consistency_weight
+    )
     self._identity_mode = identity_mode
     self._fixed_slot_count = int(fixed_slot_count)
     self._fixed_slot_dim = int(fixed_slot_dim)
@@ -229,6 +256,17 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     self.population_identity: nn.Parameter | None = None
     if self._support_prediction_consistency_weight < 0.0:
       raise ValueError("support_prediction_consistency_weight must be >= 0")
+    if self._ssc_t4_prediction_consistency_weight < 0.0:
+      raise ValueError("ssc_t4_prediction_consistency_weight must be >= 0")
+    if (
+      self._support_prediction_consistency_weight > 0.0
+      and self._ssc_t4_prediction_consistency_weight > 0.0
+    ):
+      raise ValueError("legacy roll consistency and SSC-T4 consistency are mutually exclusive")
+    if self._ssc_t4_prediction_consistency_weight > 0.0 and self._variant != "B3S":
+      raise ValueError("SSC-T4 is frozen to the ordinary B3S+T4 backbone")
+    if self._ssc_t4_prediction_consistency_weight > 0.0 and self._side_dim != 4:
+      raise ValueError("SSC-T4 requires the ordinary four-dimensional T4 side input")
     if self._fixed_slot_count < 0:
       raise ValueError("fixed_slot_count must be >= 0")
     if self._fixed_slot_count > 0 and self._fixed_slot_dim <= 0:
@@ -277,6 +315,12 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       return
 
     from src.models.falcon_module import FalconLitModule
+
+    if self._require_clean_teacher_receipt:
+      if not self._teacher_receipt_path:
+        raise ValueError("this streaming run requires a clean-teacher receipt")
+      from src.utils.clean_teacher_validation import validate_clean_teacher_receipt
+      validate_clean_teacher_receipt(self._teacher_ckpt_path, self._teacher_receipt_path)
 
     teacher_module = FalconLitModule.load_from_checkpoint(
       self._teacher_ckpt_path, weights_only=False
@@ -381,6 +425,23 @@ class StreamingCalibrationLitModule(pl.LightningModule):
         raise RuntimeError("population identity parameter failed to initialize")
     if self._freeze_decoder:
       self.student.freeze_decoder()
+    else:
+      # Joint upper-bound runs are only interpretable if the optimizer can see
+      # every initialized student decoder and encoder tensor.  Fail before fit
+      # rather than silently reporting a partly frozen "joint" result.
+      missing_decoder = [
+        name for name, parameter in self.student.decoder.named_parameters()
+        if not parameter.requires_grad
+      ]
+      missing_encoder = [
+        name for name, parameter in self.student.id_encoder.named_parameters()
+        if not parameter.requires_grad
+      ]
+      if missing_decoder or missing_encoder:
+        raise RuntimeError(
+          "freeze_decoder=false requires all decoder and encoder parameters "
+          f"trainable; decoder_missing={missing_decoder}, encoder_missing={missing_encoder}"
+        )
 
     if self._compile and stage == "fit":
       self.student = torch.compile(self.student)
@@ -562,6 +623,46 @@ class StreamingCalibrationLitModule(pl.LightningModule):
           on_step=False,
           on_epoch=True,
         )
+    if self._ssc_t4_prediction_consistency_weight > 0.0:
+      if self._neuron_dropout is not None:
+        raise ValueError("SSC-T4 requires neuron_dropout_mode=none")
+      if len(batch) == 6:
+        neural, _, calib, _, side_features, electrode_ids = batch
+      elif len(batch) == 5:
+        neural, _, calib, _, side_features = batch
+        electrode_ids = None
+      else:
+        raise ValueError("SSC-T4 requires the ordinary aligned T4 side features")
+      if side_features.ndim != 3 or side_features.shape != (
+        calib.shape[0], calib.shape[-1], 4
+      ):
+        raise ValueError("SSC-T4 requires full-M24 T4 shape [B,N,4]")
+      even_calib, odd_calib = split_ssc_t4_support_views(calib)
+      assert self.student is not None
+      student_kwargs = {"side_features": side_features}
+      if electrode_ids is not None:
+        student_kwargs["electrode_ids"] = electrode_ids
+      even_pred, _ = self.student(neural, calib_trials=even_calib, **student_kwargs)
+      odd_pred, _ = self.student(neural, calib_trials=odd_calib, **student_kwargs)
+      even_pred, _ = self._slice_last_timestep(even_pred, even_pred)
+      odd_pred, _ = self._slice_last_timestep(odd_pred, odd_pred)
+      # Full M24 is the deployment/inference path and remains governed only by
+      # its ordinary task/distillation/identity objective.  Detaching it makes
+      # it a fixed teacher for both activity-only M12 views rather than adding
+      # a second gradient path through the full prediction.
+      full_anchor = out["behavior_pred"].detach()
+      consistency_mse = 0.5 * (
+        self.mse_loss(even_pred, full_anchor)
+        + self.mse_loss(odd_pred, full_anchor)
+      )
+      loss = loss + self._ssc_t4_prediction_consistency_weight * consistency_mse
+      self.train_ssc_t4_prediction_consistency(consistency_mse)
+      self.log(
+        "train/ssc_t4_prediction_consistency_mse",
+        self.train_ssc_t4_prediction_consistency,
+        on_step=False,
+        on_epoch=True,
+      )
     self.train_loss(loss)
     self.log("train/loss", self.train_loss, on_step=False, on_epoch=True, prog_bar=True)
     return loss
@@ -650,6 +751,21 @@ class StreamingCalibrationLitModule(pl.LightningModule):
         raise RuntimeError("learned_prior mode requires population_identity parameter")
       params = list(params) + [self.population_identity]
     optimizer = self._optimizer_factory(params=params)
+    if not self._freeze_decoder:
+      expected = {
+        id(parameter) for _, parameter in self.student.decoder.named_parameters()
+      } | {
+        id(parameter) for _, parameter in self.student.id_encoder.named_parameters()
+      }
+      observed = {
+        id(parameter) for group in optimizer.param_groups
+        for parameter in group["params"]
+      }
+      if expected != observed:
+        raise RuntimeError(
+          "freeze_decoder=false optimizer must contain exactly all student "
+          f"decoder+encoder parameters; expected={len(expected)}, observed={len(observed)}"
+        )
     if self._scheduler_factory is not None:
       scheduler = self._scheduler_factory(optimizer=optimizer)
       return {
