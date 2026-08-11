@@ -86,14 +86,19 @@ two-dimensional velocity rows, or 299,450 scalar target coordinates. The pooled 
 and `399.267x` by scalar coordinates. These are algorithmic supervision counts, not independent-sample,
 manual-annotation, compute, energy, or latency ratios.
 
-The subsequent same-X trial-direction ridge diagnostic is recorded in
-`HANDOFF_TRIAL_LEVEL_RIDGE.md`. Its independent audit permits a descriptive supervision-formulation comparison but
-rejects a pure label-density causal interpretation: direction-only direct ridge is consistently below T4, whereas
-T4 does not consistently beat dense velocity ridge. A first Priority-A2a attempt is also excluded: its weighted
-ridge omitted total-weight normalization, so the nominal `lambda=1` did not reproduce the sealed normalized-ridge
-solver. The legacy drafted A2b imports that solver and must not run unchanged. An independent v2 implementation is
-committed at `097d137`, passed 23 focused tests, and is running the corrected A2a CPU gate; A2b remains blocked until
-the resulting 90-cell receipt is independently verified.
+The corrected CPU-only Priority-A2 program is now terminal and is recorded in
+`HANDOFF_TRIAL_LEVEL_RIDGE.md`. A2a-v2 verifies that the dense-velocity versus trial-direction gap survives both
+normalized-ridge and weighting corrections, but the arms still differ in target semantics and therefore do not
+isolate label density. A2b-v2 supplies the same-target dose response: with dense velocity, the same `50*N` features,
+normalized `lambda=1` ridge, equal-trial weighting, and target-blind row selection, `K=all−K=1` is positive in 14/15
+sessions at M30/M50 in both views (SUA `+0.289/+0.328`; pseudo-MUA `+0.297/+0.312`), with bootstrap intervals
+excluding zero. M15 remains inconclusive. The negative `K=8/16` grand means are driven by one exceptional session
+and mask sensitivity, not evidence of a population-wide or diagnosed numerical collapse.
+
+This closes a within-ridge causal statement that supervision density matters under the frozen A2b protocol. It does
+not make T4 and Ridge50 information-, architecture-, or compute-matched: T4 remains a source-pretrained sparse-label
+system and Ridge50 remains a dense-label per-session readout. Valid receipts are A2a-v2 SHA `b6a080c4...ba58` and
+A2b-v2 SHA `0d4cd01b...7361`; the earlier `6364b99f...` and `0fa3f0e3...` receipts remain invalid diagnostics.
 
 ### 3.2 Native M2: positive but scope-limited
 
@@ -251,8 +256,8 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 
 The accuracy experiments in the declared RT/H1 closure are complete. Remaining closure work is:
 
-1. finish both the corrected Priority-A2a weighting control and the same-target Priority-A2b density dose response
-   before making a pure label-density causal claim;
+1. preserve the terminal A2a/A2b-v2 receipts and their qualified within-ridge label-density claim; do not promote it
+   into an equal-information T4-versus-Ridge50 claim;
 2. run reference-aware document cleanup, recoverable checkpoint cleanup, focused tests, and narrow Git commits.
 
 The terminal negative CI64 width result cannot reopen the H1 or RT architecture search. Quantization is deferred and

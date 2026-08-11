@@ -1,11 +1,12 @@
 # HANDOFF: trial-target rate ridge — audited matched-support comparator
 
 **Date:** 2026-08-11
-**Status:** Two interpretable CPU numerical runs and one invalidated A2a implementation attempt are recorded. Independent Priority-A audit outcome: `REJECT` for the current causal conclusion; `QUALIFY` for a descriptive same-X supervision-formulation comparison. The original, Priority-A, and invalidated A2a receipts are retained, but none currently closes a pure label-density causal claim. The implementation audit is recorded in Sec. 10.
+**Status:** Corrected A2a-v2 and A2b-v2 are complete and independently audited. A2a supports a qualified target-formulation comparison; A2b supports a within-ridge same-target label-density effect at M30/M50. Earlier A2 receipts remain invalid diagnostics. Section 10 is authoritative.
 **Compute class:** CPU only. Zero GPU. Zero training. Zero new data scope.
 **Written in:** simple direct English.
-**Receipt:** `sua_exploration/results/trial_level_ridge_v1/trial_level_ridge_receipt.json`
-**Receipt SHA-256:** `9420a58cfba0e5b9d12ff0111259cf407c2de96eca78fabe421bcbce90259e34`
+**Original receipt:** `sua_exploration/results/trial_level_ridge_v1/trial_level_ridge_receipt.json`
+**Original receipt SHA-256:** `9420a58cfba0e5b9d12ff0111259cf407c2de96eca78fabe421bcbce90259e34`
+**Valid corrected receipts:** A2a-v2 `b6a080c4...ba58`; A2b-v2 `0d4cd01b...7361`
 
 > **Audit notice.** The immutable receipt is a numerical record, not a valid
 > equal-information proof. The implementation fits thousands of window rows
@@ -16,7 +17,8 @@
 > therefore supports only a matched-support-trial system comparison. RT and M2
 > are exploratory and non-comparable to their cited references because their
 > scoring masks include support bins. Section 10 freezes the corrective CPU
-> experiments.
+> experiments. Corrected A2a/A2b-v2 remove the solver/weighting confound and isolate a same-target density effect
+> within their frozen ridge protocol, but they still do not make T4 and ridge equal-information or equal-architecture.
 
 ---
 
@@ -204,75 +206,67 @@ trial-mean neural rates `[M,N]` to a trial-level target `[M,2]`. Keep it named
 small source-only lambda sensitivity or freeze a lambda grid before reading the
 15-session target aggregate.
 
-### 10.2A Priority A2a — first run invalidated; corrected v2 run in progress
+### 10.2A Priority A2a — corrected weighting control complete
 
 **Invalidated receipt:** `sua_exploration/results/trial_level_ridge_v1/priority_a2_weighting_receipt.json`
 **SHA-256:** `6364b99f110a489172b5262c289605975e12b8d18e59615dc396befa20aa686f`
 
-The first A2a run completed CPU-only, but it is not a valid corrected control. Its weighted solver forms
-`Z_w^T Z_s + lambda I` and `Z_w^T Y_c` without dividing both data terms by the total row weight. The sealed
-Ridge50 convention is `(X^T X)/n + lambda I`; therefore the A2a implementation uses a much weaker effective
-penalty even though both record the number `lambda=1`. The mandatory uniform-dense reproduction check fails
-catastrophically: for example, SUA M15 is `−4.7649` instead of `0.0726`, and pseudo-MUA M15 is `−12.7347`
-instead of `0.1291`. The immutable receipt records that attempted implementation only and must not be cited as a
-weighting, supervision-density, or accuracy result.
-
-The corrected solver must use
+The first A2a run used an unnormalized weighted Gram and is invalid for weighting, density, or accuracy claims. Its
+immutable receipt is retained only as a diagnostic. A2a-v2 instead uses
 
 ```text
 (Z_w^T Z_s / W + lambda I) beta = Z_w^T Y_c / W
 ```
 
-with `W=sum(row_weights)`, or the algebraically equivalent unnormalized system with `W*lambda I`. It must also
-fail closed on missing/non-finite `target_dir`; the attempted runner silently substitutes zero for a missing field.
-The independent corrected implementation is now versioned in commit `097d137`. It uses total-weight-normalized
-weighted ridge with an explicit unpenalized intercept, fails closed on missing/non-finite directions, binds the
-sealed references, and passed 23 focused numerical/provenance tests. The full 90-cell A2a v2 CPU run is in progress;
-no result is accepted until its immutable receipt reproduces every sealed uniform-dense cell within `5e-5`. The
-legacy A2b draft imports the invalid A2a solver and must never be launched unchanged; the separate v2 A2b runner
-instead refuses to read experiment data until a valid A2a v2 receipt is present.
-
-Before using Priority A for a causal supervision-density statement, rerun a CPU-only 2×2 control with the same X, query rows, lambda, and scoring:
+with `W=sum(row_weights)`, an explicit unpenalized intercept, and fail-closed direction validation. The valid receipt
+is `priority_a2_weighting_control_v2_receipt.json`, SHA
+`b6a080c48d36adc74050f0a6672623585320e32bada45001a962622379bcba58`. Its 90-cell gate reproduces the sealed
+dense-uniform references within `5e-5` (maximum error `2.24e-6`). The frozen 2×2 control is:
 
 | target | row weighting |
 |---|---|
 | dense per-bin velocity | uniform-window and equal-trial |
 | direction-only `[cos θ, sin θ]` | uniform-window and equal-trial |
 
-Use one shared ridge implementation with an explicit unpenalized intercept, fail closed on missing/non-finite `target_dir`, and bind the exact support/query vectors and historical reference aggregates in the receipt. Record an explicit zero support/query-intersection proof rather than relying only on the owner loader. This separates the weighting effect from the target-content/granularity effect. Even this 2×2 does not make dense velocity and direction-only targets semantically identical; paper wording should therefore remain “supervision granularity/content” unless an additional same-target density subsampling control is run.
+Across budgets, views, and weighting rules, dense−direction mean R² ranges from approximately `+0.46` to `+0.56`;
+at M50 the range is `+0.46` to `+0.53`. Equal-trial versus uniform weighting changes dense mean R² by only `+0.004`
+to `+0.076`. Thus row weighting alone does not explain the gap. The arms still differ in target content/semantics as
+well as granularity, so A2a is a supervision-formulation comparison, not a pure label-density ablation.
 
 ### 10.2B Priority A2b — same-target label-density dose response
 
-This is the experiment required for a causal statement about label density itself, but it can run only after the
-corrected A2a v2 receipt passes root verification. Keep the target definition, units,
-scale, neural features, support trials, post-trial-50 query, standardization, lambda, solver, explicit intercept, and
-equal-trial weighting fixed. Use normalized dense two-dimensional velocity for every arm and vary only how many
-calibration rows carry visible targets:
-
-On 2026-08-11, an unchanged draft A2b process was detected importing the invalid A2a solver and was terminated
-before it wrote a receipt. It produced no accepted result and must not be described as a failed scientific arm.
+The corrected A2b-v2 experiment is complete. It fixes dense two-dimensional velocity, `50*N` neural features,
+support trials, post-trial-50 query, standardization, normalized `lambda=1` solver, explicit intercept, and equal-trial
+weighting. Only the target-blind number of labelled windows per trial varies:
 
 ```text
 K = 1, 2, 4, 8, 16, all labelled windows per support trial
 ```
 
-Select rows without reading velocity values. For each session/trial and predeclared mask seed `42/43/44`, form a
-deterministic permutation from the session name, trial index, and mask seed; use nested prefixes so the `K=1` rows
-are contained in `K=2`, and so on. Run `M={15,30,50}` in both SUA and pseudo-MUA views. All arms use the same
-correct weighted-ridge implementation; each trial has equal total weight regardless of `K`.
+Rows are selected by nested deterministic permutations without reading targets, using seeds `42/43/44`, budgets
+`M={15,30,50}`, and both SUA and pseudo-MUA views. The valid 1,620-cell receipt is
+`priority_a2_same_target_density_v2_receipt.json`, SHA
+`0d4cd01b5fea86e2dca4640731f99faa2abde57d3d163bf7dee6ac34ed167361`; all support/query intersections are zero.
+Its `K=all` arm reproduces A2a-v2 `dense_equal_trial` in 90/90 cells with maximum R² difference `0.0` and exact
+coefficient SHA in 90/90 cells.
 
-The primary paired contrast is `R²(all)−R²(K=1)`. Report mean, median, positive/zero/negative session counts,
-paired bootstrap interval, exact sign test, mask-seed variance, each session's dose-response, and the paired slope
-against `log2(K)`. A density-effect pass requires positive mean, positive median, and a positive-session majority in
-the primary SUA view. Pseudo-MUA is a controlled signal-view confirmation rather than a second independent cohort.
+The predeclared primary contrast `R²(all)−R²(K=1)`, after averaging each session over the three mask seeds, is:
 
-T4 may be plotted as a frozen reference line, but it is not part of the within-ridge causal identification: T4 uses
-one direction scalar per trial and a source-pretrained decoder, so `T4−ridge(K=1)` remains a system comparison rather
-than an equal-information contrast. No RT/M2 replication is required for this center-out causal audit.
+| view | M15 | M30 | M50 |
+|---|---:|---:|---:|
+| SUA | `+0.160` (CI crosses 0) | `+0.289`, 14/15 positive | `+0.328`, 14/15 positive |
+| pseudo-MUA | `+0.199` (CI crosses 0) | `+0.297`, 14/15 positive | `+0.312`, 14/15 positive |
 
-Do not modify or overwrite the Priority-A runner or receipt, whose SHA records the audited historical implementation.
-Use new versioned scripts/tests/receipts and bind every mask, input, prediction, target, package version, and zero
-support/query intersection by SHA-256.
+The M30/M50 exact sign-test p-value is `0.00098` and the paired bootstrap intervals exclude zero. M15 remains
+inconclusive by the bootstrap criterion. The three-seed aggregate rises from K1 to K4 in every view/budget cell.
+At K8/K16, however, negative grand means conflict with positive medians and 14/15 positive session means: one
+recording (`sub-M_ses-CO-20150512`) and mask sensitivity dominate the aggregate. No condition-number, solve-residual,
+or precision/primal-dual diagnostic was recorded, so this must not be called numerical ill-conditioning or a
+population-wide reversal.
+
+This supports a within-ridge causal statement that target density matters under the frozen A2b protocol. It does not
+make T4 and ridge equal-information or equal-architecture: T4 uses one trial-direction scalar plus a source-pretrained
+decoder, while A2b directly fits dense velocity. T4-versus-ridge remains a system-level trade-off.
 
 ### 10.3 Priority C — strict RT/M2 replication, only if retained in the paper
 
@@ -293,19 +287,9 @@ version used for R2.
 
 ### 10.5 Current paper-safe conclusion
 
-Priority A (10.1) is numerically complete but its pure label-density interpretation is not. The first A2a attempt
-failed the normalized-ridge equivalence audit and is diagnostic only. A corrected, versioned A2a can remove the
-weighting/solver confound; only a corrected A2b can identify a same-target label-density effect. Until both valid
-receipts are read, the following narrower interpretation is supported:
-
-> On the same 15 SUA/pseudo-MUA assets, same `50*N` features, same calibration
-> windows, and byte-identical post-trial-50 query targets, a fixed-lambda ridge
-> fit against the tested duration-balanced direction-only targets `[cos θ, sin θ]` scores −0.46 to −0.09 R²
-> (negative at every budget), while the same ridge fit against dense per-bin
-> velocity scores 0.07 to 0.42 (reproducing the known aggregate curve). The
-> dense−sparse gap is +0.50 to +0.55 across budgets. Because the arms also differ
-> in target content and weighting, this is evidence about supervision
-> granularity/content rather than label density alone. The frozen T4 system
-> (0.29–0.36) consistently outperforms the direction-only direct ridge, supporting
-> the value of a source-pretrained decoder prior; it does not outperform dense
-> ridge at every budget.
+> A2a-v2 shows that dense velocity and trial direction are not interchangeable targets for the same direct ridge,
+> even after normalized-solver and weighting corrections; this is a target-content/granularity result. A2b-v2 then
+> isolates supervision density within the dense-target ridge protocol: all labelled windows outperform one labelled
+> window per trial robustly at M30/M50 in both SUA and pseudo-MUA, while M15 remains uncertain. This does not identify
+> the cause of the system-level T4-versus-Ridge50 gap, because their targets, pretrained priors, architectures, and
+> deployment computations remain different.

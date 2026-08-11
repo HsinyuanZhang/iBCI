@@ -98,13 +98,19 @@ T4 beats dense-label ridge. Across the 15 sessions, T4 uses 750 direction scalar
 by coordinates. They measure algorithmic target-supervision consumption, not independent samples, manual effort,
 compute, latency, memory, or energy.
 
-The same-X Priority-A diagnostic is qualified rather than promoted: its tested direction-only direct ridge is below
-T4 at every budget, but the dense and sparse arms also differ in target semantics, weighting, and solver path, and
-T4 does not consistently beat dense velocity ridge. See `HANDOFF_TRIAL_LEVEL_RIDGE.md` for the independent audit and
-the CPU-only corrective program. The first A2a receipt is invalid as a corrected control because its weighted Gram
-omits normalization by total weight, so its nominal `lambda=1` is not the sealed normalized-ridge penalty; the
-legacy A2b draft must not run unchanged because it imports the same solver. The independent v2 implementation is
-committed at `097d137`, passed 23 focused tests, and is currently running A2a; no v2 numerical result is recorded yet.
+The corrected CPU-only Priority-A2 program is terminal. A2a-v2 shows that the dense-velocity versus trial-direction
+gap persists after solver normalization and row-weighting correction (`+0.46` to `+0.56` across the tested grid),
+but this remains a target-content/granularity comparison rather than a pure density contrast. A2b-v2 then fixes the
+dense velocity target, `50*N` representation, normalized `lambda=1` ridge, equal-trial weighting, and query set,
+varying only the target-blind number of labelled windows per trial. Its predeclared `K=all−K=1` contrast is positive
+in 14/15 sessions at M30/M50 in both views: SUA `+0.289/+0.328` and pseudo-MUA `+0.297/+0.312`, with bootstrap
+intervals excluding zero. M15 remains uncertain because its intervals include zero.
+
+Intermediate `K=8/16` grand means are heavy-tailed and mask-sensitive: one exceptional session drives the negative
+aggregates while the other 14 session means are positive. The receipts do not record condition diagnostics, so do
+not call this numerical ill-conditioning or a population-wide reversal. A2 identifies a within-ridge label-density
+effect; it does not turn T4 versus Ridge50 into an information-, architecture-, or compute-matched causal comparison.
+See `HANDOFF_TRIAL_LEVEL_RIDGE.md` and `DELIVERABLE_A2_WEIGHTING_AND_DENSITY.md`.
 
 Evidence:
 
@@ -113,6 +119,8 @@ Evidence:
 - true-early-start aggregate SHA `2e858403ae01da06c15448b6c3f8685f88eee9a9dc7a9da63acda332b926b12b`;
 - F0/PV/Ridge aggregate SHA `ffccd91fc128edb7ad6199671f2e32d0c6c450cdff4f2b3d734a1815b176ebc0`;
 - supervision audit SHA `43582628a86e80d08d91c60ce3f283502076bac951b06499649042e61feeea03`.
+- valid A2a-v2 receipt SHA `b6a080c48d36adc74050f0a6672623585320e32bada45001a962622379bcba58`;
+- valid A2b-v2 receipt SHA `0d4cd01b5fea86e2dca4640731f99faa2abde57d3d163bf7dee6ac34ed167361`.
 
 ## 4. Native M2
 
@@ -322,10 +330,9 @@ Not supported:
 - positive M1 carrier content;
 - label-free calibration.
 
-## 10. Remaining result-bearing work
+## 10. Remaining closure work
 
-1. receive and audit the separately owned Priority-A2a weighting control and Priority-A2b same-target density
-   dose response before making any causal label-density statement;
+1. preserve the audited A2a/A2b-v2 artifacts and their narrow within-ridge claim;
 2. finish reference-aware cleanup and split the root Git synchronization into portable, reviewable commits;
 3. keep the terminal H1 CI64 result in its predeclared secondary role; it does not reopen H1 architecture search.
 

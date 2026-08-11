@@ -6,9 +6,9 @@
 **Scientific authority:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
-**Non-A2 live state:** no RT or H1 process is active; both accuracy programs are terminal. Separately owned
-supervision-density controls are intentionally outside this board. The stale dead H1 Phase-2 preflight tmux session
-was removed during the final live-state audit.
+**Live state:** no RT, H1, or A2 process is active. The RT/H1 accuracy programs and corrected CPU-only A2a/A2b-v2
+supervision-density controls are terminal. The stale dead H1 Phase-2 preflight tmux session was removed during the
+final live-state audit.
 
 This file is intentionally short. Historical queues, proposals, launch incidents, and closed hypotheses belong in
 immutable receipts or Git history, not in the live control surface.

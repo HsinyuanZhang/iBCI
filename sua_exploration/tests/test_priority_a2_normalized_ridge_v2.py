@@ -8,6 +8,7 @@ import pytest
 from sua_exploration.mc_maze import priority_a2_normalized_ridge_v2 as ridge
 from sua_exploration.scripts import run_priority_a2_same_target_density_v2 as a2b_runner
 from sua_exploration.scripts import run_priority_a2_weighting_control_v2 as a2a_runner
+from sua_exploration.scripts import verify_priority_a2b_v2_archival_integrity as a2b_archival
 
 
 def _data() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
@@ -143,20 +144,30 @@ def test_predata_numerical_contract_passes() -> None:
 
 
 def test_a2b_requires_a_verified_a2a_receipt_before_any_loader(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
-    """The prerequisite check runs before the imports that can open V9/NWB data."""
+    """Batch mode checks its A2a prerequisite before imports that can open V9/NWB data."""
     missing = tmp_path / "missing_a2a.json"
-    monkeypatch.setattr(a2b_runner, "A2A_RECEIPT_PATH", missing)
-    monkeypatch.setattr(a2b_runner, "RECEIPT_PATH", tmp_path / "a2b.json")
+    def _missing_prerequisite() -> dict[str, object]:
+        raise FileNotFoundError(f"A2b requires an existing verified A2a v2 receipt: {missing}")
+
+    # ``A2A_RECEIPT_PATH`` is captured as a default argument by the historical
+    # verifier.  Replace the verifier itself so this test checks call ordering
+    # without changing the receipt-bound runner API.
+    monkeypatch.setattr(a2b_runner, "verify_a2a_v2_receipt", _missing_prerequisite)
     with pytest.raises(FileNotFoundError, match="requires an existing verified A2a"):
-        a2b_runner.run()
+        a2b_runner.run_batch(0, 1)
 
 
-def test_runner_default_mode_only_self_tests_and_does_not_write_receipt(monkeypatch: pytest.MonkeyPatch, tmp_path, capsys) -> None:
+def test_runner_default_mode_fails_closed_after_self_test_and_does_not_write_receipt(monkeypatch: pytest.MonkeyPatch, tmp_path, capsys) -> None:
+    """Current batch/combine CLI must never infer a data-writing action from no arguments."""
     target = tmp_path / "would_be_a2b_receipt.json"
     monkeypatch.setattr(a2b_runner, "RECEIPT_PATH", target)
     monkeypatch.setattr("sys.argv", ["run_priority_a2_same_target_density_v2.py"])
-    a2b_runner.main()
-    assert '"full_run_started": false' in capsys.readouterr().out
+    with pytest.raises(SystemExit) as raised:
+        a2b_runner.main()
+    captured = capsys.readouterr()
+    assert raised.value.code == 2
+    assert '"numerical_contract"' in captured.out
+    assert "must specify --combine or --session-start/--session-end" in captured.err
     assert not target.exists()
 
 
@@ -213,3 +224,17 @@ def test_a2b_rejects_adversarial_a2a_receipt(tmp_path, mutation, message: str) -
     receipt.write_text(json.dumps(payload), encoding="utf-8")
     with pytest.raises(ridge.PriorityA2NumericalError, match=message):
         a2b_runner.verify_a2a_v2_receipt(receipt)
+
+
+def test_a2b_v2_posthoc_archival_integrity_closure_passes_for_retained_artifacts() -> None:
+    """This is a read-only closure of retained files, deliberately not a producer-lineage proof."""
+    report = a2b_archival.verify_archival_integrity()
+    assert report["status"] == "PASS"
+    assert report["grid"]["observed_cells"] == 15 * 2 * 3 * 3 * 6
+    assert report["k_all_reproduction"]["unique_base_cells"] == 90
+    assert report["k_all_reproduction"]["replicated_cells"] == 270
+    assert report["k_all_reproduction"]["r2_exact_matches"] == 90
+    assert report["k_all_reproduction"]["coefficient_sha_exact_matches"] == 90
+    assert report["k_all_reproduction"]["seed_reuse_contracts_checked"] == 90
+    assert report["batch_archival_integrity"]["n_batch_files"] == 12
+    assert report["batch_archival_integrity"]["canonical_cells_byte_for_byte_match"] is True
