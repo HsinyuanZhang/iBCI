@@ -19,7 +19,7 @@ sections are provenance only and do not authorize new experiments.
 | deterministic pseudo-MUA | T4/Zero4/TS4 `0.306073/−0.086878/−0.164314`; T4−Zero4 `+0.392951` | terminal controlled signal-view bridge, not native threshold-crossing MUA |
 | native M2 | matched SPINT/T4 `0.293110/0.382906`; delta `+0.089796`, 7/7 sessions positive | matched seed-42 development evidence; fresh three-seed full gate remains unavailable |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802`, 15/15 folds positive | terminal; B2 is the same-pipeline SPINT-structured reference |
-| RT sparse endpoint T4d | at 13/15 complete folds, T4d−Zero4 `+0.277865`, 13/13 positive; T4d−Full `+0.006126`, 7/13 positive | running early evidence only; final 45-cell verifier and exact-query B2 companion remain |
+| RT sparse endpoint T4d | at 14/15 complete folds, T4d−Zero4 `+0.273903`, 14/14 positive; T4d−Full `+0.005566`, 7/14 positive | running early evidence only; final 45-cell verifier and exact-query B2 companion remain |
 | H1 | H-C−H-S `+0.056287`; organizer-held `0.274939` versus paper-LR SPINT `0.261492` | separate dense-covariate compact-consumer evidence; not a sparse-label result |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | current negative boundary |
 

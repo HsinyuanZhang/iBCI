@@ -130,22 +130,22 @@ The CPU constructibility gate passed: split-half `[a,c]` cosine median `0.787119
 forward-transfer mean/median `+0.035910/+0.031461`, 15/15 sessions positive.
 
 The fresh GPU Stage-2 matrix is fixed at 15 folds × `T4d/Full/Zero4`, seed 42, M24/q24/W50, 35 epochs. At the
-last authoritative update, folds 0--12 are complete:
+last authoritative update, folds 0--13 are complete:
 
-| paired contrast, 13 complete folds | mean | median | drop-largest mean | positive folds |
+| paired contrast, 14 complete folds | mean | median | drop-largest mean | positive folds |
 |---|---:|---:|---:|---:|
-| T4d−Zero4 | **`+0.277865`** | **`+0.350521`** | **`+0.267222`** | **13/13** |
-| T4d−dense Full | `+0.006126` | `+0.004358` | `+0.000314` | 7/13 |
+| T4d−Zero4 | **`+0.273903`** | **`+0.296044`** | **`+0.263774`** | **14/14** |
+| T4d−dense Full | `+0.005566` | `+0.001802` | `+0.000157` | 7/14 |
 
-This is early evidence, not the terminal claim. At the current execution update, 39/45 cells are closed; fold12 is
-fully closed and fold13 T4d is running. All fold13 scores remain excluded until its three-arm pair is complete. If the
+This is early evidence, not the terminal claim. At the current execution update, 42/45 cells are closed; folds0--13
+are fully closed and fold14 is running. All incomplete fold14 scores remain excluded until its three-arm pair is complete. If the
 final result remains similar, the scientific reading is that
 one endpoint-direction label per reach preserves dense-carrier accuracy while the correct carrier content strongly
-beats Zero4. It is not evidence that T4d is superior or equivalent to Full. Fold13 is currently running.
+beats Zero4. It is not evidence that T4d is superior or equivalent to Full. Fold14 is currently running.
 
-The nonterminal aggregate is reconstructed from the 39 immutable closed cell receipts matching
-`cells/f{00..12}_{rt_sparse_endpoint_t4d,afc4_vel,zero4}.json`. The ordered SHA256-of-SHA256 digest over those
-receipts is `fb0963e7f0a6265ec11522ad45ca2062f67754e05b7cb209a3cdd23a3b643653`. The runner does not emit an
+The nonterminal aggregate is reconstructed from the 42 immutable closed cell receipts matching
+`cells/f{00..13}_{rt_sparse_endpoint_t4d,afc4_vel,zero4}.json`. The ordered SHA256-of-SHA256 digest over those
+receipts is `ac6139bafaefb9b46ab2220c1464134e77b5cb12bcc136bfde7256e713abb245`. The runner does not emit an
 independent partial-aggregate artifact; therefore this digest documents only the placeholder inputs and must not be
 promoted as a terminal receipt.
 

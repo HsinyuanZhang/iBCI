@@ -22,8 +22,8 @@ and reproducible code/evidence references to be complete.
 **Owner:** remote RTX 5070 Ti supervisor; Luna event monitor; root review
 **Contract:** 15 folds × `T4d/Full/Zero4`, seed42, M24/q24/W50, 35 epochs
 
-Current state: 13/15 complete paired folds (`39/45` cells); fold12 is fully closed and included, and fold13 T4d is
-running. Every fold13 score remains excluded from partial aggregates until all three fold13 arms close.
+Current state: 14/15 complete paired folds (`42/45` cells); folds0--13 are fully closed and included, and fold14 is
+running. Every incomplete fold14 score remains excluded from partial aggregates until all three fold14 arms close.
 
 Frozen primary contrast:
 

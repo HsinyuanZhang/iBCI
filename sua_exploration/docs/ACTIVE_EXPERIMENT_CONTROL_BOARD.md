@@ -16,26 +16,26 @@ immutable receipts or Git history, not in the live control surface.
 | matrix | 15 folds × `R-T4d/R-Full/R-Zero4` × seed42 = 45 cells |
 | calibration/evaluation | M24, q24, W50, 35 epochs, fresh source fit, one-shot outer target |
 | hardware | remote RTX 5070 Ti |
-| completed | **39/45 cells; 13/15 complete paired folds** |
-| current cell | fold13 `R-T4d` training; all incomplete fold13 scores remain excluded until its three arms close |
+| completed | **42/45 cells; 14/15 complete paired folds** |
+| current cell | fold14 running; all incomplete fold14 scores remain excluded until its three arms close |
 | terminal aggregate | absent; partial values are nonterminal |
 | invariants | identical within-fold query identity; target optimizer absent; no target backward; model state unchanged |
 | independent verifier | implemented; terminal-verifier/B2 chain retested 2026-08-11 (`31` collected cases from 29 test functions passed); execute only at 45/45 |
 | follow-on | exact-query 15-fold B2 forward-only companion; no B2 retraining |
 
-Current early evidence from folds0--12:
+Current early evidence from folds0--13:
 
 | contrast | mean | median | drop-largest mean | positive folds |
 |---|---:|---:|---:|---:|
-| `T4d−Zero4` | **`+0.277865`** | **`+0.350521`** | **`+0.267222`** | **13/13** |
-| `T4d−dense Full` | `+0.006126` | `+0.004358` | `+0.000314` | 7/13 |
+| `T4d−Zero4` | **`+0.273903`** | **`+0.296044`** | **`+0.263774`** | **14/14** |
+| `T4d−dense Full` | `+0.005566` | `+0.001802` | `+0.000157` | 7/14 |
 
-Arm means are T4d/Full/Zero4 `0.430038/0.423912/0.152172`. Fold12 closed at
-`0.1702397929/0.1551501609/0.0874419085`, with matched target `ses-RT-20150317`, query start trial24,
-92,160 windows, and common ordered-query digest prefixes `b8bf42e93f35/570cedf4168f/4ed352207764`
-(windows/target-mask/joint). All 13 paired folds have passed the one-shot/no-backprop/state-immutability checks.
-The ordered SHA256-of-SHA256 digest over the 39 closed cell receipts is
-`fb0963e7f0a6265ec11522ad45ca2062f67754e05b7cb209a3cdd23a3b643653`; this is provenance for the
+Arm means are T4d/Full/Zero4 `0.439275/0.433710/0.165372`. Fold13 closed at
+`0.5593592955/0.5610843735/0.3369640896`, with matched target `ses-RT-20150318`, query start trial24,
+110,016 windows, and common ordered-query digest prefixes `ed9e7f7e8ea0/800542ded1f8/4dd3fab62522`
+(windows/target-mask/joint). All 14 paired folds have passed the one-shot/no-backprop/state-immutability checks.
+The ordered SHA256-of-SHA256 digest over the 42 closed cell receipts is
+`ac6139bafaefb9b46ab2220c1464134e77b5cb12bcc136bfde7256e713abb245`; this is provenance for the
 nonterminal placeholder, not a terminal artifact. Matrix manifest SHA is
 `93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`.
 
@@ -118,7 +118,7 @@ evidence from the negative H1 sparse-scalar boundary; historical `+0.2799/+0.277
 remain dense Full--B4/Zero4 results.
 
 The former 12-fold placeholder was mirrored to both Overleaf sources at Overleaf commit `8e703ac`; the current
-13-fold placeholder replaces it in place. The nonterminal placeholder must again be replaced, not supplemented,
+14-fold placeholder replaces the later partial placeholders in place. The nonterminal placeholder must again be replaced, not supplemented,
 when the terminal bundle and B2 companion close.
 
 No active protocol/script/test/receipt-referenced document may be deleted merely because its conclusion is old.
