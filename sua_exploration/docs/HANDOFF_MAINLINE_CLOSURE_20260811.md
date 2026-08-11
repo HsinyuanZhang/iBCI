@@ -15,7 +15,8 @@ chronological calibration prefix without target-session backpropagation, supplie
 identity that a frozen streaming decoder can use. On external-subject SUA and pseudo-MUA the carrier gives a
 large, session-consistent gain over matched zero-content and wrong-attachment controls; on native M2 it has
 positive matched development and organizer-held system evidence; and on RT a per-reach endpoint-direction
-variant is currently matching a carrier fitted from dense per-bin velocity while strongly beating Zero4.
+variant strongly beats Zero4 and the same-pipeline SPINT-structured B2 reference; a dense per-bin carrier is retained
+only as separate mean-performance context.
 The benefit is therefore task-aligned carrier content plus a pretrained consumer, not static electrode/SNR/
 waveform metadata. H1 supports a separate compact-consumer claim under dense covariates. M1 is the tested
 negative boundary for the present carrier content.
@@ -85,6 +86,13 @@ two-dimensional velocity rows, or 299,450 scalar target coordinates. The pooled 
 and `399.267x` by scalar coordinates. These are algorithmic supervision counts, not independent-sample,
 manual-annotation, compute, energy, or latency ratios.
 
+The subsequent same-X trial-direction ridge diagnostic is recorded in
+`HANDOFF_TRIAL_LEVEL_RIDGE.md`. Its independent audit permits a descriptive supervision-formulation comparison but
+rejects a pure label-density causal interpretation: direction-only direct ridge is consistently below T4, whereas
+T4 does not consistently beat dense velocity ridge. A first Priority-A2a attempt is also excluded: its weighted
+ridge omitted total-weight normalization, so the nominal `lambda=1` did not reproduce the sealed normalized-ridge
+solver. The drafted A2b imports that solver and must not run unchanged.
+
 ### 3.2 Native M2: positive but scope-limited
 
 The fresh matched seed-42 Stage-A development matrix has exact 14/14 cells:
@@ -104,7 +112,7 @@ The strict local M24/q24 comparison gives T4 `0.226786` and fixed-lambda Ridge24
 of `+0.112870`. This is one fixed classical implementation on six development sessions, not a ridge-family
 frontier. The tested ridge performs a per-session closed-form solve without backpropagation.
 
-### 3.3 RT: dense carrier terminal; sparse endpoint carrier in final matrix
+### 3.3 RT: dense and sparse endpoint carrier results terminal
 
 The sealed dense-velocity RT comparison is terminal:
 
@@ -129,31 +137,34 @@ ratio is only `2.855x`.
 The CPU constructibility gate passed: split-half `[a,c]` cosine median `0.787119`; correct-minus-shuffle neural
 forward-transfer mean/median `+0.035910/+0.031461`, 15/15 sessions positive.
 
-The fresh GPU Stage-2 matrix is fixed at 15 folds × `T4d/Full/Zero4`, seed 42, M24/q24/W50, 35 epochs. At the
-last authoritative update, folds 0--13 are complete:
+The fresh GPU Stage-2 matrix is fixed at 15 folds × `T4d/Full/Zero4`, seed 42, M24/q24/W50, 35 epochs. All 45 cells
+are complete, and the independent terminal verifier passed:
 
-| paired contrast, 14 complete folds | mean | median | drop-largest mean | positive folds |
+| terminal paired contrast, 15 folds | mean | median | drop-largest mean | positive folds |
 |---|---:|---:|---:|---:|
-| T4d−Zero4 | **`+0.273903`** | **`+0.296044`** | **`+0.263774`** | **14/14** |
-| T4d−dense Full | `+0.005566` | `+0.001802` | `+0.000157` | 7/14 |
+| T4d−Zero4 | **`+0.268905`** | **`+0.241568`** | **`+0.259142`** | **15/15** |
+| T4d−matched B2-D1024 | **`+0.303028`** | **`+0.292102`** | **`+0.291237`** | **15/15** |
 
-This is early evidence, not the terminal claim. At the current execution update, 42/45 cells are closed; folds0--13
-are fully closed and fold14 is running. All incomplete fold14 scores remain excluded until its three-arm pair is complete. If the
-final result remains similar, the scientific reading is that
-one endpoint-direction label per reach preserves dense-carrier accuracy while the correct carrier content strongly
-beats Zero4. It is not evidence that T4d is superior or equivalent to Full. Fold14 is currently running.
+Sparse-mainline arm means are T4d/Zero4/matched B2-D1024 `0.448176/0.179272/0.145148`. The scientific reading is
+that the endpoint-derived carrier strongly beats both no-content Zero4 and the same-pipeline SPINT-structured
+B2-D1024 reference. Dense Full is kept as a separate context statement only: mean `0.445189` versus T4d `0.448176`,
+an average difference of `+0.002987`, without a superiority, equivalence, or non-inferiority claim.
 
-The nonterminal aggregate is reconstructed from the 42 immutable closed cell receipts matching
-`cells/f{00..13}_{rt_sparse_endpoint_t4d,afc4_vel,zero4}.json`. The ordered SHA256-of-SHA256 digest over those
-receipts is `ac6139bafaefb9b46ab2220c1464134e77b5cb12bcc136bfde7256e713abb245`. The runner does not emit an
-independent partial-aggregate artifact; therefore this digest documents only the placeholder inputs and must not be
-promoted as a terminal receipt.
+The terminal matrix manifest SHA is
+`93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`; aggregate SHA is
+`bb2806953e979180c408fb55744534be6fa470d4144f210cc50917a9b1006b7d`; the independent verifier status is
+`PASS_INDEPENDENT_TERMINAL_VERIFICATION_READ_ONLY`. T4d--Zero4 has exact sign-test `p=6.1035e-5`.
 
-After 45/45 cells, the independent terminal verifier must pass. Then the 15 sealed B2 checkpoints will be evaluated
-forward-only on the exact Stage-2 query windows. Run the verifier from the manifest-bound original Stage-2 root or
-from a complete isolated copy with an explicit path map; the current dirty development tree has drifted source/config
-digests and is not a valid `workspace-root`. B2 must use a genuinely absent fresh output root rather than the existing
-fold0-import `v1` directory. B2 will not be retrained, reselected, or updated.
+After the verifier passed, all 15 sealed B2 checkpoints were evaluated forward-only on the exact Stage-2 query
+identities from a fresh output root, without retraining or reselection. The final receipt status is
+`PASS_15FOLD_EXACT_STAGE2_QUERY_FORWARD_ONLY`, SHA
+`c36ec0e31ed913ed4e8077f9a4d9d634d53529ce037ad06af1f48d279b16820e`. The prospective folds4--14 gate also
+passed: mean/median `+0.311178/+0.304175`, 11/11 positive.
+
+For durable local evidence, the complete matrix and B2 receipt bundles were copied byte-identically to
+`sua_exploration/results/rt_terminal_stage2_20260811_canonical/`; recursive `diff -qr` passed and the three key
+hashes above are unchanged. `CANONICALIZATION_RECEIPT_v1.json` records the copy. The original
+`rt_terminal_clean_20260811/` root remains intact until checkpoint-level cleanup is separately audited.
 
 ### 3.4 H1: separate compact-consumer evidence
 
@@ -167,9 +178,15 @@ pieces of evidence:
 - organizer-held system result: all-source CarrierID `0.274939±0.127206` versus paper-LR SPINT
   `0.261492±0.148717`, with normalized latency `0.113919` versus `0.129075`.
 
-The compact H-C identity path has about 58k parameters versus 5.97M for H-S, roughly `102.6x` fewer. The running
-CI64 experiment only tests whether widening the compact joint consumer improves H1; it is not a blocker for the
-SUA/M2/RT mainline and must not be used to support sparse supervision.
+The compact H-C identity path has about 58k parameters versus 5.97M for H-S, roughly `102.6x` fewer. The terminal
+five-date CI64 control shows that widening the compact joint interface does not improve this result:
+`CI64-FULL−CI32-FULL=−0.020130` equal-date mean, median `−0.014332`, with only 2/5 dates positive. The `+0.03`
+practical-width gate and the historical width gate both fail, so H64 escalation stops. Within the CI64 family,
+FULL remains above C0/LS/RS by `+0.037980/+0.026249/+0.033704` on average (4/5, 4/5, and 5/5 positive dates,
+respectively). This is a negative width result alongside positive content/attachment controls, not sparse-label
+evidence. Aggregate SHA is `534e7d4f2559e03d3cf89a5f7f0b9641172479664ce8095f2d0866ca1e6a7f53`; independent verifier
+status is `PASS_H1_CARRIERID_DATE_LODO_CI_FIVEDATE_TERMINAL_VERIFIED_V2`, SHA
+`29d6a5f61b346689f20b8b0274043ea01dc6d96edf34882f21aae1b52c0f7660`.
 
 ### 3.5 M1: current negative boundary
 
@@ -223,17 +240,14 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 
 ## 6. Remaining work before mainline closure
 
-Only the following work can change the main paper:
+The accuracy experiments in the declared RT/H1 closure are complete. Remaining closure work is:
 
-1. finish RT folds 13--14 so the fixed 45-cell matrix is complete;
-2. run the independent RT terminal verifier and freeze the 15-fold mean/median/sign/drop-largest statistics;
-3. run the uniform 15-fold B2 forward-only exact-query companion and report both all-fold and prospective-fold
-   summaries;
-4. update the main results ledger, paper, and this handoff with terminal-only numbers;
-5. run reference-aware document cleanup, recoverable checkpoint cleanup, focused tests, and narrow Git commits.
+1. finish both the corrected Priority-A2a weighting control and the same-target Priority-A2b density dose response
+   before making a pure label-density causal claim;
+2. run reference-aware document cleanup, recoverable checkpoint cleanup, focused tests, and narrow Git commits.
 
-H1 CI64 may finish in parallel or be handed to another maintainer. It cannot delay items 1--5 or reopen the main
-design search. Quantization is deferred and is not part of this closure.
+The terminal negative CI64 width result cannot reopen the H1 or RT architecture search. Quantization is deferred and
+is not part of this closure.
 
 ## 7. Golden references
 
@@ -253,6 +267,10 @@ The following are the only status/protocol entry points a new maintainer should 
 Older handoffs explain how individual hypotheses were proposed or rejected, but they are not current instructions.
 Generated checkpoints, predictions, logs, and receipts remain outside Git; published numbers must cite their SHA
 and terminal verifier.
+
+The 2026-08-11 reference audit moved 16 unreferenced handoffs, seven agent briefs, and one superseded hygiene report
+to ignored, recoverable `docs_archive/20260811_retired_handoffs/`. Five older handoffs remain in the active docs
+directory only because scripts or receipts bind their names/hashes; they are provenance, not current instructions.
 
 ## 8. Workspace and handoff policy
 

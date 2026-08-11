@@ -1,7 +1,7 @@
 # Current results: analytic functional carriers for streaming neural decoding
 
 **Updated:** 2026-08-11 HKT
-**Status:** concise result ledger; RT sparse Stage-2 remains nonterminal
+**Status:** concise result ledger; RT sparse Stage-2/B2 and H1 CI64 are terminal
 **Full project interpretation:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
@@ -17,7 +17,7 @@ receipts, and the dated protocol documents still referenced by scripts and tests
 | external subject-M pseudo-MUA | T4/Zero4/TS4 `0.306073/−0.086878/−0.164314`; T4−Zero4 `+0.392951` | terminal controlled signal-view bridge |
 | native M2 matched seed42 | SPINT/T4 `0.293110/0.382906`; delta `+0.089796` | 14/14 development cells; 7/7 session deltas positive; not the missing fresh three-seed gate |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802` | terminal 15-fold development matrix |
-| RT sparse endpoint T4d | at 14/15 folds, T4d/Full/Zero4 `0.439275/0.433710/0.165372` | nonterminal early evidence; 45-cell verifier and B2 exact-query pass remain |
+| RT sparse endpoint T4d | T4d/Zero4/B2 `0.448176/0.179272/0.145148`; deltas `+0.268905/+0.303028` | terminal 45-cell matrix, independent verifier PASS, exact-query B2 companion PASS; both sparse-mainline contrasts 15/15 positive |
 | H1 compact CarrierID | five-date H-C−H-S `+0.056287`; organizer-held `0.274939` vs paper-LR `0.261492` | dense-covariate compact-consumer evidence, not sparse-label evidence |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | carrier-content negative boundary |
 
@@ -98,6 +98,13 @@ T4 beats dense-label ridge. Across the 15 sessions, T4 uses 750 direction scalar
 by coordinates. They measure algorithmic target-supervision consumption, not independent samples, manual effort,
 compute, latency, memory, or energy.
 
+The same-X Priority-A diagnostic is qualified rather than promoted: its tested direction-only direct ridge is below
+T4 at every budget, but the dense and sparse arms also differ in target semantics, weighting, and solver path, and
+T4 does not consistently beat dense velocity ridge. See `HANDOFF_TRIAL_LEVEL_RIDGE.md` for the independent audit and
+the CPU-only corrective program. The first A2a receipt is invalid as a corrected control because its weighted Gram
+omits normalization by total weight, so its nominal `lambda=1` is not the sealed normalized-ridge penalty; A2b must
+not run unchanged because its current script imports the same solver.
+
 Evidence:
 
 - V9 terminal aggregate under `results/dandi_000688_subm_v9_*`;
@@ -156,7 +163,7 @@ Terminal aggregate:
 `results/k4_rt_loso_v1/RT_STAGE_R_D1024_FULL15_AGGREGATE_v1.json`, SHA
 `95bca578cd9ac412c88eb29b96e22c3eda5968ecb39b8f21dfc8c3fff5b536b8`.
 
-### 5.2 Sparse endpoint carrier: nonterminal
+### 5.2 Sparse endpoint carrier: terminal
 
 RT has no non-degenerate native per-reach target field. The production method derives one direction per reach from
 go-cue-bounded endpoint coordinates. Therefore it can support an algorithmic supervision-density claim, but not a
@@ -175,23 +182,24 @@ The estimator consumes 1,103 reach-direction scalars versus 7,855 dense 2-D velo
 coordinates: `7.121x/14.243x`. The interpolation implementation actually reads 5,502 coordinate scalars, so its raw
 coordinate-I/O ratio is `2.855x`.
 
-At the current 14/15 complete folds:
+The terminal 15-fold Stage-2 matrix reports:
 
 | arm / contrast | result |
 |---|---:|
-| T4d mean | `0.439275` |
-| dense Full mean | `0.433710` |
-| Zero4 mean | `0.165372` |
-| T4d−Zero4 mean / median / drop-largest | **`+0.273903/+0.296044/+0.263774`** |
-| T4d−Zero4 signs | **14/14 positive** |
-| T4d−Full mean / median / drop-largest | `+0.005566/+0.001802/+0.000157` |
-| T4d−Full signs | 7/14 positive |
+| T4d mean | `0.448176` |
+| Zero4 mean | `0.179272` |
+| matched SPINT-structured B2-D1024 mean | `0.145148` |
+| T4d−Zero4 mean / median / drop-largest | **`+0.268905/+0.241568/+0.259142`** |
+| T4d−Zero4 signs | **15/15 positive**; exact sign-test `p=6.1035e-5` |
+| T4d−B2 mean / median / drop-largest | **`+0.303028/+0.292102/+0.291237`** |
+| T4d−B2 signs | **15/15 positive**; exact sign-test `p=6.1035e-5` |
+| prospective folds4--14 T4d−B2 | **`+0.311178` mean, `+0.304175` median, 11/11 positive; gate PASS** |
 
-These are early numbers, not a terminal claim or equivalence test. Execution is at 42/45 cells: folds0--13 are fully
-closed, fold14 is running, and every incomplete fold14 score remains excluded from the paired aggregate. A clearly
-marked 14-fold nonterminal placeholder may be mirrored into the paper, but an independent verifier must pass before terminal
-promotion or a scientific claim. Then all 15 sealed B2 checkpoints will be evaluated forward-only on the
-exact Stage-2 query windows without retraining or reselection.
+All 45 fresh cells closed and the read-only independent verifier passed. The B2 companion then evaluated all 15
+sealed checkpoints forward-only on the exact Stage-2 query identities without retraining, reselection, optimizer,
+backward, or state mutation. Endpoint-derived T4d strongly beats both Zero4 and the same-pipeline SPINT-structured
+B2-D1024 reference. As a separate dense-supervision context only, dense Full has mean `0.445189` versus T4d
+`0.448176`, an average difference of `+0.002987`; no superiority, equivalence, or non-inferiority claim is made.
 
 Key receipt SHAs:
 
@@ -199,7 +207,14 @@ Key receipt SHAs:
 - supervision closure `b826aa49e1d045da22068f5a9c12e2672d700d073549134105029051327b5f16`;
 - Stage1 `9b69eaaa2339610116a5db8efa23ba20ad61459373293d98e80ceec294c3d0e9`;
 - Stage2 readiness `183ae60c314d1213d0c5429545d54f5c34d71a8a170df52c381480de157ba87d`;
-- matrix manifest `93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`.
+- matrix manifest `93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`;
+- terminal aggregate `bb2806953e979180c408fb55744534be6fa470d4144f210cc50917a9b1006b7d`;
+- independent terminal verifier status `PASS_INDEPENDENT_TERMINAL_VERIFICATION_READ_ONLY`;
+- exact-query B2 final receipt `c36ec0e31ed913ed4e8077f9a4d9d634d53529ce037ad06af1f48d279b16820e`.
+
+The complete RT matrix and B2 receipt bundles also have a byte-identical canonical local copy under
+`results/rt_terminal_stage2_20260811_canonical/`; its copy-only receipt records recursive-diff PASS. The original
+run root is retained pending a separate checkpoint audit.
 
 ## 6. H1 compact consumer
 
@@ -228,8 +243,24 @@ Organizer-held result:
 The official endpoint has no per-session scores, so do not claim paired significance or session-uniform superiority.
 The compact identity path is about 58k parameters versus 5.97M for H-S, approximately `102.6x` fewer.
 
-The CI64 five-date matrix is secondary and nonterminal. At the current update, 19/25 source checkpoints are
-complete; target evaluation has not opened. It cannot delay the SUA/M2/RT mainline or authorize H64 escalation.
+The predeclared CI64 width test is also terminal. All 25 fixed-epoch source checkpoints and all five one-shot
+held-date evaluations completed on identical within-date query windows. Widening the joint carrier consumer did
+not improve the compact CI32 system:
+
+| CI64 contrast | equal-date mean | median | positive dates | disposition |
+|---|---:|---:|---:|---|
+| FULL−CI32-FULL | **`−0.020130`** | `−0.014332` | 2/5 | width and `+0.03` practical gates fail |
+| FULL−C0 | `+0.037980` | `+0.038000` | 4/5 | carrier content remains useful inside CI64 |
+| FULL−LS | `+0.026249` | `+0.032680` | 4/5 | correct pairing has a positive average signature |
+| FULL−RS | `+0.033704` | `+0.033225` | 5/5 | reported attachment control; not a hard gate |
+
+Thus CI64 does not rescue or enlarge the H1 result: the 32-wide compact consumer is not evidently
+capacity-limited, and H64 escalation stops. This negative width result is compatible with the positive content
+controls and strengthens the parameter-efficiency interpretation rather than an accuracy-improvement claim.
+
+CI64 aggregate SHA: `534e7d4f2559e03d3cf89a5f7f0b9641172479664ce8095f2d0866ca1e6a7f53`.
+Independent read-only verifier status: `PASS_H1_CARRIERID_DATE_LODO_CI_FIVEDATE_TERMINAL_VERIFIED_V2`, SHA
+`29d6a5f61b346689f20b8b0274043ea01dc6d96edf34882f21aae1b52c0f7660`.
 
 Official terminal receipt:
 `SPINT-main/pilot_artifacts/h1_carrierid_all_source_official_v1/H1_CARRIERID_ALL_SOURCE_EVALAI_TERMINAL_RESULT_RECEIPT_v5.json`,
@@ -281,16 +312,16 @@ Not supported:
 - universal superiority over ridge or SPINT;
 - a universal native annotation-cost, compute, latency, energy, or memory advantage;
 - a fully sparse-label source-training/scoring pipeline;
-- RT sparse superiority or equivalence before terminal paired analysis;
+- RT sparse superiority over dense Full, equivalence, or non-inferiority;
 - H1 sparse-label evidence;
 - positive M1 carrier content;
 - label-free calibration.
 
 ## 10. Remaining result-bearing work
 
-1. RT folds12--14 and 45-cell terminal verifier;
-2. 15-fold exact-query B2 forward-only companion;
-3. terminal updates to this ledger, the authoritative handoff, and Overleaf;
-4. reference-aware document/checkpoint cleanup and narrow GitHub synchronization.
+1. receive and audit the separately owned Priority-A2a weighting control and Priority-A2b same-target density
+   dose response before making any causal label-density statement;
+2. finish reference-aware cleanup and split the root Git synchronization into portable, reviewable commits;
+3. keep the terminal H1 CI64 result in its predeclared secondary role; it does not reopen H1 architecture search.
 
 All other proposed carrier, decoder-fusion, M1/H1 rescue, and quantization experiments are outside this closure.

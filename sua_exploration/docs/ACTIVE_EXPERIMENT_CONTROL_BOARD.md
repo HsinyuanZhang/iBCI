@@ -15,66 +15,67 @@ immutable receipts or Git history, not in the live control surface.
 |---|---|
 | matrix | 15 folds × `R-T4d/R-Full/R-Zero4` × seed42 = 45 cells |
 | calibration/evaluation | M24, q24, W50, 35 epochs, fresh source fit, one-shot outer target |
-| hardware | remote RTX 5070 Ti |
-| completed | **42/45 cells; 14/15 complete paired folds** |
-| current cell | fold14 running; all incomplete fold14 scores remain excluded until its three arms close |
-| terminal aggregate | absent; partial values are nonterminal |
+| hardware | completed across remote RTX 5070 Ti and local RTX 3090 execution |
+| completed | **45/45 cells; 15/15 complete paired folds** |
+| current cell | none; Stage-2 execution and B2 exact-query companion are closed |
+| terminal aggregate | `PASS_MATRIX_TERMINAL`; SHA `bb2806953...` |
 | invariants | identical within-fold query identity; target optimizer absent; no target backward; model state unchanged |
-| independent verifier | implemented; terminal-verifier/B2 chain retested 2026-08-11 (`31` collected cases from 29 test functions passed); execute only at 45/45 |
-| follow-on | exact-query 15-fold B2 forward-only companion; no B2 retraining |
+| independent verifier | `PASS_INDEPENDENT_TERMINAL_VERIFICATION_READ_ONLY` |
+| follow-on | exact-query B2 companion complete; final receipt SHA `c36ec0e3...` |
 
-Current early evidence from folds0--13:
+Terminal evidence from all 15 folds:
 
 | contrast | mean | median | drop-largest mean | positive folds |
 |---|---:|---:|---:|---:|
-| `T4d−Zero4` | **`+0.273903`** | **`+0.296044`** | **`+0.263774`** | **14/14** |
-| `T4d−dense Full` | `+0.005566` | `+0.001802` | `+0.000157` | 7/14 |
+| `T4d−Zero4` | **`+0.268905`** | **`+0.241568`** | **`+0.259142`** | **15/15** |
+| `T4d−B2-D1024` | **`+0.303028`** | **`+0.292102`** | **`+0.291237`** | **15/15** |
 
-Arm means are T4d/Full/Zero4 `0.439275/0.433710/0.165372`. Fold13 closed at
-`0.5593592955/0.5610843735/0.3369640896`, with matched target `ses-RT-20150318`, query start trial24,
-110,016 windows, and common ordered-query digest prefixes `ed9e7f7e8ea0/800542ded1f8/4dd3fab62522`
-(windows/target-mask/joint). All 14 paired folds have passed the one-shot/no-backprop/state-immutability checks.
-The ordered SHA256-of-SHA256 digest over the 42 closed cell receipts is
-`ac6139bafaefb9b46ab2220c1464134e77b5cb12bcc136bfde7256e713abb245`; this is provenance for the
-nonterminal placeholder, not a terminal artifact. Matrix manifest SHA is
-`93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`.
+Sparse-mainline arm means are T4d/Zero4/B2 `0.448176/0.179272/0.145148`. T4d--Zero4 and
+T4d--B2 are positive in every fold; both exact two-sided sign tests are `p=6.1035e-5`. The prospective
+folds4--14 B2 gate also passes with mean/median `+0.311178/+0.304175` and 11/11 positive. Matrix manifest SHA is
+`93a1aa3549b844c399ab1cc2b9bddb1d93ee2070b51c91e80d60875cee4b3ca4`; aggregate SHA is
+`bb2806953e979180c408fb55744534be6fa470d4144f210cc50917a9b1006b7d`; B2 final SHA is
+`c36ec0e31ed913ed4e8077f9a4d9d634d53529ce037ad06af1f48d279b16820e`.
 
-Do not write these values into the paper as terminal, equivalence, or native annotation-cost evidence.
+These values may be written as terminal development evidence. Dense Full is separate context only: its mean is
+`0.445189` versus T4d `0.448176` (average difference `+0.002987`), without a superiority/equivalence claim. Do not
+describe endpoint-derived RT labels as native annotation-cost evidence.
 
-## 2. Prepared RT terminal sequence
+## 2. Completed RT terminal sequence
 
-When 45/45 closures exist:
+The frozen sequence completed in order:
 
-1. run the independent Stage-2 terminal verifier from the manifest-bound original stage root, or from a complete
-   isolated copy with an explicit path map; never use the current dirty development tree as `workspace-root`;
-2. inspect its exact 15×3 grid, provenance, query, no-BP, and recomputed-statistic verdict;
-3. if and only if it passes, create a genuinely absent B2 output root and run all 15 sealed checkpoints
-   forward-only on exact Stage-2 queries; never reuse the existing fold0-import `v1` directory;
-4. finalize full-15 and prospective folds4--14 B2 comparisons;
-5. update the handoff, `CURRENT_RESULTS.md`, and Overleaf with terminal-only numbers.
+1. the independent Stage-2 verifier passed from a complete isolated closure with explicit path mapping;
+2. its exact 15x3 grid, provenance, query, no-BP, and recomputed statistics passed;
+3. a new B2 output root evaluated all 15 sealed checkpoints exactly once on the Stage-2 queries;
+4. full-15 and prospective folds4--14 B2 summaries both closed and passed their stated checks;
+5. mainline and Overleaf RT terminal replacement completed and was cross-checked against the terminal receipts;
+6. H1 CI64 terminal values and the stop-H64 decision were propagated after independent verification.
 
 The B2 implementation is already committed at GitHub commit `ed03215`. On 2026-08-11, the independent Stage-2
 verifier, B2 preflight, B2 forward-only terminal evaluator, and paired companion suites were rerun together with
-plugin autoload disabled: **31/31 collected cases passed across 29 test functions**. Fold0 uses a
+plugin autoload disabled: **31/31 collected cases passed across 29 test functions**. This is the historical focused
+terminal suite, not a claim that the entire current root-worktree candidate is green. Fold0 uses a
 preservation-only imported checkpoint whose SHA begins `078ac6dc...`; the import receipt SHA begins
 `5d00985d...`. Historical B2 outer scores must not be mixed with the exact-query forward pass.
 
-## 3. Secondary active work — H1 CI64
+## 3. Completed secondary work — H1 CI64
 
 | field | current state |
 |---|---|
 | matrix | five dates × five arms = 25 fixed-e49 source checkpoints |
-| completed | **19/25** |
-| active | date19250119 `CI64-RS` on GPU1; date19250120 `CI32-FULL` on GPU0 |
-| remaining after active cells | four date19250120 arms under the original GPU0 serial runner |
-| target evaluation | unopened; no current CI64 accuracy result |
+| completed | **25/25 checkpoints and 5/5 one-shot held-date evaluations** |
+| active | none |
+| terminal result | CI64-FULL−CI32-FULL `−0.020130`, 2/5 dates positive |
+| controls | FULL−C0 `+0.037980` (4/5); FULL−LS `+0.026249` (4/5); FULL−RS `+0.033704` (5/5) |
+| verifier | `PASS_H1_CARRIERID_DATE_LODO_CI_FIVEDATE_TERMINAL_VERIFIED_V2`; SHA `29d6a5f6...` |
+| decision | stop H64 escalation; no consumer-width improvement |
 | role | secondary H1 compact-consumer result; not a sparse-label claim and not a mainline blocker |
 
-A proposed 3+2 split of the final date was cancelled before any explicit cell launch. The GPU0 partition parent was
-briefly stopped and resumed without touching either active child; the execution receipt records
-`CANCELLED_BEFORE_LAUNCH_ORIGINAL_SERIAL_SCHEDULE_RESTORED`. No duplicate date20 run directory was created.
-
-H1 is low-frequency monitored. Root work is focused on RT and documentation closure.
+The aggregate SHA is `534e7d4f2559e03d3cf89a5f7f0b9641172479664ce8095f2d0866ca1e6a7f53`. The final verifier
+checked the exact 5×5 grid, fixed checkpoint/config lineage, shared queries, unchanged state, and zero target
+backpropagation. CI64 retains positive content and attachment contrasts, but doubling the interface width is
+negative on average and fails both the historical width condition and the predeclared `+0.03` practical gate.
 
 ## 4. Closed results relevant to the active decision
 
@@ -89,14 +90,12 @@ H1 is low-frequency monitored. Root work is focused on RT and documentation clos
 
 1. keep `HANDOFF_MAINLINE_CLOSURE_20260811.md` as the sole current handoff;
 2. keep README and ROADMAP concise and pointing to that handoff;
-3. keep the already-compressed `CURRENT_RESULTS.md` as the dataset/claim ledger and replace only its explicitly
-   nonterminal RT block after terminal verification;
-4. mirror the current 12-fold paired aggregate into full and six-page Overleaf only as an explicit nonterminal
-   placeholder; replace it after terminal verification and B2 companion completion;
-5. demote older `HANDOFF_*`, `AGENT_BRIEF_*`, and dated reviews to historical/archive status.
+3. keep the already-compressed `CURRENT_RESULTS.md` as the dataset/claim ledger; its RT block now carries terminal values;
+4. keep the completed terminal sparse-RT replacement consistent across both Overleaf sources;
+5. keep the terminal H1 CI64 width result in its secondary compact-consumer role;
+6. demote older `HANDOFF_*`, `AGENT_BRIEF_*`, and dated reviews to historical/archive status.
 
-The terminal RT paper update has a frozen replacement map. A user-requested 12-fold partial score may appear only
-inside an explicit `NONTERMINAL PLACEHOLDER`; it is not a claim and must be replaced at closure:
+The terminal RT paper update has been applied at the following locations:
 
 - full paper abstract in `bci_paper_overleaf/main.tex`;
 - contribution paragraph in `bci_paper_overleaf/sections/01_introduction.tex`;
@@ -108,24 +107,23 @@ inside an explicit `NONTERMINAL PLACEHOLDER`; it is not a claim and must be repl
   `bci_paper_overleaf/paper_6pp.tex`;
 - RT interval/supervision captions in `bci_paper_overleaf/figures/scripts/figure_snippets.tex`.
 
-The dense Full/B2 result remains a separate historical estimand. The sparse T4d update must report matched
-T4d--dense Full, T4d--Zero4, and T4d--exact-query B2 statistics without replacing or silently relabelling the dense
-matrix. Preserve the Stage0B/Stage1 constructibility result as a separate layer, remove only the terminal-accuracy
+The dense Full/B2 result remains a separate historical estimand. The sparse T4d mainline reports
+T4d--Zero4 and T4d--exact-query B2; its comparison with dense Full is retained only as a separate arm-mean context
+statement, without fold-wise detail or a superiority/equivalence claim. Preserve the Stage0B/Stage1 constructibility result as a separate layer, remove only the terminal-accuracy
 `pending` language, and retain the caveat that endpoint-derived directions do not restore a native annotation-cost
 claim. Any `single-seed RT` or `RT $\pm2$SE` sentence must name whether it describes historical dense Stage-R or
 sparse Stage-2. Broad `sparse trial- or event-level supervision` language must distinguish endpoint-derived RT
 evidence from the negative H1 sparse-scalar boundary; historical `+0.2799/+0.2775` continuous-velocity contrasts
 remain dense Full--B4/Zero4 results.
 
-The former 12-fold placeholder was mirrored to both Overleaf sources at Overleaf commit `8e703ac`; the current
-14-fold placeholder replaces the later partial placeholders in place. The nonterminal placeholder must again be replaced, not supplemented,
-when the terminal bundle and B2 companion close.
+The former 12/14-fold placeholders are obsolete now that the terminal bundle and B2 companion have closed. Replace
+them in place; do not retain a second partial-results table beside the terminal table.
 
 No active protocol/script/test/receipt-referenced document may be deleted merely because its conclusion is old.
 
 ## 6. Post-terminal cleanup and GitHub queue
 
-Cleanup begins after RT runners/watchers/terminalizers exit. H1 paths remain protected while H1 runs.
+RT and H1 terminal runners have exited. Any checkpoint cleanup still requires a fresh path-reference/process audit.
 
 - recoverable candidate: 42 periodic `last.ckpt` aliases that are byte-identical to retained best checkpoints,
   totaling 2,665,007,268 bytes (about 2.482 GiB);
@@ -141,6 +139,12 @@ Five unreferenced CPU evidence briefs passed the fresh basename/stem scan and re
 ignored `docs_archive/20260809_cpu_briefs/`; their original SHA-256 values are preserved in its local manifest and
 in Git history. No current document, script, test, protocol, or paper source depends on them. Further old documents
 remain tracked until the same reference audit proves they are safe to remove from the public repository.
+
+On 2026-08-11, a second read-only basename/stem audit cleared 16 obsolete handoffs, seven agent briefs, and the old
+workspace-hygiene report for recoverable local archival. They were moved to ignored
+`docs_archive/20260811_retired_handoffs/` with an archive manifest. Seven handoff-named files remain active: the
+current mainline handoff, the audited trial-ridge handoff, and five historical files still bound by scripts or
+receipts. No active protocol, terminal artifact, or paper source was moved.
 
 ## 7. Stop rules
 
