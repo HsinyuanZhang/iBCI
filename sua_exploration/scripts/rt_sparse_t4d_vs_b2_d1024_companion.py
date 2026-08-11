@@ -162,6 +162,26 @@ def _teacher_metadata_for_fold(fold: int) -> Path | None:
         WORKSPACE / "streaming_calibration_exp/outputs/rt_stage_r_b2_imported_remote/_artifacts",
     )
     marker = f"_f{fold}_s42_"
+
+    # Fold 10 is exceptional for a documented reason: the immutable aggregate
+    # binds it to the isolated race-recovery run.  A supervisor witness from
+    # the raced run is evidence of an alternative execution, not interchangeable
+    # evidence.  Look *only* in that frozen root, and retain the normal
+    # uniqueness requirement within it.  In particular, do not fall back to a
+    # supervisor witness if the recovery witness is absent.
+    if fold == 10:
+        recovery_root = roots[2]
+        candidates = [p for p in recovery_root.glob(f"*{marker}*/teacher_metadata.json")] if recovery_root.is_dir() else []
+        if len(candidates) == 1:
+            return candidates[0]
+        if len(candidates) > 1:
+            raise CompanionError(
+                f"B2 fold 10: ambiguous race-recovery teacher metadata witnesses: {candidates}"
+            )
+        raise CompanionError(
+            "B2 fold 10: missing freeze-bound race-recovery teacher metadata witness"
+        )
+
     candidates = [p for root in roots if root.is_dir() for p in root.glob(f"*{marker}*/teacher_metadata.json")]
     if len(candidates) == 1:
         return candidates[0]

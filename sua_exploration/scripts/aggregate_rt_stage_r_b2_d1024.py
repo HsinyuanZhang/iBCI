@@ -29,6 +29,13 @@ import stat
 import sys
 from typing import Any, Mapping, Sequence
 
+# Support both package import (tests) and direct ``python scripts/…py`` use.
+SCRIPT_PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(SCRIPT_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_PROJECT_ROOT))
+
+from scripts import rt_stage_r_b2_d1024_fold10_race_recovery_checker as fold10_recovery
+
 
 WORKSPACE = Path(__file__).resolve().parents[2]
 FOLDS = tuple(range(15))
@@ -52,6 +59,9 @@ DEFAULT_FOLD0_COMPARISON = WORKSPACE / "sua_exploration/results/k4_rt_loso_v1/RT
 DEFAULT_RS_FOLD0_ROOT = WORKSPACE / "streaming_calibration_exp/outputs/rt_stage_r_b2_imported_remote/fold_00/seed_42"
 DEFAULT_RS_LOCAL_ROOT = WORKSPACE / "streaming_calibration_exp/outputs/rt_stage_r_b2_local3090/gpu_runs_zero4_v2/b2_d1024_zero4"
 DEFAULT_RS_SUPERVISOR_ROOT = WORKSPACE / "streaming_calibration_exp/outputs/rt_stage_r_b2_local3090/supervisor_folds03_14_v1"
+DEFAULT_RS_FOLD10_RECOVERY_ROOT = (
+    WORKSPACE / "streaming_calibration_exp/outputs/rt_stage_r_b2_local3090/fold10_race_recovery_v1"
+)
 
 
 class AggregateError(RuntimeError):
@@ -66,6 +76,8 @@ class RsPaths:
     config: Path
     terminal: Path | None
     source: str
+    recovery_root: Path | None = None
+    old_failure_terminal: Path | None = None
 
 
 def _sha256(path: Path) -> str:
@@ -108,6 +120,7 @@ def _immutable(path: Path, label: str) -> None:
 def default_rs_paths(
     *, fold0_root: Path = DEFAULT_RS_FOLD0_ROOT, local_root: Path = DEFAULT_RS_LOCAL_ROOT,
     supervisor_root: Path = DEFAULT_RS_SUPERVISOR_ROOT,
+    fold10_recovery_root: Path = DEFAULT_RS_FOLD10_RECOVERY_ROOT,
 ) -> dict[int, RsPaths]:
     """Return the one legal receipt location for every B2/D1024 fold."""
 
@@ -131,6 +144,19 @@ def default_rs_paths(
             source="local_3090_fold1_2",
         )
     for fold in range(3, 15):
+        if fold == fold10_recovery.FOLD:
+            recovery = fold10_recovery.recovery_paths(fold10_recovery_root)
+            result[fold] = RsPaths(
+                outer=recovery["outer"],
+                selection=recovery["selection"],
+                split=recovery["split"],
+                config=recovery["config"],
+                terminal=recovery["terminal"],
+                source="local_3090_fold10_race_recovery_v1",
+                recovery_root=recovery["root"],
+                old_failure_terminal=fold10_recovery.old_failure_terminal(),
+            )
+            continue
         cell = supervisor_root / "cells/b2_d1024_zero4" / f"fold_{fold:02d}" / "seed_42"
         result[fold] = RsPaths(
             outer=cell / "outer_target_eval.json",
@@ -275,9 +301,25 @@ def _validate_outer(outer: Mapping[str, Any], *, rc: Mapping[str, Any], fold: in
     _finite(outer.get("r2_variance_weighted"), f"R-S fold {fold} R2")
 
 
-def _validate_supervisor_terminal(path: Path | None, *, fold: int) -> dict[str, Any] | None:
+def _validate_supervisor_terminal(paths: RsPaths, *, fold: int) -> dict[str, Any] | None:
+    path = paths.terminal
     if path is None:
         return None
+    if paths.recovery_root is not None:
+        _need(fold == fold10_recovery.FOLD, "only fold 10 may bind the isolated race recovery")
+        _need(paths.source == "local_3090_fold10_race_recovery_v1", "fold-10 recovery source tag drift")
+        try:
+            audited = fold10_recovery.validate_recovery_terminal(
+                recovery_root=paths.recovery_root, terminal_path=path,
+                old_terminal_path=(
+                    fold10_recovery.old_failure_terminal()
+                    if paths.old_failure_terminal is None else paths.old_failure_terminal
+                ),
+            )
+        except fold10_recovery.RecoveryError as error:
+            raise AggregateError(f"R-S fold {fold} recovery terminal audit failed: {error}") from error
+        return dict(audited["terminal"])
+    _need(fold != fold10_recovery.FOLD, "fold 10 must use the isolated recovery terminal, not the raced supervisor cell")
     terminal = _json(path)
     _need(
         terminal.get("schema") in {
@@ -302,7 +344,7 @@ def _validate_rs_fold(paths: RsPaths, *, rc: Mapping[str, Any], fold: int) -> di
     _validate_split(split, selection, rc=rc, fold=fold)
     _validate_outer(outer, rc=rc, fold=fold)
     _need(outer.get("checkpoint_sha256") == selection.get("best_model_sha256"), f"R-S fold {fold} selected checkpoint SHA mismatch")
-    terminal = _validate_supervisor_terminal(paths.terminal, fold=fold)
+    terminal = _validate_supervisor_terminal(paths, fold=fold)
     files = {
         "outer": {"path": str(paths.outer), "sha256": _sha256(paths.outer)},
         "selection": {"path": str(paths.selection), "sha256": _sha256(paths.selection)},
@@ -310,7 +352,19 @@ def _validate_rs_fold(paths: RsPaths, *, rc: Mapping[str, Any], fold: int) -> di
         "config": {"path": str(paths.config), "sha256": _sha256(paths.config)},
     }
     if paths.terminal is not None:
-        files["supervisor_terminal"] = {"path": str(paths.terminal), "sha256": _sha256(paths.terminal)}
+        terminal_label = "recovery_terminal" if paths.recovery_root is not None else "supervisor_terminal"
+        files[terminal_label] = {"path": str(paths.terminal), "sha256": _sha256(paths.terminal)}
+    if paths.recovery_root is not None:
+        recovery = fold10_recovery.validate_recovery_terminal(
+            recovery_root=paths.recovery_root, terminal_path=paths.terminal,
+            old_terminal_path=(
+                fold10_recovery.old_failure_terminal()
+                if paths.old_failure_terminal is None else paths.old_failure_terminal
+            ),
+        )
+        files["recovery_source_config"] = dict(recovery["files"]["config"])
+        files["recovery_selected_checkpoint"] = dict(recovery["files"]["selected_checkpoint"])
+        files["recovery_old_failure"] = dict(recovery["old_failure"])
     return {
         "r2": float(outer["r2_variance_weighted"]), "source": paths.source, "files": files,
         "selected_epoch": selection.get("selected_epoch"), "selected_global_step": selection.get("selected_global_step"),
@@ -365,7 +419,15 @@ def _validate_cost(comparison_path: Path, *, rc0: float, rs0: float) -> dict[str
     _need(abs(_finite(rc.get("r2_variance_weighted"), "fold0 R-C reference") - rc0) <= 1.0e-12, "fold0 R-C comparison does not bind frozen aggregate")
     _need(abs(_finite(rs.get("r2_variance_weighted"), "fold0 R-S reference") - rs0) <= 1.0e-12, "fold0 R-S comparison does not bind imported receipt")
     ratio = R_S_B2_D1024_IDENTITY_PARAMETERS / R_C_IDENTITY_PARAMETERS
-    _need(abs(_finite(comparison.get("paired_deltas", {}).get("r_s_d1024_to_r_c_identity_parameter_ratio"), "fold0 parameter ratio") - ratio) <= 1.0e-12, "fold0 parameter ratio drift")
+    recorded_ratio = _finite(
+        comparison.get("paired_deltas", {}).get("r_s_d1024_to_r_c_identity_parameter_ratio"),
+        "fold0 parameter ratio",
+    )
+    # The immutable v1 fold-0 receipt stored this redundant derived ratio with
+    # an 8.2e-10 decimal-rounding error.  The two integer parameter counts
+    # above remain the authoritative, exactly checked fields; tolerate only
+    # that sub-nanounit archival rounding, not a changed parameter budget.
+    _need(abs(recorded_ratio - ratio) <= 1.0e-9, "fold0 parameter ratio drift")
     return {
         "r_c_identity_encoder_parameters": R_C_IDENTITY_PARAMETERS,
         "r_s_b2_d1024_identity_encoder_parameters": R_S_B2_D1024_IDENTITY_PARAMETERS,
@@ -465,9 +527,13 @@ def main() -> None:
     parser.add_argument("--rs-fold0-root", type=Path, default=DEFAULT_RS_FOLD0_ROOT)
     parser.add_argument("--rs-local-root", type=Path, default=DEFAULT_RS_LOCAL_ROOT)
     parser.add_argument("--rs-supervisor-root", type=Path, default=DEFAULT_RS_SUPERVISOR_ROOT)
+    parser.add_argument("--rs-fold10-recovery-root", type=Path, default=DEFAULT_RS_FOLD10_RECOVERY_ROOT)
     parser.add_argument("--output", type=Path, help="required in formal 15/15 aggregate mode")
     args = parser.parse_args()
-    rs_paths = default_rs_paths(fold0_root=args.rs_fold0_root, local_root=args.rs_local_root, supervisor_root=args.rs_supervisor_root)
+    rs_paths = default_rs_paths(
+        fold0_root=args.rs_fold0_root, local_root=args.rs_local_root,
+        supervisor_root=args.rs_supervisor_root, fold10_recovery_root=args.rs_fold10_recovery_root,
+    )
     if args.preview:
         print(json.dumps(preview(rc_aggregate=args.rc_aggregate, rc_seal=args.rc_seal, rs_paths=rs_paths), indent=2, sort_keys=True))
         return

@@ -109,6 +109,55 @@ def test_fold10_raced_cell_is_rejected_by_immutable_aggregate(tmp_path, monkeypa
         mod._legacy_b2_rows(path)
 
 
+def _teacher_witness_path(workspace: Path, root_name: str, fold: int, *, run_name: str | None = None) -> Path:
+    run_name = run_name or f"zero4_f{fold}_s42_terminal"
+    return (
+        workspace
+        / "streaming_calibration_exp/outputs/rt_stage_r_b2_local3090"
+        / root_name
+        / "_artifacts"
+        / run_name
+        / "teacher_metadata.json"
+    )
+
+
+def test_fold10_selects_race_recovery_witness_over_supervisor_candidate(tmp_path, monkeypatch):
+    mod = module()
+    monkeypatch.setattr(mod, "WORKSPACE", tmp_path)
+    supervisor = _teacher_witness_path(tmp_path, "supervisor_folds03_14_v1", 10)
+    recovery = _teacher_witness_path(tmp_path, "fold10_race_recovery_v1", 10)
+    _write_json(supervisor, {"teacher_checkpoint_sha256": "a" * 64})
+    _write_json(recovery, {"teacher_checkpoint_sha256": "b" * 64})
+
+    assert mod._teacher_metadata_for_fold(10) == recovery
+
+
+def test_nonfold10_multiple_teacher_witnesses_fail_closed(tmp_path, monkeypatch):
+    mod = module()
+    monkeypatch.setattr(mod, "WORKSPACE", tmp_path)
+    _write_json(_teacher_witness_path(tmp_path, "supervisor_folds03_14_v1", 9), {"teacher_checkpoint_sha256": "a" * 64})
+    imported = (
+        tmp_path
+        / "streaming_calibration_exp/outputs/rt_stage_r_b2_imported_remote/_artifacts"
+        / "zero4_f9_s42_terminal"
+        / "teacher_metadata.json"
+    )
+    _write_json(imported, {"teacher_checkpoint_sha256": "b" * 64})
+
+    with pytest.raises(mod.CompanionError, match="ambiguous teacher metadata witnesses"):
+        mod._teacher_metadata_for_fold(9)
+
+
+def test_fold10_missing_race_recovery_witness_fails_closed_even_with_supervisor(tmp_path, monkeypatch):
+    mod = module()
+    monkeypatch.setattr(mod, "WORKSPACE", tmp_path)
+    supervisor = _teacher_witness_path(tmp_path, "supervisor_folds03_14_v1", 10)
+    _write_json(supervisor, {"teacher_checkpoint_sha256": "a" * 64})
+
+    with pytest.raises(mod.CompanionError, match="missing freeze-bound race-recovery"):
+        mod._teacher_metadata_for_fold(10)
+
+
 def test_config_mismatch_is_rejected_before_scoring(tmp_path, monkeypatch):
     mod = module()
     session = "ses-RT-20131009"

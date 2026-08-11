@@ -49,7 +49,10 @@ STREAMING_ROOT = ROOT / "streaming_calibration_exp"
 TRAIN = STREAMING_ROOT / "src" / "train.py"
 PREFLIGHT = STREAMING_ROOT / "scripts" / "preflight_rt_stage_r_b2_zero4.py"
 OUTER_EVALUATOR = STREAMING_ROOT / "src" / "rt_clean_nested_loso_eval.py"
-DEFAULT_PYTHON = Path("/home/xinyuan/miniconda3/envs/spint/bin/python3.10")
+# Resolve the interpreter at invocation time rather than baking the author's
+# workstation path into a reusable supervisor.  A clean clone can therefore
+# use the active environment (or callers can still override ``--python``).
+DEFAULT_PYTHON = Path(sys.executable)
 PROGRAM_ID = "rt_stage_r_b2_d1024_folds03_14_pipeline_v2"
 TERMINAL_SCHEMA = "rt_stage_r_b2_d1024_fold_terminal_v2"
 SUMMARY_SCHEMA = "rt_stage_r_b2_d1024_folds03_14_supervisor_summary_v2"
@@ -249,6 +252,124 @@ def _validate_selection(path: Path, *, fold: int | None) -> dict[str, Any]:
     return receipt
 
 
+def _config_scalar(config: Any, path: str) -> Any:
+    """Resolve precisely one Hydra/OmegaConf scalar, never the whole config.
+
+    A saved Hydra config normally retains unrelated runtime interpolations such
+    as ``${hydra:runtime.output_dir}``.  Resolving the whole tree would make a
+    post-fit audit depend on a Hydra runtime resolver that is intentionally not
+    present in this independent supervisor.  Selecting the contractual scalar
+    does resolve legitimate local references such as
+    ``data.query_start_trial: ${.calibration_n_trials}``.
+    """
+
+    try:
+        from omegaconf import OmegaConf
+    except ImportError as error:  # pragma: no cover - deployment dependency
+        raise RuntimeError("RT fit audit requires OmegaConf to read Hydra config") from error
+    missing = object()
+    try:
+        value = OmegaConf.select(config, path, default=missing)
+    except Exception as error:
+        raise ValueError(f"RT D1024 Hydra config cannot resolve {path!r}") from error
+    if value is missing:
+        raise ValueError(f"RT D1024 Hydra config lacks required field {path!r}")
+    return value
+
+
+def _validate_fit_config(path: Path) -> None:
+    """Check resolved B2/D1024 config values, accepting legal local Hydra refs."""
+
+    try:
+        from omegaconf import OmegaConf
+    except ImportError as error:  # pragma: no cover - deployment dependency
+        raise RuntimeError("RT fit audit requires OmegaConf to read Hydra config") from error
+    try:
+        config = OmegaConf.load(path)
+    except Exception as error:
+        raise ValueError(f"RT D1024 config is not a readable Hydra YAML file: {path}") from error
+
+    required: tuple[tuple[str, Any], ...] = (
+        ("model.variant", "B2"),
+        ("model.id_hidden_dim", HIDDEN_DIM),
+        ("data.side_feature_group", ARM),
+        ("data.calibration_n_trials", M),
+        # This is deliberately resolved, rather than matched as text: Hydra
+        # snapshots use the legal `${.calibration_n_trials}` spelling.
+        ("data.query_start_trial", M),
+        ("model.freeze_decoder", False),
+        ("model.loss_mode", "task_only"),
+    )
+    for field, expected in required:
+        actual = _config_scalar(config, field)
+        # ``bool`` is a subclass of ``int``.  Exact types stop ``true`` from
+        # accidentally satisfying an integer calibration contract.
+        if type(actual) is not type(expected) or actual != expected:
+            raise ValueError(
+                f"RT D1024 resolved Hydra config violates {field}: "
+                f"expected {expected!r}, got {actual!r}"
+            )
+
+
+def _manifest_scalar(manifest: Mapping[str, Any], path: str) -> Any:
+    current: Any = manifest
+    for component in path.split("."):
+        if not isinstance(current, Mapping) or component not in current:
+            raise ValueError(f"RT split manifest lacks required field {path!r}")
+        current = current[component]
+    return current
+
+
+def _require_manifest_equal(manifest: Mapping[str, Any], path: str, expected: Any) -> None:
+    actual = _manifest_scalar(manifest, path)
+    if type(actual) is not type(expected) or actual != expected:
+        raise ValueError(
+            f"RT split manifest violates {path}: expected {expected!r}, got {actual!r}"
+        )
+
+
+def _validate_fit_split_manifest(path: Path, *, fold: int) -> None:
+    """Enforce the target-free M=24 contract recorded by the source fit."""
+
+    manifest = _json(path)
+    required: tuple[tuple[str, Any], ...] = (
+        ("task", "rt"),
+        ("development_only", True),
+        ("formal_heldout_opened", False),
+        ("validation_protocol", "nested_loso"),
+        ("outer_loso_fold", fold),
+        ("loso_fold", fold),
+        ("requested_side_feature_group", ARM),
+        ("protocol.support_budget_trials", M),
+        ("calibration.budget_trials", M),
+        ("calibration.trial_index_range", [0, M]),
+        ("calibration.target_calibration_optimizer_steps", 0),
+        ("query.query_start_trial", M),
+        ("target_session_loaded_during_fit", False),
+        ("target_query_window_audit", None),
+        ("nested_selection.clean", True),
+        ("nested_selection.outer_target_loaded_during_fit", False),
+        ("nested_selection.outer_target_query_labels_read_during_fit", False),
+        ("nested_selection.inner_validation_only_for_checkpoint_selection", True),
+        ("nested_selection.checkpoint_metric", "val_heldin/r2_mean"),
+        ("nested_selection.checkpoint_metric_scope", "inner_validation_session_only"),
+    )
+    for field, expected in required:
+        _require_manifest_equal(manifest, field, expected)
+
+    # Boolean receipts alone are not enough: the declared target must also be
+    # absent from every source-side list recorded by the fit.
+    target_session = _manifest_scalar(manifest, "target_session")
+    if not isinstance(target_session, str) or not target_session:
+        raise ValueError("RT split manifest has no concrete target_session")
+    for field in ("loaded_fit_sessions", "outer_source_sessions", "inner_train_sessions"):
+        sessions = _manifest_scalar(manifest, field)
+        if not isinstance(sessions, list) or target_session in sessions:
+            raise ValueError(f"RT split manifest exposes target_session through {field}")
+    if _manifest_scalar(manifest, "inner_validation_session") == target_session:
+        raise ValueError("RT split manifest uses target_session as inner validation")
+
+
 def _validate_fit_identity(paths: Mapping[str, Path], *, fold: int) -> dict[str, Any]:
     selection = _validate_selection(paths["selection"], fold=fold)
     for path, digest, name in (
@@ -261,13 +382,8 @@ def _validate_fit_identity(paths: Mapping[str, Path], *, fold: int) -> dict[str,
         raise ValueError("RT selection config path mismatch")
     if Path(str(selection["split_manifest_path"])).resolve() != paths["split"].resolve():
         raise ValueError("RT selection split path mismatch")
-    config_text = paths["config"].read_text(encoding="utf-8")
-    for fragment in (
-        "variant: B2", "id_hidden_dim: 1024", "side_feature_group: zero4",
-        "calibration_n_trials: 24", "query_start_trial: 24", "freeze_decoder: false", "loss_mode: task_only",
-    ):
-        if fragment not in config_text:
-            raise ValueError(f"RT D1024 config lacks fixed contract fragment {fragment!r}")
+    _validate_fit_config(paths["config"])
+    _validate_fit_split_manifest(paths["split"], fold=fold)
     return selection
 
 

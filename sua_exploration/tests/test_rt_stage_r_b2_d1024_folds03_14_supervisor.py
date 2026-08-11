@@ -2,12 +2,114 @@
 from __future__ import annotations
 
 from concurrent.futures import Future
+import hashlib
+import json
 from pathlib import Path
+import sys
 import threading
 
 import pytest
 
 from scripts import run_rt_stage_r_b2_d1024_folds03_14_supervisor as supervisor
+
+
+def _write_b2_d1024_target_free_fit(tmp_path: Path, *, fold: int = 3):
+    """Write the relevant shape of a real saved Hydra + RT split receipt.
+
+    In particular, Hydra persists the local interpolation literally rather
+    than materializing ``data.query_start_trial`` as a YAML integer.  The
+    unrelated Hydra runtime interpolation makes this a regression guard
+    against resolving the whole saved config.
+    """
+
+    paths = supervisor._paths(tmp_path, fold)
+    paths["config"].parent.mkdir(parents=True)
+    paths["config"].write_text(
+        """task_name: train
+data:
+  calibration_n_trials: 24
+  query_start_trial: ${.calibration_n_trials}
+  side_feature_group: zero4
+model:
+  freeze_decoder: false
+  loss_mode: task_only
+  id_hidden_dim: 1024
+  variant: B2
+callbacks:
+  best_checkpoint:
+    dirpath: ${hydra:runtime.output_dir}/checkpoints
+""",
+        encoding="utf-8",
+    )
+    manifest = {
+        "protocol": {"support_budget_trials": 24},
+        "task": "rt",
+        "development_only": True,
+        "formal_heldout_opened": False,
+        "validation_protocol": "nested_loso",
+        "outer_loso_fold": fold,
+        "loso_fold": fold,
+        "requested_side_feature_group": "zero4",
+        "nested_selection": {
+            "clean": True,
+            "outer_target_loaded_during_fit": False,
+            "outer_target_query_labels_read_during_fit": False,
+            "inner_validation_only_for_checkpoint_selection": True,
+            "checkpoint_metric": "val_heldin/r2_mean",
+            "checkpoint_metric_scope": "inner_validation_session_only",
+        },
+        "calibration": {
+            "budget_trials": 24,
+            "trial_index_range": [0, 24],
+            "target_calibration_optimizer_steps": 0,
+        },
+        "query": {"query_start_trial": 24},
+        "target_session": "ses-RT-target",
+        "target_session_loaded_during_fit": False,
+        "target_query_window_audit": None,
+        "loaded_fit_sessions": ["ses-RT-source-a", "ses-RT-source-b"],
+        "outer_source_sessions": ["ses-RT-source-a", "ses-RT-source-b"],
+        "inner_train_sessions": ["ses-RT-source-a"],
+        "inner_validation_session": "ses-RT-source-b",
+    }
+    paths["split"].write_text(json.dumps(manifest), encoding="utf-8")
+    checkpoint = paths["fit"] / "checkpoints" / "best_ckpt" / "epoch_001.ckpt"
+    checkpoint.parent.mkdir(parents=True)
+    checkpoint.write_bytes(b"synthetic checkpoint")
+    receipt = {
+        "schema": "rt_clean_nested_loso_selection_receipt_v1",
+        "status": "PASS_FIT_INNER_SELECTION_ONLY",
+        "arm": "zero4",
+        "seed": 42,
+        "outer_loso_fold": fold,
+        "selected_by_metric": "val_heldin/r2_mean",
+        "selected_metric_scope": "inner_validation_session_only",
+        "formal_heldout_opened": False,
+        "outer_target_loaded_during_fit": False,
+        "outer_target_query_labels_read_during_fit": False,
+        "best_model_path": str(checkpoint),
+        "best_model_sha256": hashlib.sha256(checkpoint.read_bytes()).hexdigest(),
+        "config_path": str(paths["config"]),
+        "config_sha256": hashlib.sha256(paths["config"].read_bytes()).hexdigest(),
+        "split_manifest_path": str(paths["split"]),
+        "split_manifest_sha256": hashlib.sha256(paths["split"].read_bytes()).hexdigest(),
+    }
+    paths["selection"].write_text(json.dumps(receipt), encoding="utf-8")
+    return paths, manifest
+
+
+def _refresh_selection_split_digest(paths: dict[str, Path]) -> None:
+    receipt = json.loads(paths["selection"].read_text(encoding="utf-8"))
+    receipt["split_manifest_sha256"] = hashlib.sha256(paths["split"].read_bytes()).hexdigest()
+    paths["selection"].write_text(json.dumps(receipt), encoding="utf-8")
+
+
+def test_default_interpreter_is_portable_active_python():
+    """The CLI default must not bind a clean clone to one workstation path."""
+
+    assert supervisor.DEFAULT_PYTHON == Path(sys.executable)
+    source = Path(supervisor.__file__).read_text(encoding="utf-8")
+    assert 'Path("/home/' not in source
 
 
 def test_only_folds_3_through_14_are_admitted():
@@ -52,6 +154,41 @@ def test_preflight_then_cpu_outer_evaluator_commands_are_explicit(tmp_path):
     text = " ".join(command)
     assert str(supervisor.OUTER_EVALUATOR) in text and "--device cpu" in text
     assert "--outer-fold 4" in text
+
+
+def test_fit_identity_accepts_real_hydra_local_query_interpolation_and_target_free_split(tmp_path):
+    paths, _ = _write_b2_d1024_target_free_fit(tmp_path, fold=3)
+
+    # Real saved configs use `${.calibration_n_trials}`, while also retaining
+    # unrelated `${hydra:...}` nodes that cannot be globally resolved here.
+    receipt = supervisor._validate_fit_identity(paths, fold=3)
+
+    assert receipt["outer_loso_fold"] == 3
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_message"),
+    [
+        (lambda value: value["query"].update(query_start_trial=23), "query.query_start_trial"),
+        (lambda value: value["calibration"].update(budget_trials=23), "calibration.budget_trials"),
+        (lambda value: value["calibration"].update(trial_index_range=[0, 23]), "calibration.trial_index_range"),
+        (lambda value: value.update(target_session_loaded_during_fit=True), "target_session_loaded_during_fit"),
+        (lambda value: value["nested_selection"].update(clean=False), "nested_selection.clean"),
+        (
+            lambda value: value["nested_selection"].update(outer_target_query_labels_read_during_fit=True),
+            "nested_selection.outer_target_query_labels_read_during_fit",
+        ),
+        (lambda value: value["loaded_fit_sessions"].append(value["target_session"]), "loaded_fit_sessions"),
+    ],
+)
+def test_fit_identity_rejects_any_target_free_m24_split_contract_violation(tmp_path, mutation, expected_message):
+    paths, manifest = _write_b2_d1024_target_free_fit(tmp_path, fold=3)
+    mutation(manifest)
+    paths["split"].write_text(json.dumps(manifest), encoding="utf-8")
+    _refresh_selection_split_digest(paths)
+
+    with pytest.raises(ValueError, match=expected_message):
+        supervisor._validate_fit_identity(paths, fold=3)
 
 
 def test_plan_is_nonexecuting_and_requires_fresh_cells(monkeypatch, tmp_path):
