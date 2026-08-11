@@ -249,8 +249,8 @@ stopping、唯一 run 目录、变体分数取 epoch 5–12 的协议指标平�
 2. **`attention_arch_screen_v4` 先跑完**。它用同一套 V4 估计量、同一批
    validation session，可以顺带实测 `σ_delta`，为本消融提供分辨力标定；
    而且它的 B3 臂可直接复用为本消融的 `F0`（须校验超参数完全一致）。
-3. **`learned_prior` 无标定对照修好**（[`HANDOFF_SIDE_FEATURES.md`](HANDOFF_SIDE_FEATURES.md)
-   Task A）。当前它退化成 zero-identity，缺少可信的下界参照。
+3. **`learned_prior` 无标定对照修好**（历史 side-feature Task A；旧 handoff 保留在 Git
+   history）。当前它退化成 zero-identity，缺少可信的下界参照。
 
 运行矩阵随 `FS1`/`FS2` 拆分与 3 seeds 更新为 **5 组 × 3 seeds = 15 runs**
 （`F0/F1/F2/FS1/FS2` × seeds 42/43/44）。若复用 v4 的 B3 臂作 `F0`，则为 12 runs。

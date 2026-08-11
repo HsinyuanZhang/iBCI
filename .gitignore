@@ -43,6 +43,41 @@ dist/
 .env
 .env.*
 !.env.example
+.ssh/
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+id_rsa*
+id_ed25519*
+/.netrc
+/.aws/credentials
+/.config/gcloud/
+**/credentials.json
+**/credentials.yaml
+**/credentials.yml
+**/secrets/
+/.bashrc
+/.bash_profile
+/.profile
+/.zshrc
+/CLASH_BASHRC_SETUP.md
+/skills-lock.json
+
+# ---------------------------------------------------------------------------
+# Local-only handoffs, archives, and exploratory hardware workspaces
+#
+# These directories may remain on a developer machine, but they are not part
+# of the algorithm repository or its reproducibility surface.
+# ---------------------------------------------------------------------------
+/docs_archive/
+/rtl_handoff/
+/encoder_rtl_handoff_v1/
+/hardware_pe_sram/
+/sua_exploration/docs/HANDOFF_NEURAL_ONLY_CARRIER_AND_RT_20260806.md
+/sua_exploration/docs/HANDOFF_P3_REGIME_FIX.md
+/sua_exploration/docs/HANDOFF_SIDE_FEATURES.md
 
 # ---------------------------------------------------------------------------
 # Raw neural data and learned/model artifacts
@@ -90,15 +125,10 @@ sua_exploration/logs/
 sua_exploration/outputs/
 streaming_calibration_exp/logs/
 streaming_calibration_exp/outputs/
-streaming_calibration_exp/hw_b3/runs/
+/streaming_calibration_exp/hw_b3/
 software-to-hardware/runs/*
 !software-to-hardware/runs/.gitkeep
 planB_tempconv/outputs/
-
-# RTL/golden tools are tracked; their generated vectors and DUT dumps are not.
-rtl_handoff/golden/runs/
-rtl_handoff/golden/vectors/
-rtl_handoff/golden/dut/
 
 # Generic framework runtime directories.
 lightning_logs/

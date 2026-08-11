@@ -136,11 +136,13 @@ paper.
 | `streaming_calibration_exp/` | reusable streaming-calibration 与 MUA experiment framework | reusable streaming-calibration and MUA experiment framework |
 | `bci_paper_overleaf/` | 独立 Git repository 中的 paper source | paper source in a separate Git repository |
 | `software-to-hardware/` | deferred implementation notes 与 model-export experiments | deferred implementation notes and model-export experiments |
-| `encoder_rtl_handoff_v1/` | 未来 RTL work 的 background 与 golden-reference pointers | background and golden-reference pointers for possible future RTL work |
-| `rtl_handoff/` | preliminary digital-design material；不属于当前 algorithm claim | preliminary digital-design material outside the current algorithm claim |
-| `hardware_pe_sram/` | exploratory processing-element 与 memory notes | exploratory processing-element and memory notes |
 | `planB_tempconv/` | historical low-cost temporal-decoder branch | historical low-cost temporal-decoder branch |
-| `docs_archive/` | 已移出 active navigation 的历史材料 | historical material removed from active navigation |
+
+Operator setup、historical archives、RTL handoffs 和 exploratory hardware workspaces 可以保留在本地，但由
+`.gitignore` 排除，不属于当前 algorithm repository 或 reproducibility surface。
+
+Operator setup, historical archives, RTL handoffs, and exploratory hardware workspaces may remain local, but are
+excluded by `.gitignore` and are not part of the current algorithm repository or reproducibility surface.
 
 ## 证据链 / Evidence Pipeline
 

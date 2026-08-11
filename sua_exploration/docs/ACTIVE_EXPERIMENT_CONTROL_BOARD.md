@@ -130,11 +130,10 @@ Cleanup begins after RT runners/watchers/terminalizers exit. H1 paths remain pro
 - stage exact reviewed paths only; never use `git add .`;
 - push and verify the remote commit SHA.
 
-Five unreferenced CPU evidence briefs have passed the fresh basename/stem scan and were moved without content
-changes from the active docs root to `docs_archive/20260809_cpu_briefs/`. The archive manifest records their
-original SHA-256 values and supersession boundary. Historical `git_state.txt` snapshots retain former path strings,
-but no current document, script, test, protocol, or paper source depends on them. Further old documents remain in
-place until the same reference audit proves they are safe to archive.
+Five unreferenced CPU evidence briefs passed the fresh basename/stem scan and remain available in the local-only,
+ignored `docs_archive/20260809_cpu_briefs/`; their original SHA-256 values are preserved in its local manifest and
+in Git history. No current document, script, test, protocol, or paper source depends on them. Further old documents
+remain tracked until the same reference audit proves they are safe to remove from the public repository.
 
 ## 7. Stop rules
 

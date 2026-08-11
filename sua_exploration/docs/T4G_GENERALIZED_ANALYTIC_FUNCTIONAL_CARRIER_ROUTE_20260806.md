@@ -1,8 +1,35 @@
 # T4G 路线：Generalized Analytic Functional Carrier（通用解析功能载体）
 
 **日期：2026-08-06**
-**状态：Phase 0 的 circular primitive/合约测试与 Phase 1 native-M2 精确约化已通过；RT/M1 efficacy 尚未开始。本文不是 GPU、formal held-out 或 EvalAI 的启动授权。**
+**状态：Phase 0 的 circular primitive/合约测试与 Phase 1 native-M2 精确约化已通过；RT continuous-velocity AFC4 已在冻结矩阵中取得正向 development evidence 并按既定矩阵收口；H1 q3-AFC4 fold-0 clean nested-LOSO pilot 已判负并停止；M1 已移出主线。本文不是新 GPU arm、formal held-out 或 EvalAI 的启动授权。**
 **范围：**把现有 T4 放入一个更一般、但仍然低计算量和 target-session 无反向传播的载体家族。本文不修改、不中止、也不重新解释正在运行的 N4/NS4 作业。
+
+### 2026-08-07 H1 q3-AFC4 clean nested-LOSO fold-0 pilot：冻结门判负，路线不扩张
+
+作为独立的人体 H1 feasibility cell，按本文的 q3 source-PCA、四维 affine carrier 和
+target 无反向传播契约完成了一个严格 clean nested-LOSO outer fold。outer target
+`ses-19250101T111740` 未在 fit 或 checkpoint selection 期间打开；inner-validation 为
+`ses-19250101T112404`，source-only plan SHA
+`b335c688c2854714fdc23deedfb2ddbe19d6116901c85da48410fdfeb6bc6168`。teacher、Full
+(`afc4_h1q3`)、B4 和 Zero4 都在 inner validation 选择 checkpoint 后只做一次 outer
+held-in minival scoring（`1,466` windows；无 optimizer/backward，model state SHA 不变）。
+
+| fold-0 arm | outer variance-weighted R² |
+|---|---:|
+| source-only teacher | `-0.0403340407` |
+| Full q3-AFC4 | `-0.0219134353` |
+| B4 | `+0.0064380431` |
+| Zero4 | `-0.0324103446` |
+
+预注册 gate 为 Full absolute `>0`、Full−teacher/Full−B4/Full−Zero4 各至少 `+0.03`。
+实际差值为 `+0.0184206054`、`-0.0283514784`、`+0.0104969093`，所以四项都失败，
+aggregate 状态为 `STOP_FOLD0_GATE_FAILED`。权威回执为
+`../results/h1_afc4_clean_nested_loso_v1/fold0/gate_aggregate.json`
+（SHA-256 `709716b38d669e3210f1a10a444c307617b596c0d850c95b16055eb1a306e47b`）。按事前
+协议不再运行 RS/XS、不扩展 13-fold，也不调 q、support、lag、ridge、epoch 或 width；
+单 fold 的 B4−Zero4 `+0.038848` 只作 exploratory contrast，不能被解释成 B4 路线放行。
+该 cell 只判定这一冻结 H1 pilot 未达 efficacy 门，不否定其他任务或未来另行注册的 AFC4
+estimator。
 
 ### 2026-08-06 实施进展
 
@@ -19,7 +46,7 @@ Phase 1 receipt 为 `../results/t4g_m2_circular_equivalence_v1/audit.json`。审
 | frozen row-shuffled descriptor | `0.0` | `0.0` |
 | real-checkpoint B3S encoder output（aligned / shuffled） | `0.0 / 0.0` | `0.0 / 0.0` |
 
-M24 每个 session 的 24-trial prefix 中有 12 个 finite directional trial、12 个 centre/rest unlabeled trial；M33 中为 16 个 finite directional trial、17 个 centre/rest unlabeled trial。所有 14 个 budget×session design 均为 rank 3，condition number 为 `1.584–2.643`。因此现在可以作出的结论是：**当 basis 为 `[cosθ,sinθ]`、`λ=0`，并锁定相同 exposure、valid mask、source normalizer 与 B3S checkpoint 时，`afc4_circ` 在实现层面就是 native T4 的精确特例。**这只通过了正确性 gate，不代表 AFC4 在 RT/M1 上已经带来新的 R² 增益。
+M24 每个 session 的 24-trial prefix 中有 12 个 finite directional trial、12 个 centre/rest unlabeled trial；M33 中为 16 个 finite directional trial、17 个 centre/rest unlabeled trial。所有 14 个 budget×session design 均为 rank 3，condition number 为 `1.584–2.643`。因此现在可以作出的结论是：**当 basis 为 `[cosθ,sinθ]`、`λ=0`，并锁定相同 exposure、valid mask、source normalizer 与 B3S checkpoint 时，`afc4_circ` 在实现层面就是 native T4 的精确特例。**这只通过了实现正确性 gate；它本身不替代上方独立的 RT efficacy receipts，也不把已经停止的 H1 pilot 变成正结果。
 
 ## 1. 结论先行
 
@@ -295,7 +322,7 @@ AFC4 保留的硬件主张应严格限定为：target calibration 不做 BP；�
 ## 9. 与现有 handoff 的冲突和主审必须决定的风险
 
 1. `HANDOFF_GENERAL_CARRIER_PROGRAM.md` 的早期版本曾把 per-trial average behavior 当 general carrier，后文已自行撤回；本路线明确采用 time-aligned `φ(y(t))`，不继承该错误定义。
-2. `HANDOFF_NEURAL_ONLY_CARRIER_AND_RT_20260806.md` 把 N4 退化处理写为 fail-closed，但已存在的 `n4_cpu_precheck.py` 使用 median imputation。需要主审决定：重做严谨 CPU receipt，或把现有 precheck 永久降为 exploratory。当前不能两种说法同时成立。
+2. 历史 N4 handoff 把退化处理写为 fail-closed，但已存在的 `n4_cpu_precheck.py` 使用 median imputation。需要主审决定：重做严谨 CPU receipt，或把现有 precheck 永久降为 exploratory。当前不能两种说法同时成立；旧 handoff 已从 public tree 移除但保留在 Git history。
 3. 旧 general-carrier handoff 有“先估噪声底、再定门槛”的纪律；另一个 neural-only handoff 为一个 M24 K4 cell 写过 `+0.03`。本路线选择前者：所有 AFC4 的 practical/MDE decision 由各任务独立 source-only uncertainty receipt封存，不把历史 K4 数字伪称为全局噪声底。
 4. M1 的 local clean endpoint 已可构造，但先前 D4/E4/prototype branch 已停止且 M1 EvalAI 已使用。AFC4-EMG若要继续，必须有新授权与单独的 source-only gate；本文件绝不自动开启 M1 GPU或官方评测。
 5. `afc4_evt` 的 event parser、phase basis order、signal view和 state/MAC上界尚未实现，也不应在 `afc4_vel` 失败后临时发明。主审应先批准“只做 velocity”还是批准一个预先固定的 conditional event extension。

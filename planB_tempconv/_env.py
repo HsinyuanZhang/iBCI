@@ -1,19 +1,24 @@
 """Plan B bootstrap: reuse FALCON/m2-research data pipeline + CORAL alignment.
 
-Run scripts with the m2-research venv so torch + lib resolve:
-    /home/xinyuan/Work_host/FALCON/m2-research/.venv/bin/python scripts/xx.py
+Set ``M2R_ROOT`` to the companion ``m2-research`` checkout when it is not in
+the default sibling location, then run scripts with that checkout's venv.
 
 This module inserts the m2-research root on sys.path and re-exports the
 data-loading / alignment helpers Plan B builds on, so we do NOT reinvent
 session loading, held-in/held-out splits, z-scoring, or CORAL.
 """
 from __future__ import annotations
+import os
 import sys
 from pathlib import Path
 
-# --- locate FALCON/m2-research (sibling of the SPINT project dir) ---
-M2R = Path("/home/xinyuan/Work_host/FALCON/m2-research")
-assert M2R.exists(), f"m2-research not found at {M2R}"
+# --- locate FALCON/m2-research (configurable, with a sibling-tree default) ---
+_workspace_parent = Path(__file__).resolve().parents[2]
+M2R = Path(os.environ.get("M2R_ROOT", _workspace_parent / "FALCON" / "m2-research")).expanduser().resolve()
+if not M2R.is_dir():
+    raise FileNotFoundError(
+        f"m2-research not found at {M2R}; set M2R_ROOT to its checkout root"
+    )
 sys.path.insert(0, str(M2R))
 
 # outputs live inside Plan B, not m2-research

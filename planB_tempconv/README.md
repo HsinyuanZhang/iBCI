@@ -8,10 +8,11 @@
 复用 `FALCON/m2-research` 的数据加载 / 折分 / CORAL / z-score，**不重造轮子**。用它的 venv 跑（torch 2.12+cu130）：
 
 ```bash
-cd /home/xinyuan/Work_host/SPINT/planB_tempconv
-VENV=/home/xinyuan/Work_host/FALCON/m2-research/.venv/bin/python
-$VENV _env.py                 # 自检：打印 data_dir / held-in / 6 held-out sessions
-$VENV models/tcn_student.py   # 自检：TCN student ~4K 参数，输出 (B,2)
+cd /path/to/SPINT/planB_tempconv
+export M2R_ROOT=/path/to/FALCON/m2-research
+VENV="$M2R_ROOT/.venv/bin/python"
+"$VENV" _env.py                 # 自检：打印 data_dir / held-in / 6 held-out sessions
+"$VENV" models/tcn_student.py   # 自检：TCN student ~4K 参数，输出 (B,2)
 ```
 
 `_env.py` 已把 m2-research 挂到 path 并 re-export：`load_session / collect_held_in /
