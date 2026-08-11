@@ -130,18 +130,18 @@ The CPU constructibility gate passed: split-half `[a,c]` cosine median `0.787119
 forward-transfer mean/median `+0.035910/+0.031461`, 15/15 sessions positive.
 
 The fresh GPU Stage-2 matrix is fixed at 15 folds × `T4d/Full/Zero4`, seed 42, M24/q24/W50, 35 epochs. At the
-last authoritative update, folds 0--11 are complete:
+last authoritative update, folds 0--12 are complete:
 
-| paired contrast, 12 complete folds | mean | median | drop-largest mean | positive folds |
+| paired contrast, 13 complete folds | mean | median | drop-largest mean | positive folds |
 |---|---:|---:|---:|---:|
-| T4d−Zero4 | **`+0.294121`** | **`+0.358093`** | **`+0.283988`** | **12/12** |
-| T4d−dense Full | `+0.005379` | `+0.001802` | `−0.001029` | 6/12 |
+| T4d−Zero4 | **`+0.277865`** | **`+0.350521`** | **`+0.267222`** | **13/13** |
+| T4d−dense Full | `+0.006126` | `+0.004358` | `+0.000314` | 7/13 |
 
-This is early evidence, not the terminal claim. At the current execution update, 38/45 cells are closed; fold12
-T4d and Full are closed, Zero4 is running, and all fold12 scores remain excluded until the pair is complete. If the
+This is early evidence, not the terminal claim. At the current execution update, 39/45 cells are closed; fold12 is
+fully closed and fold13 T4d is running. All fold13 scores remain excluded until its three-arm pair is complete. If the
 final result remains similar, the scientific reading is that
 one endpoint-direction label per reach preserves dense-carrier accuracy while the correct carrier content strongly
-beats Zero4. It is not evidence that T4d is superior to Full. Fold12 is currently running.
+beats Zero4. It is not evidence that T4d is superior or equivalent to Full. Fold13 is currently running.
 
 After 45/45 cells, the independent terminal verifier must pass. Then the 15 sealed B2 checkpoints will be evaluated
 forward-only on the exact Stage-2 query windows. B2 will not be retrained, reselected, or updated.

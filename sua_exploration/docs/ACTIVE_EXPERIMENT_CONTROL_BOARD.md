@@ -16,24 +16,25 @@ immutable receipts or Git history, not in the live control surface.
 | matrix | 15 folds × `R-T4d/R-Full/R-Zero4` × seed42 = 45 cells |
 | calibration/evaluation | M24, q24, W50, 35 epochs, fresh source fit, one-shot outer target |
 | hardware | remote RTX 5070 Ti |
-| completed | **38/45 cells; 12/15 complete paired folds** |
-| current cell | fold12 `R-Zero4` training; fold12 T4d and Full are closed but remain unpaired until Zero4 closes |
+| completed | **39/45 cells; 13/15 complete paired folds** |
+| current cell | fold13 `R-T4d` training; all incomplete fold13 scores remain excluded until its three arms close |
 | terminal aggregate | absent; partial values are nonterminal |
 | invariants | identical within-fold query identity; target optimizer absent; no target backward; model state unchanged |
 | independent verifier | implemented; terminal-verifier/B2 chain retested 2026-08-11 (`29 passed`); execute only at 45/45 |
 | follow-on | exact-query 15-fold B2 forward-only companion; no B2 retraining |
 
-Current early evidence from folds0--11:
+Current early evidence from folds0--12:
 
 | contrast | mean | median | drop-largest mean | positive folds |
 |---|---:|---:|---:|---:|
-| `T4d−Zero4` | **`+0.294121`** | **`+0.358093`** | **`+0.283988`** | **12/12** |
-| `T4d−dense Full` | `+0.005379` | `+0.001802` | `−0.001029` | 6/12 |
+| `T4d−Zero4` | **`+0.277865`** | **`+0.350521`** | **`+0.267222`** | **13/13** |
+| `T4d−dense Full` | `+0.006126` | `+0.004358` | `+0.000314` | 7/13 |
 
-Arm means are T4d/Full/Zero4 `0.451688/0.446308/0.157567`. Fold11 closed at
-`0.3221854512/0.2674641752/0.0806173878`, with matched target `ses-RT-20150316`, query start trial24,
-96,288 windows, and common query hash `c840f4be...`. All 12 paired folds have passed the one-shot/no-backprop/
-state-immutability checks. Matrix manifest SHA begins `93a1aa35...b3ca4`.
+Arm means are T4d/Full/Zero4 `0.430038/0.423912/0.152172`. Fold12 closed at
+`0.1702397929/0.1551501609/0.0874419085`, with matched target `ses-RT-20150317`, query start trial24,
+92,160 windows, and common ordered-query digest prefixes `b8bf42e93f35/570cedf4168f/4ed352207764`
+(windows/target-mask/joint). All 13 paired folds have passed the one-shot/no-backprop/state-immutability checks.
+Matrix manifest SHA begins `93a1aa35...b3ca4`.
 
 Do not write these values into the paper as terminal, equivalence, or native annotation-cost evidence.
 
@@ -111,8 +112,9 @@ sparse Stage-2. Broad `sparse trial- or event-level supervision` language must d
 evidence from the negative H1 sparse-scalar boundary; historical `+0.2799/+0.2775` continuous-velocity contrasts
 remain dense Full--B4/Zero4 results.
 
-The 12-fold placeholder was mirrored to both Overleaf sources and pushed at Overleaf commit `8e703ac`; it must be
-replaced, not supplemented, when the terminal bundle and B2 companion close.
+The former 12-fold placeholder was mirrored to both Overleaf sources at Overleaf commit `8e703ac`; the current
+13-fold placeholder replaces it in place. The nonterminal placeholder must again be replaced, not supplemented,
+when the terminal bundle and B2 companion close.
 
 No active protocol/script/test/receipt-referenced document may be deleted merely because its conclusion is old.
 

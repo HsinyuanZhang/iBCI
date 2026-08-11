@@ -17,7 +17,7 @@ receipts, and the dated protocol documents still referenced by scripts and tests
 | external subject-M pseudo-MUA | T4/Zero4/TS4 `0.306073/−0.086878/−0.164314`; T4−Zero4 `+0.392951` | terminal controlled signal-view bridge |
 | native M2 matched seed42 | SPINT/T4 `0.293110/0.382906`; delta `+0.089796` | 14/14 development cells; 7/7 session deltas positive; not the missing fresh three-seed gate |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802` | terminal 15-fold development matrix |
-| RT sparse endpoint T4d | at 12/15 folds, T4d/Full/Zero4 `0.451688/0.446308/0.157567` | nonterminal early evidence; 45-cell verifier and B2 exact-query pass remain |
+| RT sparse endpoint T4d | at 13/15 folds, T4d/Full/Zero4 `0.430038/0.423912/0.152172` | nonterminal early evidence; 45-cell verifier and B2 exact-query pass remain |
 | H1 compact CarrierID | five-date H-C−H-S `+0.056287`; organizer-held `0.274939` vs paper-LR `0.261492` | dense-covariate compact-consumer evidence, not sparse-label evidence |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | carrier-content negative boundary |
 
@@ -175,21 +175,21 @@ The estimator consumes 1,103 reach-direction scalars versus 7,855 dense 2-D velo
 coordinates: `7.121x/14.243x`. The interpolation implementation actually reads 5,502 coordinate scalars, so its raw
 coordinate-I/O ratio is `2.855x`.
 
-At the current 12/15 complete folds:
+At the current 13/15 complete folds:
 
 | arm / contrast | result |
 |---|---:|
-| T4d mean | `0.451688` |
-| dense Full mean | `0.446308` |
-| Zero4 mean | `0.157567` |
-| T4d−Zero4 mean / median / drop-largest | **`+0.294121/+0.358093/+0.283988`** |
-| T4d−Zero4 signs | **12/12 positive** |
-| T4d−Full mean / median / drop-largest | `+0.005379/+0.001802/−0.001029` |
-| T4d−Full signs | 6/12 positive |
+| T4d mean | `0.430038` |
+| dense Full mean | `0.423912` |
+| Zero4 mean | `0.152172` |
+| T4d−Zero4 mean / median / drop-largest | **`+0.277865/+0.350521/+0.267222`** |
+| T4d−Zero4 signs | **13/13 positive** |
+| T4d−Full mean / median / drop-largest | `+0.006126/+0.004358/+0.000314` |
+| T4d−Full signs | 7/13 positive |
 
-These are early numbers, not a terminal claim or equivalence test. Execution is at 38/45 cells: fold12 T4d and Full
-are closed, fold12 Zero4 is running, and fold12 remains excluded from the paired aggregate. A clearly marked
-12-fold nonterminal placeholder may be mirrored into the paper, but an independent verifier must pass before terminal
+These are early numbers, not a terminal claim or equivalence test. Execution is at 39/45 cells: fold12 is fully
+closed, fold13 T4d is running, and every incomplete fold13 score remains excluded from the paired aggregate. A clearly
+marked 13-fold nonterminal placeholder may be mirrored into the paper, but an independent verifier must pass before terminal
 promotion or a scientific claim. Then all 15 sealed B2 checkpoints will be evaluated forward-only on the
 exact Stage-2 query windows without retraining or reselection.
 
