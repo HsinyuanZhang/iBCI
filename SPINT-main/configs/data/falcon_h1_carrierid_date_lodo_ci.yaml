@@ -1,0 +1,19 @@
+# Source-only CI carrier controls.  `carrier_intervention` is declared by the
+# arm configuration and can never request a target loader.
+_target_: src.data.h1_carrierid_date_lodo_ci.H1CarrierIdDateLodoCiDataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+phase1_preflight_path: ${phase_ci.phase1_preflight_path}
+outer_date: ${phase_ci.outer_date}
+carrier_intervention: ${phase_ci.carrier_intervention}
+ci_arm: ${phase_ci.arm}
+ci_preflight_path: ${phase_ci.ci_preflight_path}
+five_date_aggregate_path: ${phase_ci.five_date_aggregate_path}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+seed: 42
+fixed_epochs: 50
+num_workers: 0
+pin_memory: false

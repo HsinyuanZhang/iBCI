@@ -1,0 +1,12 @@
+# @package _global_
+defaults:
+  - h1_carrierid_date_lodo_ci64_full
+  - override /model: falcon_h1_carrierid_date_lodo_ci64_c0
+
+protocol_id: h1_carrierid_date_lodo_ci64_c0_${phase_ci.outer_date}_source_only_v1
+task_name: h1_carrierid_date_lodo_ci64_c0_${phase_ci.outer_date}
+tags: [h1, carrierid, date_lodo, ci64, c0, source_only, seed42, e49]
+
+phase_ci:
+  arm: CI64-C0
+  carrier_intervention: c0

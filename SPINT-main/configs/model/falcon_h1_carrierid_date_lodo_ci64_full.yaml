@@ -1,0 +1,41 @@
+_target_: src.models.h1_carrierid_date_lodo_ci_module.H1CarrierIdDateLodoCiLitModule
+task: h1
+arm: ${phase_ci.arm}
+outer_date: ${phase_ci.outer_date}
+fixed_seed: 42
+ci_preflight_path: ${phase_ci.ci_preflight_path}
+five_date_aggregate_path: ${phase_ci.five_date_aggregate_path}
+decode_last_timestep_only: true
+predict_scaled_behavior: true
+behavior_scaling_factor: 20.0
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 5.0e-5
+  weight_decay: 0.0
+scheduler: null
+compile: false
+clean_teacher: true
+scheduler_monitor: val_heldin/r2_mean
+net:
+  _target_: src.models.components.h1_carrierid_ci_spint.H1CarrierIdCiSpint
+  carrier_hidden_dim: 32
+  carrier_interface_dim: 64
+  carrier_dim: 4
+  carrier_trial_length: 1024
+  zero_carrier: false
+  model_dim: 1024
+  num_covariates: 7
+  window_size: 700
+  num_heads: 64
+  num_layers: 1
+  num_id_layers: 3
+  use_learnable_id: true
+  learnable_id_type: mlp
+  learnable_rep: true
+  dropout_rate: 0.0
+  dynamic_dropout: true
+  dynamic_dropout_low: 0.0
+  dynamic_dropout_high: 1.0
+  tf_drop_rate: 0.1
+  readin_layer_type: mlp

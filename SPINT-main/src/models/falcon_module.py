@@ -61,6 +61,8 @@ class FalconLitModule(pl.LightningModule):
         optimizer: torch.optim.Optimizer,
         scheduler: torch.optim.lr_scheduler,
         compile: bool,
+        clean_teacher: bool = False,
+        scheduler_monitor: str = "val_heldout/r2_mean",
     ) -> None:
         super().__init__()
 
@@ -69,6 +71,8 @@ class FalconLitModule(pl.LightningModule):
         self.save_hyperparameters(logger=False)
 
         self.net = net
+        if clean_teacher and scheduler_monitor != "val_heldin/r2_mean":
+            raise ValueError("clean teacher scheduler monitor must be val_heldin/r2_mean")
 
         # loss function
         self.mse_loss = torch.nn.MSELoss()
@@ -103,13 +107,16 @@ class FalconLitModule(pl.LightningModule):
         # by default lightning executes validation step sanity checks before training starts,
         # so it's worth to make sure validation metrics don't store results from these checks
         self.val_heldin_loss.reset()
-        self.val_heldout_loss.reset()
+        if not self.hparams.clean_teacher:
+            self.val_heldout_loss.reset()
         self.val_heldin_r2_mean_best.reset()
-        self.val_heldout_r2_mean_best.reset()
+        if not self.hparams.clean_teacher:
+            self.val_heldout_r2_mean_best.reset()
         for k in DATASET_NAMES[self.hparams.task]['heldin']:
             self.val_heldin_r2[k].reset()
-        for k in DATASET_NAMES[self.hparams.task]['heldout']:
-            self.val_heldout_r2[k].reset()
+        if not self.hparams.clean_teacher:
+            for k in DATASET_NAMES[self.hparams.task]['heldout']:
+                self.val_heldout_r2[k].reset()
 
     def model_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
@@ -185,24 +192,29 @@ class FalconLitModule(pl.LightningModule):
             sess_r2.reset()
         val_heldin_r2_mean = torch.stack(val_heldin_r2s).mean()
         val_heldin_r2_std = torch.stack(val_heldin_r2s).std()
-        for sess_name, sess_r2 in self.val_heldout_r2.items():
-            r2 = sess_r2.compute() if sess_r2.total > 2 else torch.tensor(-torch.inf).to(sess_r2.total)
-            val_heldout_r2s.append(r2)
-            self.log(f"val_heldout_{sess_name}/r2", r2, sync_dist=True, add_dataloader_idx=False)
-            sess_r2.reset()
-        val_heldout_r2_mean = torch.stack(val_heldout_r2s).mean()
-        val_heldout_r2_std = torch.stack(val_heldout_r2s).std()
+        if not self.hparams.clean_teacher:
+            for sess_name, sess_r2 in self.val_heldout_r2.items():
+                r2 = sess_r2.compute() if sess_r2.total > 2 else torch.tensor(-torch.inf).to(sess_r2.total)
+                val_heldout_r2s.append(r2)
+                self.log(f"val_heldout_{sess_name}/r2", r2, sync_dist=True, add_dataloader_idx=False)
+                sess_r2.reset()
+        if not self.hparams.clean_teacher:
+            val_heldout_r2_mean = torch.stack(val_heldout_r2s).mean()
+            val_heldout_r2_std = torch.stack(val_heldout_r2s).std()
 
         self.log("val_heldin/r2_mean", val_heldin_r2_mean, sync_dist=True, prog_bar=True)
         self.log("val_heldin/r2_std", val_heldin_r2_std, sync_dist=True, prog_bar=True)
-        self.log("val_heldout/r2_mean", val_heldout_r2_mean, sync_dist=True, prog_bar=True)
-        self.log("val_heldout/r2_std", val_heldout_r2_std, sync_dist=True, prog_bar=True)
+        if not self.hparams.clean_teacher:
+            self.log("val_heldout/r2_mean", val_heldout_r2_mean, sync_dist=True, prog_bar=True)
+            self.log("val_heldout/r2_std", val_heldout_r2_std, sync_dist=True, prog_bar=True)
         self.val_heldin_r2_mean_best(val_heldin_r2_mean)  # update best so far val r2
-        self.val_heldout_r2_mean_best(val_heldout_r2_mean)  # update best so far val r2
+        if not self.hparams.clean_teacher:
+            self.val_heldout_r2_mean_best(val_heldout_r2_mean)  # update best so far val r2
         # log `val_r2_best` as a value through `.compute()` method, instead of as a metric object
         # otherwise metric would be reset by lightning after each epoch
         self.log("val_heldin/r2_mean_best", self.val_heldin_r2_mean_best.compute(), sync_dist=True, prog_bar=True)
-        self.log("val_heldout/r2_mean_best", self.val_heldout_r2_mean_best.compute(), sync_dist=True, prog_bar=True)
+        if not self.hparams.clean_teacher:
+            self.log("val_heldout/r2_mean_best", self.val_heldout_r2_mean_best.compute(), sync_dist=True, prog_bar=True)
 
     def test_step(self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx: int, dataloader_idx: int=0) -> None:
         loss, behavior_pred, behavior_target, session_name = self.model_step(batch)
@@ -264,7 +276,7 @@ class FalconLitModule(pl.LightningModule):
                 "optimizer": optimizer,
                 "lr_scheduler": {
                     "scheduler": scheduler,
-                    "monitor": "val_heldout/r2_mean",
+                    "monitor": self.hparams.scheduler_monitor,
                     "interval": "epoch",
                     "frequency": 1,
                 },
