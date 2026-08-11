@@ -102,8 +102,9 @@ The same-X Priority-A diagnostic is qualified rather than promoted: its tested d
 T4 at every budget, but the dense and sparse arms also differ in target semantics, weighting, and solver path, and
 T4 does not consistently beat dense velocity ridge. See `HANDOFF_TRIAL_LEVEL_RIDGE.md` for the independent audit and
 the CPU-only corrective program. The first A2a receipt is invalid as a corrected control because its weighted Gram
-omits normalization by total weight, so its nominal `lambda=1` is not the sealed normalized-ridge penalty; A2b must
-not run unchanged because its current script imports the same solver.
+omits normalization by total weight, so its nominal `lambda=1` is not the sealed normalized-ridge penalty; the
+legacy A2b draft must not run unchanged because it imports the same solver. The independent v2 implementation is
+committed at `097d137`, passed 23 focused tests, and is currently running A2a; no v2 numerical result is recorded yet.
 
 Evidence:
 

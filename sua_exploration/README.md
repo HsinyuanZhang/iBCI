@@ -62,13 +62,15 @@ diagnostic into an accuracy claim.
 
 The declared RT and H1 accuracy matrices are complete. Remaining work is narrow:
 
-1. rerun the CPU-only A2a weighting control with the normalized weighted-ridge solver and fail-closed labels;
+1. finish and audit the running CPU-only corrected A2a v2 weighting control;
 2. only after A2a passes, run the same-target A2b density dose response;
 3. use A2a/A2b only to decide whether a causal label-density sentence is supportable;
 4. finish reference-aware cleanup, focused checks, and path-scoped Git commits.
 
 The first A2a receipt is an invalid implementation diagnostic: its weighted Gram omitted total-weight
-normalization, and the draft A2b imported the same solver. Neither may enter the paper. H1 CI64 is terminal and
+normalization, and the legacy A2b draft imported the same solver. Neither may enter the paper. The independent
+versioned v2 implementation is committed at `097d137`, passed 23 focused tests, and is the only current A2 route.
+H1 CI64 is terminal and
 does not authorize H64 or reopen the architecture search. Quantization remains deferred.
 
 ## Documentation

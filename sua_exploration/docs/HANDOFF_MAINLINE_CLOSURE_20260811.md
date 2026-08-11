@@ -91,7 +91,9 @@ The subsequent same-X trial-direction ridge diagnostic is recorded in
 rejects a pure label-density causal interpretation: direction-only direct ridge is consistently below T4, whereas
 T4 does not consistently beat dense velocity ridge. A first Priority-A2a attempt is also excluded: its weighted
 ridge omitted total-weight normalization, so the nominal `lambda=1` did not reproduce the sealed normalized-ridge
-solver. The drafted A2b imports that solver and must not run unchanged.
+solver. The legacy drafted A2b imports that solver and must not run unchanged. An independent v2 implementation is
+committed at `097d137`, passed 23 focused tests, and is running the corrected A2a CPU gate; A2b remains blocked until
+the resulting 90-cell receipt is independently verified.
 
 ### 3.2 Native M2: positive but scope-limited
 

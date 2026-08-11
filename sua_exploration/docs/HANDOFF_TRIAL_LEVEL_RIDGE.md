@@ -204,7 +204,7 @@ trial-mean neural rates `[M,N]` to a trial-level target `[M,2]`. Keep it named
 small source-only lambda sensitivity or freeze a lambda grid before reading the
 15-session target aggregate.
 
-### 10.2A Priority A2a — first run invalidated; corrected 2×2 weighting control still required
+### 10.2A Priority A2a — first run invalidated; corrected v2 run in progress
 
 **Invalidated receipt:** `sua_exploration/results/trial_level_ridge_v1/priority_a2_weighting_receipt.json`
 **SHA-256:** `6364b99f110a489172b5262c289605975e12b8d18e59615dc396befa20aa686f`
@@ -225,10 +225,12 @@ The corrected solver must use
 
 with `W=sum(row_weights)`, or the algebraically equivalent unnormalized system with `W*lambda I`. It must also
 fail closed on missing/non-finite `target_dir`; the attempted runner silently substitutes zero for a missing field.
-Add tests proving uniform weights reproduce the normalized unweighted solver, global rescaling of all row weights
-does not change the fit, missing directions fail closed, and the sealed dense aggregate is recovered within the
-predeclared tolerance. The current A2b draft imports the invalid A2a solver and therefore must not be launched
-unchanged.
+The independent corrected implementation is now versioned in commit `097d137`. It uses total-weight-normalized
+weighted ridge with an explicit unpenalized intercept, fails closed on missing/non-finite directions, binds the
+sealed references, and passed 23 focused numerical/provenance tests. The full 90-cell A2a v2 CPU run is in progress;
+no result is accepted until its immutable receipt reproduces every sealed uniform-dense cell within `5e-5`. The
+legacy A2b draft imports the invalid A2a solver and must never be launched unchanged; the separate v2 A2b runner
+instead refuses to read experiment data until a valid A2a v2 receipt is present.
 
 Before using Priority A for a causal supervision-density statement, rerun a CPU-only 2×2 control with the same X, query rows, lambda, and scoring:
 
@@ -242,7 +244,7 @@ Use one shared ridge implementation with an explicit unpenalized intercept, fail
 ### 10.2B Priority A2b — same-target label-density dose response
 
 This is the experiment required for a causal statement about label density itself, but it can run only after the
-corrected normalized weighted solver and its tests pass. Keep the target definition, units,
+corrected A2a v2 receipt passes root verification. Keep the target definition, units,
 scale, neural features, support trials, post-trial-50 query, standardization, lambda, solver, explicit intercept, and
 equal-trial weighting fixed. Use normalized dense two-dimensional velocity for every arm and vary only how many
 calibration rows carry visible targets:

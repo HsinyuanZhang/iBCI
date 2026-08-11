@@ -42,7 +42,7 @@ The first A2a CPU receipt is retained only as an invalid implementation diagnost
 `Z^T W Z + lambda I` without normalizing by total weight, so its nominal `lambda=1` was not equivalent to the sealed
 normalized Ridge50 penalty. It also did not fail closed on missing direction labels.
 
-Before rerunning, the versioned solver and tests must establish:
+The corrected, independent v2 solver and runners are committed at `097d137`; 23 focused tests establish:
 
 1. `(Z^T W Z / sum(w) + lambda I) beta = Z^T W Y / sum(w)` or an algebraically identical formulation;
 2. uniform weights reproduce the sealed normalized unweighted solver within a frozen tolerance;
@@ -50,19 +50,21 @@ Before rerunning, the versioned solver and tests must establish:
 4. missing or non-finite direction labels fail closed;
 5. all session/view/budget cells bind support starts, query starts, predictions, targets, and zero overlap.
 
-A corrected A2a can show whether the dense-versus-direction-only contrast is robust to row weighting. It still
-cannot isolate label density because the target contents differ.
+The full A2a v2 CPU run is in progress under `a2a_v2_corrected_20260811_r2`. Its immutable receipt must still be
+audited before A2b is released. A corrected A2a can show whether the dense-versus-direction-only contrast is robust
+to row weighting. It still cannot isolate label density because the target contents differ.
 
 ## P1 — same-target Priority-A2b density dose response
 
-Run only after the corrected A2a solver and tests pass. Keep dense normalized velocity, neural features, support
+Run only after the corrected A2a receipt passes the sealed 90-cell reproduction audit. Keep dense normalized velocity, neural features, support
 trials, query rows, standardization, lambda, solver, intercept, and equal-trial weighting fixed; vary only the nested
 number of labelled windows per trial.
 
 This is the only current experiment that can identify a label-density effect. T4 may appear as a frozen reference
 line, but `T4−ridge(K=1)` remains a system comparison because T4 uses a source-pretrained decoder and a direction
-scalar. A draft A2b process using the invalid solver was stopped before producing a receipt; it is not a negative
-scientific result.
+scalar. A legacy draft A2b process using the invalid solver was stopped before producing a receipt; it is not a
+negative scientific result. The versioned v2 A2b runner is fail-closed on the corrected A2a receipt and has not yet
+been launched.
 
 ## P2 — maintenance closure
 
