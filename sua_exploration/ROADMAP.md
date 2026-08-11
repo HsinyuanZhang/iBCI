@@ -98,6 +98,7 @@ protocol. It is not remaining work for the current paper.
 - [x] B2 exact-query 15-fold companion PASS
 - [x] H1 CI64 25/25 cells, five held dates, and verifier PASS
 - [x] terminal RT/H1 numbers synchronized to GitHub and Overleaf
+- [x] RT terminal checkpoint audit and path-preserving duplicate hardlink cleanup complete
 - [ ] corrected A2a receipt audited
 - [ ] same-target A2b receipt audited, or causal label-density wording explicitly omitted
 - [ ] final reference-aware workspace cleanup and Git audit complete

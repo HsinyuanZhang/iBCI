@@ -166,7 +166,13 @@ passed: mean/median `+0.311178/+0.304175`, 11/11 positive.
 For durable local evidence, the complete matrix and B2 receipt bundles were copied byte-identically to
 `sua_exploration/results/rt_terminal_stage2_20260811_canonical/`; recursive `diff -qr` passed and the three key
 hashes above are unchanged. `CANONICALIZATION_RECEIPT_v1.json` records the copy. The original
-`rt_terminal_clean_20260811/` root remains intact until checkpoint-level cleanup is separately audited.
+`rt_terminal_clean_20260811/` root remains retained because historical receipts contain absolute source paths. A
+separate checkpoint audit proved 14 same-run `last.ckpt` aliases byte-identical to retained epoch checkpoints and
+unreferenced by receipts; those paths were converted to hardlinks, preserving path/SHA/receipt bindings while
+reclaiming `906,891,264` allocated bytes. The cleanup manifest is
+`sua_exploration/manifests/rt_terminal_stage2_last_ckpt_hardlink_dedup_20260811.json`, SHA
+`e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`; split manifests, unique logs, selected
+epochs, and both source/canonical result bundles were left untouched.
 
 ### 3.4 H1: separate compact-consumer evidence
 

@@ -215,7 +215,11 @@ Key receipt SHAs:
 
 The complete RT matrix and B2 receipt bundles also have a byte-identical canonical local copy under
 `results/rt_terminal_stage2_20260811_canonical/`; its copy-only receipt records recursive-diff PASS. The original
-run root is retained pending a separate checkpoint audit.
+run root remains retained because historical receipts contain absolute source paths. Its checkpoint audit is now
+complete: 14 unreferenced same-run `last.ckpt` aliases were byte-identical to retained epoch checkpoints and were
+replaced by hardlinks without changing any path, SHA, or receipt binding, reclaiming `906,891,264` allocated bytes.
+Manifest: `sua_exploration/manifests/rt_terminal_stage2_last_ckpt_hardlink_dedup_20260811.json`, SHA
+`e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`.
 
 ## 6. H1 compact consumer
 
