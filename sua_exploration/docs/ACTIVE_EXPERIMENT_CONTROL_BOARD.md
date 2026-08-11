@@ -123,12 +123,12 @@ No active protocol/script/test/receipt-referenced document may be deleted merely
 
 ## 6. Post-terminal cleanup and GitHub queue
 
-RT and H1 terminal runners have exited. Any checkpoint cleanup still requires a fresh path-reference/process audit.
-
-- recoverable candidate: 42 periodic `last.ckpt` aliases that are byte-identical to retained best checkpoints,
-  totaling 2,665,007,268 bytes (about 2.482 GiB);
-- before moving them, rerun process/GPU/tmux/`lsof` and path-reference checks;
-- write a quarantine manifest containing source path, retained peer, size, and SHA;
+RT and H1 terminal runners have exited. A fresh process, handle, path-reference, size, and SHA audit found 60
+`periodic_ckpt/last.ckpt` aliases under the completed RT-R4 budget-response root that were byte-identical to their
+same-run retained `best_ckpt/last.ckpt` peers. All 60 periodic paths were preserved as hardlinks to those peers,
+reclaiming 3,886,714,880 allocated bytes (about 3.620 GiB). The pre/post audit, every path pair, SHA, mode, inode
+transition, and recovery rule are recorded in
+`sua_exploration/manifests/rt_r4_periodic_last_hardlink_dedup_20260811.json`;
 - retain all immutable receipts, terminal aggregates, query digests, and canonical best checkpoints;
 - do not commit generated JSON results, checkpoints, logs, `results/`, or `pilot_artifacts/`;
 - run focused tests and `git diff --check`;

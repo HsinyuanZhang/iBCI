@@ -1,0 +1,1239 @@
+{
+  "action": "replace each periodic_ckpt/last.ckpt with a hard link to its byte-identical same-run best_ckpt/last.ckpt",
+  "created_utc": "2026-08-11T12:10:43.407155+00:00",
+  "entries": [
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_00/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576727,
+        "mode": "0664",
+        "mtime_ns": 1786215707010361230,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576740,
+        "mode": "0664",
+        "mtime_ns": 1786215706881355473,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_00/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "ca31697cafc48c02794046d1f97e531fe0c3d8a8fa0cfe52e1831ec4c3d4023b",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_01/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576884,
+        "mode": "0664",
+        "mtime_ns": 1786235003813504518,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576880,
+        "mode": "0664",
+        "mtime_ns": 1786235003684510155,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_01/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "d2c747df061d893877fe2025767c9a00822273210bd780d04808d4a63ec17e55",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_02/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576787,
+        "mode": "0664",
+        "mtime_ns": 1786236671209486017,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576964,
+        "mode": "0664",
+        "mtime_ns": 1786236671070465525,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_02/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "82e59084631e2b6211b6b2b31ae4d7c7f7f6e08185567ccf459fda32e78e98cc",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_03/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576962,
+        "mode": "0664",
+        "mtime_ns": 1786238316827651265,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576957,
+        "mode": "0664",
+        "mtime_ns": 1786238316695623836,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_03/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "246a091c18ed0d146fbe55bd5499a170b65e92afebfcc089a58fe4c5e04596f2",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_04/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576944,
+        "mode": "0664",
+        "mtime_ns": 1786240129277560390,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577096,
+        "mode": "0664",
+        "mtime_ns": 1786240129153485497,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_04/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "1fc06e70419ca1f8ad25f12155a997a128c3f41a5e1c30ed8851af316e1c5d12",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_05/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577112,
+        "mode": "0664",
+        "mtime_ns": 1786241775911626715,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576941,
+        "mode": "0664",
+        "mtime_ns": 1786241775791623749,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_05/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "d5f504c9b2a28880442f39033325296f6acee2678d9ad16164305b56166dbbbd",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_06/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577187,
+        "mode": "0664",
+        "mtime_ns": 1786243581972496828,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577239,
+        "mode": "0664",
+        "mtime_ns": 1786243581848497502,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_06/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "042f2e269f20628d17164dfe4b13e81862df376f51b80dcb1abd3dcedd5436a9",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_07/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577217,
+        "mode": "0664",
+        "mtime_ns": 1786230578185907891,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577215,
+        "mode": "0664",
+        "mtime_ns": 1786230578065911316,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_07/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "eb4a0677ed1216e79b9a7228a40f8c2de63ab71660b00a9d330e5eb2401c085d",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_08/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576796,
+        "mode": "0664",
+        "mtime_ns": 1786245341899552760,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576795,
+        "mode": "0664",
+        "mtime_ns": 1786245341751559564,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_08/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "121aa66c98a591f94c61501baee827fc2a828b9d3dadd16cfdd8928e8804b5d4",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_09/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576817,
+        "mode": "0664",
+        "mtime_ns": 1786247131606766706,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576809,
+        "mode": "0664",
+        "mtime_ns": 1786247131478766615,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_09/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "e604a9609739a580cffe89f4d8e66d9c411cd789d151a85c9f7d5c646a934f08",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_10/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577002,
+        "mode": "0664",
+        "mtime_ns": 1786251149412097886,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576996,
+        "mode": "0664",
+        "mtime_ns": 1786251149289099748,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_10/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "d0ae901b619096da297a4756b723e1ab69caf69b998f9c624fc3c3ccd79225c2",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_11/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577052,
+        "mode": "0664",
+        "mtime_ns": 1786255626088804459,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576798,
+        "mode": "0664",
+        "mtime_ns": 1786255625953806114,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_11/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "6faf854a04f18ef5cd21858e1dabd62d311522e024354d6bacf1e7a15e852bdd",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_12/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577627,
+        "mode": "0600",
+        "mtime_ns": 1786261668307478894,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577626,
+        "mode": "0600",
+        "mtime_ns": 1786261668172479364,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_12/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "723aab0037218d2ab678803d4691c1706125cc4c46f34a3e66ef2b2a69ff2fba",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_13/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577304,
+        "mode": "0600",
+        "mtime_ns": 1786266324438982532,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577322,
+        "mode": "0600",
+        "mtime_ns": 1786266324296984212,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_13/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "b9924f9dde2664b4b1aa4fa507e37f35ca34127ff02b3def062fb0d88898cad2",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_14/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576778,
+        "mode": "0664",
+        "mtime_ns": 1786219790824916716,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576769,
+        "mode": "0664",
+        "mtime_ns": 1786219790657922571,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_mb4/fold_14/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "f05fc72fcc4cbaeeefcfaa0817ec0ea009c356f889fd1e07da4511bbd928380a",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_00/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576733,
+        "mode": "0664",
+        "mtime_ns": 1786214790185755645,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576729,
+        "mode": "0664",
+        "mtime_ns": 1786214790056747294,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_00/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "5d6b8d2a5f74efb6f13dfd2a5422d3887fe245740360f0ea9005841423592c89",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_01/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576882,
+        "mode": "0664",
+        "mtime_ns": 1786233953140890086,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576866,
+        "mode": "0664",
+        "mtime_ns": 1786233953010896667,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_01/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "431961f894ea06348a83de7a1e2aee35642cfab0c4479d2b3800805082d20d14",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_02/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576921,
+        "mode": "0664",
+        "mtime_ns": 1786235847903601747,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576948,
+        "mode": "0664",
+        "mtime_ns": 1786235847756593124,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_02/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "3a00133859871cb44dafa3ac708d7dab105df47845ac6c54a6eb67ff54ff4fac",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_03/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576925,
+        "mode": "0664",
+        "mtime_ns": 1786237472574945758,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576934,
+        "mode": "0664",
+        "mtime_ns": 1786237472443939427,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_03/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "b9623d8fc4b7a713acb5e460d76cd58914e8a680ba728264cfaf5826fac41b91",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_04/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577113,
+        "mode": "0664",
+        "mtime_ns": 1786239256185838593,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577119,
+        "mode": "0664",
+        "mtime_ns": 1786239256074855164,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_04/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "b71b83b65f80c76373d24444d46c4657116802bdab5ddf77ef0217872266facd",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_05/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577134,
+        "mode": "0664",
+        "mtime_ns": 1786240926546965347,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577111,
+        "mode": "0664",
+        "mtime_ns": 1786240926407990341,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_05/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "ae5f08db80bce285b57972a054a603a934233c04aea9462f1e64c5fd8805e7e1",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_06/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577147,
+        "mode": "0664",
+        "mtime_ns": 1786242711750972481,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577159,
+        "mode": "0664",
+        "mtime_ns": 1786242711633970779,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_06/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "2bb7579c820cf1a3d1e43d45ba7b9345415c7e775aa27965411723544f403bc7",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_07/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577209,
+        "mode": "0664",
+        "mtime_ns": 1786229753107270127,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577173,
+        "mode": "0664",
+        "mtime_ns": 1786229753003271490,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_07/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "e292efd92817af203e7665b8151fc209bed7eb29f68e13cd4e6c957d517445b9",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_08/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577190,
+        "mode": "0664",
+        "mtime_ns": 1786244420970370623,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577195,
+        "mode": "0664",
+        "mtime_ns": 1786244420845369784,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_08/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "28f26c181ab7f4ca5b63895ba05d3fdd8f5ad7ff68bd609c6d45ba0ac243e69d",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_09/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576811,
+        "mode": "0664",
+        "mtime_ns": 1786246295971414346,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576815,
+        "mode": "0664",
+        "mtime_ns": 1786246295828416355,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_09/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "834d481fbd5852a111e6e43ea070a6e31306dca1ee5518331e274ee3be0e5832",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_10/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576850,
+        "mode": "0664",
+        "mtime_ns": 1786249083960036539,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576845,
+        "mode": "0664",
+        "mtime_ns": 1786249083838046833,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_10/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "193e6bb693c9efa5dfbea2e3ff8174263b2a070ae03580b8e00603caf110b91a",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_11/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577037,
+        "mode": "0664",
+        "mtime_ns": 1786253460665179855,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577028,
+        "mode": "0664",
+        "mtime_ns": 1786253460506180762,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_11/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "480e10a0f7cb5648d0f51d12e2bc5957aced3f271ad912ea763326601e02cb9a",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_12/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577047,
+        "mode": "0664",
+        "mtime_ns": 1786257671506284257,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577044,
+        "mode": "0664",
+        "mtime_ns": 1786257671384286728,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_12/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "e423a02be554f62ec3cdb2f75c16a89e23ac08df8be1b6575051117d1115f14e",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_13/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577228,
+        "mode": "0600",
+        "mtime_ns": 1786264092360575621,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577089,
+        "mode": "0600",
+        "mtime_ns": 1786264092221578551,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_13/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "f80f5918799393ff673c0b01c5fd5824717b31efd6f823792dd610ac91e8ce65",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_14/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576771,
+        "mode": "0664",
+        "mtime_ns": 1786218769933121208,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576767,
+        "mode": "0664",
+        "mtime_ns": 1786218769741119753,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m12/afc4_vel/fold_14/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "07197ac03ea6ef4cee9602d7b82e7affa2f5bc7c164c2baed104863ce4114353",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_00/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576910,
+        "mode": "0664",
+        "mtime_ns": 1786228930192353926,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576904,
+        "mode": "0664",
+        "mtime_ns": 1786228930087355062,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_00/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "63ac9a13d193c0d58b52e6c76bbf54821296d47a655e59b233a7c97c2c21dd6e",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_01/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576894,
+        "mode": "0664",
+        "mtime_ns": 1786235032355258176,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576932,
+        "mode": "0664",
+        "mtime_ns": 1786235032224263893,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_01/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "1ec971194cf9a2acc38e70f1e83f3184f4fe59157d6adac3494c784ae31c0a3b",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_02/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576935,
+        "mode": "0664",
+        "mtime_ns": 1786236631580304075,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576897,
+        "mode": "0664",
+        "mtime_ns": 1786236631445281802,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_02/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "a48775ead45a927e239cda391dff0e5c882b0aa5baa28bb84626dd2d1b3b7601",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_03/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576977,
+        "mode": "0664",
+        "mtime_ns": 1786238365123968614,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576969,
+        "mode": "0664",
+        "mtime_ns": 1786238364997964244,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_03/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "ca7e636e871a136b5f2cdb2b135d8c671fa3acb6355794fb250d6dc218ea6229",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_04/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577107,
+        "mode": "0664",
+        "mtime_ns": 1786240062933024031,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577105,
+        "mode": "0664",
+        "mtime_ns": 1786240062804859838,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_04/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "d716be7df6e7e4bc0c93597ec6380613bc115f3f9e9f6a2744d6fe72125aeffc",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_05/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577137,
+        "mode": "0664",
+        "mtime_ns": 1786241857332505862,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576973,
+        "mode": "0664",
+        "mtime_ns": 1786241857209515563,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_05/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "f7c31df2273e334fd90a2ad0d2ec8b5927fc3a75ca7e6bfa6c5bc823633cafd9",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_06/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577114,
+        "mode": "0664",
+        "mtime_ns": 1786243484905170972,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577179,
+        "mode": "0664",
+        "mtime_ns": 1786243484787171984,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_06/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "62a892873be703956cf297f9a1e93ae4ffdceb83b8188b36f2e5867c235cb908",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_07/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576763,
+        "mode": "0664",
+        "mtime_ns": 1786217734065759667,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576745,
+        "mode": "0664",
+        "mtime_ns": 1786217733906760029,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_07/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "5a87fbaf514ca0ad5180a16805353c871cbaa1b8e2ea104461ee59ed71f799e4",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_08/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576732,
+        "mode": "0664",
+        "mtime_ns": 1786245460560582038,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576814,
+        "mode": "0664",
+        "mtime_ns": 1786245460429587035,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_08/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "d4efa25181a8d9a17849d3bed87b1dc475eecb8e504d1e6f1125646280e6ece3",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_09/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576832,
+        "mode": "0664",
+        "mtime_ns": 1786247002217541197,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576828,
+        "mode": "0664",
+        "mtime_ns": 1786247002083540814,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_09/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "90747f6ac000cc204e4ba45b029630b8c8fa039c68e2fd71ee9f9b0928c8c70e",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_10/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577012,
+        "mode": "0664",
+        "mtime_ns": 1786251359630848161,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576968,
+        "mode": "0664",
+        "mtime_ns": 1786251359499850222,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_10/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "ba2b1caa1d44e5f6baab8b08efcd2f7aefa2e45937c09300a56f25305ad1c3b7",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_11/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577035,
+        "mode": "0664",
+        "mtime_ns": 1786255328505293643,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577019,
+        "mode": "0664",
+        "mtime_ns": 1786255328371295128,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_11/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "b17332c93fdb38562592cc2e959e5245e447e715f577922a7bcb5424029d0716",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_12/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577074,
+        "mode": "0600",
+        "mtime_ns": 1786261689863399466,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577054,
+        "mode": "0600",
+        "mtime_ns": 1786261689715400040,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_12/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "73bd0757a73a986e831691538dd424900a0afd3765ecbb42053f1d1e0bba7de1",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_13/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577299,
+        "mode": "0600",
+        "mtime_ns": 1786266260216732416,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577255,
+        "mode": "0600",
+        "mtime_ns": 1786266260094733822,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_13/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "48c5a2eb31fe56bf752a010951e3908f326e99127a443c998d51fb491f595b98",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_14/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577233,
+        "mode": "0664",
+        "mtime_ns": 1786232282323561382,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576843,
+        "mode": "0664",
+        "mtime_ns": 1786232282203563536,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_mb4/fold_14/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "9144e9609b4467863de024664689bfc854917d4f594fb427442b401bcf5642c7",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_00/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576784,
+        "mode": "0664",
+        "mtime_ns": 1786228185454991996,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576781,
+        "mode": "0664",
+        "mtime_ns": 1786228185348993620,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_00/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "6d2801831aeb92e20906451f07e399d04a580c339c002a7461d9fa3e06442ffe",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_01/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576608,
+        "mode": "0664",
+        "mtime_ns": 1786233967159181834,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576600,
+        "mode": "0664",
+        "mtime_ns": 1786233967039187883,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_01/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "e5187503704b69cf9dc7d57f4ce6ed4f28fcd74c7f51059508e778bc5cad40ad",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_02/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576889,
+        "mode": "0664",
+        "mtime_ns": 1786235812906420053,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576928,
+        "mode": "0664",
+        "mtime_ns": 1786235812772411159,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_02/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "8e5218810e7592cf9bf7bd8d38d850353d56060548a08179d74f2fe50865d3ca",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_03/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576918,
+        "mode": "0664",
+        "mtime_ns": 1786237517997123473,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576943,
+        "mode": "0664",
+        "mtime_ns": 1786237517867117286,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_03/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "b3893439111e245b33079c7fe676e469423be3db8414bd98b002a13d30d83971",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_04/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576893,
+        "mode": "0664",
+        "mtime_ns": 1786239201859804257,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576946,
+        "mode": "0664",
+        "mtime_ns": 1786239201747820330,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_04/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "0654e5064e4d1adfb6ec0303ab67aeb584310165276fd74beda1e63eaac238bc",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_05/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577136,
+        "mode": "0664",
+        "mtime_ns": 1786240999677438419,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577135,
+        "mode": "0664",
+        "mtime_ns": 1786240999537447467,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_05/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "78194649c3492baeeac83ad938a5bd0c053449da850e55f4715fed7f3d7cb9a1",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_06/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577156,
+        "mode": "0664",
+        "mtime_ns": 1786242620340705845,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576975,
+        "mode": "0664",
+        "mtime_ns": 1786242620222704301,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_06/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "f550099da37572e4d5f502c39292b7c7479ce6219fa2eca533f635af97779cac",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_07/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576750,
+        "mode": "0664",
+        "mtime_ns": 1786216726038705996,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576754,
+        "mode": "0664",
+        "mtime_ns": 1786216725889705438,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_07/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "bd77cc392239934df97eb145a55eaba9a532467359cf07ca7eef77c614539063",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_08/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577207,
+        "mode": "0664",
+        "mtime_ns": 1786244526227106600,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577206,
+        "mode": "0664",
+        "mtime_ns": 1786244526098105664,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_08/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "130d1400729de659847963073752e0f51ed60d8b347165cad41f5de20431c69a",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_09/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576790,
+        "mode": "0664",
+        "mtime_ns": 1786246169232293630,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576807,
+        "mode": "0664",
+        "mtime_ns": 1786246169104295638,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_09/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "b5212cc2ea4d27d39f0055004cc22083a1fdf69c7b0daf6e639df8879e1b700c",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_10/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576840,
+        "mode": "0664",
+        "mtime_ns": 1786249244991991050,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577000,
+        "mode": "0664",
+        "mtime_ns": 1786249244877998605,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_10/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "839654358ab0b85a5a1f443e438f7d52c71cd4549bf0ebffddbcd4bd80db8c62",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_11/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17576993,
+        "mode": "0664",
+        "mtime_ns": 1786253206220971843,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17576991,
+        "mode": "0664",
+        "mtime_ns": 1786253206095971850,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_11/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "7639f18e1ed3789d732c2fd88e93f4fa614d7ef6e6609611dc8304f357cae1c8",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_12/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577055,
+        "mode": "0664",
+        "mtime_ns": 1786258001732017534,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577020,
+        "mode": "0664",
+        "mtime_ns": 1786258001616019616,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_12/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "522f5d440cd3c3266dcea4018a37b89ee277c6c4e79f0529dc9b1bf3db485c88",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_13/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577203,
+        "mode": "0600",
+        "mtime_ns": 1786264040395684831,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577143,
+        "mode": "0600",
+        "mtime_ns": 1786264040212688786,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_13/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "1a611a988bcff05ffe04aa179892dfb9fb4493bc3f498c0b8db3742d674b3e96",
+      "size_bytes": 64774264
+    },
+    {
+      "candidate": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_14/seed_42/fit/checkpoints/periodic_ckpt/last.ckpt",
+      "candidate_pre": {
+        "device": 64512,
+        "inode": 17577225,
+        "mode": "0664",
+        "mtime_ns": 1786231414348698323,
+        "nlink": 1
+      },
+      "peer_pre": {
+        "device": 64512,
+        "inode": 17577222,
+        "mode": "0664",
+        "mtime_ns": 1786231414226700727,
+        "nlink": 1
+      },
+      "retained_peer": "sua_exploration/results/rt_r4_budget_response_common_q24_v1/gpu_runs/m6/afc4_vel/fold_14/seed_42/fit/checkpoints/best_ckpt/last.ckpt",
+      "sha256": "fe57b53685d3e473e1fa148b02c6fc80df5992399fc8340361bac4dfa794e012",
+      "size_bytes": 64774264
+    }
+  ],
+  "completed_utc": "2026-08-11T12:13:00+00:00",
+  "filesystem_free_bytes_before": 80353603584,
+  "post_verification": {
+    "action_execution_free_bytes_before": 80353599488,
+    "all_candidate_paths_readable": true,
+    "all_candidate_sha256_preserved": true,
+    "all_pairs_nlink_two": true,
+    "all_pairs_same_device_and_inode": true,
+    "candidate_count": 60,
+    "du_allocated_bytes_after": 28872810496,
+    "du_allocated_bytes_before": 32759525376,
+    "du_allocated_bytes_reclaimed": 3886714880,
+    "filesystem_free_bytes_after": 84240179200,
+    "filesystem_free_bytes_gained_during_action": 3886579712,
+    "periodic_post_stat_inventory_sha256": "ba2deed20ada6edb5c11005cd0b2869bb6ae264d46e522ed7881a452ff3e15d2",
+    "recovery": "For any pair, replace the periodic hardlink with an independent byte copy of retained_peer; content remains available at both paths.",
+    "result": "PASS_HARDLINK_DEDUP_PATH_AND_CONTENT_PRESERVED"
+  },
+  "safety_contract": {
+    "active_rt_r4_train_eval_watchers": 0,
+    "all_cmp_and_sha256_identical": true,
+    "all_pre_nlink_one": true,
+    "candidate_count": 60,
+    "json_receipts_binding_periodic_last_path": 0,
+    "logical_duplicate_bytes": 3886455840,
+    "lsof_open_handles": 0,
+    "metadata_boundary": "content and paths are preserved; periodic aliases lose independent inode/mtime and share the retained peer inode after the action",
+    "paired_modes_equal": true,
+    "same_filesystem_device": true
+  },
+  "schema_version": 1,
+  "scope_root": "sua_exploration/results/rt_r4_budget_response_common_q24_v1",
+  "status": "COMPLETE_VERIFIED_HARDLINK_DEDUP"
+}
