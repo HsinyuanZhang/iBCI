@@ -301,8 +301,8 @@ Supported after RT terminal closure:
 
 1. functional carrier content can adapt a frozen streaming decoder without target-session backpropagation;
 2. correct content and row attachment matter;
-3. useful performance transfers across SUA, pseudo-MUA, native M2, and RT, with H1 as a separate compact-consumer
-   module;
+3. useful performance transfers across SUA, pseudo-MUA, and RT; native M2 has positive but scope-limited matched
+   development and organizer-held system evidence, while H1 is a separate compact-consumer module;
 4. the evaluated analytic carrier can use substantially fewer target-supervision values than the evaluated dense
    ridge/carrier implementations;
 5. the selected carrier-aware identity path is compatible with large parameter compression.

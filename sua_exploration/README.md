@@ -17,10 +17,10 @@ sections are provenance only and do not authorize new experiments.
 |---|---|---|
 | external subject-M SUA | T4/Zero4/TS4 `0.356828/−0.057766/−0.115319`; T4−Zero4 `+0.414594` | terminal, 3/3 seeds and 15/15 session means positive |
 | deterministic pseudo-MUA | T4/Zero4/TS4 `0.306073/−0.086878/−0.164314`; T4−Zero4 `+0.392951` | terminal controlled signal-view bridge, not native threshold-crossing MUA |
-| native M2 | matched SPINT/T4 `0.293110/0.382906`; delta `+0.089796`, 7/7 sessions positive | matched seed-42 development evidence; fresh three-seed full gate remains unavailable |
+| native M2 | matched SPINT/T4 `0.293110/0.382906`; delta `+0.089796`, 7/7 sessions positive | positive but scope-limited seed-42 development evidence; organizer-held result is system-level and the fresh three-seed gate remains unavailable |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802`, 15/15 folds positive | terminal; B2 is the same-pipeline SPINT-structured reference |
-| RT sparse endpoint T4d | at 14/15 complete folds, T4d−Zero4 `+0.273903`, 14/14 positive; T4d−Full `+0.005566`, 7/14 positive | running early evidence only; final 45-cell verifier and exact-query B2 companion remain |
-| H1 | H-C−H-S `+0.056287`; organizer-held `0.274939` versus paper-LR SPINT `0.261492` | separate dense-covariate compact-consumer evidence; not a sparse-label result |
+| RT sparse endpoint T4d | T4d/Zero4/B2 `0.448176/0.179272/0.145148`; T4d−Zero4/B2 `+0.268905/+0.303028` | terminal 45-cell matrix; both primary contrasts 15/15 positive; independent verifier and exact-query B2 companion PASS |
+| H1 | H-C−H-S `+0.056287`; organizer-held `0.274939` versus paper-LR SPINT `0.261492`; CI64−CI32 `−0.020130` | separate dense-covariate compact-consumer evidence; CI64 terminal and H64 stopped; not a sparse-label result |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | current negative boundary |
 
 The main scientific statement is intentionally narrower than “T4 beats ridge.” The evaluated Ridge50 is more
@@ -58,18 +58,18 @@ Use evidence in this order:
 Do not promote a launch receipt, preflight PASS, source-only constructibility gate, partial fold, or same-checkpoint
 diagnostic into an accuracy claim.
 
-## Active closure
+## Post-terminal closure
 
-Only RT can still change the main paper:
+The declared RT and H1 accuracy matrices are complete. Remaining work is narrow:
 
-1. finish the fixed 15-fold `T4d/Full/Zero4` matrix;
-2. pass the independent 45-cell terminal verifier;
-3. forward-evaluate all 15 sealed B2 checkpoints on the exact Stage-2 query windows;
-4. update the paper and concise result ledger with terminal-only statistics;
-5. clean historical documents/checkpoint aliases, run focused checks, and make path-scoped Git commits.
+1. rerun the CPU-only A2a weighting control with the normalized weighted-ridge solver and fail-closed labels;
+2. only after A2a passes, run the same-target A2b density dose response;
+3. use A2a/A2b only to decide whether a causal label-density sentence is supportable;
+4. finish reference-aware cleanup, focused checks, and path-scoped Git commits.
 
-H1 CI64 is a secondary consumer-width experiment already in flight. It may finish or be handed to another
-maintainer, but it cannot delay or reopen the SUA/M2/RT mainline. Quantization is deferred.
+The first A2a receipt is an invalid implementation diagnostic: its weighted Gram omitted total-weight
+normalization, and the draft A2b imported the same solver. Neither may enter the paper. H1 CI64 is terminal and
+does not authorize H64 or reopen the architecture search. Quantization remains deferred.
 
 ## Documentation
 

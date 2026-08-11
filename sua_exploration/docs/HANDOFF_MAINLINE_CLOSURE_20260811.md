@@ -220,8 +220,9 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
    target-session backpropagation.
 2. Correct functional content and unit/channel attachment matter; the effect is not reproduced by zero content,
    wrong rows, or static neural statistics.
-3. The carrier transfers across SUA, deterministic pseudo-MUA, native M2, and RT movement decoding, with H1 as a
-   separate dense-covariate compact-consumer module.
+3. The carrier transfers across SUA, deterministic pseudo-MUA, and RT movement decoding; native M2 provides
+   positive but scope-limited development and organizer-held system evidence, while H1 is a separate
+   dense-covariate compact-consumer module.
 4. Useful accuracy can be obtained with substantially lower target-supervision density than the evaluated direct
    ridge/dense-carrier implementations.
 5. A compact carrier-aware identity consumer can replace a much larger SPINT identity path on H1 with a small or

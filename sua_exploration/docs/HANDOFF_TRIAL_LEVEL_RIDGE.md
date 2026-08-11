@@ -247,6 +247,9 @@ scale, neural features, support trials, post-trial-50 query, standardization, la
 equal-trial weighting fixed. Use normalized dense two-dimensional velocity for every arm and vary only how many
 calibration rows carry visible targets:
 
+On 2026-08-11, an unchanged draft A2b process was detected importing the invalid A2a solver and was terminated
+before it wrote a receipt. It produced no accepted result and must not be described as a failed scientific arm.
+
 ```text
 K = 1, 2, 4, 8, 16, all labelled windows per support trial
 ```
