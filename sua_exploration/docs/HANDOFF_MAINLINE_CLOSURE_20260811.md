@@ -150,7 +150,10 @@ independent partial-aggregate artifact; therefore this digest documents only the
 promoted as a terminal receipt.
 
 After 45/45 cells, the independent terminal verifier must pass. Then the 15 sealed B2 checkpoints will be evaluated
-forward-only on the exact Stage-2 query windows. B2 will not be retrained, reselected, or updated.
+forward-only on the exact Stage-2 query windows. Run the verifier from the manifest-bound original Stage-2 root or
+from a complete isolated copy with an explicit path map; the current dirty development tree has drifted source/config
+digests and is not a valid `workspace-root`. B2 must use a genuinely absent fresh output root rather than the existing
+fold0-import `v1` directory. B2 will not be retrained, reselected, or updated.
 
 ### 3.4 H1: separate compact-consumer evidence
 
@@ -222,7 +225,7 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 
 Only the following work can change the main paper:
 
-1. finish RT folds 11--14 so the fixed 45-cell matrix is complete;
+1. finish RT folds 13--14 so the fixed 45-cell matrix is complete;
 2. run the independent RT terminal verifier and freeze the 15-fold mean/median/sign/drop-largest statistics;
 3. run the uniform 15-fold B2 forward-only exact-query companion and report both all-fold and prospective-fold
    summaries;
