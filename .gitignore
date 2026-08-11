@@ -119,6 +119,7 @@ sua_exploration/checkpoints/
 # ---------------------------------------------------------------------------
 SPINT-main/logs/*
 !SPINT-main/logs/.gitkeep
+SPINT-main/pilot_artifacts/
 sua_exploration/cache/
 sua_exploration/results/
 sua_exploration/logs/
@@ -126,9 +127,13 @@ sua_exploration/outputs/
 streaming_calibration_exp/logs/
 streaming_calibration_exp/outputs/
 /streaming_calibration_exp/hw_b3/
+/streaming_calibration_exp/batch_logs/
 software-to-hardware/runs/*
 !software-to-hardware/runs/.gitkeep
 planB_tempconv/outputs/
+/outputs/
+/rt_terminal_clean_*/
+/h1_exposure_*_stage/
 
 # Generic framework runtime directories.
 lightning_logs/
