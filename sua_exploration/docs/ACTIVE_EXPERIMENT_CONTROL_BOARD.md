@@ -102,7 +102,7 @@ negative on average and fails both the historical width condition and the predec
 
 All six items are complete for the RT/H1 scope. The six-page H1 organizer-held wording now states only that the
 organizer-reported mean is higher, and the matched H1 content figure includes its five-date bootstrap interval;
-Overleaf commit `c0cbc52` is synchronized with its remote.
+Overleaf commit `cb191fd` is synchronized with its remote.
 
 The terminal RT paper update has been applied at the following locations:
 
