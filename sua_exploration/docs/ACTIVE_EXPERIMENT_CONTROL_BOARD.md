@@ -20,7 +20,7 @@ immutable receipts or Git history, not in the live control surface.
 | current cell | fold13 `R-T4d` training; all incomplete fold13 scores remain excluded until its three arms close |
 | terminal aggregate | absent; partial values are nonterminal |
 | invariants | identical within-fold query identity; target optimizer absent; no target backward; model state unchanged |
-| independent verifier | implemented; terminal-verifier/B2 chain retested 2026-08-11 (`29 passed`); execute only at 45/45 |
+| independent verifier | implemented; terminal-verifier/B2 chain retested 2026-08-11 (`31` collected cases from 29 test functions passed); execute only at 45/45 |
 | follow-on | exact-query 15-fold B2 forward-only companion; no B2 retraining |
 
 Current early evidence from folds0--12:
@@ -45,15 +45,17 @@ Do not write these values into the paper as terminal, equivalence, or native ann
 
 When 45/45 closures exist:
 
-1. run the independent Stage-2 terminal verifier;
+1. run the independent Stage-2 terminal verifier from the manifest-bound original stage root, or from a complete
+   isolated copy with an explicit path map; never use the current dirty development tree as `workspace-root`;
 2. inspect its exact 15×3 grid, provenance, query, no-BP, and recomputed-statistic verdict;
-3. if and only if it passes, run all 15 sealed B2 checkpoints forward-only on exact Stage-2 queries;
+3. if and only if it passes, create a genuinely absent B2 output root and run all 15 sealed checkpoints
+   forward-only on exact Stage-2 queries; never reuse the existing fold0-import `v1` directory;
 4. finalize full-15 and prospective folds4--14 B2 comparisons;
 5. update the handoff, `CURRENT_RESULTS.md`, and Overleaf with terminal-only numbers.
 
 The B2 implementation is already committed at GitHub commit `ed03215`. On 2026-08-11, the independent Stage-2
 verifier, B2 preflight, B2 forward-only terminal evaluator, and paired companion suites were rerun together with
-plugin autoload disabled: **29/29 tests passed**. Fold0 uses a
+plugin autoload disabled: **31/31 collected cases passed across 29 test functions**. Fold0 uses a
 preservation-only imported checkpoint whose SHA begins `078ac6dc...`; the import receipt SHA begins
 `5d00985d...`. Historical B2 outer scores must not be mixed with the exact-query forward pass.
 
