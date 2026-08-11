@@ -1,6 +1,6 @@
 # 历史归档
 
-本目录保存 2026-07 上旬的分析文档与旧计划，**仅作历史研究记录**。
+本目录保存已从 active navigation 移出的分析文档、旧计划与 implementation briefs，**仅作历史研究记录**。
 
 除非当前主线文档（[`../sua_exploration/README.md`](../sua_exploration/README.md)、
 [`../sua_exploration/ROADMAP.md`](../sua_exploration/ROADMAP.md)、
@@ -22,3 +22,4 @@
 | `CROSS_TASK_VALIDATION.md` | 跨任务验证记录 |
 | `task_plan.md` / `progress.md` / `findings.md` | 早期 ASIC 审计的 planning 三件套 |
 | `spint_mechanism_smoketest.py` | 早期机制冒烟脚本 |
+| `20260809_cpu_briefs/` | 已由当前主线取代、经引用扫描后归档的 CPU screen implementation briefs；子目录 manifest 保留原 SHA |

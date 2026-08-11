@@ -1,73 +1,214 @@
-# SPINT Research Workspace
+# SPINT Session-Adaptive Neural Decoding Workspace / 会话自适应神经解码工作区
 
-## 项目定位
+## 项目概览 / Project Overview
 
-最终目标是一颗**可重构的 intracortical 运动解码芯片**：NeuronID encoder
-（使网络不依赖固定 unit id）+ cross-attention decoder。论文主张是**芯片架构
-的可重构能力可跨应用复用，性能不是核心诉求**。
+本仓库研究 `session-adaptive intracortical neural decoding` 算法。当前主线将
+`streaming neural-activity path` 与紧凑的 `analytic functional carrier` 结合：系统从按时间排序的
+`calibration prefix` 提取目标 session 的 functional identity，在不执行 target-session
+`backpropagation`、不更新 decoder weights 的情况下完成适配。
 
-这个定位决定了所有实验的取舍标准——评估任何改动时先问它落在哪个**速率域**：
-session-rate 的复杂度近乎免费，per-window（50 Hz）的复杂度和随 `N` 变化的
-shape 才是真代价。详见
-[`sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md`](sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md)。
+This repository develops algorithms for session-adaptive intracortical neural decoding. The current mainline
+combines a streaming neural-activity path with a compact analytic functional carrier. Functional identity is fitted
+from a chronological calibration prefix, while target-session backpropagation and decoder weight updates remain
+disabled.
 
-## 当前主线
+仓库包含 research code、frozen experiment contracts、evidence-verification tools、paper source，以及未来
+implementation 的背景材料。Raw datasets、checkpoints、logs、predictions 与 generated result bundles 是本地
+artifact，不进入 Git。
 
-**SUA/MUA 共享 NeuronID 编码器探索**，入口
-[`sua_exploration/README.md`](sua_exploration/README.md)。
+The workspace contains research code, frozen experiment contracts, evidence-verification tools, paper sources, and
+background material for possible future implementation. Raw datasets, checkpoints, logs, predictions, and generated
+result bundles are local artifacts and are intentionally excluded from Git.
 
-建议阅读顺序：
+当前成果属于纯算法与实验研究。Quantization、RTL、latency、resource utilization 与 hardware fidelity 需要
+独立验证，不是当前工作已经完成的 claim。
 
-1. [`sua_exploration/README.md`](sua_exploration/README.md) — 当前状态与文档导航
-2. [`sua_exploration/ROADMAP.md`](sua_exploration/ROADMAP.md) — 实验计划与决策门
-3. [`sua_exploration/docs/CURRENT_RESULTS.md`](sua_exploration/docs/CURRENT_RESULTS.md) — 结果与口径
-4. [`sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md`](sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md) — **测量协议（引用任何数字前必读）**
-5. [`sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md`](sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md) — 速率域与可重构主张
+The current contribution is algorithmic and experimental. Quantization, RTL, latency, resource utilization, and
+hardware fidelity require separate validation and are not completed claims of the present work.
 
-## 当前结论（2026-07-26）
+## 快速入口 / Start Here
 
-- B3 EarlyPool 架构在 MUA 和 SUA 上分别训练都有效，**架构可复用**。
-- MUA 训练的 B3 权重零样本迁移到 SUA 失败，**权重不可直接复用**。
-- **calibration identity 是承重部件**：置零后 validation R² 全部转为强负值。
-  这是目前唯一效应量远高于噪声底的结构性结论。
-- **跨 neuron self-attention 是否有效：未知。** 此前的阴性结论已于 2026-07-25
-  撤回（测量不可靠）。
-- **per-unit 波形/SNR 侧信息：`indeterminate`。** 4 个主配对全部为负，但
-  未越过噪声底，不得写成阴性结论。
+当前唯一权威的 scientific and execution handoff：
 
-## ⚠️ 测量可靠性（本项目吃过两次亏）
+The sole authoritative scientific and execution handoff is:
 
-本项目**两次**把门槛设在噪声底之下，导致结论不可用：
+[`sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md`](sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
-| 轮次 | 门槛 | 实测噪声底 | 后果 |
-|---|---|---|---|
-| `attention_arch_screen_v3` | `+0.005` | `σ_epoch = 0.0388` | 结论撤回 |
-| `side_feature_ablation_v2` | `+0.03` | `2σ_delta = 0.048–0.077` | 全部 `indeterminate` |
+该 handoff 说明 selected method、evidence hierarchy、claim boundaries、remaining closure work、golden
+programs 与 immutable receipts 的位置。旧的 dated handoff、review、`AGENT_BRIEF` 和 proposal 只作为
+historical provenance，不能覆盖当前 handoff，也不能单独授权新实验。
 
-**引用任何 R² 差值前，先读
-[`MEASUREMENT_PROTOCOL_V4.md`](sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md)
-的 §4.1 修订框，确认该数字是否越过了当轮实测的 `σ_delta`。**
-`indeterminate` ≠ 阴性。
+It defines the selected method, evidence hierarchy, claim boundaries, remaining closure work, golden programs, and
+locations of immutable receipts. Older dated handoffs, reviews, agent briefs, and proposals are historical
+provenance only; they do not override the current handoff or authorize new experiments.
 
-## 目录结构
+推荐阅读顺序 / Recommended reading order:
 
-| 路径 | 定位 | 当前关系 |
+1. [`sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md`](sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md)
+   — 当前 scientific status、claim boundaries 与交接说明 / current scientific status, claim boundaries,
+   and handoff.
+2. [`sua_exploration/README.md`](sua_exploration/README.md)
+   — functional-carrier program 的简明入口 / concise entry point for the functional-carrier program.
+3. [`sua_exploration/docs/CURRENT_RESULTS.md`](sua_exploration/docs/CURRENT_RESULTS.md)
+   — result ledger、evidence status 与 receipt pointers / result ledger, evidence status, and receipt pointers.
+4. [`sua_exploration/ROADMAP.md`](sua_exploration/ROADMAP.md)
+   — closure sequence、stop rules、cleanup 与 Git checklist / closure sequence, stop rules, cleanup, and Git
+   checklist.
+5. [`sua_exploration/docs/ACTIVE_EXPERIMENT_CONTROL_BOARD.md`](sua_exploration/docs/ACTIVE_EXPERIMENT_CONTROL_BOARD.md)
+   — live process 与 terminalization state / live process and terminalization state.
+
+根 README 不记录实验分数；会变化的数字只写入 `CURRENT_RESULTS.md` 与当前 handoff。
+
+The root README intentionally contains no experiment scores. Changing numerical results belong only in
+`CURRENT_RESULTS.md` and the current handoff.
+
+## 当前算法主线 / Current Algorithm Mainline
+
+Selected system 将 calibration 分为两个角色：
+
+The selected system separates calibration into two roles:
+
+- `B3/B3T streaming activity encoder` 表示近期 neural activity；
+  the B3/B3T streaming activity encoder represents recent neural activity.
+- `analytic functional carrier` 表示 session-specific functional identity；
+  the analytic functional carrier represents session-specific functional identity.
+- `SPINT-style pretrained decoder` 消费 activity 与 carrier；
+  a SPINT-style pretrained decoder consumes both activity and carrier.
+- carrier 从 chronological calibration prefix 一次性拟合并缓存；
+  the carrier is fitted once from a chronological calibration prefix and then cached.
+- target-session inference 不构建 optimizer，不执行 `backward()`，不更新 network weights；
+  target-session inference creates no optimizer, executes no backward pass, and updates no network weights.
+
+当前主线研究的是 algorithmic adaptation，而不是硬件实现。未来如果进行 quantization 或 RTL translation，
+必须从 selected FP32 contract 与 golden reference programs 出发，并另行验证 numerical fidelity 与 state
+semantics。
+
+The present mainline studies algorithmic adaptation rather than hardware implementation. Any future quantization or
+RTL translation must start from the selected FP32 contract and golden reference programs, with separate validation
+of numerical fidelity and state semantics.
+
+## 核心研究问题 / Research Questions
+
+1. 哪些 session-level functional information 能够跨 SUA、pseudo-MUA 与 native MUA representations 使用？
+   Which session-level functional information remains useful across SUA, pseudo-MUA, and native MUA
+   representations?
+2. `analytic functional carrier` 能在多低的 target-supervision density 下保持有用的 decoding accuracy？
+   How low can target-supervision density become while the analytic functional carrier retains useful decoding
+   accuracy?
+3. Functional carrier content、row attachment、compact consumer 与 streaming activity path 分别贡献什么？
+   What are the separate contributions of functional carrier content, row attachment, compact consumer, and the
+   streaming activity path?
+4. 哪些 algorithm components 可以在未来被简化或高效实现，同时保持 scientific contract？
+   Which algorithm components may later be simplified or implemented efficiently without changing the scientific
+   contract?
+
+项目不预设 analytic calibration 必然优于 dense direct decoder，也不把 algorithmic supervision count、manual
+annotation cost、compute、latency、memory 与 energy 混为同一概念。
+
+The project does not assume that analytic calibration must outperform a dense direct decoder. Algorithmic
+supervision count, manual annotation cost, compute, latency, memory, and energy are treated as distinct quantities.
+
+## 重要文档 / Key Documents
+
+| document | 中文用途 | English role |
 |---|---|---|
-| `sua_exploration/` | SUA/MUA 共享编码器 | **当前主线** |
-| `streaming_calibration_exp/` | MUA 轻量 encoder 实验框架 | B3/B15/B16 的共享实现基础 |
-| `SPINT-main/` | 原始 SPINT 实现与数据接口 | teacher 和模型语义来源 |
-| `software-to-hardware/` | B3 INT8/QAT 与硬件交接 | 部署支线 |
-| `planB_tempconv/` | 低成本时间卷积 decoder | decoder 压缩支线 |
-| `docs_archive/` | 2026-07 上旬的历史分析与旧计划 | **仅作历史记录，不是当前优先级来源** |
-| `sua_exploration/papers/` | 文献 PDF（7 篇） | 索引见 `sua_exploration/PAPERS.md` |
+| [`sua_exploration/docs/FP32_T4_MAINLINE_PROTOCOL.md`](sua_exploration/docs/FP32_T4_MAINLINE_PROTOCOL.md) | selected FP32 method 与 calibration contract | selected FP32 method and calibration contract |
+| [`sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md`](sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md) | pairing、uncertainty、noise floor 与 result-state 规则 | pairing, uncertainty, noise-floor, and result-state rules |
+| [`sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md`](sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md) | 未来 implementation 可参考的 cost vocabulary；不是当前 hardware evidence | optional cost vocabulary for future implementation; not current hardware evidence |
+| [`sua_exploration/docs/RT_SPARSE_ENDPOINT_STAGE2_THREE_ARM_CONTRACT_20260810.md`](sua_exploration/docs/RT_SPARSE_ENDPOINT_STAGE2_THREE_ARM_CONTRACT_20260810.md) | frozen RT sparse-carrier comparison | frozen RT sparse-carrier comparison |
+| [`sua_exploration/docs/RT_SPARSE_T4D_VS_B2_D1024_COMPANION_PROTOCOL_20260810.md`](sua_exploration/docs/RT_SPARSE_T4D_VS_B2_D1024_COMPANION_PROTOCOL_20260810.md) | exact-query SPINT-structured companion comparison | exact-query SPINT-structured companion comparison |
+| [`sua_exploration/docs/NATIVE_MUA_T4_M1_M2_PROGRAM.md`](sua_exploration/docs/NATIVE_MUA_T4_M1_M2_PROGRAM.md) | native MUA protocol 与 dataset-specific scope | native MUA protocol and dataset-specific scope |
+| [`sua_exploration/docs/PSEUDO_MUA_T4_BRIDGE_48H.md`](sua_exploration/docs/PSEUDO_MUA_T4_BRIDGE_48H.md) | SUA-to-pseudo-MUA controlled signal-view bridge | controlled SUA-to-pseudo-MUA signal-view bridge |
 
-## 工作区注意事项
+Protocol 定义实验语义；terminal receipt 证明实验按合同完成；`CURRENT_RESULTS.md` 记录接受的结果；当前
+handoff 决定这些结果能在论文中支持什么。
 
-- 顶层仓库通过 GitHub `origin/main` 同步源码、配置、测试和研究文档。原始数据、
-  checkpoint、缓存、日志及可再生实验结果不进入 Git；关键实验仍应在文档中记录
-  配置、结果文件路径与内容哈希，确保本地产物可以核验。
-- Conda 环境 `spint`（torch 2.5.1 + CUDA），2× RTX 3090。
-- 数据：`sua_exploration/data/dandi_000688/`（sub-C 53 个 CO session 已下载）。
-- **`sub-C/CO/27-6-6` 的 formal-test scope 已被 receipt 占用且状态悬空**，
-  处置方案见 [`sua_exploration/ROADMAP.md`](sua_exploration/ROADMAP.md) G1。
-  在此之前所有实验只能产出 validation development evidence。
+A protocol defines experiment meaning; a terminal receipt proves execution under that contract;
+`CURRENT_RESULTS.md` records the accepted result; the current handoff determines what the result can support in the
+paper.
+
+## 仓库结构 / Repository Map
+
+| path | 中文定位 | English role |
+|---|---|---|
+| `sua_exploration/` | functional-carrier 主线、result ledger、protocol、scripts 与 tests | functional-carrier mainline, result ledger, protocols, scripts, and tests |
+| `SPINT-main/` | SPINT baseline、H1 training/evaluation 与 source-model semantics | SPINT baseline, H1 training/evaluation, and source-model semantics |
+| `streaming_calibration_exp/` | reusable streaming-calibration 与 MUA experiment framework | reusable streaming-calibration and MUA experiment framework |
+| `bci_paper_overleaf/` | 独立 Git repository 中的 paper source | paper source in a separate Git repository |
+| `software-to-hardware/` | deferred implementation notes 与 model-export experiments | deferred implementation notes and model-export experiments |
+| `encoder_rtl_handoff_v1/` | 未来 RTL work 的 background 与 golden-reference pointers | background and golden-reference pointers for possible future RTL work |
+| `rtl_handoff/` | preliminary digital-design material；不属于当前 algorithm claim | preliminary digital-design material outside the current algorithm claim |
+| `hardware_pe_sram/` | exploratory processing-element 与 memory notes | exploratory processing-element and memory notes |
+| `planB_tempconv/` | historical low-cost temporal-decoder branch | historical low-cost temporal-decoder branch |
+| `docs_archive/` | 已移出 active navigation 的历史材料 | historical material removed from active navigation |
+
+## 证据链 / Evidence Pipeline
+
+项目使用 fail-closed evidence chain：
+
+The project uses a fail-closed evidence chain:
+
+```text
+frozen protocol
+  -> source/config/data manifest
+  -> checkpoint-selection receipt
+  -> one-shot target evaluation
+  -> terminal aggregate
+  -> independent verifier
+  -> result ledger and paper claim
+```
+
+关键边界 / Important boundaries:
+
+- launch receipt 或 preflight PASS 不是 accuracy result；
+  a launch receipt or preflight PASS is not an accuracy result.
+- partial fold 不是 terminal aggregate；
+  a partial fold is not a terminal aggregate.
+- held-out system score 不自动等于 matched causal attribution；
+  a held-out system score is not automatically a matched causal attribution.
+- no target-session backpropagation 不代表没有 offline source training；
+  no target-session backpropagation does not mean no offline source training.
+- 更少的 algorithmic target values 不自动等于更低的 manual annotation cost 或 energy；
+  fewer algorithmic target values do not automatically imply lower manual annotation cost or energy.
+- negative result 关闭 tested implementation，而不是整个 method family；
+  a negative result closes the tested implementation, not the entire method family.
+
+Generated evidence 保存在被 `.gitignore` 排除的 result 与 pilot-artifact roots 中。即使大型 artifact 不上传
+GitHub，论文数字也必须能追溯到 terminal artifact 与 content hash。
+
+Generated evidence is stored under ignored result and pilot-artifact roots. Even though large artifacts are not
+pushed to GitHub, paper numbers must remain traceable to terminal artifacts and content hashes.
+
+## 开发与 Git 规则 / Development and Git Hygiene
+
+- 使用 relevant protocol 指定的 environment 与 focused tests；
+  use the environment and focused tests named by the relevant protocol.
+- 保留 shared multi-agent worktree 中的 unrelated changes；
+  preserve unrelated changes in the shared multi-agent worktree.
+- 禁止 blanket staging，例如 `git add .`；只 stage reviewed paths；
+  never use blanket staging such as `git add .`; stage reviewed paths explicitly.
+- 不提交 datasets、checkpoints、predictions、logs、caches 或 generated result bundles；
+  do not commit datasets, checkpoints, predictions, logs, caches, or generated result bundles.
+- 不删除 active run directories、immutable receipts、terminal aggregates 或 canonical best checkpoints；
+  do not delete active run directories, immutable receipts, terminal aggregates, or canonical best checkpoints.
+- archive 旧文档前检查 current docs、scripts、tests、receipts 与 paper source 的 basename/stem references；
+  before archiving an old document, inspect basename and stem references from current docs, scripts, tests,
+  receipts, and paper sources.
+- 每次 GitHub push 后核验 remote commit；
+  verify the remote commit after every GitHub push.
+
+## 论文与未来实现 / Paper and Future Implementation
+
+Paper source 只消费 result ledger 与 current handoff 中经过 terminal、scope-checked 的 claim。未来如果对 selected
+algorithm 进行 quantization 或 RTL translation，应从 FP32 method contract 与 golden reference programs
+开始，而不是从 historical experiment logs 重新推导算法。
+
+The paper source consumes only terminal, scope-checked claims from the result ledger and current handoff. Any future
+quantization or RTL translation should begin from the FP32 method contract and golden reference programs rather than
+re-deriving the algorithm from historical experiment logs.
+
+Future implementation 需要独立验证 numerical fidelity、resource use、latency 与 state semantics；当前算法结果
+不隐含这些 hardware claims。
+
+Future implementation requires separate validation of numerical fidelity, resource use, latency, and state
+semantics. None of those hardware claims are implied by the present algorithm results.
