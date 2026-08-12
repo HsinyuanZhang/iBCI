@@ -1,7 +1,7 @@
 # HANDOFF: T4 / analytic functional-carrier mainline closure
 
 **Status:** authoritative project handoff for current conclusions, remaining work, and paper wording
-**Updated:** 2026-08-11 HKT
+**Updated:** 2026-08-12 HKT
 **Scope:** SUA, pseudo-MUA, native M2, RT, H1, and the M1 boundary
 **Supersession rule:** use this file for project status and scientific decisions. Older `HANDOFF_*`, dated
 reviews, launch notes, and `AGENT_BRIEF_*` files are historical evidence only; they cannot reopen experiments
@@ -18,8 +18,9 @@ positive matched development and organizer-held system evidence; and on RT a per
 variant strongly beats Zero4 and the same-pipeline SPINT-structured B2 reference; a dense per-bin carrier is retained
 only as separate mean-performance context.
 The benefit is therefore task-aligned carrier content plus a pretrained consumer, not static electrode/SNR/
-waveform metadata. H1 supports a separate compact-consumer claim under dense covariates. M1 is the tested
-negative boundary for the present carrier content.
+waveform metadata. H1 now contributes both a pooled-positive sparse event-context development system and a
+separate compact-consumer/dense-carrier claim; the organizer-hidden result remains the dense H-C system. M1 is
+the tested negative boundary for the present carrier content.
 
 ## 2. What T4 is
 
@@ -179,10 +180,44 @@ reclaiming `906,891,264` allocated bytes. The cleanup manifest is
 `e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`; split manifests, unique logs, selected
 epochs, and both source/canonical result bundles were left untouched.
 
-### 3.4 H1: separate compact-consumer evidence
+### 3.4 H1: sparse event-context representative and compact-consumer evidence
 
-H1 uses dense behavior covariates and therefore does not support the sparse-label claim. It provides two separate
-pieces of evidence:
+The SUA/M2 reduction assumes one direction per trial,
+`rate_i(m) ≈ b_i + a_i cos(theta_m) + c_i sin(theta_m)`, and RT supplies one endpoint direction per
+go-cue-bounded reach. H1 instead has only four long calibration trials, each containing a sequence of
+heterogeneous 7-DoF events `E_m={e_m1,...,e_mK}`; there is no unique `theta_m`, and treating each long trial as
+one RT-style reach erases its phase geometry. Context Full is therefore the H1 sparse representative:
+
+```text
+x_e = [delta_q_e(7), midpoint_q_e(7), onehot(native_tag_e)]
+z_e = P_src Standardize_src(x_e) in R^4
+log(1 + rate_i,e) ~= b_i + w_i^T z_e;  Context_i = [w_i(4), b_i]
+```
+
+`P_src` is learned only from source recordings. Target deployment reads the two native 7-DoF endpoints and tag
+for each valid event, never the dense velocity trace, then performs one closed-form ridge-3 fit with zero target
+optimizer/backward steps.
+
+On the exact 8,965-window fold-0 query, Context Full/H-SE5/H-S/H-C score
+`0.516518/0.500037/0.496833/0.525511`. Context Full is therefore `+0.019685` above SPINT, `+0.016481` above the
+endpoint-only H-SE5 ablation, and only `−0.008993` below dense H-C; it recovers `64.7%` of the H-SE5-to-H-C gap.
+Its same-checkpoint endpoint-label/row/tag/zero controls score `0.499189/0.499152/0.513960/0.484059`, and the
+independently trained Zero5 scores `0.471569`. The H-SE5-relative recording deltas are
+`−0.004610/+0.077458`, so this is the selected pooled sparse development representative, not evidence of a
+recording-uniform improvement or an organizer-hidden Context result. H-SE5 remains the minimal endpoint-only
+ablation.
+
+A supplemental fold-0 two-recording dense-velocity Ridge v2r2 reference is descriptive only. With four
+calibration trials, fixed normalized `lambda=1`, and a per-session causal 50-bin linear readout, it scores pooled
+`0.258235` (`0.237329/0.317563`) on the same 8,965 strict post-support query windows as
+H-S/H-SE5/Context Full/H-C (`0.496833/0.500037/0.516518/0.525511`). Ridge consumes 6,088 dense 7-DoF velocity
+rows (42,616 coordinates); Context Full and H-SE5 use the same 41 endpoint events and 574 acquired endpoint
+coordinates, with Context deriving displacement and midpoint from the same endpoints, adding native tags, and
+exposing 164 q4 estimator inputs. These are distinct algorithmic input forms, not matched supervision, independent
+samples, or human-annotation costs. The reference does not alter the five-date H1 compact-consumer claim,
+explain the score gap causally, or authorize further H1 architecture search.
+The immutable v2r2 receipt and from-source replay-verification SHAs are `2c76d3c5...3c28` and
+`980e0383...3585`; v1/v2 reporting is superseded.
 
 - five-date development: `H-C−H-S=+0.056287`, 4/5 dates positive, paired date-bootstrap 95% interval
   `[+0.005965,+0.097195]`;
@@ -234,8 +269,9 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 2. Correct functional content and unit/channel attachment matter; the effect is not reproduced by zero content,
    wrong rows, or static neural statistics.
 3. The carrier transfers across SUA, deterministic pseudo-MUA, and RT movement decoding; native M2 provides
-   positive but scope-limited development and organizer-held system evidence, while H1 is a separate
-   dense-covariate compact-consumer module.
+   positive but scope-limited development and organizer-held system evidence. H1 uses a sparse event-context
+   carrier because neither one-direction-per-trial nor one-reach-per-trial matches its multi-phase geometry;
+   its organizer-hidden system result remains the separate dense H-C model.
 4. Useful accuracy can be obtained with substantially lower target-supervision density than the evaluated direct
    ridge/dense-carrier implementations.
 5. A compact carrier-aware identity consumer can replace a much larger SPINT identity path on H1 with a small or
@@ -247,7 +283,7 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 - every dataset supplies native low-cost annotations;
 - the entire source-training and scoring pipeline is sparse-label;
 - RT T4d is better than dense Full before a valid superiority test;
-- H1 proves sparse-label adaptation;
+- Context Full is uniformly better across H1 recordings, cross-date confirmed, or organizer-hidden evaluated;
 - M1 carrier content is positive;
 - organizer-held mean differences are traditionally significant or session-consistent without per-session scores;
 - calibration is label-free.

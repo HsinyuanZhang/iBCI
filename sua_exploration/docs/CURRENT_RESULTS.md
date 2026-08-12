@@ -1,7 +1,7 @@
 # Current results: analytic functional carriers for streaming neural decoding
 
-**Updated:** 2026-08-11 HKT
-**Status:** concise result ledger; RT sparse Stage-2/B2 and H1 CI64 are terminal
+**Updated:** 2026-08-12 HKT
+**Status:** concise result ledger; RT sparse Stage-2/B2, H1 Context Full, and H1 CI64 are terminal
 **Full project interpretation:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
@@ -18,7 +18,8 @@ receipts, and the dated protocol documents still referenced by scripts and tests
 | native M2 matched seed42 | SPINT/T4 `0.293110/0.382906`; delta `+0.089796` | 14/14 development cells; 7/7 session deltas positive; not the missing fresh three-seed gate |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802` | terminal 15-fold development matrix |
 | RT sparse endpoint T4d | T4d/Zero4/B2 `0.448176/0.179272/0.145148`; deltas `+0.268905/+0.303028` | terminal 45-cell matrix, independent verifier PASS, exact-query B2 companion PASS; both sparse-mainline contrasts 15/15 positive |
-| H1 compact CarrierID | five-date H-C−H-S `+0.056287`; organizer-held `0.274939` vs paper-LR `0.261492` | dense-covariate compact-consumer evidence, not sparse-label evidence |
+| H1 sparse Context Full | Context/H-SE5/H-S/H-C `0.516518/0.500037/0.496833/0.525511` | strongest pooled endpoint-sparse development system; Context−H-SE5 is `−0.004610/+0.077458` by recording, so not uniform |
+| H1 compact CarrierID | five-date H-C−H-S `+0.056287`; organizer-held `0.274939` vs paper-LR `0.261492` | separate dense-carrier compact-consumer and organizer-hidden evidence |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | carrier-content negative boundary |
 
 ## 2. Selected method and evidence boundary
@@ -229,9 +230,66 @@ replaced by hardlinks without changing any path, SHA, or receipt binding, reclai
 Manifest: `sua_exploration/manifests/rt_terminal_stage2_last_ckpt_hardlink_dedup_20260811.json`, SHA
 `e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`.
 
-## 6. H1 compact consumer
+## 6. H1 sparse event-context carrier and compact consumer
 
-H1 uses dense behavior covariates and is scientifically separate from sparse-label T4.
+SUA/M2 use one trial direction in
+`rate_i(m) ≈ b_i + a_i cos(theta_m) + c_i sin(theta_m)`, while RT supplies one endpoint direction
+per go-cue-bounded reach. H1 has only four long calibration trials and each trial contains multiple
+heterogeneous 7-DoF events, so it has neither a unique `theta_m` nor one RT-style reach per trial.
+Context Full instead uses
+
+```text
+x_e = [delta_q_e(7), midpoint_q_e(7), onehot(native_tag_e)]
+z_e = P_src Standardize_src(x_e) in R^4
+log(1 + rate_i,e) ~= b_i + w_i^T z_e; Context_i = [w_i(4), b_i]
+```
+
+The target carrier reads native endpoint pairs and tags, not dense velocity, and is fitted by
+closed-form ridge with zero target-session optimizer/backward steps. On the common 8,965-window
+fold-0 query, Context Full scores `0.516518`: `+0.019685` over H-S, `+0.016481` over endpoint-only
+H-SE5, and `−0.008993` from dense H-C. It recovers `64.7%` of the H-SE5-to-H-C gap and is the
+selected H1 sparse representative. H-SE5 remains the minimal endpoint-only ablation.
+
+| H1 fold-0 system/control | target carrier role | pooled R² |
+|---|---|---:|
+| H-C | dense carrier | `0.525511` |
+| **Context Full** | **sparse endpoint + event context** | **`0.516518`** |
+| Context tag shuffle | same-checkpoint tag diagnostic | `0.513960` |
+| H-SE5 | endpoint-only sparse ablation | `0.500037` |
+| Context endpoint-label shuffle | same-checkpoint content diagnostic | `0.499189` |
+| Context row shuffle | same-checkpoint attachment diagnostic | `0.499152` |
+| H-S | activity-only SPINT | `0.496833` |
+| Context zero | same-checkpoint carrier removal | `0.484059` |
+| Zero5 | independently trained zero carrier | `0.471569` |
+| Ridge v2r2 | dense per-bin per-session linear readout | `0.258235` |
+
+Context Full exceeds all required pooled content/attachment controls, but Context−H-SE5 is
+`−0.004610/+0.077458` across the two recordings. It is therefore a pooled development representative,
+not a recording-uniform, cross-date, or organizer-hidden sparse result. The terminal v3 receipt,
+structural verifier, and independent batch-29 recomputation SHAs are
+`0460cd5f...5695`, `51a14cfa...2bd`, and `98bb86f1...750`.
+
+### 6.1 Fold-0 dense-velocity Ridge v2r2 reference
+
+A protocol-corrected two-recording replay provides a descriptive four-trial deployment-boundary
+reference on the exact H-SE5 strict post-support query set (8,965 windows). The fixed-normalized-
+`lambda=1` per-session Ridge50 maps same-trial causal 50-bin × 176-channel histories to dense 7-DoF
+velocity and scores pooled `0.258235` (`0.237329/0.317563` per recording), versus
+H-S/H-SE5/Context Full/H-C `0.496833/0.500037/0.516518/0.525511`.
+
+| estimator/package | target-session calibration accounting | pooled R² |
+|---|---:|---:|
+| Context Full M4 estimator | 41 events; 574 acquired endpoint coordinates; displacement + midpoint derived from the same endpoints; native tags; 164 q4 inputs | `0.516518` |
+| H-SE5 M4 endpoint estimator | same 41 events and 574 acquired endpoint coordinates; 287 derived displacement coordinates; 164 q4 inputs | `0.500037` |
+| Ridge v2r2 | 6,088 dense 7-DoF velocity rows; 42,616 velocity coordinates | `0.258235` |
+
+These are different algorithmic target representations, not independent observations, effective
+sample sizes, human-annotation costs, or matched supervision. The comparison is also not
+architecture-matched: Ridge is a direct per-session linear readout, whereas H-S/H-SE5/Context Full/H-C are
+source-pretrained decoder systems. It therefore does not establish carrier superiority or explain the
+score gap causally. The immutable receipt and from-source
+byte-identical verification SHAs are `2c76d3c5...3c28` and `980e0383...3585`; v1/v2 reporting is
+superseded by v2r2.
 
 Five-date development decomposition:
 
@@ -315,7 +373,8 @@ Supported after RT terminal closure:
 1. functional carrier content can adapt a frozen streaming decoder without target-session backpropagation;
 2. correct content and row attachment matter;
 3. useful performance transfers across SUA, pseudo-MUA, and RT; native M2 has positive but scope-limited matched
-   development and organizer-held system evidence, while H1 is a separate compact-consumer module;
+   development and organizer-held system evidence; H1 adds a pooled-positive sparse event-context development
+   representative alongside its separate dense-carrier compact-consumer module;
 4. the evaluated analytic carrier can use substantially fewer target-supervision values than the evaluated dense
    ridge/carrier implementations;
 5. the selected carrier-aware identity path is compatible with large parameter compression.
@@ -326,7 +385,7 @@ Not supported:
 - a universal native annotation-cost, compute, latency, energy, or memory advantage;
 - a fully sparse-label source-training/scoring pipeline;
 - RT sparse superiority over dense Full, equivalence, or non-inferiority;
-- H1 sparse-label evidence;
+- recording-uniform, cross-date, or organizer-hidden H1 Context Full evidence;
 - positive M1 carrier content;
 - label-free calibration.
 
