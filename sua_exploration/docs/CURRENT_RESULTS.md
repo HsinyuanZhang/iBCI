@@ -1,7 +1,8 @@
 # Current results: analytic functional carriers for streaming neural decoding
 
 **Updated:** 2026-08-12 HKT
-**Status:** concise result ledger; RT sparse Stage-2/B2, H1 Context Full, and H1 CI64 are terminal
+**Status:** concise terminal result ledger; RT sparse Stage-2/B2, H1 dense CarrierID, H1 sparse
+date-2 replication and H1 CI64 are closed
 **Full project interpretation:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
@@ -18,7 +19,7 @@ receipts, and the dated protocol documents still referenced by scripts and tests
 | native M2 matched seed42 | SPINT/T4 `0.293110/0.382906`; delta `+0.089796` | 14/14 development cells; 7/7 session deltas positive; not the missing fresh three-seed gate |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802` | terminal 15-fold development matrix |
 | RT sparse endpoint T4d | T4d/Zero4/B2 `0.448176/0.179272/0.145148`; deltas `+0.268905/+0.303028` | terminal 45-cell matrix, independent verifier PASS, exact-query B2 companion PASS; both sparse-mainline contrasts 15/15 positive |
-| H1 sparse Context Full | Context/H-SE5/H-S/H-C `0.516518/0.500037/0.496833/0.525511` | strongest pooled endpoint-sparse development system; Context−H-SE5 is `−0.004610/+0.077458` by recording, so not uniform |
+| H1 sparse boundary | date1 H-SE5−Zero5 `+0.028469` (2/2 positive); date2 `−0.022590` (2/3 positive) | four-trial endpoint-only carrier does not replicate across dates; not an H1 main claim |
 | H1 compact CarrierID | five-date H-C−H-S `+0.056287`; organizer-held `0.274939` vs paper-LR `0.261492` | separate dense-carrier compact-consumer and organizer-hidden evidence |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | carrier-content negative boundary |
 
@@ -230,7 +231,7 @@ replaced by hardlinks without changing any path, SHA, or receipt binding, reclai
 Manifest: `sua_exploration/manifests/rt_terminal_stage2_last_ckpt_hardlink_dedup_20260811.json`, SHA
 `e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`.
 
-## 6. H1 sparse event-context carrier and compact consumer
+## 6. H1 sparse-event boundary and compact consumer
 
 SUA/M2 use one trial direction in
 `rate_i(m) ≈ b_i + a_i cos(theta_m) + c_i sin(theta_m)`, while RT supplies one endpoint direction
@@ -247,8 +248,8 @@ log(1 + rate_i,e) ~= b_i + w_i^T z_e; Context_i = [w_i(4), b_i]
 The target carrier reads native endpoint pairs and tags, not dense velocity, and is fitted by
 closed-form ridge with zero target-session optimizer/backward steps. On the common 8,965-window
 fold-0 query, Context Full scores `0.516518`: `+0.019685` over H-S, `+0.016481` over endpoint-only
-H-SE5, and `−0.008993` from dense H-C. It recovers `64.7%` of the H-SE5-to-H-C gap and is the
-selected H1 sparse representative. H-SE5 remains the minimal endpoint-only ablation.
+H-SE5, and `−0.008993` from dense H-C. This is a one-date exploratory result, not the selected H1
+paper system; the dense H-C system remains the supported H1 mainline.
 
 | H1 fold-0 system/control | target carrier role | pooled R² |
 |---|---|---:|
@@ -269,7 +270,26 @@ not a recording-uniform, cross-date, or organizer-hidden sparse result. The term
 structural verifier, and independent batch-29 recomputation SHAs are
 `0460cd5f...5695`, `51a14cfa...2bd`, and `98bb86f1...750`.
 
-### 6.1 Fold-0 dense-velocity Ridge v2r2 reference
+### 6.1 H-SE5 strict second-date replication
+
+The minimal endpoint-only H-SE5 arm was repeated on outer date `19250108` with an additive dated
+implementation that passed exact fold-0 fidelity, source/target isolation and immutable source
+snapshot gates. Full and independently trained Zero5 used the same seed, source data, schedule and
+fixed epoch-49 checkpoint, then were scored once on 13,107 identical strict post-support windows.
+
+| date-2 system / contrast | pooled R² | per-recording Full−Zero5 |
+|---|---:|---|
+| H-SE5 Full | `0.495670` | - |
+| independently trained Zero5 | `0.518260` | - |
+| **Full−Zero5** | **`−0.022590`** | `−0.042554 / +0.001088 / +0.027104` |
+
+Thus the date-1 delta `+0.028469` (2/2 recordings positive) does not replicate on date 2. The
+four-trial endpoint-only H1 carrier is therefore not used as a positive paper claim. A structural
+verifier passed, and a separate batch-size-29 replay reproduced the pooled delta as `−0.0225895`.
+Receipt SHAs: terminal `01f8542b...d0c`, structural verifier
+`e909ab36...3b6`, independent replay `9fed4fd9...e31`.
+
+### 6.2 Fold-0 dense-velocity Ridge v2r2 reference
 
 A protocol-corrected two-recording replay provides a descriptive four-trial deployment-boundary
 reference on the exact H-SE5 strict post-support query set (8,965 windows). The fixed-normalized-
@@ -373,8 +393,8 @@ Supported after RT terminal closure:
 1. functional carrier content can adapt a frozen streaming decoder without target-session backpropagation;
 2. correct content and row attachment matter;
 3. useful performance transfers across SUA, pseudo-MUA, and RT; native M2 has positive but scope-limited matched
-   development and organizer-held system evidence; H1 adds a pooled-positive sparse event-context development
-   representative alongside its separate dense-carrier compact-consumer module;
+   development and organizer-held system evidence; H1 contributes a separate dense-carrier compact-consumer
+   result, while its four-trial sparse endpoint carrier defines a non-replicating boundary;
 4. the evaluated analytic carrier can use substantially fewer target-supervision values than the evaluated dense
    ridge/carrier implementations;
 5. the selected carrier-aware identity path is compatible with large parameter compression.
@@ -385,7 +405,7 @@ Not supported:
 - a universal native annotation-cost, compute, latency, energy, or memory advantage;
 - a fully sparse-label source-training/scoring pipeline;
 - RT sparse superiority over dense Full, equivalence, or non-inferiority;
-- recording-uniform, cross-date, or organizer-hidden H1 Context Full evidence;
+- recording-uniform, cross-date, or organizer-hidden H1 sparse-carrier evidence;
 - positive M1 carrier content;
 - label-free calibration.
 
@@ -393,6 +413,8 @@ Not supported:
 
 1. preserve the audited A2a/A2b-v2 artifacts and their narrow within-ridge claim;
 2. finish reference-aware cleanup and split the root Git synchronization into portable, reviewable commits;
-3. keep the terminal H1 CI64 result in its predeclared secondary role; it does not reopen H1 architecture search.
+3. keep the terminal H1 CI64 result in its predeclared secondary role; it does not reopen H1 architecture search;
+4. keep the H-SE5 date-2 STOP receipt and its two independent verifications immutable; no post hoc rescue arm is
+   part of the current paper scope.
 
 All other proposed carrier, decoder-fusion, M1/H1 rescue, and quantization experiments are outside this closure.

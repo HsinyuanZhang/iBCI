@@ -18,9 +18,10 @@ positive matched development and organizer-held system evidence; and on RT a per
 variant strongly beats Zero4 and the same-pipeline SPINT-structured B2 reference; a dense per-bin carrier is retained
 only as separate mean-performance context.
 The benefit is therefore task-aligned carrier content plus a pretrained consumer, not static electrode/SNR/
-waveform metadata. H1 now contributes both a pooled-positive sparse event-context development system and a
-separate compact-consumer/dense-carrier claim; the organizer-hidden result remains the dense H-C system. M1 is
-the tested negative boundary for the present carrier content.
+waveform metadata. H1 contributes a compact-consumer/dense-carrier result on five development dates and the
+organizer-hidden endpoint; a four-trial sparse endpoint carrier is positive on one development date but negative
+on a second, so it is an explicit boundary rather than an H1 sparse success. M1 is the tested negative boundary
+for the present carrier content.
 
 ## 2. What T4 is
 
@@ -180,13 +181,13 @@ reclaiming `906,891,264` allocated bytes. The cleanup manifest is
 `e68dd35da75ebde415dcf8af7066f53a217677386d62d6387118dc10d8c949bd`; split manifests, unique logs, selected
 epochs, and both source/canonical result bundles were left untouched.
 
-### 3.4 H1: sparse event-context representative and compact-consumer evidence
+### 3.4 H1: sparse-event boundary and compact-consumer evidence
 
 The SUA/M2 reduction assumes one direction per trial,
 `rate_i(m) ≈ b_i + a_i cos(theta_m) + c_i sin(theta_m)`, and RT supplies one endpoint direction per
 go-cue-bounded reach. H1 instead has only four long calibration trials, each containing a sequence of
 heterogeneous 7-DoF events `E_m={e_m1,...,e_mK}`; there is no unique `theta_m`, and treating each long trial as
-one RT-style reach erases its phase geometry. Context Full is therefore the H1 sparse representative:
+one RT-style reach erases its phase geometry. A one-date exploratory Context Full estimator used:
 
 ```text
 x_e = [delta_q_e(7), midpoint_q_e(7), onehot(native_tag_e)]
@@ -203,9 +204,17 @@ On the exact 8,965-window fold-0 query, Context Full/H-SE5/H-S/H-C score
 endpoint-only H-SE5 ablation, and only `−0.008993` below dense H-C; it recovers `64.7%` of the H-SE5-to-H-C gap.
 Its same-checkpoint endpoint-label/row/tag/zero controls score `0.499189/0.499152/0.513960/0.484059`, and the
 independently trained Zero5 scores `0.471569`. The H-SE5-relative recording deltas are
-`−0.004610/+0.077458`, so this is the selected pooled sparse development representative, not evidence of a
-recording-uniform improvement or an organizer-hidden Context result. H-SE5 remains the minimal endpoint-only
-ablation.
+`−0.004610/+0.077458`, so this is a pooled one-date exploration, not evidence of a recording-uniform,
+cross-date or organizer-hidden sparse result. H-SE5 is the minimal endpoint-only arm used for the strict
+cross-date test.
+
+On the independently implemented second date (`19250108`), H-SE5 Full scores `0.495670` and the independently
+trained Zero5 null scores `0.518260`, giving `−0.022590` pooled. The three recording deltas are
+`−0.042554/+0.001088/+0.027104`; endpoint-label shuffle is also slightly above Full (`+0.001448`). The
+predeclared positive-pooled-and-3/3-positive replication condition therefore fails. A structural verifier passed,
+and a separate batch-size-29 replay reproduced `−0.0225895`. Together with date 1 (`+0.028469`, 2/2 positive),
+this establishes date heterogeneity, not a reproducible four-trial sparse H1 gain. Terminal/structural/replay
+receipt SHAs are `01f8542b...d0c`, `e909ab36...3b6`, and `9fed4fd9...e31`.
 
 A supplemental fold-0 two-recording dense-velocity Ridge v2r2 reference is descriptive only. With four
 calibration trials, fixed normalized `lambda=1`, and a per-session causal 50-bin linear readout, it scores pooled
@@ -269,9 +278,9 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 2. Correct functional content and unit/channel attachment matter; the effect is not reproduced by zero content,
    wrong rows, or static neural statistics.
 3. The carrier transfers across SUA, deterministic pseudo-MUA, and RT movement decoding; native M2 provides
-   positive but scope-limited development and organizer-held system evidence. H1 uses a sparse event-context
-   carrier because neither one-direction-per-trial nor one-reach-per-trial matches its multi-phase geometry;
-   its organizer-hidden system result remains the separate dense H-C model.
+   positive but scope-limited development and organizer-held system evidence. H1 supplies a separate dense
+   multi-phase carrier and compact-consumer result; the tested four-trial sparse extension does not replicate
+   across dates.
 4. Useful accuracy can be obtained with substantially lower target-supervision density than the evaluated direct
    ridge/dense-carrier implementations.
 5. A compact carrier-aware identity consumer can replace a much larger SPINT identity path on H1 with a small or
@@ -283,7 +292,7 @@ impossible. They close the tested implementations and prevent post-hoc rescue on
 - every dataset supplies native low-cost annotations;
 - the entire source-training and scoring pipeline is sparse-label;
 - RT T4d is better than dense Full before a valid superiority test;
-- Context Full is uniformly better across H1 recordings, cross-date confirmed, or organizer-hidden evaluated;
+- an H1 sparse endpoint/event carrier is recording-uniform, cross-date positive, or organizer-hidden evaluated;
 - M1 carrier content is positive;
 - organizer-held mean differences are traditionally significant or session-consistent without per-session scores;
 - calibration is label-free.
@@ -294,7 +303,8 @@ The accuracy experiments in the declared RT/H1 closure are complete. Remaining c
 
 1. preserve the terminal A2a/A2b-v2 receipts and their qualified within-ridge label-density claim; do not promote it
    into an equal-information T4-versus-Ridge50 claim;
-2. run reference-aware document cleanup, recoverable checkpoint cleanup, focused tests, and narrow Git commits.
+2. preserve the H-SE5 date-2 STOP receipt and independent structural/batch-size replay verification;
+3. run reference-aware document cleanup, recoverable checkpoint cleanup, focused tests, and narrow Git commits.
 
 The terminal negative CI64 width result cannot reopen the H1 or RT architecture search. Quantization is deferred and
 is not part of this closure.

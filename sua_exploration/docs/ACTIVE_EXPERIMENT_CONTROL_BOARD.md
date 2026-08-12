@@ -1,14 +1,13 @@
 # Active experiment control board
 
-**Updated:** 2026-08-11 HKT
+**Updated:** 2026-08-12 HKT
 
 **Purpose:** live processes, terminalization state, and cleanup state only
 **Scientific authority:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
-**Live state:** no RT, H1, or A2 process is active. The RT/H1 accuracy programs and corrected CPU-only A2a/A2b-v2
-supervision-density controls are terminal. The stale dead H1 Phase-2 preflight tmux session was removed during the
-final live-state audit.
+**Live state:** no RT, H1, or A2 process is active. The RT/H1 accuracy programs, H-SE5 second-date replication,
+and corrected CPU-only A2a/A2b-v2 supervision-density controls are terminal.
 
 This file is intentionally short. Historical queues, proposals, launch incidents, and closed hypotheses belong in
 immutable receipts or Git history, not in the live control surface.
@@ -89,6 +88,7 @@ negative on average and fails both the historical width condition and the predec
 | dense RT Full vs B2 | `0.441950` vs `0.145148`, delta `+0.296802`, 15/15 positive | paper evidence; B2 named SPINT-structured same-pipeline reference |
 | RT L-D live-activity gain | `G-Full−A0=−0.002068`; `G-Full−G-XLS=+0.006606` | stopped; no additional seed/fold/fusion |
 | H1 all-source official | held-out `0.274939±0.127206` vs paper-LR SPINT `0.261492±0.148717` | system-level dense-covariate evidence |
+| H1 H-SE5 date 2 | Full/independent Zero5 `0.495670/0.518260`, delta `−0.022590`; 2/3 recordings positive | strict sparse replication fails; boundary evidence, no rescue arm |
 | M1 carrier content | official T4 below Original; matched EMG-AFC4 `−0.00652` | negative boundary; no rescue |
 
 ## 5. Documentation maintenance state
@@ -98,11 +98,11 @@ negative on average and fails both the historical width condition and the predec
 3. keep the already-compressed `CURRENT_RESULTS.md` as the dataset/claim ledger; its RT block now carries terminal values;
 4. keep the completed terminal sparse-RT replacement consistent across both Overleaf sources;
 5. keep the terminal H1 CI64 width result in its secondary compact-consumer role;
-6. demote older `HANDOFF_*`, `AGENT_BRIEF_*`, and dated reviews to historical/archive status.
+6. record H-SE5 date 2 as a verified cross-date sparse boundary while preserving dense H-C as the H1 paper line;
+7. demote older `HANDOFF_*`, `AGENT_BRIEF_*`, and dated reviews to historical/archive status.
 
-All six items are complete for the RT/H1 scope. The six-page H1 organizer-held wording now states only that the
-organizer-reported mean is higher, and the matched H1 content figure includes its five-date bootstrap interval;
-Overleaf commit `aff51aa` is synchronized with its remote.
+The experimental items are complete for the RT/H1 scope. The current paper update is being checked before the
+next Overleaf synchronization; do not cite the historical `aff51aa` commit as containing the H-SE5 date-2 boundary.
 
 The terminal RT paper update has been applied at the following locations:
 
