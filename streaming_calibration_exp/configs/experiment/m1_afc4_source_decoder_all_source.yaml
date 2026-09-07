@@ -1,0 +1,25 @@
+# @package _global_
+
+# Clean common M1 decoder: all four held-in calibration sessions, train/loss
+# only, exactly 20 epochs. This is a command template; it does not start a
+# process merely by being composed.
+defaults:
+  - override /data: falcon_m1_all_source_decoder
+  - override /model: falcon_m1_source_only_decoder
+  - override /callbacks: m1_all_source_fixed_epoch
+
+task_name: m1_afc4_source_decoder_all_source
+run_id: m1_afc4_source_decoder_all_source_dev20
+tags: [native-mua, m1, afc4-emg, all-source, base-decoder, fixed20]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: train/loss
+require_baseline_validation: false
+
+trainer:
+  min_epochs: 20
+  max_epochs: 20
+  limit_val_batches: 0
+  check_val_every_n_epoch: 1

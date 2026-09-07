@@ -1,0 +1,41 @@
+# @package _global_
+# H-NF label-free carrier arm (fold-0, 11 source recordings).
+# This config is a DECLARATION ONLY.  It is not a GPU launcher and the H-NF
+# target evaluator is gated closed.  See
+# src/data/h1_carrierid_nf_features.py and src/data/h1_carrierid_nf_date_lodo.py.
+# Status: IMPLEMENTED_NOT_RUN_TARGET_GATE_CLOSED
+
+protocol_id: h1_carrierid_nf_hnf_fold0_source_only_v1
+task_name: h1_carrierid_nf_hnf_fold0
+tags: [h1, carrierid, nf, label_free, fold0, source_only, width4, seed42, e49]
+
+# No training wrapper exists for H-NF yet.  These fields freeze the protocol so
+# that a future wrapper cannot silently change the arm definition.
+carrier_arm: H-NF
+carrier_intervention: hnf
+carrier_width: 4
+identity_encoder_parameter_count: 58140
+support_trials: 4
+fold0_date: 19250101
+source_recordings: ${__source_recordings_h1_m4_fold0__}
+
+# Reference arms stay as they are (imported sealed values, never recomputed).
+reference_arms:
+  H-C: sealed_fold0_value_imported
+  H-LS: sealed_fold0_value_imported
+
+datamodule:
+  _target_: src.data.h1_carrierid_nf_date_lodo.H1CarrierIdNfStrictTargetDataset
+  carrier_intervention: hnf
+
+features_module: src.data.h1_carrierid_nf_features
+no_label_proof_method: signature_rejects_nonnone_behavior_arrays
+degeneracy_policy: raise_on_zero_spike_or_constant_trajectory
+block_selection: neural_only_eval_mask_finite_neural_trialnum_no_velocity
+
+max_epochs: 50
+min_epochs: 50
+
+not_a_gpu_launcher: true
+launch_authorized: false
+target_evaluator_status: implemented_not_run_target_gate_closed

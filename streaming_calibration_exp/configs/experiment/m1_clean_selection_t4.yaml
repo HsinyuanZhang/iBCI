@@ -1,0 +1,22 @@
+# @package _global_
+# Training configuration for M1 clean-selection retrain (selection window only).
+defaults:
+  - b3s_t4_m1_loso_internal
+
+run_id: m1_clean_selection_t4_m1
+tags: ["native-mua", "t4", "m1", "clean-selection", "train"]
+
+train: true
+test: false
+
+data:
+  calibration_n_trials: 10
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  side_feature_group: t4
+  heldin_query_start_trial: 10
+  heldin_query_end_trial: 210
+
+trainer:
+  max_epochs: 12

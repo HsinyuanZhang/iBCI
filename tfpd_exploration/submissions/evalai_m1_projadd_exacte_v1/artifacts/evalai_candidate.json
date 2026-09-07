@@ -1,0 +1,19 @@
+{
+  "arm": "projadd_p16_s42_ema_e24_w0",
+  "budget_disclosure": "10 public calibration trials for B3 E0 and rSyn3; static banks; no TTA. Checkpoint is preregistered endpoint24 EMA. Local minival/LOSO are diagnostic only.",
+  "diagnostic_minival_pooled": 0.9789863098003622,
+  "evalai_opened": false,
+  "image_id": "sha256:6588db1015a405486b5f3ab0b9e2329d2e6fddb64985cc8412d95867596f1416",
+  "image_size": 9598181804,
+  "image_tag": "spint-m1:projadd-p16-s42-ema-e24-w0-3e260ebd",
+  "method_description": "M1 proj_add P16 (Linear 100->16, token_in=20) CausalPE4 seed 42 EMA epoch 24. Diagnostic source-minival pooled 0.978986 (polluted stage-2 face; not a selector). Prior official 581982 HO 0.5741. Exact-E, dataloader_workers=0, torch threads=2.",
+  "method_label": "M1 proj_add P16 CausalPE4 (seed42 EMA e24) exact-E w0; endpoint24 EMA; official uint8/float coerce",
+  "method_name": "M1 proj_add P16 Transformer EMA e24 s42 exact-E w0",
+  "official_vs_train_e0_max_abs": 0.0,
+  "parity_exact_e_vs_train_max_abs": 1.7881393432617188e-07,
+  "payload_sha256": "3e260ebdda7d0482094366a53daf6068ca48be9dd6660bd8b1e8f8738251dbfa",
+  "prior_official_ho_581982": 0.5740867465488526,
+  "proj_dim": 16,
+  "register": false,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_exacte_v1/artifacts/evalai_push_state.json"
+}

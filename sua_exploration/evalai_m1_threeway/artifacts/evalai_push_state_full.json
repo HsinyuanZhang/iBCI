@@ -1,0 +1,65 @@
+{
+  "arm": "full",
+  "image_id": "sha256:3ca1d62c0b14664ab72d468ceddde9380aae4d5fa2360cac730508611e44b48e",
+  "image_tag": "spint-m1-afc4-full-all-source:dev12",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "evalai_m1_threeway_push_state_v1",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 578460,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_578460/f912a2b0-939c-4af2-9a76-43eba1e49e.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen M1 q=3 EMG-AFC4 Full decoder trained on all four held-in source sessions from a shared fixed-20-epoch train-loss teacher and a fixed 12-epoch task-only student run. Per-session identities are computed offline from chronological M10 public calibration support; the official runtime uses cached identities only and performs no query-label read, online calibration, optimizer step, or backpropagation.",
+    "method_name": "M1 q3 EMG-AFC4 Full all-source M10",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-08-06T14:03:54.915707Z",
+    "when_made_public": null
+  },
+  "submission_id": 578460,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:166a5c28-1090-4e3f-9fa4-1a2e28a257c6",
+  "uploaded_manifest_digest": "sha256:3ca1d62c0b14664ab72d468ceddde9380aae4d5fa2360cac730508611e44b48e",
+  "uuid_tag": "166a5c28-1090-4e3f-9fa4-1a2e28a257c6"
+}

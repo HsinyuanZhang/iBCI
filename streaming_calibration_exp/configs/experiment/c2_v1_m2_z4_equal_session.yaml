@@ -1,0 +1,37 @@
+# @package _global_
+# C2 v1 cell: matched Z4, existing equal-session interpolation lever ON.
+defaults:
+  - override /model: streaming_b3s_t4
+  - override /data: falcon_m2_c2_matched_z4
+  - override /callbacks: c2_epoch_window
+
+run_id: c2_v1_m2_z4_equal_session
+comparison_role: m2_sampling_objective_c2_v1
+tags: ["c2-v1", "m2", "development-only", "z4", "matched-t4-normalizer", "equal-session-sampling"]
+no_early_stopping: true
+require_baseline_validation: false
+
+data:
+  validation_protocol: loso
+  loso_fold: 0
+  calibration_n_trials: 33
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  heldin_query_start_trial: 0
+  heldin_query_end_trial: null
+  balance_session_batches: true
+  reshuffle_train_sampler_each_epoch: false
+
+model:
+  variant: B3S
+  hidden_dim: 64
+  side_dim: 4
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 12

@@ -1,0 +1,57 @@
+{
+  "schema_version": "m1_fixed_k_temporal_prototype_gate_a_source_manifest_v2",
+  "purpose": "Exactly four native M1 held-in-calibration source sessions for Step-3 CPU Gate A; no formal or held-out path is permitted.",
+  "task": "m1",
+  "source_split": "held-in-calib",
+  "sessions": [
+    {
+      "session": "ses-20120924",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+      "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+      "support_obj_id_counts_0_10": [3, 2, 3, 2],
+      "future_obj_id_counts_210_end": [70, 46, 41, 47],
+      "future_trials_210_end": 204
+    },
+    {
+      "session": "ses-20120926",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+      "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+      "support_obj_id_counts_0_10": [2, 3, 3, 2],
+      "future_obj_id_counts_210_end": [64, 46, 38, 51],
+      "future_trials_210_end": 199
+    },
+    {
+      "session": "ses-20120927",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+      "sha256": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a",
+      "support_obj_id_counts_0_10": [3, 3, 2, 2],
+      "future_obj_id_counts_210_end": [59, 50, 26, 31],
+      "future_trials_210_end": 166
+    },
+    {
+      "session": "ses-20120928",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+      "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254",
+      "support_obj_id_counts_0_10": [3, 2, 2, 3],
+      "future_obj_id_counts_210_end": [72, 45, 37, 48],
+      "future_trials_210_end": 202
+    }
+  ],
+  "excluded_path_tokens": [
+    "held-out",
+    "minival",
+    "test",
+    "evalai",
+    "formal"
+  ],
+  "support": {
+    "trial_range": [0, 10],
+    "labels": "obj_id only for D4 reference; prototype/rate/slot-shuffle receive no support labels",
+    "signal": "raw non-interpolated 20-ms binned neural counts; valid prefix only; production -1 padding must be stripped and verified"
+  },
+  "later_neural_oracle": {
+    "trial_range": [210, "end"],
+    "target": "per-channel x obj_id log1p(mean per-trial Hz)",
+    "future_obj_id": "scorer-only; forbidden from anchor, route, carrier, train/readout input, or deployment language"
+  }
+}

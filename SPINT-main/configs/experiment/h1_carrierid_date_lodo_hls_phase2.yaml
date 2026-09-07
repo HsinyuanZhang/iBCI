@@ -1,0 +1,20 @@
+# @package _global_
+# Fresh h=32 H-LS source-only arm.  Required paths are supplied by an
+# immutable five-date H-LS source preflight; this template has no target route.
+defaults:
+  - h1_carrierid_date_lodo_hs_phase2
+  - override /data: falcon_h1_carrierid_date_lodo_hls
+  - override /model: falcon_h1_carrierid_date_lodo_hls
+
+protocol_id: h1_carrierid_date_lodo_hls_${phase2.outer_date}_source_only_v1
+task_name: h1_carrierid_date_lodo_hls_${phase2.outer_date}
+tags: [h1, carrierid, date_lodo, source_only, hls, h32, seed42, e49]
+
+phase2:
+  arm: H-LS
+  outer_date: "__REQUIRED_HLS_OUTER_DATE__"
+  phase1_preflight_path: ${paths.work_dir}/pilot_artifacts/h1_carrierid_date_lodo_phase1/H1_CARRIERID_DATE_LODO_SOURCE_PREFLIGHT_v1.json
+  hls_source_preflight_path: "__REQUIRED_IMMUTABLE_HLS_SOURCE_PREFLIGHT__"
+  pair_preflight_path: "NOT_USED_BY_ISOLATED_HLS"
+  warm_start_forbidden: true
+  target_evaluator_status: IMPLEMENTED_SEPARATELY_NOT_RUN

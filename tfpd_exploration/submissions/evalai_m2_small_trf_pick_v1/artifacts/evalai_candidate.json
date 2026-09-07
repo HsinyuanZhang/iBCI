@@ -1,0 +1,11 @@
+{
+  "arm": "small_trf_s1_ema_e19",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA",
+  "image_id": "sha256:aa820f7941fae45b40816f581c98c9adbc438348e05aa16ea54c51de17b4dde9",
+  "image_tag": "spint-t4-m2:small-trf-s1-ema-e19-37071f3e",
+  "method_description": "New M2 Falcon runtime that executes a 3.54M-parameter causal Transformer (shared set frontend, 4-layer temporal stack, 256-128-2 readout), not the old static SPINT decoder. Weights are the seed-42 S1-SMALL-COS EMA view at epoch 19, selected by a sealed visible-product rule on local M33-disjoint ext-4 (equal-session mean 0.4515). Per-session banks reuse the training-time native E0 and MOVE-T4 (bins 5:30, source-only normalizer, selected EMPTY head) for all 13 official held-in and held-out dataset tags. Online path is a 50-bin causal window with output /5, unit mask, full-window forward (no cross-window KV reuse), and no test-time adaptation.",
+  "method_label": "M2 small causal Transformer (S1-SMALL-COS seed42 EMA e19); visible-product pick on local ext-4; frozen M33 MOVE-T4/E0 banks; no TTA",
+  "method_name": "M2 small Transformer S1-SMALL-COS EMA e19 visible-product",
+  "payload_sha256": "37071f3e718913f994b5015e13aa203026fb630339e87921ddb1c35de9d2bf62",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_trf_pick_v1/artifacts/evalai_push_state.json"
+}

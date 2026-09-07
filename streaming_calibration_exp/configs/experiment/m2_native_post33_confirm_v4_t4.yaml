@@ -1,0 +1,67 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_post33_confirm_v4
+  - override /model: streaming_b3s_t4_post33_exact_v4
+  - override /callbacks: post33_t4_source_only_v4
+  - override /hydra: post33_cell_v4
+
+protocol_id: M2_NATIVE_T4_SPINT_POST33_CONFIRM_V1
+phase_id: PHASE_C_V4
+arm: t4
+run_id: canonical
+task_name: m2_native_post33_confirm_v4_t4
+comparison_role: prospective_native_m2_t4_vs_exact_paired_spint
+tags: ["m2", "native-mua", "t4", "post33", "phase-c-v4", "exact-six"]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: val_source/r2_equal_session_mean
+require_baseline_validation: false
+# Phase-C seals a closed run tree.  TensorBoard event files carry dynamic
+# names, so this production plan has no Lightning logger at all.
+logger: false
+
+# ``src.utils.extras`` must not create ``config_tree.log`` or introduce an
+# interactive/dynamic side effect in the owned Phase-C run tree.
+extras:
+  ignore_warnings: false
+  enforce_tags: false
+  print_config: false
+
+cell_owner_token: ???
+cell_paths:
+  cell_dir: ???
+  owner: ???
+  hydra: ???
+  selector_records: ???
+  checkpoints: ???
+  resolved_config: ???
+  deployment_constants: ???
+  decoder_lifecycle_stages: ???
+  secondary_artifact_root: ???
+  secondary_artifacts: ???
+  source_cost_evidence: ???
+  cost_supplement: ???
+
+paths:
+  output_dir: ${cell_paths.cell_dir}/run
+  artifact_dir: ${cell_paths.secondary_artifact_root}
+
+model:
+  paired_spint_completion_receipt: ???
+  phase_c_t4_owner_path: ${cell_paths.owner}
+  phase_c_t4_owner_token: ${cell_owner_token}
+
+trainer:
+  max_epochs: 12
+  accelerator: gpu
+  devices: 1
+  precision: 32-true
+  # Keep Lightning's bounded source-only forward-path probe explicit.  The
+  # exact-six metric hook discards its partial session-grouped prefix.
+  num_sanity_val_steps: 2
+  # The source selector writes the exact allowlisted epoch files itself.
+  # Leaving this as Lightning's ``None`` would silently add ModelCheckpoint.
+  enable_checkpointing: false

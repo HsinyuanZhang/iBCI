@@ -1,0 +1,27 @@
+{
+  "canonical_content_sha256": "fb563cecf0adf26b4ce321f3e35dd9e258b1bb6303f8b5ee1fcba8c8e7055ff3",
+  "equivalence": {
+    "sampler_equal": true,
+    "target_nwb_opened": false,
+    "train_dataset_equal": true,
+    "zero4_side_exact": true
+  },
+  "equivalence_receipt": {
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_SOURCE_FIT_EQUIVALENCE_v1.json",
+    "sha256": "8e37f7bbaa5481ca7361a72f53b6ab46afaa4b81d5e55c3f10c61be5527671ae"
+  },
+  "parent_v2_receipt": {
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_STAGED_RECEIPT_v2.json",
+    "sha256": "b435c2cdd63537dd814710a744b452ececce95c493a2fbc31812fcdef8085c43"
+  },
+  "schema": "m1_compact_b3s_f1_s42_v2_equivalence_binding_v1",
+  "scope": {
+    "arm": "b3s_zero4",
+    "fold": 1,
+    "seed": 42,
+    "source_only_fit": true,
+    "target_values_used": false,
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F1_S42_V2_EQUIVALENCE_BOUND"
+}

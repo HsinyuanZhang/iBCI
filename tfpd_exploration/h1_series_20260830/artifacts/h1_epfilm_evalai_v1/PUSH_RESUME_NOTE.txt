@@ -1,0 +1,34 @@
+H1 EP-FILM EvalAI push — interrupted state and exact resume path (2026-09-04)
+
+State: READY_NOT_SUBMITTED. Everything through offline validation and the
+packaging receipt is complete and immutable:
+
+- payload: SPINT-main/local_data/h1_epfilm_evalai_v1/decoder.pt
+  sha256 df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7
+- image: h1-epfilm-c1:evalai-v1-df71cb93
+  id sha256:3180ac0b2ac117f77dda789245ce63c3ce9aab09509b81dc969856a650d97c7b
+- packaging receipt:
+  tfpd_exploration/h1_series_20260830/results/h1_calibration_profile_film_v3/packaging_receipt.json
+  sha256 f834f6ab1b94d707ee6905ba9db34739149fe53014f2653d952b85803f090fa8
+
+What happened to the push: the first (authorized-by-coordinator-relay)
+upload attempt ran ~70 min at ~0.4 MB/s through the machine proxy and was
+then killed by the harness background-task lifecycle mid-upload. No ECR tag
+was finalized and NO EvalAI submission was registered (submission count
+remained 25, zero submissions in the following 2h window). A detached
+setsid relaunch was denied by the permission system because the push
+authorization originates from a relayed agent message rather than direct
+user input; per that decision the retry was not circumvented.
+
+Resume (requires explicit user go-ahead; upload of the not-yet-transferred
+blobs will take hours at the observed proxy throughput; already-uploaded
+ECR blobs are skipped automatically):
+
+  /home/xinyuan/miniconda3/envs/spint/bin/python \
+    tfpd_exploration/h1_series_20260830/scripts/push_h1_epfilm_evalai_v1.py \
+    --execute --confirm-image-id \
+    sha256:3180ac0b2ac117f77dda789245ce63c3ce9aab09509b81dc969856a650d97c7b
+
+After it registers, record the receipt:
+
+  python3 tfpd_exploration/h1_series_20260830/scripts/record_h1_epfilm_submission_v1.py --execute

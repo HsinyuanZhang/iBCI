@@ -1,0 +1,132 @@
+{
+  "schema": "checkpoint-reclamation-deletion-receipt/v1",
+  "created_at": "2026-08-05T02:23:04+08:00",
+  "status": "complete",
+  "append_only": {
+    "semantics": "new uniquely named receipt created after deletion; no prior receipt was overwritten",
+    "receipt_path_was_absent_before_creation": true
+  },
+  "scope": {
+    "deleted_only": "the 28 explicit rows from the candidate manifest",
+    "deletion_api": "Python os.unlink",
+    "glob_or_recursive_deletion_used": false,
+    "phase_c_implementation_files_modified": false
+  },
+  "candidate_manifest": {
+    "path": "sua_exploration/manifests/checkpoint_reclamation_round2_candidate_manifest_20260805.json",
+    "sha256_before_and_after_deletion": "e3650a6b27bf119e60e9a2922d88d9c8c77b36bc6597aa4ccbf63b944e5beb3b",
+    "entry_fields": [
+      "id",
+      "candidate",
+      "retained_identical_peer",
+      "sha256",
+      "logical_size_bytes",
+      "allocated_blocks_512",
+      "allocated_bytes",
+      "candidate_inode",
+      "retained_inode",
+      "candidate_nlink"
+    ]
+  },
+  "pre_delete_revalidation": {
+    "entry_count": 28,
+    "all_entries_passed": true,
+    "per_entry_conditions": [
+      "candidate remains a regular file",
+      "candidate inode, size, allocated blocks, and nlink=1 match the candidate manifest",
+      "candidate and retained peer SHA-256 both equal the recorded SHA-256",
+      "relative exact textual references=0",
+      "absolute exact textual references=0",
+      "symlinks resolving to candidate=0",
+      "lsof open rows=0"
+    ],
+    "out_of_scope_preserved": [
+      "all best_ckpt files",
+      "all C1 and Phase-C artifacts",
+      "all formal, evidence, and receipt artifacts",
+      "all selected, published, and anchor artifacts",
+      "all SPINT-main checkpoints"
+    ]
+  },
+  "deletion_results_fields": [
+    "id",
+    "candidate_absent_after_os_unlink",
+    "retained_peer_sha256_matches_candidate_manifest"
+  ],
+  "deletion_results": [
+    [1, true, true],
+    [2, true, true],
+    [3, true, true],
+    [4, true, true],
+    [5, true, true],
+    [6, true, true],
+    [7, true, true],
+    [8, true, true],
+    [9, true, true],
+    [10, true, true],
+    [11, true, true],
+    [12, true, true],
+    [13, true, true],
+    [14, true, true],
+    [15, true, true],
+    [16, true, true],
+    [17, true, true],
+    [18, true, true],
+    [19, true, true],
+    [20, true, true],
+    [21, true, true],
+    [22, true, true],
+    [23, true, true],
+    [24, true, true],
+    [25, true, true],
+    [26, true, true],
+    [27, true, true],
+    [28, true, true]
+  ],
+  "reclaimed_allocation": {
+    "filesystem_type": "ext4",
+    "accounting_method": "sum(pre-delete st_blocks * 512) for unlinked nlink=1 regular files",
+    "deleted_file_count": 28,
+    "reclaimed_blocks_512": 3529616,
+    "reclaimed_allocated_bytes": 1807163392,
+    "reclaimed_mebibytes": 1723.4453125,
+    "reclaimed_gibibytes": 1.6830511093139648
+  },
+  "protected_spint_anchor_post_delete_checks": [
+    {
+      "path": "SPINT-main/logs/m2_t4_clean_spint_replication/teacher_s43/checkpoints/clean_teacher_best/epoch_034.ckpt",
+      "logical_size_bytes": 55206582,
+      "sha256": "e563b5b8684128d3a13e7407585b0401ddb3eb64b2badf2451e4af528c1e917a"
+    },
+    {
+      "path": "SPINT-main/logs/m2_t4_clean_spint_replication/teacher_s44/checkpoints/clean_teacher_best/epoch_034.ckpt",
+      "logical_size_bytes": 55206582,
+      "sha256": "55669ab3506b6fd290fa8667a761b3345516fc61354e7a1db1567b141c632885"
+    },
+    {
+      "path": "SPINT-main/logs/train/runs/2026-07-07-16-05-16/checkpoints/best_ckpt/epoch_034.ckpt",
+      "logical_size_bytes": 55200821,
+      "sha256": "fbcb9914561c4664fa0f8d0b1791e67505841d3ac470ea7ad68d54e408ca13ec"
+    },
+    {
+      "path": "SPINT-main/logs/train/runs/2026-07-07-16-05-16/checkpoints/periodic_ckpt/epoch_019.ckpt",
+      "logical_size_bytes": 55200375,
+      "sha256": "c45b74ffabfd3ebedac1157841b605dec14853ed3e1e9f7d4730e985a1c28572"
+    },
+    {
+      "path": "SPINT-main/logs/train/runs/2026-07-21-19-11-01/checkpoints/best_ckpt/epoch_019.ckpt",
+      "logical_size_bytes": 180150329,
+      "sha256": "c81a2bbd860452e6186a9ecf55c0b747da61baef4fae3212f61521be68cc5ac2"
+    },
+    {
+      "path": "SPINT-main/logs/train/runs/2026-07-21-19-11-01/checkpoints/periodic_ckpt/epoch_019.ckpt",
+      "logical_size_bytes": 180150711,
+      "sha256": "9f03ef4acab30bef0ab26e8325bd185e496a64ae1dbbcab8f8833996a090d668"
+    }
+  ],
+  "post_delete_summary": {
+    "candidate_existence_failures": 0,
+    "retained_peer_hash_failures": 0,
+    "protected_anchor_failures": 0
+  }
+}

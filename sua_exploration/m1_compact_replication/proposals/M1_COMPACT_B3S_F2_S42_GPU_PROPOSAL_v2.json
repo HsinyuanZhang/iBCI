@@ -1,0 +1,113 @@
+{
+  "canonical_content_sha256": "99eddf3a5f1b20768c4ef0ff586ad53360253645a0817e1c414a52ecd0905ce0",
+  "cells": [
+    {
+      "argv": [
+        "/home/xinyuan/miniconda3/envs/spint/bin/python",
+        "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+        "experiment=m1_version_b_hs_continuation",
+        "run_id=m1_compact_b0_f2_s42_fresh_e11",
+        "data.loso_fold=2",
+        "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+        "seed=42",
+        "trainer.min_epochs=12",
+        "trainer.max_epochs=12",
+        "trainer.limit_val_batches=0",
+        "trainer.num_sanity_val_steps=0",
+        "data._target_=src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+        "test=false",
+        "optimized_metric=null",
+        "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+        "ckpt_path=null"
+      ],
+      "arm": "b0",
+      "fixed_terminal_epoch_zero_based": 11,
+      "fold": 2,
+      "outer_target": "ses-20120927",
+      "seed": 42,
+      "source_sessions": [
+        "ses-20120924",
+        "ses-20120926",
+        "ses-20120928"
+      ]
+    },
+    {
+      "argv": [
+        "/home/xinyuan/miniconda3/envs/spint/bin/python",
+        "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+        "experiment=m1_version_b_c0",
+        "run_id=m1_compact_b3s_zero4_f2_s42_fresh_e11",
+        "data.loso_fold=2",
+        "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+        "seed=42",
+        "trainer.min_epochs=12",
+        "trainer.max_epochs=12",
+        "trainer.limit_val_batches=0",
+        "trainer.num_sanity_val_steps=0",
+        "data._target_=src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+        "test=false",
+        "optimized_metric=null",
+        "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+        "ckpt_path=null"
+      ],
+      "arm": "b3s_zero4",
+      "fixed_terminal_epoch_zero_based": 11,
+      "fold": 2,
+      "outer_target": "ses-20120927",
+      "seed": 42,
+      "source_sessions": [
+        "ses-20120924",
+        "ses-20120926",
+        "ses-20120928"
+      ]
+    }
+  ],
+  "execution": {
+    "fixed_order": [
+      "b0",
+      "b3s_zero4"
+    ],
+    "fold1_gate_required_before_launch": true,
+    "intermediate_target_metric_read": false,
+    "launched": false,
+    "source_only_fit_data_module": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+    "target_is_opened_only_by_independent_evaluator_after_both_terminal_checkpoints": true,
+    "train_commands_test_false": true
+  },
+  "gate": {
+    "fold1_gate_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_GATE_v2.json",
+    "fold1_gate_required": true,
+    "fold2_launch_authorized": false,
+    "metric": "B3S-Zero4 minus B0 pooled variance-weighted R2",
+    "threshold": -0.03
+  },
+  "parent_v1": {
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/proposals/M1_COMPACT_B3S_GPU_PROPOSALS_v1.json",
+    "sha256": "403d12e613fc3937580db718ae9cef9d78e1c6ed1680cb4fcc459c9305896fb4"
+  },
+  "schema": "m1_compact_b3s_f2_s42_gpu_proposal_v2",
+  "scope": {
+    "fold": 2,
+    "formal_or_minival_or_heldout": false,
+    "outer_target": "ses-20120927",
+    "query_trials": [
+      10,
+      210
+    ],
+    "seed": 42,
+    "source_sessions": [
+      "ses-20120924",
+      "ses-20120926",
+      "ses-20120928"
+    ],
+    "support_trials": [
+      0,
+      10
+    ],
+    "target_backward_steps": 0,
+    "target_checkpoint_selection": false,
+    "target_optimizer_steps": 0,
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F2_S42_PROPOSAL_PREPARED_NOT_LAUNCHED"
+}

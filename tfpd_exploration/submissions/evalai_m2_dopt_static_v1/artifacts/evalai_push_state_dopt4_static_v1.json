@@ -1,0 +1,66 @@
+{
+  "arm": "dopt4_static_m4",
+  "image_id": "sha256:280f295ea6a46b681295d8c738938972010f067ed455dd0440f9052061a39c9f",
+  "image_tag": "spint-t4-m2:dopt4-static-s42-4f68b7b8",
+  "payload_sha256": "4f68b7b8d0a64c66b53810dd73a125b9021b0b029dc57f00bb888b783151ecf4",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_dopt4_static_evalai_push_state_v1",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581644,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581644/7c52d920-d7f4-4789-b25f-e2c34674a5.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen SPINT M2 decoder with per-session cached identity calibrated offline from four target-labelled calibration trials selected by greedy forward D-optimal design among the finite-direction candidates of the first 30 public calibration trials (ridge lambda=0.1 T4 fit on the selected four; B3S activity pool = exactly those four trials, mean-pooled by the encoder). Strict four-label static deployment: no adaptive memory, no online update. The EvalAI runtime serves cached identities only and performs no hidden-query label read, optimizer step, parameter update, or backpropagation.",
+    "method_name": "M2 D-opt-4 static ridge T4 seed42",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-02T08:39:10.084293Z",
+    "when_made_public": null
+  },
+  "submission_id": 581644,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:066f8d7f-ac3b-44c2-8921-afcb94476936",
+  "uploaded_manifest_digest": "sha256:280f295ea6a46b681295d8c738938972010f067ed455dd0440f9052061a39c9f",
+  "uuid_tag": "066f8d7f-ac3b-44c2-8921-afcb94476936"
+}

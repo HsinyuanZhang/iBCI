@@ -1,0 +1,35 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_post33_confirm_v3
+  - override /model: streaming_b3s_t4_post33_paired_v3
+  - override /callbacks: post33_source_only
+  - override /hydra: post33_cell_v3
+
+protocol_id: M2_NATIVE_T4_SPINT_POST33_CONFIRM_V1
+phase_id: PHASE_B_V3
+arm: t4
+run_id: m2_native_post33_confirm_v3_t4
+task_name: m2_native_post33_confirm_v3_t4
+comparison_role: prospective_native_m2_t4_vs_exact_paired_spint
+tags: ["m2", "native-mua", "t4", "post33", "phase-b-v3", "paired-teacher"]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: val_heldin/r2_mean
+require_baseline_validation: false
+
+cell_owner_token: ???
+cell_paths:
+  cell_dir: ???
+  owner: ???
+  selector_records: ???
+  checkpoints: ???
+
+model:
+  paired_spint_completion_receipt: ???
+
+trainer:
+  max_epochs: 12
+

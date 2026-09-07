@@ -3326,24 +3326,25 @@ class TernarizedEarlyPoolEncoder(CalibrationEncoder):
 
 
 def build_encoder(
-    variant: str,
-    *,
-    window_size: int,
-    trial_length: int = 100,
-    teacher_fc_id_in: Optional[nn.Module] = None,
-    teacher_fc_id_out: Optional[nn.Module] = None,
-    id_hidden_dim: int = 128,
-    hidden_dim: int = 64,
-    num_emas: int = 4,
-    num_filters: int = 4,
-    kernel_size: int = 5,
-    learnable_ema_alpha: bool = False,
-    sparsity_k: int = 16,
-    pad_value: float = -1.0,
-    id_num_heads: int = 4,
-    side_dim: int = 0,
-    electrode_embed_dim: int = 0,
-    num_electrodes: int = 0,
+  variant: str,
+  *,
+  window_size: int,
+  trial_length: int = 100,
+  teacher_fc_id_in: Optional[nn.Module] = None,
+  teacher_fc_id_out: Optional[nn.Module] = None,
+  id_hidden_dim: int = 128,
+  hidden_dim: int = 64,
+  num_emas: int = 4,
+  num_filters: int = 4,
+  kernel_size: int = 5,
+  learnable_ema_alpha: bool = False,
+  sparsity_k: int = 16,
+  pad_value: float = -1.0,
+  id_num_heads: int = 4,
+  side_dim: int = 0,
+  electrode_embed_dim: int = 0,
+  num_electrodes: int = 0,
+  activity_path_dropout_p: float = 0.0,
 ) -> CalibrationEncoder:
     variant = variant.upper()
     if variant in {"B0", "BATCH"}:
@@ -3367,14 +3368,29 @@ def build_encoder(
     elif variant == "B3":
         enc = EarlyPoolEncoder(trial_length, window_size, hidden_dim)
     elif variant == "B3S":
-        enc = SideFeatureEarlyPoolEncoder(
-            trial_length,
-            window_size,
-            hidden_dim,
-            side_dim=side_dim,
-            electrode_embed_dim=electrode_embed_dim,
-            num_electrodes=num_electrodes,
-        )
+        if activity_path_dropout_p > 0.0:
+            from src.models.components.activity_path_dropout_encoder import (
+                ActivityPathDropoutSideFeatureEarlyPoolEncoder,
+            )
+
+            enc = ActivityPathDropoutSideFeatureEarlyPoolEncoder(
+                trial_length,
+                window_size,
+                hidden_dim,
+                side_dim=side_dim,
+                electrode_embed_dim=electrode_embed_dim,
+                num_electrodes=num_electrodes,
+                activity_path_dropout_p=activity_path_dropout_p,
+            )
+        else:
+            enc = SideFeatureEarlyPoolEncoder(
+                trial_length,
+                window_size,
+                hidden_dim,
+                side_dim=side_dim,
+                electrode_embed_dim=electrode_embed_dim,
+                num_electrodes=num_electrodes,
+            )
     elif variant in {
         "B3SCF",
         "B3SCFS",

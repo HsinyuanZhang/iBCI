@@ -1,0 +1,14 @@
+_target_: src.data.h1_carrierid_date_lodo_hls.H1CarrierIdDateLodoHlsSourceDataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+phase1_preflight_path: ${phase2.phase1_preflight_path}
+hls_source_preflight_path: ${phase2.hls_source_preflight_path}
+outer_date: ${phase2.outer_date}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+seed: 42
+fixed_epochs: 50
+num_workers: 0
+pin_memory: false

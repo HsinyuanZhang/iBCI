@@ -1,0 +1,97 @@
+{
+  "evalai_opened": false,
+  "hidden_test_opened": false,
+  "image": {
+    "id": "sha256:3180ac0b2ac117f77dda789245ce63c3ce9aab09509b81dc969856a650d97c7b",
+    "labels": {
+      "ibci.h1.calibration.trials": "3",
+      "ibci.h1.checkpoint.sha256": "0f406a8e69fdb57cf6a5480149f04ab3500e7fad849d36db38042edbadb2cd06",
+      "ibci.h1.film_state.sha256": "b602c2e090f455cb6259fc76fb9a225bfdb9aa6bf40adcd5ccd10b9a0da13b37",
+      "ibci.h1.package.sha256": "df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7",
+      "org.opencontainers.image.description": "Frozen all-source C1/M3 carrier-aware H1 decoder with exactly-M3 EP-FILM calibration-profile modulation and MAT7 readout calibration",
+      "org.opencontainers.image.title": "H1 EP-FILM SPINT",
+      "org.opencontainers.image.version": "24.04"
+    },
+    "offline_network": "none",
+    "size_bytes": 9522009736,
+    "tag": "h1-epfilm-c1:evalai-v1-df71cb93"
+  },
+  "method": {
+    "is_held_out_zero_shot": false,
+    "is_pretrained": false,
+    "is_test_time_adaptive": false,
+    "name": "H1 EP-FILM cached identity (all-source, sensitivity)",
+    "official_calibration_trials": 3
+  },
+  "offline_validation": {
+    "builder_deployment_reference": {
+      "aggregation_note": "builder reference averages 13 per-set R2; the evaluator averages 6 per-session R2 over concatenated sets, so the two means differ by aggregation only",
+      "per_session_raw_ep_film_r2_mean": 0.9667853841908832,
+      "per_session_readout_r2_mean": 0.9738150221956664
+    },
+    "container_minival_metrics": {
+      "Held In R2 Mean": 0.9739804367224375,
+      "Held In R2 Std.": 0.004922915714749728,
+      "Normalized Latency": 0.2170629198191043
+    },
+    "container_smoke": {
+      "batch_size": 4,
+      "calibration_authority_sha256": "",
+      "checkpoint_sha256": "0f406a8e69fdb57cf6a5480149f04ab3500e7fad849d36db38042edbadb2cd06",
+      "device": "cpu",
+      "film_state_immutable": true,
+      "film_state_sha256": "b602c2e090f455cb6259fc76fb9a225bfdb9aa6bf40adcd5ccd10b9a0da13b37",
+      "model_state_immutable": true,
+      "model_state_sha256": "bdaf7dbcbae75ea307f20356aaf80066586f7d9afa273712a5e34708b903eb85",
+      "on_done_is_noop": true,
+      "prediction_sha256": "895a769697de408202c4a7dcff264c168eff8848b2913ea1eff7162b4bf5d04f",
+      "readout_selection_sha256": "08169c6c8e3ead47550dd3426930498a45ba7c789c13aec83422f76e24177e18",
+      "source_authority_sha256": "a92b57350f2dcb04027bb6d848e5582d84e1bef4bf507d6844963ccad3c87bd5",
+      "status": "PASS_H1_EP_FILM_CONTAINER_SMOKE",
+      "trailing_prediction_sha256": "dcb86c01b8f2bfad0556f03f514b4cc6603e7efde9275cfc0125b03468bdefc4"
+    },
+    "container_torch": "2.5.1.post303 (conda)",
+    "host_minival_metrics": {
+      "Held In R2 Mean": 0.973980530285454,
+      "Held In R2 Std.": 0.004923037028858332,
+      "Normalized Latency": 1.2988123702273542
+    },
+    "host_torch": "2.3.1+cu121",
+    "latency_parity_abs_delta": 1.0817494504082499,
+    "parity": {
+      "Held In R2 Mean": {
+        "abs_delta": 9.356301644558584e-08,
+        "container": 0.9739804367224375,
+        "host": 0.973980530285454
+      },
+      "Held In R2 Std.": {
+        "abs_delta": 1.2131410860420633e-07,
+        "container": 0.004922915714749728,
+        "host": 0.004923037028858332
+      },
+      "Normalized Latency": {
+        "abs_delta": 1.0817494504082499,
+        "container": 0.2170629198191043,
+        "host": 1.2988123702273542
+      }
+    },
+    "parity_threshold_loose": 0.001,
+    "parity_threshold_tight": 0.0001,
+    "r2_parity_max_abs_delta": 1.2131410860420633e-07
+  },
+  "payload": {
+    "calibration_authority_sha256": "ea4b57879afa84508d6e5d89e8047a989bbfe5fddfc28aa6f8473c532d868cfe",
+    "checkpoint_sha256": "0f406a8e69fdb57cf6a5480149f04ab3500e7fad849d36db38042edbadb2cd06",
+    "film_state_sha256": "b602c2e090f455cb6259fc76fb9a225bfdb9aa6bf40adcd5ccd10b9a0da13b37",
+    "readout_selection_sha256": "08169c6c8e3ead47550dd3426930498a45ba7c789c13aec83422f76e24177e18",
+    "relative": "SPINT-main/local_data/h1_epfilm_evalai_v1/decoder.pt",
+    "sha256": "df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7"
+  },
+  "push": {
+    "authorized": true,
+    "executed": false,
+    "note": "push state lives in artifacts/h1_epfilm_evalai_v1/evalai_push_state.json"
+  },
+  "schema": "h1_calibration_profile_film_v3_packaging",
+  "status": "READY_PASS_PARITY_TIGHT"
+}

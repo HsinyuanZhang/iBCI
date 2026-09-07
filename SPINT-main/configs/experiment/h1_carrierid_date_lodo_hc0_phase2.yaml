@@ -1,0 +1,18 @@
+# @package _global_
+#
+# Five-date causal decomposition arm for the selected compact CarrierID model.
+# It consumes the same immutable source bundle and fixed e49 recipe as H-C;
+# only the carrier content is zeroed by the model configuration.
+defaults:
+  - h1_carrierid_date_lodo_hc_phase2
+  - override /model: falcon_h1_carrierid_date_lodo_hc0
+
+protocol_id: h1_carrierid_date_lodo_hc0_${phase2.outer_date}_source_only_v1
+task_name: h1_carrierid_date_lodo_hc0_${phase2.outer_date}
+tags: [h1, carrierid, date_lodo, source_only, hc0, seed42, e49]
+
+# The Phase-2 wrapper uses the H-C forward signature; the resolved model's
+# `zero_carrier: true` is the intervention that defines H-C0.
+phase2:
+  arm: H-C
+

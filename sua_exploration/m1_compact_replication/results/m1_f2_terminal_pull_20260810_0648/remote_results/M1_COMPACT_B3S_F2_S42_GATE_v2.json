@@ -1,0 +1,358 @@
+{
+  "arrays": {
+    "b0_prediction": {
+      "dtype": "float32",
+      "sha256": "a1b16c24f150dc9b7d66ec8474676363e395fa3269232931f800e06224e561ee",
+      "shape": [
+        26240,
+        16
+      ]
+    },
+    "b3s_zero4_prediction": {
+      "dtype": "float32",
+      "sha256": "ca762be68dd9e5e58edb71fc866da0b394e254e78f6f0ff598e20f12538bc7b9",
+      "shape": [
+        26240,
+        16
+      ]
+    },
+    "target": {
+      "dtype": "float32",
+      "sha256": "a804bf8925dbb6c1b6910efcf077fb4149b2afcc58904118be3a8b5f1055cc0c",
+      "shape": [
+        26240,
+        16
+      ]
+    }
+  },
+  "bindings": {
+    "b0": {
+      "artifact": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f2_s42_fresh_e11_f2_s42_20260810_052941",
+      "terminal_checkpoint": {
+        "epoch": 11,
+        "fit_loop": {
+          "batch_completed": 61524,
+          "epoch_processed": 12
+        },
+        "global_step": 61524,
+        "log": {
+          "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/fold2_v2_logs/b0.log",
+          "sha256": "3849e06854885f05c1fb83f54c06b8cc2f0cc1c8308bcdb28066e39669401753"
+        },
+        "optimizer": {
+          "count": 1,
+          "lr": 0.0001,
+          "state_steps": [
+            61524
+          ],
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-05-29-41-332479_rid-m1_compact_b0_f2_s42_fresh_e11_f2_s42/checkpoints/fixed_last/epoch_epoch=011.ckpt",
+        "resolved_config": {
+          "arm": "B0",
+          "loso_fold": 2,
+          "optimized_metric": null,
+          "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f2_s42_fresh_e11_f2_s42_20260810_052941/resolved_config.yaml",
+          "sha256": "a77234df11a38ff5e731066b6c6e1f300078757de947438e82d12717a422e1a2",
+          "source_only_target": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+          "source_sessions": [
+            "ses-20120924",
+            "ses-20120926",
+            "ses-20120928"
+          ],
+          "test": false
+        },
+        "sha256": "5553881befc8be4e4aa8fd0b7035e550ebe2ec25c2f113a5bc7b1c49e0f4d95a",
+        "source_only_manifest": {
+          "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-05-29-41-332479_rid-m1_compact_b0_f2_s42_fresh_e11_f2_s42/m1_version_b_source_only_fit_manifest.json",
+          "schema": "m1_version_b_source_only_fit_v2",
+          "sha256": "540afdf7f9b14181f9a8baaa31ae2c1cb225dc63eba4416f17a6961c7f3c7943",
+          "source_files": {
+            "ses-20120924": {
+              "bytes": 73077382,
+              "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+              "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+            },
+            "ses-20120926": {
+              "bytes": 80268327,
+              "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+              "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91"
+            },
+            "ses-20120928": {
+              "bytes": 68337100,
+              "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+              "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+            }
+          },
+          "source_only": true
+        },
+        "variant": "B0"
+      }
+    },
+    "b3s_zero4": {
+      "artifact": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42_20260810_061843",
+      "terminal_checkpoint": {
+        "epoch": 11,
+        "fit_loop": {
+          "batch_completed": 61524,
+          "epoch_processed": 12
+        },
+        "global_step": 61524,
+        "log": {
+          "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/fold2_v2_logs/b3s_zero4.log",
+          "sha256": "ad1423eb22168bf2117c5afb49c175b1b42949d6d641b55ac40d6f908ef6a466"
+        },
+        "optimizer": {
+          "count": 1,
+          "lr": 0.0001,
+          "state_steps": [
+            61524
+          ],
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-06-18-43-102875_rid-m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42/checkpoints/fixed_last/epoch_epoch=011.ckpt",
+        "resolved_config": {
+          "arm": "B3S",
+          "loso_fold": 2,
+          "optimized_metric": null,
+          "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42_20260810_061843/resolved_config.yaml",
+          "sha256": "085974ed29eea8cfee968096e761f62b858320fb7a8e200801cb0ccf7008af2a",
+          "source_only_target": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+          "source_sessions": [
+            "ses-20120924",
+            "ses-20120926",
+            "ses-20120928"
+          ],
+          "test": false
+        },
+        "sha256": "0454fa6e12c846f06631f2cc43e202ad79d432a18c4adb7a68a9d80947d96858",
+        "source_only_manifest": {
+          "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-06-18-43-102875_rid-m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42/m1_version_b_source_only_fit_manifest.json",
+          "schema": "m1_version_b_source_only_fit_v2",
+          "sha256": "6e362061f37b89ebce77b85bb3e9511ba4aafe9ea7209cf3e59ccc45b8ef6914",
+          "source_files": {
+            "ses-20120924": {
+              "bytes": 73077382,
+              "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+              "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+            },
+            "ses-20120926": {
+              "bytes": 80268327,
+              "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+              "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91"
+            },
+            "ses-20120928": {
+              "bytes": 68337100,
+              "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+              "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+            }
+          },
+          "source_only": true
+        },
+        "variant": "B3S"
+      }
+    },
+    "fold1_gate": {
+      "delta": -0.02579936719805942,
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_GATE_v2.json",
+      "schema": "m1_compact_b3s_f1_s42_gate_v2",
+      "sha256": "5d5fec6cbf97927dd13255a54b38b9a698ba3c43c2ee755fcd45ce7416802b42",
+      "status": "PASS_M1_COMPACT_B3S_F1_S42_NONINFERIORITY",
+      "threshold": -0.03
+    },
+    "query": {
+      "batches": 820,
+      "first_identity": [
+        0,
+        0,
+        0,
+        "ses-20120927",
+        4281
+      ],
+      "last_identity": [
+        819,
+        31,
+        26239,
+        "ses-20120927",
+        87098
+      ],
+      "ordered_sampler_indices_sha256": "df377036df685de448867cf60af95979bfacd63de3f0e48e8b1dd789ed7c788c",
+      "ordered_window_identity_sha256": "dc83839f7aa2896d2d35ecfba55f36934c687a6e0bb96ad0c32133041a531b45",
+      "samples": 26240,
+      "unique_dataset_indices": true
+    },
+    "receipt": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_STAGED_RECEIPT_v2.json",
+      "sha256": "68f1888febfd873ddd629ec386324c6926e9c2fd58f4420b1e51f0a171469333"
+    }
+  },
+  "canonical_content_sha256": "7075109c93d10b4117f206821e52d30badf082e8917eacf352a9ef3a7e75f325",
+  "created_at_epoch": 1786315664.3906517,
+  "evaluation_policy": {
+    "claim_limit": "development fold2 source-LOSO replication; not formal held-out superiority",
+    "forward_only": true,
+    "intermediate_target_metric_read": false,
+    "optimizer_constructed": false,
+    "target_opened_here_after_terminal_pair": true,
+    "trainer_constructed": false,
+    "training_target_opened": false
+  },
+  "metrics": {
+    "b0": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6143558487282275,
+      "r2_per_output": [
+        0.7053990567256292,
+        0.6375355944813302,
+        0.6195986748039962,
+        0.07333368460776235,
+        0.5982753004054417,
+        0.6255672739164857,
+        0.6874905326402752,
+        0.5079986877687064,
+        0.610096540180155,
+        0.5178454433921228,
+        0.6881676430460693,
+        0.48451364207885983,
+        0.607166528954344,
+        0.19563601659707663,
+        0.4988304361558169,
+        0.7493516628072057
+      ],
+      "samples": 26240,
+      "sse_float64_per_output": [
+        488.5906647791596,
+        433.26871833873133,
+        956.0883098962934,
+        25.305959466572464,
+        2295.1886069823327,
+        1148.0852299077862,
+        1460.313473126854,
+        124.16294290177764,
+        924.202558405824,
+        3334.899929529167,
+        588.3706804478685,
+        3284.640957652247,
+        1861.8103804238608,
+        868.6448036718049,
+        31.586926450884125,
+        2645.300788747576
+      ],
+      "tss_float64_per_output": [
+        1658.483029105987,
+        1195.3414231633142,
+        2513.3674531855636,
+        27.308599704372554,
+        5713.337042254952,
+        3066.198945579652,
+        4672.8615470900595,
+        252.36303199819048,
+        2370.336900403121,
+        6916.661646819917,
+        1886.8172828350607,
+        6371.926060077686,
+        4739.439273002979,
+        1079.9150901771318,
+        63.026426043511115,
+        10553.833384152304
+      ]
+    },
+    "b3s_zero4": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6590303776986075,
+      "r2_per_output": [
+        0.731698937054543,
+        0.6635589897151466,
+        0.6256665506772012,
+        -0.1444551089296926,
+        0.6707647688084859,
+        0.6246619321779531,
+        0.7180010011898768,
+        0.49135995975403657,
+        0.6095381828344477,
+        0.6532082263910012,
+        0.672657666814659,
+        0.5491513397373475,
+        0.6029883502586859,
+        0.23495186470817775,
+        0.47809682365139194,
+        0.7871304785173661
+      ],
+      "samples": 26240,
+      "sse_float64_per_output": [
+        444.97275958613744,
+        402.1618760443999,
+        940.8375081666101,
+        31.253466449385066,
+        1881.031841981851,
+        1150.8611877918643,
+        1317.7422778577206,
+        128.36194275215297,
+        925.5260534259652,
+        2398.641359954018,
+        617.6351716576543,
+        2872.7743274787063,
+        1881.6126046236866,
+        826.1870260135147,
+        32.893691946009085,
+        2246.5894622919477
+      ],
+      "tss_float64_per_output": [
+        1658.483029105987,
+        1195.3414231633142,
+        2513.3674531855636,
+        27.308599704372554,
+        5713.337042254952,
+        3066.198945579652,
+        4672.8615470900595,
+        252.36303199819048,
+        2370.336900403121,
+        6916.661646819917,
+        1886.8172828350607,
+        6371.926060077686,
+        4739.439273002979,
+        1079.9150901771318,
+        63.026426043511115,
+        10553.833384152304
+      ]
+    },
+    "b3s_zero4_minus_b0": 0.044674528970380045,
+    "gate_threshold": -0.03
+  },
+  "model_state": {
+    "after_sha256": {
+      "b0": "c2bf611797c1469423df62a8fc606bf414f6592a442d2d936f880dce521a0828",
+      "b3s_zero4": "b571be9d1a922fa8076db82d72a763977c67d4e86be667e9cd1c7d18f8b07849"
+    },
+    "before_sha256": {
+      "b0": "c2bf611797c1469423df62a8fc606bf414f6592a442d2d936f880dce521a0828",
+      "b3s_zero4": "b571be9d1a922fa8076db82d72a763977c67d4e86be667e9cd1c7d18f8b07849"
+    },
+    "unchanged": true
+  },
+  "parity": {
+    "side_input_abs_max": 0.0,
+    "side_input_exact_zero": true,
+    "zero4_identity_max_abs_error": 0.0,
+    "zero4_prediction_bit_exact": true,
+    "zero4_prediction_max_abs_error": 0.0
+  },
+  "schema": "m1_compact_b3s_f2_s42_gate_v2",
+  "scope": {
+    "cuda_visible_devices": "-1",
+    "device": "cpu",
+    "fold": 2,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "minival_opened": false,
+    "seed": 42,
+    "target_backward_steps": 0,
+    "target_checkpoint_selection": false,
+    "target_optimizer_steps": 0,
+    "target_session": "ses-20120927",
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F2_S42_NONINFERIORITY"
+}

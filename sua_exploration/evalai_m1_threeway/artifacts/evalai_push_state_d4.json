@@ -1,0 +1,65 @@
+{
+  "arm": "d4",
+  "image_id": "sha256:16aba3807945ca309c3a1041c9fdba7724e8321fc327962ce0fd2beba46e04a8",
+  "image_tag": "spint-d4-m1:e9-f1s42-28530a7-a45471b",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "evalai_m1_threeway_push_state_v1",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 578247,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_578247/58ba9bdb-0160-4679-86f7-420762a0a0.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen SPINT M1 decoder with per-session D4 categorical-profile identities computed offline from the chronological first 10 public calibration trials and their obj_id labels. No hidden query labels, optimizer, or runtime backpropagation are used.",
+    "method_name": "D4 cached identity M1 M10 fold1 seed42",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-08-02T05:27:36.210646Z",
+    "when_made_public": null
+  },
+  "submission_id": 578247,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:29cd8a49-1160-4193-8fc9-8841f98cd415",
+  "uploaded_manifest_digest": "sha256:16aba3807945ca309c3a1041c9fdba7724e8321fc327962ce0fd2beba46e04a8",
+  "uuid_tag": "29cd8a49-1160-4193-8fc9-8841f98cd415"
+}

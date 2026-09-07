@@ -1,0 +1,66 @@
+{
+  "arm": "epfilm",
+  "image_id": "sha256:3180ac0b2ac117f77dda789245ce63c3ce9aab09509b81dc969856a650d97c7b",
+  "image_tag": "h1-epfilm-c1:evalai-v1-df71cb93",
+  "payload_sha256": "df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "h1_epfilm_evalai_v1_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581866,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581866/1de9d167-212f-4b51-8364-5cb33ddd3b.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen all-source C1/M3 carrier-aware SPINT decoder for FALCON H1 with an early-pooling calibration-profile FiLM (648 parameters, H=32, profile4 = low/high speed state contrast, carrier4 context) trained on all held-in public calibration dates. Per-session identities and MAT7 readout maps are computed offline from each session's three public calibration trials only; the official runtime uses cached identities, performs no query-label read, no online calibration, no optimizer step, and no backpropagation.",
+    "method_name": "H1 EP-FILM cached identity (all-source, sensitivity)",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-04T11:43:54.998230Z",
+    "when_made_public": null
+  },
+  "submission_id": 581866,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:15d1d8a7-8321-4c2d-b0ff-6e26d28e9bbe",
+  "uploaded_manifest_digest": "sha256:3180ac0b2ac117f77dda789245ce63c3ce9aab09509b81dc969856a650d97c7b",
+  "uuid_tag": "15d1d8a7-8321-4c2d-b0ff-6e26d28e9bbe"
+}

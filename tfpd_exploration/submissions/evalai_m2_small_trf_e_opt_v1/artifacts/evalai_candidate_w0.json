@@ -1,0 +1,11 @@
+{
+  "arm": "small_trf_s1_ema_e19_exact_e_w0",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA. Same sealed SMALL EMA e19 payload as 581937/581971; dataloader_workers=0 runtime only.",
+  "image_id": "sha256:a7e4734b0fa0809eeebeef6e5e6ea4bbf4a7a37cdbda38cddee13e955c9f78f9",
+  "image_tag": "spint-t4-m2:small-trf-s1-ema-e19-exact-e-w0-37071f3e",
+  "method_description": "Same sealed M2 SMALL causal Transformer weights as 581937 and failed 581971 (seed-42 S1-SMALL-COS EMA epoch 19). This image keeps exact-E inference and sets FalconEvaluator dataloader_workers=0 to avoid the official default of 8 persistent workers on a 4-CPU eval host. 581971 died at 1514s with tqdm still on the first held-out batch and a DataLoader worker warning; this is a runtime hedge, not a new scientific pick. No TTA. Output /5. 13 official MOVE-T4/E0 banks.",
+  "method_label": "M2 small causal Transformer (S1-SMALL-COS seed42 EMA e19) exact-E w0; same sealed weights as 581937; dataloader_workers=0",
+  "method_name": "M2 small Transformer S1-SMALL-COS EMA e19 exact-E w0",
+  "payload_sha256": "37071f3e718913f994b5015e13aa203026fb630339e87921ddb1c35de9d2bf62",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_trf_e_opt_v1/artifacts/evalai_push_state_w0.json"
+}

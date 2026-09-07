@@ -5,16 +5,18 @@ set -euo pipefail
 ROOT="/home/xinyuan/Work_host/SPINT"
 PY="${PYTHON_BIN:-/home/xinyuan/miniconda3/envs/spint/bin/python}"
 FP32_SCREEN="${FP32_SCREEN:-sua_spint_t4_mainline_fp32_v1}"
-INT8_SCREEN="${INT8_SCREEN:-sua_spint_t4_encoder_int8_v1}"
+INT8_SCREEN="${INT8_SCREEN:-sua_t4_encoder_int8_m50_v1}"
 FP32_RESULTS="$ROOT/sua_exploration/results/$FP32_SCREEN"
 INT8_RESULTS="$ROOT/sua_exploration/results/$INT8_SCREEN"
 AGGREGATE="$FP32_RESULTS/aggregate.json"
+SELECTION="${SELECTION:-$ROOT/sua_exploration/manifests/sua_t4_final_architecture_selection_v1.json}"
 LOGS="$INT8_RESULTS/logs"
 
 mkdir -p "$LOGS"
 
-"$PY" - "$AGGREGATE" "$INT8_RESULTS/trigger_receipt.json" <<'PY'
+"$PY" - "$AGGREGATE" "$INT8_RESULTS/trigger_receipt.json" "$SELECTION" "$ROOT/sua_exploration/scripts" <<'PY'
 import json
+import hashlib
 import os
 import sys
 from datetime import datetime
@@ -22,28 +24,57 @@ from pathlib import Path
 
 source_path = Path(sys.argv[1]).resolve()
 receipt_path = Path(sys.argv[2]).resolve()
-source = json.loads(source_path.read_text())
+selection_path = Path(sys.argv[3]).resolve()
+sys.path.insert(0, sys.argv[4])
+from t4_encoder_int8_protocol import validate_selection
+
+selection, _validated_source, _validated_deltas = validate_selection(
+    selection_path, source_fp32_path=source_path
+)
+if receipt_path.exists():
+    raise SystemExit(f"refusing to overwrite immutable trigger receipt: {receipt_path}")
+source_bytes = source_path.read_bytes()
+source = json.loads(source_bytes)
 if source.get("formal_test_files_opened") is not False:
     raise SystemExit("FP32 aggregate did not preserve the sealed formal test")
 contrasts = source.get("contrasts") or {}
-d0 = float(contrasts["t4_vs_original_spint_b0"]["mean_paired_delta_r2"])
-d1 = float(contrasts["t4_vs_shuffled_label_ts4"]["mean_paired_delta_r2"])
-if not (d0 > 0.0 and d1 > 0.0):
+contrast_rows = {
+    "t4_minus_b0": contrasts["t4_vs_original_spint_b0"],
+    "t4_minus_ts4": contrasts["t4_vs_shuffled_label_ts4"],
+}
+d0 = float(contrast_rows["t4_minus_b0"]["mean_paired_delta_r2"])
+d1 = float(contrast_rows["t4_minus_ts4"]["mean_paired_delta_r2"])
+for name, row in contrast_rows.items():
+    if row.get("passes_all_gates") is not True:
+        raise SystemExit(f"INT8 not triggered: {name} did not pass all FP32 gates")
+    gates = row.get("gates") or {}
+    if not gates or not all(value is True for value in gates.values()):
+        raise SystemExit(f"INT8 not triggered: {name} has an incomplete/failed gate receipt")
+if not (d0 >= 0.03 and d1 >= 0.03):
     raise SystemExit(f"INT8 not triggered: T4 deltas are b0={d0}, ts4={d1}")
 protocol = source.get("protocol") or {}
 if (
     protocol.get("same_trial_count_and_prefix_for_all_arms") is not True
     or protocol.get("evaluation_backward_gradients") is not False
     or protocol.get("scored_epoch_window") != list(range(5, 13))
+    or protocol.get("seeds") != [42, 43, 44]
+    or len(protocol.get("sessions") or []) != 6
 ):
     raise SystemExit("INT8 not triggered: FP32 protocol audit failed")
 payload = {
     "status": "triggered",
     "triggered_at": datetime.now().astimezone().isoformat(),
     "source_fp32_aggregate": str(source_path),
+    "source_fp32_aggregate_sha256": hashlib.sha256(source_bytes).hexdigest(),
+    "final_architecture_selection": str(selection_path),
+    "final_architecture_selection_sha256": hashlib.sha256(selection_path.read_bytes()).hexdigest(),
+    "selected_architecture": selection["selected_architecture"],
+    "activity_calibration_n": selection["activity_calibration_n"],
+    "t4_label_feature_pool_n": selection["t4_label_feature_pool_n"],
+    "evaluation_start_trial": selection["evaluation_start_trial"],
     "t4_minus_b0": d0,
     "t4_minus_ts4": d1,
-    "condition": "both strict paired mean deltas > 0 and protocol audit passed",
+    "condition": "both FP32 contrasts passed every frozen gate and protocol audit passed",
     "quant_scope": "T4/B3S encoder W8A8 + FP32 decoder",
     "ptq_delta_r2_gate": -0.01,
     "ptq_failure_action": "automatic encoder QAT",
@@ -59,7 +90,7 @@ worker() {
   local seed="$1"
   local gpu="$2"
   local seed_dir="$INT8_RESULTS/seed${seed}"
-  local run_dir="$ROOT/sua_exploration/checkpoints/${FP32_SCREEN}_t4_dandi688_co_s${seed}"
+  local run_dir="$ROOT/sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s${seed}"
   mkdir -p "$seed_dir/ptq" "$seed_dir/qat"
   if [[ -f "$seed_dir/worker_completed.env" ]]; then
     echo "seed=$seed already completed; refusing to overwrite" >&2
@@ -74,6 +105,7 @@ worker() {
   CUDA_VISIBLE_DEVICES="$gpu" "$PY" -u \
     "$ROOT/sua_exploration/scripts/eval_t4_encoder_int8_dandi688.py" \
     --run_dir "$run_dir" \
+    --selection "$SELECTION" \
     --out_dir "$seed_dir/ptq" \
     --device cuda
   local ptq_rc=$?
@@ -86,6 +118,7 @@ worker() {
       "$ROOT/sua_exploration/scripts/train_t4_encoder_qat_dandi688.py" \
       --run_dir "$run_dir" \
       --ptq_report "$seed_dir/ptq/ptq_report.json" \
+      --selection "$SELECTION" \
       --out_dir "$seed_dir/qat" \
       --epochs 8 \
       --device cuda
@@ -136,6 +169,7 @@ wait "$pid44"
 
 "$PY" "$ROOT/sua_exploration/scripts/aggregate_t4_encoder_int8.py" \
   --source_fp32_aggregate "$AGGREGATE" \
+  --selection "$SELECTION" \
   --result_dir "$INT8_RESULTS" \
   --out "$INT8_RESULTS/aggregate.json" >"$LOGS/aggregate.log" 2>&1
 

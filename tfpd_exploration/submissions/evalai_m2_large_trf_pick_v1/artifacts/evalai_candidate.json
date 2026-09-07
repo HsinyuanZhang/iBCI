@@ -1,0 +1,11 @@
+{
+  "arm": "large_trf_s2_raw_e20",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA; architecture probe with disclosed worst-session 0.2466 on 11-19",
+  "image_id": "sha256:85a02555eedfe3782818f65d1c05743c20d6a1fdd6c7591b12208f8c553db879",
+  "image_tag": "spint-t4-m2:large-trf-s2-raw-e20-4b46b4a2",
+  "method_description": "Architecture probe, not a capacity-controlled ablation versus the small Transformer. New M2 Falcon runtime that executes the large B-TRANSFORMER (shared set frontend, 4-layer 512-wide temporal stack, 512-128-2 readout), not the old static SPINT decoder. Weights are seed-42 RAW epoch 20 from the shuffled 1-24 B-TRANSFORMER run, selected by the sealed visible-product rule on local M33-disjoint ext-4 (equal-session mean 0.372). Worst session is 0.2466 on ses-2020-11-19-Run1 and is disclosed as a local development limitation. Per-session banks reuse training-time native E0 and MOVE-T4 for all 13 official tags. Online path is a 50-bin causal window with output /5, unit mask, full-window forward (no cross-window KV reuse), and no TTA.",
+  "method_label": "M2 large causal Transformer (B-TRANSFORMER seed42 RAW e20); architecture probe; visible-product pick on local ext-4; worst-session 0.2466 on 11-19; frozen M33 MOVE-T4/E0 banks; no TTA",
+  "method_name": "M2 large Transformer B-TRANSFORMER RAW e20 architecture probe",
+  "payload_sha256": "4b46b4a27fb2df9bab1367ab46c0972558d7820988f1a03bef69001c85241411",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_large_trf_pick_v1/artifacts/evalai_push_state.json"
+}

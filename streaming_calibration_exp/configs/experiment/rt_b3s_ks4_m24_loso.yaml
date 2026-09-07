@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - rt_b3s_k4_m24_loso
+
+run_id: rt_b3s_afc4_rs_m24_loso
+tags: ["rt", "afc4_rs", "m24", "loso", "sub-c", "b3s", "row_shuffled", "development_only"]
+
+data:
+  side_feature_group: afc4_rs

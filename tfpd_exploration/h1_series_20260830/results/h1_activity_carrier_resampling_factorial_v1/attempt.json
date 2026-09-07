@@ -1,0 +1,11 @@
+{
+  "design_sha256": "ac7fbf6dc520d93cd63e289c3954d3a7336ddaeef7ab0ec81305dff71e333284",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu1_touched": false,
+  "gpu_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "main_terminal_sha256": "c047bbf5bd6e324fcd250ef2702ab507fff54b6a13c6bc1314963983bc298a94",
+  "schema": "h1_activity_carrier_resampling_factorial_v1_attempt",
+  "status": "ATTEMPT_TRIGGERED_GPU0_SOURCE_ONLY_FACTORIAL",
+  "workorder_sha256": "d0eda6a13b9764b4486341566c2969da695c9e5479b817ef0b99efdeb14e28b2"
+}

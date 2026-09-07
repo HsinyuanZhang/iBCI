@@ -1,0 +1,73 @@
+{
+  "conditional_h1_ordered_channel_solution": {
+    "anchor": "H1 fixed ordered channel index, excluding declared all-zero channel 66; this is not a biological identity claim.",
+    "cost_contract_blocks_12": {
+      "cached_carrier_floats": 704,
+      "mac_claim": "NO hardware/MAC equivalence claim until the consumer is integrated and profiled",
+      "source_persistent_floats": 1053,
+      "streaming_online_solve": "none after carrier cache, decoder-consumer compatibility unverified",
+      "target_calibration_state_floats": 2112,
+      "target_solve": {
+        "rank_procrustes": "O(4^3 + 175*4^2)",
+        "standardize_and_center": "O(12*175)",
+        "thin_svd": "O(min(12*175^2, 12^2*175))"
+      }
+    },
+    "gauge_and_fail_closed": [
+      "deterministic SVD sign convention (largest absolute channel loading; lower index breaks ties)",
+      "Procrustes polar factor fixes order/sign/rotation only relative to frozen source reference",
+      "require enough support blocks, target rank >= 4, finite values, nonzero source normalizer, and full-rank 4x4 cross-Gram",
+      "dead channel 66 is never normalized or inferred; its output row is zero"
+    ],
+    "not_general": "This is H1-only. It cannot be claimed for variable-N SUA sorted units or RT channels, where index order is not a stable cross-session correspondence.",
+    "source_only_fit": "Fit source normalizer and [175,4] reference loading basis inside each source-LODO fold only.",
+    "status": "CONSTRUCTIBLE_IF_FIXED_ORDERED_176_CHANNEL_INDEX_IS_DECLARED_A_VALID_ANCHOR",
+    "target_unlabeled_solve": "From chronological target support neural rates only, compute target PCA axes; solve 4x4 orthogonal Procrustes against source reference; restore dead channel 66 as literal zero; apply source-fitted scalar carrier normalizer."
+  },
+  "existing_adapter_blocker": {
+    "reason": "The existing target dataset loads velocity through load_record and calls label-supervised fit_frozen_carrier. A compliance run requires a new target neural-only support adapter with a poison behavior/velocity field test before any decoder experiment.",
+    "static_evidence": [
+      "h1_m4_eb_pilot.py: load_record receives neural and velocity; fit_frozen_carrier consumes trial.velocity",
+      "h1_carrierid_date_lodo_target.py: target support is first four chronological trials, query begins at fifth trial, and current carrier call is fit_frozen_carrier"
+    ],
+    "status": "FAIL_CLOSED_FOR_CURRENT_H1_TARGET_PATH"
+  },
+  "generic_cca_or_procrustes": {
+    "reason": "Unpaired source and target neural supports have no common sample/condition correspondence. CCA needs paired observations; Procrustes needs a matched row basis. Behavioral phase, velocity, target labels, or timestamps cannot be introduced without changing the no-label contract.",
+    "status": "FAIL_CLOSED_NO_PAIRED_OBJECT_OR_ANCHOR"
+  },
+  "minimal_viable_alternative_if_ordered_index_is_rejected": {
+    "alternatives": [
+      "obtain a real cross-session channel/unit correspondence or stable metadata anchor, then preregister it",
+      "use matched behavioral/phase anchors and explicitly relabel the method weakly supervised rather than label-free",
+      "keep the current source-trained compact-consumer claim and do not create a fictitious generic CCA/Procrustes baseline"
+    ],
+    "status": "NO_GENERIC_LABEL_FREE_ALIGNMENT_BASELINE_IS_IDENTIFIABLE"
+  },
+  "receipt_schema": "label_free_alignment_constructibility_v1",
+  "required_future_controls": {
+    "matched_arms": [
+      "H-C0 literal-zero",
+      "H-LS label-shuffled separately trained",
+      "H-RS row-shuffled separately trained",
+      "H-C ordered-channel aligned"
+    ],
+    "source_lodo": "Every outer target date must fit its reference and normalizer from source recordings only; no target recording contributes to fitting.",
+    "target_boundary": "Target support is the first four chronological trials; query starts at the fifth chronological trial. The new adapter must expose only neural support rates to the alignment solve.",
+    "training_requirement": "All controls must be separately trained, with identical source-LODO dates, seeds, checkpoint rule, normalizer, carrier width, and target support/query boundary."
+  },
+  "scope": {
+    "gpu_started": false,
+    "target_behavior_or_velocity_read": false,
+    "target_decoder_r2_computed": false,
+    "target_nwb_payload_read": false
+  },
+  "static_source_hashes": {
+    "SPINT-main/src/data/h1_carrierid_date_lodo_source.py": "d74e4fb581803c983d51d9e78b0900aefb26cb4747b234358b4585f30855741a",
+    "SPINT-main/src/data/h1_carrierid_date_lodo_target.py": "fd21a140245ca80fa97380dbc764e155681b8b29b3d0d9d279fb8427590fe55e",
+    "SPINT-main/src/data/h1_m4_eb_pilot.py": "8f459b7a06c1b18865fc602b10e46876b4bb1dbf7ecba0fdf8e8f654737c86cb",
+    "streaming_calibration_exp/src/data/rt_datamodule.py": "68a6a6b65a57a663ead16abcd872dae6ae1ec87ff184d311805c45626317fc1a",
+    "sua_exploration/mc_maze/datamodule.py": "0c93359991c32e81b552e00169fa1f31a5b71d345782c9bf81b136bd5c708506"
+  },
+  "status": "CONDITIONAL_H1_ONLY_CONSTRUCTIBLE__NO_GPU_AUTHORIZATION__NEURAL_ONLY_TARGET_ADAPTER_REQUIRED"
+}

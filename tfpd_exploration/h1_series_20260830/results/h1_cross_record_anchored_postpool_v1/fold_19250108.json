@@ -1,0 +1,449 @@
+{
+  "model_authority": {
+    "checkpoint_sha256": "904216a596fb71abc72ce2fcdba9ae207eeb258be5fa32fb2aaf533ab42dd047",
+    "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+    "global_step": 167800,
+    "model_parameter_count": 10947836,
+    "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+    "strict_load_missing_keys": [],
+    "strict_load_unexpected_keys": [],
+    "terminal_sha256": "083a6016d4fc053be34beb2f21bc6b9b24343c134f62ba257ea69fec05a1eec3",
+    "terminal_state_sha256": "db41c05f70af87b58bf05e441f5821ad269a002bd119d34a94f4bc8d77b0d836"
+  },
+  "model_state_after_sha256": "db41c05f70af87b58bf05e441f5821ad269a002bd119d34a94f4bc8d77b0d836",
+  "model_state_before_sha256": "db41c05f70af87b58bf05e441f5821ad269a002bd119d34a94f4bc8d77b0d836",
+  "outer_date": "19250108",
+  "selected_delta_vs_static": 0.0,
+  "selection": {
+    "arm": "RP-G000",
+    "family": "RP",
+    "gate": 0.0,
+    "rp_preference_tolerance": 0.002,
+    "smaller_gate_tolerance": 0.001,
+    "source_gain_vs_static": 0.0,
+    "source_mean_r2": 0.9522874759848936,
+    "unconstrained_best_r2": 0.9522874759848936
+  },
+  "selection_sha256": "1776007009c7ac4f8ca8da7beb2738df75978c591b15dc02c8cdf30d0778700d",
+  "source_arm_equal_date_mean_r2": {
+    "A-STATIC": 0.9522874759848936,
+    "RN-G000": 0.9522874759848936,
+    "RN-G005": 0.952260393952437,
+    "RN-G010": 0.9522125456408569,
+    "RN-G020": 0.9520536865330576,
+    "RN-G050": 0.9510550561408131,
+    "RN-G100": 0.9469888645303918,
+    "RP-G000": 0.9522874759848936,
+    "RP-G005": 0.9521817574267532,
+    "RP-G010": 0.9520508000698673,
+    "RP-G020": 0.9517058185654935,
+    "RP-G050": 0.9498641280193894,
+    "RP-G100": 0.9419344330203693
+  },
+  "source_dates": [
+    "19250101",
+    "19250113",
+    "19250115",
+    "19250119",
+    "19250120"
+  ],
+  "source_plan_authority": {
+    "normalizer_s_src": 5.481521267601705e-06,
+    "normalizer_sha256": "cfe5d7c8f9307ecb2e0962001272e9c37f5309809b63521182df9c3933b6b1ee",
+    "plan_npz_sha256": "1c9af578fb333ebe77acad00f6fdf2da4a6c40fa3dbc1099f308d2bf27d725ad",
+    "plan_sha256": "3f525e5f2b2fb59aadebe8efc4375671d0737a2995a399cea44b381beaa20f1e",
+    "q": 8,
+    "ridge_lambda": 10.0,
+    "source_authority_sha256": "8cdecf55d406ebf1175009140b44a1e5cf7d515a8d054c2416695834f4a9fd2b",
+    "source_sessions": [
+      "ses-19250101T111740",
+      "ses-19250101T112404",
+      "ses-19250113T120811",
+      "ses-19250113T121303",
+      "ses-19250115T110633",
+      "ses-19250115T111328",
+      "ses-19250119T113543",
+      "ses-19250119T114045",
+      "ses-19250120T115044",
+      "ses-19250120T115537"
+    ]
+  },
+  "source_sessions": [
+    "ses-19250101T111740",
+    "ses-19250101T112404",
+    "ses-19250113T120811",
+    "ses-19250113T121303",
+    "ses-19250115T110633",
+    "ses-19250115T111328",
+    "ses-19250119T113543",
+    "ses-19250119T114045",
+    "ses-19250120T115044",
+    "ses-19250120T115537"
+  ],
+  "target_backward_steps": 0,
+  "target_descriptive_rows": [
+    {
+      "arms": {
+        "A-STATIC": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2572893465099805,
+          "prediction_sha256": "69affdaeb929694fff0c45fe345e09aac0b2bace5313dedfbfa5d9210cc68764",
+          "r2": 0.22456008759279023
+        },
+        "RN-G000": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2572893465099805,
+          "prediction_sha256": "69affdaeb929694fff0c45fe345e09aac0b2bace5313dedfbfa5d9210cc68764",
+          "r2": 0.22456008759279023
+        },
+        "RN-G005": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.25920746267432926,
+          "prediction_sha256": "24af363558bf0bc95d87f09c2b64303df526ce5dda393a5d18112c313b6f202f",
+          "r2": 0.2256811741727801
+        },
+        "RN-G010": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2609985774074294,
+          "prediction_sha256": "3e08fb887de400a2d7305e9b87f20fd72235e8461cd7648590c5aba26c50409b",
+          "r2": 0.22672803188026514
+        },
+        "RN-G020": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.264186254786442,
+          "prediction_sha256": "23b5b135c063cbf994996a60dc1254be1fcbb30cd3334cc871b77ffcbf247037",
+          "r2": 0.22859114236198141
+        },
+        "RN-G050": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.26882518752915074,
+          "prediction_sha256": "6330ac4d3504dbf362d4a66be628b3ca68c65bb13b76aced7adec024d2f84963",
+          "r2": 0.23130247201968812
+        },
+        "RN-G100": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.25986115126725273,
+          "prediction_sha256": "425b3181cdf025f5543c1e5c5ac2d813292b418b25242000974f7ff006f106f5",
+          "r2": 0.22606323732549194
+        },
+        "RP-G000": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2572893465099805,
+          "prediction_sha256": "69affdaeb929694fff0c45fe345e09aac0b2bace5313dedfbfa5d9210cc68764",
+          "r2": 0.22456008759279023
+        },
+        "RP-G005": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2572153642562085,
+          "prediction_sha256": "f35b5f90b4610a4974ecf268d4299896e906349b0e81c06bc217ae04cd34e021",
+          "r2": 0.2245168469833828
+        },
+        "RP-G010": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2570602981085329,
+          "prediction_sha256": "165df4c98a9e69c126c4954600e6d848ebe3ace58f09813b037a80fe51dee866",
+          "r2": 0.2244262150496129
+        },
+        "RP-G020": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.256474773820222,
+          "prediction_sha256": "498b2be998880f99b6559d0965b297cc54fba4fe324b85165f2ceaed6649ae6a",
+          "r2": 0.224083992073714
+        },
+        "RP-G050": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.2515430137827812,
+          "prediction_sha256": "b8b1da5028ee202b70158d6bfc169a378ac803e0f6510d1549d929b4d5ecc833",
+          "r2": 0.221201512849323
+        },
+        "RP-G100": {
+          "n_post_commit_windows": 895,
+          "n_windows": 1629,
+          "post_commit_r2": 0.233069702595331,
+          "prediction_sha256": "c63bf809274da208d40f5ebea72637fedca4c4c8573563fa7cf74d0db18db642",
+          "r2": 0.21040436633382253
+        }
+      },
+      "date": "19250108",
+      "endpoint_sha256": "9abc89ce2be7637440fd0c1e5d42f3f81863fac6e14a109a961833c65e6c0063",
+      "first_commit_exclusive": 768,
+      "identity_sha256": {
+        "native": "d942df007735d545be03b20fb80dc6ac3cd36fed32ded00fcc3cc7d3b40457be",
+        "post": "7d97d514c005994dc714dd3d917e222002a9865324d66745635b2c659b817fe9",
+        "static": "ba04c0f23a6138b6ad962d16d6022d2763c85bc8fa2d6b026c256c8bb9727b09"
+      },
+      "minival_input_sha256": "99fb1997035c4f9b0dd0a97be093042f9b7cf10af55cb2a3dc83eea7e35b4d0e",
+      "query_member_sha256": "9639c03a827e19214b15cda7ab91fef8ec2d7a5c41a91913a2b6f7c9a2d1ce81",
+      "query_neural_sha256": "b50c43909a84677e7209369ea8d7e1aca9b2b62b88ba7608d56a9f76cde16336",
+      "session": "ses-19250108T110520",
+      "support": {
+        "activity_sha256": "74446fe9abcddd9e907160013ae28030848241bcfcece21b59f527c3663bbfb6",
+        "calibration_input_sha256": "8a09f6ead8a44776d2cee62850ff489bd16b1323799c986cad070dad784a2b83",
+        "carrier_sha256": "4b264609abcdfd8beacfe7cc7ecb0b27a0910230292ff6c54e5daae56025ca79",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "target_sha256": "606286d3ae617a4260cc0d53f67106d22f0555bd478cb4e6d92f693c26a6ca08"
+    },
+    {
+      "arms": {
+        "A-STATIC": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6200565867569416,
+          "prediction_sha256": "0f14550cc0b450cac7119d2955ad753713701a8f02d90b5fc385a8574e1ac09e",
+          "r2": 0.47575270113507395
+        },
+        "RN-G000": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6200565867569416,
+          "prediction_sha256": "0f14550cc0b450cac7119d2955ad753713701a8f02d90b5fc385a8574e1ac09e",
+          "r2": 0.47575270113507395
+        },
+        "RN-G005": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6225940813728437,
+          "prediction_sha256": "5807be74d8394c451572c827a2b06ad38a6189baeb61904badcd62221f41a0ff",
+          "r2": 0.4774919981151945
+        },
+        "RN-G010": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6249712752135284,
+          "prediction_sha256": "f9985104da842f3ce7a5f3d37736bce299254c43da9f23a3421b9110178abda7",
+          "r2": 0.47912141874227776
+        },
+        "RN-G020": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6292000751035878,
+          "prediction_sha256": "dbc25b23008d20f2a90c49dc19617baf1f39d05ac8a162c08e24ca09d916f172",
+          "r2": 0.48202000179038385
+        },
+        "RN-G050": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.63842557384484,
+          "prediction_sha256": "eed0f94106ab0f421ace36d95e41bf3ba99024db6aa86b69deb30389bc724ba1",
+          "r2": 0.48834351554296773
+        },
+        "RN-G100": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6426807970367894,
+          "prediction_sha256": "227f66a79efdcfded7e1c3549d8f709c89ee5b9206d2e65c497032e94d3818a7",
+          "r2": 0.49126021014445154
+        },
+        "RP-G000": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6200565867569416,
+          "prediction_sha256": "0f14550cc0b450cac7119d2955ad753713701a8f02d90b5fc385a8574e1ac09e",
+          "r2": 0.47575270113507395
+        },
+        "RP-G005": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6217033057566033,
+          "prediction_sha256": "ca8c37d066a2c4b6fa9572374cc2c72e5db015dd4bfa037d0ba49e53060729fa",
+          "r2": 0.47688142604557027
+        },
+        "RP-G010": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6231463389275775,
+          "prediction_sha256": "1ba25b2cf62fc259ee5c14ccaff9e3876db3227cdfd431980ef23ae2d18bd70b",
+          "r2": 0.47787053680890346
+        },
+        "RP-G020": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6254226515719985,
+          "prediction_sha256": "da9432a315bcef328b64c5e4e67e92a702f09351cd4789385ccea34835642c14",
+          "r2": 0.47943080956118445
+        },
+        "RP-G050": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6270642427733846,
+          "prediction_sha256": "ce3b917a43ac5b879a26987d5fb129b66ee2403a6fabe34e7b07b7bdd6fbaf9d",
+          "r2": 0.48055601968035855
+        },
+        "RP-G100": {
+          "n_post_commit_windows": 1054,
+          "n_windows": 1811,
+          "post_commit_r2": 0.6096803960415322,
+          "prediction_sha256": "6af955f13f8bbd93565c994fee0356f881af4ce3f8dc6543fbb3017ad1884908",
+          "r2": 0.4686404585855273
+        }
+      },
+      "date": "19250108",
+      "endpoint_sha256": "68dac476507ec6379474b1b83a989ae76c15c414e9c9e12cd0545a4e9f3bd5d4",
+      "first_commit_exclusive": 768,
+      "identity_sha256": {
+        "native": "25259999d3552aa2a12f5d036c79805e24321c433024d5611cf3eac99ad687ed",
+        "post": "26f3cab86a39762876046e6c06460bb305b2eab0653e51c8a09e4f3c0f4fe0c1",
+        "static": "4b50c9c0344fc799465166721ee0c8e590d41cd8c06a4de03add8b68cebd024e"
+      },
+      "minival_input_sha256": "0831e7fb7f262faabc1520237bf8dfeea47dd02211642fac75c5257a24d5bc3f",
+      "query_member_sha256": "b45f2761098bc063072a43a8b0b2a7227c3982a14b23a85471489a621d6f83cd",
+      "query_neural_sha256": "69c4317401a084c49cd19b7415cbab4cd22aa8c6d559ba1c32b0eff23d651146",
+      "session": "ses-19250108T111022",
+      "support": {
+        "activity_sha256": "f51f456b32e5ef1c54ddf389742c38121f7fa9931d72a1505300936b1de3c6d3",
+        "calibration_input_sha256": "9398f27c6164e84a379c4a0b8d40d8acf642659c175b9411d4573147881c0e68",
+        "carrier_sha256": "8ad76b12ae94bb326e3d434b53ac315f4904dbd0dfe38a04be53b3bbcc546120",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "target_sha256": "dfe3b019fbb3bc9e0a453415d429db3222f46621a840a439f9b1052d8aa5a077"
+    },
+    {
+      "arms": {
+        "A-STATIC": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5564873163876691,
+          "prediction_sha256": "8fa67ad96179e9764956d548e80310e217a918404486a6f2575788bbdeb3eda6",
+          "r2": 0.5060064661256113
+        },
+        "RN-G000": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5564873163876691,
+          "prediction_sha256": "8fa67ad96179e9764956d548e80310e217a918404486a6f2575788bbdeb3eda6",
+          "r2": 0.5060064661256113
+        },
+        "RN-G005": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5561545675809847,
+          "prediction_sha256": "346bf94b65f3d1eeb9e4077bd7294f42def2afe31b57551e9282b8eb4743a1a9",
+          "r2": 0.5057904349994291
+        },
+        "RN-G010": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.555733184217063,
+          "prediction_sha256": "095c903be2eba42665023ec6f1156f0b3573afe661b1a896192db3c62045765f",
+          "r2": 0.5055168594949231
+        },
+        "RN-G020": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5546239853853907,
+          "prediction_sha256": "18e7415eb2cfb3b91eb09e7bfd85b29f3a8964352108f5060c20bee350aa30f8",
+          "r2": 0.5047967322759745
+        },
+        "RN-G050": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.549119514149791,
+          "prediction_sha256": "c374df4e715a52b5240c2ed338a055a9f11689fee88aa3202be4280f2970986a",
+          "r2": 0.501223054185547
+        },
+        "RN-G100": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5328701456546876,
+          "prediction_sha256": "70b629a808b9af1414f945da208b06fc4996835ed6949d08e7ac5a9aee77adba",
+          "r2": 0.4906734464777853
+        },
+        "RP-G000": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5564873163876691,
+          "prediction_sha256": "8fa67ad96179e9764956d548e80310e217a918404486a6f2575788bbdeb3eda6",
+          "r2": 0.5060064661256113
+        },
+        "RP-G005": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5548349939468342,
+          "prediction_sha256": "7be0aca6e5ed2864e7a14cda1138a38a8eb09467919c2ad39c8c61043f18a0a5",
+          "r2": 0.504933725756483
+        },
+        "RP-G010": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5530792571841103,
+          "prediction_sha256": "693f7294862d644d6c424d503a64659466dea77940f05d7575979c2e26a1b7ff",
+          "r2": 0.5037938455149575
+        },
+        "RP-G020": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5492135507907026,
+          "prediction_sha256": "43aa5ac2856303bdd5b451576f5ba7b2a3c1ae87fb896278cb4ae54d9990ea8d",
+          "r2": 0.5012841057686944
+        },
+        "RP-G050": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.5339221336696738,
+          "prediction_sha256": "dd3973605736d6093bbf77709f04b4e1704c6a25d3f43ca6b91987e5153153e0",
+          "r2": 0.4913564306118897
+        },
+        "RP-G100": {
+          "n_post_commit_windows": 978,
+          "n_windows": 1736,
+          "post_commit_r2": 0.4928136268785871,
+          "prediction_sha256": "f60d932005732177c6fb5330456dfecce3cf397b3ed49bde2594395d98a363c8",
+          "r2": 0.4646674783471597
+        }
+      },
+      "date": "19250108",
+      "endpoint_sha256": "d33cab1a26adb103ee2dee987c9af636ee84acf4c38cfc8bfc0af34c8602afda",
+      "first_commit_exclusive": 768,
+      "identity_sha256": {
+        "native": "312e38cae2321a5b4046d0114be0fa8009978a0e062f1026240b4a390fcb67d8",
+        "post": "ade232da6cd957eade00c6affe848dd26fc31e7c2dddd718dbd34aeda40439ff",
+        "static": "85128384c3c2c57da96b861f591d038e4b1b53b302fdb57dab26b9663aa1ab25"
+      },
+      "minival_input_sha256": "052423d5963899ebfc669d56ada6bc7ab4c060f023616a870c804c1b24f1418e",
+      "query_member_sha256": "400edfa7006bcdc68b31ce77a9d2f04fb156163792808d16f82f7cb06b240b66",
+      "query_neural_sha256": "5ed5e9f0734eecb4c3e8ce98b7fd0d3b80fd6a017c6a87e511a28faa688ac6fa",
+      "session": "ses-19250108T111455",
+      "support": {
+        "activity_sha256": "02c4b06ba0c358ad793c44e80dc5488a6194b3a998481c1cded32a3099a35898",
+        "calibration_input_sha256": "3a093dd558a7c5b3dbb38eaa1bb1699742a4b865066a336e65c5fe3abdfdd861",
+        "carrier_sha256": "ee7261589d0e269dbe8256fc2bdaa75a88d4a9df682a10b1a727a0496a5c459c",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "target_sha256": "5d641c23829934b5102cdc532458886504f288a970c580d5a2945c1551f69620"
+    }
+  ],
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "target_selected_equal_recording_r2": 0.4021064182844918,
+  "target_sessions": [
+    "ses-19250108T110520",
+    "ses-19250108T111022",
+    "ses-19250108T111455"
+  ],
+  "target_static_equal_recording_r2": 0.4021064182844918
+}

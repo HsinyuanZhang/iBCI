@@ -1,0 +1,4 @@
+{
+  "teacher_checkpoint_path": "/home/xinyuan/Work_host/SPINT/SPINT-main/logs/train/runs/2026-07-21-19-11-01/checkpoints/best_ckpt/epoch_019.ckpt",
+  "teacher_checkpoint_sha256": "c81a2bbd860452e6186a9ecf55c0b747da61baef4fae3212f61521be68cc5ac2"
+}

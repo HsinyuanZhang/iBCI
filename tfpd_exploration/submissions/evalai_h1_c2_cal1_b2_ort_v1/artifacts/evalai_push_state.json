@@ -1,0 +1,66 @@
+{
+  "arm": "h1_c2_cal1_b2_s42_ema_e18_L200_ort",
+  "image_id": "sha256:48ff71d32c9da9b2c38506836d9827620ab761d4912a05033f77cd39084fe19f",
+  "image_tag": "spint-t4-h1:c2-cal1-b2-ort-e18-L200-w0-91bb23f5",
+  "payload_sha256": "91bb23f50b214b3841f19d6fcc8e7ac11c7b2b179f615b08be111f07dd4d1565",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "h1_projadd_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 582044,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_582044/2024c5a8-3fb7-4bc6-b99c-fc47a7698c.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "H1 C2-CAL-1 B2: scheduled M7 starts + M in {7,5,4}->V1 M4 carrier, M=3->fit_deployment_carrier. Seed 42, AdamW 1e-4, EMA 0.9995, 13 held-in, HO-M3 pick e18 (local 0.378). Official HO banks remain C2 earliest-M3. Same M1 ORT exact-E recipe (intra_op=2, graphs B=1..8). Exact-E, no TTA.",
+    "method_name": "H1 C2-CAL-1 B2 P16 L200 e18 ORT exact-E w0",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-07T06:01:51.882849Z",
+    "when_made_public": null
+  },
+  "submission_id": 582044,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:318a82ad-4a9b-41af-a28a-1f47b7b09712",
+  "uploaded_manifest_digest": "sha256:48ff71d32c9da9b2c38506836d9827620ab761d4912a05033f77cd39084fe19f",
+  "uuid_tag": "318a82ad-4a9b-41af-a28a-1f47b7b09712"
+}

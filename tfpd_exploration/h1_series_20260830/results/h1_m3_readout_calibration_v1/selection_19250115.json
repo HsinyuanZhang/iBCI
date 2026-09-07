@@ -1,0 +1,489 @@
+{
+  "candidate_rows": [
+    {
+      "equal_source_date_mean_r2": 0.9641598020758128,
+      "family": "DIA7",
+      "ridge": 0.0,
+      "session_r2": [
+        0.9723137719174358,
+        0.9568121161836884,
+        0.9599791208680123,
+        0.9669064548193648,
+        0.9751027874850817,
+        0.9714351038665187,
+        0.9661524233055393,
+        0.9597763315020817,
+        0.9625434772489975,
+        0.9502313756027878,
+        0.967674512349439
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.964159802049769,
+      "family": "DIA7",
+      "ridge": 1e-06,
+      "session_r2": [
+        0.9723137719118342,
+        0.9568121161508745,
+        0.9599791209894398,
+        0.9669064548208456,
+        0.9751027873853556,
+        0.9714351037881815,
+        0.9661524233209284,
+        0.9597763315072498,
+        0.9625434770830099,
+        0.9502313755958148,
+        0.9676745123427039
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9641598021514497,
+      "family": "DIA7",
+      "ridge": 0.0001,
+      "session_r2": [
+        0.9723137712564781,
+        0.9568121159841689,
+        0.9599791241797555,
+        0.9669064555268131,
+        0.9751027875817885,
+        0.9714351029734836,
+        0.9661524231279759,
+        0.9597763331480279,
+        0.9625434762549104,
+        0.9502313749340762,
+        0.9676745123098048
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9641598160136648,
+      "family": "DIA7",
+      "ridge": 0.01,
+      "session_r2": [
+        0.9723136932999715,
+        0.9568121086492164,
+        0.9599794381170537,
+        0.9669065370963827,
+        0.9751027763960578,
+        0.9714350788222267,
+        0.9661524564373661,
+        0.9597763708249242,
+        0.9625433863072711,
+        0.9502313934810797,
+        0.9676745045749311
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9641610357990139,
+      "family": "DIA7",
+      "ridge": 1.0,
+      "session_r2": [
+        0.972305750142885,
+        0.9568112182602162,
+        0.9600106198927264,
+        0.9669145346457663,
+        0.9751015356199669,
+        0.9714325238629703,
+        0.9661555021971237,
+        0.9597801206823818,
+        0.962534169939419,
+        0.9502330441433939,
+        0.9676735686561098
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9626939471335849,
+      "family": "DIA7",
+      "ridge": 100.0,
+      "session_r2": [
+        0.9700324091303976,
+        0.9553422806174335,
+        0.9611947133466919,
+        0.9664551161772095,
+        0.9737218686313395,
+        0.969559528033638,
+        0.9645857765983201,
+        0.9587017236200706,
+        0.9601305665702321,
+        0.948627447703627,
+        0.9657119402919697
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9666137958566139,
+      "family": "MAT7",
+      "ridge": 0.0,
+      "session_r2": [
+        0.9736110163687767,
+        0.9599474993254995,
+        0.9609855971769848,
+        0.970556103205234,
+        0.9754600185439243,
+        0.9723973260977428,
+        0.9697784483783867,
+        0.9628117258135725,
+        0.9674475903910577,
+        0.9520720248789221,
+        0.9700711813614188
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9666137958048344,
+      "family": "MAT7",
+      "ridge": 1e-06,
+      "session_r2": [
+        0.9736110162596765,
+        0.9599474991994932,
+        0.9609855973721355,
+        0.9705561032024664,
+        0.9754600184879396,
+        0.9723973261002465,
+        0.9697784483432061,
+        0.9628117257118728,
+        0.9674475903260678,
+        0.9520720247939172,
+        0.97007118127217
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9666137961090625,
+      "family": "MAT7",
+      "ridge": 0.0001,
+      "session_r2": [
+        0.9736110164033562,
+        0.9599474998944754,
+        0.9609855990361829,
+        0.9705561033618703,
+        0.9754600183885072,
+        0.9723973252707171,
+        0.9697784492403732,
+        0.9628117263634557,
+        0.9674475906196294,
+        0.9520720247092482,
+        0.9700711813983286
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9666138125330654,
+      "family": "MAT7",
+      "ridge": 0.01,
+      "session_r2": [
+        0.9736110323174131,
+        0.95994749248744,
+        0.96098580615904,
+        0.9705561663753506,
+        0.975460007549386,
+        0.972397298919404,
+        0.9697785324691117,
+        0.9628117228097768,
+        0.9674476096640722,
+        0.9520719788506166,
+        0.9700711377569687
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9666152595802784,
+      "family": "MAT7",
+      "ridge": 1.0,
+      "session_r2": [
+        0.9736124657456314,
+        0.9599465297804699,
+        0.9610061608373476,
+        0.9705623254940436,
+        0.9754587492889754,
+        0.9723944875306546,
+        0.9697866195341911,
+        0.9628111652526589,
+        0.9674493682480546,
+        0.9520671933445516,
+        0.9700666092863277
+      ]
+    },
+    {
+      "equal_source_date_mean_r2": 0.9648682354524849,
+      "family": "MAT7",
+      "ridge": 100.0,
+      "session_r2": [
+        0.9725334810640688,
+        0.9573828607260166,
+        0.9605102602612038,
+        0.9697734031460055,
+        0.9739464257854747,
+        0.9704822569459508,
+        0.9684759461048683,
+        0.9602384894044287,
+        0.9659610658592556,
+        0.9496983200627256,
+        0.9677565415624122
+      ]
+    }
+  ],
+  "outer_date": "19250115",
+  "outer_date_calibration_opened": false,
+  "outer_date_minival_opened": false,
+  "schema": "h1_m3_readout_calibration_v1_selection",
+  "selected": {
+    "equal_source_date_mean_r2": 0.9666152595802784,
+    "family": "MAT7",
+    "ridge": 1.0,
+    "session_r2": [
+      0.9736124657456314,
+      0.9599465297804699,
+      0.9610061608373476,
+      0.9705623254940436,
+      0.9754587492889754,
+      0.9723944875306546,
+      0.9697866195341911,
+      0.9628111652526589,
+      0.9674493682480546,
+      0.9520671933445516,
+      0.9700666092863277
+    ]
+  },
+  "source_pairs": [
+    {
+      "base_r2": 0.9677984698225105,
+      "calibration_prediction_sha256": "e117549085bd40bdc92847fe93e509431d44991413a331ddc540a1dc2b3d9032",
+      "calibration_target_sha256": "db0361eed15ab12969388a9c684fa70b5f3186d0bfd5473b6af11787aa519f64",
+      "calibration_windows": 2401,
+      "date": "19250101",
+      "query_prediction_sha256": "2937850d5840c990ae76d15a0f7768c5c0902d1cd13a81163e859400ff28e331",
+      "query_target_sha256": "435f19c769bb3baf8aad0887ac0dac568faec16b4839e7b0f23bb94fc5ea3fd5",
+      "query_windows": 1466,
+      "session": "ses-19250101T111740",
+      "support": {
+        "activity_sha256": "8d29da5da8b6e376e262a09a679f38844332b1d637819c0f95232a844c79469e",
+        "calibration_input_sha256": "f8af652a31228f08b26ff8a7ecfd2a6bd05a345e368da8c98be649229f80adb2",
+        "carrier_sha256": "bad74caeefecd587c4afa744f22c069981d53d372b7baf279c766bac524a2532",
+        "support_trials": [
+          3.0,
+          4.0,
+          5.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9469679745247717,
+      "calibration_prediction_sha256": "68405b38a88e5f79565a07ad87435ba1b6112855d5940bd4801eeebdb692e11d",
+      "calibration_target_sha256": "242683c6c68b4b88585ae04ca3aede32cea4615341b884d9a5cb90eeb9d35c56",
+      "calibration_windows": 2517,
+      "date": "19250101",
+      "query_prediction_sha256": "e99017fb78046073e208d77cca6937263361cfe056f6003486d078a6d019d053",
+      "query_target_sha256": "9fe040f05db4a81a2078998a8bbc74f036cfeb57f0940ba3d9892d63a557ae90",
+      "query_windows": 1658,
+      "session": "ses-19250101T112404",
+      "support": {
+        "activity_sha256": "1ab47d13025f22d67d3c4e66afaaee319a87dd849bbd118d2fdf5cfb67006ac9",
+        "calibration_input_sha256": "b946c4cf49f00c2ea8f0051481765ed090294e3e1e5a035cc5716ad93aa052b2",
+        "carrier_sha256": "67679fbf2df5b240abe0b91c058d5399cd61dde4d0b8a698f3010bac3967b870",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9458372003835824,
+      "calibration_prediction_sha256": "055470239d0e65e71d9fc909d71dc79af693654f1c3c2e7684f363aec0b91843",
+      "calibration_target_sha256": "64c53d58f42d6a43bee792a037f8fcfc6082438ed621fecd0c3d08db9b9a3ff2",
+      "calibration_windows": 2283,
+      "date": "19250108",
+      "query_prediction_sha256": "74e7e8405311d3901de5e335995404a3a126021b2ea751cf30d0939a36c3f060",
+      "query_target_sha256": "606286d3ae617a4260cc0d53f67106d22f0555bd478cb4e6d92f693c26a6ca08",
+      "query_windows": 1629,
+      "session": "ses-19250108T110520",
+      "support": {
+        "activity_sha256": "74446fe9abcddd9e907160013ae28030848241bcfcece21b59f527c3663bbfb6",
+        "calibration_input_sha256": "8a09f6ead8a44776d2cee62850ff489bd16b1323799c986cad070dad784a2b83",
+        "carrier_sha256": "58334229f137904341e34b05cdcfb48b8a265a8bafda12201a7b3e84d081abaf",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9510758127346796,
+      "calibration_prediction_sha256": "b3499acd45477df32d9a0f1b4a08708f283cd74e7620cdb154770c8ce02c7ed4",
+      "calibration_target_sha256": "5f7c54adf5e2f367cb73c1f2fd307df9e7273ff1e6f00d9425e015aaaaadcdda",
+      "calibration_windows": 2723,
+      "date": "19250108",
+      "query_prediction_sha256": "14d501031ff232dbb3df7219a4fd328081e72a087c37ce15b459248fab17c9fa",
+      "query_target_sha256": "dfe3b019fbb3bc9e0a453415d429db3222f46621a840a439f9b1052d8aa5a077",
+      "query_windows": 1811,
+      "session": "ses-19250108T111022",
+      "support": {
+        "activity_sha256": "f51f456b32e5ef1c54ddf389742c38121f7fa9931d72a1505300936b1de3c6d3",
+        "calibration_input_sha256": "9398f27c6164e84a379c4a0b8d40d8acf642659c175b9411d4573147881c0e68",
+        "carrier_sha256": "0dcfbe41695b9c50697aa92dbcdf028cc5fecb2f155bac4e8c09d9f4d1ab21a6",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9659925529842269,
+      "calibration_prediction_sha256": "b286172479c591cb051f5d1bb9a066d3d86d8382c74105a99f6781d917d8f5f9",
+      "calibration_target_sha256": "cb11d39152d6dc3ed2c913780bb65e46e116b9d82510d59397c0ae2e32c301e8",
+      "calibration_windows": 2666,
+      "date": "19250108",
+      "query_prediction_sha256": "971331124727a4dbe5400a3abc72c204b4d58c019d7cf05df12f7d90f3a82caf",
+      "query_target_sha256": "5d641c23829934b5102cdc532458886504f288a970c580d5a2945c1551f69620",
+      "query_windows": 1736,
+      "session": "ses-19250108T111455",
+      "support": {
+        "activity_sha256": "02c4b06ba0c358ad793c44e80dc5488a6194b3a998481c1cded32a3099a35898",
+        "calibration_input_sha256": "3a093dd558a7c5b3dbb38eaa1bb1699742a4b865066a336e65c5fe3abdfdd861",
+        "carrier_sha256": "3247021bc6d7390173d0694b134472719f95012ec0b9a6ac8c77332d3770d8a4",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9671842890912317,
+      "calibration_prediction_sha256": "84bf6043b5b4b02c561e8d7a85b06cd6977e1f6f90f63045ef643a7ccfb4e37f",
+      "calibration_target_sha256": "f2c22ba4f5d1965ee200b80b463f8ffc318bd973c7a3df286a22db10a7f5fbbd",
+      "calibration_windows": 2327,
+      "date": "19250113",
+      "query_prediction_sha256": "b2b9812f3fc7d3138cbf116e46c75b027eae140ffaa266784eb152a75a8fc98e",
+      "query_target_sha256": "e857e6165eac3a1a69caffbbbc3c4ce5083822b6c569ce6ee46498832e99b323",
+      "query_windows": 1437,
+      "session": "ses-19250113T120811",
+      "support": {
+        "activity_sha256": "a63599461f4c8cd0390fae903b3bc21a55c9a66acaf7ce3ad078d0b5c5bdcc50",
+        "calibration_input_sha256": "477410e16b8c1ccfcb3caba9403169ec21ab8bee35c4846376bae781003c5f92",
+        "carrier_sha256": "6f036f9d9e910a0fdd4d2707c8033ce3fcb9dffab38d22c63838768fe988fd34",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9559061489352773,
+      "calibration_prediction_sha256": "5cda3ebbcf99f0e2af01131daf1b4dc9e1e0258c1e7b02a976bece224720cacf",
+      "calibration_target_sha256": "4f438f694775f013d72d9464188ab0206e5bf88acd318ed331f30d3392356704",
+      "calibration_windows": 2178,
+      "date": "19250113",
+      "query_prediction_sha256": "0af2e88020354a39249c09c109c711f95260b9be4f23e46ef781acc1620ceedc",
+      "query_target_sha256": "0fcfdb32ac17ff31b75fb5b6354cd5fdbe96438ae850aaab80860cf47e994bb6",
+      "query_windows": 1517,
+      "session": "ses-19250113T121303",
+      "support": {
+        "activity_sha256": "761380170ef096422c26bc6080f49dc71cd6f3803f8492db06c98d9b08cff306",
+        "calibration_input_sha256": "29d01954747e028dc8b91f82ece28ef11b95a1a33ab3a57e55eb5f967706419f",
+        "carrier_sha256": "38459f17080e5e5839cf9fd2fc0cea52002604c25d31e69abbb566e6a5ef5a11",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9571784810849421,
+      "calibration_prediction_sha256": "8f85330c6f2f2587a4df2fb842116518c88d96f2cfa382b20c582ea574a68474",
+      "calibration_target_sha256": "b5b4d808f12c378b16cddf4010c7b12fa33f46a57cb48ebd40679c0fd266ac7b",
+      "calibration_windows": 2487,
+      "date": "19250119",
+      "query_prediction_sha256": "39b1096aa55cd3e977ec2475323cd9d7aeebd27ea4d4dedc9a6d88cc39f54100",
+      "query_target_sha256": "f082d9c14b8ca83c31264ab4edad9249049cb48e0fc4944c1e6b7cee6f31ecc2",
+      "query_windows": 1526,
+      "session": "ses-19250119T113543",
+      "support": {
+        "activity_sha256": "82feb16bdcdb590380fc8ac304ef4960217923677533930505b41bbc4122f7e6",
+        "calibration_input_sha256": "f176ad4e1221843a94b67f87e0676bbcb83b7b1f5e49a58b2ae1d85b30e445d6",
+        "carrier_sha256": "db6da4856ad159c3a4cc3df4c31922be62c3e47012fe23aeb1e5eae635ddd907",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9529449740694441,
+      "calibration_prediction_sha256": "6522e7d323cf537052b840b932da3074f7830ea95388decd7ed15d7ff0d935a3",
+      "calibration_target_sha256": "332349359c100cdb78e0a1d1542600c623c6d8a58d8193492408c52cf5d38ec6",
+      "calibration_windows": 2378,
+      "date": "19250119",
+      "query_prediction_sha256": "c6c5591f6aa370e29b44ed1c1996db28180491be56fad6c4eaeb0284699bb9cd",
+      "query_target_sha256": "476584cda3860ebb377ff7e1f90592bd63b2061d0c5b0950c286673e93692502",
+      "query_windows": 1606,
+      "session": "ses-19250119T114045",
+      "support": {
+        "activity_sha256": "95bdb80b05a7e3153f78be8c2f454891e603025e81c0125661cb9e5670fbb986",
+        "calibration_input_sha256": "a9548924522750f6217409a9797b37389d22c9a0fe3ef145b87343192ff7d6ac",
+        "carrier_sha256": "f7383117b5280ad37cbc76b15b3821ac7aa4a28f89959a2045fed339af563a03",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9436163050846065,
+      "calibration_prediction_sha256": "d590a9a47904515964b987b8ba405d5f6cf28c965651b280367dba65349133d4",
+      "calibration_target_sha256": "77ed3a39a59a2464d46f79c2bddcdf6dc22f9053bd5d6cc7b8434dbfbc173bc9",
+      "calibration_windows": 2217,
+      "date": "19250120",
+      "query_prediction_sha256": "c82a51bb27ffea6f67dd0864d6650209fdcd7e756e0549e051f88fca781405d8",
+      "query_target_sha256": "524961c70e61d251161dfd44d71eaef00cb2b64340b33f9f63a5ff402c83fdef",
+      "query_windows": 1453,
+      "session": "ses-19250120T115044",
+      "support": {
+        "activity_sha256": "b3a971d27f785536fd1f3713b22a16ee2e0949bd14910fd7017d243674167b96",
+        "calibration_input_sha256": "34e0f0d229942516aec6148d2deaf0bbeabda3d10b86cd889fedf0563366c084",
+        "carrier_sha256": "cb32fe6c4a63ec1288b307dd653d61d637adfd2d90546846a00c8cbd4b4659fa",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "base_r2": 0.9588939051875656,
+      "calibration_prediction_sha256": "e0fe67576ff0d34c5177fefab5beba5947f28d2163632a772b4652d042959c2c",
+      "calibration_target_sha256": "02dd1810dbae9459e7b4f841a96efb4584c35fd54e4503a7bbfe42d7d6710edf",
+      "calibration_windows": 2163,
+      "date": "19250120",
+      "query_prediction_sha256": "24bbcb4e62f48e1042a4542b70d1744f77cb1740bf074d21e9074e230b3c2e7e",
+      "query_target_sha256": "4b3dc288f59dfe95e45bedda4454ad3c2b7c64099fe6cb82b2e5e96cb5ff317b",
+      "query_windows": 1499,
+      "session": "ses-19250120T115537",
+      "support": {
+        "activity_sha256": "296cb1a846494d2fa6214bb21ea361cb129d7410eff780d831c31dd45baa529a",
+        "calibration_input_sha256": "df0ba7830d01e82b716d7a1eaac0b0400ebc84e8cbf0c9e2e047437a31c43e70",
+        "carrier_sha256": "e91c40d336591b6eb5eded62e12ee38f6d447b0f941ae2eb48a9f2045522439b",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      }
+    }
+  ],
+  "source_sessions": [
+    "ses-19250101T111740",
+    "ses-19250101T112404",
+    "ses-19250108T110520",
+    "ses-19250108T111022",
+    "ses-19250108T111455",
+    "ses-19250113T120811",
+    "ses-19250113T121303",
+    "ses-19250119T113543",
+    "ses-19250119T114045",
+    "ses-19250120T115044",
+    "ses-19250120T115537"
+  ],
+  "status": "SOURCE_SELECTED_BEFORE_OUTER_DATE_OPEN"
+}

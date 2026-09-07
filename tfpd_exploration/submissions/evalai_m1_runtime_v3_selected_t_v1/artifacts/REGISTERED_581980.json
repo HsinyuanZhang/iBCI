@@ -1,0 +1,15 @@
+{
+  "schema": "m1_v3_evalai_register_v1",
+  "submission_id": 581980,
+  "status_at_register": "submitted",
+  "submitted_at": "2026-09-06T01:31:16.647424Z",
+  "image_id": "sha256:95c33c681e077474a99f8e99a92814b7a30e2c68471fbbbe8d53a74dce13491a",
+  "image_tag": "spint-m1:v3-t-ema-e6-t2-5e44fc37",
+  "payload_sha256": "5e44fc37965640138bf977da42a988e7636daa996d1eb9b50a75fa5628f9d7b3",
+  "method_name": "M1 optimized-v2 current-query T EMA e6 runtime-v3 t2 w0",
+  "pick": "formal12_chron80_v2 seed42 EMA epoch 6 current-query; source-dev epoch-pick; not outer-24",
+  "quota_after_register": {"today": 1, "active": 2, "max_per_day": 6, "max_concurrent": 3},
+  "sibling_naive_still_queued": 581937,
+  "failed_reason": "official uint8 dtype reject",
+  "not_official_score": true
+}

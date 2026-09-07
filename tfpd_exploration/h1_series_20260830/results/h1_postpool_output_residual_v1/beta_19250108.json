@@ -1,0 +1,31 @@
+{
+  "fit": {
+    "beta": -0.14875601245226322,
+    "denominator": 0.007979149522886139,
+    "max_abs_beta": 4.0,
+    "numerator": -0.0011869464657849205,
+    "source_date_count": 5.0,
+    "source_recording_count": 10.0
+  },
+  "outer_date": "19250108",
+  "outer_date_calib_opened": false,
+  "outer_date_minival_opened": false,
+  "schema": "h1_postpool_output_residual_v1_beta",
+  "source_fused_equal_recording_r2": 0.9524640414084915,
+  "source_gain": 0.00017656542359811844,
+  "source_sessions": [
+    "ses-19250101T111740",
+    "ses-19250101T112404",
+    "ses-19250113T120811",
+    "ses-19250113T121303",
+    "ses-19250115T110633",
+    "ses-19250115T111328",
+    "ses-19250119T113543",
+    "ses-19250119T114045",
+    "ses-19250120T115044",
+    "ses-19250120T115537"
+  ],
+  "source_static_equal_recording_r2": 0.9522874759848934,
+  "status": "BETA_FROZEN_BEFORE_OUTER_DATE_OPEN",
+  "target_updates": 0
+}

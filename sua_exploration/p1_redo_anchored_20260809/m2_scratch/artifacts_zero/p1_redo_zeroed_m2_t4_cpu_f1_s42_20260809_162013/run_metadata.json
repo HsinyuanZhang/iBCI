@@ -1,0 +1,33 @@
+{
+  "run_id": "p1_redo_zeroed_m2_t4_cpu_f1_s42_20260809_162013",
+  "comparison_role": null,
+  "variant": "B3S",
+  "loss_mode": "task_plus_y_plus_E",
+  "lambda_y": 1.0,
+  "lambda_E": 0.1,
+  "seed": 42,
+  "fold_id": 1,
+  "validation_protocol": "loso",
+  "train_sessions": [
+    "ses-2020-10-19-Run1",
+    "ses-2020-10-20-Run1",
+    "ses-2020-10-20-Run2",
+    "ses-2020-10-27-Run1",
+    "ses-2020-10-27-Run2",
+    "ses-2020-10-28-Run1"
+  ],
+  "validation_sessions": [
+    "ses-2020-10-19-Run2"
+  ],
+  "heldout_evaluated_in_fit": false,
+  "heldout_evaluated_in_test": true,
+  "preprocessing": "cubic_T100",
+  "teacher_seen_validation_session": true,
+  "selected_by_metric": "val_heldin/r2_mean",
+  "selected_metric_value": null,
+  "best_epoch": null,
+  "artifact_dir": "/home/xinyuan/Work_host/SPINT/sua_exploration/p1_redo_anchored_20260809/m2_scratch/artifacts_zero/p1_redo_zeroed_m2_t4_cpu_f1_s42_20260809_162013",
+  "exported_at_utc": "2026-08-09T08:22:47.050210+00:00",
+  "no_early_stopping": true,
+  "max_epochs": 12
+}

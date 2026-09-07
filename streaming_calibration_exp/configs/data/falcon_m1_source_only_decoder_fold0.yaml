@@ -1,0 +1,36 @@
+# Exact source-only inputs for the fold-0 native-M1 base decoder.
+_target_: src.data.falcon_m1_source_only_decoder_datamodule.M1SourceOnlyDecoderFold0DataModule
+
+task: m1
+data_dir: ${paths.data_dir}/000941/
+source_session_names: [ses-20120926, ses-20120927, ses-20120928]
+heldin_session_names: [ses-20120926, ses-20120927, ses-20120928]
+batch_size: 32
+window_size: 100
+calibration_n_trials: 10
+random_calibration: false
+smooth_calibration: false
+max_trial_length: 1024
+standardize_covariates: false
+use_intertrials: true
+use_calib_intertrials: false
+trial_feature_type: raw
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+validation_protocol: minival
+loso_fold: 0
+rotation_id: 0
+include_heldout_in_fit: false
+include_heldout_in_test: false
+query_start_trial: 0
+heldin_query_start_trial: 0
+heldin_query_end_trial: null
+allow_empty_heldout_query: false
+num_workers: 0
+pin_memory: false
+sampler_seed: ${seed}
+balance_session_batches: false
+reshuffle_train_sampler_each_epoch: false
+side_feature_group: none
+side_feature_shuffle_seed: ${seed}

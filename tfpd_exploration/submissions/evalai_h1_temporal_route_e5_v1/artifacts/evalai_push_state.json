@@ -1,0 +1,66 @@
+{
+  "arm": "h1_temporal_route_ema_e5",
+  "image_id": "sha256:12f6e76d585065980c57a5f36b75159222df29ac106903f655fb26664809a90c",
+  "image_tag": "h1-temporal-trf:route-ema-e5-faf2fecd",
+  "payload_sha256": "faf2fecdf8ae1b14bbc5461523a96e490cffcd7613795ce18688685fa384cb52",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "h1_temporal_trf_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581942,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581942/47247a56-724e-4d33-a14a-0a496e7c38.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "New temporal Transformer Falcon runtime for H1 with static calibration routing, not a C2 identity swap and not the old C2/581920/581900 decoder. Same stack as FLAT (Conv1\u219216 k5, concat local+E0+H-C, 8-slot set attn d=256, 4-layer causal Transformer, 256\u2192128\u21927 last-bin, output /20) plus per-head routing bonuses on slot-to-unit logits. Weights are the EMA view of snapshot epoch 5 of the intended 12-epoch ROUTE run (seed 42). This is known-source development, not clean LODO. C2 epoch-15 SHA ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215 is calibration materialization only. PE covers 700. on_done is a no-op. No unproven cross-window KV cache. All 27 official H1 dataset tags.",
+    "method_name": "H1 temporal Transformer ROUTE EMA e5 of 12 known-source",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-05T10:22:02.609263Z",
+    "when_made_public": null
+  },
+  "submission_id": 581942,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:3d6ee03c-65cb-4312-bf3c-4c07a02bd1a1",
+  "uploaded_manifest_digest": "sha256:12f6e76d585065980c57a5f36b75159222df29ac106903f655fb26664809a90c",
+  "uuid_tag": "3d6ee03c-65cb-4312-bf3c-4c07a02bd1a1"
+}

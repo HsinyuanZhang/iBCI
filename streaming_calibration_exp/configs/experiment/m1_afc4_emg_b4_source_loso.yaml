@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - m1_afc4_emg_full_source_loso
+
+run_id: m1_afc4_emg_b4_source_loso
+tags: ["native-mua", "m1", "afc4-emg", "source-joint", "b4", "preflight-only"]
+data:
+  afc4_arm: b4

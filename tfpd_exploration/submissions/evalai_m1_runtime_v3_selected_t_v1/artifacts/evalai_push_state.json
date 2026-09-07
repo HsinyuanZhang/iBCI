@@ -1,0 +1,66 @@
+{
+  "arm": "m1_optv2_t_ema_e6_runtime_v3_t2_w0",
+  "image_id": "sha256:9b530d8e5c7f8fa36d49b7d49d35f30c1a3e0667ce8ac6c58abade21b3bfbaa9",
+  "image_tag": "spint-m1:v3-t-ema-e6-t2-5e44fc37",
+  "payload_sha256": "5e44fc37965640138bf977da42a988e7636daa996d1eb9b50a75fa5628f9d7b3",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m1_v3_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581982,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581982/7341c874-434a-43f4-9936-9a1e26ae07.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "M1 optimized-v2 current-query Transformer, seed 42 EMA epoch 6, V3 heterogeneous stream (W=100/k=5), torch threads=2, workers=0. Adapter casts official uint8/float64/noncontiguous bins to C-contiguous float32. Source-dev equal-session mean 0.812213. Not an outer-24 result. Replaces failed 581980 dtype reject.",
+    "method_name": "M1 optimized-v2 current-query T EMA e6 runtime-v3 t2 w0 cast-f32",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-06T02:55:47.965511Z",
+    "when_made_public": null
+  },
+  "submission_id": 581982,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:db7f3a38-7abc-4f73-a9e3-c3e53084039e",
+  "uploaded_manifest_digest": "sha256:9b530d8e5c7f8fa36d49b7d49d35f30c1a3e0667ce8ac6c58abade21b3bfbaa9",
+  "uuid_tag": "db7f3a38-7abc-4f73-a9e3-c3e53084039e"
+}

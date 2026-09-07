@@ -1,0 +1,4 @@
+{
+  "teacher_checkpoint_path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+  "teacher_checkpoint_sha256": "925fba67a6a4338ee6e399751e80d53c5e74a22a7dd3ae0329d9c8da9e0291e2"
+}

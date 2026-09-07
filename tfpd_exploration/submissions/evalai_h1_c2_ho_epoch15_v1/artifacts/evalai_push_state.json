@@ -1,0 +1,66 @@
+{
+  "arm": "epfilm",
+  "image_id": "sha256:c7a88aaec3b75754e183a25e0a5363a514e313f84be84ae10c7cb39d094baeea",
+  "image_tag": "h1-c2-ho:epoch15-91ef13cc",
+  "payload_sha256": "91ef13cc94b9ab865c8f926dcbb6d33e9628bf9cbc9b757665d10e33cfda144a",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "h1_epfilm_evalai_v1_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581920,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581920/78d7fa21-2eac-49ac-b34d-93049c11e4.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "C2 H1 decoder trained with deterministic M7/M5/M4/M3 prefix cycling and selected at epoch 15 using the visible held-out calibration/development surface. Deployment uses the public first three calibration trials, native early-pooled activity plus carrier identity, an exact identity output map, and no online update.",
+    "method_name": "H1 C2 M3-aware held-out-selected epoch 15",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-04T18:31:03.651492Z",
+    "when_made_public": null
+  },
+  "submission_id": 581920,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:eafd31f6-435a-4c60-9f81-1daf20e9cb94",
+  "uploaded_manifest_digest": "sha256:c7a88aaec3b75754e183a25e0a5363a514e313f84be84ae10c7cb39d094baeea",
+  "uuid_tag": "eafd31f6-435a-4c60-9f81-1daf20e9cb94"
+}

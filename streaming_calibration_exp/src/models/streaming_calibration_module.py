@@ -20,6 +20,8 @@ from src.models.components.neuron_dropout import (
   build_neuron_dropout,
   masked_identity_mse,
 )
+from src.models.components.carrier_noise_augmentation import sample_perturbed_carrier_batch
+from src.models.components.correspondence_breaking import apply_correspondence_breaking
 from src.models.components.spint import SpintModel
 from src.models.components.streaming_encoders import (
   B3PreservingHighOrderStatsEncoder,
@@ -160,6 +162,12 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     decoupled_value_dim: int = 32,
     decoupled_num_heads: int = 2,
     decoupled_key_permutation_seed: int | None = None,
+    *,
+    activity_path_dropout_p: float = 0.0,
+    carrier_noise_scale: float = 0.0,
+    correspondence_breaking_mode: str = "none",
+    correspondence_breaking_seed: int = 0,
+    correspondence_breaking_keep_fraction: float = 0.75,
   ) -> None:
     super().__init__()
     self.save_hyperparameters(ignore=["optimizer", "scheduler", "net"])
@@ -253,6 +261,18 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     self._decoupled_value_dim = int(decoupled_value_dim)
     self._decoupled_num_heads = int(decoupled_num_heads)
     self._decoupled_key_permutation_seed = decoupled_key_permutation_seed
+    self._activity_path_dropout_p = float(activity_path_dropout_p)
+    self._carrier_noise_scale = float(carrier_noise_scale)
+    self._correspondence_breaking_mode = str(correspondence_breaking_mode).lower()
+    self._correspondence_breaking_seed = int(correspondence_breaking_seed)
+    self._correspondence_breaking_keep_fraction = float(correspondence_breaking_keep_fraction)
+    self._carrier_noise_cholesky: torch.Tensor | None = None
+    if self._activity_path_dropout_p < 0.0 or self._activity_path_dropout_p > 1.0:
+      raise ValueError("activity_path_dropout_p must be in [0, 1]")
+    if self._carrier_noise_scale < 0.0:
+      raise ValueError("carrier_noise_scale must be >= 0")
+    if self._correspondence_breaking_keep_fraction <= 0.0 or self._correspondence_breaking_keep_fraction > 1.0:
+      raise ValueError("correspondence_breaking_keep_fraction must be in (0, 1]")
     self.population_identity: nn.Parameter | None = None
     if self._support_prediction_consistency_weight < 0.0:
       raise ValueError("support_prediction_consistency_weight must be >= 0")
@@ -366,6 +386,7 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       side_dim=self._side_dim,
       electrode_embed_dim=self._electrode_embed_dim,
       num_electrodes=self._num_electrodes,
+      activity_path_dropout_p=self._activity_path_dropout_p,
     )
     copy_teacher_id_weights(id_encoder, self.teacher)
 
@@ -511,6 +532,10 @@ class StreamingCalibrationLitModule(pl.LightningModule):
     # x_only constructs K from the live activity tensor in StreamingSpintModel.
     return None
 
+  def set_carrier_noise_cholesky(self, cholesky: torch.Tensor | None) -> None:
+    """Attach per-unit ``[a,c]`` Cholesky factors for carrier-noise augmentation."""
+    self._carrier_noise_cholesky = cholesky
+
   def model_step(self, batch: Tuple[torch.Tensor, ...]) -> Dict[str, Any]:
     electrode_ids = None
     if len(batch) == 6:
@@ -521,6 +546,31 @@ class StreamingCalibrationLitModule(pl.LightningModule):
       neural, behavior_target, calib, session_name = batch
       side_features = None
     assert self.student is not None and self.teacher is not None
+
+    if self.training and self._correspondence_breaking_mode != "none":
+      session_label = session_name[0] if isinstance(session_name, (list, tuple)) else str(session_name)
+      neural, calib, side_features, electrode_ids, _ = apply_correspondence_breaking(
+        neural,
+        calib,
+        side_features,
+        electrode_ids,
+        mode=self._correspondence_breaking_mode,  # type: ignore[arg-type]
+        seed=self._correspondence_breaking_seed,
+        session_name=session_label,
+        keep_fraction=self._correspondence_breaking_keep_fraction,
+      )
+
+    if (
+      self.training
+      and self._carrier_noise_scale > 0.0
+      and side_features is not None
+      and self._carrier_noise_cholesky is not None
+    ):
+      side_features = sample_perturbed_carrier_batch(
+        side_features,
+        self._carrier_noise_cholesky,
+        scale=self._carrier_noise_scale,
+      )
 
     dropout_mask = None
     if self.training and self._neuron_dropout is not None:

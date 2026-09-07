@@ -1,0 +1,18 @@
+# @package _global_
+# B4 minimal correspondence-breaking sweep (UNLAUNCHED).
+
+defaults:
+  - override /model: streaming_b3s_t4
+
+run_id: b4_correspondence_breaking_permute_m2_t4
+comparison_role: training_method_scaffolding
+tags: ["b4_correspondence_breaking", "m2", "t4", "unlaunched"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  correspondence_breaking_mode: permute
+  correspondence_breaking_seed: 42

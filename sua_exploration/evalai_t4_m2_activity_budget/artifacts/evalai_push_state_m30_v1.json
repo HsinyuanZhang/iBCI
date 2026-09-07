@@ -1,0 +1,66 @@
+{
+  "arm": "m30",
+  "image_id": "sha256:5bf9682c4c96aa27d51b7db8584f634411fe7b7b24bdb1d23052f73c452c86eb",
+  "image_tag": "spint-t4-m2:ridge-m30-activity30-s42-097b0fdf",
+  "payload_sha256": "097b0fdf83ac1ac0846b36fc02c6e4f0a755f477514c83c4de8fcd08572797ae",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_activity_budget_evalai_push_state_v1",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581362,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581362/a7f99597-2ff0-436d-90d1-1d69d17574.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen SPINT M2 decoder with per-session ridge-T4 identity and B3S activity from the chronological first 30 public calibration trials. This is the static long-budget safety reference and has no adaptive memory. The EvalAI runtime uses cached identities only and performs no hidden-query label read, optimizer step, parameter update, or backpropagation.",
+    "method_name": "M2 ridge T4 M30 activity30 seed42",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-08-28T12:22:28.217497Z",
+    "when_made_public": null
+  },
+  "submission_id": 581362,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:addc14d2-3ca6-4bf7-b857-694930edccc2",
+  "uploaded_manifest_digest": "sha256:5bf9682c4c96aa27d51b7db8584f634411fe7b7b24bdb1d23052f73c452c86eb",
+  "uuid_tag": "addc14d2-3ca6-4bf7-b857-694930edccc2"
+}

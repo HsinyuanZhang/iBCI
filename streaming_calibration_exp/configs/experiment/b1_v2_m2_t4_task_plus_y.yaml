@@ -1,0 +1,37 @@
+# @package _global_
+# B1 v2 factorial cell: content=T4, identity distillation disabled.
+# Stage/fold/seed are supplied only by the B1 runner/preflight.
+defaults:
+  - override /model: streaming_b3s_t4
+  - override /data: falcon_m2
+  - override /callbacks: b1_epoch_window
+
+run_id: b1_v2_m2_t4_task_plus_y
+comparison_role: b1_m2_carrier_distillation_factorial_v2
+tags: ["b1-v2", "m2", "development-only", "t4", "task-plus-y", "factorial"]
+no_early_stopping: true
+require_baseline_validation: false
+
+data:
+  validation_protocol: loso
+  loso_fold: 0
+  calibration_n_trials: 33
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  heldin_query_start_trial: 0
+  heldin_query_end_trial: null
+  side_feature_group: t4
+
+model:
+  variant: B3S
+  hidden_dim: 64
+  side_dim: 4
+  freeze_decoder: true
+  loss_mode: task_plus_y
+  lambda_y: 1.0
+  lambda_E: 0.0
+
+trainer:
+  max_epochs: 12

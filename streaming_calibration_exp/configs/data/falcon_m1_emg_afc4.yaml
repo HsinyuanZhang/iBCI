@@ -1,0 +1,38 @@
+# Isolated source-joint M1 EMG-AFC4 path.  The parent side feature group stays
+# `none`; M1EMGAFC4DataModule appends its own fixed 4-D adapter.
+_target_: src.data.falcon_emg_afc4_datamodule.M1EMGAFC4DataModule
+
+task: m1
+data_dir: ${paths.data_dir}/000941/
+heldin_session_names: ['']
+batch_size: 32
+window_size: 100
+calibration_n_trials: 10
+
+random_calibration: false
+smooth_calibration: false
+max_trial_length: 1024
+standardize_covariates: false
+use_intertrials: true
+use_calib_intertrials: false
+trial_feature_type: raw
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+validation_protocol: loso
+loso_fold: 0
+rotation_id: 0
+include_heldout_in_fit: false
+include_heldout_in_test: false
+query_start_trial: 0
+heldin_query_start_trial: 10
+heldin_query_end_trial: 210
+allow_empty_heldout_query: false
+num_workers: 0
+pin_memory: false
+sampler_seed: ${seed}
+balance_session_batches: false
+reshuffle_train_sampler_each_epoch: false
+side_feature_group: none
+side_feature_shuffle_seed: ${seed}
+afc4_arm: full

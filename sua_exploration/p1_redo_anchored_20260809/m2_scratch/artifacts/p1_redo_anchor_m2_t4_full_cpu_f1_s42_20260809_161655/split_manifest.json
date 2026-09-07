@@ -1,0 +1,130 @@
+{
+  "validation_protocol": "loso",
+  "fold_id": 1,
+  "train_sessions": [
+    "ses-2020-10-19-Run1",
+    "ses-2020-10-20-Run1",
+    "ses-2020-10-20-Run2",
+    "ses-2020-10-27-Run1",
+    "ses-2020-10-27-Run2",
+    "ses-2020-10-28-Run1"
+  ],
+  "validation_sessions": [
+    "ses-2020-10-19-Run2"
+  ],
+  "heldout_evaluated_in_fit": false,
+  "heldout_evaluated_in_test": true,
+  "query_start_trial": 24,
+  "heldin_query_start_trial": 0,
+  "heldin_query_end_trial": null,
+  "native_t4_normalization": {
+    "feature_group": "t4",
+    "train_sessions": [
+      "ses-2020-10-19-Run1",
+      "ses-2020-10-20-Run1",
+      "ses-2020-10-20-Run2",
+      "ses-2020-10-27-Run1",
+      "ses-2020-10-27-Run2",
+      "ses-2020-10-28-Run1"
+    ],
+    "mean": [
+      -0.015202533453702927,
+      0.004140736535191536,
+      0.04154215380549431,
+      0.11783594638109207
+    ],
+    "std": [
+      0.06320745497941971,
+      0.07043357193470001,
+      0.08647876232862473,
+      0.24761392176151276
+    ],
+    "sha256": "3a418de68f3b5d2f75ce47146bc29cec6382c3a2377e988fd193810f0f790bda"
+  },
+  "heldout_query_window_audit": {
+    "ses-2020-10-30-Run1": {
+      "total_trials": 43,
+      "support_trials": 24,
+      "query_start_trial": 24,
+      "query_end_trial": null,
+      "query_trials": 19,
+      "raw_query_start_bin": 1509,
+      "minimum_window_start_padded_bin": 1558,
+      "maximum_window_start_padded_bin": 2726,
+      "window_size": 50,
+      "eligible_windows": 1169,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    },
+    "ses-2020-10-30-Run2": {
+      "total_trials": 41,
+      "support_trials": 24,
+      "query_start_trial": 24,
+      "query_end_trial": null,
+      "query_trials": 17,
+      "raw_query_start_bin": 1531,
+      "minimum_window_start_padded_bin": 1580,
+      "maximum_window_start_padded_bin": 2549,
+      "window_size": 50,
+      "eligible_windows": 970,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    },
+    "ses-2020-11-18-Run1": {
+      "total_trials": 41,
+      "support_trials": 24,
+      "query_start_trial": 24,
+      "query_end_trial": null,
+      "query_trials": 17,
+      "raw_query_start_bin": 1500,
+      "minimum_window_start_padded_bin": 1549,
+      "maximum_window_start_padded_bin": 2516,
+      "window_size": 50,
+      "eligible_windows": 968,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    },
+    "ses-2020-11-19-Run1": {
+      "total_trials": 43,
+      "support_trials": 24,
+      "query_start_trial": 24,
+      "query_end_trial": null,
+      "query_trials": 19,
+      "raw_query_start_bin": 1747,
+      "minimum_window_start_padded_bin": 1796,
+      "maximum_window_start_padded_bin": 3044,
+      "window_size": 50,
+      "eligible_windows": 1249,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    },
+    "ses-2020-11-24-Run1": {
+      "total_trials": 33,
+      "support_trials": 24,
+      "query_start_trial": 24,
+      "query_end_trial": null,
+      "query_trials": 9,
+      "raw_query_start_bin": 1671,
+      "minimum_window_start_padded_bin": 1720,
+      "maximum_window_start_padded_bin": 2213,
+      "window_size": 50,
+      "eligible_windows": 494,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    },
+    "ses-2020-11-24-Run2": {
+      "total_trials": 33,
+      "support_trials": 24,
+      "query_start_trial": 24,
+      "query_end_trial": null,
+      "query_trials": 9,
+      "raw_query_start_bin": 1696,
+      "minimum_window_start_padded_bin": 1745,
+      "maximum_window_start_padded_bin": 2349,
+      "window_size": 50,
+      "eligible_windows": 605,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    }
+  }
+}

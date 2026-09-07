@@ -1,0 +1,12 @@
+_target_: src.data.h1_sparse_event_endpoint.H1SparseEventDataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+cache_dir: ${pilot.shared_cache_dir}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+num_workers: 0
+pin_memory: false
+seed: 42
+fixed_epochs: 50

@@ -1,0 +1,17 @@
+# @package _global_
+# B3 minimal carrier-noise augmentation sweep (UNLAUNCHED).
+
+defaults:
+  - override /model: streaming_b3s_t4
+
+run_id: b3_carrier_noise_scale1_m2_t4
+comparison_role: training_method_scaffolding
+tags: ["b3_carrier_noise", "m2", "t4", "unlaunched"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  carrier_noise_scale: 1.0

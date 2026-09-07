@@ -1,0 +1,521 @@
+{
+  "arms": {
+    "t4": {
+      "best_swept": {
+        "config": {
+          "adjust_kappa": true,
+          "n_states": 400,
+          "smooth_width_bins": 1,
+          "speed_gate_quantile": 0.75,
+          "state_mode": "grid20",
+          "stay_prob": 0.999,
+          "velocity_gain": 1.0,
+          "vm_kappa": 0.25
+        },
+        "mean_hmm_free_velocity_vote_accuracy": 0.7075181137762542,
+        "mean_occupancy_accuracy": 0.6953279821473806,
+        "mean_viterbi_accuracy": 0.7231846679721108,
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "hmm_free_velocity_vote_accuracy": 0.45454545454545453,
+            "majority_class_rate": 0.15,
+            "n_trials": 220,
+            "occupancy_accuracy": 0.4863636363636364,
+            "viterbi_accuracy": 0.5136363636363637
+          },
+          "sub-C_ses-CO-20151104": {
+            "hmm_free_velocity_vote_accuracy": 0.7750865051903114,
+            "majority_class_rate": 0.15916955017301038,
+            "n_trials": 289,
+            "occupancy_accuracy": 0.7335640138408305,
+            "viterbi_accuracy": 0.7612456747404844
+          },
+          "sub-C_ses-CO-20151106": {
+            "hmm_free_velocity_vote_accuracy": 0.7587719298245614,
+            "majority_class_rate": 0.13157894736842105,
+            "n_trials": 228,
+            "occupancy_accuracy": 0.7236842105263158,
+            "viterbi_accuracy": 0.7587719298245614
+          },
+          "sub-C_ses-CO-20151109": {
+            "hmm_free_velocity_vote_accuracy": 0.7412587412587412,
+            "majority_class_rate": 0.13986013986013987,
+            "n_trials": 143,
+            "occupancy_accuracy": 0.7132867132867133,
+            "viterbi_accuracy": 0.7412587412587412
+          },
+          "sub-C_ses-CO-20151110": {
+            "hmm_free_velocity_vote_accuracy": 0.7559523809523809,
+            "majority_class_rate": 0.13690476190476192,
+            "n_trials": 168,
+            "occupancy_accuracy": 0.7619047619047619,
+            "viterbi_accuracy": 0.7857142857142857
+          },
+          "sub-C_ses-CO-20151112": {
+            "hmm_free_velocity_vote_accuracy": 0.759493670886076,
+            "majority_class_rate": 0.13291139240506328,
+            "n_trials": 158,
+            "occupancy_accuracy": 0.7531645569620253,
+            "viterbi_accuracy": 0.7784810126582279
+          }
+        }
+      },
+      "label_noise_geometry_best_swept": {
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "accuracy": 0.5136363636363637,
+            "lambda_expected_cos_delta": 0.8221920499723118,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 220
+          },
+          "sub-C_ses-CO-20151104": {
+            "accuracy": 0.7612456747404844,
+            "lambda_expected_cos_delta": 0.9104965870324547,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 289
+          },
+          "sub-C_ses-CO-20151106": {
+            "accuracy": 0.7587719298245614,
+            "lambda_expected_cos_delta": 0.9107378608690389,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 228
+          },
+          "sub-C_ses-CO-20151109": {
+            "accuracy": 0.7412587412587412,
+            "lambda_expected_cos_delta": 0.8904512152388538,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 143
+          },
+          "sub-C_ses-CO-20151110": {
+            "accuracy": 0.7857142857142857,
+            "lambda_expected_cos_delta": 0.928819229525849,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 168
+          },
+          "sub-C_ses-CO-20151112": {
+            "accuracy": 0.7784810126582279,
+            "lambda_expected_cos_delta": 0.9198387580959246,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 158
+          }
+        },
+        "pooled_accuracy": 0.7189054726368159,
+        "pooled_lambda_expected_cos_delta": 0.895833063883154,
+        "pooled_offset_distribution": {
+          "offset_0_deg_fraction": 0.7189054726368159,
+          "offset_135_deg_fraction": 0.0041459369817578775,
+          "offset_180_deg_fraction": 0.0024875621890547263,
+          "offset_45_deg_fraction": 0.25787728026533996,
+          "offset_90_deg_fraction": 0.01658374792703151
+        }
+      },
+      "paper_default_grid20": {
+        "config": {
+          "adjust_kappa": true,
+          "n_states": 400,
+          "smooth_width_bins": 1,
+          "speed_gate_quantile": 0.0,
+          "state_mode": "grid20",
+          "stay_prob": 0.999,
+          "velocity_gain": 1.0,
+          "vm_kappa": 8.0
+        },
+        "mean_hmm_free_velocity_vote_accuracy": 0.7075181137762542,
+        "mean_occupancy_accuracy": 0.3860431233735997,
+        "mean_viterbi_accuracy": 0.38268163793269316,
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "hmm_free_velocity_vote_accuracy": 0.45454545454545453,
+            "majority_class_rate": 0.15,
+            "n_trials": 220,
+            "occupancy_accuracy": 0.32727272727272727,
+            "viterbi_accuracy": 0.32727272727272727
+          },
+          "sub-C_ses-CO-20151104": {
+            "hmm_free_velocity_vote_accuracy": 0.7750865051903114,
+            "majority_class_rate": 0.15916955017301038,
+            "n_trials": 289,
+            "occupancy_accuracy": 0.4359861591695502,
+            "viterbi_accuracy": 0.4671280276816609
+          },
+          "sub-C_ses-CO-20151106": {
+            "hmm_free_velocity_vote_accuracy": 0.7587719298245614,
+            "majority_class_rate": 0.13157894736842105,
+            "n_trials": 228,
+            "occupancy_accuracy": 0.42543859649122806,
+            "viterbi_accuracy": 0.40350877192982454
+          },
+          "sub-C_ses-CO-20151109": {
+            "hmm_free_velocity_vote_accuracy": 0.7412587412587412,
+            "majority_class_rate": 0.13986013986013987,
+            "n_trials": 143,
+            "occupancy_accuracy": 0.3706293706293706,
+            "viterbi_accuracy": 0.40559440559440557
+          },
+          "sub-C_ses-CO-20151110": {
+            "hmm_free_velocity_vote_accuracy": 0.7559523809523809,
+            "majority_class_rate": 0.13690476190476192,
+            "n_trials": 168,
+            "occupancy_accuracy": 0.44047619047619047,
+            "viterbi_accuracy": 0.35714285714285715
+          },
+          "sub-C_ses-CO-20151112": {
+            "hmm_free_velocity_vote_accuracy": 0.759493670886076,
+            "majority_class_rate": 0.13291139240506328,
+            "n_trials": 158,
+            "occupancy_accuracy": 0.31645569620253167,
+            "viterbi_accuracy": 0.33544303797468356
+          }
+        }
+      }
+    },
+    "t4_zeroid": {
+      "best_swept": {
+        "config": {
+          "adjust_kappa": false,
+          "n_states": 9,
+          "smooth_width_bins": 5,
+          "speed_gate_quantile": 0.5,
+          "state_mode": "task9",
+          "stay_prob": 0.999,
+          "velocity_gain": 1.0,
+          "vm_kappa": 1.0
+        },
+        "mean_hmm_free_velocity_vote_accuracy": 0.11835103814709684,
+        "mean_occupancy_accuracy": 0.14804213542401923,
+        "mean_viterbi_accuracy": 0.1477448588609199,
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "hmm_free_velocity_vote_accuracy": 0.12272727272727273,
+            "majority_class_rate": 0.15,
+            "n_trials": 220,
+            "occupancy_accuracy": 0.12727272727272726,
+            "viterbi_accuracy": 0.1318181818181818
+          },
+          "sub-C_ses-CO-20151104": {
+            "hmm_free_velocity_vote_accuracy": 0.10726643598615918,
+            "majority_class_rate": 0.15916955017301038,
+            "n_trials": 289,
+            "occupancy_accuracy": 0.16608996539792387,
+            "viterbi_accuracy": 0.16608996539792387
+          },
+          "sub-C_ses-CO-20151106": {
+            "hmm_free_velocity_vote_accuracy": 0.10964912280701754,
+            "majority_class_rate": 0.13157894736842105,
+            "n_trials": 228,
+            "occupancy_accuracy": 0.14912280701754385,
+            "viterbi_accuracy": 0.14912280701754385
+          },
+          "sub-C_ses-CO-20151109": {
+            "hmm_free_velocity_vote_accuracy": 0.11888111888111888,
+            "majority_class_rate": 0.13986013986013987,
+            "n_trials": 143,
+            "occupancy_accuracy": 0.13986013986013987,
+            "viterbi_accuracy": 0.13986013986013987
+          },
+          "sub-C_ses-CO-20151110": {
+            "hmm_free_velocity_vote_accuracy": 0.125,
+            "majority_class_rate": 0.13690476190476192,
+            "n_trials": 168,
+            "occupancy_accuracy": 0.16666666666666666,
+            "viterbi_accuracy": 0.16666666666666666
+          },
+          "sub-C_ses-CO-20151112": {
+            "hmm_free_velocity_vote_accuracy": 0.12658227848101267,
+            "majority_class_rate": 0.13291139240506328,
+            "n_trials": 158,
+            "occupancy_accuracy": 0.13924050632911392,
+            "viterbi_accuracy": 0.13291139240506328
+          }
+        }
+      },
+      "label_noise_geometry_best_swept": {
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "accuracy": 0.1318181818181818,
+            "lambda_expected_cos_delta": 0.04710891377581334,
+            "median_abs_offset_deg": 90.0,
+            "n_trials": 220
+          },
+          "sub-C_ses-CO-20151104": {
+            "accuracy": 0.16608996539792387,
+            "lambda_expected_cos_delta": 0.11611193490001402,
+            "median_abs_offset_deg": 90.0,
+            "n_trials": 289
+          },
+          "sub-C_ses-CO-20151106": {
+            "accuracy": 0.14912280701754385,
+            "lambda_expected_cos_delta": 0.00770771628456457,
+            "median_abs_offset_deg": 90.0,
+            "n_trials": 228
+          },
+          "sub-C_ses-CO-20151109": {
+            "accuracy": 0.13986013986013987,
+            "lambda_expected_cos_delta": 0.12721949759038545,
+            "median_abs_offset_deg": 90.0,
+            "n_trials": 143
+          },
+          "sub-C_ses-CO-20151110": {
+            "accuracy": 0.16666666666666666,
+            "lambda_expected_cos_delta": 0.16330374311038337,
+            "median_abs_offset_deg": 90.0,
+            "n_trials": 168
+          },
+          "sub-C_ses-CO-20151112": {
+            "accuracy": 0.13291139240506328,
+            "lambda_expected_cos_delta": 0.045839498019742346,
+            "median_abs_offset_deg": 90.0,
+            "n_trials": 158
+          }
+        },
+        "pooled_accuracy": 0.14925373134328357,
+        "pooled_lambda_expected_cos_delta": 0.08171453334556596,
+        "pooled_offset_distribution": {
+          "offset_0_deg_fraction": 0.14925373134328357,
+          "offset_135_deg_fraction": 0.2230514096185738,
+          "offset_180_deg_fraction": 0.1044776119402985,
+          "offset_45_deg_fraction": 0.2752902155887231,
+          "offset_90_deg_fraction": 0.24792703150912107
+        }
+      },
+      "paper_default_grid20": {
+        "config": {
+          "adjust_kappa": true,
+          "n_states": 400,
+          "smooth_width_bins": 1,
+          "speed_gate_quantile": 0.0,
+          "state_mode": "grid20",
+          "stay_prob": 0.999,
+          "velocity_gain": 1.0,
+          "vm_kappa": 2.0
+        },
+        "mean_hmm_free_velocity_vote_accuracy": 0.11835103814709684,
+        "mean_occupancy_accuracy": 0.1222866218087109,
+        "mean_viterbi_accuracy": 0.11853435636674724,
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "hmm_free_velocity_vote_accuracy": 0.12272727272727273,
+            "majority_class_rate": 0.15,
+            "n_trials": 220,
+            "occupancy_accuracy": 0.11363636363636363,
+            "viterbi_accuracy": 0.10909090909090909
+          },
+          "sub-C_ses-CO-20151104": {
+            "hmm_free_velocity_vote_accuracy": 0.10726643598615918,
+            "majority_class_rate": 0.15916955017301038,
+            "n_trials": 289,
+            "occupancy_accuracy": 0.1245674740484429,
+            "viterbi_accuracy": 0.13494809688581316
+          },
+          "sub-C_ses-CO-20151106": {
+            "hmm_free_velocity_vote_accuracy": 0.10964912280701754,
+            "majority_class_rate": 0.13157894736842105,
+            "n_trials": 228,
+            "occupancy_accuracy": 0.10964912280701754,
+            "viterbi_accuracy": 0.10964912280701754
+          },
+          "sub-C_ses-CO-20151109": {
+            "hmm_free_velocity_vote_accuracy": 0.11888111888111888,
+            "majority_class_rate": 0.13986013986013987,
+            "n_trials": 143,
+            "occupancy_accuracy": 0.13986013986013987,
+            "viterbi_accuracy": 0.11188811188811189
+          },
+          "sub-C_ses-CO-20151110": {
+            "hmm_free_velocity_vote_accuracy": 0.125,
+            "majority_class_rate": 0.13690476190476192,
+            "n_trials": 168,
+            "occupancy_accuracy": 0.1130952380952381,
+            "viterbi_accuracy": 0.11904761904761904
+          },
+          "sub-C_ses-CO-20151112": {
+            "hmm_free_velocity_vote_accuracy": 0.12658227848101267,
+            "majority_class_rate": 0.13291139240506328,
+            "n_trials": 158,
+            "occupancy_accuracy": 0.13291139240506328,
+            "viterbi_accuracy": 0.12658227848101267
+          }
+        }
+      }
+    },
+    "z4": {
+      "best_swept": {
+        "config": {
+          "adjust_kappa": false,
+          "n_states": 8,
+          "smooth_width_bins": 1,
+          "speed_gate_quantile": 0.75,
+          "state_mode": "task8",
+          "stay_prob": 0.999,
+          "velocity_gain": 1.0,
+          "vm_kappa": 1.0
+        },
+        "mean_hmm_free_velocity_vote_accuracy": 0.4068340768460527,
+        "mean_occupancy_accuracy": 0.43691873067491166,
+        "mean_viterbi_accuracy": 0.4376674702394407,
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "hmm_free_velocity_vote_accuracy": 0.2681818181818182,
+            "majority_class_rate": 0.15,
+            "n_trials": 220,
+            "occupancy_accuracy": 0.2909090909090909,
+            "viterbi_accuracy": 0.3
+          },
+          "sub-C_ses-CO-20151104": {
+            "hmm_free_velocity_vote_accuracy": 0.3806228373702422,
+            "majority_class_rate": 0.15916955017301038,
+            "n_trials": 289,
+            "occupancy_accuracy": 0.42214532871972316,
+            "viterbi_accuracy": 0.42214532871972316
+          },
+          "sub-C_ses-CO-20151106": {
+            "hmm_free_velocity_vote_accuracy": 0.4517543859649123,
+            "majority_class_rate": 0.13157894736842105,
+            "n_trials": 228,
+            "occupancy_accuracy": 0.4473684210526316,
+            "viterbi_accuracy": 0.4298245614035088
+          },
+          "sub-C_ses-CO-20151109": {
+            "hmm_free_velocity_vote_accuracy": 0.24475524475524477,
+            "majority_class_rate": 0.13986013986013987,
+            "n_trials": 143,
+            "occupancy_accuracy": 0.23776223776223776,
+            "viterbi_accuracy": 0.24475524475524477
+          },
+          "sub-C_ses-CO-20151110": {
+            "hmm_free_velocity_vote_accuracy": 0.4880952380952381,
+            "majority_class_rate": 0.13690476190476192,
+            "n_trials": 168,
+            "occupancy_accuracy": 0.5714285714285714,
+            "viterbi_accuracy": 0.5773809523809523
+          },
+          "sub-C_ses-CO-20151112": {
+            "hmm_free_velocity_vote_accuracy": 0.6075949367088608,
+            "majority_class_rate": 0.13291139240506328,
+            "n_trials": 158,
+            "occupancy_accuracy": 0.6518987341772152,
+            "viterbi_accuracy": 0.6518987341772152
+          }
+        }
+      },
+      "label_noise_geometry_best_swept": {
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "accuracy": 0.3,
+            "lambda_expected_cos_delta": 0.40960317441912775,
+            "median_abs_offset_deg": 45.0,
+            "n_trials": 220
+          },
+          "sub-C_ses-CO-20151104": {
+            "accuracy": 0.42214532871972316,
+            "lambda_expected_cos_delta": 0.7484008393942219,
+            "median_abs_offset_deg": 45.0,
+            "n_trials": 289
+          },
+          "sub-C_ses-CO-20151106": {
+            "accuracy": 0.4298245614035088,
+            "lambda_expected_cos_delta": 0.6144002680731809,
+            "median_abs_offset_deg": 45.0,
+            "n_trials": 228
+          },
+          "sub-C_ses-CO-20151109": {
+            "accuracy": 0.24475524475524477,
+            "lambda_expected_cos_delta": 0.5204643837146353,
+            "median_abs_offset_deg": 45.0,
+            "n_trials": 143
+          },
+          "sub-C_ses-CO-20151110": {
+            "accuracy": 0.5773809523809523,
+            "lambda_expected_cos_delta": 0.8239667075666243,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 168
+          },
+          "sub-C_ses-CO-20151112": {
+            "accuracy": 0.6518987341772152,
+            "lambda_expected_cos_delta": 0.8353884685357497,
+            "median_abs_offset_deg": 0.0,
+            "n_trials": 158
+          }
+        },
+        "pooled_accuracy": 0.4320066334991708,
+        "pooled_lambda_expected_cos_delta": 0.6561591988796498,
+        "pooled_offset_distribution": {
+          "offset_0_deg_fraction": 0.4320066334991708,
+          "offset_135_deg_fraction": 0.0439469320066335,
+          "offset_180_deg_fraction": 0.017412935323383085,
+          "offset_45_deg_fraction": 0.3855721393034826,
+          "offset_90_deg_fraction": 0.12106135986733002
+        }
+      },
+      "paper_default_grid20": {
+        "config": {
+          "adjust_kappa": true,
+          "n_states": 400,
+          "smooth_width_bins": 1,
+          "speed_gate_quantile": 0.0,
+          "state_mode": "grid20",
+          "stay_prob": 0.999,
+          "velocity_gain": 1.0,
+          "vm_kappa": 0.25
+        },
+        "mean_hmm_free_velocity_vote_accuracy": 0.4068340768460527,
+        "mean_occupancy_accuracy": 0.2883155013120849,
+        "mean_viterbi_accuracy": 0.29506433004461424,
+        "per_session": {
+          "sub-C_ses-CO-20151103": {
+            "hmm_free_velocity_vote_accuracy": 0.2681818181818182,
+            "majority_class_rate": 0.15,
+            "n_trials": 220,
+            "occupancy_accuracy": 0.33636363636363636,
+            "viterbi_accuracy": 0.3181818181818182
+          },
+          "sub-C_ses-CO-20151104": {
+            "hmm_free_velocity_vote_accuracy": 0.3806228373702422,
+            "majority_class_rate": 0.15916955017301038,
+            "n_trials": 289,
+            "occupancy_accuracy": 0.2975778546712803,
+            "viterbi_accuracy": 0.32525951557093424
+          },
+          "sub-C_ses-CO-20151106": {
+            "hmm_free_velocity_vote_accuracy": 0.4517543859649123,
+            "majority_class_rate": 0.13157894736842105,
+            "n_trials": 228,
+            "occupancy_accuracy": 0.16666666666666666,
+            "viterbi_accuracy": 0.19736842105263158
+          },
+          "sub-C_ses-CO-20151109": {
+            "hmm_free_velocity_vote_accuracy": 0.24475524475524477,
+            "majority_class_rate": 0.13986013986013987,
+            "n_trials": 143,
+            "occupancy_accuracy": 0.16783216783216784,
+            "viterbi_accuracy": 0.2097902097902098
+          },
+          "sub-C_ses-CO-20151110": {
+            "hmm_free_velocity_vote_accuracy": 0.4880952380952381,
+            "majority_class_rate": 0.13690476190476192,
+            "n_trials": 168,
+            "occupancy_accuracy": 0.36904761904761907,
+            "viterbi_accuracy": 0.3273809523809524
+          },
+          "sub-C_ses-CO-20151112": {
+            "hmm_free_velocity_vote_accuracy": 0.6075949367088608,
+            "majority_class_rate": 0.13291139240506328,
+            "n_trials": 158,
+            "occupancy_accuracy": 0.3924050632911392,
+            "viterbi_accuracy": 0.3924050632911392
+          }
+        }
+      }
+    }
+  },
+  "chance_accuracy_8_class": 0.125,
+  "note": "Best configurations are selected on these same six A2 development sessions; there is no held-out hyperparameter selection, so best-config numbers are an optimistic ceiling, which is the correct direction for a feasibility gate. The formal test sessions were never opened.",
+  "sessions": [
+    "sub-C_ses-CO-20151103",
+    "sub-C_ses-CO-20151104",
+    "sub-C_ses-CO-20151106",
+    "sub-C_ses-CO-20151109",
+    "sub-C_ses-CO-20151110",
+    "sub-C_ses-CO-20151112"
+  ]
+}

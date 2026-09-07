@@ -1,0 +1,66 @@
+{
+  "arm": "large_trf_s2_raw_e20",
+  "image_id": "sha256:85a02555eedfe3782818f65d1c05743c20d6a1fdd6c7591b12208f8c553db879",
+  "image_tag": "spint-t4-m2:large-trf-s2-raw-e20-4b46b4a2",
+  "payload_sha256": "4b46b4a27fb2df9bab1367ab46c0972558d7820988f1a03bef69001c85241411",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_trf_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581938,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581938/57567593-f634-4a23-b229-b44427c59f.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Architecture probe, not a capacity-controlled ablation versus the small Transformer. New M2 Falcon runtime that executes the large B-TRANSFORMER (shared set frontend, 4-layer 512-wide temporal stack, 512-128-2 readout), not the old static SPINT decoder. Weights are seed-42 RAW epoch 20 from the shuffled 1-24 B-TRANSFORMER run, selected by the sealed visible-product rule on local M33-disjoint ext-4 (equal-session mean 0.372). Worst session is 0.2466 on ses-2020-11-19-Run1 and is disclosed as a local development limitation. Per-session banks reuse training-time native E0 and MOVE-T4 for all 13 official tags. Online path is a 50-bin causal window with output /5, unit mask, full-window forward (no cross-window KV reuse), and no TTA.",
+    "method_name": "M2 large Transformer B-TRANSFORMER RAW e20 architecture probe",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-05T08:16:03.431799Z",
+    "when_made_public": null
+  },
+  "submission_id": 581938,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:eda8a46f-f3e8-4682-93c3-0f8b088e7e97",
+  "uploaded_manifest_digest": "sha256:85a02555eedfe3782818f65d1c05743c20d6a1fdd6c7591b12208f8c553db879",
+  "uuid_tag": "eda8a46f-f3e8-4682-93c3-0f8b088e7e97"
+}

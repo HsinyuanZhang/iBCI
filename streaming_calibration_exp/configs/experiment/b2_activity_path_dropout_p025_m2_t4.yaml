@@ -1,0 +1,17 @@
+# @package _global_
+# B2 minimal activity-path dropout sweep (UNLAUNCHED).
+
+defaults:
+  - override /model: streaming_b3s_t4
+
+run_id: b2_activity_path_dropout_p025_m2_t4
+comparison_role: training_method_scaffolding
+tags: ["b2_activity_path_dropout", "m2", "t4", "unlaunched"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  activity_path_dropout_p: 0.25

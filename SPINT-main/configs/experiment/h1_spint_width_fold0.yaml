@@ -1,0 +1,41 @@
+# @package _global_
+# Predeclared fold-0 routing curve.  It changes only H-S activity-identity
+# internal width; carrier inputs are absent by construction.
+defaults:
+  - override /data: falcon_h1_spint_width_fold0
+  - override /model: falcon_h1_spint_width
+  - override /callbacks: h1_m4_eb_pilot_terminal
+
+protocol_id: h1_spint_identity_width_fold0_routing_v1
+task_name: h1_spint_width_hs1024_fold0
+tags: [h1, spint, activity_only, neuronid, identity_width, m4, fold0, seed42, fixed_e49]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: null
+logger: false
+
+width_sweep:
+  fold_date: "19250101"
+  arm: H-S-1024
+  identity_width: 1024
+  predeclared_arms: [H-S-1024, H-S-W224, H-S-W32]
+  predeclared_widths: [1024, 224, 32]
+  noninferiority_margin_r2: 0.03
+  fixed_terminal_epochs: 50
+  no_checkpoint_selection: true
+  carrier_input: absent
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

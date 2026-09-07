@@ -1,0 +1,22 @@
+{
+  "schema": "m2_movement_t4_empty_epochpick_evalai_terminal_v1",
+  "submission_id": 581919,
+  "status": "finished",
+  "completed_at": "2026-09-04T18:59:20.534603Z",
+  "execution_time": 0.083794,
+  "result_url": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581919/3a3ebe6b-1fc9-40de-ba67-d758db51ad.json",
+  "remote_result_body_sha256": "3833b3f3b4d01f333a0f05fac20956b7338260d452e28fb431f8dc60be9df2e7",
+  "payload_sha256": "f2f8cd4c046a5880e9716d61981cee4aa0652d33e411212fa7be217cef05b051",
+  "image_id": "sha256:8de56c58939ebd8306954ea7d180aceb7269fd3df28192f11df0dcaa7b60dc7f",
+  "scores": {
+    "Normalized Latency": 0.04403732470875482,
+    "Held Out R2 Mean": 0.3494526364023173,
+    "Held Out R2 Std.": 0.09990003111191914,
+    "Held In R2 Mean": 0.5972297932379577,
+    "Held In R2 Std.": 0.02084621382897675
+  },
+  "comparisons": {
+    "held_out_gain_vs_581899_move_t4_no_adapter": 0.0219346990130125,
+    "held_in_gain_vs_581899_move_t4_no_adapter": 0.0234078156748465
+  }
+}

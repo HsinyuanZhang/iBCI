@@ -1,0 +1,9 @@
+defaults:
+  - falcon_h1_carrierid_date_lodo_hc
+
+# Causal compact-encoder control: retain exactly the H-C consumer topology and
+# training recipe while replacing the 4-D carrier at the model boundary by
+# literal zeros.  This is deliberately a separately trained arm.
+net:
+  zero_carrier: true
+

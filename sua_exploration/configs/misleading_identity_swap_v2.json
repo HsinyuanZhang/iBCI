@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "screen_id": "misleading_identity_swap_v2_stage_p",
+  "status": "DEVELOPMENT_LIVE_INTEGRATION_SUCCESSOR_V3_NON_AUTHORIZING",
+  "contract": "sua_exploration/docs/MISLEADING_IDENTITY_SWAP_V2_SUCCESSOR_V3_CONTRACT_20260815.md",
+  "parent_protocol": {
+    "screen_id": "a2_matched_subject_shift_v2",
+    "config": "sua_exploration/configs/a2_matched_subject_shift_v2.json",
+    "use": "read_only_protocol_and_numerical_reference_only",
+    "sealed_outputs_must_not_be_modified": true
+  },
+  "stage": {
+    "name": "stage_p",
+    "seed": 42,
+    "fresh_training_cells": ["clean_z4", "clean_t4", "swap_z4", "swap_t4"],
+    "training_factors": {
+      "carrier": ["z4", "t4"],
+      "identity_training": ["clean", "swap"]
+    },
+    "scoring_domains": ["within_subject", "external_subject_M"],
+    "evaluation_input_modes": ["clean", "swapped_diagnostic"]
+  },
+  "intervention": {
+    "fraction": 0.5,
+    "base_seed": 42,
+    "mapping_kind": "session_epoch_partial_involution",
+    "epoch_namespace": "lightning_current_epoch_zero_based",
+    "application_point": "B3S.mean_feat_after_pool_before_side_concat",
+    "query_permuted": false,
+    "visible_carrier_permuted": false,
+    "electrode_ids_permuted": false
+  },
+  "matching_descriptor": {
+    "columns": ["m_cos_phi", "m_sin_phi", "m", "b"],
+    "rate_coordinate": "b",
+    "extra_rate_column": false,
+    "dtype": "float64",
+    "normalization": "ordinary_t4_source_train_normalizer",
+    "support": "chronological_first_30_rewarded_trials",
+    "shared_authority_required": true,
+    "model_visible_in_z4": false
+  },
+  "frozen_training": {
+    "variant": "B3S",
+    "loss_mode": "task_only",
+    "activity_calibration_trials": 30,
+    "side_feature_pool_trials": 30,
+    "evaluation_start_trial_index": 30,
+    "epochs": 12,
+    "epoch_window": [5, 6, 7, 8, 9, 10, 11, 12],
+    "learning_rate": 0.0001,
+    "batch_size": 32,
+    "chronological_calibration": true,
+    "target_updates": 0,
+    "formal_subc_test_opened": false
+  },
+  "gates": {
+    "external_clean_input_t4_lift_min": 0.03,
+    "within_clean_input_t4_delta_min": -0.03,
+    "carrier_interaction": "report_non_rescuing",
+    "external_t4_robustness_contrast": "diagnostic_non_rescuing",
+    "stop_on_any_primary_failure": true
+  },
+  "execution": {
+    "official_preflight_minted": true,
+    "official_preflight": "sua_exploration/results/misleading_identity_swap_v2_source_authority_dev/official_cpu_preflight_v3.json",
+    "cell_output_root": "sua_exploration/checkpoints/misleading_identity_swap_v2_stage_p_successor_v3_seed42",
+    "default_commands_are_dry_run": true,
+    "gpu_launch_implemented": true,
+    "target_scorer_implemented": true,
+    "source_authority_builder": "sua_exploration/scripts/misleading_identity_swap_v2_build_source_authority.py",
+    "cell_trainer": "sua_exploration/scripts/misleading_identity_swap_v2_train_cell.py",
+    "queue_bridge": "sua_exploration/scripts/misleading_identity_swap_v2_queue_bridge.sh",
+    "fresh_result_root": "sua_exploration/results/misleading_identity_swap_v2_stage_p_successor_v3",
+    "immutable_receipts": "O_EXCL body and sha256 sidecar, mode 0444",
+    "predecessor_invalid_attempt": {
+      "path": "sua_exploration/checkpoints/misleading_identity_swap_v2_stage_p_seed42/clean_z4/launch_receipt.json",
+      "launch_receipt_sha256": "1dfb05e1155fbfc7d0f39f38081e2ef19e5f5fd6612d76b7e5f0924ce0d06f73",
+      "outcome": "LIGHTNING_SANITY_VALIDATION_ABORT__NO_EPOCH_CHECKPOINT_OR_TERMINAL",
+      "old_b117_v2_official_preflight_reusable": false,
+      "old_cell_root_reusable": false,
+      "successor_source_only_sanity_regression_required": true
+    }
+  }
+}

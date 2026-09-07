@@ -1,0 +1,217 @@
+{
+  "contract": {
+    "no_gradient_state": true,
+    "on_done_is_noop": true,
+    "parameter_fingerprint_sha256": "0bb07f0fc485c7ad81e362c4cbd6d5d7c49561a4c8b07a6b25c2eac7aab9e382",
+    "weights_frozen": true
+  },
+  "official_local_minival": {
+    "batch_size": 7,
+    "calls": {
+      "on_done": 0,
+      "predict": 194,
+      "reset": 1
+    },
+    "evaluator_sha256": "2b848f84ef620eac82ce53d331d03727d9ae4ea9a5f2e5edb6e6557537ce4418",
+    "metrics": {
+      "result": [
+        {
+          "minival_split_m2": {
+            "Held In R2 Mean": 0.6608538031578064,
+            "Held In R2 Std.": 0.031885542085114536,
+            "Normalized Latency": 0.11352109626068206
+          }
+        }
+      ],
+      "submission_result": {
+        "minival_split_m2": {
+          "Held In R2 Mean": 0.6608538031578064,
+          "Held In R2 Std.": 0.031885542085114536,
+          "Normalized Latency": 0.11352109626068206
+        }
+      }
+    },
+    "phase": "minival",
+    "slot_audit": [
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      },
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      },
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      },
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      },
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      },
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      },
+      {
+        "accepted_commits": 2,
+        "candidate_rows": 43,
+        "pool_len": 30,
+        "rate_history_len": 2
+      }
+    ],
+    "wall_seconds": 4.1480403393507
+  },
+  "parity": {
+    "external_official_query": {
+      "per_session": {
+        "ses-2020-10-30-Run1": {
+          "commits": 9,
+          "max_abs_prediction_diff": 2.421438694000244e-08,
+          "pooled_static_r2_sealed": 0.4137961001835666,
+          "r2_local_scorer": 0.535590272112197,
+          "r2_online_endpoints": 0.5355902765533238,
+          "r2_v4_row": 0.535590272112197,
+          "window_count": 2727
+        },
+        "ses-2020-10-30-Run2": {
+          "commits": 8,
+          "max_abs_prediction_diff": 1.862645149230957e-08,
+          "pooled_static_r2_sealed": 0.426097161745434,
+          "r2_local_scorer": 0.5043626527871242,
+          "r2_online_endpoints": 0.5043626551723461,
+          "r2_v4_row": 0.5043626527871242,
+          "window_count": 2550
+        },
+        "ses-2020-11-18-Run1": {
+          "commits": 6,
+          "max_abs_prediction_diff": 2.60770320892334e-08,
+          "pooled_static_r2_sealed": 0.30411729633638296,
+          "r2_local_scorer": 0.3777957060759096,
+          "r2_online_endpoints": 0.37779572041378406,
+          "r2_v4_row": 0.3777957060759096,
+          "window_count": 2517
+        },
+        "ses-2020-11-19-Run1": {
+          "commits": 11,
+          "max_abs_prediction_diff": 1.4901161193847656e-08,
+          "pooled_static_r2_sealed": 0.1494111427619642,
+          "r2_local_scorer": 0.2439712322431592,
+          "r2_online_endpoints": 0.24397124395533332,
+          "r2_v4_row": 0.2439712322431592,
+          "window_count": 3045
+        },
+        "ses-2020-11-24-Run1": {
+          "commits": 5,
+          "max_abs_prediction_diff": 1.4901161193847656e-08,
+          "pooled_static_r2_sealed": 0.26295306392114104,
+          "r2_local_scorer": 0.3661805288785771,
+          "r2_online_endpoints": 0.3661805354019101,
+          "r2_v4_row": 0.3661805288785771,
+          "window_count": 2214
+        },
+        "ses-2020-11-24-Run2": {
+          "commits": 8,
+          "max_abs_prediction_diff": 1.30385160446167e-08,
+          "pooled_static_r2_sealed": 0.18957940895256642,
+          "r2_local_scorer": 0.19342408675238432,
+          "r2_online_endpoints": 0.19342408945629075,
+          "r2_v4_row": 0.19342408675238432,
+          "window_count": 2350
+        }
+      }
+    },
+    "within_post30": {
+      "per_session": {
+        "ses-2020-10-19-Run1": {
+          "commits": 55,
+          "max_abs_prediction_diff": 2.9802322387695312e-08,
+          "pooled_static_r2_sealed": 0.7117805780281574,
+          "r2_local_scorer": 0.7118506418850811,
+          "r2_online_endpoints": 0.7118506390529251,
+          "r2_v4_row": 0.7118506418850811,
+          "window_count": 18037
+        },
+        "ses-2020-10-19-Run2": {
+          "commits": 64,
+          "max_abs_prediction_diff": 2.9802322387695312e-08,
+          "pooled_static_r2_sealed": 0.6677230167099124,
+          "r2_local_scorer": 0.7396485543439993,
+          "r2_online_endpoints": 0.7396485553175502,
+          "r2_v4_row": 0.7396485543439993,
+          "window_count": 18259
+        },
+        "ses-2020-10-20-Run1": {
+          "commits": 52,
+          "max_abs_prediction_diff": 2.2351741790771484e-08,
+          "pooled_static_r2_sealed": 0.6629580185854811,
+          "r2_local_scorer": 0.6854943420297588,
+          "r2_online_endpoints": 0.6854943461186482,
+          "r2_v4_row": 0.6854943420297588,
+          "window_count": 13636
+        },
+        "ses-2020-10-20-Run2": {
+          "commits": 52,
+          "max_abs_prediction_diff": 2.9802322387695312e-08,
+          "pooled_static_r2_sealed": 0.6575873104070054,
+          "r2_local_scorer": 0.670095280251633,
+          "r2_online_endpoints": 0.6700952834832323,
+          "r2_v4_row": 0.670095280251633,
+          "window_count": 13293
+        },
+        "ses-2020-10-27-Run1": {
+          "commits": 35,
+          "max_abs_prediction_diff": 3.3527612686157227e-08,
+          "pooled_static_r2_sealed": 0.6540459766824476,
+          "r2_local_scorer": 0.6475803929338089,
+          "r2_online_endpoints": 0.6475803938790126,
+          "r2_v4_row": 0.6475803929338089,
+          "window_count": 10382
+        },
+        "ses-2020-10-27-Run2": {
+          "commits": 50,
+          "max_abs_prediction_diff": 1.862645149230957e-08,
+          "pooled_static_r2_sealed": 0.6723585730085315,
+          "r2_local_scorer": 0.6348762603413501,
+          "r2_online_endpoints": 0.6348762647575263,
+          "r2_v4_row": 0.6348762603413501,
+          "window_count": 12871
+        },
+        "ses-2020-10-28-Run1": {
+          "commits": 50,
+          "max_abs_prediction_diff": 5.21540641784668e-08,
+          "pooled_static_r2_sealed": 0.7140866538600279,
+          "r2_local_scorer": 0.7595913232487678,
+          "r2_online_endpoints": 0.7595913257331612,
+          "r2_v4_row": 0.7595913232487678,
+          "window_count": 15901
+        }
+      }
+    }
+  },
+  "payload_audit": {
+    "arm": "cenat_chunk100e_tta",
+    "chain": "c5672a2bfc94f55729d64e5eeb2f6917162c345713e7102dec4ad371cd147ea2",
+    "payload_sha256": "33181fa3c1543b9af777a17571d9c98d427b7e65d49375716d624e80c99603f3",
+    "session_count": 13,
+    "test_time_adaptive": true
+  },
+  "schema_version": "m2_cenat_chunk100e_local_validation_v1",
+  "status": "LOCAL_VALIDATION_COMPLETE"
+}

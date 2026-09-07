@@ -1,0 +1,66 @@
+{
+  "arm": "small_trf_s1_ema_e19",
+  "image_id": "sha256:aa820f7941fae45b40816f581c98c9adbc438348e05aa16ea54c51de17b4dde9",
+  "image_tag": "spint-t4-m2:small-trf-s1-ema-e19-37071f3e",
+  "payload_sha256": "37071f3e718913f994b5015e13aa203026fb630339e87921ddb1c35de9d2bf62",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_trf_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581937,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581937/5e40a17f-f856-452f-a586-0fcd148751.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "New M2 Falcon runtime that executes a 3.54M-parameter causal Transformer (shared set frontend, 4-layer temporal stack, 256-128-2 readout), not the old static SPINT decoder. Weights are the seed-42 S1-SMALL-COS EMA view at epoch 19, selected by a sealed visible-product rule on local M33-disjoint ext-4 (equal-session mean 0.4515). Per-session banks reuse the training-time native E0 and MOVE-T4 (bins 5:30, source-only normalizer, selected EMPTY head) for all 13 official held-in and held-out dataset tags. Online path is a 50-bin causal window with output /5, unit mask, full-window forward (no cross-window KV reuse), and no test-time adaptation.",
+    "method_name": "M2 small Transformer S1-SMALL-COS EMA e19 visible-product",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-05T08:12:19.972663Z",
+    "when_made_public": null
+  },
+  "submission_id": 581937,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:4ca5b548-192b-4dd7-9352-fd6343e239c0",
+  "uploaded_manifest_digest": "sha256:aa820f7941fae45b40816f581c98c9adbc438348e05aa16ea54c51de17b4dde9",
+  "uuid_tag": "4ca5b548-192b-4dd7-9352-fd6343e239c0"
+}

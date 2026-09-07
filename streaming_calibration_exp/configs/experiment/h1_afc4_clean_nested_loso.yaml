@@ -1,0 +1,43 @@
+# @package _global_
+# Student composition for Full/B4/Zero fold-0 gate. Override
+# data.side_feature_group with afc4_h1q3, afc4_h1_b4, or zero4.
+
+defaults:
+  - override /data: falcon_h1_clean_nested_loso
+  - override /model: h1_afc4_student
+  - override /callbacks: h1_clean_nested_loso
+
+task: h1
+run_id: h1_afc4_clean_nested_loso
+tags: [h1, afc4, student, clean_nested_loso, development_only]
+train: true
+test: false
+no_early_stopping: false
+require_baseline_validation: false
+optimized_metric: null
+h1_teacher_ckpt_path: ???
+h1_teacher_checkpoint_sha256: ???
+
+data:
+  side_feature_group: afc4_h1q3
+  include_side_features: true
+  teacher_checkpoint_sha256: ${h1_teacher_checkpoint_sha256}
+
+model:
+  task: h1
+  teacher_ckpt_path: ${h1_teacher_ckpt_path}
+  teacher_receipt_path: null
+  require_clean_teacher_receipt: false
+  optimizer:
+    lr: 1.0e-4
+  predict_scaled_behavior: true
+  behavior_scaling_factor: 20.0
+
+trainer:
+  max_epochs: 100
+  min_epochs: 20
+  accelerator: gpu
+  devices: 1
+  precision: 32-true
+  deterministic: true
+  limit_val_batches: 1.0

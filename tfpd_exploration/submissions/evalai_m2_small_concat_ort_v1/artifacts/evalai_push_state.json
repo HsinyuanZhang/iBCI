@@ -1,0 +1,9 @@
+{
+  "arm": "m2_small_concat_s42_ema_e8_ort",
+  "created": "2026-09-07T06:31:52.557088+00:00",
+  "evalai_opened": false,
+  "image_tag": "spint-t4-m2:small-concat-ort-e8-ext6-w0-4db109e7",
+  "payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+  "register": false,
+  "schema_version": "m2_small_concat_ort_evalai_push_state"
+}

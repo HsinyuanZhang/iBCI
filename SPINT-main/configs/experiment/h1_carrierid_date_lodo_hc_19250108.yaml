@@ -1,0 +1,11 @@
+# @package _global_
+defaults:
+  - h1_carrierid_date_lodo_hs_19250108
+  - override /model: falcon_h1_carrierid_date_lodo_hc
+
+protocol_id: h1_carrierid_date_lodo_phase2_hc_19250108_source_only_v1
+task_name: h1_carrierid_date_lodo_hc_19250108
+tags: [h1, carrierid, date_lodo, source_only, hc, seed42, e49]
+
+phase2:
+  arm: H-C

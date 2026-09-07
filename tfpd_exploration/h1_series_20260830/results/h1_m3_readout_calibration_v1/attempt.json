@@ -1,0 +1,11 @@
+{
+  "design_sha256": "44387788bab37245a19711cd71c84679dd1003d42a57e11b2229ad10a046a9e0",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu0_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "gpu1_touched": false,
+  "predecessor_terminal_sha256": "5decf64d428c8c88eef72138c46c51210931376f4dbc770f497b2249546bdd81",
+  "schema": "h1_m3_readout_calibration_v1_attempt",
+  "status": "ATTEMPT_SOURCE_ONLY_FROZEN_C1_M3RC",
+  "workorder_sha256": "4aad4ed7f5a5f1e391b33dd9653079bab38183210570f9d2e5208925b2b1476b"
+}

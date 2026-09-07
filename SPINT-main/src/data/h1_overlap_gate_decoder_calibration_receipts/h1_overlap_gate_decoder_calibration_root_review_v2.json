@@ -1,0 +1,34 @@
+{
+  "schema": "h1_overlap_gate_decoder_calibration_root_review_v2",
+  "status": "PASS_REPRODUCED_TERMINAL_NEGATIVE_PREDICTOR_CALIBRATION",
+  "reviewed_at": "2026-08-10T11:33:30+08:00",
+  "scope": "CPU-only H1 held-in-calibration source recordings; no new target, formal, optimizer, backward, or GPU access",
+  "implementation": {
+    "path": "SPINT-main/src/data/h1_overlap_gate_decoder_calibration.py",
+    "sha256": "24c4558c916308748abf2c8ce71c740052e65f43edd9de2e02f767cbc49533bb"
+  },
+  "test": {
+    "path": "SPINT-main/tests/test_h1_overlap_gate_decoder_calibration.py",
+    "sha256": "e087c4515164ededd920d5025c1baced2fbd9abca8515513288769d185796454",
+    "result": "21 passed",
+    "root_corrections": [
+      "n=3 perfect Spearman ordering has exact two-sided p=2/6, while the observed non-extreme abs(rho)=0.5 has p=1",
+      "synthetic overlap tests use the production H1 fixed array width N=176"
+    ]
+  },
+  "terminal_receipt": {
+    "path": "SPINT-main/src/data/h1_overlap_gate_decoder_calibration_receipts/h1_overlap_gate_decoder_calibration_v1.json",
+    "sha256": "624557b1c199f5cfdb6372f4716308c45a9ff9e87af6ccc56ba88c4da5036cb7",
+    "mode": "0444",
+    "byte_for_byte_reproduction": true
+  },
+  "primary_result": {
+    "arms": ["H-C", "H-RS", "H-LS"],
+    "pooled_overlap_residuals": [0.8048187891999221, 0.8133993691990556, 0.8257888860244916],
+    "decoder_gains_over_h_c0": [0.03889516944106419, -0.027223892934254645, 0.01327968119143108],
+    "spearman_rho": -0.5,
+    "exact_two_sided_permutation_p": 1.0,
+    "monotone": false
+  },
+  "decision": "The overlap residual remains a one-sided novelty falsifier and is not a decoder-gain predictor. It does not authorize L-B, L-C, the population carrier, or any GPU arm."
+}

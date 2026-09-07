@@ -1,0 +1,19 @@
+# @package _global_
+# Test-only configuration for M1 clean-selection sealed report-window evaluation.
+defaults:
+  - b3_native_mua_f0_m1_loso_internal
+  - override /model: streaming_b3_m1_correction_source_exact
+
+run_id: m1_clean_selection_report_f0_m1
+tags: ["native-mua", "f0", "m1", "clean-selection", "report", "test-only"]
+
+train: false
+test: true
+
+data:
+  calibration_n_trials: 10
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  heldin_query_start_trial: 210
+  heldin_query_end_trial: null

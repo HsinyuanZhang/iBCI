@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - h1_spint_width_fold0
+
+task_name: h1_spint_width_hsw224_fold0
+tags: [h1, spint, activity_only, neuronid, identity_width, w224, m4, fold0, seed42, fixed_e49]
+width_sweep:
+  arm: H-S-W224
+  identity_width: 224

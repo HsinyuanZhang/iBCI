@@ -1,0 +1,28 @@
+{
+  "schema_version": "evalai_m1_afc4_submission_candidates_v1",
+  "challenge_id": 2319,
+  "phase_id": 4599,
+  "team_id": 41975,
+  "candidates": {
+    "full": {
+      "arm": "full",
+      "image_tag": "spint-m1-afc4-full-all-source:dev12",
+      "image_id": "sha256:3ca1d62c0b14664ab72d468ceddde9380aae4d5fa2360cac730508611e44b48e",
+      "payload_sha256": "7901d48f8c0623c02acdb2b61d522396fecdf7a05171c70946b1e3a1f16246b0",
+      "checkpoint_sha256": "529301a8e572402a6dd58a83430c6fdf4e22cf5e92cf19735ab2f97ac51a90e0",
+      "teacher_sha256": "c24dce5c3d4a40ebc57c6de3b50a5e9d599b2d9ce447b4eb6dd7d0f82b7aec65",
+      "method_name": "M1 q3 EMG-AFC4 Full all-source M10",
+      "method_description": "Frozen M1 q=3 EMG-AFC4 Full decoder trained on all four held-in source sessions from a shared fixed-20-epoch train-loss teacher and a fixed 12-epoch task-only student run. Per-session identities are computed offline from chronological M10 public calibration support; the official runtime uses cached identities only and performs no query-label read, online calibration, optimizer step, or backpropagation."
+    },
+    "b4": {
+      "arm": "b4",
+      "image_tag": "spint-m1-afc4-b4-all-source:dev12",
+      "image_id": "sha256:6b3778c8b9dd89ada6b5f5b135e7bfe27ef7e5c42ed51a38e4651c56b87ed62b",
+      "payload_sha256": "b932406e0d18b2e7f2c4fb284b0c7878cef026df419497e4a5cc869cedced313",
+      "checkpoint_sha256": "730d1779bc7748ec0ebcfaf1d23a7b56ce626fd8dc2ff2ec704406160ea765e2",
+      "teacher_sha256": "c24dce5c3d4a40ebc57c6de3b50a5e9d599b2d9ce447b4eb6dd7d0f82b7aec65",
+      "method_name": "M1 q3 EMG-AFC4 B4 all-source M10",
+      "method_description": "Frozen M1 q=3 EMG-AFC4 B4 decoder trained on all four held-in source sessions from a shared fixed-20-epoch train-loss teacher and a fixed 12-epoch task-only student run, with the normalized q=3 coordinates masked and the baseline coordinate retained. Per-session identities are computed offline from chronological M10 public calibration support; the official runtime uses cached identities only and performs no query-label read, online calibration, optimizer step, or backpropagation."
+    }
+  }
+}

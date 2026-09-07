@@ -1,0 +1,42 @@
+# @package _global_
+#
+# Reusable Phase-2 source-only H-S template for a confirmatory H1 date-LODO
+# pair.  It intentionally has no runnable default outer date: the immutable
+# per-date pair preflight must supply both `phase2.outer_date` and its exact
+# `phase2.pair_preflight_path` as explicit Hydra overrides.  The already
+# launched 19250108 configuration remains a separate byte-frozen file.
+defaults:
+  - override /data: falcon_h1_carrierid_date_lodo_phase2
+  - override /model: falcon_h1_carrierid_date_lodo_hs
+  - override /callbacks: h1_carrierid_date_lodo_phase2_terminal
+
+protocol_id: h1_carrierid_date_lodo_phase2_hs_${phase2.outer_date}_source_only_v1
+task_name: h1_carrierid_date_lodo_hs_${phase2.outer_date}
+tags: [h1, carrierid, date_lodo, source_only, hs, seed42, e49]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+logger: false
+
+phase2:
+  # These fail closed if an operator attempts to train without a receipt-bound
+  # launcher override.  They are not data paths and do not open any recording.
+  outer_date: "__REQUIRED_IMMUTABLE_PAIR_OUTER_DATE__"
+  arm: H-S
+  phase1_preflight_path: ${paths.work_dir}/pilot_artifacts/h1_carrierid_date_lodo_phase1/H1_CARRIERID_DATE_LODO_SOURCE_PREFLIGHT_v1.json
+  pair_preflight_path: "__REQUIRED_IMMUTABLE_PAIR_PREFLIGHT_PATH__"
+  warm_start_forbidden: true
+  target_evaluator_status: NOT_IMPLEMENTED
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

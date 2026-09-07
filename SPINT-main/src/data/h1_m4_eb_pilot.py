@@ -9,10 +9,12 @@ cache required by the matched SPINT pilot.
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import os
 import random
 import re
+import stat
 from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
@@ -847,6 +849,210 @@ def build_carrier_cache(
         for index, row in enumerate(rows)
     ]
     return FrozenCarrierCache(entries, body)
+
+
+def load_immutable_source_authority(
+    records: Mapping[str, H1PilotRecord],
+    authority_dir: str | Path,
+    expected_receipt_sha256: str,
+) -> tuple[FrozenEBPlan, dict[str, Any], FrozenCarrierCache, dict[str, Any]]:
+    """Load the exact H-C/H-C0 source plan/cache snapshot without recomputing SVD.
+
+    Byte-exact PCA/SVD outputs can change at roundoff scale across LAPACK
+    backends even when source data and pre-SVD statistics are identical.  A
+    matched downstream arm must therefore consume the already-trained
+    H-C/H-C0 authority, not silently adopt a numerically equivalent rebuild.
+    This loader is opt-in; existing callers continue to reconstruct normally.
+    """
+
+    directory = Path(authority_dir).resolve()
+    if not directory.is_dir() or directory.name != "source_authority_v1":
+        raise PilotDataError(f"invalid immutable source authority directory {directory}")
+    def read_once_immutable(path: Path, label: str) -> tuple[bytes, str, int]:
+        """Read one regular 0444 file through one descriptor, then never reopen it.
+
+        Hashing a pathname and subsequently parsing/reloading that pathname has
+        a TOCTOU gap.  The authority is small enough to retain its decisive
+        bytes, so mode, size, hash, JSON and NPZ parsing all bind the same open
+        file description.
+        """
+
+        flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
+        try:
+            fd = os.open(path, flags)
+        except OSError as exc:
+            raise PilotDataError(f"cannot snapshot immutable {label}") from exc
+        try:
+            before = os.fstat(fd)
+            if not stat.S_ISREG(before.st_mode) or stat.S_IMODE(before.st_mode) != 0o444:
+                raise PilotDataError(f"immutable {label} must be a regular mode-0444 file")
+            chunks: list[bytes] = []
+            while True:
+                chunk = os.read(fd, 4 * 1024 * 1024)
+                if not chunk:
+                    break
+                chunks.append(chunk)
+            after = os.fstat(fd)
+            identity_before = (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns)
+            identity_after = (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns)
+            if identity_before != identity_after:
+                raise PilotDataError(f"immutable {label} changed during its single read")
+            raw = b"".join(chunks)
+            if len(raw) != before.st_size:
+                raise PilotDataError(f"immutable {label} short read")
+            return raw, hashlib.sha256(raw).hexdigest(), len(raw)
+        finally:
+            os.close(fd)
+
+    receipt_path = directory / "H1_CARRIERID_HU_SOURCE_AUTHORITY_v1.json"
+    sidecar_path = Path(f"{receipt_path}.sha256")
+    receipt_raw, receipt_sha, _receipt_size = read_once_immutable(receipt_path, "source authority receipt")
+    sidecar_raw, _sidecar_sha, _sidecar_size = read_once_immutable(
+        sidecar_path, "source authority receipt sidecar"
+    )
+    if receipt_sha != expected_receipt_sha256:
+        raise PilotDataError("source authority receipt SHA-256 drift")
+    if sidecar_raw != f"{receipt_sha}  {receipt_path.name}\n".encode("ascii"):
+        raise PilotDataError("source authority receipt sidecar drift")
+    receipt = json.loads(receipt_raw.decode("utf-8"))
+    if (
+        receipt.get("schema") != "h1_carrierid_hu_hc_source_authority_v1"
+        or receipt.get("status") != "IMMUTABLE_HC_HC0_MATCHED_SOURCE_AUTHORITY"
+        or receipt.get("scope", {}).get("target_nwb_opened") is not False
+        or receipt.get("scope", {}).get("formal_or_organizer_data_opened") is not False
+        or receipt.get("bindings", {}).get("h_c_h_c0_source_cache_sha256")
+        != "88261cc03532b605da1790e8669760d4d47e2f87d2db1428060445541638b0af"
+    ):
+        raise PilotDataError("source authority receipt semantic contract drift")
+
+    required = (
+        "fold0_frozen_eb_plan.npz",
+        "fold0_frozen_eb_plan.manifest.json",
+        "fold0_all_source_m4_carriers.npz",
+        "fold0_all_source_m4_carriers.manifest.json",
+    )
+    snapshots: dict[str, bytes] = {}
+    snapshot_sha: dict[str, str] = {}
+    for name in required:
+        path = directory / name
+        bound = receipt.get("files", {}).get(name)
+        raw, digest, size = read_once_immutable(path, f"source authority file {name}")
+        if (
+            path.parent != directory
+            or not isinstance(bound, Mapping)
+            or bound.get("mode") != "0444"
+            or int(bound.get("size_bytes", -1)) != size
+            or bound.get("sha256") != digest
+        ):
+            raise PilotDataError(f"source authority file binding drift at {name}")
+        snapshots[name] = raw
+        snapshot_sha[name] = digest
+
+    plan_manifest = json.loads(snapshots["fold0_frozen_eb_plan.manifest.json"].decode("utf-8"))
+    with np.load(io.BytesIO(snapshots["fold0_frozen_eb_plan.npz"]), allow_pickle=False) as values:
+        plan_arrays = {
+            name: np.asarray(values[name], dtype=np.float64)
+            for name in ("mean", "scale", "pcs", "U", "mu")
+        }
+        q = int(values["q"])
+        ridge_lambda = float(values["lambda"])
+        tau2 = float(values["tau2"])
+    expected_inputs = tuple(records[name].input_sha256 for name in H1_M4_FOLD0_SOURCE)
+    if (
+        plan_manifest.get("schema") != "h1_m4_eb_fold0_frozen_transform_v1"
+        or tuple(plan_manifest.get("source_sessions", ())) != H1_M4_FOLD0_SOURCE
+        or tuple(plan_manifest.get("source_input_sha256", ())) != expected_inputs
+        or plan_manifest.get("outer_date") != FOLD0_DATE
+        or plan_manifest.get("raw_receipt_sha256") != RAW_RECEIPT_SHA256
+        or plan_manifest.get("eb_receipt_sha256") != EB_RECEIPT_SHA256
+        or q != int(plan_manifest.get("q", -1))
+        or ridge_lambda != float(plan_manifest.get("lambda", float("nan")))
+        or tau2 != float(plan_manifest.get("tau2", float("nan")))
+    ):
+        raise PilotDataError("source authority frozen-plan manifest drift")
+    for name, array in plan_arrays.items():
+        if (
+            list(array.shape) != plan_manifest["array_shape"][name]
+            or array_sha256(array) != plan_manifest["array_sha256"][name]
+        ):
+            raise PilotDataError(f"source authority frozen-plan array drift at {name}")
+    plan = FrozenEBPlan(
+        outer_date=FOLD0_DATE,
+        source_sessions=H1_M4_FOLD0_SOURCE,
+        source_input_sha256=expected_inputs,
+        mean=plan_arrays["mean"],
+        scale=plan_arrays["scale"],
+        pcs=plan_arrays["pcs"],
+        q=q,
+        ridge_lambda=ridge_lambda,
+        U=plan_arrays["U"],
+        mu=plan_arrays["mu"],
+        tau2=tau2,
+        raw_plan_sha256=str(plan_manifest["raw_plan_sha256"]),
+        raw_receipt_sha256=str(plan_manifest["raw_receipt_sha256"]),
+        eb_receipt_sha256=str(plan_manifest["eb_receipt_sha256"]),
+        transform_sha256=str(plan_manifest["transform_sha256"]),
+    )
+    if plan.manifest() != plan_manifest:
+        raise PilotDataError("source authority reconstructed frozen plan differs from manifest")
+
+    cache_manifest = json.loads(snapshots["fold0_all_source_m4_carriers.manifest.json"].decode("utf-8"))
+    with np.load(io.BytesIO(snapshots["fold0_all_source_m4_carriers.npz"]), allow_pickle=False) as values:
+        carriers = np.asarray(values["carriers"], dtype=np.float64)
+    cache_body = dict(cache_manifest)
+    cache_sha = cache_body.pop("cache_sha256", None)
+    if (
+        cache_manifest.get("schema") != "h1_m4_eb_fold0_all_source_carrier_cache_v1"
+        or cache_manifest.get("fold_date") != FOLD0_DATE
+        or tuple(cache_manifest.get("source_sessions", ())) != H1_M4_FOLD0_SOURCE
+        or cache_manifest.get("transform_sha256") != plan.transform_sha256
+        or cache_manifest.get("carrier_shape") != [116, EXPECTED_NEURONS, 4]
+        or carriers.shape != (116, EXPECTED_NEURONS, 4)
+        or str(carriers.dtype) != cache_manifest.get("carrier_dtype")
+        or cache_sha != canonical_sha256(cache_body)
+        or cache_sha != receipt["bindings"]["h_c_h_c0_source_cache_sha256"]
+    ):
+        raise PilotDataError("source authority carrier-cache manifest drift")
+    rows = cache_manifest.get("entries")
+    if not isinstance(rows, list) or len(rows) != len(carriers):
+        raise PilotDataError("source authority carrier-cache entries drift")
+    entries: list[CarrierCacheEntry] = []
+    seen: set[tuple[str, int]] = set()
+    legal_by_name = {
+        name: set(legal_contiguous_starts(records[name])) for name in H1_M4_FOLD0_SOURCE
+    }
+    for index, row in enumerate(rows):
+        name = str(row["session"])
+        start = int(row["start_index"])
+        key = (name, start)
+        if name not in records or key in seen or start not in legal_by_name[name]:
+            raise PilotDataError(f"source authority illegal/duplicate cache entry {key}")
+        values = tuple(float(value) for value in row["trial_values"])
+        if values != tuple(records[name].trial_values[start : start + SUPPORT_TRIALS]):
+            raise PilotDataError(f"source authority trial binding drift at {key}")
+        digest = carrier_sha256(carriers[index])
+        if digest != row["carrier_sha256"]:
+            raise PilotDataError(f"source authority carrier bytes drift at {key}")
+        entries.append(CarrierCacheEntry(name, start, values, carriers[index], digest))
+        seen.add(key)
+    cache = FrozenCarrierCache(entries, cache_manifest)
+    plan_binding = {
+        **plan_manifest,
+        "arrays_file_sha256": snapshot_sha["fold0_frozen_eb_plan.npz"],
+        "manifest_file_sha256": snapshot_sha["fold0_frozen_eb_plan.manifest.json"],
+        "snapshot_read_once": True,
+    }
+    authority_binding = {
+        "schema": receipt["schema"],
+        "receipt_path": str(receipt_path),
+        "receipt_sha256": receipt_sha,
+        "transform_sha256": plan.transform_sha256,
+        "carrier_cache_sha256": cache.manifest["cache_sha256"],
+        "files": receipt["files"],
+        "source_only": True,
+        "target_nwb_opened": False,
+    }
+    return plan, plan_binding, cache, authority_binding
 
 
 def interpolate_identity(record: H1PilotRecord, trial_values: Sequence[float]) -> np.ndarray:

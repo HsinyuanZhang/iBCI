@@ -1,0 +1,19 @@
+{
+  "arm": "projadd_p32_s42_ema_e7_ext6_w0",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA. Epoch picked on six locally visible official held-out-calib sessions (query_start_trial=0), not on ext-4-only.",
+  "evalai_opened": false,
+  "image_id": "sha256:eda9000c5c49da2ed246c008aca492aacbec4f3ff0af2c7f80cc377933472159",
+  "image_size": 9470626150,
+  "image_tag": "spint-t4-m2:projadd-p32-s42-ema-e7-ext6-w0-26b779f8",
+  "method_description": "M2 proj_add P32 (Linear 50->32, token_in=36, grouped local+P) CausalPE4 seed 42 EMA epoch 7, picked by the MOVE-T4 581973 rule on the six visible official held-out-calib sessions (equal-session mean 0.386459, worst ses-2020-11-24-Run2=0.238340). Exact-E runtime and dataloader_workers=0. Today's first EvalAI submit; P16 dest not reused.",
+  "method_label": "M2 proj_add P32 CausalPE4 (seed42 EMA e7) exact-E w0; 6-session official held-out-calib epoch-pick",
+  "method_name": "M2 proj_add P32 Transformer EMA e7 s42 ext6-epochpick exact-E w0",
+  "parity_exact_e_vs_train_max_abs": 1.1059455573558807e-09,
+  "payload_sha256": "26b779f8c796e6ddf2ffbe7895eb35a483d38fefb13acf2eff34d5c9369b8fa4",
+  "proj_dim": 32,
+  "register": true,
+  "submission_id": 582009,
+  "selection_mean": 0.38645902569146423,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_projadd_p32_exacte_v1/artifacts/evalai_push_state.json",
+  "token_in": 36
+}

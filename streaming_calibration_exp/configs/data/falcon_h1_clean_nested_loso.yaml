@@ -1,0 +1,24 @@
+# H1 source-only clean nested-LOSO data. The outer target is indexed but never
+# opened by fit; the explicit post-selection evaluator opens it once.
+_target_: src.data.falcon_h1_clean_nested_loso_datamodule.H1CleanNestedLossoDataModule
+
+task: h1
+data_dir: ${paths.data_dir}/000954/
+outer_loso_fold: 0
+loso_fold: ${.outer_loso_fold}
+side_feature_group: afc4_h1q3
+side_feature_shuffle_seed: ${seed}
+include_side_features: true
+teacher_checkpoint_sha256: null
+calibration_n_trials: 1
+
+batch_size: 32
+window_size: 700
+max_trial_length: 1024
+pad_value: -1.0
+session_window_budget: 512
+session_balanced_sampling: true
+sampler_reshuffle_each_epoch: true
+num_workers: 0
+pin_memory: false
+sampler_seed: ${seed}

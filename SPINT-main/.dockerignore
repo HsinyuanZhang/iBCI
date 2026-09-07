@@ -1,0 +1,17 @@
+# Keep FALCON submission builds small and auditable. The repository contains
+# datasets, checkpoints, and experiment logs that must never enter the image
+# build context.
+**
+!.dockerignore
+!environment.yaml
+!src/
+!src/**
+!third_party/
+!third_party/**
+!local_data/
+!local_data/spint_m2_epoch27.pkl
+!local_data/spint_h1.pkl
+!local_data/spint_h1_released_code_lr_5e-5.pkl
+!local_data/spint_h1_paper_lr_1e-5.pkl
+!local_data/h1_m3rc_evalai_v1/
+!local_data/h1_m3rc_evalai_v1/decoder.pt

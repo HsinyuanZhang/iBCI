@@ -1,0 +1,38 @@
+# @package _global_
+
+# Final M1 q=3 Full path. The teacher checkpoint must be supplied explicitly
+# from the clean all-source 20-epoch run. No local held-in query is scored.
+defaults:
+  - override /data: falcon_m1_all_source_emg_afc4
+  - override /model: streaming_b3s_afc4_emg_m1
+  - override /callbacks: m1_all_source_fixed_epoch
+
+task_name: m1_afc4_emg_full_all_source_final
+run_id: m1_afc4_emg_full_all_source_final_dev12
+tags: [native-mua, m1, afc4-emg, all-source, full, final-candidate, fixed12]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: train/loss
+require_baseline_validation: false
+
+data:
+  afc4_arm: full
+
+model:
+  # GPU launch must replace this placeholder with the immutable all-source
+  # teacher artifact; Full and B4 must receive the same path and SHA256.
+  teacher_ckpt_path: M1_ALL_SOURCE_TEACHER_CHECKPOINT_REQUIRED
+  freeze_decoder: true
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+  predict_scaled_behavior: false
+  behavior_scaling_factor: 1.0
+
+trainer:
+  min_epochs: 12
+  max_epochs: 12
+  limit_val_batches: 0
+  check_val_every_n_epoch: 1

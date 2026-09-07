@@ -1,0 +1,76 @@
+{
+  "anchor_gate": {
+    "absolute_delta": 1.2904031732041688e-08,
+    "frozen_absolute_tolerance": 1e-06,
+    "pass": true,
+    "runtime_value": 0.5255107929711017,
+    "sealed_key": "metrics.h_c_interventions.full.pooled_r2",
+    "sealed_receipt_path": "/home/xinyuan/Work_host/SPINT/SPINT-main/pilot_artifacts/h1_carrierid/gpu_runs/h32_fold0_v1/H1_CARRIERID_H32_FOLD0_TERMINAL_GATE_FLOAT64_R2.json",
+    "sealed_receipt_sha256": "0d23efff499f133d6242e8d7d80a8eac67aff196ccad017fd37a34242ead5c1f",
+    "sealed_value": 0.52551078006707,
+    "state_immutable": true,
+    "state_sha256_after": "41aa14c8ea451a36e7cd05211b5d962bc5cf058d23d32ed85e2c835becf4fafd",
+    "state_sha256_before": "41aa14c8ea451a36e7cd05211b5d962bc5cf058d23d32ed85e2c835becf4fafd",
+    "task": "H1",
+    "tolerance_justification": "same device (cpu), same code path, same query windows as the sealed dose-response v2 P0 reproduction gate, which already reproduced this exact sealed value to 1.3e-08",
+    "windows_available_note": "all strict fold-0 post-support windows in the dataset; no subsampling",
+    "windows_scored": 8965
+  },
+  "claim_boundary": "same-checkpoint forward-only diagnostic, non-routing",
+  "created": "2026-08-09",
+  "elapsed_seconds": 73.49598147906363,
+  "endpoint": {
+    "description": "strict fold-0 held-in-calib target windows, sessions ses-19250101T111740 and ses-19250101T112404",
+    "opened_by_receipt": "/home/xinyuan/Work_host/SPINT/SPINT-main/pilot_artifacts/h1_carrierid/gpu_runs/h32_fold0_v1/H1_CARRIERID_H32_FOLD0_TERMINAL_GATE_FLOAT64_R2.json"
+  },
+  "full": {
+    "per_session": {
+      "ses-19250101T111740": 0.5981791590791457,
+      "ses-19250101T112404": 0.3147973170866223
+    },
+    "pooled_r2": 0.5255107929711017,
+    "samples": 8965
+  },
+  "identity_limitedness_per_session": {
+    "ses-19250101T111740": {
+      "full_r2": 0.5981791590791457,
+      "identity_limitedness": 0.12336828463716765,
+      "zero_r2": 0.474810874441978
+    },
+    "ses-19250101T112404": {
+      "full_r2": 0.3147973170866223,
+      "identity_limitedness": 0.04767706548650341,
+      "zero_r2": 0.2671202516001189
+    }
+  },
+  "identity_limitedness_pooled": 0.10387145888701588,
+  "known_carrier_gain_five_date": 0.056287,
+  "model_state_hash_manual_checksum_after": 696.4219970703125,
+  "model_state_hash_manual_checksum_before": 696.4219970703125,
+  "model_state_hash_manual_checksum_identical": true,
+  "schema": "p1_redo_anchored_h1_identity_limitedness_v1",
+  "state_immutable_full": true,
+  "state_immutable_zeroed": true,
+  "status": "MEASURED",
+  "zero_cross_check": {
+    "absolute_delta": 8.073836710309479e-09,
+    "note": "not a gated anchor; independent sealed confirmation of the same same-checkpoint zero-carrier procedure this script runs fresh",
+    "runtime_value": 0.4216393340840858,
+    "sealed_key": "metrics.h_c_interventions.zero.pooled_r2",
+    "sealed_receipt_path": "/home/xinyuan/Work_host/SPINT/SPINT-main/pilot_artifacts/h1_carrierid/gpu_runs/h32_fold0_v1/H1_CARRIERID_H32_FOLD0_TERMINAL_GATE_FLOAT64_R2.json",
+    "sealed_value": 0.4216393260102491
+  },
+  "zeroed": {
+    "per_session": {
+      "ses-19250101T111740": 0.474810874441978,
+      "ses-19250101T112404": 0.2671202516001189
+    },
+    "pooled_r2": 0.4216393340840858,
+    "samples": 8965
+  },
+  "zeroing_source_lines": {
+    "data_zero_carrier_construction": "SPINT-main/src/data/h1_m4_eb_pilot.py:1040 (carriers[\"zero\"] = np.zeros_like(full))",
+    "entry_into_neural_window": "SPINT-main/src/models/components/h1_carrierid_spint.py:147 (src = src + identity), identity computed lines 136-139 from the now-zero carrier",
+    "normalized_v2_zero_reaffirmation": "SPINT-main/src/data/h1_m4_eb_normalized_v2.py (np.zeros_like branch in H1M4EBNormalizedV2StrictTargetDataset.__init__, ~line 180)"
+  }
+}

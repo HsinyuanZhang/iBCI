@@ -1,0 +1,7 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!t4_spint_decoder.py
+!artifacts/
+!artifacts/t4_m2_seed42_means_m33_ep12_lr3e4_identity.pkl

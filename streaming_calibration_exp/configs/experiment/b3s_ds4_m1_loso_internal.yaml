@@ -1,0 +1,10 @@
+# @package _global_
+# M1 shuffled categorical calibration profile (DS4), internal LOSO only.
+defaults:
+  - b3s_d4_m1_loso_internal
+
+run_id: native_mua_ds4_m1_loso_internal
+tags: ["native-mua", "ds4", "m1", "loso", "internal-only"]
+
+data:
+  side_feature_group: ds4

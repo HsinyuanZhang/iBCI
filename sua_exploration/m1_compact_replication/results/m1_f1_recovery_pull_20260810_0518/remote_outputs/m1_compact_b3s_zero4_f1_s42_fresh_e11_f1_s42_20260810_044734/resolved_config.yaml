@@ -1,0 +1,152 @@
+task_name: m1_version_b_c0
+tags:
+- m1
+- version-b
+- source-loso
+- compact
+- zero4
+- development-only
+train: true
+test: false
+ckpt_path: null
+seed: 42
+run_id: m1_compact_b3s_zero4_f1_s42_fresh_e11
+comparison_role: null
+no_early_stopping: true
+optimized_metric: null
+baseline_metrics_path: ${paths.artifact_dir}/b0_baseline/metrics_per_session.csv
+require_baseline_validation: false
+data:
+  _target_: src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule
+  task: m1
+  data_dir: ${paths.root_dir}/SPINT-main/data/000941/
+  source_session_names:
+  - ses-20120924
+  - ses-20120927
+  - ses-20120928
+  heldin_session_names:
+  - ses-20120926
+  - ses-20120927
+  - ses-20120928
+  batch_size: 32
+  window_size: 100
+  calibration_n_trials: 10
+  random_calibration: false
+  smooth_calibration: false
+  max_trial_length: 1024
+  standardize_covariates: false
+  use_intertrials: true
+  use_calib_intertrials: false
+  trial_feature_type: raw
+  remove_still_times: false
+  remove_calib_still_times: false
+  use_calib_active_segments: false
+  calib_n_active_segments: 1
+  interpolate_trials: true
+  interpolate_trials_kind: cubic
+  pad_value: -1.0
+  validation_protocol: loso
+  loso_fold: 1
+  rotation_id: 0
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  heldin_query_start_trial: 10
+  heldin_query_end_trial: 210
+  allow_empty_heldout_query: false
+  num_workers: 0
+  pin_memory: false
+  sampler_seed: ${seed}
+  balance_session_batches: false
+  reshuffle_train_sampler_each_epoch: false
+  side_feature_shuffle_seed: ${seed}
+  afc4_arm: zero4
+model:
+  optimizer:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.0001
+    weight_decay: 0.0
+  scheduler: null
+  compile: false
+  task: m1
+  teacher_ckpt_path: /home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/checkpoints/best_ckpt/epoch_019.ckpt
+  window_size: ${data.window_size}
+  trial_length: ${data.max_trial_length}
+  pad_value: ${data.pad_value}
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+  decode_last_timestep_only: true
+  predict_scaled_behavior: false
+  behavior_scaling_factor: 1.0
+  id_hidden_dim: 128
+  hidden_dim: 64
+  num_emas: 4
+  num_filters: 4
+  kernel_size: 5
+  learnable_ema_alpha: false
+  sparsity_k: 16
+  neuron_dropout_mode: none
+  neuron_dropout_p_low: 0.0
+  neuron_dropout_p_high: 0.3
+  neuron_dropout_block_size: 4
+  neuron_dropout_warmup_epochs: 10
+  _target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+  variant: B3S
+  side_dim: 4
+  electrode_embed_dim: 0
+  num_electrodes: 0
+callbacks:
+  override_epoch_step:
+    _target_: src.callbacks.override_epoch_step.OverrideEpochStepCallback
+  early_stopping: null
+  lr_monitor:
+    _target_: lightning.pytorch.callbacks.LearningRateMonitor
+    logging_interval: epoch
+  model_summary:
+    _target_: lightning.pytorch.callbacks.RichModelSummary
+    max_depth: -1
+  fixed_last_checkpoint:
+    _target_: lightning.pytorch.callbacks.ModelCheckpoint
+    dirpath: ${paths.output_dir}/checkpoints/fixed_last
+    filename: epoch_{epoch:03d}
+    monitor: null
+    save_last: false
+    save_top_k: -1
+    every_n_epochs: 12
+logger:
+  _target_: lightning.pytorch.loggers.tensorboard.TensorBoardLogger
+  save_dir: ${paths.output_dir}
+  name: ''
+  version: ''
+  log_graph: false
+  default_hp_metric: true
+  prefix: ''
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  default_root_dir: ${paths.output_dir}
+  min_epochs: 12
+  max_epochs: 12
+  gradient_clip_val: 0.0
+  accelerator: gpu
+  devices: 1
+  check_val_every_n_epoch: 1
+  deterministic: false
+  log_every_n_steps: 10
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+paths:
+  root_dir: .
+  data_dir: ${paths.root_dir}/../SPINT-main/data/
+  log_dir: ${paths.root_dir}/logs/
+  artifact_dir: ${paths.root_dir}/outputs/streaming_calibration
+  output_dir: ${hydra:runtime.output_dir}
+  work_dir: ${hydra:runtime.cwd}
+  teacher_ckpt_path: ${paths.root_dir}/../SPINT-main/logs/train/runs/2026-07-07-16-05-16/checkpoints/best_ckpt/epoch_034.ckpt
+  m1_teacher_ckpt_path: ${paths.root_dir}/../SPINT-main/logs/train/runs/2026-07-21-19-11-01/checkpoints/best_ckpt/epoch_019.ckpt
+extras:
+  ignore_warnings: false
+  enforce_tags: false
+  print_config: true

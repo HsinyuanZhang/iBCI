@@ -73,6 +73,13 @@ from select_gradient_free_protocol_dandi688 import (
     load_frozen_model,
 )
 from src.models.components.streaming_encoders import SideFeatureEarlyPoolEncoder
+from t4_encoder_int8_protocol import (
+    ACTIVITY_BUDGET,
+    EVALUATION_START_TRIAL,
+    T4_LABEL_BUDGET,
+    selected_seed_entry,
+    validate_selection,
+)
 
 
 PTQ_DELTA_R2_THRESHOLD = -0.01
@@ -101,8 +108,8 @@ def _validate_metadata(run_dir: Path, metadata: dict, ckpt: Path) -> None:
         "variant_b3s": metadata.get("variant") == "B3S",
         "side_group_t4": side.get("group") == "t4",
         "side_dim_4": side.get("side_dim") == 4,
-        "side_pool_30": side.get("pool_size") == 30,
-        "activity_calibration_30": training.get("calibration_n_trials") == 30,
+        "side_pool_50": side.get("pool_size") == T4_LABEL_BUDGET,
+        "activity_calibration_30": training.get("calibration_n_trials") == ACTIVITY_BUDGET,
         "formal_test_not_evaluated": metadata.get("held_out_test_evaluated") is False,
         "signal_view_sua": metadata.get("signal_view") == "sua",
         "strict_manifest_recorded": bool(metadata.get("train_val_manifest")),
@@ -160,9 +167,13 @@ def _load_record(
         std=side_std,
         cache_dir=cache_dir,
     )
-    indices = select_calibration_trial_indices(rec["trials"], 30, 30, "first")
-    rec["calib_trials"] = build_calib_trials_for_indices(rec, indices, 30)
-    if rec["calib_trials"].shape != (30, 100, rec["n_units"]):
+    indices = select_calibration_trial_indices(
+        rec["trials"], ACTIVITY_BUDGET, T4_LABEL_BUDGET, "first"
+    )
+    rec["calib_trials"] = build_calib_trials_for_indices(
+        rec, indices, ACTIVITY_BUDGET
+    )
+    if rec["calib_trials"].shape != (ACTIVITY_BUDGET, 100, rec["n_units"]):
         raise ValueError(
             f"{rec['name']}: unexpected calib shape {rec['calib_trials'].shape}"
         )
@@ -236,8 +247,8 @@ def _evaluate_records(
     for rec in records:
         values, _ = evaluate_session_configs(
             rec,
-            [("first", 30)],
-            30,
+            [("first", ACTIVITY_BUDGET)],
+            EVALUATION_START_TRIAL,
             model,
             device,
         )
@@ -276,6 +287,7 @@ def _export_integer_package(
                 "weight_bits": 8,
                 "activation_bits": 8,
                 "accumulator_bits": 32,
+                "integer_requant": True,
             }
         )
     package_path = out_dir / "encoder_int8_package.npz"
@@ -297,6 +309,7 @@ def _export_integer_package(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run_dir", required=True, type=Path)
+    parser.add_argument("--selection", required=True, type=Path)
     parser.add_argument(
         "--checkpoint",
         type=Path,
@@ -320,12 +333,29 @@ def main() -> int:
     if not ckpt.is_file():
         raise FileNotFoundError(ckpt)
     _validate_metadata(run_dir, metadata, ckpt)
+    selection_path = args.selection.expanduser().resolve()
+    selection, _source, _deltas = validate_selection(selection_path)
+    seed = int(metadata["seed"])
+    selected = selected_seed_entry(selection, seed)
+    selected_run_metadata = Path(selected["run_metadata"]["path"])
+    if not selected_run_metadata.is_absolute():
+        selected_run_metadata = _ROOT / selected_run_metadata
+    selected_checkpoint = Path(selected["checkpoint"]["path"])
+    if not selected_checkpoint.is_absolute():
+        selected_checkpoint = _ROOT / selected_checkpoint
+    if run_dir != selected_run_metadata.resolve().parent:
+        raise ValueError("run_dir does not match the final architecture selection receipt")
+    if ckpt != selected_checkpoint.resolve():
+        raise ValueError("checkpoint does not match the final architecture selection receipt")
 
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("CUDA requested but unavailable")
     device = torch.device(args.device)
     out_dir = args.out_dir.expanduser().resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
+    for output in (out_dir / "ptq_report.json", out_dir / "encoder_int8_package.npz"):
+        if output.exists():
+            raise FileExistsError(f"refusing to overwrite immutable PTQ output: {output}")
 
     manifest = Path(metadata["train_val_manifest"]).resolve()
     data_dir = Path(metadata["data_dir"]).resolve()
@@ -345,7 +375,11 @@ def main() -> int:
     side_config = load_side_feature_stats_for_run_metadata(
         metadata, train_files, cache_dir
     )
-    if side_config is None or side_config[0] != "t4":
+    if (
+        side_config is None
+        or side_config[0] != "t4"
+        or side_config[2] != T4_LABEL_BUDGET
+    ):
         raise ValueError("run metadata did not resolve a real T4 feature configuration")
 
     train_records = [
@@ -483,6 +517,7 @@ def main() -> int:
     payload = {
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
+        "seed": int(metadata["seed"]),
         "scope": "T4/B3S identity encoder W8A8 + FP32 decoder",
         "decoder_quantized_in_this_run": False,
         "checkpoint": str(ckpt),
@@ -492,15 +527,22 @@ def main() -> int:
         "teacher_sha256": metadata["teacher_sha256"],
         "train_val_manifest": str(manifest),
         "train_val_manifest_sha256": sha256_file(manifest),
+        "final_architecture_selection": str(selection_path),
+        "final_architecture_selection_sha256": sha256_file(selection_path),
         "protocol": {
             "scale_fit_sessions": train_names,
-            "scale_fit_uses_behavior_labels": False,
+            "scale_selection_objective_uses_behavior_labels": False,
+            "scale_calibration_inputs_include_train_only_t4_label_estimates": True,
+            "validation_labels_used_for_scale_selection": False,
             "validation_sessions": [session_name_from_path(path) for path in val_files],
             "sealed_formal_test_receipts": sealed_test_names,
             "formal_test_files_opened": False,
+            "activity_calibration_n": ACTIVITY_BUDGET,
+            "t4_label_feature_pool_n": T4_LABEL_BUDGET,
+            "evaluation_start_trial": EVALUATION_START_TRIAL,
             "activity_calibration": "chronological first 30 rewarded trials",
-            "t4_pool": "same chronological first 30 rewarded trials",
-            "evaluation_windows": "trials[30:] only",
+            "t4_pool": "chronological first 50 rewarded trials",
+            "evaluation_windows": "trials[50:] only",
             "selection_mode": "first",
         },
         "scale_search": {

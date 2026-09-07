@@ -1,0 +1,12 @@
+{
+  "cuda_visible_devices": "0",
+  "device_requested": "cuda:0",
+  "schema": "h1_causal_activity_completion_v1_stage1_c1_m3_attempt",
+  "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+  "status": "ATTEMPT_CREATED_BEFORE_CHECKPOINT_TARGET_OR_CUDA",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "v1_incident_sha256": "79d8892c00f1259a7637ef4a569b8797489fe55e6e3a44eaab816677faf67115",
+  "workorder_sha256": "8768808f40994327ede7a4e644ac3dd4dcd0f14bf6ef9bfce9e84d6d186c5891"
+}

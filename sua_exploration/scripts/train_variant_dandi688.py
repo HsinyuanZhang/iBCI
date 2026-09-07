@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import time
 import json
 import sys
 from dataclasses import asdict
@@ -25,6 +26,7 @@ _sce_root = Path(__file__).resolve().parents[2] / "streaming_calibration_exp"
 sys.path.insert(0, str(_sce_root))
 from src.metrics.run_artifacts import assert_run_dir_is_fresh
 from src.models.streaming_calibration_module import StreamingCalibrationLitModule
+from src.models.t4_logit_residual_module import T4LogitResidualLitModule
 
 DEFAULT_TEACHER = (
     Path(__file__).resolve().parents[1]
@@ -282,6 +284,7 @@ def main() -> None:
         choices=[
             "none", "f1", "f2", "f3", "fs1", "fs2", "fs3",
             "t4", "t8", "ts4", "ts8", "t4w3", "ts4w3",
+            "z4", "ph4", "ac4", "ac4rs4", "mb4", "b4", "ls4",
             # T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md), variant
             # B3S (design A) or B3SEG/B3SEA (designs D/C) only -- see the variant/side_features
             # cross-validation below.
@@ -318,6 +321,15 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--chronological_calibration",
+        action="store_true",
+        help=(
+            "Use the exact first --calibration_n_trials rewarded trials for every "
+            "training example. This is the frozen C1 paired-view control contract; "
+            "the default remains the historical random support resampling path."
+        ),
+    )
+    parser.add_argument(
         "--encoder_warmstart_path",
         type=str,
         default=None,
@@ -326,6 +338,19 @@ def main() -> None:
             "so decoder and T4 substrate both start exactly from the selected baseline."
         ),
     )
+    parser.add_argument(
+        "--t4_logit_residual_mode",
+        choices=["none", "aligned", "shuffled"],
+        default="none",
+        help="Enable the selected-T4 factorized logit-residual pilot or its residual-only row shuffle.",
+    )
+    parser.add_argument(
+        "--t4_logit_interaction_mode",
+        choices=["attention_logit", "additive_control"],
+        default="attention_logit",
+        help="Use attention-selection bias or the parameter-matched post-attention additive control.",
+    )
+    parser.add_argument("--t4_logit_rank", type=int, default=8)
     args = parser.parse_args()
     if args.max_epochs <= 0 or args.patience < 0:
         raise ValueError("--max_epochs must be positive and --patience must be non-negative")
@@ -343,6 +368,8 @@ def main() -> None:
         raise ValueError("--side_feature_pool_size must be positive")
     if args.calibration_n_trials <= 0:
         raise ValueError("--calibration_n_trials must be positive")
+    if args.t4_logit_rank <= 0:
+        raise ValueError("--t4_logit_rank must be positive")
     # B3S (design A / F1-F3 / T4-T8) plus B3SEG (design D, gate) / B3SEA (design C, anchor) --
     # docs/ELECTRODE_ANCHOR_DESIGNS.md -- are the only variants that consume --side_features.
     SIDE_FEATURE_VARIANTS = {
@@ -404,6 +431,19 @@ def main() -> None:
             raise ValueError(
                 "the predeclared decoupled pilot fixes key/value dimensions at 32"
             )
+    if args.t4_logit_residual_mode != "none":
+        if args.variant != "B3S" or args.side_features != "t4":
+            raise ValueError(
+                "T4 logit residual requires --variant B3S --side_features t4 so the selected encoder remains aligned"
+            )
+        if args.encoder_warmstart_path is None:
+            raise ValueError("T4 logit residual requires --encoder_warmstart_path")
+        if args.decoder_mode != "coupled" or args.fixed_slot_count != 0:
+            raise ValueError("T4 logit residual requires the coupled teacher and no fixed slots")
+        if args.freeze_decoder or args.freeze_encoder_base:
+            raise ValueError("T4 logit residual owns its residual-only freeze policy")
+        if args.t4_logit_rank != 8:
+            raise ValueError("the predeclared T4 logit-residual pilot fixes rank=8")
     if args.side_features == "none":
         side_dim = 0
         electrode_embed_dim = 0
@@ -440,8 +480,11 @@ def main() -> None:
     # section 6). Computed once and reused for both run_metadata provenance and the
     # datamodule constructor below so the two can never silently drift apart.
     side_permutation_seed = (
-        args.seed if is_shuffled_control(args.side_features)
-        or confidence_component_shuffle(args.side_features) is not None else None
+        args.seed
+        if is_shuffled_control(args.side_features)
+        or args.side_features == "ls4"
+        or confidence_component_shuffle(args.side_features) is not None
+        else None
     )
     if args.require_gpu and not torch.cuda.is_available():
         raise RuntimeError("--require_gpu was set but CUDA is unavailable")
@@ -524,6 +567,24 @@ def main() -> None:
             "fixed_slot_count": args.fixed_slot_count,
             "fresh_common_teacher_fit": args.decoder_mode == "decoupled",
         },
+        "t4_logit_residual": {
+            "enabled": args.t4_logit_residual_mode != "none",
+            "residual_mode": (
+                args.t4_logit_residual_mode
+                if args.t4_logit_residual_mode != "none"
+                else None
+            ),
+            "interaction_mode": (
+                args.t4_logit_interaction_mode
+                if args.t4_logit_residual_mode != "none"
+                else None
+            ),
+            "rank": args.t4_logit_rank if args.t4_logit_residual_mode != "none" else None,
+            "residual_permutation_seed": (
+                args.seed if args.t4_logit_residual_mode == "shuffled" else None
+            ),
+            "selected_t4_substrate_frozen": args.t4_logit_residual_mode != "none",
+        },
         "seed": args.seed,
         "teacher_checkpoint": str(teacher_ckpt),
         "teacher_sha256": sha256_file(teacher_ckpt),
@@ -579,6 +640,12 @@ def main() -> None:
             "batch_size": args.batch_size,
             "window_size": 50,
             "calibration_n_trials": args.calibration_n_trials,
+            "random_calibration": not args.chronological_calibration,
+            "calibration_selection": (
+                "chronological_first_n"
+                if args.chronological_calibration
+                else "random_n_per_training_example"
+            ),
             "trial_length": 100,
             "bin_size_ms": 20,
             "loss_mode": args.loss_mode,
@@ -608,6 +675,7 @@ def main() -> None:
         max_trial_length=100,
         bin_size_ms=20,
         num_workers=args.num_workers,
+        random_calibration=not args.chronological_calibration,
         seed=args.seed,
         max_units_exclusive=args.max_units_exclusive,
         cache_dir=args.cache_dir,
@@ -621,9 +689,12 @@ def main() -> None:
     if args.side_features != "none":
         from mc_maze.unit_side_features import (
             T4_WIENER_SHRINK_STRENGTH,
+            ac4rs4_derived_seed,
             base_feature_group,
             compute_electrode_vocab_size,
+            deterministic_nonidentity_row_permutation,
             feature_semantics_version,
+            session_name_from_path,
             side_feature_stats_sha256,
             uses_electrode_ids,
             uses_electrode_relation_membership,
@@ -641,7 +712,73 @@ def main() -> None:
         run_metadata["side_features"].update({
             "feature_version": feature_semantics_version(args.side_features),
             "normalization_sha256": side_feature_stats_sha256(side_mean, side_std),
+            "normalization_base_feature_group": base_feature_group(args.side_features),
         })
+        if args.side_features in {"z4", "ac4", "ac4rs4", "mb4", "b4"}:
+            run_metadata["side_features"]["descriptor_contract"] = {
+                "ordinary_t4_normalizer_reused": True,
+                "mask_applied_after_standardization": True,
+            }
+            if args.side_features == "ac4rs4":
+                run_metadata["side_features"]["descriptor_contract"].update({
+                    "mask": "[a,c,0,0]",
+                    "complete_normalized_rows_permuted": True,
+                    "nonidentity_row_permutation_required": True,
+                    "row_permutation_seed": side_permutation_seed,
+                    "row_permutation_version": "ExperimentA-AC4-RS4-v1",
+                    "row_permutation_inputs": ["session_name", "training_seed"],
+                    "neural_activity_permuted": False,
+                    "target_labels_permuted": False,
+                    "normalizer_refit": False,
+                })
+                permutation_receipt = {}
+                for split in ("train", "val"):
+                    for session_path in dm.session_files[split]:
+                        session_name = session_name_from_path(session_path)
+                        num_rows = dm.session_channel_counts[session_name]
+                        permutation = deterministic_nonidentity_row_permutation(
+                            num_rows,
+                            permutation_seed=args.seed,
+                            session_name=session_name,
+                        )
+                        permutation_receipt[session_name] = {
+                            "split": split,
+                            "num_units": num_rows,
+                            "training_seed": args.seed,
+                            "derived_seed": ac4rs4_derived_seed(
+                                permutation_seed=args.seed,
+                                session_name=session_name,
+                            ),
+                            "permutation_sha256": hashlib.sha256(
+                                permutation.astype("<i8", copy=False).tobytes()
+                            ).hexdigest(),
+                            "is_nonidentity": bool(
+                                not np.array_equal(permutation, np.arange(num_rows))
+                            ),
+                            "fixed_point_count": int(
+                                np.sum(permutation == np.arange(num_rows))
+                            ),
+                        }
+                run_metadata["side_features"]["row_permutation_receipt"] = (
+                    permutation_receipt
+                )
+        elif args.side_features == "ls4":
+            run_metadata["side_features"]["descriptor_contract"] = {
+                "ordinary_t4_normalizer_reused": True,
+                "raw_refit_from_label_permuted_directions_before_normalization": True,
+                "aligned_intercept_b_copied_from_ordinary_t4": True,
+                "label_permutation_seed": side_permutation_seed,
+            }
+        elif args.side_features == "ph4":
+            run_metadata["side_features"]["descriptor_contract"] = {
+                "ordinary_t4_normalizer_reused": False,
+                "source_only_phase_normalizer": True,
+                "raw_phase": "[a/m,c/m] with exact m==0 -> [0,0]",
+                "zero_padded_columns": [2, 3],
+            }
+            run_metadata["side_features"]["exact_zero_m_rows_by_session"] = dict(
+                dm.side_feature_exact_zero_m_rows
+            )
         if base_feature_group(args.side_features) == "t4w3":
             run_metadata["side_features"]["shrinkage"] = {
                 "family": "uncertainty_wiener_ac_modulation_only",
@@ -669,7 +806,7 @@ def main() -> None:
     write_json(run_metadata_path, run_metadata)
 
     optimizer = partial(torch.optim.Adam, lr=args.lr, weight_decay=0.0)
-    model = StreamingCalibrationLitModule(
+    model_kwargs = dict(
         task="mc_maze",
         variant=args.variant,
         teacher_ckpt_path=str(teacher_ckpt),
@@ -711,11 +848,42 @@ def main() -> None:
         scheduler=None,
         compile=False,
     )
+    if args.t4_logit_residual_mode == "none":
+        model = StreamingCalibrationLitModule(**model_kwargs)
+    else:
+        model = T4LogitResidualLitModule(
+            **model_kwargs,
+            residual_mode=args.t4_logit_residual_mode,
+            interaction_mode=args.t4_logit_interaction_mode,
+            residual_rank=args.t4_logit_rank,
+            residual_permutation_seed=(
+                args.seed if args.t4_logit_residual_mode == "shuffled" else None
+            ),
+        )
     # Build the student once before Trainer.fit so the exact instantiated
     # encoder—not a hand-maintained estimate—can be receipted in metadata.
     # Lightning's later setup("fit") is idempotent.
     model.setup("fit")
     assert model.student is not None
+    if args.t4_logit_residual_mode != "none":
+        run_metadata["t4_logit_residual"].update(
+            {
+                "initialization_receipt": model.t4_logit_residual_initialization_receipt,
+                "cost_receipt_reference_n64": model.decoupled_cost_receipt(
+                    batch_size=1, num_neurons=64
+                ),
+                "optimizer_trainable_parameter_names": sorted(
+                    name
+                    for name, parameter in model.student.named_parameters()
+                    if parameter.requires_grad
+                ),
+                "optimizer_trainable_parameter_count": sum(
+                    parameter.numel()
+                    for parameter in model.student.parameters()
+                    if parameter.requires_grad
+                ),
+            }
+        )
     encoder_cost = model.student.id_encoder.cost_profile(
         num_neurons=64,
         trial_length=100,
@@ -910,7 +1078,18 @@ def main() -> None:
         limit_val_batches=args.limit_val_batches if args.limit_val_batches is not None else 1.0,
     )
 
+    # This is intentionally reset immediately before the only training call.  The
+    # resulting receipt measures this process's allocation high-water mark rather
+    # than any CUDA work which happened while importing or constructing the model.
+    using_gpu = trainer.accelerator.__class__.__name__.lower().startswith("cuda")
+    if using_gpu:
+        torch.cuda.synchronize()
+        torch.cuda.reset_peak_memory_stats()
+    fit_started = time.perf_counter()
     trainer.fit(model, datamodule=dm)
+    if using_gpu:
+        torch.cuda.synchronize()
+    fit_wall_clock_seconds = time.perf_counter() - fit_started
     epoch_checkpoints = (
         sorted(str(path.resolve()) for path in epoch_ckpt_dir.glob("epoch_*.ckpt"))
         if args.checkpoint_every_epoch
@@ -941,6 +1120,37 @@ def main() -> None:
         ),
     })
     write_json(run_metadata_path, run_metadata)
+    # A completed Experiment-A cell is not eligible for aggregation without this
+    # write-once operational receipt.  It is deliberately emitted after the final
+    # metadata write so its provenance hash names the completed run, not a mutable
+    # initialization record.  This is safe for all other callers: their fresh-run
+    # contract guarantees the path does not already exist.
+    post_run_cost_path = output_dir / "post_run_cost_receipt.json"
+    if post_run_cost_path.exists():
+        raise FileExistsError(f"Refusing to overwrite post-run cost receipt: {post_run_cost_path}")
+    post_run_cost = {
+        "schema_version": 1,
+        "purpose": "completed_training_operational_cost_receipt",
+        "status": "completed",
+        "created_at": datetime.now().astimezone().isoformat(),
+        "run_metadata_path": str(run_metadata_path.resolve()),
+        "run_metadata_sha256": sha256_file(run_metadata_path),
+        "train_variant_source_sha256": sha256_file(Path(__file__).resolve()),
+        "fit_wall_clock_seconds": fit_wall_clock_seconds,
+        "accelerator": "gpu" if using_gpu else "cpu",
+        "cuda_peak_memory_allocated_bytes": (
+            int(torch.cuda.max_memory_allocated()) if using_gpu else 0
+        ),
+        "cuda_peak_memory_reserved_bytes": (
+            int(torch.cuda.max_memory_reserved()) if using_gpu else 0
+        ),
+        "encoder_cost_profile_reference": run_metadata["encoder_cost_profile_reference"],
+        "decoder_cost_comparison_receipt_reference_n64": (
+            run_metadata["decoder_architecture"]["decoder_cost_comparison_receipt_reference_n64"]
+        ),
+        "held_out_test_evaluated": False,
+    }
+    write_json(post_run_cost_path, post_run_cost)
     summary_path = results_dir / f"p3_{out_name}_seed{args.seed}.json"
     write_json(summary_path, run_metadata)
 

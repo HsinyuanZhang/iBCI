@@ -1,0 +1,20 @@
+{
+  "arm": "m1_projadd_p16_d2_s42_ema_e21_ort",
+  "budget_disclosure": "10 public calibration trials for B3 E0 and rSyn3; static banks; no TTA. Checkpoint is sealed depth-2 HO-calib ext6 pick e21 EMA. Local minival/LOSO are diagnostic only.",
+  "evalai_opened": false,
+  "image_id": "sha256:41b06f4d50e84c6b34ac7b3296ac03709d9c6496ac6f8de732a0bd0c197efced",
+  "image_size": 9695655716,
+  "image_tag": "spint-m1:projadd-p16-d2-ort-e21-w0-18eaa3c9",
+  "method_description": "M1 proj_add P16 + CausalPE depth-2 (2 temporal layers, 2,479,408 params), seed 42 EMA e21 after 24-epoch all-4 held-in train (213,336 windows). ext6 pick on visible official HO-calib trio (eq 0.6131; worst 20121024 0.556). M10 + sealed rSyn3 banks. Same M1 ORT exact-E recipe (intra_op=2, graphs B=1..4). dev-on-official-selected; hidden/test unread. Exact-E, no TTA.",
+  "method_label": "M1 proj_add P16 CausalPE depth-2 (seed42 EMA e21 L=100) ORT exact-E intra2; not SPINT; not 582019 depth-4",
+  "method_name": "M1 proj_add P16 CausalPE depth-2 EMA e21 ORT exact-E w0",
+  "parity_ort_vs_packed_advance_max_abs": 3.2782554626464844e-07,
+  "parity_ort_vs_packed_b4_max_abs": 2.7418136596679688e-06,
+  "parity_ort_vs_packed_smoke_max_abs": 8.344650268554688e-07,
+  "parity_packed_vs_train_max_abs": 2.384185791015625e-07,
+  "payload_sha256": "18eaa3c98da87760a835bb52d663e0e0048c3ebeec5396f960b12c18aeba4d6a",
+  "proj_dim": 16,
+  "register": false,
+  "selection_mean": 0.6130939324696859,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/evalai_push_state.json"
+}

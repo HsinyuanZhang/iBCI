@@ -1,0 +1,8 @@
+# @package _global_
+defaults:
+  - h1_carrierid_distribution_exposure
+
+task_name: h1_carrierid_h32_distribution_exposure_s4
+tags: [h1, carrierid, h32, m4, source_only, d_s4e, exposure_matched]
+pilot:
+  arm: s4

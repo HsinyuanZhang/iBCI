@@ -1,0 +1,196 @@
+{
+  "bindings": {
+    "execution": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_E23_CONTINUATION_EXECUTION_v2.json",
+      "sha256": "77a1a4888269437d47c0b4c7eba237e3f11c0b62b280e8462ca0f21a071d309c"
+    },
+    "gate": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_E23_GATE_v1.json",
+      "sha256": "0f38fd6131f7854738ad697d58feee203498983ad5f738507538afcad87ffb5e"
+    }
+  },
+  "canonical_content_sha256": "1b6eb468520146d547d6091f5b63587fdf05a936aa324ddb684106ae40d51971",
+  "created_at_epoch": 1786335627.1936333,
+  "files": {
+    "b0": {
+      "checkpoint": {
+        "bytes": 261585007,
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-10-56-04-519198_rid-m1_compact_b0_f1_s42_resume_e11_to_e23_f1_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+        "sha256": "0f2ecc4f7c635bf0225b12aba6871c2c914b72335b9c6efd3c6ea865eb1281e3"
+      },
+      "resolved_config": {
+        "bytes": 4483,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f1_s42_resume_e11_to_e23_f1_s42_20260810_105604/resolved_config.yaml",
+        "sha256": "75fe5c0d923dc5354f96b2a8fa969851737aecba0b958cd6ad7035b648753efb"
+      },
+      "source_only_manifest": {
+        "bytes": 1470,
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-10-56-04-519198_rid-m1_compact_b0_f1_s42_resume_e11_to_e23_f1_s42/m1_version_b_source_only_fit_manifest.json",
+        "sha256": "e807ef3bdf0346b4eb4190465fef62c0f6245f022a485651e7367a9147a54a98"
+      }
+    },
+    "b3s_zero4": {
+      "checkpoint": {
+        "bytes": 198342223,
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-11-42-47-961832_rid-m1_compact_b3s_zero4_f1_s42_resume_e11_to_e23_f1_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+        "sha256": "808537c2916be02cb913ce249fb30f2d3a47ae19fd570abd72419b55a5e2fecc"
+      },
+      "resolved_config": {
+        "bytes": 4532,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f1_s42_resume_e11_to_e23_f1_s42_20260810_114248/resolved_config.yaml",
+        "sha256": "ece0e1c54b76a595ffe6ab2565158e5da9725529634f39ce2491286873219aca"
+      },
+      "source_only_manifest": {
+        "bytes": 1471,
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-11-42-47-961832_rid-m1_compact_b3s_zero4_f1_s42_resume_e11_to_e23_f1_s42/m1_version_b_source_only_fit_manifest.json",
+        "sha256": "1be9ee61b902f7ceb757e0d52144d8a1609821a347db6371c5efdb9c142b2cba"
+      }
+    }
+  },
+  "metrics": {
+    "b0": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6797685421655772,
+      "r2_per_output": [
+        0.8036845983489325,
+        0.761710093118322,
+        0.7068093662311308,
+        -2.6026883804556684,
+        0.8241102134407249,
+        0.6304435122340006,
+        0.8337472018927855,
+        0.5521688554674449,
+        0.6130415178792341,
+        0.6029682903192308,
+        0.5486048773359876,
+        0.4621899355433158,
+        0.6764131671309002,
+        -0.03044174354565987,
+        0.5270710329643682,
+        0.7321102973990369
+      ],
+      "samples": 26528,
+      "sse_float64_per_output": [
+        356.83320900390174,
+        253.63561818883272,
+        781.4103724873889,
+        37.34311603861879,
+        1184.7783823238933,
+        1386.6120606267084,
+        865.5608949923636,
+        128.9659545344579,
+        1024.8431424259759,
+        2500.4563974321973,
+        751.6147431178687,
+        3605.0898244916852,
+        1636.4164826922347,
+        228.46109773887872,
+        41.60411765486114,
+        3186.224925652391
+      ],
+      "tss_float64_per_output": [
+        1817.652644687246,
+        1064.3993340212041,
+        2665.1955502214228,
+        10.365347233805336,
+        6735.913468884796,
+        3752.0977347979924,
+        5206.293697590422,
+        287.97897624800567,
+        2648.4576247281548,
+        6297.875803025087,
+        1665.0927433199565,
+        6703.27697964091,
+        5057.117028473814,
+        221.71180386458732,
+        87.97117655033925,
+        11893.79395593437
+      ]
+    },
+    "b3s_zero4": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6464871263873477,
+      "r2_per_output": [
+        0.762814343063056,
+        0.7651154723798888,
+        0.6841170847806765,
+        -3.189854262433042,
+        0.7764505867013187,
+        0.5913046700110323,
+        0.7955362450234932,
+        0.56028221500938,
+        0.5506958978288303,
+        0.5683724977083258,
+        0.5163976329015066,
+        0.4430402410564669,
+        0.6581582571976302,
+        -0.09099366235711348,
+        0.40751086756585975,
+        0.6997719361004245
+      ],
+      "samples": 26528,
+      "sse_float64_per_output": [
+        431.1211366133182,
+        250.01093477073158,
+        841.889740033512,
+        43.42929428915782,
+        1505.809503999881,
+        1533.4648218741236,
+        1064.4983589198596,
+        126.62947755963941,
+        1189.9628752168721,
+        2718.3364026028903,
+        805.242792108055,
+        3733.455530712536,
+        1728.73369856903,
+        241.88617288602816,
+        52.12196607352109,
+        3570.8507318106485
+      ],
+      "tss_float64_per_output": [
+        1817.652644687246,
+        1064.3993340212041,
+        2665.1955502214228,
+        10.365347233805336,
+        6735.913468884796,
+        3752.0977347979924,
+        5206.293697590422,
+        287.97897624800567,
+        2648.4576247281548,
+        6297.875803025087,
+        1665.0927433199565,
+        6703.27697964091,
+        5057.117028473814,
+        221.71180386458732,
+        87.97117655033925,
+        11893.79395593437
+      ]
+    },
+    "b3s_zero4_minus_b0": -0.03328141577822952,
+    "gate_definition": "PASS iff terminal B3S-Zero4 minus B0 pooled variance-weighted R2 >= -0.03 on one shared ordered target query",
+    "gate_threshold": -0.03
+  },
+  "remote": {
+    "hostname": "xinyuan-ROG",
+    "note": "Receipt binds immutable remote artifacts; no target NWB bytes are copied or hashed by this manifest.",
+    "payload_copy_performed": false,
+    "root": "/home/xinyuan/Work_host/SPINT",
+    "transfer_direction": "remote_5070ti_to_workspace_receipt"
+  },
+  "schema": "m1_compact_b3s_f1_s42_e23_transfer_v1",
+  "scope": {
+    "development_only": true,
+    "fold": 1,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "seed": 42,
+    "target_backward_steps": 0,
+    "target_checkpoint_selection": false,
+    "target_optimizer_steps": 0,
+    "target_session": "ses-20120926",
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F1_S42_E23_TRANSFER_MANIFEST"
+}

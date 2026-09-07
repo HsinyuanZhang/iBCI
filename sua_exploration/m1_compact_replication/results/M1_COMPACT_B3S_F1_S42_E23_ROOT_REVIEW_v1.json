@@ -1,0 +1,57 @@
+{
+  "schema": "m1_compact_b3s_f1_s42_e23_root_review_v1",
+  "status": "PASS_RECEIPT_INTEGRITY__TERMINAL_METRIC_STOP_NONINFERIORITY",
+  "reviewed_at": "2026-08-10T12:22:49+08:00",
+  "bindings": {
+    "gate": {
+      "path": "sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_E23_GATE_v1.json",
+      "sha256": "0f38fd6131f7854738ad697d58feee203498983ad5f738507538afcad87ffb5e"
+    },
+    "transfer": {
+      "path": "sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_E23_TRANSFER_v1.json",
+      "sha256": "e7a0647a0bba8a5c45a60abf5321804deb61c96e20aa0f8f7d357d57df44b182"
+    },
+    "execution": {
+      "path": "sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_E23_CONTINUATION_EXECUTION_v2.json",
+      "sha256": "77a1a4888269437d47c0b4c7eba237e3f11c0b62b280e8462ca0f21a071d309c"
+    }
+  },
+  "scope": {
+    "task": "m1",
+    "fold": 1,
+    "seed": 42,
+    "target_session": "ses-20120926",
+    "support_trials": [0, 10],
+    "query_trials": [10, 210],
+    "query_samples": 26528,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "target_backward_steps": 0,
+    "target_optimizer_steps": 0,
+    "target_checkpoint_selection": false
+  },
+  "terminal": {
+    "epoch": 23,
+    "global_step": 119112,
+    "b0_r2": 0.6797685421655772,
+    "b3s_zero4_r2": 0.6464871263873477,
+    "b3s_zero4_minus_b0": -0.03328141577822952,
+    "noninferiority_threshold": -0.03,
+    "margin_to_threshold": -0.0032814157782295184,
+    "gate_passed": false
+  },
+  "review": {
+    "gate_mode_0444": true,
+    "canonical_content_hash_recomputed_exact": true,
+    "pooled_r2_recomputed_from_sse_tss_exact": true,
+    "delta_recomputed_exact": true,
+    "shared_ordered_query_bound": true,
+    "query_identity_sha256": "afdba6d92851b2f0f04563b8b8ed9e52eba386ff04151293f6a1c22375206a87",
+    "side_input_exact_zero": true,
+    "zero4_prediction_bit_exact": true,
+    "model_state_unchanged": true,
+    "remote_local_receipt_hashes_match": true,
+    "checkpoint_bytes_copied_locally": false
+  },
+  "interpretation": "At the matched epoch-23 budget, fold 1 misses the frozen -0.03 non-inferiority margin by 0.003281 R2. This is a valid metric STOP, not an evidence failure. Fold 2 remains useful for the final three-fold descriptive distribution, but the predeclared 3/3 non-inferiority claim can no longer pass."
+}

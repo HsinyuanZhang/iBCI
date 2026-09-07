@@ -1,0 +1,58 @@
+{
+  "schema": "checkpoint-reclamation-candidate-manifest/v1",
+  "scope": "round3: historical SHA-identical periodic checkpoint aliases only",
+  "created_at_utc": "2026-08-04T19:01:25Z",
+  "status": "pre_delete_eligible_only",
+  "hard_exclusions": [
+    "all current C1 FP32/PTQ/QAT paths and active QAT process outputs",
+    "all Phase-C incident and r2 artifacts/cell roots",
+    "all SPINT paths and epoch_034/epoch_019 protected anchors",
+    "formal, EvalAI, golden/reference, aggregate, receipt, metadata, log, and dataset artifacts",
+    "all locked paths and all cache paths"
+  ],
+  "entry_fields": [
+    "id",
+    "candidate",
+    "retained_identical_peer",
+    "sha256",
+    "logical_size_bytes",
+    "allocated_blocks_512",
+    "allocated_bytes",
+    "candidate_inode",
+    "retained_inode",
+    "candidate_nlink",
+    "retained_nlink"
+  ],
+  "per_entry_verification": {
+    "candidate_is_periodic_checkpoint_only": true,
+    "candidate_and_peer_are_regular_non_symlink_files": true,
+    "candidate_and_peer_stats_stable_during_sha256": true,
+    "sha256_identical_to_retained_peer": true,
+    "candidate_and_peer_hardlink_count_is_one": true,
+    "candidate_or_ancestor_symlink": false,
+    "workspace_symlink_targeting_candidate": false,
+    "lsof_open_handles": false,
+    "in_run_lock_files": false,
+    "exact_current_text_or_receipt_path_references": false
+  },
+  "candidate_count": 15,
+  "planned_allocated_reclaim_blocks_512": 1084920,
+  "planned_allocated_reclaim_bytes": 555479040,
+  "entries": [
+    {"id": 1, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-10-18-46-44/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-10-18-46-44/checkpoints/periodic_ckpt/epoch_039.ckpt", "sha256": "3fcabf20f6f1c82dbd3854e49486ba5e35d4a4a54c44ff417634da83d6f729d6", "logical_size_bytes": 37019699, "allocated_blocks_512": 72312, "allocated_bytes": 37023744, "candidate_inode": 28867429, "retained_inode": 28867419, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 2, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-10-23-49-56/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-10-23-49-56/checkpoints/periodic_ckpt/epoch_039.ckpt", "sha256": "2aa9555f67bd1ab2b7f0aa5e7924c28740e57bc4fecc684ee087261f6b3f9acf", "logical_size_bytes": 37833619, "allocated_blocks_512": 73896, "allocated_bytes": 37834752, "candidate_inode": 28867524, "retained_inode": 28867523, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 3, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-11-01-10-20/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-11-01-10-20/checkpoints/periodic_ckpt/epoch_039.ckpt", "sha256": "8d535f428f87e430024563e23813bcdfab747fe4f1f6953a40b8026e7af91d60", "logical_size_bytes": 37020083, "allocated_blocks_512": 72312, "allocated_bytes": 37023744, "candidate_inode": 28867544, "retained_inode": 28867543, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 4, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-11-15-26-52/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-11-15-26-52/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "b436e618f564c1c35a8ade3165d210717fa86b3e76f4ea344c9b836fe57f14bc", "logical_size_bytes": 37019255, "allocated_blocks_512": 72304, "allocated_bytes": 37019648, "candidate_inode": 28867596, "retained_inode": 28867595, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 5, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-11-15-40-22/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-11-15-40-22/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "3a2cfd973930a841690ce57d88e30bf0731076e14e92abd27d6c9922b16e2edf", "logical_size_bytes": 37019255, "allocated_blocks_512": 72304, "allocated_bytes": 37019648, "candidate_inode": 28867615, "retained_inode": 28867614, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 6, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-21-11-04-55/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-21-11-04-55/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "f44e6285063538e26f5ace32ab1084df18963fe3844afd4332d8b60e9fcaf6f9", "logical_size_bytes": 37020279, "allocated_blocks_512": 72312, "allocated_bytes": 37023744, "candidate_inode": 28867676, "retained_inode": 28867675, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 7, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-21-11-49-43/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-21-11-49-43/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "24fa2c4a776e12e009b76b1eb54fb7ac04a5c1796f51d4e7aeb790d6e1edb1a2", "logical_size_bytes": 36965452, "allocated_blocks_512": 72200, "allocated_bytes": 36966400, "candidate_inode": 28867693, "retained_inode": 28867692, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 8, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-21-12-32-51/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-21-12-32-51/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "77704dc9ec34e569683197ef225279f3db8661aa87fdb4329e6e6a174c61a0f9", "logical_size_bytes": 36965452, "allocated_blocks_512": 72200, "allocated_bytes": 36966400, "candidate_inode": 28867710, "retained_inode": 28867709, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 9, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-21-15-30-35/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-21-15-30-35/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "c5dd273a7cbf437721d6ec7faaeb7868fa2c59d8354226d06546c3009cf06281", "logical_size_bytes": 37019511, "allocated_blocks_512": 72304, "allocated_bytes": 37019648, "candidate_inode": 28867803, "retained_inode": 28867801, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 10, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-22-18-29-45/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-22-18-29-45/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "895dec5cc8e1e16ab5ec913410ff80f50f932bb9d2dde7619326db9962de0ba2", "logical_size_bytes": 36919155, "allocated_blocks_512": 72112, "allocated_bytes": 36921344, "candidate_inode": 28868058, "retained_inode": 28868056, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 11, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-22-19-32-27/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-22-19-32-27/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "6e5dc80adb790fa27289c1f0e84f075a9911e8593bb4d9c75a8ea7e2388708ce", "logical_size_bytes": 36919155, "allocated_blocks_512": 72112, "allocated_bytes": 36921344, "candidate_inode": 28868086, "retained_inode": 28868085, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 12, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-22-21-21-45/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-22-21-21-45/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "bcd6b3b49fae4dffc13aa808f97be61334853f95dd8caf642071309f0f1b046a", "logical_size_bytes": 37019639, "allocated_blocks_512": 72304, "allocated_bytes": 37019648, "candidate_inode": 28868154, "retained_inode": 28868153, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 13, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-22-22-53-45/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-22-22-53-45/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "ac46c3bd0eea0e7121a1598c1b34dc0f9342550227c1e12967070f3de6582e86", "logical_size_bytes": 36919219, "allocated_blocks_512": 72112, "allocated_bytes": 36921344, "candidate_inode": 28868195, "retained_inode": 28868194, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 14, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-22-23-42-56/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-22-23-42-56/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "8d43879d886bada182a581205fe416a0d7f14f37625efdfb4320a046dc549b0c", "logical_size_bytes": 36876275, "allocated_blocks_512": 72024, "allocated_bytes": 36876288, "candidate_inode": 28868211, "retained_inode": 28868210, "candidate_nlink": 1, "retained_nlink": 1},
+    {"id": 15, "candidate": "streaming_calibration_exp/logs/train/runs/2026-07-23-01-23-55/checkpoints/periodic_ckpt/last.ckpt", "retained_identical_peer": "streaming_calibration_exp/logs/train/runs/2026-07-23-01-23-55/checkpoints/periodic_ckpt/epoch_019.ckpt", "sha256": "ba2cb7d66f7c4c8432729a71182aa45c9b22dc894c6a390d4c02235dcebc78e9", "logical_size_bytes": 36919347, "allocated_blocks_512": 72112, "allocated_bytes": 36921344, "candidate_inode": 28868252, "retained_inode": 28868251, "candidate_nlink": 1, "retained_nlink": 1}
+  ]
+}

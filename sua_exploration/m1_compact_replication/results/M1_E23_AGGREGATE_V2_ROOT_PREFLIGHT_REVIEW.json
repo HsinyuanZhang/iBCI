@@ -1,0 +1,34 @@
+{
+  "schema": "m1_e23_aggregate_v2_root_preflight_review_v1",
+  "status": "PASS_PREPARED_NOT_EXECUTED",
+  "reviewed_at": "2026-08-10T12:14:19+08:00",
+  "bindings": {
+    "script_path": "sua_exploration/m1_compact_replication/e23_continuation_receipts_v2.py",
+    "script_sha256": "0c8e692a788c123ddf96b85071f436e80c1cbc2ea8a71e0cda6c565782cfcd5f",
+    "test_path": "sua_exploration/m1_compact_replication/test_e23_continuation_receipts_v2.py",
+    "test_sha256": "91c9ca1e10adb84887139eac391c532b48013e2ed0cba23d29da8ff634a81a8e"
+  },
+  "review": {
+    "tests_passed": 7,
+    "subtests_passed": 3,
+    "tests_failed": 0,
+    "threshold": -0.03,
+    "exact_fold_status_tokens_required": true,
+    "gate_schema_scope_and_canonical_hash_checked": true,
+    "finite_arm_r2_and_delta_consistency_checked": true,
+    "distinct_target_sessions_required": true,
+    "matched_epoch23_and_positive_global_steps_required": true,
+    "valid_metric_stop_separated_from_evidence_invalid": true,
+    "existing_output_must_bind_current_three_gate_hashes": true,
+    "append_only_atomic_mode_0444": true
+  },
+  "scope": {
+    "aggregate_executed_by_review": false,
+    "development_only": true,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "target_backward_steps": 0,
+    "target_optimizer_steps": 0
+  },
+  "decision": "Run only after the immutable fold0/fold1/fold2 epoch-23 gate receipts are terminal. A valid below-threshold fold produces STOP_GATE_FAILED; receipt or scope corruption produces EVIDENCE_INVALID rather than an experimental negative."
+}

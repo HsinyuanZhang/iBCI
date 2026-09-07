@@ -1,0 +1,16 @@
+# Strict activity-only H1 M=4 source contract for architecture-preserving H-S width scaling.
+_target_: src.data.h1_spint_width_fold0.H1SpintWidthFold0DataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+random_calibration: true
+smooth_calibration: false
+interpolate_trials: true
+interpolate_trials_kind: cubic
+num_workers: 0
+pin_memory: false
+seed: 42
+fixed_epochs: 50

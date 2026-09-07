@@ -1,0 +1,13 @@
+defaults:
+  - override_epoch_step
+  - lr_monitor
+  - model_summary
+  - _self_
+
+source_selector_v3:
+  _target_: src.callbacks.post33_source_selector_v3.Post33SourceSelectorV3
+  checkpoint_dir: ${cell_paths.checkpoints}
+  selector_records_path: ${cell_paths.selector_records}
+  cell_owner_path: ${cell_paths.owner}
+  owner_token: ${cell_owner_token}
+

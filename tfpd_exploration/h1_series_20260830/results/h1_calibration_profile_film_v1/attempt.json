@@ -1,0 +1,13 @@
+{
+  "design_sha256": "51d1b4fdd67bd05611b337d8e55326bc69d1bf42d16f1d4d3b783b7b2701e22b",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu1_touched": false,
+  "gpu_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "predecessor_score_sha256": "a07ab80612de53a625b5dc29ef63bc2c24ce249979d5c3afdc43399fb27851b5",
+  "predecessor_terminal_sha256": "c047bbf5bd6e324fcd250ef2702ab507fff54b6a13c6bc1314963983bc298a94",
+  "scheduled_lp_r3_timer_state": "active",
+  "schema": "h1_calibration_profile_film_v1_attempt",
+  "status": "ATTEMPT_GPU0_SOURCE_ONLY_CP_FILM_2X2",
+  "workorder_sha256": "c19e8440acc755f69e340213a73ccbed36cf4dab5e8c4867dcc027420f2dc053"
+}

@@ -1,0 +1,16 @@
+{
+  "arm": "projadd_s42_ema_e11_ext6_w0",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA. Epoch picked on six locally visible official held-out-calib sessions.",
+  "evalai_opened": false,
+  "image_id": "sha256:2b50086869ab0c8a2e17b0cfe61f57e0e3c759a06e6f6fb9a00d65fceede8a84",
+  "image_size": 9470614721,
+  "image_tag": "spint-t4-m2:projadd-s42-ema-e11-ext6-w0-cfd94150",
+  "method_description": "M2 proj_add P16 (Linear 50->16, token_in=20) CausalPE4 seed 42 EMA epoch 11, picked on six visible official held-out-calib sessions (equal-session mean 0.389207). Exact-E, dataloader_workers=0. Packed earlier; held while P32 ran. Official HO unread for this image. Concat 581973 official HO 0.390 is a different S1-small cell.",
+  "method_label": "M2 proj_add CausalPE4 (seed42 EMA e11) exact-E w0; 6-session official held-out-calib epoch-pick",
+  "method_name": "M2 proj_add Transformer EMA e11 s42 ext6-epochpick exact-E w0",
+  "parity_exact_e_vs_train_max_abs": 1.1925294529646635e-08,
+  "payload_sha256": "cfd94150b7636a303fd1dde0cf35c6336f6166cca9d29ecb4d3b126e6614b3a5",
+  "register": false,
+  "selection_mean": 0.38920735853956834,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_projadd_exacte_v1/artifacts/evalai_push_state.json"
+}

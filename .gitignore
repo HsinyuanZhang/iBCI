@@ -108,6 +108,7 @@ SPINT-main/data/*
 SPINT-main/local_data/
 sua_exploration/data/
 sua_exploration/checkpoints/
+cebra_exploration/data/
 
 # ---------------------------------------------------------------------------
 # Runtime logs, caches, experiment outputs, and generated result artifacts
@@ -124,6 +125,7 @@ sua_exploration/cache/
 sua_exploration/results/
 sua_exploration/logs/
 sua_exploration/outputs/
+cebra_exploration/results/
 streaming_calibration_exp/logs/
 streaming_calibration_exp/outputs/
 /streaming_calibration_exp/hw_b3/
@@ -139,3 +141,27 @@ planB_tempconv/outputs/
 lightning_logs/
 wandb/
 *.log
+
+# ---------------------------------------------------------------------------
+# Local decoder/B-transformer experiment products and generated environments
+#
+# Keep source, configuration, protocols, and small human-readable receipts
+# reviewable.  These roots hold mutable local datasets, cache material,
+# checkpoints, replay outputs, logs, and generated runtime environments.
+# ---------------------------------------------------------------------------
+tfpd_exploration/data/
+tfpd_exploration/cache/
+tfpd_exploration/results/
+tfpd_exploration/logs/
+tfpd_exploration/outputs/
+btransform_unified_v1/data/
+btransform_unified_v1/cache/
+btransform_unified_v1/results/
+btransform_unified_v1/logs/
+btransform_unified_v1/outputs/
+**/ort_venv/
+**/.venv/
+**/site-packages/
+
+# Independently versioned upstream checkout; never absorb it into this repo.
+sua_exploration/prit_feasibility/prit_upstream/

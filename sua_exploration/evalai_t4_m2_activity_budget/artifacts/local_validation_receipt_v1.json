@@ -1,0 +1,144 @@
+{
+  "baseline": {
+    "held_in_r2_mean": 0.5238486007,
+    "image_id": "sha256:b179efcba8e36202aec688b3104397919576e30d4344c309febcf692d4d7aaf8",
+    "name": "E8 epoch27 public-minival container anchor",
+    "source": "sua_exploration/docs/E8_FALCON_EVALAI_SUBMISSION_RECEIPT.md"
+  },
+  "candidates": {
+    "m10": {
+      "budget_disclosure": "10 labels and 10 chronological cue rows; B3S activity uses first30",
+      "image": {
+        "bytes": 9474515610,
+        "id": "sha256:381adc2b4ba8bd741db1b6e9c6aaaeff17bd3c0ee88de5b79c3ca9c0b6fc784b",
+        "tag": "spint-t4-m2:ridge-m10-activity30-s42-e371541f"
+      },
+      "local_minival": {
+        "gt_bytes": 10244,
+        "gt_path": "minival_m10_v1/m10_gt.pkl",
+        "gt_sha256": "546e5a4a0b2260cdd4c7124d4d668fe0f136f84a81f7aa472e7dbe39a3115530",
+        "held_in_r2_by_date": {
+          "20201019": 0.7343569397926331,
+          "20201020": 0.6573157906532288,
+          "20201027": 0.5850726962089539,
+          "20201028": 0.5650659799575806
+        },
+        "held_in_r2_mean": 0.6354528516530991,
+        "held_in_r2_std": 0.0666192136738601,
+        "normalized_latency_cpu_container": 0.1256652802789011,
+        "prediction_bytes": 11435,
+        "prediction_path": "minival_m10_v1/m10_prediction.pkl",
+        "prediction_sha256": "c871146fd17694c1b00c44b5624abd07aeca164ffc294be357b8c3f9df6f88d4",
+        "r2_minus_e8_anchor": 0.1116042509530991
+      },
+      "payload": {
+        "bytes": 18656654,
+        "path": "t4_m2_seed42_ridge_m10_activity30_identity.pkl",
+        "receipt_sha256": "42c6d741bf4cfec37c9d1d0d246b742b5d5a5834b21e540260887e9458dddf66",
+        "sha256": "e371541f27cce2d3b4fd418f8ab54663d66010e31da882658b9c39d0df9e339e"
+      },
+      "remote_path_simulation": {
+        "bytes": 11435,
+        "container_entered_expected_300_second_poll_wait": true,
+        "path": "remote_path_m10_v1/submission.csv",
+        "sha256": "a63bb44853c33161a692eb902838b58d44326e6b7a2e5ced8d4c496f4812f814"
+      }
+    },
+    "m4": {
+      "budget_disclosure": "4 target labels selected D-optimally using finite cue metadata in first30; B3S activity uses first30; cue-budgeted M4",
+      "image": {
+        "bytes": 9474516040,
+        "id": "sha256:378bbd4868e515a3527418e098db2989e0fc8fbccc929ee029a237ce5e9f291b",
+        "tag": "spint-t4-m2:ridge-m4-activity30-s42-c51b7116"
+      },
+      "local_minival": {
+        "gt_bytes": 10244,
+        "gt_path": "minival_m4_v1/m4_gt.pkl",
+        "gt_sha256": "546e5a4a0b2260cdd4c7124d4d668fe0f136f84a81f7aa472e7dbe39a3115530",
+        "held_in_r2_by_date": {
+          "20201019": 0.7503466010093689,
+          "20201020": 0.664145290851593,
+          "20201027": 0.5552621483802795,
+          "20201028": 0.5757867097854614
+        },
+        "held_in_r2_mean": 0.6363851875066757,
+        "held_in_r2_std": 0.07747733553188897,
+        "normalized_latency_cpu_container": 0.129248598327033,
+        "prediction_bytes": 11435,
+        "prediction_path": "minival_m4_v1/m4_prediction.pkl",
+        "prediction_sha256": "c70e0bb1990f9f5df1016cb116d506945b0f1bcb9dc9b3d79f56618eec873efe",
+        "r2_minus_e8_anchor": 0.1125365868066757,
+        "r2_minus_m10": 0.0009323358535766
+      },
+      "payload": {
+        "bytes": 18656482,
+        "path": "t4_m2_seed42_ridge_m4_activity30_identity.pkl",
+        "receipt_sha256": "a3c304106ce56105c3bde59b3237604e95388608d740800da4ff2da0fa7186db",
+        "sha256": "c51b71167d81490927fee8a552785ee27ddff7e90085ed3ff4b18b857afbac40"
+      },
+      "remote_path_simulation": {
+        "bytes": 11435,
+        "container_entered_expected_300_second_poll_wait": true,
+        "path": "remote_path_m4_v1/submission.csv",
+        "sha256": "c0f22d22b3a230887f22547814f76c931db115661f148b746ff1fbc5e7277c02"
+      }
+    },
+    "m30": {
+      "budget_disclosure": "30 chronological labels and cue rows; B3S activity uses the same first30; static safety reference with no adaptation",
+      "image": {
+        "bytes": 9474515600,
+        "id": "sha256:5bf9682c4c96aa27d51b7db8584f634411fe7b7b24bdb1d23052f73c452c86eb",
+        "tag": "spint-t4-m2:ridge-m30-activity30-s42-097b0fdf"
+      },
+      "local_minival": {
+        "gt_bytes": 10244,
+        "gt_path": "minival_m30_v1/m30_gt.pkl",
+        "gt_sha256": "546e5a4a0b2260cdd4c7124d4d668fe0f136f84a81f7aa472e7dbe39a3115530",
+        "held_in_r2_by_date": {
+          "20201019": 0.7304651141166687,
+          "20201020": 0.6549590826034546,
+          "20201027": 0.5828983187675476,
+          "20201028": 0.5828814506530762
+        },
+        "held_in_r2_mean": 0.6378009915351868,
+        "held_in_r2_std": 0.061056324714633715,
+        "normalized_latency_cpu_container": 0.11154548822359563,
+        "prediction_bytes": 11435,
+        "prediction_path": "minival_m30_v1/m30_prediction.pkl",
+        "prediction_sha256": "5b7c2337b1a4b68757cee79ebca2a80861ce0a65ead5945218867cde67a6cd2a",
+        "r2_minus_e8_anchor": 0.1139523908351868,
+        "r2_minus_m10": 0.0023481398820877,
+        "r2_minus_m4": 0.0014158040285111
+      },
+      "payload": {
+        "bytes": 18657174,
+        "path": "t4_m2_seed42_ridge_m30_activity30_identity.pkl",
+        "receipt_sha256": "23631d80f924a0a382ac8ecc4ef16960d32f2156b92ef22e25145dff79374353",
+        "sha256": "097b0fdf83ac1ac0846b36fc02c6e4f0a755f477514c83c4de8fcd08572797ae"
+      },
+      "remote_path_simulation": {
+        "bytes": 11435,
+        "container_entered_expected_300_second_poll_wait": true,
+        "path": "remote_path_m30_v1/submission.csv",
+        "sha256": "a5f146b86be85854b22770f8f54b15da8e0d5cbcad719d6228cf0c297eaff2ae"
+      }
+    }
+  },
+  "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+  "cuda_visible_devices": "",
+  "evaluator": {
+    "batch_size": 7,
+    "data_file_count": 7,
+    "data_scope": "SPINT-main/data/000953/sub-MonkeyN-held-in-minival",
+    "falcon_challenge_version": "1.0.2",
+    "governing_metric": "variance-weighted R2 per reduced held-in date, equal date mean",
+    "network_used_for_local_validation": false,
+    "phase": "minival",
+    "remote_mount_root": "/dataset/evaluation_data/m2",
+    "remote_output_path": "/submission/submission.csv"
+  },
+  "normalization_sha256": "d17f5f4c4d106b9f19493be6f5f06846c01e917f408f516e630f5e8f09d1539e",
+  "schema_version": "m2_activity_budget_official_local_validation_v1",
+  "status": "LOCAL_MINIVAL_AND_REMOTE_PATH_VALIDATED",
+  "teacher_checkpoint_sha256": "fbcb9914561c4664fa0f8d0b1791e67505841d3ac470ea7ad68d54e408ca13ec"
+}

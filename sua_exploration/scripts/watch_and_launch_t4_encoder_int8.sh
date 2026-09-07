@@ -5,7 +5,7 @@ set -euo pipefail
 
 ROOT="/home/xinyuan/Work_host/SPINT"
 FP32_SCREEN="${FP32_SCREEN:-sua_spint_t4_mainline_fp32_v1}"
-INT8_SCREEN="${INT8_SCREEN:-sua_spint_t4_encoder_int8_v1}"
+INT8_SCREEN="${INT8_SCREEN:-sua_t4_encoder_int8_m50_v1}"
 AGGREGATE="$ROOT/sua_exploration/results/$FP32_SCREEN/aggregate.json"
 INT8_RESULTS="$ROOT/sua_exploration/results/$INT8_SCREEN"
 WATCH_LOG="$INT8_RESULTS/logs/watcher.log"

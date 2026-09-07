@@ -1,0 +1,8 @@
+{
+  "arm": "h1_projadd_p32_stage2_s42_ema_e24_L200_w0",
+  "created": "2026-09-07T01:37:18.107478+00:00",
+  "image_tag": "spint-t4-h1:projadd-p32-s42-ema-e24-L200-w0-ec806ff4",
+  "payload_sha256": "ec806ff4d8a0f35d2569c7c4428cd6de2606dd4949ca2643b4ecc83757a70418",
+  "register": false,
+  "schema_version": "h1_trf_evalai_push_state"
+}

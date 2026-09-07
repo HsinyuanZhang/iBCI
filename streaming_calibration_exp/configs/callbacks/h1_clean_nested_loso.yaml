@@ -1,0 +1,33 @@
+# Null monitor placeholders are bound by H1NestedSelectionMonitor after the
+# DataModule resolves the fold's one inner-validation session. Aggregate means
+# are forbidden because empty held-in sessions produce -inf in FalconLitModule.
+h1_selection_monitor:
+  _target_: src.callbacks.h1_nested_selection.H1NestedSelectionMonitor
+  require_callback_types: true
+  manifest_path: ${paths.output_dir}/h1_split_manifest.json
+  role: student
+
+early_stopping:
+  _target_: lightning.pytorch.callbacks.EarlyStopping
+  monitor: null
+  patience: 10
+  mode: max
+  min_delta: 0.0
+
+best_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/best_ckpt
+  filename: epoch_{epoch:03d}
+  monitor: null
+  mode: max
+  save_last: true
+  auto_insert_metric_name: false
+  save_top_k: 1
+
+periodic_checkpoint: null
+lr_monitor:
+  _target_: lightning.pytorch.callbacks.LearningRateMonitor
+  logging_interval: epoch
+model_summary:
+  _target_: lightning.pytorch.callbacks.RichModelSummary
+  max_depth: -1

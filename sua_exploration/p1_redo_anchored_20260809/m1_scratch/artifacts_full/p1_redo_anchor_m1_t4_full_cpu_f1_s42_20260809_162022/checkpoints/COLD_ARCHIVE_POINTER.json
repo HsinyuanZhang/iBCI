@@ -1,0 +1,29 @@
+{
+  "archive_absolute_path": "/mnt/data/SPINT_cold_archive/2026-08-13/sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/best.ckpt",
+  "archive_manifest_absolute_path": "/mnt/data/SPINT_cold_archive/2026-08-13/sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/COLD_ARCHIVE_MANIFEST.json",
+  "archive_manifest_sha256": "82a81c8ed35f3b7b1315447b2ee9c7af33de92307bf7cce2c9230c1e87664767",
+  "archive_relative_path": "sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/best.ckpt",
+  "archived_at_hkt": "2026-08-13T15:45:26.236650+08:00",
+  "archived_at_utc": "2026-08-13T07:45:26.236650Z",
+  "canonical_successor_refs": [
+    "streaming_calibration_exp/outputs/streaming_calibration/m1_clean_selection_v1_t4_m1_f1_s42_20260801_192033/checkpoints/best.ckpt",
+    "sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoint_manifest.json"
+  ],
+  "file_count": 1,
+  "files": [
+    {
+      "bytes": 121071536,
+      "path": "best.ckpt",
+      "sha256": "b5cc6d28d9cb17782a234c3b744f827795c6bfaccb766855bebd351efd3529fb"
+    }
+  ],
+  "original_absolute_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/best.ckpt",
+  "original_relative_path": "sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/best.ckpt",
+  "pre_delete_open_pids": [],
+  "reason": "Inactive P1 scratch duplicate of the canonical M1 clean-selection checkpoint. Audit found an exact SHA-256 match; scratch artifact and all parent P1 provenance remain in the workspace, while the canonical source checkpoint is retained.",
+  "restore_command": "rsync -a --checksum --protect-args /mnt/data/SPINT_cold_archive/2026-08-13/sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/best.ckpt /home/xinyuan/Work_host/SPINT/sua_exploration/p1_redo_anchored_20260809/m1_scratch/artifacts_full/p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022/checkpoints/best.ckpt",
+  "schema": "spint_cold_archive_pointer_v1",
+  "source_manifest_sha256": "b05ae07755deeeb557f1123e588d676819c2e9eaadea6e1ff647182be42d863c",
+  "status": "COLD_ARCHIVED_SOURCE_REMOVED",
+  "total_bytes": 121071536
+}

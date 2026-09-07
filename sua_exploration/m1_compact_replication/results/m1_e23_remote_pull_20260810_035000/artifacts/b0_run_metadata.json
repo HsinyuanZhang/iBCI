@@ -1,0 +1,30 @@
+{
+  "run_id": "m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42_20260810_013207",
+  "comparison_role": null,
+  "variant": "B0",
+  "loss_mode": "task_only",
+  "lambda_y": 0.0,
+  "lambda_E": 0.0,
+  "seed": 42,
+  "fold_id": 0,
+  "validation_protocol": "loso",
+  "train_sessions": [
+    "ses-20120926",
+    "ses-20120927",
+    "ses-20120928"
+  ],
+  "validation_sessions": [
+    "ses-20120924"
+  ],
+  "heldout_evaluated_in_fit": null,
+  "heldout_evaluated_in_test": null,
+  "preprocessing": "cubic_T1024",
+  "teacher_seen_validation_session": true,
+  "selected_by_metric": "val_heldin/r2_mean",
+  "selected_metric_value": null,
+  "best_epoch": null,
+  "artifact_dir": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42_20260810_013207",
+  "exported_at_utc": "2026-08-09T18:19:34.291155+00:00",
+  "no_early_stopping": true,
+  "max_epochs": 24
+}

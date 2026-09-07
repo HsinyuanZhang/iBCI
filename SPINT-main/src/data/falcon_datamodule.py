@@ -2,8 +2,10 @@
 Scaffolding adapted from the Hydra template (ashleve/lightning-hydra-template).
 Copyright (c) 2024-2026 University of Washington. Developed in UW NeuroAI Lab by Trung Le.
 """
+import hashlib
+import json
 import random
-from typing import Any, Dict, Optional, OrderedDict
+from typing import Any, Dict, List, Optional, OrderedDict
 from falcon_challenge.config import FalconConfig, FalconTask
 import torch
 from torch.utils.data import DataLoader, Dataset, Sampler
@@ -318,6 +320,11 @@ class FalconDataModule(pl.LightningDataModule):
         pad_value: float = -1.0,
         num_workers: int | None = os.cpu_count() - 1,
         pin_memory: bool = False,
+        clean_teacher: bool = False,
+        include_heldout_in_fit: bool = False,
+        include_heldout_in_test: bool = False,
+        expected_heldin_sessions: List[str] | None = None,
+        clean_teacher_manifest_path: str | None = None,
         ) -> None:
         """
         Initialize a `FALCONDataModule`.
@@ -346,6 +353,112 @@ class FalconDataModule(pl.LightningDataModule):
         self.save_hyperparameters(logger=False)
         self.batch_size_per_device = batch_size
 
+    @staticmethod
+    def _session_name(path: Path) -> str:
+        try:
+            return path.name.split("_")[1].split(".")[0]
+        except IndexError as error:
+            raise ValueError(f"Cannot parse FALCON session from {path}") from error
+
+    def _clean_teacher_files(self, directory_name: str, filename_token: str) -> List[Path]:
+        """Enumerate only a canonical held-in directory, never data_dir.rglob()."""
+        root = Path(self.hparams.data_dir).resolve()
+        directory = (root / directory_name).resolve()
+        if not directory.is_dir():
+            raise FileNotFoundError(f"clean teacher missing canonical directory {directory}")
+        files = sorted(directory.glob(f"*{filename_token}*.nwb"))
+        expected = list(self.hparams.expected_heldin_sessions or [])
+        if len(expected) != 7 or len(set(expected)) != 7:
+            raise ValueError("clean teacher requires exactly seven explicit M2 held-in sessions")
+        observed = []
+        resolved = []
+        for path in files:
+            canonical = path.resolve()
+            try:
+                canonical.relative_to(directory)
+            except ValueError as error:
+                raise ValueError(f"clean teacher symlink escapes canonical directory: {path}") from error
+            if "held-out" in canonical.name.lower():
+                raise ValueError(f"clean teacher rejects held-out path {canonical}")
+            observed.append(self._session_name(canonical))
+            resolved.append(canonical)
+        if len(resolved) != 7 or len(set(observed)) != 7 or set(observed) != set(expected):
+            raise ValueError(
+                f"clean teacher {filename_token} sessions mismatch: observed={sorted(observed)} expected={sorted(expected)}"
+            )
+        return resolved
+
+    def clean_teacher_input_manifest(self) -> Dict[str, Any]:
+        if not self.hparams.clean_teacher:
+            raise ValueError("input manifest is defined only for clean_teacher")
+        rows = []
+        for role, paths in (("heldin_calib", self._clean_calib_files), ("heldin_minival", self._clean_minival_files)):
+            for path in paths:
+                digest_state = hashlib.sha256()
+                with path.open("rb") as handle:
+                    for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+                        digest_state.update(chunk)
+                digest = digest_state.hexdigest()
+                rows.append({"role": role, "session": self._session_name(path), "path": str(path), "sha256": digest, "size_bytes": path.stat().st_size})
+        return {
+            "schema_version": 1,
+            "protocol": "m2_clean_teacher_v1",
+            "task": self.hparams.task,
+            "calibration_n_trials": int(self.hparams.calibration_n_trials),
+            "expected_heldin_sessions": list(self.hparams.expected_heldin_sessions),
+            "forbidden_heldout_sessions": [
+                "ses-2020-10-30-Run1", "ses-2020-10-30-Run2", "ses-2020-11-18-Run1",
+                "ses-2020-11-19-Run1", "ses-2020-11-24-Run1", "ses-2020-11-24-Run2",
+            ],
+            "include_heldout_in_fit": False,
+            "include_heldout_in_test": False,
+            "files": rows,
+        }
+
+    @staticmethod
+    def _canonical_manifest_bytes(manifest: Dict[str, Any]) -> bytes:
+        """Canonical bytes used for exact clean-teacher manifest comparisons."""
+        return (json.dumps(manifest, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
+
+    def _validate_clean_teacher_manifest(self) -> None:
+        """Bind this process's actual canonical inputs to the frozen manifest.
+
+        This intentionally hashes the fourteen files once, after canonical file
+        enumeration but before ``load_nwb``.  The resulting mapping is cached on
+        the datamodule; checkpoint callbacks must reuse it rather than trusting a
+        pre-fit manifest SHA or re-hashing multi-gigabyte calibration files.
+        """
+        manifest_path = self.hparams.clean_teacher_manifest_path
+        if not manifest_path:
+            raise ValueError("clean teacher requires clean_teacher_manifest_path")
+        expected_path = Path(manifest_path).resolve()
+        if not expected_path.is_file():
+            raise FileNotFoundError(f"clean teacher manifest is missing: {expected_path}")
+        try:
+            expected = json.loads(expected_path.read_text())
+        except json.JSONDecodeError as error:
+            raise ValueError(f"clean teacher manifest is invalid JSON: {expected_path}") from error
+        if not isinstance(expected, dict):
+            raise ValueError("clean teacher manifest must be a JSON object")
+
+        runtime = self.clean_teacher_input_manifest()
+        if expected != runtime:
+            raise ValueError(
+                "clean teacher runtime input manifest does not exactly match the frozen manifest"
+            )
+        manifest_bytes = self._canonical_manifest_bytes(runtime)
+        self._clean_teacher_runtime_manifest = runtime
+        self._clean_teacher_runtime_manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
+        self._clean_teacher_external_manifest_path = str(expected_path)
+        self._clean_teacher_external_manifest_sha256 = hashlib.sha256(expected_path.read_bytes()).hexdigest()
+
+    def verified_clean_teacher_input_manifest(self) -> Dict[str, Any]:
+        """Return the once-verified runtime manifest without re-reading NWB inputs."""
+        manifest = getattr(self, "_clean_teacher_runtime_manifest", None)
+        if not isinstance(manifest, dict):
+            raise ValueError("clean teacher runtime manifest was not verified during setup")
+        return manifest
+
 
     def setup(self, stage: Optional[str] = None) -> None:
         """Load data. Set variables: `self.data_train`, `self.data_val`, `self.data_test`.
@@ -357,6 +470,16 @@ class FalconDataModule(pl.LightningDataModule):
 
         :param stage: The stage to setup. Either `"fit"`, `"validate"`, `"test"`, or `"predict"`. Defaults to ``None``.
         """
+        clean_teacher = bool(self.hparams.clean_teacher)
+        # Fail before any scan or load. Clean-teacher mode cannot be converted
+        # into a held-out evaluation or a resumed run through a data override.
+        if clean_teacher and (
+            self.hparams.task != "m2"
+            or self.hparams.include_heldout_in_fit
+            or self.hparams.include_heldout_in_test
+            or stage not in {None, "fit", "validate"}
+        ):
+            raise ValueError("clean teacher permits only M2 held-in fit/validate")
         # Divide batch size by the number of devices.
         if self.trainer is not None:
             if self.hparams.batch_size % self.trainer.world_size != 0:
@@ -366,9 +489,18 @@ class FalconDataModule(pl.LightningDataModule):
             self.batch_size_per_device = self.hparams.batch_size // self.trainer.world_size
 
         task_config = FalconConfig(task=FalconTask.__dict__[self.hparams.task],)
-        train_calib_heldin_files = sorted([f for f in self.hparams.data_dir.rglob('*held-in-calib*.nwb') if any(session_name in f.name for session_name in self.hparams.heldin_session_names)])
-        val_heldin_files = sorted([f for f in self.hparams.data_dir.rglob('*held-in-minival*.nwb') if any(session_name in f.name for session_name in self.hparams.heldin_session_names)])
-        val_calib_heldout_files = sorted([f for f in self.hparams.data_dir.rglob('*held-out-calib*.nwb')])
+        if clean_teacher:
+            train_calib_heldin_files = self._clean_teacher_files("sub-MonkeyN-held-in-calib", "held-in-calib")
+            val_heldin_files = self._clean_teacher_files("sub-MonkeyN-held-in-minival", "held-in-minival")
+            self._clean_calib_files = train_calib_heldin_files
+            self._clean_minival_files = val_heldin_files
+            self._clean_accessed_paths = []
+            self._validate_clean_teacher_manifest()
+            val_calib_heldout_files = []
+        else:
+            train_calib_heldin_files = sorted([f for f in self.hparams.data_dir.rglob('*held-in-calib*.nwb') if any(session_name in f.name for session_name in self.hparams.heldin_session_names)])
+            val_heldin_files = sorted([f for f in self.hparams.data_dir.rglob('*held-in-minival*.nwb') if any(session_name in f.name for session_name in self.hparams.heldin_session_names)])
+            val_calib_heldout_files = sorted([f for f in self.hparams.data_dir.rglob('*held-out-calib*.nwb')])
 
         logging.info(f"Data directory: {self.hparams.data_dir}")
         logging.info(f"Train calibration heldin files: {train_calib_heldin_files}")
@@ -377,7 +509,7 @@ class FalconDataModule(pl.LightningDataModule):
 
         self.train_calib_heldin_sessions = OrderedDict()
         self.val_heldin_sessions = OrderedDict()
-        self.val_calib_heldout_sessions = OrderedDict()
+        self.val_calib_heldout_sessions = OrderedDict() if not clean_teacher else None
         for i, f in enumerate(train_calib_heldin_files):
             session_name = f.name.split('_')[1].split('.')[0]
             if i == 0:
@@ -457,7 +589,7 @@ class FalconDataModule(pl.LightningDataModule):
             interpolate_trials_kind=self.hparams.interpolate_trials_kind,
             pad_value=self.hparams.pad_value,
         )
-        self.val_heldout_dataset = FalconDataset(
+        self.val_heldout_dataset = None if clean_teacher else FalconDataset(
             sessions_dict=self.val_calib_heldout_sessions,
             calib_sessions_dict=self.val_calib_heldout_sessions,
             window_size=self.hparams.window_size,
@@ -479,11 +611,12 @@ class FalconDataModule(pl.LightningDataModule):
 
         logging.info(f"Training dataset: {len(self.train_dataset)} windows")
         logging.info(f"Validation heldin dataset: {len(self.val_heldin_dataset)} windows")
-        logging.info(f"Validation heldout dataset: {len(self.val_heldout_dataset)} windows")
+        if self.val_heldout_dataset is not None:
+            logging.info(f"Validation heldout dataset: {len(self.val_heldout_dataset)} windows")
 
         self.train_batch_sampler = SessionBatchSampler(self.train_dataset, self.batch_size_per_device, shuffle=True)
         self.val_heldin_batch_sampler = SessionBatchSampler(self.val_heldin_dataset, self.batch_size_per_device, shuffle=False)
-        self.val_heldout_batch_sampler = SessionBatchSampler(self.val_heldout_dataset, self.batch_size_per_device, shuffle=False)
+        self.val_heldout_batch_sampler = None if clean_teacher else SessionBatchSampler(self.val_heldout_dataset, self.batch_size_per_device, shuffle=False)
         
         if dist.is_available() and dist.is_initialized():
             logging.info(f"World size: {dist.get_world_size()}")
@@ -496,10 +629,11 @@ class FalconDataModule(pl.LightningDataModule):
                 self.val_heldin_batch_sampler,
                 shuffle=False,
             )
-            self.val_heldout_batch_sampler = DistributedSamplerWrapper(
-                self.val_heldout_batch_sampler,
-                shuffle=False,
-            )
+            if self.val_heldout_batch_sampler is not None:
+                self.val_heldout_batch_sampler = DistributedSamplerWrapper(
+                    self.val_heldout_batch_sampler,
+                    shuffle=False,
+                )
     def prepare_session_data(self, session_data_file, task, standardize_covariates=False, covariates_mean=None, covariates_std=None, use_intertrials=True):
         session_data_dict = {}
         neural, covariates, trial_change, eval_mask = self.load_data(session_data_file, task, use_intertrials=use_intertrials)
@@ -514,6 +648,12 @@ class FalconDataModule(pl.LightningDataModule):
         return session_data_dict
         
     def load_data(self, file, task, use_intertrials=True):
+        if self.hparams.clean_teacher:
+            canonical = Path(file).resolve()
+            approved = set(getattr(self, "_clean_calib_files", [])) | set(getattr(self, "_clean_minival_files", []))
+            if canonical not in approved:
+                raise ValueError(f"clean teacher refused non-approved input {canonical}")
+            self._clean_accessed_paths.append(str(canonical))
         neural, covariates, trial_change, eval_mask = load_nwb(file, task)
         if np.isnan(neural).any() or np.isnan(covariates).any() or np.isnan(trial_change).any():
             raise ValueError(f"NaN values found in the data from file {file}")
@@ -547,13 +687,18 @@ class FalconDataModule(pl.LightningDataModule):
 
         :return: The validation dataloader.
         """
-        return [
-            DataLoader(
+        heldin_loader = DataLoader(
             dataset=self.val_heldin_dataset,
             batch_sampler=self.val_heldin_batch_sampler,
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
-            ),
+        )
+        if self.hparams.clean_teacher:
+            if self.val_heldout_dataset is not None or self.val_heldout_batch_sampler is not None:
+                raise RuntimeError("clean teacher created a forbidden held-out validation loader")
+            return heldin_loader
+        return [
+            heldin_loader,
             DataLoader(
             dataset=self.val_heldout_dataset,
             batch_sampler=self.val_heldout_batch_sampler,
@@ -561,13 +706,15 @@ class FalconDataModule(pl.LightningDataModule):
             pin_memory=self.hparams.pin_memory,
             ),
         ]
-    
+
     
     def test_dataloader(self) -> DataLoader[Any]:
         """Create and return the validation dataloader.
 
         :return: The validation dataloader.
         """
+        if self.hparams.clean_teacher:
+            raise RuntimeError("clean teacher test loader is forbidden")
         return [
             DataLoader(
             dataset=self.val_heldin_dataset,
@@ -582,4 +729,3 @@ class FalconDataModule(pl.LightningDataModule):
             pin_memory=self.hparams.pin_memory,
             ),
         ]
-    

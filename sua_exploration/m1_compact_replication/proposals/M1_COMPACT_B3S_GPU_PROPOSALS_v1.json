@@ -1,0 +1,300 @@
+{
+  "canonical_content_sha256": "2f390378949f18ae79b5f6bdd64b3f252b361684980116113de41cd3ef5280df",
+  "execution": {
+    "commands_are_inert_argv_only": true,
+    "cuda_imported_by_preparation": false,
+    "datamodule_constructed_by_preparation": false,
+    "gpu_launched": false,
+    "trainer_constructed_by_preparation": false
+  },
+  "fold0_e23_continuation": {
+    "commands": {
+      "b0": [
+        "/home/xinyuan/miniconda3/envs/spint/bin/python",
+        "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+        "experiment=m1_version_b_hs_continuation",
+        "run_id=m1_compact_b0_f0_s42_resume_e11_to_e23",
+        "data.loso_fold=0",
+        "data.source_session_names=[ses-20120926,ses-20120927,ses-20120928]",
+        "seed=42",
+        "trainer.min_epochs=24",
+        "trainer.max_epochs=24",
+        "trainer.limit_val_batches=0",
+        "trainer.num_sanity_val_steps=0",
+        "test=true",
+        "ckpt_path=/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_hs_continuation_f0_s42_f0_s42_20260809_231214/checkpoints/best.ckpt"
+      ],
+      "b3s_zero4": [
+        "/home/xinyuan/miniconda3/envs/spint/bin/python",
+        "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+        "experiment=m1_version_b_c0",
+        "run_id=m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23",
+        "data.loso_fold=0",
+        "data.source_session_names=[ses-20120926,ses-20120927,ses-20120928]",
+        "seed=42",
+        "trainer.min_epochs=24",
+        "trainer.max_epochs=24",
+        "trainer.limit_val_batches=0",
+        "trainer.num_sanity_val_steps=0",
+        "test=true",
+        "ckpt_path=/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_c0_f0_s42_f0_s42_20260809_222207/checkpoints/best.ckpt"
+      ]
+    },
+    "contingency": {
+      "fresh24_is_not_equivalent_to_resume": true,
+      "if_any_restore_check_fails": "do not call this continuation; prepare a separately named fresh fixed-24 pair",
+      "no_independent_from_scratch_claim_for_this_pair": true
+    },
+    "evaluation": "one terminal e23 target query per arm; no intermediate target metric",
+    "gate": {
+      "metric": "B3S-Zero4 minus B0 pooled variance-weighted R2",
+      "paired_same_ordered_query_required": true,
+      "pass_if": "delta >= -0.03",
+      "threshold": -0.03
+    },
+    "launched": false,
+    "name": "paired fixed-e11 to fixed-e23 strict continuation",
+    "required_before_launch": {
+      "authority_status": "PASS_M1_COMPACT_B3S_FOLD0_FORWARD_ONLY_AUTHORITY",
+      "fold0_forward_authority": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_FORWARD_AUTHORITY_v1.json",
+      "strict_lightning_resume_from_both_checkpoints": true
+    },
+    "resume_validation": {
+      "b0": {
+        "epoch": 11,
+        "fixed_every_12_epoch_callback_state_present": true,
+        "global_step": 59412,
+        "loop_state_present": true,
+        "lr_schedulers": 0,
+        "optimizer": {
+          "lr": 0.0001,
+          "optimizer_step": 59412,
+          "param_group_count": 1,
+          "parameter_ids_in_group": 43,
+          "parameters_with_optimizer_state": 31,
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_hs_continuation_f0_s42_f0_s42_20260809_231214/checkpoints/best.ckpt",
+        "pytorch_lightning_version": "2.6.5",
+        "sha256": "63e378fbeae2ca72b24812d494255345c01c7353fa584d316846f014097e4078",
+        "strict_resume_possible": true
+      },
+      "b3s_zero4": {
+        "epoch": 11,
+        "fixed_every_12_epoch_callback_state_present": true,
+        "global_step": 59412,
+        "loop_state_present": true,
+        "lr_schedulers": 0,
+        "optimizer": {
+          "lr": 0.0001,
+          "optimizer_step": 59412,
+          "param_group_count": 1,
+          "parameter_ids_in_group": 39,
+          "parameters_with_optimizer_state": 27,
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_c0_f0_s42_f0_s42_20260809_222207/checkpoints/best.ckpt",
+        "pytorch_lightning_version": "2.6.5",
+        "sha256": "7f653e0e6c0348944d5192d86f7311c724a6b15ab1a64fb38235e287407f6bbe",
+        "strict_resume_possible": true
+      }
+    },
+    "scope": {
+      "fold": 0,
+      "formal_or_minival_or_heldout": false,
+      "outer_target": "ses-20120924",
+      "query_trials": [
+        10,
+        210
+      ],
+      "seed": 42,
+      "source_sessions": [
+        "ses-20120926",
+        "ses-20120927",
+        "ses-20120928"
+      ],
+      "support_trials": [
+        0,
+        10
+      ]
+    }
+  },
+  "folds1_2_cross_session": {
+    "cells": [
+      {
+        "argv": [
+          "/home/xinyuan/miniconda3/envs/spint/bin/python",
+          "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+          "experiment=m1_version_b_hs_continuation",
+          "run_id=m1_compact_b0_f1_s42_fresh_e11",
+          "data.loso_fold=1",
+          "data.source_session_names=[ses-20120924,ses-20120927,ses-20120928]",
+          "seed=42",
+          "trainer.min_epochs=12",
+          "trainer.max_epochs=12",
+          "trainer.limit_val_batches=0",
+          "trainer.num_sanity_val_steps=0",
+          "test=true",
+          "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/checkpoints/best_ckpt/epoch_019.ckpt",
+          "ckpt_path=null"
+        ],
+        "arm": "b0",
+        "fixed_terminal_epoch_zero_based": 11,
+        "fold": 1,
+        "outer_target": "ses-20120926",
+        "seed": 42,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120927",
+          "ses-20120928"
+        ]
+      },
+      {
+        "argv": [
+          "/home/xinyuan/miniconda3/envs/spint/bin/python",
+          "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+          "experiment=m1_version_b_c0",
+          "run_id=m1_compact_b3s_zero4_f1_s42_fresh_e11",
+          "data.loso_fold=1",
+          "data.source_session_names=[ses-20120924,ses-20120927,ses-20120928]",
+          "seed=42",
+          "trainer.min_epochs=12",
+          "trainer.max_epochs=12",
+          "trainer.limit_val_batches=0",
+          "trainer.num_sanity_val_steps=0",
+          "test=true",
+          "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/checkpoints/best_ckpt/epoch_019.ckpt",
+          "ckpt_path=null"
+        ],
+        "arm": "b3s_zero4",
+        "fixed_terminal_epoch_zero_based": 11,
+        "fold": 1,
+        "outer_target": "ses-20120926",
+        "seed": 42,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120927",
+          "ses-20120928"
+        ]
+      },
+      {
+        "argv": [
+          "/home/xinyuan/miniconda3/envs/spint/bin/python",
+          "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+          "experiment=m1_version_b_hs_continuation",
+          "run_id=m1_compact_b0_f2_s42_fresh_e11",
+          "data.loso_fold=2",
+          "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+          "seed=42",
+          "trainer.min_epochs=12",
+          "trainer.max_epochs=12",
+          "trainer.limit_val_batches=0",
+          "trainer.num_sanity_val_steps=0",
+          "test=true",
+          "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+          "ckpt_path=null"
+        ],
+        "arm": "b0",
+        "fixed_terminal_epoch_zero_based": 11,
+        "fold": 2,
+        "outer_target": "ses-20120927",
+        "seed": 42,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ]
+      },
+      {
+        "argv": [
+          "/home/xinyuan/miniconda3/envs/spint/bin/python",
+          "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+          "experiment=m1_version_b_c0",
+          "run_id=m1_compact_b3s_zero4_f2_s42_fresh_e11",
+          "data.loso_fold=2",
+          "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+          "seed=42",
+          "trainer.min_epochs=12",
+          "trainer.max_epochs=12",
+          "trainer.limit_val_batches=0",
+          "trainer.num_sanity_val_steps=0",
+          "test=true",
+          "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+          "ckpt_path=null"
+        ],
+        "arm": "b3s_zero4",
+        "fixed_terminal_epoch_zero_based": 11,
+        "fold": 2,
+        "outer_target": "ses-20120927",
+        "seed": 42,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ]
+      }
+    ],
+    "claim_limit": "development source-LOSO replication only; not formal held-out superiority",
+    "launched": false,
+    "name": "conditional fresh fixed-e11 precision replication",
+    "required_gate_receipt_before_launch": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_GATE_v1.json",
+      "required_delta_minimum": -0.03,
+      "required_status": "PASS_M1_COMPACT_B3S_F0_E23_NONINFERIORITY"
+    },
+    "source_only_teacher_validation": {
+      "1": {
+        "checkpoint": {
+          "epoch": 19,
+          "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/checkpoints/best_ckpt/epoch_019.ckpt",
+          "sha256": "b15edc9f66ff9acded6b78fe0b7a2041b359f8f831db22f3ab87f6083e8f50f3"
+        },
+        "fold": 1,
+        "manifest": {
+          "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/source_only_decoder_manifest.json",
+          "sha256": "9d67b56bdc354d1a8b0b7bee83b6c5203e566adb982496289a0122723e130551"
+        },
+        "outer_target": "ses-20120926",
+        "outer_target_excluded_from_source_files": true,
+        "outer_target_excluded_from_train_sessions": true,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120927",
+          "ses-20120928"
+        ]
+      },
+      "2": {
+        "checkpoint": {
+          "epoch": 19,
+          "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+          "sha256": "925fba67a6a4338ee6e399751e80d53c5e74a22a7dd3ae0329d9c8da9e0291e2"
+        },
+        "fold": 2,
+        "manifest": {
+          "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/source_only_decoder_manifest.json",
+          "sha256": "4dc53581280281326257c158a977b329195d0335443c658899f83a9a4410e4bb"
+        },
+        "outer_target": "ses-20120927",
+        "outer_target_excluded_from_source_files": true,
+        "outer_target_excluded_from_train_sessions": true,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ]
+      }
+    },
+    "stop_rules": {
+      "any_new_fold_delta_below_minus_0_03": "stop remaining expansion",
+      "at_least_two_negative_deltas_across_folds_0_1_2": "stop and do not claim stable advantage",
+      "no_extra_seed_or_fold_after_stop": true
+    }
+  },
+  "metadata_correction": {
+    "generic_teacher_exposure_attested": false,
+    "generic_teacher_seen_validation_session_default": null,
+    "teacher_exclusion_evidence_lives_in_fold_specific_source_only_manifests": true
+  },
+  "schema": "m1_compact_b3s_gpu_proposals_v1",
+  "status": "PASS_M1_COMPACT_B3S_PROPOSALS_PREPARED_NOT_LAUNCHED"
+}

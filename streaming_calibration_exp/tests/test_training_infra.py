@@ -9,7 +9,10 @@ import torch
 from src.models.components.spint import SpintModel
 from src.models.components.streaming_encoders import EarlyPoolEncoder
 from src.models.components.streaming_spint import StreamingSpintModel
-from src.models.streaming_calibration_module import StreamingCalibrationLitModule
+from src.models.streaming_calibration_module import (
+    StreamingCalibrationLitModule,
+    split_ssc_t4_support_views,
+)
 from src.utils.instantiators import _collect_target_nodes, instantiate_callbacks
 
 
@@ -165,3 +168,58 @@ def test_training_step_adds_two_support_prediction_consistency():
     )
 
     assert loss > primary_loss
+
+
+def test_ssc_t4_views_are_disjoint_even_odd_m12_subsets():
+    calib = torch.arange(2 * 24 * 3 * 4, dtype=torch.float32).reshape(2, 24, 3, 4)
+    even, odd = split_ssc_t4_support_views(calib)
+    assert even.shape == odd.shape == (2, 12, 3, 4)
+    assert torch.equal(even, calib[:, 0::2])
+    assert torch.equal(odd, calib[:, 1::2])
+    with pytest.raises(ValueError, match="M24"):
+        split_ssc_t4_support_views(calib[:, :23])
+
+
+def test_ssc_t4_prediction_anchor_detaches_full_path_and_updates_half_paths():
+    class _HalfSupportStudent(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.scale = torch.nn.Parameter(torch.tensor(1.0))
+
+        def forward(self, neural, calib_trials, side_features):
+            value = self.scale * calib_trials.mean(dim=(1, 2, 3)).view(-1, 1, 1)
+            prediction = value.expand(-1, neural.shape[1], 2)
+            identity = torch.zeros(neural.shape[0], neural.shape[-1], neural.shape[1])
+            return prediction, identity
+
+    module = StreamingCalibrationLitModule(
+        task="m2", variant="B3S", teacher_ckpt_path="unused.ckpt", window_size=50,
+        optimizer=None, side_dim=4, ssc_t4_prediction_consistency_weight=1.0,
+    )
+    student = _HalfSupportStudent()
+    module.student = student
+    module.log = lambda *args, **kwargs: None
+    full_parameter = torch.nn.Parameter(torch.tensor(1.0))
+    primary_loss = full_parameter.square()
+    module.model_step = lambda batch: {
+        "loss": primary_loss,
+        "behavior_pred": full_parameter.expand(2, 1, 2),
+        "session_name": ["same-session", "same-session"],
+    }
+    neural = torch.zeros(2, 50, 3)
+    behavior = torch.zeros(2, 50, 2)
+    calib = torch.stack([
+        torch.arange(24, dtype=torch.float32).view(24, 1, 1).expand(24, 4, 3),
+        (10 + torch.arange(24, dtype=torch.float32)).view(24, 1, 1).expand(24, 4, 3),
+    ])
+    side = torch.zeros(2, 3, 4)
+    loss = module.training_step(
+        (neural, behavior, calib, ["same-session", "same-session"], side), 0
+    )
+    loss.backward()
+    # The full-M24 prediction is explicitly stop-gradient: it receives only
+    # the ordinary full-path primary loss d(x^2)/dx=2 at x=1.
+    assert torch.allclose(full_parameter.grad, torch.tensor(2.0))
+    # Both M12 activity views use the shared student, so the SSC loss carries
+    # a real optimization signal through the half-support paths.
+    assert student.scale.grad is not None and student.scale.grad.abs() > 0

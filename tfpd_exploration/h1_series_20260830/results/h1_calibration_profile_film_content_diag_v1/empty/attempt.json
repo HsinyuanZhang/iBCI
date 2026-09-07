@@ -1,0 +1,16 @@
+{
+ "anchor_r2_tolerance": 1e-07,
+ "created_at_utc": "2026-09-04T15:02:48.442043Z",
+ "evalai_opened": false,
+ "formal_heldout_opened": false,
+ "mode": "empty",
+ "patched": {
+  "h1_calibration_profile_film_v1.evaluate.build_film": "receipted",
+  "h1_calibration_profile_film_v1.evaluate.film_identity": "empty"
+ },
+ "perm_seed": 20260904,
+ "perm_sha256": "22a9cbd3bdd23fe5f27f1b0b95cc954a0436a5f01895aefa9de09aab52b45147",
+ "require_historical_prediction_sha": false,
+ "schema": "h1_calibration_profile_film_content_diag_v1_attempt",
+ "status": "ATTEMPT_MODE_RUN_OVER_SEALED_V2_RUNNER"
+}

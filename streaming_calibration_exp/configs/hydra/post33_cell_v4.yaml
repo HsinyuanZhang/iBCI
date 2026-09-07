@@ -1,0 +1,13 @@
+defaults:
+  - override hydra_logging: disabled
+  - override job_logging: disabled
+
+run:
+  dir: ${cell_paths.cell_dir}/run
+sweep:
+  dir: ${cell_paths.cell_dir}/run/multirun
+  subdir: ${hydra.job.num}
+
+# Do not let Hydra create `.hydra/*.yaml` bookkeeping beside the owned
+# artifacts.  The Phase-C wrapper writes its own canonical resolved config.
+output_subdir: null

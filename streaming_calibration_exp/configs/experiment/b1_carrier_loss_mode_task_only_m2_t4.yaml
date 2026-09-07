@@ -1,0 +1,20 @@
+# @package _global_
+# B1 carrier-arm loss-mode sweep cell 1/3 (UNLAUNCHED).
+# M2 T4 (B3S, side_dim=4) with task_only distillation disabled.
+
+defaults:
+  - override /model: streaming_b3s_t4
+
+run_id: b1_carrier_loss_mode_task_only_m2_t4
+comparison_role: b1_carrier_loss_mode
+tags: ["b1_carrier_loss_mode", "m2", "t4", "task_only", "loso", "unlaunched"]
+data:
+  validation_protocol: loso
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0

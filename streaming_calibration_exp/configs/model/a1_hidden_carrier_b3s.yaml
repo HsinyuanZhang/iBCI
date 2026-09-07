@@ -1,0 +1,20 @@
+defaults:
+  - _streaming_base
+
+_target_: src.models.a1_hidden_carrier_module.A1HiddenCarrierLitModule
+task: mc_maze
+variant: B3S
+hidden_dim: 64
+side_dim: 4
+electrode_embed_dim: 0
+num_electrodes: 0
+
+# Source-only A1 fit: frozen teacher, joint student decoder + E_A + P.
+freeze_decoder: false
+loss_mode: task_only
+lambda_y: 0.0
+lambda_E: 0.0
+
+a1_attachment_mode: aligned
+a1_attachment_permutation_seed: null
+a1_carrier_dim: 4

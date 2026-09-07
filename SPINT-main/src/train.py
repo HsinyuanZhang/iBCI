@@ -10,6 +10,7 @@ import lightning as L
 import rootutils
 import torch
 from lightning import Callback, LightningDataModule, LightningModule, Trainer
+from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 from lightning.pytorch.loggers import Logger
 from omegaconf import DictConfig
 # from lightning.pytorch.plugins.environments import SLURMEnvironment
@@ -45,6 +46,34 @@ from src.utils import (
 log = RankedLogger(__name__, rank_zero_only=True)
 
 
+def assert_clean_teacher_selection_contract(cfg: DictConfig, callbacks: List[Callback]) -> None:
+    """Reject every held-out or resume route before the trainer is constructed."""
+    if not cfg.get("clean_teacher_mode", False):
+        return
+    if cfg.get("test") is not False or cfg.get("ckpt_path") not in (None, "", "null"):
+        raise ValueError("clean teacher requires test=false and ckpt_path=null")
+    if cfg.data.get("clean_teacher") is not True:
+        raise ValueError("clean_teacher_mode requires data.clean_teacher=true")
+    if cfg.data.get("include_heldout_in_fit") or cfg.data.get("include_heldout_in_test"):
+        raise ValueError("clean teacher forbids held-out data flags")
+    expected = "val_heldin/r2_mean"
+    monitors = []
+    best = []
+    for callback in callbacks:
+        if isinstance(callback, (ModelCheckpoint, EarlyStopping)):
+            monitor = getattr(callback, "monitor", None)
+            mode = getattr(callback, "mode", None)
+            monitors.append((type(callback).__name__, monitor, mode))
+            if monitor != expected or mode != "max":
+                raise ValueError(f"clean teacher selector must be {expected}/max, got {monitors[-1]}")
+            if isinstance(callback, ModelCheckpoint):
+                best.append(callback)
+    if len(best) != 1:
+        raise ValueError("clean teacher requires exactly one named ModelCheckpoint selector")
+    if "clean_teacher_best" not in str(best[0].dirpath):
+        raise ValueError("clean teacher selector must write to clean_teacher_best")
+
+
 @task_wrapper
 def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Trains the model. Can additionally evaluate on a test set, using best weights obtained during
@@ -68,6 +97,7 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
 
     log.info("Instantiating callbacks...")
     callbacks: List[Callback] = instantiate_callbacks(cfg.get("callbacks"))
+    assert_clean_teacher_selection_contract(cfg, callbacks)
 
     log.info("Instantiating loggers...")
     logger: List[Logger] = instantiate_loggers(cfg.get("logger"))
@@ -98,7 +128,14 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
 
     if cfg.get("test"):
         log.info("Starting testing!")
-        ckpt_path = trainer.checkpoint_callback.best_model_path
+        if cfg.get("clean_teacher_mode", False):
+            best = next(
+                callback for callback in callbacks
+                if isinstance(callback, ModelCheckpoint) and "clean_teacher_best" in str(callback.dirpath)
+            )
+            ckpt_path = best.best_model_path
+        else:
+            ckpt_path = trainer.checkpoint_callback.best_model_path
         if ckpt_path == "":
             log.warning("Best ckpt not found! Using current weights for testing...")
             ckpt_path = None

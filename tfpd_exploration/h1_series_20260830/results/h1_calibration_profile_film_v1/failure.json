@@ -1,0 +1,21 @@
+{
+  "attempt_sha256": "1dd84e148fd03d3da472f3340662adcfbf36e7d3db366e7477075595cacf9d8f",
+  "error": "ses-19250108T110520: LP-ZERO prediction anchor drift",
+  "error_type": "H1CalibrationProfileFiLMError",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu1_touched": false,
+  "published_files": [
+    "attempt.json",
+    "attempt.json.sha256",
+    "checkpoint_19250108_ep-film.pt",
+    "checkpoint_19250108_ep-film.pt.sha256",
+    "checkpoint_19250108_lp-film.pt",
+    "checkpoint_19250108_lp-film.pt.sha256",
+    "training_19250108.json",
+    "training_19250108.json.sha256"
+  ],
+  "schema": "h1_calibration_profile_film_v1_failure",
+  "status": "FAIL_NO_RETRY",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/xinyuan/Work_host/SPINT/tfpd_exploration/h1_series_20260830/scripts/run_h1_calibration_profile_film_v1.py\", line 114, in main\n    score = run(REPO_ROOT, device=\"cuda:0\", receipt_root=RESULT_ROOT)\n  File \"/home/xinyuan/Work_host/SPINT/tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/evaluate.py\", line 590, in run\n    folds.append(run_fold(\n  File \"/home/xinyuan/Work_host/SPINT/tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/evaluate.py\", line 543, in run_fold\n    scores, rows = _score(\n  File \"/home/xinyuan/Work_host/SPINT/tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/evaluate.py\", line 436, in _score\n    require(array_sha256(lp_zero) == old[\"prediction_sha256\"][\"LP-R3\"],\n  File \"/home/xinyuan/Work_host/SPINT/tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/core.py\", line 17, in require\n    raise H1CalibrationProfileFiLMError(message)\nh1_calibration_profile_film_v1.core.H1CalibrationProfileFiLMError: ses-19250108T110520: LP-ZERO prediction anchor drift\n"
+}

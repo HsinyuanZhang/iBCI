@@ -1,0 +1,8 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!m1_trf_falcon_decoder.py
+!v3_runtime.py
+!artifacts/
+!artifacts/m1_optimized_v2_t_ema_e6.pkl

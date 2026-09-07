@@ -1,0 +1,519 @@
+{
+  "cells": [
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 0,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131010",
+      "paired_within_seed_and_fold": true,
+      "seed": 43,
+      "target_session": "ses-RT-20131009"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 3,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131029",
+      "paired_within_seed_and_fold": true,
+      "seed": 43,
+      "target_session": "ses-RT-20131028"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 6,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131212",
+      "paired_within_seed_and_fold": true,
+      "seed": 43,
+      "target_session": "ses-RT-20131210"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 9,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131218",
+      "paired_within_seed_and_fold": true,
+      "seed": 43,
+      "target_session": "ses-RT-20131217"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 12,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20150318",
+      "paired_within_seed_and_fold": true,
+      "seed": 43,
+      "target_session": "ses-RT-20150317"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 0,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131010",
+      "paired_within_seed_and_fold": true,
+      "seed": 44,
+      "target_session": "ses-RT-20131009"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 3,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131029",
+      "paired_within_seed_and_fold": true,
+      "seed": 44,
+      "target_session": "ses-RT-20131028"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 6,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131212",
+      "paired_within_seed_and_fold": true,
+      "seed": 44,
+      "target_session": "ses-RT-20131210"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 9,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20131218",
+      "paired_within_seed_and_fold": true,
+      "seed": 44,
+      "target_session": "ses-RT-20131217"
+    },
+    {
+      "arms": [
+        "afc4_vel",
+        "afc4_mb4"
+      ],
+      "fold": 12,
+      "fresh_fit": true,
+      "inner_validation_session": "ses-RT-20150318",
+      "paired_within_seed_and_fold": true,
+      "seed": 44,
+      "target_session": "ses-RT-20150317"
+    }
+  ],
+  "development_only": true,
+  "failure_policy": {
+    "accounting_or_pair_mismatch": "invalid and no aggregate",
+    "missing_or_failed_cell": "no aggregate, no imputation, no substitute fold/seed, no score-based rerun; preserve seed-42 primary unchanged"
+  },
+  "formal_heldout_opened": false,
+  "freeze": {
+    "date": "2026-08-10",
+    "seed42_blinded": false,
+    "seed42_primary_known_at_freeze": true,
+    "seed43_44_outputs_known_at_freeze": false,
+    "selection_disclosure": "Seed-42 results were known when this draft was frozen. The fixed fold-ID rule and metadata-only binding table do not read or hash seed-42 performance fields; this is procedural score-independence, not a blinded seed-42 selection.",
+    "selection_rule": "fold IDs [0,3,6,9,12] (fold % 3 == 0), fixed before seed-43/44 outputs",
+    "selection_used_scores": false
+  },
+  "immutable_anchor_metadata": {
+    "full_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "path": "sua_exploration/results/k4_rt_loso_v1/rt_seed42_clean_nested_aggregate.json",
+      "schema": "rt_seed42_clean_nested_loso_aggregate_v1",
+      "score_bytes_used_for_selection": false,
+      "seed": 42,
+      "status": "PASS_RT_SEALED"
+    },
+    "mb4_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "path": "sua_exploration/results/rt_mb4_matched_clean_nested_v1/RT_MB4_MATCHED_FULL15_AGGREGATE_v1.json",
+      "schema": "rt_mb4_matched_full_minus_mb4_aggregate_v1",
+      "score_bytes_used_for_selection": false,
+      "seed": 42,
+      "status": "PASS_RT_FULL_MINUS_MB4_ALL_15_PAIRED"
+    },
+    "seed42_seal_marker": {
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "path": "sua_exploration/results/k4_rt_loso_v1/rt_seed42_clean_nested_seal.marker",
+      "schema": "rt_seed42_clean_nested_loso_seal_marker_v1",
+      "score_bytes_used_for_selection": false,
+      "seed": 42,
+      "status": "PASS_RT_SEALED"
+    }
+  },
+  "implementation_snapshot": {
+    "streaming_calibration_exp/configs/data/rt_nested_loso_m24.yaml": {
+      "mode": "664",
+      "sha256": "561c7f163cc19cd485d88810d3f9d4ffb4099fe39761895fc4215d188669c911"
+    },
+    "streaming_calibration_exp/configs/experiment/rt_clean_nested_loso_m24.yaml": {
+      "mode": "664",
+      "sha256": "524a9f96a6f321b0c6bdf7927a607389d1752d61f577c5c366a08f29ffbf1600"
+    },
+    "streaming_calibration_exp/configs/model/streaming_b3s_t4.yaml": {
+      "mode": "664",
+      "sha256": "5d18cf026359ec4bcebb081c11b69aa08d97fa342de675d2a8d5d24ff7741195"
+    },
+    "streaming_calibration_exp/configs/trainer/default.yaml": {
+      "mode": "664",
+      "sha256": "9c5693dc2f7c2a3866da678a2a93ff8a9c638936a11d623a1443932016ab0915"
+    },
+    "streaming_calibration_exp/scripts/run_rt_clean_nested_loso.py": {
+      "mode": "664",
+      "sha256": "9a5829017defa4a230d6ae0b7f3a4092394ecbd078de6d4822940e2cda30a59a"
+    },
+    "streaming_calibration_exp/src/callbacks/rt_nested_selection_receipt.py": {
+      "mode": "664",
+      "sha256": "b7d2fa4eae1eff53fdce160943036593b918cef63fe4a81a99094898c8aaa0f8"
+    },
+    "streaming_calibration_exp/src/data/rt_nested_loso_datamodule.py": {
+      "mode": "664",
+      "sha256": "eba9a43f1ed30f65bd0d7e2de6856d42cbf733fffeccdaad7905cae6108237dd"
+    },
+    "streaming_calibration_exp/src/models/components/streaming_spint.py": {
+      "mode": "664",
+      "sha256": "141129622ee2c187c053a0139f3926ab1880871d51dc88d0f8b93cc1b734ad9a"
+    },
+    "streaming_calibration_exp/src/rt_clean_nested_loso_eval.py": {
+      "mode": "664",
+      "sha256": "316d1ea77cc83715bdee820887d49eb782fabcc2745098ea44c29f3dc649707f"
+    }
+  },
+  "launch_blockers": [
+    {
+      "code": "RUNNER_MISSING_AFC4_MB4_CLI",
+      "detail": "run_rt_clean_nested_loso.py does not accept afc4_mb4; add and hash-review the launcher before GPU launch."
+    },
+    {
+      "code": "INITIAL_STATE_HASH_NOT_EXPOSED",
+      "detail": "future paired cells must record an initial_state_hash; no sealed receipt currently exposes this field."
+    },
+    {
+      "code": "ACCOUNTING_REQUIRED_AT_RUN_TIME",
+      "detail": "seed-42 MB4 receipt explicitly lacks parameter/MAC/state accounting; every new cell must emit all three fields."
+    }
+  ],
+  "pair_invariants": {
+    "exact_equal": [
+      "parameter_count",
+      "macs_per_decode_call",
+      "cached_state_bytes",
+      "initial_state_hash",
+      "source_split_manifest_sha256",
+      "source_normalizer_sha256"
+    ],
+    "required": {
+      "target_backpropagation": false,
+      "target_model_state_unchanged": true,
+      "target_optimizer_present": false
+    }
+  },
+  "per_cell_required_fields": [
+    "seed",
+    "fold",
+    "arm",
+    "target_session",
+    "inner_validation_session",
+    "r2_variance_weighted",
+    "query_windows_evaluated",
+    "selected_epoch",
+    "selected_global_step",
+    "status",
+    "target_model_state_unchanged",
+    "target_model_state_before_sha256",
+    "target_model_state_after_sha256",
+    "target_backpropagation",
+    "target_optimizer_present",
+    "source_split_manifest_sha256",
+    "source_normalizer_sha256",
+    "checkpoint_sha256",
+    "parameter_count",
+    "macs_per_decode_call",
+    "cached_state_bytes",
+    "initial_state_hash"
+  ],
+  "protocol": {
+    "arms": {
+      "afc4_mb4": {
+        "descriptor": "[0,0,||W||,b]",
+        "implementation_group": "k4__normalized_component_mask",
+        "side_dim": 4
+      },
+      "afc4_vel": {
+        "descriptor": "[w_x,w_y,||W||,b]",
+        "implementation_group": "k4",
+        "side_dim": 4
+      }
+    },
+    "bin_size_ms": 20,
+    "cells": 20,
+    "checkpoint_selection": "val_heldin/r2_mean on the cyclic inner-validation session only",
+    "fresh_fit_from_scratch": true,
+    "max_epochs": 35,
+    "no_early_stopping": true,
+    "no_seed42_checkpoint_reuse": true,
+    "outer_fold_sampling_unit": "fold_within_seed; seed is a nested training repeat; never pool seed\u00d7fold as independent samples",
+    "outer_folds": [
+      0,
+      3,
+      6,
+      9,
+      12
+    ],
+    "paired_fold_seed_pairs": 10,
+    "paired_initialization": "same fold/seed must record identical initial_state_hash for Full and MB4; missing hash is fail-closed",
+    "query_start_trial": 24,
+    "seeds": [
+      43,
+      44
+    ],
+    "source_training_optimizer": "present and allowed; this field is distinct from target_optimizer_present",
+    "split": "development_clean_nested_outer_LOSO",
+    "support_budget_trials": 24,
+    "target_calibration": "support velocity labels only; target query labels are scoring-only",
+    "target_evaluation": "one-shot outer target; no target optimizer, backward, Trainer.test, or target query labels during fit/selection",
+    "task": "rt",
+    "window_size_bins": 50
+  },
+  "readout": {
+    "cross_seed": [
+      "two_seed_means",
+      "two_seed_medians",
+      "mean_of_seed_means",
+      "both_seed_mean_positive",
+      "each_seed_at_least_4_of_5_positive",
+      "all_10_sign_count"
+    ],
+    "inferential_claim": "none; descriptive robustness only because folds are nested within seed",
+    "labels": {
+      "INCOMPLETE_NO_AGGREGATE": "any missing, failed, invalid, or accounting-incomplete cell",
+      "MIXED_DIRECTION": "complete cells but the ROBUST_DIRECTIONAL rule is not met",
+      "ROBUST_DIRECTIONAL": "both seed means and medians > 0 and each seed has at least 4/5 positive folds"
+    },
+    "pair_delta": "Full R2 minus MB4 R2, by fold and seed",
+    "per_seed": [
+      "mean",
+      "median",
+      "positive_negative_tie_counts",
+      "sample_sd",
+      "sample_se"
+    ]
+  },
+  "resource_plan": {
+    "epoch_equivalent_fit_units": 700,
+    "gpu_fit_cells": 20,
+    "no_gpu_launched_by_this_receipt": true,
+    "outer_score_only_evals": 20,
+    "paired_waves_if_two_gpus": 10,
+    "storage_estimate_status": "UNAVAILABLE_NO_SEALED_CHECKPOINT_SIZE",
+    "wall_clock_estimate_status": "UNAVAILABLE_NO_SEALED_TIMING"
+  },
+  "schema": "rt_seed_robustness_annex_v2",
+  "selection": {
+    "canonical_json_sha256_input_bytes": 1581,
+    "method": "performance_independent_fold_id_modulo_v2",
+    "ranked_folds": [],
+    "score_bearing_anchor_hashes_used": false,
+    "selected_fold_ids": [
+      0,
+      3,
+      6,
+      9,
+      12
+    ],
+    "selected_rule_order": [
+      0,
+      3,
+      6,
+      9,
+      12
+    ],
+    "selection_preimage": {
+      "candidate_fold_bindings": [
+        {
+          "fold": 0,
+          "inner_validation_session": "ses-RT-20131010",
+          "target_session": "ses-RT-20131009"
+        },
+        {
+          "fold": 1,
+          "inner_validation_session": "ses-RT-20131011",
+          "target_session": "ses-RT-20131010"
+        },
+        {
+          "fold": 2,
+          "inner_validation_session": "ses-RT-20131028",
+          "target_session": "ses-RT-20131011"
+        },
+        {
+          "fold": 3,
+          "inner_validation_session": "ses-RT-20131029",
+          "target_session": "ses-RT-20131028"
+        },
+        {
+          "fold": 4,
+          "inner_validation_session": "ses-RT-20131209",
+          "target_session": "ses-RT-20131029"
+        },
+        {
+          "fold": 5,
+          "inner_validation_session": "ses-RT-20131210",
+          "target_session": "ses-RT-20131209"
+        },
+        {
+          "fold": 6,
+          "inner_validation_session": "ses-RT-20131212",
+          "target_session": "ses-RT-20131210"
+        },
+        {
+          "fold": 7,
+          "inner_validation_session": "ses-RT-20131213",
+          "target_session": "ses-RT-20131212"
+        },
+        {
+          "fold": 8,
+          "inner_validation_session": "ses-RT-20131217",
+          "target_session": "ses-RT-20131213"
+        },
+        {
+          "fold": 9,
+          "inner_validation_session": "ses-RT-20131218",
+          "target_session": "ses-RT-20131217"
+        },
+        {
+          "fold": 10,
+          "inner_validation_session": "ses-RT-20150316",
+          "target_session": "ses-RT-20131218"
+        },
+        {
+          "fold": 11,
+          "inner_validation_session": "ses-RT-20150317",
+          "target_session": "ses-RT-20150316"
+        },
+        {
+          "fold": 12,
+          "inner_validation_session": "ses-RT-20150318",
+          "target_session": "ses-RT-20150317"
+        },
+        {
+          "fold": 13,
+          "inner_validation_session": "ses-RT-20150320",
+          "target_session": "ses-RT-20150318"
+        },
+        {
+          "fold": 14,
+          "inner_validation_session": "ses-RT-20131009",
+          "target_session": "ses-RT-20150320"
+        }
+      ],
+      "candidate_fold_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "protocol": "rt_seed_robustness_annex_v2",
+      "rule": "select fold IDs satisfying fold % 3 == 0",
+      "selected_fold_ids": [
+        0,
+        3,
+        6,
+        9,
+        12
+      ]
+    },
+    "selection_preimage_sha256": "6641fdec0f213289afd331aeeebc875746160020b66ba1535fa85a74dc19267b",
+    "selection_used_scores": false
+  },
+  "status": "DRAFT_PREREGISTRATION_NOT_AUTHORIZED_NO_GPU",
+  "supersedes": "rt_seed_robustness_annex_v1",
+  "target_evaluation_fields": {
+    "target_backpropagation": "must be false",
+    "target_model_state_hashes": [
+      "target_model_state_before_sha256",
+      "target_model_state_after_sha256"
+    ],
+    "target_model_state_unchanged": "must be true; hash before/after the outer forward-only evaluation",
+    "target_optimizer_present": "must be false; source-training optimizers are not described by this field"
+  }
+}

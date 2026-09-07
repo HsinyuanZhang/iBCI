@@ -1,0 +1,14 @@
+{
+  "attempt_sha256": "8324d2a5c8747f47d56f9854dcecf33b644574e185c1c48395ef7fd3f0669446",
+  "exception_message": "frozen carrier requires exactly four TrialNum values",
+  "exception_type": "PilotDataError",
+  "published_prefix": [
+    "attempt.json"
+  ],
+  "schema": "h1_causal_activity_completion_v1_stage1_c1_m3_failure",
+  "status": "FAILED_H1_CAC_STAGE1_NO_AUTOMATIC_RETRY",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "workorder_sha256": "8768808f40994327ede7a4e644ac3dd4dcd0f14bf6ef9bfce9e84d6d186c5891"
+}

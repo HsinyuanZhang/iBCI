@@ -1,0 +1,16 @@
+defaults:
+  - override_epoch_step
+  - lr_monitor
+  - model_summary
+  - _self_
+
+best_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/source_only_best
+  filename: epoch_{epoch:03d}
+  monitor: val_heldin/r2_mean
+  mode: max
+  save_last: false
+  auto_insert_metric_name: false
+  save_top_k: 1
+

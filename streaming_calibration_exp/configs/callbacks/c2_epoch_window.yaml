@@ -1,0 +1,13 @@
+# C2 records every fixed-training epoch.  No monitored best-checkpoint
+# callback and no early stopping: epoch 5--12 are the frozen estimator.
+override_epoch_step:
+  _target_: src.callbacks.override_epoch_step.OverrideEpochStepCallback
+
+periodic_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/epoch_ckpts
+  filename: epoch_{epoch:03d}
+  save_top_k: -1
+  every_n_epochs: 1
+  save_last: false
+  auto_insert_metric_name: false

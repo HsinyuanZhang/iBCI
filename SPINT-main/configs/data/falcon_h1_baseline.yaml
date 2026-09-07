@@ -1,0 +1,45 @@
+# Isolated reproduction of the released SPINT H1 baseline.
+# This data module opens all 13 held-in recordings (six calendar dates) and
+# their matching held-in-minival files only; formal held-out files are refused.
+_target_: src.data.h1_baseline_datamodule.H1BaselineDataModule
+
+task: h1
+data_dir: ${paths.data_dir}/000954/
+heldin_session_names:
+  - ses-19250101T111740
+  - ses-19250101T112404
+  - ses-19250108T110520
+  - ses-19250108T111022
+  - ses-19250108T111455
+  - ses-19250113T120811
+  - ses-19250113T121303
+  - ses-19250115T110633
+  - ses-19250115T111328
+  - ses-19250119T113543
+  - ses-19250119T114045
+  - ses-19250120T115044
+  - ses-19250120T115537
+
+batch_size: 32
+window_size: 700
+calibration_n_trials: 2
+
+# Match the released H1 data semantics exactly: training samples draw one
+# contiguous two-trial block uniformly from the session's available trials;
+# held-in validation uses the first two trials deterministically.
+random_calibration: true
+smooth_calibration: false
+max_trial_length: 1024
+standardize_covariates: false
+use_intertrials: true
+use_calib_intertrials: false
+trial_feature_type: raw
+remove_still_times: false
+remove_calib_still_times: false
+use_calib_active_segments: false
+calib_n_active_segments: 1
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+num_workers: 0
+pin_memory: false

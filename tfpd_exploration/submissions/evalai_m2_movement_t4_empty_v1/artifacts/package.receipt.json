@@ -1,0 +1,14 @@
+{
+  "candidate": "movement_t4_m33_empty_adapter_seed42",
+  "container_smoke": "PASS_M2_MOVE_EMPTY_CONTAINER_SMOKE",
+  "evalai_push": false,
+  "image_id": "sha256:caa98aefff18364df18bf2b5d4f143b9cb82beb8aaeeec1395faec134055752d",
+  "image_tag": "spint-t4-m2:movement-t4-empty-s42-4e4dae8f",
+  "local_external_equal_session_mean": 0.35351138886628103,
+  "max_cached_decoder_parity": 0.0,
+  "payload_sha256": "4e4dae8f7239582a26d44cdb449e674710f28223523dd691dd4f8758b05220e0",
+  "profile": "positive_zero_4d",
+  "schema": "m2_movement_t4_empty_evalai_package_v1",
+  "session_count": 13,
+  "status": "READY_NOT_SUBMITTED"
+}

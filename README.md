@@ -2,15 +2,16 @@
 
 ## 项目概览 / Project Overview
 
-本仓库研究 `session-adaptive intracortical neural decoding` 算法。当前主线将
-`streaming neural-activity path` 与紧凑的 `analytic functional carrier` 结合：系统从按时间排序的
-`calibration prefix` 提取目标 session 的 functional identity，在不执行 target-session
-`backpropagation`、不更新 decoder weights 的情况下完成适配。
+本仓库研究 `session-adaptive intracortical neural decoding`。当前统一研究实现位于
+[`btransform_unified_v1/`](btransform_unified_v1/)，以 B-transformer 的因果 neural window、局部卷积、
+slot 聚合、时序 transformer 与 session-static identity 接口为共同骨架。各任务仍有不同的数据几何、
+校准物和评分合同；不能将某一任务的结果、数据暴露或部署验证外推到另一任务。
 
-This repository develops algorithms for session-adaptive intracortical neural decoding. The current mainline
-combines a streaming neural-activity path with a compact analytic functional carrier. Functional identity is fitted
-from a chronological calibration prefix, while target-session backpropagation and decoder weight updates remain
-disabled.
+This repository develops session-adaptive intracortical neural decoding. Its current unified research implementation
+lives in [`btransform_unified_v1/`](btransform_unified_v1/) and uses a B-transformer backbone: a causal neural
+window, local convolution, slot aggregation, temporal transformer, and a session-static identity interface. Dataset
+geometry, calibration material, and evaluation contracts remain task-specific; evidence from one task does not
+transfer automatically to another.
 
 仓库包含 research code、frozen experiment contracts、evidence-verification tools、paper source，以及未来
 implementation 的背景材料。Raw datasets、checkpoints、logs、predictions 与 generated result bundles 是本地
@@ -28,64 +29,62 @@ hardware fidelity require separate validation and are not completed claims of th
 
 ## 快速入口 / Start Here
 
-当前唯一权威的 scientific and execution handoff：
+请从统一实现和当前交接文档开始，而不是从历史分数或旧工单反推当前配方：
 
-The sole authoritative scientific and execution handoff is:
+Start with the unified implementation and the current handoffs, rather than inferring a live recipe from historical
+scores or work orders:
 
-[`sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md`](sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md)
+1. [`btransform_unified_v1/docs/WORKORDER_BTRANSFORM_UNIFIED_V1_20260906.md`](btransform_unified_v1/docs/WORKORDER_BTRANSFORM_UNIFIED_V1_20260906.md)
+   — 统一 B-transformer 接口、任务差异和历史比较的治理边界 / unified interface, task differences, and comparison governance.
+2. [`btransform_unified_v1/docs/HANDOFF_DANDI688_BTRANSFORM_TEAMMATE_20260907.md`](btransform_unified_v1/docs/HANDOFF_DANDI688_BTRANSFORM_TEAMMATE_20260907.md)
+   — DANDI 000688 的当前研究入口；固定 B-transformer 与 M2-like T4 计算定义，开放训练、预算、划分与 PMUA 对照设计 / current 688 research handoff.
+3. [`btransform_unified_v1/docs/superpowers/specs/2026-09-07-h1-m2-ort-next-push-design.md`](btransform_unified_v1/docs/superpowers/specs/2026-09-07-h1-m2-ort-next-push-design.md)
+   — H1/M2 ORT CPU deployment design and per-task FP32-equivalence gates; it is not a blanket completion claim.
+4. [`tfpd_exploration/docs/HANDOFF_EXPERIMENT_CLOSEOUT_20260906.md`](tfpd_exploration/docs/HANDOFF_EXPERIMENT_CLOSEOUT_20260906.md)
+   — 已关闭/收尾中的 historical decoder record / historical decoder close-out.
 
-该 handoff 说明 selected method、evidence hierarchy、claim boundaries、remaining closure work、golden
-programs 与 immutable receipts 的位置。旧的 dated handoff、review、`AGENT_BRIEF` 和 proposal 只作为
-historical provenance，不能覆盖当前 handoff，也不能单独授权新实验。
+过时文档（不可授权新实验、不可单独引用分数）：
 
-It defines the selected method, evidence hierarchy, claim boundaries, remaining closure work, golden programs, and
-locations of immutable receipts. Older dated handoffs, reviews, agent briefs, and proposals are historical
-provenance only; they do not override the current handoff or authorize new experiments.
+Outdated documents (do not authorize new experiments or stand alone as score sources):
 
-推荐阅读顺序 / Recommended reading order:
+- [`docs_archive/`](docs_archive/) — 早期分析、CPU brief、根目录 dump
+- [`tfpd_exploration/docs/outdated/`](tfpd_exploration/docs/outdated/) — 2026-09-04 及更早的 tfpd 支线
+- [`SPINT-main/docs/outdated/`](SPINT-main/docs/outdated/) — H1 CarrierID 时期协议
+- `sua_exploration/docs/` — 已关闭的 T4 / functional-carrier 程序；保留作历史主线，不是下一架构
 
-1. [`sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md`](sua_exploration/docs/HANDOFF_MAINLINE_CLOSURE_20260811.md)
-   — 当前 scientific status、claim boundaries 与交接说明 / current scientific status, claim boundaries,
-   and handoff.
-2. [`sua_exploration/README.md`](sua_exploration/README.md)
-   — functional-carrier program 的简明入口 / concise entry point for the functional-carrier program.
-3. [`sua_exploration/docs/CURRENT_RESULTS.md`](sua_exploration/docs/CURRENT_RESULTS.md)
-   — result ledger、evidence status 与 receipt pointers / result ledger, evidence status, and receipt pointers.
-4. [`sua_exploration/ROADMAP.md`](sua_exploration/ROADMAP.md)
-   — closure sequence、stop rules、cleanup 与 Git checklist / closure sequence, stop rules, cleanup, and Git
-   checklist.
-5. [`sua_exploration/docs/ACTIVE_EXPERIMENT_CONTROL_BOARD.md`](sua_exploration/docs/ACTIVE_EXPERIMENT_CONTROL_BOARD.md)
-   — live process 与 terminalization state / live process and terminalization state.
+根 README 不记录实验分数。
 
-根 README 不记录实验分数；会变化的数字只写入 `CURRENT_RESULTS.md` 与当前 handoff。
-
-The root README intentionally contains no experiment scores. Changing numerical results belong only in
-`CURRENT_RESULTS.md` and the current handoff.
+The root README intentionally contains no experiment scores.
 
 ## 当前算法主线 / Current Algorithm Mainline
 
-Selected system 将 calibration 分为两个角色：
+当前主线是 `btransform_unified_v1` 的统一 `proj_add` identity 接口与因果 B-transformer 骨架，而不是把
+历史 SPINT、C2、T4 或单一 benchmark 的赢家称为全局“最强”。H1、M1、M2 的选择、训练和部署证据必须在各自
+冻结的评分面与 receipt 上读取；历史分数仅作带来源、暴露和训练集范围说明的比较材料。
 
-The selected system separates calibration into two roles:
+DANDI 000688 是独立且开放的研究线。其优先问题包括在固定的 M2-like 四维 T4 定义下检验 B-transformer
+与 calibration information 的效用。**PMUA 是负责人重点推荐、应尽早开展的高优先级主线**：它必须作为有明确
+表示差异和信息预算的对照开展，且不依赖先取得 SUA 正结果；也不能把 SUA 结论无条件迁移到 pseudo-MUA/native MUA。详见 [688 交接指南](btransform_unified_v1/docs/HANDOFF_DANDI688_BTRANSFORM_TEAMMATE_20260907.md)
+和 [cost-aware design](btransform_unified_v1/docs/DESIGN_688_BTRANSFORM_COST_AWARE_V1_20260907.md)。
 
-- `B3/B3T streaming activity encoder` 表示近期 neural activity；
-  the B3/B3T streaming activity encoder represents recent neural activity.
-- `analytic functional carrier` 表示 session-specific functional identity；
-  the analytic functional carrier represents session-specific functional identity.
-- `SPINT-style pretrained decoder` 消费 activity 与 carrier；
-  a SPINT-style pretrained decoder consumes both activity and carrier.
-- carrier 从 chronological calibration prefix 一次性拟合并缓存；
-  the carrier is fitted once from a chronological calibration prefix and then cached.
-- target-session inference 不构建 optimizer，不执行 `backward()`，不更新 network weights；
-  target-session inference creates no optimizer, executes no backward pass, and updates no network weights.
+The current mainline is the unified `proj_add` identity interface and causal B-transformer backbone in
+`btransform_unified_v1`, not a claim that any historical SPINT, C2, T4, or single-benchmark winner is globally best.
+H1, M1, and M2 selection, training, and deployment evidence must be read from their respective frozen scoring
+surfaces and receipts. Historical scores are comparison material only when their source, exposure, and training-set
+scope are preserved.
 
-当前主线研究的是 algorithmic adaptation，而不是硬件实现。未来如果进行 quantization 或 RTL translation，
-必须从 selected FP32 contract 与 golden reference programs 出发，并另行验证 numerical fidelity 与 state
-semantics。
+DANDI 000688 is a separate, open research line. It tests B-transformer and calibration-information utility under a
+fixed M2-like four-dimensional T4 definition, with **PMUA** treated as an explicit representation- and
+information-budget-matched comparator rather than an automatic transfer of SUA conclusions.
 
-The present mainline studies algorithmic adaptation rather than hardware implementation. Any future quantization or
-RTL translation must start from the selected FP32 contract and golden reference programs, with separate validation
-of numerical fidelity and state semantics.
+## E-ORT CPU deployment / E-ORT CPU 部署
+
+**E-ORT** names an inference-implementation optimization, not a new method contribution: **fast exact-E** first
+removes only provably redundant computation while retaining causal boundary/state semantics, then **ONNX export**
+packages that operator, and **ONNX Runtime CPU** executes the exported graphs. Each dataset must close its own
+FP32-equivalence and runtime gate; passing M1 does not certify H1 or M2. The current H1/M2 plan explicitly forbids
+automatic submission and records task-specific geometry, references, and acceptance checks in the
+[ORT next-push design](btransform_unified_v1/docs/superpowers/specs/2026-09-07-h1-m2-ort-next-push-design.md).
 
 ## 核心研究问题 / Research Questions
 
@@ -112,13 +111,11 @@ supervision count, manual annotation cost, compute, latency, memory, and energy 
 
 | document | 中文用途 | English role |
 |---|---|---|
-| [`sua_exploration/docs/FP32_T4_MAINLINE_PROTOCOL.md`](sua_exploration/docs/FP32_T4_MAINLINE_PROTOCOL.md) | selected FP32 method 与 calibration contract | selected FP32 method and calibration contract |
-| [`sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md`](sua_exploration/docs/MEASUREMENT_PROTOCOL_V4.md) | pairing、uncertainty、noise floor 与 result-state 规则 | pairing, uncertainty, noise-floor, and result-state rules |
-| [`sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md`](sua_exploration/docs/ASIC_DEPLOYMENT_CHARTER.md) | 未来 implementation 可参考的 cost vocabulary；不是当前 hardware evidence | optional cost vocabulary for future implementation; not current hardware evidence |
-| [`sua_exploration/docs/RT_SPARSE_ENDPOINT_STAGE2_THREE_ARM_CONTRACT_20260810.md`](sua_exploration/docs/RT_SPARSE_ENDPOINT_STAGE2_THREE_ARM_CONTRACT_20260810.md) | frozen RT sparse-carrier comparison | frozen RT sparse-carrier comparison |
-| [`sua_exploration/docs/RT_SPARSE_T4D_VS_B2_D1024_COMPANION_PROTOCOL_20260810.md`](sua_exploration/docs/RT_SPARSE_T4D_VS_B2_D1024_COMPANION_PROTOCOL_20260810.md) | exact-query SPINT-structured companion comparison | exact-query SPINT-structured companion comparison |
-| [`sua_exploration/docs/NATIVE_MUA_T4_M1_M2_PROGRAM.md`](sua_exploration/docs/NATIVE_MUA_T4_M1_M2_PROGRAM.md) | native MUA protocol 与 dataset-specific scope | native MUA protocol and dataset-specific scope |
-| [`sua_exploration/docs/PSEUDO_MUA_T4_BRIDGE_48H.md`](sua_exploration/docs/PSEUDO_MUA_T4_BRIDGE_48H.md) | SUA-to-pseudo-MUA controlled signal-view bridge | controlled SUA-to-pseudo-MUA signal-view bridge |
+| [`btransform_unified_v1/docs/WORKORDER_BTRANSFORM_UNIFIED_V1_20260906.md`](btransform_unified_v1/docs/WORKORDER_BTRANSFORM_UNIFIED_V1_20260906.md) | 统一模型、任务接口与比较治理 | unified model, task interfaces, and comparison governance |
+| [`btransform_unified_v1/docs/HANDOFF_DANDI688_BTRANSFORM_TEAMMATE_20260907.md`](btransform_unified_v1/docs/HANDOFF_DANDI688_BTRANSFORM_TEAMMATE_20260907.md) | 688 当前开放研究与 PMUA 对照边界 | current open 688 research and PMUA-comparator boundaries |
+| [`btransform_unified_v1/docs/DESIGN_688_BTRANSFORM_COST_AWARE_V1_20260907.md`](btransform_unified_v1/docs/DESIGN_688_BTRANSFORM_COST_AWARE_V1_20260907.md) | 688 cost-aware 起点和可解释对照 | cost-aware 688 starting point and interpretable controls |
+| [`btransform_unified_v1/docs/superpowers/specs/2026-09-07-h1-m2-ort-next-push-design.md`](btransform_unified_v1/docs/superpowers/specs/2026-09-07-h1-m2-ort-next-push-design.md) | H1/M2 E-ORT CPU 等价门与提交边界 | H1/M2 E-ORT CPU equivalence gates and submission boundary |
+| [`tfpd_exploration/docs/HANDOFF_EXPERIMENT_CLOSEOUT_20260906.md`](tfpd_exploration/docs/HANDOFF_EXPERIMENT_CLOSEOUT_20260906.md) | 历史 decoder 收尾与 receipt 指针 | historical decoder close-out and receipt pointers |
 
 Protocol 定义实验语义；terminal receipt 证明实验按合同完成；`CURRENT_RESULTS.md` 记录接受的结果；当前
 handoff 决定这些结果能在论文中支持什么。
@@ -131,11 +128,14 @@ paper.
 
 | path | 中文定位 | English role |
 |---|---|---|
-| `sua_exploration/` | functional-carrier 主线、result ledger、protocol、scripts 与 tests | functional-carrier mainline, result ledger, protocols, scripts, and tests |
-| `SPINT-main/` | SPINT baseline、H1 training/evaluation 与 source-model semantics | SPINT baseline, H1 training/evaluation, and source-model semantics |
-| `streaming_calibration_exp/` | reusable streaming-calibration 与 MUA experiment framework | reusable streaming-calibration and MUA experiment framework |
-| `bci_paper_overleaf/` | 独立 Git repository 中的 paper source | paper source in a separate Git repository |
-| `software-to-hardware/` | deferred implementation notes 与 model-export experiments | deferred implementation notes and model-export experiments |
+| `tfpd_exploration/` | 当前 decoder / B-transformer 实验与官方提交包 | current decoder / B-transformer experiments and official packs |
+| `btransform_unified_v1/` | 当前统一 B-transformer、跨任务研究设计与 deployment 入口 | current unified B-transformer, cross-task research designs, and deployment entry points |
+| `sua_exploration/` | 历史 SUA / T4 研究、688 数据管线与可复用对照材料 | historical SUA/T4 research, 688 data plumbing, and reusable comparator material |
+| `SPINT-main/` | SPINT baseline、官方数据与 source-model semantics | SPINT baseline, official data, and source-model semantics |
+| `streaming_calibration_exp/` | 可复用 streaming-calibration 框架 | reusable streaming-calibration framework |
+| `docs_archive/` | 过时文档归档 | outdated document archive |
+| `bci_paper_overleaf/` | 独立 Overleaf Git repository 中的 paper source；不随外层仓库提交 | paper source in a separate Overleaf Git repository; never commit it through the outer repository |
+| `software-to-hardware/` | deferred implementation notes | deferred implementation notes |
 | `planB_tempconv/` | historical low-cost temporal-decoder branch | historical low-cost temporal-decoder branch |
 
 Operator setup、historical archives、RTL handoffs 和 exploratory hardware workspaces 可以保留在本地，但由
@@ -198,6 +198,28 @@ pushed to GitHub, paper numbers must remain traceable to terminal artifacts and 
   receipts, and paper sources.
 - 每次 GitHub push 后核验 remote commit；
   verify the remote commit after every GitHub push.
+
+本仓库包含多个同名 `src` package；从 repository root 一次性收集所有 tests 会造成 module
+shadowing。请从对应 subtree 运行 focused tests，并禁用无关的外部 pytest plugin：
+
+This repository contains sibling packages named `src`; collecting every test from the repository
+root causes module shadowing. Run focused tests from the owning subtree and disable unrelated
+third-party pytest plugins:
+
+```bash
+cd sua_exploration
+PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=.. \
+  /home/xinyuan/miniconda3/envs/spint/bin/python -m pytest -q tests/<focused_test.py>
+
+cd ../streaming_calibration_exp
+PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH=.. \
+  /home/xinyuan/miniconda3/envs/spint/bin/python -m pytest -q tests/<focused_test.py>
+```
+
+这是一项已知的 repository-layout 限制；root-level blanket `pytest` 目前不是受支持的验证入口。
+
+This is a known repository-layout limitation; a blanket root-level `pytest` invocation is not a
+supported verification entry point.
 
 ## 论文与未来实现 / Paper and Future Implementation
 

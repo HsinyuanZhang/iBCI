@@ -1,0 +1,29 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_post33_confirm_v3
+  - override /model: falcon_m2_post33_confirm_v3
+  - override /callbacks: post33_source_only_v3
+  - override /hydra: post33_cell_v3
+
+protocol_id: M2_NATIVE_T4_SPINT_POST33_CONFIRM_V1
+phase_id: PHASE_B_V3
+arm: spint
+task_name: m2_native_post33_confirm_v3_spint
+tags: ["m2", "native-mua", "post33", "phase-b-v3", "source-only-selection"]
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: val_source/r2_equal_session_mean
+
+# Supplied only by the fail-closed cell runner after O_EXCL ownership.
+cell_owner_token: ???
+cell_paths:
+  cell_dir: ???
+  owner: ???
+  selector_records: ???
+  checkpoints: ???
+
+trainer:
+  max_epochs: 35

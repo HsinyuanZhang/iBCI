@@ -1,0 +1,66 @@
+{
+  "arm": "apfg_static_act30_dopt4",
+  "image_id": "sha256:290757aabe648c7f5f8e3efdae1b941428988b5263a71f8abda379079d2faf3a",
+  "image_tag": "spint-t4-m2:apfg-static-s42-b3d19967",
+  "payload_sha256": "b3d19967b258fe94584ad4f84a7d394f8c2c83f85bdc3e198b59fc8178b05af5",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_apfg_static_evalai_push_state_v1",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581713,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581713/68d25ad8-5ff6-4da4-b20a-91d46a43df.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen SPINT M2 decoder with per-session cached identity calibrated offline exactly like the officially scored D-opt-4 activity-30 arm, plus one anchored post-fusion scalar gate applied at build time: E = native + tanh(alpha) * (post - native), alpha frozen at the source-refit value bound to the immutable same-surface result graph. Static deployment: no adaptive memory, no online update, no query-label read. The EvalAI runtime serves cached identities only and performs no optimizer step, parameter update, or backpropagation. Exploratory probe: the local external point estimate did not pass the pre-registered promotion gate.",
+    "method_name": "M2 static-pool APFG (anchored post-fusion gate, exploratory probe)",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-02T16:55:16.447657Z",
+    "when_made_public": null
+  },
+  "submission_id": 581713,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:15bb3a81-9188-42dd-a5c0-e9a42fb62e68",
+  "uploaded_manifest_digest": "sha256:290757aabe648c7f5f8e3efdae1b941428988b5263a71f8abda379079d2faf3a",
+  "uuid_tag": "15bb3a81-9188-42dd-a5c0-e9a42fb62e68"
+}

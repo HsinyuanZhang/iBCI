@@ -1,0 +1,7 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!h1_trf_falcon_decoder.py
+!artifacts/
+!artifacts/h1_temporal_route_ema_e5.pkl

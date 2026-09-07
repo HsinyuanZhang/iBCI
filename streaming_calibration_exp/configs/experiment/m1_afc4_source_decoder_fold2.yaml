@@ -1,0 +1,21 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m1_source_only_decoder_fold2
+  - override /model: falcon_m1_source_only_decoder
+  - override /callbacks: m1_source_only_fixed_epoch
+
+task_name: m1_afc4_source_decoder_fold2
+run_id: m1_afc4_source_decoder_fold2
+tags: [native-mua, m1, afc4-emg, source-only, fold2, base-decoder]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+require_baseline_validation: false
+optimized_metric: train/loss
+
+# Fixed development budget; no target/minival/formal metric can select a checkpoint.
+trainer:
+  max_epochs: 20
+  min_epochs: 20

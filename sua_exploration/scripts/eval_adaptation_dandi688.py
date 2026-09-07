@@ -432,7 +432,7 @@ def attach_side_features(
     feature_shuffle_seed = permutation_seed if is_feature_shuffle_control(side_feature_group) else None
     side_features, _ = load_unit_side_features(
         nwb_path,
-        feature_group=waveform_feature_group,
+        feature_group=side_feature_group,
         pool_size=pool_size,
         mean=mean,
         std=std,
@@ -442,6 +442,7 @@ def attach_side_features(
         window_size=WINDOW_SIZE,
         trial_result_filter="R",
         signal_view=str(rec.get("signal_view", "sua")),
+        label_permutation_seed=(permutation_seed if side_feature_group == "ls4" else None),
     )
     component_shuffle = confidence_component_shuffle(side_feature_group)
     if component_shuffle is not None:

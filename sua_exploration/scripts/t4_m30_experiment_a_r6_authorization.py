@@ -1,0 +1,7 @@
+import t4_m30_experiment_a_r4_authorization as base
+ROOT=base.ROOT
+base.RECEIPT=ROOT/'sua_exploration/results/t4_m30_experiment_a_descriptor_prelaunch_v3_r6_20260803/receipt.json'
+base.AUTH=ROOT/'sua_exploration/results/t4_m30_experiment_a_descriptor_prelaunch_v3_r6_20260803/root_gpu_authorization.json'
+base.SIG=ROOT/'sua_exploration/results/t4_m30_experiment_a_descriptor_prelaunch_v3_r6_20260803/root_gpu_authorization.sig'
+base.CLAIM=ROOT/'sua_exploration/results/sua_t4_m30_component_attribution_v6/authorization_nonce_claim.json'
+claim=base.claim;require_claim=base.require_claim;RECEIPT=base.RECEIPT

@@ -1,0 +1,41 @@
+# @package _global_
+
+defaults:
+  - override /data: rt_r4_budget_response_common_q24
+  - override /model: streaming_b3s_t4
+
+task: rt
+run_id: rt_r4_budget_response_common_q24
+tags: ["rt", "r4", "carrier_budget_response", "activity_m24", "common_q24", "development_only"]
+
+train: true
+test: false
+no_early_stopping: true
+require_baseline_validation: false
+optimized_metric: val_heldin/r2_mean
+
+data:
+  side_feature_group: null
+  loso_fold: 0
+
+model:
+  task: rt
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+
+trainer:
+  max_epochs: 35
+
+callbacks:
+  rt_nested_selection_receipt:
+    _target_: src.callbacks.rt_nested_selection_receipt.RtNestedSelectionReceipt
+    output_path: ${paths.output_dir}/rt_nested_selection_receipt.json
+    split_manifest_path: ${paths.output_dir}/split_manifest.json
+    config_path: ${paths.output_dir}/.hydra/config.yaml
+    run_id: ${run_id}
+    arm: ${data.side_feature_group}
+    outer_loso_fold: ${data.outer_loso_fold}
+    seed: ${seed}
+    monitor: val_heldin/r2_mean

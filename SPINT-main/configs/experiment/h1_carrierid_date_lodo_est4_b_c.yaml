@@ -1,0 +1,39 @@
+# @package _global_
+# H1-EST4-SLODO: deliberately non-runnable until all immutable receipt paths
+# are supplied.  Source-only fixed-e49 training; the target evaluator remains
+# a separate explicit one-shot program behind the six-arm terminal checker.
+defaults:
+  - override /data: falcon_h1_carrierid_date_lodo_est4
+  - override /model: falcon_h1_carrierid_date_lodo_est4_b_c
+  - override /callbacks: h1_carrierid_date_lodo_phase2_terminal
+
+protocol_id: h1_carrierid_date_lodo_est4_b_c_${phase_est4.outer_date}_source_only_v1
+task_name: h1_carrierid_date_lodo_est4_b_c_${phase_est4.outer_date}
+tags: [h1, carrierid, est4, date_lodo, b_c, source_only, seed42, e49]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+logger: false
+
+phase_est4:
+  outer_date: "__REQUIRED_EXPLICIT_OUTER_DATE__"
+  arm: B-C
+  phase1_preflight_path: ${paths.work_dir}/pilot_artifacts/h1_carrierid_date_lodo_phase1/H1_CARRIERID_DATE_LODO_SOURCE_PREFLIGHT_v1.json
+  est4_preflight_path: "__REQUIRED_IMMUTABLE_EST4_SOURCE_PREFLIGHT_PATH__"
+  five_date_aggregate_path: "__REQUIRED_IMMUTABLE_FIVE_DATE_AGGREGATE_PATH__"
+  frozen_plan_path: "__REQUIRED_IMMUTABLE_SOURCE_BUNDLE_FROZEN_PLAN_PATH__"
+  warm_start_forbidden: true
+  target_evaluator_status: IMPLEMENTED_NOT_RUN_TARGET_GATE_CLOSED
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

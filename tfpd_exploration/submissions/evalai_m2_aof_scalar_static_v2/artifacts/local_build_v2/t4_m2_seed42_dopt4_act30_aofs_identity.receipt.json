@@ -1,0 +1,652 @@
+{
+  "aofm_authority": {
+    "aofm": {
+      "bodies": {
+        "attempt.json": "bb677c3e74c782f4383364f7d9538444a1db4cf5bb54482619b46a406b37c894",
+        "launch.json": "e78a816d3bf13c8a4e1d9d17bca7a7ca80b854c342aa188e863ef8a98aafcb2d",
+        "oof.json": "a241b0eea83e94ff8d494b4c15118bd485f4ab9aa1f1e3aa45427466ade150a4",
+        "predecessor_authority.json": "e39b83c202dbcccc56624c57b00a7d8584944f4e9ebea9896f946d9397b3d0c7",
+        "source_authority.json": "aa43297877770829ca2501f591cb3a7fc1186622fe647c0e1aa4ff1a029ba0a7",
+        "terminal.json": "3bc012339f73ab207d18fcddd701adf1fb884c73bb34512cffb0376ba32f1a6e"
+      },
+      "named_device": 64512,
+      "named_inode": 28974412,
+      "root_relative": "tfpd_exploration/results/m2_anchored_output_matrix_fusion_v1/source_oof"
+    },
+    "scalar": {
+      "denominator": 6.95865836634793e-05,
+      "frozen_beta": -0.3799365677508742,
+      "mean_scalar_minus_native": 0.006358371947682961,
+      "numerator": -2.643848775861138e-05,
+      "per_session": [
+        {
+          "denominator": 1.8675938615573706e-05,
+          "numerator": -6.435317170258742e-06,
+          "session": "ses-2020-10-19-Run1",
+          "windows": 18037
+        },
+        {
+          "denominator": 9.878449565340024e-06,
+          "numerator": -5.829562394733111e-06,
+          "session": "ses-2020-10-19-Run2",
+          "windows": 18259
+        },
+        {
+          "denominator": 7.4208973137223e-06,
+          "numerator": -4.1751462582084505e-06,
+          "session": "ses-2020-10-20-Run1",
+          "windows": 13636
+        },
+        {
+          "denominator": 5.881470975583578e-06,
+          "numerator": -2.7841781036563995e-06,
+          "session": "ses-2020-10-20-Run2",
+          "windows": 13293
+        },
+        {
+          "denominator": 6.7647198034095054e-06,
+          "numerator": -1.3634319035470278e-06,
+          "session": "ses-2020-10-27-Run1",
+          "windows": 10382
+        },
+        {
+          "denominator": 1.1057358876949652e-05,
+          "numerator": -1.8738692533915623e-06,
+          "session": "ses-2020-10-27-Run2",
+          "windows": 12871
+        },
+        {
+          "denominator": 9.907748512900536e-06,
+          "numerator": -3.976982674816088e-06,
+          "session": "ses-2020-10-28-Run1",
+          "windows": 15901
+        }
+      ],
+      "positive_sessions": 6,
+      "scalar_native_deltas": {
+        "ses-2020-10-19-Run1": 0.010103305229195447,
+        "ses-2020-10-19-Run2": 0.015461767867797516,
+        "ses-2020-10-20-Run1": 0.008032371482841638,
+        "ses-2020-10-20-Run2": 0.006169049732458798,
+        "ses-2020-10-27-Run1": 5.717716330844169e-05,
+        "ses-2020-10-27-Run2": -0.0021069852144761647,
+        "ses-2020-10-28-Run1": 0.006791917372655054
+      },
+      "worst_scalar_minus_native": -0.0021069852144761647
+    },
+    "terminal_sha256": "3bc012339f73ab207d18fcddd701adf1fb884c73bb34512cffb0376ba32f1a6e"
+  },
+  "bridge_only_e4_payload_sha256": "e4ff17e857c0bab9bbd900bc737ca7c48476a44ed03725cefc5377d92b959261",
+  "frozen_beta": -0.3799365677508742,
+  "governing_581361_native_payload_sha256": "c51b71167d81490927fee8a552785ee27ddff7e90085ed3ff4b18b857afbac40",
+  "hidden_evalai_target_opened": false,
+  "network_submission": false,
+  "optimizer_constructed": false,
+  "parameter_updates": 0,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_aof_scalar_static_v2/artifacts/local_build_v2/t4_m2_seed42_dopt4_act30_aofs_identity.pkl",
+  "payload_sha256": "65b8001156a7cdb58efd4bbff9547d88443cfa983546558009771f3d4c18ab20",
+  "recovery_profile": "aofs_static_v2_side_evidence_receipt_recovery",
+  "schema_version": "m2_aofs_static_payload_receipt_v1",
+  "session_records": {
+    "ses-2020-10-19-Run1": {
+      "activity_sha256": "a2c1bc7bbc343c636f586dcb2b5de3448d0f5d6c619f70c64c2d822e3682544f",
+      "bridge_e4_identity_sha256": "5bd41c5d29dddbba11c71eb1b9124a64e8b1032d2217a1cd8cce0c48072fc3aa",
+      "c51_to_e4_identity_maxabs": 2.980232238769531e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201019",
+      "native_identity_sha256": "41248f335e927249f2d2becaa8a42b79bfe004e82a6016a9e389de78f6bd052f",
+      "normalized_t4_sha256": "baee7e660e1d9e9333371c2f358f9167271020b15b0a59f0c67d0c02af0bbe24",
+      "post_identity_sha256": "5e804756f2f84cf8b9497ceffb4317e8e837d0b3da5779ea9a684021a2e9ee01",
+      "raw_t4_sha256": "493434ec1230c3d27405e01cf5b91d96d954ee4bdf0f1708911efa040eea7085",
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "a2c1bc7bbc343c636f586dcb2b5de3448d0f5d6c619f70c64c2d822e3682544f",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.3017304132678513,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "baee7e660e1d9e9333371c2f358f9167271020b15b0a59f0c67d0c02af0bbe24",
+        "raw_t4_sha256": "493434ec1230c3d27405e01cf5b91d96d954ee4bdf0f1708911efa040eea7085",
+        "residual_sum_squares": 0.5739675969633494,
+        "selected_indices": [
+          1,
+          3,
+          11,
+          13
+        ],
+        "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.620778102143555,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "568e7dbd0783d466d0f54448cbf7b23c68d070d65ccf78b20add7d0baf8b0adb"
+    },
+    "ses-2020-10-19-Run2": {
+      "activity_sha256": "242c67cd4fab966488391c576eb8fd5ca7a1ab5e3e3d70c06b316f004acd5646",
+      "bridge_e4_identity_sha256": "49689bc5bd33ec73c347e78f1dbdaca6e003669b64849fa819c935a5a064b1f0",
+      "c51_to_e4_identity_maxabs": 4.023313522338867e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run2_20201019",
+      "native_identity_sha256": "2f34d914c74e3066cc11186fcbf562b8d0c52b8d782a0331d31dc6de07a38f7c",
+      "normalized_t4_sha256": "bd7423b1d7713b7dcb5ceb95b0945f049c4c3b436d120ce8f050cfc4c5514620",
+      "post_identity_sha256": "9ca78a6bb2f0a8fdecb7e5d0b7cd288fbfe95f390039d71d07617483da3ede91",
+      "raw_t4_sha256": "888c8c7a8eb4130f240a63646871cba3bf7020c7094b65796b7e0d183a9eec59",
+      "selected_indices": [
+        1,
+        3,
+        9,
+        13
+      ],
+      "selected_indices_sha256": "ed0f3689b22a1e606437e4274b3b46769bde3dbc983994ce8b25ad97b0b7209d",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "242c67cd4fab966488391c576eb8fd5ca7a1ab5e3e3d70c06b316f004acd5646",
+        "budget": 4,
+        "design_condition": 2.4518965940478226,
+        "design_rank": 3,
+        "gcv": 0.11816070744845396,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "bd7423b1d7713b7dcb5ceb95b0945f049c4c3b436d120ce8f050cfc4c5514620",
+        "raw_t4_sha256": "888c8c7a8eb4130f240a63646871cba3bf7020c7094b65796b7e0d183a9eec59",
+        "residual_sum_squares": 0.21742673737321266,
+        "selected_indices": [
+          1,
+          3,
+          9,
+          13
+        ],
+        "selected_indices_sha256": "ed0f3689b22a1e606437e4274b3b46769bde3dbc983994ce8b25ad97b0b7209d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.643499577805863,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "353ef2bc9fa063f0c628c55572535e339a2191f06dfeb2201d1b70bdb2620d43"
+    },
+    "ses-2020-10-20-Run1": {
+      "activity_sha256": "33fe367ba021347f6a4db7e260fdba395b7505d9f766a5da5c82b2e114103e62",
+      "bridge_e4_identity_sha256": "9f7935b21ee4c0da4455ff5013be6428818634df7d8ea9d705823390373b1385",
+      "c51_to_e4_identity_maxabs": 1.9371509552001953e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201020",
+      "native_identity_sha256": "031eca3d746921eeb07bd92ed2256f0892f9d3c76987ab1fb3035550ec5f8735",
+      "normalized_t4_sha256": "d88bbe80cfc81c9b0048f3ddef698659f6932d05c305f037d2db0db72057a06a",
+      "post_identity_sha256": "5d546c1b0f49c65fc66910e123ad7fa1ac03213bccb2732f06f8134501e6a7cb",
+      "raw_t4_sha256": "2a8693cfa502ca85d2c26c3393add7db0b301c293023cbffd979775c59b702e0",
+      "selected_indices": [
+        1,
+        5,
+        11,
+        21
+      ],
+      "selected_indices_sha256": "aa3ea5f5ce1828e403999e209206f04ae7de331c568d05d9b32b58b8bea1f136",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "33fe367ba021347f6a4db7e260fdba395b7505d9f766a5da5c82b2e114103e62",
+        "budget": 4,
+        "design_condition": 1.6666666859848176,
+        "design_rank": 3,
+        "gcv": 0.3460966695907115,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "d88bbe80cfc81c9b0048f3ddef698659f6932d05c305f037d2db0db72057a06a",
+        "raw_t4_sha256": "2a8693cfa502ca85d2c26c3393add7db0b301c293023cbffd979775c59b702e0",
+        "residual_sum_squares": 0.615282968161265,
+        "selected_indices": [
+          1,
+          5,
+          11,
+          21
+        ],
+        "selected_indices_sha256": "aa3ea5f5ce1828e403999e209206f04ae7de331c568d05d9b32b58b8bea1f136",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.6666666666666665,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "4617a51cae5dacda610a9a9e19fda02f7f2e92ea4d4437739bf30e0a67895b4f"
+    },
+    "ses-2020-10-20-Run2": {
+      "activity_sha256": "2c8fa7cfe4d9ed60f4912ca3ce4aacff57cdb1f21edebf897b0574ae137ac5d1",
+      "bridge_e4_identity_sha256": "e7d74089903b871f764188691fd9a396141b44a52239408aeaa7cd517b902c3e",
+      "c51_to_e4_identity_maxabs": 2.086162567138672e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run2_20201020",
+      "native_identity_sha256": "c7b0908073979859e36bd48882aa74b129ab46d4a70e297cf27a2ccfca866d1c",
+      "normalized_t4_sha256": "dbf3e0c0015ea9e8e1d49be45789ecab56fb42503f96927894c3553da87b5369",
+      "post_identity_sha256": "901372450f722d1323a307b414b7f1977a4b29f2e25e68e7bdf6b344d351bf77",
+      "raw_t4_sha256": "47a672f4e547c44be6a586a2381d1125ce11a25b10d4f168df9c4b91cd59cd51",
+      "selected_indices": [
+        3,
+        5,
+        9,
+        15
+      ],
+      "selected_indices_sha256": "6ed924ee20f5e86c7404918a1661475b5db6eb69df66215945579909e4422d25",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "2c8fa7cfe4d9ed60f4912ca3ce4aacff57cdb1f21edebf897b0574ae137ac5d1",
+        "budget": 4,
+        "design_condition": 2.4518965940478226,
+        "design_rank": 3,
+        "gcv": 0.3794309514002862,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "dbf3e0c0015ea9e8e1d49be45789ecab56fb42503f96927894c3553da87b5369",
+        "raw_t4_sha256": "47a672f4e547c44be6a586a2381d1125ce11a25b10d4f168df9c4b91cd59cd51",
+        "residual_sum_squares": 0.6981883876868891,
+        "selected_indices": [
+          3,
+          5,
+          9,
+          15
+        ],
+        "selected_indices_sha256": "6ed924ee20f5e86c7404918a1661475b5db6eb69df66215945579909e4422d25",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.643499577805863,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "fb51c4164ce90b96e5050e8d71f1371e28d25110dd10e84e4210a90e156c8e16"
+    },
+    "ses-2020-10-27-Run1": {
+      "activity_sha256": "7de8544807acc9a0e52c228e2ce052b67bc44201e88ce7904ce050c99994d2ef",
+      "bridge_e4_identity_sha256": "de4e8c2f4d3cf25f7114f149f34163b35d4aba8ab66b1c1c0a932772f61cb66e",
+      "c51_to_e4_identity_maxabs": 2.384185791015625e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201027",
+      "native_identity_sha256": "c587f2ed137dea2bbe24ae2a3598cd98da3a41cbf20bf66f91bbf920713081e2",
+      "normalized_t4_sha256": "753a4674ccabc8309ccdf608d4b6cc966eb4f8fb87c63838da2fd0234b9d60ea",
+      "post_identity_sha256": "6cb4c47dac5d48ac9675c0bc5ddef4f505e3448353c3ef117fb4c3d35a66fcdc",
+      "raw_t4_sha256": "a181072b4831dcde96020929681ec3095b6eb4baa46cc8c2c0c7065d30f4ef0f",
+      "selected_indices": [
+        7,
+        9,
+        13,
+        25
+      ],
+      "selected_indices_sha256": "f0feeacc28a992d1f3e5418dbff7af0996a97b71fd0dd7f360251ee9a872984d",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "7de8544807acc9a0e52c228e2ce052b67bc44201e88ce7904ce050c99994d2ef",
+        "budget": 4,
+        "design_condition": 2.781701588144655,
+        "design_rank": 3,
+        "gcv": 0.12913176446518532,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "753a4674ccabc8309ccdf608d4b6cc966eb4f8fb87c63838da2fd0234b9d60ea",
+        "raw_t4_sha256": "a181072b4831dcde96020929681ec3095b6eb4baa46cc8c2c0c7065d30f4ef0f",
+        "residual_sum_squares": 0.2456412871754459,
+        "selected_indices": [
+          7,
+          9,
+          13,
+          25
+        ],
+        "selected_indices_sha256": "f0feeacc28a992d1f3e5418dbff7af0996a97b71fd0dd7f360251ee9a872984d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.6207781156033914,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "852730f26b2b54d948c911c0db802575fb62008e982cfb592ca569d0080d71bc"
+    },
+    "ses-2020-10-27-Run2": {
+      "activity_sha256": "bfe00515dd5fa074ea130960190a5c1947246d2d8c42a2a346651c65ab0a8d82",
+      "bridge_e4_identity_sha256": "a4b9f5d9445afc85fc56938972349ad8c359b35187bd55c257fe5329f4736c04",
+      "c51_to_e4_identity_maxabs": 2.384185791015625e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run2_20201027",
+      "native_identity_sha256": "0eb75701b6b0c16cb6dc730026f6d3da194e801796a191cc6fac640358de5b5c",
+      "normalized_t4_sha256": "9afd85c12413b8931ef995fe426108acbc15100a2060c79991fe4f879bdd13aa",
+      "post_identity_sha256": "11d72c2209d24bbd9f1a8d08cb79b53ca7b833aff7a7899682db8a3cbc412eff",
+      "raw_t4_sha256": "7b4e725133d1e9a3597d310f0b406acf8982bb830de60b34cfaaf68d27277ab0",
+      "selected_indices": [
+        1,
+        5,
+        7,
+        9
+      ],
+      "selected_indices_sha256": "92f7ea5b88f1c7e6332aaedab0ceeb512dbcb8826a08b82666dd724910c7f1f6",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "bfe00515dd5fa074ea130960190a5c1947246d2d8c42a2a346651c65ab0a8d82",
+        "budget": 4,
+        "design_condition": 3.6754878723309212,
+        "design_rank": 3,
+        "gcv": 0.09763554087670218,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "9afd85c12413b8931ef995fe426108acbc15100a2060c79991fe4f879bdd13aa",
+        "raw_t4_sha256": "7b4e725133d1e9a3597d310f0b406acf8982bb830de60b34cfaaf68d27277ab0",
+        "residual_sum_squares": 0.1978843922268551,
+        "selected_indices": [
+          1,
+          5,
+          7,
+          9
+        ],
+        "selected_indices_sha256": "92f7ea5b88f1c7e6332aaedab0ceeb512dbcb8826a08b82666dd724910c7f1f6",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.5763546876841374,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "4acac107366bf59fc2fb49aa822b79c8ab2dcc14ef988b27b78a0a88e0476959"
+    },
+    "ses-2020-10-28-Run1": {
+      "activity_sha256": "61bfff612d9d2be146e4a80f9e0a388d81a06a68991a63575219405dcd3355a8",
+      "bridge_e4_identity_sha256": "ad8c90d3e0cb01a1ed267fabf1f7a6cfbe7297b94507c68105e07f9c36e45120",
+      "c51_to_e4_identity_maxabs": 3.8743019104003906e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201028",
+      "native_identity_sha256": "7ac00f10cb1dec4de77316c9e749a6d3ff6b6c19f700f3b84e22b0bb33dbae94",
+      "normalized_t4_sha256": "a2f802dd54ce88d572514eba6c586dfbd5ff636a3ea16e95ff5c563d8bb39208",
+      "post_identity_sha256": "1199a8446bbaf3c3504077cd42a971798e991d202c64f03c3a74ef5904a44bb9",
+      "raw_t4_sha256": "3b023b4bab18a654ee706e232cba71b08fb05d2b7ace124fdf3ebde6b76acf98",
+      "selected_indices": [
+        5,
+        7,
+        11,
+        27
+      ],
+      "selected_indices_sha256": "825ab26aeed9befb3c3309d7e62fc6d307fa7802c4f9a9a2d4bfde537657fd0c",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "61bfff612d9d2be146e4a80f9e0a388d81a06a68991a63575219405dcd3355a8",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.22928286695023087,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "a2f802dd54ce88d572514eba6c586dfbd5ff636a3ea16e95ff5c563d8bb39208",
+        "raw_t4_sha256": "3b023b4bab18a654ee706e232cba71b08fb05d2b7ace124fdf3ebde6b76acf98",
+        "residual_sum_squares": 0.4361540314846116,
+        "selected_indices": [
+          5,
+          7,
+          11,
+          27
+        ],
+        "selected_indices_sha256": "825ab26aeed9befb3c3309d7e62fc6d307fa7802c4f9a9a2d4bfde537657fd0c",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.6207781021435554,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "d5619c0c63cb012add6e3651ed51829fbd83f1364d6218f8b96b437eb3e43784"
+    },
+    "ses-2020-10-30-Run1": {
+      "activity_sha256": "4ff148d42991415749e7fae3ef468e61034593cd0f64aa35631ad308ba5e0f8c",
+      "bridge_e4_identity_sha256": "b12f37504922043206552e1dbb09a254284ffca5fd3f90ed8d57f8cc82ea205e",
+      "c51_to_e4_identity_maxabs": 2.384185791015625e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201030",
+      "native_identity_sha256": "71910fbf2eaed3e5a3402aaa6aa4c2b9ce952007c68a5be9940417077dd951fa",
+      "normalized_t4_sha256": "c1d8ceba413229374a2cabbecfc2b95e10dc7e40f0636be39b56de335f2d2506",
+      "post_identity_sha256": "1cc66a83e75efcb1582470ceeed5070dc9687d173e88e29984831812e82b7253",
+      "raw_t4_sha256": "339c4057c7527200c032010cd572d0efe1eaec77d7d40442045658f319dfb753",
+      "selected_indices": [
+        1,
+        11,
+        17,
+        23
+      ],
+      "selected_indices_sha256": "72bd4d019f789ff3f6048314db39f676061eb5e834142ff9cc4287b013c121af",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "4ff148d42991415749e7fae3ef468e61034593cd0f64aa35631ad308ba5e0f8c",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.22572857858860235,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "c1d8ceba413229374a2cabbecfc2b95e10dc7e40f0636be39b56de335f2d2506",
+        "raw_t4_sha256": "339c4057c7527200c032010cd572d0efe1eaec77d7d40442045658f319dfb753",
+        "residual_sum_squares": 0.4293928756311321,
+        "selected_indices": [
+          1,
+          11,
+          17,
+          23
+        ],
+        "selected_indices_sha256": "72bd4d019f789ff3f6048314db39f676061eb5e834142ff9cc4287b013c121af",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.6207781021435554,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "b312a552214e778152cb2a5ea53fdb1ac351be4ff95144c0c52fefcf370a8104"
+    },
+    "ses-2020-10-30-Run2": {
+      "activity_sha256": "d6c6f084a961e9de73be6af214a46515b97534340c81ae2d35e66e30696bccf6",
+      "bridge_e4_identity_sha256": "2a1310e1b5fcfd4ffaa3ee254212844ea1fef3eac99d2c5096e4988b09f94045",
+      "c51_to_e4_identity_maxabs": 3.2782554626464844e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run2_20201030",
+      "native_identity_sha256": "915ce8558e7464ef80cf6883c1d07e677dc33de9189f4129d5ab1f561fd66159",
+      "normalized_t4_sha256": "8cbcc2aab940fe2300d79062c289bd9f6c5a7eb2fe2171a3d72b446bbc2fcc04",
+      "post_identity_sha256": "53d826a0abb1ab496dbe614ca1bb0032dd6674ba1c78ad72895c342040520ade",
+      "raw_t4_sha256": "f7054dd9ec8c1d839a20127297a7b2ece86426ea764ae81678c4877bf91f535f",
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "d6c6f084a961e9de73be6af214a46515b97534340c81ae2d35e66e30696bccf6",
+        "budget": 4,
+        "design_condition": 1.6666666859848172,
+        "design_rank": 3,
+        "gcv": 0.19454765192809678,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "8cbcc2aab940fe2300d79062c289bd9f6c5a7eb2fe2171a3d72b446bbc2fcc04",
+        "raw_t4_sha256": "f7054dd9ec8c1d839a20127297a7b2ece86426ea764ae81678c4877bf91f535f",
+        "residual_sum_squares": 0.34586249231661637,
+        "selected_indices": [
+          1,
+          3,
+          11,
+          13
+        ],
+        "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "e263be4b9de3d4a5e7e56a68f148ecedefdd5bc258f1b0f917c1954533fdfe13"
+    },
+    "ses-2020-11-18-Run1": {
+      "activity_sha256": "e41610e3c224b1a9c448b48a0b008eb31e0adced98c00084d1865ad27d6848de",
+      "bridge_e4_identity_sha256": "326cca5ad3dc5d96a663760a1307aae661f7cccb78a4f110cc1b428ea3ca67e1",
+      "c51_to_e4_identity_maxabs": 2.980232238769531e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201118",
+      "native_identity_sha256": "524d283ff5f12d511046fe422f50fd054a604f9db4ad7d3bc062aed16990a7df",
+      "normalized_t4_sha256": "3965abfea284c03d6ac56016f7a03d8c485cf3367a8a5d428979e78c42ca7d91",
+      "post_identity_sha256": "680b7bdbc61f4a7849dd348f6f7d1dd8557f95c7b505604114a36536d51b3559",
+      "raw_t4_sha256": "6f6ab57e53d9db43372a61bd60a1732cac4e2ecd96d00d54347122ccd743be26",
+      "selected_indices": [
+        7,
+        13,
+        17,
+        29
+      ],
+      "selected_indices_sha256": "4357d11c3568303c8f39b00e9f81a85cfd3de8aebbf6116312a308bfde76e660",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "e41610e3c224b1a9c448b48a0b008eb31e0adced98c00084d1865ad27d6848de",
+        "budget": 4,
+        "design_condition": 2.781701875285917,
+        "design_rank": 3,
+        "gcv": 0.2645305966089947,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "3965abfea284c03d6ac56016f7a03d8c485cf3367a8a5d428979e78c42ca7d91",
+        "raw_t4_sha256": "6f6ab57e53d9db43372a61bd60a1732cac4e2ecd96d00d54347122ccd743be26",
+        "residual_sum_squares": 0.5032041347115348,
+        "selected_indices": [
+          7,
+          13,
+          17,
+          29
+        ],
+        "selected_indices_sha256": "4357d11c3568303c8f39b00e9f81a85cfd3de8aebbf6116312a308bfde76e660",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.620778099120184,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "f25de08d7796f2d3ca1508d77dc8d0afaa6bc0efe5b711da3a1cd1c242d3bc9a"
+    },
+    "ses-2020-11-19-Run1": {
+      "activity_sha256": "12cc011aa8d06aafccc9d934ba772ed503998653540e6776891bb6fac5d4a52f",
+      "bridge_e4_identity_sha256": "3c5c1cb00c9ac1ecedd651aa205ddd8387dd7818f3022cdf16cb0d0b221f377c",
+      "c51_to_e4_identity_maxabs": 1.7881393432617188e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201119",
+      "native_identity_sha256": "7936e42efcce7dc7cd2640dd7d3ea2278c4d6c211255dc1b0e2760c95731c219",
+      "normalized_t4_sha256": "35fedbdaaaf85cea64919f8b5150199db7492265bb92092fe0a104dca05d660b",
+      "post_identity_sha256": "a81bd2db968cdd3e1a6c6fd0e945b4b97b85917011c71afa0f6eae90c49f058e",
+      "raw_t4_sha256": "cbb41628125c5f95490496fea758334be501bdaf2a3d5f456a58b1e92ee64ae2",
+      "selected_indices": [
+        3,
+        15,
+        17,
+        19
+      ],
+      "selected_indices_sha256": "c355c9ca0ffe33b92d0329cf3ab9ca1128138bda84bb70aecabc0f84ec55ce4f",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "12cc011aa8d06aafccc9d934ba772ed503998653540e6776891bb6fac5d4a52f",
+        "budget": 4,
+        "design_condition": 1.6666666859848163,
+        "design_rank": 3,
+        "gcv": 0.2066664062787253,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "35fedbdaaaf85cea64919f8b5150199db7492265bb92092fe0a104dca05d660b",
+        "raw_t4_sha256": "cbb41628125c5f95490496fea758334be501bdaf2a3d5f456a58b1e92ee64ae2",
+        "residual_sum_squares": 0.3674069444955115,
+        "selected_indices": [
+          3,
+          15,
+          17,
+          19
+        ],
+        "selected_indices_sha256": "c355c9ca0ffe33b92d0329cf3ab9ca1128138bda84bb70aecabc0f84ec55ce4f",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "c7dbb2819c36e5ac9b24b4150ca666e567d494f25f7e576d1d2c406732654a45"
+    },
+    "ses-2020-11-24-Run1": {
+      "activity_sha256": "dd583bc2a2d3fd3323e23bfce1188cda584f5700db31bb56328c8cfc9aee984a",
+      "bridge_e4_identity_sha256": "16c83c65774789fdbac8d70d3283a2b091f4d7ae4c811d849ab166d4e086137a",
+      "c51_to_e4_identity_maxabs": 3.8743019104003906e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run1_20201124",
+      "native_identity_sha256": "751c5cc60763d5177f4a9682d0c528ea9e762582f4d239bdd8732137ceb130c4",
+      "normalized_t4_sha256": "3805120c3c61b3e2bb691e0378cf055431c9186909218777e6d1a5f7f046dab3",
+      "post_identity_sha256": "21b8c755357b8e76d0113a7cc8508154ed34ddd033ac2c926a8a2962b42929ad",
+      "raw_t4_sha256": "ef24afc19e80933e0b9c0cdd342f39072249138910afac9bac6a401398e2dfec",
+      "selected_indices": [
+        1,
+        3,
+        7,
+        17
+      ],
+      "selected_indices_sha256": "711d0bbb79b9c9a2cef827539956bd28e09d45ac087d57f95907f8a9f3bcc80d",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "dd583bc2a2d3fd3323e23bfce1188cda584f5700db31bb56328c8cfc9aee984a",
+        "budget": 4,
+        "design_condition": 1.6666666887406334,
+        "design_rank": 3,
+        "gcv": 0.14477473073199815,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "3805120c3c61b3e2bb691e0378cf055431c9186909218777e6d1a5f7f046dab3",
+        "raw_t4_sha256": "ef24afc19e80933e0b9c0cdd342f39072249138910afac9bac6a401398e2dfec",
+        "residual_sum_squares": 0.2573772990791077,
+        "selected_indices": [
+          1,
+          3,
+          7,
+          17
+        ],
+        "selected_indices_sha256": "711d0bbb79b9c9a2cef827539956bd28e09d45ac087d57f95907f8a9f3bcc80d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "0eda39d92358fcf939a8500cb8fc906fa87f21874b8fb9a0ed7e3c5202d2b0a4"
+    },
+    "ses-2020-11-24-Run2": {
+      "activity_sha256": "994395f3c4ff66ebb87d9f9d06d3489786a050a5e4697834e813b79bda8167e5",
+      "bridge_e4_identity_sha256": "9fc8292a6d4a13ed8dc4b0c32eb3ccd7d6e6605f9c450b81df4325b05dcc39c6",
+      "c51_to_e4_identity_maxabs": 1.7881393432617188e-07,
+      "c51_to_e4_identity_maxabs_limit": 2e-06,
+      "dataset_tag": "Run2_20201124",
+      "native_identity_sha256": "a7a4ef1f429d91f6b3ffa82cfa91141e5fd95f1da4fb027053692df9b98303a3",
+      "normalized_t4_sha256": "c120f5e399521d1a2f7b2464b9ede99ee2a50c94024a9d3e6e2d8c41432ec4d5",
+      "post_identity_sha256": "8fff5cc77d99970b2483a3be0db340890d31b38d616c8212ebf33d5309b786dc",
+      "raw_t4_sha256": "74835e48311d95d8c74c06a6c6432c53db5cdb202c68eb74ff761eef9de2258b",
+      "selected_indices": [
+        3,
+        9,
+        11,
+        21
+      ],
+      "selected_indices_sha256": "8c8aac02b9038067515b29f56be66fc36b9d39145162fadcab44f3e279d60251",
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_sha256": "994395f3c4ff66ebb87d9f9d06d3489786a050a5e4697834e813b79bda8167e5",
+        "budget": 4,
+        "design_condition": 1.6666666859848172,
+        "design_rank": 3,
+        "gcv": 0.1619223797484445,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "c120f5e399521d1a2f7b2464b9ede99ee2a50c94024a9d3e6e2d8c41432ec4d5",
+        "raw_t4_sha256": "74835e48311d95d8c74c06a6c6432c53db5cdb202c68eb74ff761eef9de2258b",
+        "residual_sum_squares": 0.287862008441679,
+        "selected_indices": [
+          3,
+          9,
+          11,
+          21
+        ],
+        "selected_indices_sha256": "8c8aac02b9038067515b29f56be66fc36b9d39145162fadcab44f3e279d60251",
+        "selection": "doptimal_noncentre_first30",
+        "selection_disclosure": "D-opt reads finite direction metadata in first30 candidate pool",
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "37d8469d3e1a3c7126b0a5886723ba56acc4724d881308379c372062789bbce1"
+    }
+  },
+  "status": "LOCAL_PAYLOAD_BUILT_NOT_SUBMITTED",
+  "v1_failure_predecessor": {
+    "bodies": {
+      "attempt.json": "8b25aeef0a5c6b39b97e7a5685e37fc69bbdf66bbaeef3bc0a3f7abcc9811872",
+      "failure.json": "65a7b119f4899e51340826c92e8b35e2084bdd8d474ffe4021eff5829293a2d2",
+      "predecessor_authority.json": "c05e67949d3acc4599d9f996422af9e584342d9440463614a0bbbddaafb81df7"
+    },
+    "closure_sha256": "568f544f14a962dccc3c3bfe80814f4c3f39d579937814f92bfd4613298654ad",
+    "failure_stage": "post_predecessor_pre_payload_artifact_docker",
+    "receipt_codec_recovery": "side_evidence.selected_indices+selected_indices_sha256",
+    "root_device": 64512,
+    "root_inode": 28974546,
+    "root_relative": "tfpd_exploration/results/m2_aof_scalar_static_package_v1/local_build"
+  }
+}

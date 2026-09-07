@@ -1,0 +1,20 @@
+{
+  "arm": "h1_c2_cal1_b2_s42_ema_e18_L200_ort",
+  "budget_disclosure": "H1 CAL-1 deploy M3 (budget=3); C2 e15 frozen materializer; static official banks; no TTA. Checkpoint is sealed B2 HO-M3 e18 EMA after 32-epoch 13-session train. Local HO-M3 is development selection, not official HO.",
+  "evalai_opened": false,
+  "hold_reason": "packed; submit only after this script prints PACKED_NOT_REGISTERED and user-authorized submit runs",
+  "image_id": "sha256:48ff71d32c9da9b2c38506836d9827620ab761d4912a05033f77cd39084fe19f",
+  "image_size": 9992228673,
+  "image_tag": "spint-t4-h1:c2-cal1-b2-ort-e18-L200-w0-91bb23f5",
+  "method_description": "H1 C2-CAL-1 B2: scheduled M7 starts + M in {7,5,4}->V1 M4 carrier, M=3->fit_deployment_carrier. Seed 42, AdamW 1e-4, EMA 0.9995, 13 held-in, HO-M3 pick e18 (local 0.378). Official HO banks remain C2 earliest-M3. Same M1 ORT exact-E recipe (intra_op=2, graphs B=1..8). Exact-E, no TTA.",
+  "method_label": "H1 C2-CAL-1 B2 proj_add CausalPE4 (seed42 EMA e18 L=200 P16) ORT exact-E intra2; not SPINT; not C2-identical; not 582025 e24",
+  "method_name": "H1 C2-CAL-1 B2 P16 L200 e18 ORT exact-E w0",
+  "parity_ort_vs_packed_advance_max_abs": 5.9371814131736755e-09,
+  "parity_ort_vs_packed_smoke_max_abs": 8.94215190783143e-09,
+  "parity_packed_vs_train_max_abs": 4.48198989033699e-09,
+  "payload_sha256": "91bb23f50b214b3841f19d6fcc8e7ac11c7b2b179f615b08be111f07dd4d1565",
+  "register": false,
+  "selection_mean": 0.3784139917802219,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_c2_cal1_b2_ort_v1/artifacts/evalai_push_state.json",
+  "window": 200
+}

@@ -1,0 +1,4 @@
+run_id,variant,seed,validation_protocol,fold_id,split,session,M,R2_variance_weighted,R2_delta_vs_matched_baseline,identity_mse,prediction_distill_mse,parameter_count,weight_bytes,MAC_per_trial,MAC_per_session,peak_live_state_bytes,trial_buffer_bytes,support_state_bytes,requires_cubic_interpolation,requires_general_multiplier,requires_divider,quant_format,saturation_count
+m1_compact_b0_f2_s42_fresh_e11_f2_s42_20260810_052941,B0,42,loso,2,design,,,,,,,5350500,21402000,0,0,393216,0,393216,True,True,True,fp32,
+m1_compact_b0_f2_s42_fresh_e11_f2_s42_20260810_052941,B0,42,loso,2,test_heldin,,10,,,,,5350500,21402000,0,0,393216,0,393216,True,True,True,fp32,
+m1_compact_b0_f2_s42_fresh_e11_f2_s42_20260810_052941,B0,42,loso,2,test_heldout,,10,,,,,5350500,21402000,0,0,393216,0,393216,True,True,True,fp32,

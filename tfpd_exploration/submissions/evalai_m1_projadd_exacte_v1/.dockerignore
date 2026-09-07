@@ -1,0 +1,7 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!trf_falcon_decoder.py
+!artifacts/
+!artifacts/m1_projadd_p16_s42_ema_e24.pkl

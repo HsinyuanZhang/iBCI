@@ -1,0 +1,43 @@
+# @package _global_
+
+defaults:
+  - override /data: rt_ld_nested_loso_m24
+  - override /model: rt_ld_b3s_t4
+
+task: rt
+run_id: rt_ld_a0_full_m24_fold0_seed42
+tags: ["rt", "ld", "a0", "full_identity", "m24", "nested_loso", "fold0", "seed42", "development_only"]
+train: true
+test: false
+no_early_stopping: true
+require_baseline_validation: false
+optimized_metric: val_heldin/r2_mean
+
+data:
+  loso_fold: 0
+  outer_loso_fold: 0
+  side_feature_group: afc4_vel
+  rt_ld_gain_source: full
+
+model:
+  task: rt
+  rt_ld_arm: a0
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+
+trainer:
+  max_epochs: 35
+
+callbacks:
+  rt_nested_selection_receipt:
+    _target_: src.callbacks.rt_nested_selection_receipt.RtNestedSelectionReceipt
+    output_path: ${paths.output_dir}/rt_nested_selection_receipt.json
+    split_manifest_path: ${paths.output_dir}/split_manifest.json
+    config_path: ${paths.output_dir}/.hydra/config.yaml
+    run_id: ${run_id}
+    arm: ${data.side_feature_group}
+    outer_loso_fold: ${data.outer_loso_fold}
+    seed: ${seed}
+    monitor: val_heldin/r2_mean

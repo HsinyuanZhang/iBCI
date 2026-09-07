@@ -1,0 +1,6 @@
+{
+  "schema": "h1_overlap_gate_decoder_calibration_manifest_v1",
+  "module": "src/data/h1_overlap_gate_decoder_calibration.py",
+  "receipt_path": "src/data/h1_overlap_gate_decoder_calibration_receipts/h1_overlap_gate_decoder_calibration_v1.json",
+  "receipt_sha256": "624557b1c199f5cfdb6372f4716308c45a9ff9e87af6ccc56ba88c4da5036cb7"
+}

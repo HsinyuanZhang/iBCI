@@ -1,0 +1,13 @@
+# @package _global_
+
+defaults:
+  - rt_ld_a0_full_m24_fold0_seed42
+
+run_id: rt_ld_g_xls_m24_fold0_seed42
+tags: ["rt", "ld", "g_xls", "full_identity", "xls_v2_gain_only", "m24", "nested_loso", "fold0", "seed42", "development_only"]
+
+data:
+  rt_ld_gain_source: xls_v2
+
+model:
+  rt_ld_arm: g_xls

@@ -1,0 +1,26 @@
+defaults:
+  - override_epoch_step
+  - lr_monitor
+  - model_summary
+  - _self_
+
+early_stopping:
+  _target_: lightning.pytorch.callbacks.EarlyStopping
+  monitor: val_heldin/r2_mean
+  patience: 3000
+  mode: max
+  strict: true
+
+best_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/clean_teacher_best
+  filename: epoch_{epoch:03d}
+  monitor: val_heldin/r2_mean
+  mode: max
+  save_last: false
+  auto_insert_metric_name: false
+  save_top_k: 1
+
+clean_teacher_provenance:
+  _target_: src.callbacks.clean_teacher_provenance.CleanTeacherProvenanceCallback
+  input_manifest_path: ${paths.root_dir}/../sua_exploration/results/m2_ssc_t4_v1/clean_teacher_input_manifest.json

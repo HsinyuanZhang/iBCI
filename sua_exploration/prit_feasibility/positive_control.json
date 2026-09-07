@@ -1,0 +1,47 @@
+{
+  "all": [
+    {
+      "frac_direction_within_22p5_deg": 0.6995151515151515,
+      "frac_timesteps_within_10pct_span": 0.0848,
+      "grid_size": 20,
+      "lambda_expected_cos_delta": 0.7445317874624673,
+      "median_abs_direction_err_deg": 7.967730917072747,
+      "median_target_loc_err_frac_of_span": 0.23919215162272792,
+      "stay_prob": 0.999,
+      "vm_kappa": 2.0
+    },
+    {
+      "frac_direction_within_22p5_deg": 0.6909090909090909,
+      "frac_timesteps_within_10pct_span": 0.1625,
+      "grid_size": 20,
+      "lambda_expected_cos_delta": 0.7423766088945369,
+      "median_abs_direction_err_deg": 7.789558107086904,
+      "median_target_loc_err_frac_of_span": 0.20887618670930547,
+      "stay_prob": 0.999,
+      "vm_kappa": 4.0
+    },
+    {
+      "frac_direction_within_22p5_deg": 0.6669090909090909,
+      "frac_timesteps_within_10pct_span": 0.2058,
+      "grid_size": 20,
+      "lambda_expected_cos_delta": 0.7365069382071726,
+      "median_abs_direction_err_deg": 9.826430184858435,
+      "median_target_loc_err_frac_of_span": 0.17149997872282274,
+      "stay_prob": 0.999,
+      "vm_kappa": 8.0
+    }
+  ],
+  "best": {
+    "frac_direction_within_22p5_deg": 0.6995151515151515,
+    "frac_timesteps_within_10pct_span": 0.0848,
+    "grid_size": 20,
+    "lambda_expected_cos_delta": 0.7445317874624673,
+    "median_abs_direction_err_deg": 7.967730917072747,
+    "median_target_loc_err_frac_of_span": 0.23919215162272792,
+    "stay_prob": 0.999,
+    "vm_kappa": 2.0
+  },
+  "n_timesteps": 10000,
+  "reads_dandi_kinematics": false,
+  "source": "prit_upstream/examples/exampledat.mat (upstream repo demo data)"
+}

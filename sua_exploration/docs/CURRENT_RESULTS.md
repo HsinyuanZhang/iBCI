@@ -1,8 +1,9 @@
 # Current results: analytic functional carriers for streaming neural decoding
 
-**Updated:** 2026-08-12 HKT
-**Status:** concise terminal result ledger; RT sparse Stage-2/B2, H1 dense CarrierID, H1 sparse
-date-2 replication and H1 CI64 are closed
+**Updated:** 2026-08-15 HKT
+**Status:** concise terminal result ledger plus separate dated development rounds. Historical terminal results
+remain authoritative; the B0 external bridge is a terminal system-comparator result, while A1 is a terminal
+routing pilot and B1 stopped at terminal Stage P, with neither promoted to a confirmatory or formal result.
 **Full project interpretation:**
 [`HANDOFF_MAINLINE_CLOSURE_20260811.md`](HANDOFF_MAINLINE_CLOSURE_20260811.md)
 
@@ -15,12 +16,15 @@ receipts, and the dated protocol documents still referenced by scripts and tests
 | dataset / endpoint | principal R² result | evidence status |
 |---|---:|---|
 | external subject-M SUA | T4/Zero4/TS4 `0.356828/−0.057766/−0.115319`; T4−Zero4 `+0.414594` | terminal 270-cell matrix; 3/3 seed means and 15/15 session means positive |
+| matched subject-shift interaction (A2 v2) | within T4/Z4 `0.574976/0.326008`; external sub-M `0.341367/−0.143399`; interaction `+0.235799` | terminal 3-seed matched-checkpoint interaction; bootstrap `[+0.100852,+0.371768]`; formal sub-C test sessions sealed |
+| original-SPINT B0 subject shift | within sub-C `0.236417`; external sub-M `−0.116184`; external−within `−0.352600`; external T4−B0 `+0.457551` | terminal CPU score-only bridge, 3/3 external seed means negative; matched-streaming original-SPINT topology system comparator, not a published-SPINT checkpoint or carrier-causal contrast |
 | external subject-M pseudo-MUA | T4/Zero4/TS4 `0.306073/−0.086878/−0.164314`; T4−Zero4 `+0.392951` | terminal controlled signal-view bridge |
 | native M2 matched seed42 | SPINT/T4 `0.293110/0.382906`; delta `+0.089796` | 14/14 development cells; 7/7 session deltas positive; not the missing fresh three-seed gate |
 | RT dense carrier | Full/B2 `0.441950/0.145148`; delta `+0.296802` | terminal 15-fold development matrix |
 | RT sparse endpoint T4d | T4d/Zero4/B2 `0.448176/0.179272/0.145148`; deltas `+0.268905/+0.303028` | terminal 45-cell matrix, independent verifier PASS, exact-query B2 companion PASS; both sparse-mainline contrasts 15/15 positive |
 | H1 sparse boundary | date1 H-SE5−Zero5 `+0.028469` (2/2 positive); date2 `−0.022590` (2/3 positive) | four-trial endpoint-only carrier does not replicate across dates; not an H1 main claim |
 | H1 compact CarrierID | five-date H-C−H-S `+0.056287`; organizer-held `0.274939` vs paper-LR `0.261492` | separate dense-carrier compact-consumer and organizer-hidden evidence |
+| H1 SPINT NeuronID capacity | W32 vs H-S-1024 four-date mean `+0.036381`; 4/4 meet `delta R² >= -0.03`; date-bootstrap `[+0.012598,+0.056262]` | activity-only SPINT topology retains performance with `99.22x` fewer identity parameters and `94.05x` fewer identity MACs; development seed-42 capacity result |
 | M1 | Original/T4/D4 `0.648591/0.644766/0.643993`; matched carrier content `−0.00652` | carrier-content negative boundary |
 
 ## 2. Selected method and evidence boundary
@@ -123,6 +127,59 @@ Evidence:
 - supervision audit SHA `43582628a86e80d08d91c60ce3f283502076bac951b06499649042e61feeea03`.
 - valid A2a-v2 receipt SHA `b6a080c48d36adc74050f0a6672623585320e32bada45001a962622379bcba58`;
 - valid A2b-v2 receipt SHA `0d4cd01b5fea86e2dca4640731f99faa2abde57d3d163bf7dee6ac34ed167361`.
+
+### 3.4 Matched target-subject-shift interaction
+
+A2 v2 trains one T4 and one matched Z4 source checkpoint per seed, then scores the unchanged epoch-5--12
+checkpoint bundle on both the six-session sub-C development domain and the 15-session external sub-M domain.
+The target-session first-30 direction-label carrier fit is disclosed; target velocity-label weight updates,
+backward gradients, decoder updates, and target normalizer refitting are all absent.
+
+| domain | Z4 | T4 | T4−Z4 |
+|---|---:|---:|---:|
+| within sub-C development | `0.326008` | `0.574976` | `+0.248968` |
+| external sub-M | `−0.143399` | `0.341367` | `+0.484766` |
+
+The external-minus-within interaction in `T4-Z4` is `+0.235799`; seed interactions are
+`+0.230085/+0.187631/+0.289681`, and the crossed seed-by-session bootstrap interval is
+`[+0.100852,+0.371768]`.  All frozen primary and secondary gates pass.  This supports increased **relative
+carrier value** under the observed C-to-M subject shift.  It is not an absolute T4 lift of `+0.235799`, not a
+biological unit-correspondence test, and not directly interchangeable with the M50 external matrix above.
+The negative external Z4 mean also includes the strict source-C behavior-normalizer transfer condition and
+must not be interpreted in isolation.  The six formal sub-C test sessions remained sealed.
+
+Authoritative immutable aggregate:
+`results/a2_matched_subject_shift_v2/terminal_aggregate.json`, SHA-256
+`5b1459df7f65b8dd4cf4ebb9e29b7f82a6def6fc538af71bd822ee26fc7305fc`.
+
+### 3.5 Original-SPINT B0 external bridge
+
+The CPU-only bridge evaluates the archived original-SPINT identity topology under the matched streaming source
+protocol on the same 15 external subject-M sessions and fixed logical epochs 5--12 used by the A2 comparison.
+B0 uses the trainable copied `fc_id_in`/`fc_id_out` identity path with `side_dim=0`; it receives no target
+direction carrier.  No new training, target-session optimizer/backward/update, GPU execution, or formal sub-C
+test access occurred.
+
+| quantity | mean R² | seed 42 / 43 / 44 |
+|---|---:|---:|
+| B0 within sub-C (A11 authority) | `+0.236417` | `+0.287760 / +0.179848 / +0.241641` |
+| B0 external sub-M | **`−0.116184`** | `−0.118807 / −0.096352 / −0.133392` |
+| B0 external minus within | **`−0.352600`** | `−0.406567 / −0.276200 / −0.375033` |
+| external T4 minus B0 | **`+0.457551`** | `+0.421876 / +0.453572 / +0.497205` |
+| external Z4 minus B0 | `−0.027215` | `−0.055379 / +0.006965 / −0.033233` |
+
+B0 is positive within subject but negative on every external seed.  This supports the narrow interpretation that
+the large activity-derived original-SPINT identity path learns useful within-domain structure that does not
+survive this C-to-M subject shift.  Its external score is close to A2 Z4 (`−0.143399`), while T4 remains
+positive (`+0.341367`); the result therefore strengthens the use of Z4 as a deployment-failure proxy and the
+claim that a task-frame carrier supplies transferable identity.  The clean carrier-content evidence remains
+the matched A2 T4-versus-Z4 interaction.  T4-versus-B0 and Z4-versus-B0 are system contrasts that also change
+encoder topology and training lineage, so they are not pure carrier causal effects and are not claims about a
+published SPINT checkpoint.
+
+Authoritative immutable aggregate:
+`results/subm_b0_external_score_bridge_v1/terminal_aggregate.json`, SHA-256
+`913e58ec8556aff61fb25fe8571a94102136652f467cb190f5a0c14c3cec6211`.
 
 ## 4. Native M2
 
@@ -311,6 +368,52 @@ score gap causally. The immutable receipt and from-source
 byte-identical verification SHAs are `2c76d3c5...3c28` and `980e0383...3585`; v1/v2 reporting is
 superseded by v2r2.
 
+### 6.3 H-U label-free descriptor terminal boundary
+
+The development fold-0 seed-42 H-U arm is terminal at epoch 49 / step 180,500. On the frozen
+`665fe535...` query (8,965 windows), four label-free per-unit statistics score pooled `0.4829429873`
+(`0.5284200128/0.3507516311` per session), versus matched H-C `0.5255108533` and H-C0
+`0.4866156747`: H-U−H-C0 is `−0.0036726874`, H-U−H-C is `−0.0425678660`, and the recovered
+carrier increment is `−9.44%`. There were zero target optimizer/backward steps and no formal or organizer
+test access (`formal=false`). Thus these four label-free statistics do not recover the H1 carrier increment;
+the H-U branch stops with no expansion. This one development cell does not establish universal nonequivalence
+or equivalence.
+Receipt: `SPINT-main/pilot_artifacts/h1_carrierid_hu/gpu_runs/h32_fold0_hu_v2_envfix/hu/H1_CARRIERID_HU_TERMINAL_EVAL_v9.json`,
+SHA `f2f101888125a80dd0e44fb26b048197238fcced1fcf8d924d870cd8eaae9ef4`.
+
+### 6.4 Architecture-preserving SPINT NeuronID width boundary
+
+An activity-only control keeps the H-S/SPINT identity topology, four-trial support, decoder, seed 42,
+50-epoch training and fixed epoch-49 read rule unchanged, while replacing every internal identity width
+`1024` by `h`. It does not use a carrier. On fold 0, fresh H-S-1024/W224/W32 score
+`0.496833/0.432845/0.520634`; the corresponding compact deltas are `-0.063988/+0.023801`.
+The frozen `delta R² >= -0.03` routing gate therefore stops W224 and advances only W32; this non-monotonic
+pilot must not be summarized as "smaller is always better."
+
+The predeclared W32 confirmation on the four remaining development dates is:
+
+| outer date | reused H-S R² | fresh W32 R² | W32−H-S |
+|---|---:|---:|---:|
+| `19250108` | `0.426458` | `0.479998` | `+0.053540` |
+| `19250113` | `0.256659` | `0.290709` | `+0.034049` |
+| `19250115` | `0.441892` | `0.500877` | `+0.058984` |
+| `19250119` | `0.294603` | `0.293554` | `-0.001049` |
+
+All four dates pass the non-inferiority margin. The equal-date mean/median deltas are
+`+0.036381/+0.043795`; a fixed-seed 200,000-draw outer-date bootstrap gives
+`[+0.012598,+0.056262]`. W32 reduces the activity-derived identity path from `5,965,500` to
+`60,124` parameters (`99.22x`) and from `2.710B` to `28.813M` dense MACs (`94.05x`). Each W32 model
+was trained fresh; the H-S references were reused only after exact source-schedule, support and query binding.
+All target evaluations use zero optimizer/backward steps and no formal or organizer data.
+
+This establishes substantial **additional NeuronID encoder capacity redundancy on H1** under the matched
+development protocol. It does not compare against constant/no identity, so it neither shows that activity-derived
+identity is useless nor bounds identity value on SUA, M2 or RT. Fold-0 terminal receipt SHA:
+`b8da8661970ac3ab467b4165bec271bbc5ed67e11c34ee92fdf5369eb39dd1ce`.
+Four-date aggregate:
+`SPINT-main/pilot_artifacts/h1_spint_width_date_lodo/H1_SPINT_IDENTITY_WIDTH_DATE_LODO_AGGREGATE_v1.json`,
+SHA `e65461e89c7d5df2d22a36307248d849534ebc7e9aa4dc09ca520e08aa1ccbb0`.
+
 Five-date development decomposition:
 
 | contrast | equal-date mean | positive dates | date-bootstrap 95% interval |
@@ -362,7 +465,7 @@ SHA `b7f76450494f3c0d0ad169de9e89f662c17f435ef2c08bb3d7062908515b488e`.
 | route | result | disposition |
 |---|---|---|
 | M1 official Original/T4/D4 | `0.648591/0.644766/0.643993` | T4/D4 do not improve Original |
-| M1 matched EMG-AFC4 content | `B-C−B-C0=−0.00652` | carrier-content negative; stop |
+| M1 matched compact EMG-AFC4 Full−Zero4 | `−0.00652463` | authoritative one-cell fold-0 seed-42 development carrier increment; stop |
 | M1 matched compact consumer | deltas `+0.095977/−0.033281/+0.047269`; mean `+0.036655` | only 2/3 pass `−0.03`; strict 3/3 non-inferiority closes |
 | RT L-D live gain | G-Full−A0 `−0.002068`; G-Full−G-XLS `+0.006606` | fails both `+0.03` gates; stop |
 | N4 neural-only carrier on M2 | N4−NS4 `+0.001588`, 3/6 positive | static label-free statistics do not reproduce T4 |
@@ -371,6 +474,11 @@ SHA `b7f76450494f3c0d0ad169de9e89f662c17f435ef2c08bb3d7062908515b488e`.
 | H1 H-PCF8/native-phase precursors | source constructibility gates fail | no GPU |
 
 These close the tested implementations, not every possible self-supervised representation or adaptation method.
+For M1, the matched receipt is
+`sua_exploration/results/m1_version_b_pilot_aggregate_remote_f0_s42_v3/M1_VERSION_B_F0_S42_AGGREGATE_v1.json`,
+SHA `c68f38822fc35414d570f2b932b16491fed763379325ad7efd0529f460e8e035`. The official unmatched
+T4−Original `−0.003825` and same-checkpoint whole-identity Full−Zero `+1.8485` are respectively a system
+comparison and an identity-reliance ablation, not matched carrier increments.
 
 ## 8. Additional completed attribution
 
@@ -378,6 +486,16 @@ The SUA component lattice reports T4/AC4/PH4/MB4/Z4/B4/TS4/LS4
 `0.574976/0.562753/0.516961/0.356620/0.326008/0.287273/0.284528/0.265626`.
 AC4−T4 is `−0.012222`, inside the `−0.03` tolerance, while T4−Z4 is `+0.248968`. This supports the signed
 `[a,c]` functional component; rate-scale alone does not recover the full benefit.
+
+The checkpoint-bound A4 token-content probe provides a separate mechanism readout. Across seeds
+42/43/44 and six-session LOSO, AC4 raw/null/advantage is
+`0.749669/0.232369/+0.517299`, while Z4 is `0.319513/0.229369/+0.090144`; the paired
+AC4-Z4 delta is `+0.430155`, with `18/18` positive seed-session deltas. Thus activity-only tokens
+are phase-poor, not phase-free, and AC4 preserves `5.74x` more null-relative cross-session linear
+phase signal. This is not a decoder-accuracy result and does not imply nonlinear absence in Z4.
+The prose protocol was finalized after the receipts and is not cited as independent pre-registration.
+Immutable summary SHA-256:
+`6e0ead189ba7deb8aaf42cb5cc2a345e1ecd77f48c5d0fc7af39e878bcaa3e96`.
 
 Paired SUA/pseudo co-training is non-inferior to separate T4 training in the tested matrix:
 
@@ -409,12 +527,84 @@ Not supported:
 - positive M1 carrier content;
 - label-free calibration.
 
-## 10. Remaining closure work
+## 10. 2026-08-13 pilot round
 
-1. preserve the audited A2a/A2b-v2 artifacts and their narrow within-ridge claim;
-2. finish reference-aware cleanup and split the root Git synchronization into portable, reviewable commits;
-3. keep the terminal H1 CI64 result in its predeclared secondary role; it does not reopen H1 architecture search;
-4. keep the H-SE5 date-2 STOP receipt and its two independent verifications immutable; no post hoc rescue arm is
-   part of the current paper scope.
+The preceding validation round is closed by the immutable A2 target-subject-shift aggregate
+`results/a2_matched_subject_shift_v2/terminal_aggregate.json`, SHA-256
+`5b1459df7f65b8dd4cf4ebb9e29b7f82a6def6fc538af71bd822ee26fc7305fc`. Its four means are
+within sub-C T4/Z4 `0.574976/0.326008` and external sub-M T4/Z4 `0.341367/-0.143399`; the matched
+external-minus-within carrier interaction is `+0.235799`. The six formal sub-C test sessions remain sealed.
 
-All other proposed carrier, decoder-fusion, M1/H1 rescue, and quantization experiments are outside this closure.
+Current work is deliberately separated from those terminal results:
+
+| scope | authoritative current state | result status |
+|---|---|---|
+| A12 descriptive attention audit | `3/24` seed-epoch pairs (seed 42, epochs 5--7), partial aggregate SHA `2bf287307595e5b58e10b3ea00ff082de9873d50421ccd67c9b099764d95eb30`; T4-minus-Z4 normalized entropy `-0.041562`, effective attended units `-2.612026`, and pairwise head cosine `-0.035522`, each negative in 6/6 sessions | descriptive partial only; incomplete, non-causal, no inference, gates nothing |
+| B1 carrier x distillation | Stage P terminal under v10 preflight SHA `b20a6dc88297efcd48b0b6081de895befe981be5092953a5705071aa21d14890`; seed-42/43/44 interactions `+0.059153177/+0.004307292/-0.022215337`; mean `+0.0137`; aggregate SHA `0ff38c4b36f64866221d69b456a237ad4fc584bc49b538a7334bea46cd3962c0` | mixed signs and mean below `+0.03`: `STOP_B1_NO_STAGE_F` |
+| A1 hidden-space adapter | score SHA `b2b569...`, aggregate SHA `fe8b311...`; primary interaction `+0.0128 R²` | below preregistered `+0.03`: `PILOT_ROUTING_STOP`. Attachment control confirms use but no useful lift |
+| C1 / C2 | implementation/design artifacts retained | held; no GPU result and no paper claim |
+
+Workspace maintenance is separate from scientific status: the cold archive at
+`/mnt/data/SPINT_cold_archive/2026-08-13/` now contains the initial `8.90 GiB` plus a sealed-batch source-unique
+`81.9967 GiB` migration; hard-link deduplication added `74.5878 GiB` of new archive storage. The `49.940 GiB`
+`streaming_calibration_exp/logs/train` tree was then archived after path-compatibility smoke tests, and its
+original absolute path remains a symlink. Root free space is approximately `208 GB`; pointer-plus-SHA manifests
+preserve recovery without changing authoritative artifacts.
+
+## 11. 2026-08-14 CEBRA-inspired non-H1 queue
+
+H1 remains open but is lower priority after the architecture-preserving W32 result: the activity-only identity
+path is `99.22x` smaller in parameters and `94.05x` smaller in identity MACs than H-S-1024, with a four-date mean
+delta of `+0.036381` and bootstrap interval `[+0.012598,+0.056262]`.  This is an encoder-capacity redundancy
+result, not a no-identity result and not a universal carrier-headroom closure.
+
+The first CEBRA-inspired screen was a size-matched continuous-behavior pseudo-session intervention on the
+SUA/sub-M route.  Its immutable CPU preflight is
+`results/cebra_pseudosession_sua_v1/official_cpu_preflight.json`, SHA-256
+`6f1e522053b4e45f2999a852a96d4c3b9b4de3ef318f0ce5a65980fe3dcbd770`.  The immutable seed-42 aggregate is
+`results/cebra_pseudosession_sua_v1/stage_p_seed42_aggregate.json`, SHA-256
+`16b83e5e4251fe31cbd72d6902fbd8300eaff9217e9c5a9a358020e2c01f7334`.  Relative to the sealed A2 parent,
+mix-T4 changed within-sub-C by `+0.009485` and external sub-M by `+0.022609`; the latter missed the frozen
+`+0.03` gate.  Stage P therefore stopped without seeds 43/44 or result-guided tuning.  The larger external
+carrier interaction (`+0.071772`) does not rescue the failed absolute-accuracy gate.
+
+The forward-only `SetKV-delta` diagnostic is terminal.  Its immutable aggregate is
+`results/setkv_delta_forward_v1/terminal_forward_aggregate.json`, SHA-256
+`1d6ea6f9fd12623094341b41157ca18c6be26bf134554a939ce53ce7b4009802`.  SetKV-T4 reduced R2 by `-0.738673`
+within subject and `-0.638865` on external sub-M, while SetKV-T4 and its row-shuffled sibling were numerically
+indistinguishable.  The frozen-forward route therefore stops without joint training.  This diagnostic does
+not establish that a jointly trained SetKV consumer is impossible.
+
+The frozen queue behind that terminal gate is:
+
+1. run a source-only value-weighted contribution versus tuning-magnitude mask diagnostic;
+2. run a separately contracted session-consistent, rate/T4-matched activity-identity swap v2;
+3. continue the fair Track-B CEBRA comparator in parallel through its CPU/source-only gates.
+
+The H1-excluded Track-B v2 comparator has passed its CPU/source-only loader and authority stage for the strict
+27-session sub-C source roster in both SUA and pseudo-MUA views; all 27 pseudo-MUA sessions exactly replay the
+declared unit-to-electrode pooling.  These development authorities contain no target data, CEBRA fit,
+checkpoint, GPU execution, or score.  A single strict-source engineering microbenchmark then measured the
+cheapest proposed selector cell (`d=3`, 250 iterations, seed 42): one fit took `5563.348 s`, total wall time was
+`5729.817 s` (`95.50 min`), and peak RSS was about `5.83 GiB`; its immutable cost-only receipt SHA-256 is
+`1c9f960641d0418da089006245dbe0141769c8c07761b9004f349e9ac160cff2`.  It emitted no R2/winner and opened no
+outer target/formal data.  The original 324-fit selector is therefore closed on measured CPU economics
+(`>=20.9` serial days even at the cheapest measured-cell cost), and the 12-fit grouped replacement is not
+adopted because it changes source exposure and still costs roughly `10.6` CPU days.  Track-B now uses an
+externally fixed, non-selected CEBRA geometry: `d=8`, 10,000 iterations, normalized ridge `lambda=0.01`, and
+cosine kNN `k=3`.  Before any target access, one separately reviewed source-only `d=8`/250-iteration GPU cost
+fit must establish the actual runtime and device-memory budget; it cannot emit a scientific score or alter the
+fixed geometry.  `MultiSessionSolver` remains the future accuracy comparator;
+`UnifiedSolver` has a fixed concatenated source-unit input width and cannot serve a standalone unseen target,
+so it emits no accuracy claim.  No CEBRA accuracy number is recorded here.
+
+The future Track-B accuracy contrast will be trial-prefix matched but deliberately not label-density matched:
+CEBRA-Behavior consumes dense bin-level velocity within the M50/M24 prefix, whereas T4 consumes sparse
+trial-level supervision.  This choice follows CEBRA's valid continuous-behavior path (RT's native direction
+column is degenerate) and favours CEBRA on available calibration information.  Any result must report the two
+label counts explicitly rather than calling the comparison equal-information.
+
+The A2 external Z4 score `-0.143399` is not recorded as proof that activity-derived identity is intrinsically
+misleading: Z4 retains activity identity and lacks only carrier content.  The identity-swap line is therefore a
+new causal test.  Gauge augmentation and all-bin supervision are not queued fallbacks, and a mechanism migrates
+to M2 and then RT only after a three-seed absolute external-T4 gain.

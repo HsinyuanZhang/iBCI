@@ -1,0 +1,15 @@
+_target_: src.data.h1_context_event_corrupted_source.H1ContextCorruptedSourceEventDataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+cache_dir: ${pilot.shared_cache_dir}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+num_workers: 0
+pin_memory: false
+seed: 42
+fixed_epochs: 50
+source_snapshot_receipt: ${paths.work_dir}/pilot_artifacts/h1_context_event_carrier/source_snapshot/H1_CONTEXT_SER_Q4_FOLD0_SOURCE_v3.json
+allow_live_source_map_for_snapshot: false
+corruption_mode: row

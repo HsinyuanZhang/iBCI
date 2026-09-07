@@ -1,0 +1,38 @@
+# @package _global_
+defaults:
+  - override /data: falcon_h1_sparse_event_endpoint
+  - override /model: falcon_h1_sparse_event_endpoint
+  - override /callbacks: h1_carrierid_terminal
+
+protocol_id: h1_ctxv2_stage_a_hse5_full_19250108_v1
+task_name: h1_ctxv2_hse5_full_19250108
+tags: [h1, ctxv2, sparse_event, endpoint, q4, ridge3, m4, full, 19250108]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: null
+logger: false
+
+pilot:
+  fold_date: "19250108"
+  arm: full
+  zero_carrier: false
+  shared_cache_dir: ${paths.work_dir}/pilot_artifacts/h1_ctxv2_19250108/hse5_shared_source_cache
+  calibration_n_trials: 4
+  batch_size: 32
+  fixed_terminal_epochs: 50
+  no_checkpoint_selection: true
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

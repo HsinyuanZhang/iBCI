@@ -1,0 +1,1007 @@
+{
+  "arms": {
+    "ridge_W_sweep": {
+      "arm": "ridge_W_sweep",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 8800,
+          "fitted_parameters": 61600,
+          "intercept_foc_max_abs_error": 5.432731966994933e-19,
+          "observations_per_parameter": 0.33636363636363636,
+          "query_windows": 6735,
+          "r2": 0.28003039438080746,
+          "selection": {
+            "consumed": "leave-one-support-trial-out CV on calibration rows only across W grid",
+            "cv_rows": [
+              {
+                "calibration_rows": 3120,
+                "feature_dim": 1760,
+                "history_bins": 10,
+                "loo_calibration_r2": 0.16779999579062743,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "calibration_rows": 3060,
+                "feature_dim": 4400,
+                "history_bins": 25,
+                "loo_calibration_r2": 0.26109498996454716,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "calibration_rows": 2960,
+                "feature_dim": 8800,
+                "history_bins": 50,
+                "loo_calibration_r2": 0.27351433725390395,
+                "selected_lambda": 5.62341325190349
+              }
+            ],
+            "history_bins_grid": [
+              10,
+              25,
+              50
+            ],
+            "lambda_grid": [
+              0.001,
+              0.0017782794100389228,
+              0.0031622776601683794,
+              0.005623413251903491,
+              0.01,
+              0.01778279410038923,
+              0.03162277660168379,
+              0.056234132519034905,
+              0.1,
+              0.1778279410038923,
+              0.31622776601683794,
+              0.5623413251903491,
+              1.0,
+              1.7782794100389228,
+              3.1622776601683795,
+              5.62341325190349,
+              10.0,
+              17.78279410038923,
+              31.622776601683793,
+              56.23413251903491,
+              100.0,
+              177.82794100389228,
+              316.2277660168379,
+              562.341325190349,
+              1000.0
+            ],
+            "pca_k": null,
+            "query_windows_fixed_to_sealed_contract": true,
+            "selected_history_bins": 50,
+            "selected_lambda": 5.62341325190349
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 8800,
+          "fitted_parameters": 61600,
+          "intercept_foc_max_abs_error": 3.543760553545971e-19,
+          "observations_per_parameter": 0.35545454545454547,
+          "query_windows": 2230,
+          "r2": 0.2948215247211985,
+          "selection": {
+            "consumed": "leave-one-support-trial-out CV on calibration rows only across W grid",
+            "cv_rows": [
+              {
+                "calibration_rows": 3288,
+                "feature_dim": 1760,
+                "history_bins": 10,
+                "loo_calibration_r2": 0.07367665596448136,
+                "selected_lambda": 5.62341325190349
+              },
+              {
+                "calibration_rows": 3228,
+                "feature_dim": 4400,
+                "history_bins": 25,
+                "loo_calibration_r2": 0.13644477026919277,
+                "selected_lambda": 5.62341325190349
+              },
+              {
+                "calibration_rows": 3128,
+                "feature_dim": 8800,
+                "history_bins": 50,
+                "loo_calibration_r2": 0.14550843473620878,
+                "selected_lambda": 10.0
+              }
+            ],
+            "history_bins_grid": [
+              10,
+              25,
+              50
+            ],
+            "lambda_grid": [
+              0.001,
+              0.0017782794100389228,
+              0.0031622776601683794,
+              0.005623413251903491,
+              0.01,
+              0.01778279410038923,
+              0.03162277660168379,
+              0.056234132519034905,
+              0.1,
+              0.1778279410038923,
+              0.31622776601683794,
+              0.5623413251903491,
+              1.0,
+              1.7782794100389228,
+              3.1622776601683795,
+              5.62341325190349,
+              10.0,
+              17.78279410038923,
+              31.622776601683793,
+              56.23413251903491,
+              100.0,
+              177.82794100389228,
+              316.2277660168379,
+              562.341325190349,
+              1000.0
+            ],
+            "pca_k": null,
+            "query_windows_fixed_to_sealed_contract": true,
+            "selected_history_bins": 50,
+            "selected_lambda": 10.0
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 123200,
+        "mean_feature_dim": 8800.0,
+        "observations_per_parameter": 0.6918181818181818,
+        "query_windows": 8965,
+        "r2": 0.2841031455660449,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_lambda_cv": {
+      "arm": "ridge_lambda_cv",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 8800,
+          "fitted_parameters": 61600,
+          "intercept_foc_max_abs_error": 5.432731966994933e-19,
+          "observations_per_parameter": 0.33636363636363636,
+          "query_windows": 6735,
+          "r2": 0.28003039438080746,
+          "selection": {
+            "consumed": "leave-one-support-trial-out CV on calibration rows only",
+            "history_bins": 50,
+            "lambda_cv_rows": [
+              {
+                "lambda": 0.001,
+                "loo_calibration_r2": 0.16859030425693233
+              },
+              {
+                "lambda": 0.0017782794100389228,
+                "loo_calibration_r2": 0.16868193987877655
+              },
+              {
+                "lambda": 0.0031622776601683794,
+                "loo_calibration_r2": 0.16884463309419673
+              },
+              {
+                "lambda": 0.005623413251903491,
+                "loo_calibration_r2": 0.1691331260555362
+              },
+              {
+                "lambda": 0.01,
+                "loo_calibration_r2": 0.1696435665343129
+              },
+              {
+                "lambda": 0.01778279410038923,
+                "loo_calibration_r2": 0.17054319901695647
+              },
+              {
+                "lambda": 0.03162277660168379,
+                "loo_calibration_r2": 0.17211794706671613
+              },
+              {
+                "lambda": 0.056234132519034905,
+                "loo_calibration_r2": 0.17484167137747875
+              },
+              {
+                "lambda": 0.1,
+                "loo_calibration_r2": 0.17945657310795038
+              },
+              {
+                "lambda": 0.1778279410038923,
+                "loo_calibration_r2": 0.1870084435869851
+              },
+              {
+                "lambda": 0.31622776601683794,
+                "loo_calibration_r2": 0.1986836835252045
+              },
+              {
+                "lambda": 0.5623413251903491,
+                "loo_calibration_r2": 0.21519840056705652
+              },
+              {
+                "lambda": 1.0,
+                "loo_calibration_r2": 0.23564761253772804
+              },
+              {
+                "lambda": 1.7782794100389228,
+                "loo_calibration_r2": 0.25640836976392434
+              },
+              {
+                "lambda": 3.1622776601683795,
+                "loo_calibration_r2": 0.27130240137247696
+              },
+              {
+                "lambda": 5.62341325190349,
+                "loo_calibration_r2": 0.27351433725390395
+              },
+              {
+                "lambda": 10.0,
+                "loo_calibration_r2": 0.258387010970337
+              },
+              {
+                "lambda": 17.78279410038923,
+                "loo_calibration_r2": 0.22578590818088584
+              },
+              {
+                "lambda": 31.622776601683793,
+                "loo_calibration_r2": 0.1807883860681302
+              },
+              {
+                "lambda": 56.23413251903491,
+                "loo_calibration_r2": 0.13191737124941028
+              },
+              {
+                "lambda": 100.0,
+                "loo_calibration_r2": 0.0875545554274415
+              },
+              {
+                "lambda": 177.82794100389228,
+                "loo_calibration_r2": 0.05269797905890161
+              },
+              {
+                "lambda": 316.2277660168379,
+                "loo_calibration_r2": 0.02821181320002719
+              },
+              {
+                "lambda": 562.341325190349,
+                "loo_calibration_r2": 0.012349246975650985
+              },
+              {
+                "lambda": 1000.0,
+                "loo_calibration_r2": 0.002621680754421374
+              }
+            ],
+            "lambda_grid": [
+              0.001,
+              0.0017782794100389228,
+              0.0031622776601683794,
+              0.005623413251903491,
+              0.01,
+              0.01778279410038923,
+              0.03162277660168379,
+              0.056234132519034905,
+              0.1,
+              0.1778279410038923,
+              0.31622776601683794,
+              0.5623413251903491,
+              1.0,
+              1.7782794100389228,
+              3.1622776601683795,
+              5.62341325190349,
+              10.0,
+              17.78279410038923,
+              31.622776601683793,
+              56.23413251903491,
+              100.0,
+              177.82794100389228,
+              316.2277660168379,
+              562.341325190349,
+              1000.0
+            ],
+            "pca_k": null,
+            "selected_lambda": 5.62341325190349
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 8800,
+          "fitted_parameters": 61600,
+          "intercept_foc_max_abs_error": 3.543760553545971e-19,
+          "observations_per_parameter": 0.35545454545454547,
+          "query_windows": 2230,
+          "r2": 0.2948215247211985,
+          "selection": {
+            "consumed": "leave-one-support-trial-out CV on calibration rows only",
+            "history_bins": 50,
+            "lambda_cv_rows": [
+              {
+                "lambda": 0.001,
+                "loo_calibration_r2": 0.006745129535804639
+              },
+              {
+                "lambda": 0.0017782794100389228,
+                "loo_calibration_r2": 0.006855729353578255
+              },
+              {
+                "lambda": 0.0031622776601683794,
+                "loo_calibration_r2": 0.007052061079736882
+              },
+              {
+                "lambda": 0.005623413251903491,
+                "loo_calibration_r2": 0.00740010500460464
+              },
+              {
+                "lambda": 0.01,
+                "loo_calibration_r2": 0.008015605474721577
+              },
+              {
+                "lambda": 0.01778279410038923,
+                "loo_calibration_r2": 0.009099459013265254
+              },
+              {
+                "lambda": 0.03162277660168379,
+                "loo_calibration_r2": 0.010993815580848554
+              },
+              {
+                "lambda": 0.056234132519034905,
+                "loo_calibration_r2": 0.014261959256586798
+              },
+              {
+                "lambda": 0.1,
+                "loo_calibration_r2": 0.019776065718342117
+              },
+              {
+                "lambda": 0.1778279410038923,
+                "loo_calibration_r2": 0.028741171044532776
+              },
+              {
+                "lambda": 0.31622776601683794,
+                "loo_calibration_r2": 0.042478990556655605
+              },
+              {
+                "lambda": 0.5623413251903491,
+                "loo_calibration_r2": 0.06173165080165799
+              },
+              {
+                "lambda": 1.0,
+                "loo_calibration_r2": 0.08552903569269987
+              },
+              {
+                "lambda": 1.7782794100389228,
+                "loo_calibration_r2": 0.11045708565354195
+              },
+              {
+                "lambda": 3.1622776601683795,
+                "loo_calibration_r2": 0.13148999585080556
+              },
+              {
+                "lambda": 5.62341325190349,
+                "loo_calibration_r2": 0.14407400898415845
+              },
+              {
+                "lambda": 10.0,
+                "loo_calibration_r2": 0.14550843473620878
+              },
+              {
+                "lambda": 17.78279410038923,
+                "loo_calibration_r2": 0.13497321120457306
+              },
+              {
+                "lambda": 31.622776601683793,
+                "loo_calibration_r2": 0.11379249234207989
+              },
+              {
+                "lambda": 56.23413251903491,
+                "loo_calibration_r2": 0.08606288996607436
+              },
+              {
+                "lambda": 100.0,
+                "loo_calibration_r2": 0.05758249761472656
+              },
+              {
+                "lambda": 177.82794100389228,
+                "loo_calibration_r2": 0.033197006950478
+              },
+              {
+                "lambda": 316.2277660168379,
+                "loo_calibration_r2": 0.015045606751827312
+              },
+              {
+                "lambda": 562.341325190349,
+                "loo_calibration_r2": 0.002848254468105549
+              },
+              {
+                "lambda": 1000.0,
+                "loo_calibration_r2": -0.004797260969986006
+              }
+            ],
+            "lambda_grid": [
+              0.001,
+              0.0017782794100389228,
+              0.0031622776601683794,
+              0.005623413251903491,
+              0.01,
+              0.01778279410038923,
+              0.03162277660168379,
+              0.056234132519034905,
+              0.1,
+              0.1778279410038923,
+              0.31622776601683794,
+              0.5623413251903491,
+              1.0,
+              1.7782794100389228,
+              3.1622776601683795,
+              5.62341325190349,
+              10.0,
+              17.78279410038923,
+              31.622776601683793,
+              56.23413251903491,
+              100.0,
+              177.82794100389228,
+              316.2277660168379,
+              562.341325190349,
+              1000.0
+            ],
+            "pca_k": null,
+            "selected_lambda": 10.0
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 123200,
+        "mean_feature_dim": 8800.0,
+        "observations_per_parameter": 0.6918181818181818,
+        "query_windows": 8965,
+        "r2": 0.2841031455660449,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_pca_k16": {
+      "arm": "ridge_pca_k16",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 800,
+          "fitted_parameters": 5600,
+          "intercept_foc_max_abs_error": 1.2565024096264441e-18,
+          "observations_per_parameter": 3.7,
+          "query_windows": 6735,
+          "r2": 0.1216292697437199,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "62cb597f378801ef066b9db4a02623a9184fa4d0fa1da24382f691109a000f42",
+            "pca_calibration_bins": 3156,
+            "pca_k": 16
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 800,
+          "fitted_parameters": 5600,
+          "intercept_foc_max_abs_error": 6.693769934475723e-19,
+          "observations_per_parameter": 3.91,
+          "query_windows": 2230,
+          "r2": 0.1943311072293893,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "0222a5af545ea658555ab0ec956360736f2ff90a05506e62f9caa0bc030fb040",
+            "pca_calibration_bins": 3317,
+            "pca_k": 16
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 11200,
+        "mean_feature_dim": 800.0,
+        "observations_per_parameter": 7.61,
+        "query_windows": 8965,
+        "r2": 0.1406430512398852,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_pca_k32": {
+      "arm": "ridge_pca_k32",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 1600,
+          "fitted_parameters": 11200,
+          "intercept_foc_max_abs_error": 6.883218657212027e-19,
+          "observations_per_parameter": 1.85,
+          "query_windows": 6735,
+          "r2": 0.1876350524885646,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "0a658c87621cfee6a3b05028f47c58835fa7c5e63c5893eaa34206f37055cb78",
+            "pca_calibration_bins": 3156,
+            "pca_k": 32
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 1600,
+          "fitted_parameters": 11200,
+          "intercept_foc_max_abs_error": 5.684435942698937e-19,
+          "observations_per_parameter": 1.955,
+          "query_windows": 2230,
+          "r2": 0.28332671930409403,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "0db71c14966ca4e040d5cc0dc35334182b693c045cf1da8047b17a0a6e04e466",
+            "pca_calibration_bins": 3317,
+            "pca_k": 32
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 22400,
+        "mean_feature_dim": 1600.0,
+        "observations_per_parameter": 3.805,
+        "query_windows": 8965,
+        "r2": 0.21253156108183247,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_pca_k64": {
+      "arm": "ridge_pca_k64",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 3200,
+          "fitted_parameters": 22400,
+          "intercept_foc_max_abs_error": 3.652589210819409e-19,
+          "observations_per_parameter": 0.925,
+          "query_windows": 6735,
+          "r2": 0.20898677034917668,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "169b38f548a6287108ffc3f1738e0cde6fdd75149150f58b2207dd0e74c066bd",
+            "pca_calibration_bins": 3156,
+            "pca_k": 64
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 3200,
+          "fitted_parameters": 22400,
+          "intercept_foc_max_abs_error": 8.507243644975773e-19,
+          "observations_per_parameter": 0.9775,
+          "query_windows": 2230,
+          "r2": 0.24141591323128275,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "3aabda127000a395136ca9a725a3fe12eb5bc56144de2cc97859e46a197587b6",
+            "pca_calibration_bins": 3317,
+            "pca_k": 64
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 44800,
+        "mean_feature_dim": 3200.0,
+        "observations_per_parameter": 1.9025,
+        "query_windows": 8965,
+        "r2": 0.21761875963055166,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_pca_k8": {
+      "arm": "ridge_pca_k8",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 400,
+          "fitted_parameters": 2800,
+          "intercept_foc_max_abs_error": 7.576228964760194e-19,
+          "observations_per_parameter": 7.4,
+          "query_windows": 6735,
+          "r2": 0.08214404932138086,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "7a3cc7f5ed33a00ab3c056012607b50e805cc6806a3da52a8915e22aa1cce427",
+            "pca_calibration_bins": 3156,
+            "pca_k": 8
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 400,
+          "fitted_parameters": 2800,
+          "intercept_foc_max_abs_error": 7.676761418225369e-19,
+          "observations_per_parameter": 7.82,
+          "query_windows": 2230,
+          "r2": 0.04064468661748466,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_basis_sha256": "e04e4a2ad744abb9a06e843707adbb43646a0147a3dd294d11401d95ca35cd27",
+            "pca_calibration_bins": 3317,
+            "pca_k": 8
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 5600,
+        "mean_feature_dim": 400.0,
+        "observations_per_parameter": 15.22,
+        "query_windows": 8965,
+        "r2": 0.07182666800757287,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_pca_lambda_cv": {
+      "arm": "ridge_pca_lambda_cv",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 3200,
+          "fitted_parameters": 22400,
+          "intercept_foc_max_abs_error": 5.27058238955163e-19,
+          "observations_per_parameter": 0.925,
+          "query_windows": 6735,
+          "r2": 0.2854782715752232,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only; leave-one-support-trial-out CV on calibration rows for k and lambda",
+            "cv_rows": [
+              {
+                "feature_dim": 400,
+                "loo_calibration_r2": 0.15120808024958787,
+                "pca_basis_sha256": "7a3cc7f5ed33a00ab3c056012607b50e805cc6806a3da52a8915e22aa1cce427",
+                "pca_k": 8,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "feature_dim": 800,
+                "loo_calibration_r2": 0.2512375905053862,
+                "pca_basis_sha256": "62cb597f378801ef066b9db4a02623a9184fa4d0fa1da24382f691109a000f42",
+                "pca_k": 16,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "feature_dim": 1600,
+                "loo_calibration_r2": 0.28735497487900774,
+                "pca_basis_sha256": "0a658c87621cfee6a3b05028f47c58835fa7c5e63c5893eaa34206f37055cb78",
+                "pca_k": 32,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "feature_dim": 3200,
+                "loo_calibration_r2": 0.29885150635440594,
+                "pca_basis_sha256": "169b38f548a6287108ffc3f1738e0cde6fdd75149150f58b2207dd0e74c066bd",
+                "pca_k": 64,
+                "selected_lambda": 3.1622776601683795
+              }
+            ],
+            "history_bins": 50,
+            "lambda_grid": [
+              0.001,
+              0.0017782794100389228,
+              0.0031622776601683794,
+              0.005623413251903491,
+              0.01,
+              0.01778279410038923,
+              0.03162277660168379,
+              0.056234132519034905,
+              0.1,
+              0.1778279410038923,
+              0.31622776601683794,
+              0.5623413251903491,
+              1.0,
+              1.7782794100389228,
+              3.1622776601683795,
+              5.62341325190349,
+              10.0,
+              17.78279410038923,
+              31.622776601683793,
+              56.23413251903491,
+              100.0,
+              177.82794100389228,
+              316.2277660168379,
+              562.341325190349,
+              1000.0
+            ],
+            "pca_calibration_bins": 3156,
+            "pca_k_grid": [
+              8,
+              16,
+              32,
+              64
+            ],
+            "selected_lambda": 3.1622776601683795,
+            "selected_pca_basis_sha256": "169b38f548a6287108ffc3f1738e0cde6fdd75149150f58b2207dd0e74c066bd",
+            "selected_pca_k": 64
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 1600,
+          "fitted_parameters": 11200,
+          "intercept_foc_max_abs_error": 7.558913355998683e-19,
+          "observations_per_parameter": 1.955,
+          "query_windows": 2230,
+          "r2": 0.2975902962765822,
+          "selection": {
+            "consumed": "PCA basis fit on eval-valid neural bins from the four support trials only; leave-one-support-trial-out CV on calibration rows for k and lambda",
+            "cv_rows": [
+              {
+                "feature_dim": 400,
+                "loo_calibration_r2": 0.06900854440773896,
+                "pca_basis_sha256": "e04e4a2ad744abb9a06e843707adbb43646a0147a3dd294d11401d95ca35cd27",
+                "pca_k": 8,
+                "selected_lambda": 10.0
+              },
+              {
+                "feature_dim": 800,
+                "loo_calibration_r2": 0.1340509929339202,
+                "pca_basis_sha256": "0222a5af545ea658555ab0ec956360736f2ff90a05506e62f9caa0bc030fb040",
+                "pca_k": 16,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "feature_dim": 1600,
+                "loo_calibration_r2": 0.21385924191877947,
+                "pca_basis_sha256": "0db71c14966ca4e040d5cc0dc35334182b693c045cf1da8047b17a0a6e04e466",
+                "pca_k": 32,
+                "selected_lambda": 3.1622776601683795
+              },
+              {
+                "feature_dim": 3200,
+                "loo_calibration_r2": 0.1712650006866141,
+                "pca_basis_sha256": "3aabda127000a395136ca9a725a3fe12eb5bc56144de2cc97859e46a197587b6",
+                "pca_k": 64,
+                "selected_lambda": 5.62341325190349
+              }
+            ],
+            "history_bins": 50,
+            "lambda_grid": [
+              0.001,
+              0.0017782794100389228,
+              0.0031622776601683794,
+              0.005623413251903491,
+              0.01,
+              0.01778279410038923,
+              0.03162277660168379,
+              0.056234132519034905,
+              0.1,
+              0.1778279410038923,
+              0.31622776601683794,
+              0.5623413251903491,
+              1.0,
+              1.7782794100389228,
+              3.1622776601683795,
+              5.62341325190349,
+              10.0,
+              17.78279410038923,
+              31.622776601683793,
+              56.23413251903491,
+              100.0,
+              177.82794100389228,
+              316.2277660168379,
+              562.341325190349,
+              1000.0
+            ],
+            "pca_calibration_bins": 3317,
+            "pca_k_grid": [
+              8,
+              16,
+              32,
+              64
+            ],
+            "selected_lambda": 3.1622776601683795,
+            "selected_pca_basis_sha256": "0db71c14966ca4e040d5cc0dc35334182b693c045cf1da8047b17a0a6e04e466",
+            "selected_pca_k": 32
+          },
+          "solver_form": "primal",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 33600,
+        "mean_feature_dim": 2377.9237844940867,
+        "observations_per_parameter": 2.5602166224580016,
+        "query_windows": 8965,
+        "r2": 0.2888605204308158,
+        "supervision_coordinates": 42616
+      }
+    },
+    "ridge_v2r2_sealed": {
+      "arm": "ridge_v2r2_sealed",
+      "per_session": {
+        "ses-19250101T111740": {
+          "calibration_rows": 2960,
+          "feature_dim": 8800,
+          "fitted_parameters": 61600,
+          "intercept_foc_max_abs_error": 7.840228530915237e-19,
+          "observations_per_parameter": 0.33636363636363636,
+          "query_windows": 6735,
+          "r2": 0.23732910506183247,
+          "selection": {
+            "consumed": "fixed sealed comparator; no calibration-block selection",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_k": null
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 20720
+        },
+        "ses-19250101T112404": {
+          "calibration_rows": 3128,
+          "feature_dim": 8800,
+          "fitted_parameters": 61600,
+          "intercept_foc_max_abs_error": 4.902479388630107e-19,
+          "observations_per_parameter": 0.35545454545454547,
+          "query_windows": 2230,
+          "r2": 0.3175631653063281,
+          "selection": {
+            "consumed": "fixed sealed comparator; no calibration-block selection",
+            "history_bins": 50,
+            "normalized_lambda": 1.0,
+            "pca_k": null
+          },
+          "solver_form": "dual",
+          "supervision_coordinates": 21896
+        }
+      },
+      "pooled": {
+        "calibration_rows": 6088,
+        "fitted_parameters": 123200,
+        "mean_feature_dim": 8800.0,
+        "observations_per_parameter": 0.6918181818181818,
+        "query_windows": 8965,
+        "r2": 0.25823473332303337,
+        "supervision_coordinates": 42616
+      }
+    }
+  },
+  "date": "2026-08-12",
+  "definition": "Fold-0 two-recording H1 ridge-family fairness experiment on the sealed 8,965-window strict post-support query.  All arms fit per session on the four-trial calibration block with closed-form ridge only.  Hyperparameter and PCA selection consume calibration-block data only.",
+  "elapsed_seconds": 486.6588389649987,
+  "environment": {
+    "byteorder": "little",
+    "cuda_visible_devices": "",
+    "nice": 0,
+    "numpy": "2.0.1",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "python": "3.10.15 | packaged by conda-forge | (main, Oct 16 2024, 01:24:24) [GCC 13.3.0]",
+    "thread_environment": {
+      "MKL_NUM_THREADS": "4",
+      "OMP_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4"
+    }
+  },
+  "headline": {
+    "best_arm": "ridge_pca_lambda_cv",
+    "best_pooled_r2": 0.2888605204308158,
+    "carrier_hse5_pooled_r2": 0.500037,
+    "delta_best_minus_sealed": 0.03062578710778241,
+    "gap_best_to_carrier": 0.21117647956918417,
+    "gap_change_best_minus_sealed": 0.03062578710778241,
+    "gap_sealed_to_carrier": 0.24180226667696658,
+    "sealed_pooled_r2": 0.25823473332303337
+  },
+  "input_bindings": {
+    "implementation_sha256": "fa864604eb62fd85bc29e705feacc5187ed172f4349720bf1cdb35239ffd2b45",
+    "loader_sha256": "8f459b7a06c1b18865fc602b10e46876b4bb1dbf7ecba0fdf8e8f654737c86cb",
+    "nwb_sha256": {
+      "ses-19250101T111740": "f8af652a31228f08b26ff8a7ecfd2a6bd05a345e368da8c98be649229f80adb2",
+      "ses-19250101T112404": "b946c4cf49f00c2ea8f0051481765ed090294e3e1e5a035cc5716ad93aa052b2"
+    },
+    "runner_sha256": "9e3f80203af49740a5743a8787d62baef0e8e237ddd63de105a068bb0b5abb26",
+    "v2r2_receipt_sha256": "2c76d3c51611e4dc9489efeca729a896ac7b0495fc7742fcbdf6f4f78ea33c28"
+  },
+  "schema": "h1_ridge_family_v1",
+  "scope": {
+    "backward_steps": 0,
+    "cuda_used": false,
+    "data_root": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000954",
+    "optimizer_steps": 0,
+    "query_manifest_sha256": "665fe535e90a221123b778171685577f67c2cc1902648cde2c8b2523e990e4da",
+    "query_windows": 8965,
+    "sessions": [
+      "ses-19250101T111740",
+      "ses-19250101T112404"
+    ]
+  },
+  "scored_windows": 8965,
+  "sealed_reference": {
+    "carrier_hse5_pooled_r2": 0.500037,
+    "per_session_r2": {
+      "ses-19250101T111740": 0.23732910506183247,
+      "ses-19250101T112404": 0.3175631653063281
+    },
+    "pooled_r2": 0.25823473332303337,
+    "source_receipt": "/home/xinyuan/Work_host/SPINT/sua_exploration/results/h1_ridge_baseline_v2r2/h1_ridge_baseline_v2r2_receipt.json"
+  },
+  "selection_policy": {
+    "cv_protocol": "leave-one-support-trial-out on calibration rows only",
+    "history_bins_grid": [
+      10,
+      25,
+      50
+    ],
+    "lambda_grid": [
+      0.001,
+      0.0017782794100389228,
+      0.0031622776601683794,
+      0.005623413251903491,
+      0.01,
+      0.01778279410038923,
+      0.03162277660168379,
+      0.056234132519034905,
+      0.1,
+      0.1778279410038923,
+      0.31622776601683794,
+      0.5623413251903491,
+      1.0,
+      1.7782794100389228,
+      3.1622776601683795,
+      5.62341325190349,
+      10.0,
+      17.78279410038923,
+      31.622776601683793,
+      56.23413251903491,
+      100.0,
+      177.82794100389228,
+      316.2277660168379,
+      562.341325190349,
+      1000.0
+    ],
+    "pca_basis": "eval-valid neural bins from the four support trials only",
+    "pca_k_grid": [
+      8,
+      16,
+      32,
+      64
+    ],
+    "query_influence": "none"
+  },
+  "status": "COMPLETED_CPU_ONLY_FAIRNESS_EXPERIMENT"
+}

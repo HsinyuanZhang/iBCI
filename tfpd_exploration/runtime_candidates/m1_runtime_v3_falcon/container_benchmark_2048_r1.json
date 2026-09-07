@@ -1,0 +1,28 @@
+{
+  "affinity": [
+    8,
+    9,
+    10,
+    11
+  ],
+  "calls": 2048,
+  "candidate_decoder_sha256": "55bf8862553abfa9cf1c7743521f6f6b13141fb0d988e0ac829809bad10ea6a4",
+  "candidate_runtime_sha256": "92e1b66f2178fa61653d0e331399dab77f60311e06762780ad21b80e8b9445ac",
+  "construct_reset_ms": 129.97966,
+  "container_cgroup_memory_before_bytes": 230567936,
+  "container_cgroup_memory_peak_bytes": 230809600,
+  "first_public_return_ms": 9.755848,
+  "local_only": true,
+  "payload_sha256": "5e44fc37965640138bf977da42a988e7636daa996d1eb9b50a75fa5628f9d7b3",
+  "public_b4_ms": {
+    "max": 11.202605,
+    "mean": 8.42357185595703,
+    "p50": 8.318864000000001,
+    "p95": 9.288036549999998,
+    "p99": 10.44708132
+  },
+  "schema": "m1_v3_local_container_public_bench_v1",
+  "torch": "2.5.1.post303",
+  "torch_threads": 2,
+  "warmup": 128
+}

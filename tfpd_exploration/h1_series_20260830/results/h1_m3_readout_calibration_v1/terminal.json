@@ -1,0 +1,35 @@
+{
+  "attempt_sha256": "4be50b70f1966f0f02ce58b049a6d030ae2f5e611c3168d79a11759aa6670ade",
+  "decision": {
+    "gain_by_date": [
+      0.12388677905548523,
+      0.21434945398592303,
+      0.056844265088593304,
+      0.09928649773288911,
+      0.1429095944698649
+    ],
+    "gain_gate_pass": true,
+    "mean_gain": 0.1274553180665511,
+    "mean_neural_minus_template": 0.5363578348992373,
+    "neural_beats_template_dates": 5,
+    "neural_gate_pass": true,
+    "neural_minus_template_by_date": [
+      0.5282080142643342,
+      0.5132437399740172,
+      0.6457288286919405,
+      0.4495967653539114,
+      0.5450118262119829
+    ],
+    "nonnegative_dates": 5,
+    "pass": true,
+    "verdict": "PASS_H1_M3RC_FOR_ALL_SOURCE_PACKAGE",
+    "worst_gain": 0.056844265088593304
+  },
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu0_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "gpu1_touched": false,
+  "schema": "h1_m3_readout_calibration_v1_terminal",
+  "score_sha256": "7ac177c1f372d4f783fb841dfa320be9e6a67df429a0f42e70fc5693b0dd138f",
+  "status": "COMPLETE_H1_M3_READOUT_CALIBRATION_SOURCE_OOF"
+}

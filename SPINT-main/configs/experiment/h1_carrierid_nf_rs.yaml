@@ -1,0 +1,38 @@
+# @package _global_
+# H-NF-RS control arm: a deterministic complete-row permutation of normalized
+# H-NF.  Whole four-value rows are permuted; columns are never permuted
+# independently and the carrier/normalizer are never refit.
+# Status: IMPLEMENTED_NOT_RUN_TARGET_GATE_CLOSED
+
+protocol_id: h1_carrierid_nf_rs_fold0_source_only_v1
+task_name: h1_carrierid_nf_rs_fold0
+tags: [h1, carrierid, nf, label_free, row_shuffle, fold0, source_only, width4, seed42, e49]
+
+carrier_arm: H-NF-RS
+carrier_intervention: hnf_rs
+carrier_width: 4
+identity_encoder_parameter_count: 58140
+support_trials: 4
+fold0_date: 19250101
+source_recordings: ${__source_recordings_h1_m4_fold0__}
+
+reference_arms:
+  H-C: sealed_fold0_value_imported
+  H-LS: sealed_fold0_value_imported
+
+datamodule:
+  _target_: src.data.h1_carrierid_nf_date_lodo.H1CarrierIdNfStrictTargetDataset
+  carrier_intervention: hnf_rs
+
+features_module: src.data.h1_carrierid_nf_features
+no_label_proof_method: signature_rejects_nonnone_behavior_arrays
+degeneracy_policy: raise_on_zero_spike_or_constant_trajectory
+block_selection: neural_only_eval_mask_finite_neural_trialnum_no_velocity
+row_permutation_schedule: recording_date_seed_independent_namespace
+
+max_epochs: 50
+min_epochs: 50
+
+not_a_gpu_launcher: true
+launch_authorized: false
+target_evaluator_status: implemented_not_run_target_gate_closed

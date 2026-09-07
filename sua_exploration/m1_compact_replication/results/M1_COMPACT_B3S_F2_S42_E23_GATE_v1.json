@@ -1,0 +1,361 @@
+{
+  "arrays": {
+    "b0": {
+      "dtype": "float32",
+      "sha256": "9bb7cd35f65db0d8adf2b8962c18f1254724ec3d761b8d17026a54b0157c275d",
+      "shape": [
+        26240,
+        16
+      ]
+    },
+    "b3s_zero4": {
+      "dtype": "float32",
+      "sha256": "04ee450c82d93fb318b88c5ffdaa9127acc1f6ed660e812ada90d8e19ed0dfce",
+      "shape": [
+        26240,
+        16
+      ]
+    },
+    "target": {
+      "dtype": "float32",
+      "sha256": "a804bf8925dbb6c1b6910efcf077fb4149b2afcc58904118be3a8b5f1055cc0c",
+      "shape": [
+        26240,
+        16
+      ]
+    }
+  },
+  "bindings": {
+    "b0": {
+      "config": {
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f2_s42_resume_e11_to_e23_f2_s42_20260810_121222/resolved_config.yaml",
+        "sha256": "5c2b05781f5d4ceaaa7829bb78cb2daee4431ed331c0099086fa2eca1b85e8c9"
+      },
+      "terminal_checkpoint": {
+        "artifact": {
+          "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f2_s42_resume_e11_to_e23_f2_s42_20260810_121222",
+          "resolved_config": {
+            "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f2_s42_resume_e11_to_e23_f2_s42_20260810_121222/resolved_config.yaml",
+            "sha256": "5c2b05781f5d4ceaaa7829bb78cb2daee4431ed331c0099086fa2eca1b85e8c9"
+          }
+        },
+        "callback_key": "ModelCheckpoint{'monitor': None, 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 12, 'train_time_interval': None}",
+        "epoch": 23,
+        "fit_loop": {
+          "batch_completed": 123048,
+          "epoch_processed": 24
+        },
+        "global_step": 123048,
+        "launch_command": [
+          "/home/xinyuan/miniconda3/envs/spint/bin/python",
+          "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+          "experiment=m1_version_b_hs_continuation",
+          "run_id=m1_compact_b0_f2_s42_resume_e11_to_e23",
+          "data.loso_fold=2",
+          "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+          "seed=42",
+          "trainer.min_epochs=24",
+          "trainer.max_epochs=24",
+          "trainer.limit_val_batches=0",
+          "trainer.num_sanity_val_steps=0",
+          "data._target_=src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+          "test=false",
+          "optimized_metric=null",
+          "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+          "ckpt_path=/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-05-29-41-332479_rid-m1_compact_b0_f2_s42_fresh_e11_f2_s42/checkpoints/fixed_last/epoch_epoch\\=011.ckpt"
+        ],
+        "log": {
+          "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/f2_e23_continuation_logs/b0.log",
+          "sha256": "3f6d3d07a61bb422ec3f0202957b6b970e87c0592af0df783a753848ad9380db"
+        },
+        "optimizer": {
+          "count": 1,
+          "lr": 0.0001,
+          "state_count": 31,
+          "state_steps": [
+            123048
+          ],
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-12-12-22-803532_rid-m1_compact_b0_f2_s42_resume_e11_to_e23_f2_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+        "resume_parent_sha256": "5553881befc8be4e4aa8fd0b7035e550ebe2ec25c2f113a5bc7b1c49e0f4d95a",
+        "sha256": "afd7193468f8b22bf86955819df4a68cabd7d8cf42428d4c3f28241207d579b9",
+        "source_only_manifest": {
+          "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-12-12-22-803532_rid-m1_compact_b0_f2_s42_resume_e11_to_e23_f2_s42/m1_version_b_source_only_fit_manifest.json",
+          "sha256": "540afdf7f9b14181f9a8baaa31ae2c1cb225dc63eba4416f17a6961c7f3c7943"
+        },
+        "strict_terminal_state": true,
+        "variant": "B0"
+      }
+    },
+    "b3s_zero4": {
+      "config": {
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f2_s42_resume_e11_to_e23_f2_s42_20260810_130502/resolved_config.yaml",
+        "sha256": "23613ce6fdc6fd3bdfa42bc01a06722701be300f69b6ecdc71c286c91581cb0c"
+      },
+      "terminal_checkpoint": {
+        "artifact": {
+          "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f2_s42_resume_e11_to_e23_f2_s42_20260810_130502",
+          "resolved_config": {
+            "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f2_s42_resume_e11_to_e23_f2_s42_20260810_130502/resolved_config.yaml",
+            "sha256": "23613ce6fdc6fd3bdfa42bc01a06722701be300f69b6ecdc71c286c91581cb0c"
+          }
+        },
+        "callback_key": "ModelCheckpoint{'monitor': None, 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 12, 'train_time_interval': None}",
+        "epoch": 23,
+        "fit_loop": {
+          "batch_completed": 123048,
+          "epoch_processed": 24
+        },
+        "global_step": 123048,
+        "launch_command": [
+          "/home/xinyuan/miniconda3/envs/spint/bin/python",
+          "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+          "experiment=m1_version_b_c0",
+          "run_id=m1_compact_b3s_zero4_f2_s42_resume_e11_to_e23",
+          "data.loso_fold=2",
+          "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+          "seed=42",
+          "trainer.min_epochs=24",
+          "trainer.max_epochs=24",
+          "trainer.limit_val_batches=0",
+          "trainer.num_sanity_val_steps=0",
+          "data._target_=src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+          "test=false",
+          "optimized_metric=null",
+          "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+          "ckpt_path=/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-06-18-43-102875_rid-m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42/checkpoints/fixed_last/epoch_epoch\\=011.ckpt"
+        ],
+        "log": {
+          "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/f2_e23_continuation_logs/b3s_zero4.log",
+          "sha256": "9c31b9b5d0a4920f4963c3cdcc6cebb07fe3d5f5c9d6ce20738e47ba369faedc"
+        },
+        "optimizer": {
+          "count": 1,
+          "lr": 0.0001,
+          "state_count": 27,
+          "state_steps": [
+            123048
+          ],
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-13-05-02-188213_rid-m1_compact_b3s_zero4_f2_s42_resume_e11_to_e23_f2_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+        "resume_parent_sha256": "0454fa6e12c846f06631f2cc43e202ad79d432a18c4adb7a68a9d80947d96858",
+        "sha256": "b721822efc303563ccaeef318415e191b79488a95733dc89d4e5ba13177b6511",
+        "source_only_manifest": {
+          "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-13-05-02-188213_rid-m1_compact_b3s_zero4_f2_s42_resume_e11_to_e23_f2_s42/m1_version_b_source_only_fit_manifest.json",
+          "sha256": "6e362061f37b89ebce77b85bb3e9511ba4aafe9ea7209cf3e59ccc45b8ef6914"
+        },
+        "strict_terminal_state": true,
+        "variant": "B3S"
+      }
+    },
+    "execution": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_E23_CONTINUATION_EXECUTION_v2.json",
+      "sha256": "74be312c7b11e28c6770c0e41c436dca8531e233485018825c05853b5bb7a3b0"
+    },
+    "launch_receipt": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_E23_CONTINUATION_LAUNCH_v2.json",
+      "sha256": "b7befd1ddee7990c638029192e9c9fb85f8110383dce6b0c8b1caf43fa726b63"
+    },
+    "query": {
+      "batches": 820,
+      "first_identity": [
+        0,
+        0,
+        0,
+        "ses-20120927",
+        4281
+      ],
+      "last_identity": [
+        819,
+        31,
+        26239,
+        "ses-20120927",
+        87098
+      ],
+      "ordered_sampler_indices_sha256": "df377036df685de448867cf60af95979bfacd63de3f0e48e8b1dd789ed7c788c",
+      "ordered_window_identity_sha256": "dc83839f7aa2896d2d35ecfba55f36934c687a6e0bb96ad0c32133041a531b45",
+      "samples": 26240,
+      "unique_dataset_indices": true
+    }
+  },
+  "canonical_content_sha256": "7bcd2918289a89e5c2badbf49036fe54a02e936b714aeb849a920ad96277702e",
+  "created_at_epoch": 1786340009.957768,
+  "evaluation_policy": {
+    "claim_limit": "development fold2 source-LOSO e23 replication; not formal held-out superiority",
+    "forward_only": true,
+    "intermediate_target_metric_read": false,
+    "optimizer_constructed": false,
+    "target_opened_here_after_both_terminal_checkpoints": true,
+    "trainer_constructed": false,
+    "training_target_opened": false
+  },
+  "metrics": {
+    "b0": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.5958616370611604,
+      "r2_per_output": [
+        0.6942358376263127,
+        0.641848133221989,
+        0.6249172169169701,
+        0.12257248998681769,
+        0.5906804064071385,
+        0.5914905502779426,
+        0.6190355210875369,
+        0.5049672452378935,
+        0.6021355154557579,
+        0.522521576695361,
+        0.6473658038948835,
+        0.4806080181085437,
+        0.6032609180061851,
+        0.05760661371996567,
+        0.4707480158965649,
+        0.7250207054348267
+      ],
+      "samples": 26240,
+      "sse_float64_per_output": [
+        507.10467420556785,
+        428.11376214302544,
+        942.720859251148,
+        23.961316640554337,
+        2338.580796194839,
+        1252.5712439970962,
+        1780.1942643172506,
+        124.92796693018187,
+        943.072869075084,
+        3302.5566976552414,
+        665.3562957297818,
+        3309.527304809568,
+        1880.3207863366351,
+        1017.7048387269358,
+        33.35686103447667,
+        2902.0856589325767
+      ],
+      "tss_float64_per_output": [
+        1658.483029105987,
+        1195.3414231633142,
+        2513.3674531855636,
+        27.308599704372554,
+        5713.337042254952,
+        3066.198945579652,
+        4672.8615470900595,
+        252.36303199819048,
+        2370.336900403121,
+        6916.661646819917,
+        1886.8172828350607,
+        6371.926060077686,
+        4739.439273002979,
+        1079.9150901771318,
+        63.026426043511115,
+        10553.833384152304
+      ]
+    },
+    "b3s_zero4": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6431307256501904,
+      "r2_per_output": [
+        0.7151156899870756,
+        0.595320423156166,
+        0.5830767909515906,
+        -0.45128673653134954,
+        0.6621299805493008,
+        0.5974464646124552,
+        0.7071934365918982,
+        0.4957254652514559,
+        0.624425721291283,
+        0.593818661245732,
+        0.6692609911479154,
+        0.5377131885033904,
+        0.6189735922682889,
+        0.15899190255266593,
+        0.48651967992222,
+        0.7893308939464516
+      ],
+      "samples": 26240,
+      "sse_float64_per_output": [
+        472.47579341500386,
+        483.7302613096363,
+        1047.881224099953,
+        39.63260854419982,
+        1930.365297595081,
+        1234.309225744651,
+        1368.2445308853064,
+        127.26025054861947,
+        890.2375716655581,
+        2809.418887415614,
+        624.0440780098514,
+        2945.6573814054673,
+        1805.8515208549177,
+        908.2173353945358,
+        32.36282941818062,
+        2223.3666444774617
+      ],
+      "tss_float64_per_output": [
+        1658.483029105987,
+        1195.3414231633142,
+        2513.3674531855636,
+        27.308599704372554,
+        5713.337042254952,
+        3066.198945579652,
+        4672.8615470900595,
+        252.36303199819048,
+        2370.336900403121,
+        6916.661646819917,
+        1886.8172828350607,
+        6371.926060077686,
+        4739.439273002979,
+        1079.9150901771318,
+        63.026426043511115,
+        10553.833384152304
+      ]
+    },
+    "b3s_zero4_minus_b0": 0.047269088589030006,
+    "gate_definition": "PASS iff terminal B3S-Zero4 minus B0 pooled variance-weighted R2 >= -0.03 on one shared ordered target query",
+    "gate_threshold": -0.03
+  },
+  "model_state": {
+    "after_sha256": {
+      "b0": "910a45de7e7547ee00af8eaea6072bf665608cb0926fd088be104e87f81f5166",
+      "b3s_zero4": "ac93e11a4897b3cee02111effecbbbd7906199ef8eaaed13bf01a0ea4a746022"
+    },
+    "before_sha256": {
+      "b0": "910a45de7e7547ee00af8eaea6072bf665608cb0926fd088be104e87f81f5166",
+      "b3s_zero4": "ac93e11a4897b3cee02111effecbbbd7906199ef8eaaed13bf01a0ea4a746022"
+    },
+    "unchanged": true
+  },
+  "parity": {
+    "side_input_abs_max": 0.0,
+    "side_input_exact_zero": true,
+    "zero4_identity_max_abs_error": 0.0,
+    "zero4_prediction_bit_exact": true,
+    "zero4_prediction_max_abs_error": 0.0
+  },
+  "schema": "m1_compact_b3s_f2_s42_e23_gate_v1",
+  "scope": {
+    "cuda_visible_devices": "-1",
+    "device": "cpu",
+    "fold": 2,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "minival_opened": false,
+    "query_trials": [
+      10,
+      210
+    ],
+    "seed": 42,
+    "support_trials": [
+      0,
+      10
+    ],
+    "target_backward_steps": 0,
+    "target_checkpoint_selection": false,
+    "target_optimizer_steps": 0,
+    "target_session": "ses-20120927",
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F2_S42_E23_NONINFERIORITY"
+}

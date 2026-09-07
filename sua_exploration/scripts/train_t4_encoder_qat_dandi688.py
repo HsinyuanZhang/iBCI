@@ -53,6 +53,16 @@ from mc_maze.multisession_datamodule import (
 )
 from select_gradient_free_protocol_dandi688 import load_frozen_model
 from src.models.components.streaming_encoders import SideFeatureEarlyPoolEncoder
+from t4_encoder_int8_protocol import (
+    ACTIVITY_BUDGET,
+    EVALUATION_START_TRIAL,
+    T4_LABEL_BUDGET,
+    selected_seed_entry,
+    validate_selection,
+)
+
+
+QAT_EPOCHS = 8
 
 
 def _unpack_batch(batch):
@@ -206,15 +216,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run_dir", required=True, type=Path)
     parser.add_argument("--ptq_report", required=True, type=Path)
+    parser.add_argument("--selection", required=True, type=Path)
     parser.add_argument("--out_dir", required=True, type=Path)
-    parser.add_argument("--epochs", type=int, default=8)
+    parser.add_argument("--epochs", type=int, default=QAT_EPOCHS)
     parser.add_argument("--lr_weight", type=float, default=1e-5)
     parser.add_argument("--lr_scale", type=float, default=1e-5)
     parser.add_argument("--gradient_clip", type=float, default=1.0)
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
-    if args.epochs <= 0:
-        raise ValueError("--epochs must be positive")
+    if args.epochs != QAT_EPOCHS:
+        raise ValueError(f"QAT epoch budget is frozen at {QAT_EPOCHS}")
 
     run_dir = args.run_dir.expanduser().resolve()
     metadata_path = run_dir / "run_metadata.json"
@@ -223,16 +234,39 @@ def main() -> int:
     ptq = json.loads(ptq_path.read_text(encoding="utf-8"))
     if ptq.get("ptq_pass") is not False or ptq.get("next_step") != "run_encoder_qat":
         raise ValueError("QAT may start only from an explicit failed PTQ report")
+    selection_path = args.selection.expanduser().resolve()
+    selection, _source, _deltas = validate_selection(selection_path)
+    if ptq.get("final_architecture_selection_sha256") != sha256_file(selection_path):
+        raise ValueError("PTQ/final-selection receipt mismatch")
     ckpt = Path(ptq["checkpoint"]).resolve()
     _validate_metadata(run_dir, metadata, ckpt)
     if sha256_file(ckpt) != ptq.get("checkpoint_sha256"):
         raise ValueError("PTQ checkpoint hash drifted before QAT")
+    seed = int(metadata["seed"])
+    selected = selected_seed_entry(selection, seed)
+    selected_checkpoint = Path(selected["checkpoint"]["path"])
+    if not selected_checkpoint.is_absolute():
+        selected_checkpoint = _ROOT / selected_checkpoint
+    if ckpt != selected_checkpoint.resolve():
+        raise ValueError("QAT checkpoint is not the selected T4@50 checkpoint")
+    ptq_protocol = ptq.get("protocol") or {}
+    if (
+        ptq_protocol.get("activity_calibration_n") != ACTIVITY_BUDGET
+        or ptq_protocol.get("t4_label_feature_pool_n") != T4_LABEL_BUDGET
+        or ptq_protocol.get("evaluation_start_trial") != EVALUATION_START_TRIAL
+    ):
+        raise ValueError("PTQ protocol is not the frozen 30/50/50 contract")
 
     if args.device.startswith("cuda") and not torch.cuda.is_available():
         raise RuntimeError("CUDA requested but unavailable")
     device = torch.device(args.device)
     out_dir = args.out_dir.expanduser().resolve()
     checkpoint_dir = out_dir / "checkpoints"
+    for output in (out_dir / "qat_report.json", out_dir / "encoder_int8_package.npz"):
+        if output.exists():
+            raise FileExistsError(f"refusing to overwrite immutable QAT output: {output}")
+    if checkpoint_dir.exists() and any(checkpoint_dir.iterdir()):
+        raise FileExistsError(f"refusing to reuse nonempty QAT checkpoint dir: {checkpoint_dir}")
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
     manifest = Path(metadata["train_val_manifest"]).resolve()
@@ -245,13 +279,19 @@ def main() -> int:
     train_files, val_files, sealed_test_names = load_frozen_train_val_manifest(
         manifest, data_dir
     )
+    if len(train_files) != 27 or len(val_files) != 6 or len(sealed_test_names) != 6:
+        raise ValueError("strict split must be exactly 27 train / 6 val / 6 sealed")
     behavior_mean, behavior_std = fit_behavior_stats(
         train_files, 20, cache_dir=cache_dir
     )
     side_config = load_side_feature_stats_for_run_metadata(
         metadata, train_files, cache_dir
     )
-    if side_config is None or side_config[0] != "t4":
+    if (
+        side_config is None
+        or side_config[0] != "t4"
+        or side_config[2] != T4_LABEL_BUDGET
+    ):
         raise ValueError("QAT requires the real T4 side-feature configuration")
     val_records = [
         _load_record(
@@ -270,7 +310,7 @@ def main() -> int:
         split_counts=(27, 6, 6),
         batch_size=int((metadata.get("training") or {}).get("batch_size", 32)),
         window_size=50,
-        calibration_n_trials=30,
+        calibration_n_trials=ACTIVITY_BUDGET,
         max_trial_length=100,
         bin_size_ms=20,
         num_workers=4,
@@ -279,7 +319,7 @@ def main() -> int:
         cache_dir=str(cache_dir) if cache_dir else None,
         signal_view="sua",
         side_feature_group="t4",
-        side_feature_pool_size=30,
+        side_feature_pool_size=T4_LABEL_BUDGET,
         side_permutation_seed=None,
         train_val_manifest_path=str(manifest),
     )
@@ -404,14 +444,20 @@ def main() -> int:
     payload = {
         "schema_version": 1,
         "created_at": datetime.now().astimezone().isoformat(),
+        "seed": int(metadata["seed"]),
         "scope": "T4/B3S identity encoder QAT W8A8 + frozen FP32 decoder",
         "decoder_quantized_in_this_run": False,
         "source_ptq_report": str(ptq_path),
         "source_ptq_report_sha256": sha256_file(ptq_path),
         "checkpoint": str(ckpt),
         "checkpoint_sha256": sha256_file(ckpt),
+        "run_metadata": str(metadata_path.resolve()),
+        "run_metadata_sha256": sha256_file(metadata_path),
+        "teacher_sha256": metadata["teacher_sha256"],
         "train_val_manifest": str(manifest),
         "train_val_manifest_sha256": sha256_file(manifest),
+        "final_architecture_selection": str(selection_path),
+        "final_architecture_selection_sha256": sha256_file(selection_path),
         "protocol": {
             "training_sessions": dm.session_splits["train"],
             "validation_sessions": dm.session_splits["val"],
@@ -419,7 +465,10 @@ def main() -> int:
             "formal_test_files_opened": False,
             "qat_uses_training_behavior_labels": True,
             "validation_used_for_epoch_selection": False,
-            "fixed_epoch_budget": args.epochs,
+            "activity_calibration_n": ACTIVITY_BUDGET,
+            "t4_label_feature_pool_n": T4_LABEL_BUDGET,
+            "evaluation_start_trial": EVALUATION_START_TRIAL,
+            "fixed_epoch_budget": QAT_EPOCHS,
             "selected_checkpoint": "final fixed-budget epoch",
         },
         "training": {

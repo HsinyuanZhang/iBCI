@@ -1,0 +1,66 @@
+{
+  "arm": "epfilm",
+  "image_id": "sha256:0408012c36a0a15a6a1fc21de4760847d7f64e2ac64139002cf7adc30b06f6b9",
+  "image_tag": "h1-epfilm-c1:no-readout-v1-523d3d2e",
+  "payload_sha256": "523d3d2e55a8fd4620a3f0a94dea6a99ae6ff53cefe807c3ff809a30b1d2479d",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "h1_epfilm_evalai_v1_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581900,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581900/88a0c02a-e81e-4603-b866-8d6b01ed10.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen all-source C1/M3 H1 decoder with the sealed 648-parameter early-pooling FiLM adapter. The harmful MAT7 output readout from submission 581866 is removed by an exact identity output map. The runtime uses 27 cached public three-trial calibration payloads, no hidden labels, no optimizer step, and no online update.",
+    "method_name": "H1 EP-FiLM M3 cached identity, no readout calibration",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-04T15:51:27.527702Z",
+    "when_made_public": null
+  },
+  "submission_id": 581900,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:ec343966-1f4f-45fd-ae45-25259c4177c6",
+  "uploaded_manifest_digest": "sha256:0408012c36a0a15a6a1fc21de4760847d7f64e2ac64139002cf7adc30b06f6b9",
+  "uuid_tag": "ec343966-1f4f-45fd-ae45-25259c4177c6"
+}

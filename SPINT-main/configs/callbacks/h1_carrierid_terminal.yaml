@@ -1,0 +1,12 @@
+# Only one metric-independent terminal checkpoint is permitted: epoch 49 after
+# exactly 50 completed source epochs.  No validation model selection exists.
+fixed_epoch50:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/fixed_epoch50
+  filename: epoch_{epoch:03d}
+  monitor: null
+  mode: max
+  save_top_k: -1
+  save_last: false
+  every_n_epochs: 50
+  auto_insert_metric_name: false

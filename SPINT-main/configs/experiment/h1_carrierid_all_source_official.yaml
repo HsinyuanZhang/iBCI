@@ -1,0 +1,36 @@
+# @package _global_
+defaults:
+  - override /data: falcon_h1_carrierid_all_source_official
+  - override /model: falcon_h1_carrierid_all_source_official
+  - override /callbacks: h1_carrierid_date_lodo_phase2_terminal
+
+protocol_id: h1_carrierid_all_public_source_official_candidate_v1
+task_name: h1_carrierid_all_source_official
+tags: [h1, carrierid, all_source, official_candidate, seed42, e49]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+logger: false
+
+official_candidate:
+  # Must be supplied by the immutable CPU asset preflight/launcher.
+  asset_manifest_path: "__REQUIRED_IMMUTABLE_ALL_SOURCE_ASSET_MANIFEST__"
+  training_scope: all_13_public_held_in_calibration_recordings
+  calibration_support_trials: 4
+  formal_test_labels_opened: 0
+  target_optimizer_steps: 0
+  target_backward_steps: 0
+  evalai_submission_authorized: false
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

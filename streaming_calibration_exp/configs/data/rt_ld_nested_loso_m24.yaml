@@ -1,0 +1,9 @@
+# Dedicated dual-carrier RT L-D data path.  Full is always the B3S identity
+# carrier; `rt_ld_gain_source` selects only the consumer-side g input.
+defaults:
+  - rt_nested_loso_m24
+
+_target_: src.data.rt_ld_datamodule.RtLdNestedLossoDataModule
+side_feature_group: afc4_vel
+rt_ld_gain_source: ???
+xls_v2_support_audit_path: ${paths.root_dir}/../sua_exploration/results/rt_afc4_ls_null_strength_audit_v2/RT_AFC4_LS_NULL_STRENGTH_SUPPORT_AUDIT_v2.json

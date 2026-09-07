@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# REQUIRED: invoke this script from a managed foreground exec session.  Never use nohup,
+# disown, or a short-lived shell wrapper: r6 demonstrated child-process reaping risk.
+set -euo pipefail
+ROOT="/home/xinyuan/Work_host/SPINT";PY="${PYTHON_BIN:-/home/xinyuan/miniconda3/envs/spint/bin/python}";RUN="$ROOT/sua_exploration/results/sua_t4_m30_component_attribution_v7";STATUS="$RUN/cell_status";RUNNER="$ROOT/sua_exploration/scripts/run_t4_m30_experiment_a_r7_one_cell.sh"
+[[ -r "$RUNNER" ]]||exit 1;mkdir "$RUN";mkdir "$STATUS";"$PY" "$ROOT/sua_exploration/scripts/verify_t4_m30_experiment_a_r7_authorization.py" --claim
+echo 'r7 scheduler contract: managed foreground exec session; no nohup/disown.'
+cells=();for a in z4 ph4 ac4 mb4 b4 ls4;do for s in 42 43 44;do cells+=("$a:$s");done;done
+for i in "${!cells[@]}";do IFS=: read -r ARM SEED<<<"${cells[$i]}";GPU=$((i%2));LOG="$STATUS/${ARM}_s${SEED}.log";REC="$STATUS/${ARM}_s${SEED}.json";(start="$(date --iso-8601=seconds)";set +e;ARM="$ARM" SEED="$SEED" GPU="$GPU" bash "$RUNNER" >"$LOG" 2>&1;code=$?;end="$(date --iso-8601=seconds)";RESULT="$RUN/${ARM}_s${SEED}.json";META="$ROOT/sua_exploration/checkpoints/sua_t4_m30_component_attribution_v7_${ARM}_dandi688_co_s${SEED}/run_metadata.json";COST="${META%/*}/post_run_cost_receipt.json";"$PY" -c 'import hashlib,json,os,sys;h=lambda p:hashlib.sha256(open(p,"rb").read()).hexdigest() if os.path.isfile(p) else None;open(sys.argv[1],"x").write(json.dumps({"arm":sys.argv[2],"seed":int(sys.argv[3]),"gpu":int(sys.argv[4]),"started_at":sys.argv[5],"ended_at":sys.argv[6],"exit_code":int(sys.argv[7]),"status":"completed" if int(sys.argv[7])==0 else "failed","result_sha256":h(sys.argv[8]),"metadata_sha256":h(sys.argv[9]),"cost_sha256":h(sys.argv[10])})+"\n")' "$REC" "$ARM" "$SEED" "$GPU" "$start" "$end" "$code" "$RESULT" "$META" "$COST";exit "$code")& if (((i+1)%2==0));then wait;fi;done;wait
+for c in "${cells[@]}";do IFS=: read -r a s<<<"$c";"$PY" -c 'import json,sys;d=json.load(open(sys.argv[1]));assert d["status"]=="completed" and d["exit_code"]==0' "$STATUS/${a}_s${s}.json";done
+"$PY" "$ROOT/sua_exploration/scripts/aggregate_t4_m30_experiment_a_r7.py" --result-dir "$RUN" --reference-dir "$ROOT/sua_exploration/results/sua_spint_t4_mainline_fp32_v1" --status-dir "$STATUS" --out "$RUN/aggregate_r7.json"

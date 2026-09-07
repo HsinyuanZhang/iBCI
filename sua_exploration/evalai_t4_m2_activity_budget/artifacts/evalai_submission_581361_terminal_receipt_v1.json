@@ -1,0 +1,78 @@
+{
+  "arm": "m4",
+  "candidate": {
+    "activity_budget": 30,
+    "budget_disclosure": "4 labels selected D-optimally from first30 public cue rows; B3S activity uses first30; cue-budgeted M4, not strict four-cue M4",
+    "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+    "image_id": "sha256:378bbd4868e515a3527418e098db2989e0fc8fbccc929ee029a237ce5e9f291b",
+    "label_budget": 4,
+    "payload_sha256": "c51b71167d81490927fee8a552785ee27ddff7e90085ed3ff4b18b857afbac40",
+    "push_state_sha256": "015bdf9ccd3aa2c3959ff34b5b68346271ac59900f79edccb44505a518e33413",
+    "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:55b1e49a-2f29-4448-869f-cef5f8eb90b1",
+    "uploaded_manifest_digest": "sha256:378bbd4868e515a3527418e098db2989e0fc8fbccc929ee029a237ce5e9f291b"
+  },
+  "integrity": {
+    "all_reported_metrics_finite": true,
+    "candidate_runtime_error_observed": false,
+    "official_result_matches_stdout": true,
+    "prediction_schema_matches_finished_submission_578221": true,
+    "retry_or_second_submission_created": false,
+    "submission_private": true
+  },
+  "official_api": {
+    "api_body_sha256": "1fdb0e607766de55d89b91ca34a4a8adc496b40228c85411380f0a8e796aaaed",
+    "challenge_id": 2319,
+    "completed_at": "2026-08-28T12:41:26.814517Z",
+    "execution_time_seconds": 0.130953,
+    "phase_id": 4599,
+    "started_at": "2026-08-28T12:41:26.683564Z",
+    "status": "finished",
+    "submission_id": 581361,
+    "submitted_at": "2026-08-28T12:16:16.576414Z",
+    "team_id": 41975,
+    "team_name": "HKU-ECE"
+  },
+  "official_artifacts": {
+    "input_manifest": {
+      "bytes": 194,
+      "sha256": "23c3127e398eb656fd35c13c1349e15c2bd31e6cc684114e57fc021527310660"
+    },
+    "prediction_submission": {
+      "all_arrays_finite": true,
+      "bytes": 1258463,
+      "held_in_array_shape": [
+        13014,
+        2
+      ],
+      "held_in_session_count": 7,
+      "held_out_array_shape": [
+        11014,
+        2
+      ],
+      "held_out_session_count": 6,
+      "prediction_dtype": "float32",
+      "sha256": "b830c6cc130b8f1dbd92473e5835b6b21fa183111ad8e7b5794be1a26ccc5c4a",
+      "top_level_key": "m2"
+    },
+    "result": {
+      "bytes": 223,
+      "sha256": "a4a61c1a289849351a0f59d97f14c1f52978cf213d21e5b991bdf82b57db2959"
+    },
+    "stderr": {
+      "bytes": 6212,
+      "sha256": "dd6cc07db2f8e53a999e0a3607c3a1214f01868c9a5859faf4f03fb8437f79b8"
+    },
+    "stdout": {
+      "bytes": 261,
+      "sha256": "9158be6f4ab277a3cfcb4675b3f68c7589609c954731d126a09669721fc01ee6"
+    }
+  },
+  "official_metrics": {
+    "held_in_r2_mean": 0.5627788928403332,
+    "held_in_r2_std": 0.017415236899653543,
+    "held_out_r2_mean": 0.2897439880338965,
+    "held_out_r2_std": 0.10386880330226296,
+    "normalized_latency": 0.04701159050299251
+  },
+  "schema": "m2_activity_budget_evalai_terminal_receipt_v1"
+}

@@ -1,0 +1,31 @@
+# @package _global_
+defaults:
+  - override /data: falcon_h1_carrierid_seed43
+  - override /model: falcon_h1_carrierid
+  - override /callbacks: h1_carrierid_terminal
+protocol_id: h1_carrierid_h32_seed43_source_only_v1
+task_name: h1_carrierid_hc_seed43
+tags: [h1, carrierid, h_c, seed43, m4, source_only]
+seed: 43
+train: true
+test: false
+ckpt_path: null
+logger: false
+pilot:
+  fold_date: "19250101"
+  arm: full
+  zero_carrier: false
+  shared_cache_dir: ${paths.work_dir}/pilot_artifacts/h1_carrierid_seed43/shared_source_cache/hc
+  calibration_n_trials: 4
+  fixed_terminal_epochs: 50
+  no_checkpoint_selection: true
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0

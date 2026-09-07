@@ -1,0 +1,138 @@
+{
+  "schema": "m1_compact_b3s_f0_f1_f2_s42_e23_root_review_v1",
+  "status": "ACCEPT_VALID_METRIC_STOP_NO_NONINFERIORITY_CLAIM",
+  "review_date_hkt": "2026-08-10",
+  "aggregate": {
+    "path": "sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_F1_F2_S42_E23_AGGREGATE_v2.json",
+    "file_sha256": "396cf5f054a74e7ed8bfc221fca676d6562044479bd4bd0ef126efde295286d7",
+    "canonical_content_sha256": "7e069b58c74e65ef7bfa668f86a0ed90988f31cb664863f171a2ae170183be99",
+    "mode": "0444",
+    "status": "STOP_M1_COMPACT_B3S_F0_F1_F2_E23_STOP_GATE_FAILED",
+    "same_epoch_budget": true,
+    "matched_terminal_epoch": 23,
+    "seed": 42,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "minival_opened": false,
+    "target_backward_steps": 0,
+    "target_optimizer_steps": 0,
+    "target_checkpoint_selection": false
+  },
+  "per_fold": [
+    {
+      "fold": 0,
+      "target_session": "ses-20120924",
+      "b0_r2": 0.5315313944709066,
+      "b3s_zero4_r2": 0.6275088717756858,
+      "delta": 0.09597747730477924,
+      "epoch": 23,
+      "global_step": 118824,
+      "gate_result": "PASS",
+      "gate_sha256": "3fcc510cfec1f9ea4be123de4dbf8f27039158a3b65aa91212546c2d7047036c",
+      "integrity_errors": []
+    },
+    {
+      "fold": 1,
+      "target_session": "ses-20120926",
+      "b0_r2": 0.6797685421655772,
+      "b3s_zero4_r2": 0.6464871263873477,
+      "delta": -0.03328141577822952,
+      "epoch": 23,
+      "global_step": 119112,
+      "gate_result": "METRIC_FAILURE",
+      "gate_sha256": "0f38fd6131f7854738ad697d58feee203498983ad5f738507538afcad87ffb5e",
+      "integrity_errors": []
+    },
+    {
+      "fold": 2,
+      "target_session": "ses-20120927",
+      "b0_r2": 0.5958616370611604,
+      "b3s_zero4_r2": 0.6431307256501904,
+      "delta": 0.047269088589030006,
+      "epoch": 23,
+      "global_step": 123048,
+      "gate_result": "PASS",
+      "gate_sha256": "3b0af61d1865074598201c730fee346c339ac81d9b74b6edf718011f539fee82",
+      "integrity_errors": []
+    }
+  ],
+  "independent_aggregate_recalculation": {
+    "deltas": [
+      0.09597747730477924,
+      -0.03328141577822952,
+      0.047269088589030006
+    ],
+    "mean_delta": 0.03665505003852657,
+    "median_delta": 0.047269088589030006,
+    "min_delta": -0.03328141577822952,
+    "max_delta": 0.09597747730477924,
+    "positive_count": 2,
+    "noninferiority_count_delta_ge_minus_0p03": 2,
+    "all_folds_noninferior": false
+  },
+  "fold2_receipts": {
+    "gate_sha256": "3b0af61d1865074598201c730fee346c339ac81d9b74b6edf718011f539fee82",
+    "transfer_sha256": "dc7135b2171a22f06b9d045dcac62f3b24ea1e089556891661aad422a7ce7d42",
+    "execution_sha256": "74be312c7b11e28c6770c0e41c436dca8531e233485018825c05853b5bb7a3b0",
+    "launch_sha256": "b7befd1ddee7990c638029192e9c9fb85f8110383dce6b0c8b1caf43fa726b63",
+    "all_local_receipt_modes": "0444"
+  },
+  "fold2_remote_direct_read_only_audit": {
+    "host": "xinyuan@100.103.97.12",
+    "payload_copy_performed": false,
+    "b0": {
+      "checkpoint_sha256": "afd7193468f8b22bf86955819df4a68cabd7d8cf42428d4c3f28241207d579b9",
+      "checkpoint_bytes": 261585007,
+      "checkpoint_mode": "0664",
+      "checkpoint_epoch": 23,
+      "checkpoint_global_step": 123048,
+      "optimizer_count": 1,
+      "optimizer_state_count": 31,
+      "source_only_manifest_sha256": "540afdf7f9b14181f9a8baaa31ae2c1cb225dc63eba4416f17a6961c7f3c7943",
+      "resolved_config_sha256": "5c2b05781f5d4ceaaa7829bb78cb2daee4431ed331c0099086fa2eca1b85e8c9"
+    },
+    "b3s_zero4": {
+      "checkpoint_sha256": "b721822efc303563ccaeef318415e191b79488a95733dc89d4e5ba13177b6511",
+      "checkpoint_bytes": 198342223,
+      "checkpoint_mode": "0664",
+      "checkpoint_epoch": 23,
+      "checkpoint_global_step": 123048,
+      "optimizer_count": 1,
+      "optimizer_state_count": 27,
+      "source_only_manifest_sha256": "6e362061f37b89ebce77b85bb3e9511ba4aafe9ea7209cf3e59ccc45b8ef6914",
+      "resolved_config_sha256": "23613ce6fdc6fd3bdfa42bc01a06722701be300f69b6ecdc71c286c91581cb0c"
+    },
+    "manifest_checks": {
+      "source_only": true,
+      "outer_fold": 2,
+      "outer_left_out": "ses-20120927",
+      "train_sessions": [
+        "ses-20120924",
+        "ses-20120926",
+        "ses-20120928"
+      ],
+      "target_path_resolved_during_fit": false,
+      "target_query_values_read_by_fit": false,
+      "target_backpropagation": false,
+      "heldout_files_opened": false,
+      "minival_files_opened": false
+    },
+    "note": "The immutable local transfer receipt binds the observed remote SHA and byte counts. The remote checkpoint payloads themselves remain mode 0664, so this review does not call those payloads immutable."
+  },
+  "software_validation": {
+    "aggregate_script_sha256": "0c8e692a788c123ddf96b85071f436e80c1cbc2ea8a71e0cda6c565782cfcd5f",
+    "test_source_sha256": "91c9ca1e10adb84887139eac391c532b48013e2ed0cba23d29da8ff634a81a8e",
+    "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/xinyuan/miniconda3/envs/spint/bin/python -m pytest -q sua_exploration/m1_compact_replication/test_e23_continuation_receipts_v2.py",
+    "result": "7 passed, 3 subtests passed",
+    "note": "Plugin autoload was disabled because the environment's unrelated dandi.pytest_plugin fails during collection through an incompatible Click option."
+  },
+  "interpretation": {
+    "frozen_three_of_three_noninferiority_gate": "FAILED",
+    "aggregate_noninferiority_claim": false,
+    "improvement_claim": false,
+    "evidence_scope": "development only; no formal, held-out, or minival endpoint opened",
+    "descriptive_profile": "mean +0.036655, median +0.047269, 2/3 folds positive, 2/3 folds at or above the -0.03 margin",
+    "budget_trend_correction": "The short-to-E23 delta decreased on folds 0 and 1 but increased by +0.00259456 on fold 2. The prior two-fold monotone budget-trend reading does not generalize to all three folds.",
+    "next_action": "Stop the M1 compact matched-E23 line. Do not add folds, seeds, carrier arms, or formal claims from this result."
+  }
+}

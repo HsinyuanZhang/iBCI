@@ -1,0 +1,17 @@
+# @package _global_
+# Test-only configuration for the M1 held-in-calib post-support replay correction.
+defaults:
+  - b3s_t4_m1_loso_internal
+  - override /model: streaming_b3s_t4_m1_correction_source_exact
+
+run_id: m1_heldin_disjoint_replay_correction_t4_m1
+tags: ["native-mua", "t4", "m1", "correction", "test-only"]
+
+data:
+  calibration_n_trials: 10
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  heldin_query_start_trial: 0
+  allow_empty_heldout_query: false

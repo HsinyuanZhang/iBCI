@@ -1,0 +1,108 @@
+{
+  "arm": "d4",
+  "calibration_n_trials": 10,
+  "checkpoint_sha256": "28530a7cd61f08edc9cf8f41cf5c7391f6150de72fc196ab3e38814bb698b11d",
+  "dataset_tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "max_direct_vs_cached_identity_abs": 0.0,
+  "max_direct_vs_decoder_only_abs": 0.0,
+  "payload_bytes": 60228462,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/evalai_m1_threeway/artifacts/d4_m1_f1s42_identity.pkl",
+  "payload_sha256": "a45471b29a4b847f510a0a21695b2fccbe9615a8dbec285d3dffe3c4be2f6910",
+  "schema_version": "evalai_m1_side_export_receipt_v1",
+  "session_count": 7,
+  "session_records": {
+    "ses-20120924": {
+      "calibration_sha256": "700cbc534a38ed886270ba115b0d137afeb00cfe74b9d62b44f03c47f89909c8",
+      "d4_side_sha256": "9f2f6fda8584b07b49aa79be1bcb3f93a59f7fce71c5a97c2de237fa508e7b8b",
+      "dataset_tag": "20120924",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "050acc01c967b0fb80599992ffc79a90759f5407f8d61dec3b1560927b452466",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20120926": {
+      "calibration_sha256": "9d6052964fe25089f2ab32329bc6add98e4485e17635b9d6f49f9d292f250a80",
+      "d4_side_sha256": "d89738a3be2f5d22d55e1a0b46057010433c4b0b5cd31572f67b2d0bc17320ea",
+      "dataset_tag": "20120926",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "81c459edd3b53d58ea346c349a578b76d954e90a315a297e11cf12684aa71469",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20120927": {
+      "calibration_sha256": "b7df479577111bde77bb5e46ac9a1af508d57ed0f5bb8f5cd44e75bca856270f",
+      "d4_side_sha256": "2f72131ca7a5e160be6ab3420c0975debb543ee8a3c8441cf55b807d922c6469",
+      "dataset_tag": "20120927",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "0d5d504a091b1081675c7797a2bbbc5efe7ac0d1adaaffc08667712bb93bb6a4",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20120928": {
+      "calibration_sha256": "bb8f7ab8598d6420151eb52695ba520296e4ee35684b6bcb8ea0d73e5bd2d47e",
+      "d4_side_sha256": "9e8b23e3f411b0d05df988576ff79597553533e63574224c7ca6632109ca1fdc",
+      "dataset_tag": "20120928",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "ba8d2d72405af7509d0243a0888a2f33274d092e4ad41bf72d55e7437a10438a",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20121004": {
+      "calibration_sha256": "f01675cddb334074d352c94ee2c21116c54505e877fd05f38f9e95a4b05b413f",
+      "d4_side_sha256": "45f0f1ec11cf4e2ae026a3f17ff9f775a36e81d656d1f7772a62c96b20defff7",
+      "dataset_tag": "20121004",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "cb878af0ed2fcdc71249fc5cf45e3e50ce67d437e7e5ac9b0d8d230934eaac62",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20121017": {
+      "calibration_sha256": "d59da33cb3455a2e9fa228429c069c9856c6125f7ec9765b9a724f45013d4147",
+      "d4_side_sha256": "3b5b008349b44a7efcd135d4f0dbc5df23bae3b746826603bd201287b0406419",
+      "dataset_tag": "20121017",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "28d6dfe4db4a9a379f7d67b0d914b21a8d71d40035cc9eeacc13e02eb02ea04a",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20121024": {
+      "calibration_sha256": "b5389c5e641c6c68ac2071613a87761cfa0bab924034368d8b83c94ac2ae1318",
+      "d4_side_sha256": "ef0e2d87da91d404f33ef73b7b914393a6a570c57bbf3ed41238992443dba853",
+      "dataset_tag": "20121024",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "identity_sha256": "2a73a92b7f1d54d0038a1ba512953723964b0595dadd941cedf3c22f5170a908",
+      "identity_shape": [
+        64,
+        100
+      ]
+    }
+  },
+  "teacher_checkpoint_sha256": "c81a2bbd860452e6186a9ecf55c0b747da61baef4fae3212f61521be68cc5ac2"
+}

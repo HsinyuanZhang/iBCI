@@ -1,0 +1,98 @@
+{
+  "aggregate": {
+    "all_folds_noninferior": false,
+    "deltas": [
+      0.09597747730477924,
+      -0.03328141577822952,
+      0.047269088589030006
+    ],
+    "max_delta": 0.09597747730477924,
+    "mean_delta": 0.03665505003852657,
+    "median_delta": 0.047269088589030006,
+    "min_delta": -0.03328141577822952,
+    "noninferiority_count_delta_ge_threshold": 2,
+    "positive_count_delta_gt_0": 2
+  },
+  "canonical_content_sha256": "7e069b58c74e65ef7bfa668f86a0ed90988f31cb664863f171a2ae170183be99",
+  "created_at_epoch": 1786340072.5677555,
+  "interpretation": {
+    "claim_limit": "development evidence only; not formal held-out superiority",
+    "improvement_claim": false,
+    "no_formal_heldout_or_quantization_or_new_seed": true,
+    "noninferiority_claim": "No aggregate non-inferiority claim: at least one gate failed or evidence was invalid",
+    "same_epoch_budget": true
+  },
+  "per_fold": [
+    {
+      "b0_r2": 0.5315313944709066,
+      "b3s_zero4_r2": 0.6275088717756858,
+      "delta": 0.09597747730477924,
+      "epoch": 23,
+      "fold": 0,
+      "gate": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_GATE_v1.json",
+        "schema": "m1_compact_b3s_f0_s42_e23_gate_v1",
+        "sha256": "3fcc510cfec1f9ea4be123de4dbf8f27039158a3b65aa91212546c2d7047036c",
+        "status": "PASS_M1_COMPACT_B3S_F0_E23_NONINFERIORITY"
+      },
+      "gate_result": "PASS",
+      "global_step": 118824,
+      "integrity_errors": [],
+      "target_session": "ses-20120924"
+    },
+    {
+      "b0_r2": 0.6797685421655772,
+      "b3s_zero4_r2": 0.6464871263873477,
+      "delta": -0.03328141577822952,
+      "epoch": 23,
+      "fold": 1,
+      "gate": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_E23_GATE_v1.json",
+        "schema": "m1_compact_b3s_f1_s42_e23_gate_v1",
+        "sha256": "0f38fd6131f7854738ad697d58feee203498983ad5f738507538afcad87ffb5e",
+        "status": "STOP_M1_COMPACT_B3S_F1_S42_E23_NONINFERIORITY"
+      },
+      "gate_result": "METRIC_FAILURE",
+      "global_step": 119112,
+      "integrity_errors": [],
+      "target_session": "ses-20120926"
+    },
+    {
+      "b0_r2": 0.5958616370611604,
+      "b3s_zero4_r2": 0.6431307256501904,
+      "delta": 0.047269088589030006,
+      "epoch": 23,
+      "fold": 2,
+      "gate": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_E23_GATE_v1.json",
+        "schema": "m1_compact_b3s_f2_s42_e23_gate_v1",
+        "sha256": "3b0af61d1865074598201c730fee346c339ac81d9b74b6edf718011f539fee82",
+        "status": "PASS_M1_COMPACT_B3S_F2_S42_E23_NONINFERIORITY"
+      },
+      "gate_result": "PASS",
+      "global_step": 123048,
+      "integrity_errors": [],
+      "target_session": "ses-20120927"
+    }
+  ],
+  "schema": "m1_compact_b3s_f0_f1_f2_s42_e23_aggregate_v2",
+  "scope": {
+    "development_only": true,
+    "folds": [
+      0,
+      1,
+      2
+    ],
+    "formal_opened": false,
+    "heldout_opened": false,
+    "matched_terminal_epoch": 23,
+    "minival_opened": false,
+    "seed": 42,
+    "target_backward_steps": 0,
+    "target_checkpoint_selection": false,
+    "target_optimizer_steps": 0,
+    "task": "m1",
+    "threshold": -0.03
+  },
+  "status": "STOP_M1_COMPACT_B3S_F0_F1_F2_E23_STOP_GATE_FAILED"
+}

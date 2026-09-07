@@ -1,0 +1,43 @@
+{
+  "schema_version": "m1_b20_source_characterization_manifest_v1",
+  "purpose": "Metadata-only exact-four M1 held-in-calib source contract for B20 characterization readiness; writing or reading this manifest does not authorize NWB access.",
+  "derived_from": {
+    "path": "sua_exploration/manifests/m1_fixed_k_temporal_prototype_gate_a_v2_source_manifest.json",
+    "required_schema": "m1_fixed_k_temporal_prototype_gate_a_source_manifest_v2"
+  },
+  "task": "m1",
+  "source_split": "held-in-calib",
+  "sessions": [
+    {
+      "session": "ses-20120924",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+      "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+    },
+    {
+      "session": "ses-20120926",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+      "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91"
+    },
+    {
+      "session": "ses-20120927",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+      "sha256": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a"
+    },
+    {
+      "session": "ses-20120928",
+      "relative_path": "SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+      "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+    }
+  ],
+  "support": {
+    "trial_range": [0, 10],
+    "signal": "raw noninterpolated 20-ms binned neural counts, valid prefixes only, no calibration intertrials",
+    "labels": "no support label, timestamp, electrode ID, condition, or unit ID may enter R10/Q10/B20/rate-only or attachment shuffles"
+  },
+  "future_scorer_only": {
+    "trial_range": [210, "end"],
+    "target": "per-channel x object log1p(mean per-trial Hz)",
+    "restriction": "future object labels may construct this target only after reviewed source access; never carrier, normalization, shuffle, or selection input"
+  },
+  "excluded_path_tokens": ["held-out", "minival", "test", "evalai", "formal"]
+}

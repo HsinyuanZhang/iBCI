@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - b3s_k4_m2_loso_internal
+
+run_id: native_mua_ks4_m2_loso_internal
+tags: ["native-mua", "ks4", "m2", "loso", "internal-only", "gate-b", "full-row-shuffle"]
+
+data:
+  side_feature_group: ks4

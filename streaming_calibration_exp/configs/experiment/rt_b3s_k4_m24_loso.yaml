@@ -1,0 +1,25 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3s_t4
+  - override /data: rt_k4
+
+task: rt
+run_id: rt_b3s_afc4_vel_m24_loso
+no_early_stopping: true
+require_baseline_validation: false
+tags: ["rt", "afc4_vel", "m24", "loso", "sub-c", "b3s", "development_only"]
+
+data:
+  side_feature_group: afc4_vel
+  loso_fold: 0
+
+model:
+  task: rt
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 35

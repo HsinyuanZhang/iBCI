@@ -1,0 +1,18 @@
+{
+  "schema_version": "m2_r10_m24_source_manifest_v1",
+  "source_receipt": {
+    "path": "sua_exploration/results/m2_carrier_stability_factorial_v1/protocol_receipt.json",
+    "sha256": "b094e3f7674dd75571947c262d63879639c8b41ffe99f6725b4e1764e1e0e573"
+  },
+  "task": "m2", "source_split": "held-in-calib", "support_trials": [0, 24], "future_trials": [24, "end"], "bin_ms": 20,
+  "sessions": [
+    {"session":"ses-2020-10-19-Run1_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-19-Run1_behavior+ecephys.nwb","sha256":"dc40ef63a379ae71bd051cc3c5ec0e6756bc24e5eda604ee5d100a8af3abe91a"},
+    {"session":"ses-2020-10-19-Run2_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-19-Run2_behavior+ecephys.nwb","sha256":"fdacf9f9cc55c5b778e5f7ae6c8014520cde038ef6f0dedb5e95ce2c51b0c677"},
+    {"session":"ses-2020-10-20-Run1_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-20-Run1_behavior+ecephys.nwb","sha256":"757cf61bdbbdad4faaf363a7c6fc570ee3b7815bfa0359cad35cab4447f2fb49"},
+    {"session":"ses-2020-10-20-Run2_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-20-Run2_behavior+ecephys.nwb","sha256":"5a11cded250929786d2991d3059b448e30a7e5aa57afc75ff4c514797f28ee1e"},
+    {"session":"ses-2020-10-27-Run1_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-27-Run1_behavior+ecephys.nwb","sha256":"f7a8e1288bf1fa225ba8cde85f969d6e5547d937fbb69f531580bec9c8c4f1e0"},
+    {"session":"ses-2020-10-27-Run2_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-27-Run2_behavior+ecephys.nwb","sha256":"e9d1bc0968f06bfe820fc3a036324032b35890a295dd8f9ad8b1b33a05e0bcd4"},
+    {"session":"ses-2020-10-28-Run1_behavior+ecephys","relative_path":"SPINT-main/data/000953/sub-MonkeyN-held-in-calib/sub-MonkeyN-held-in-calib_ses-2020-10-28-Run1_behavior+ecephys.nwb","sha256":"45a41f15110a8c950f2439cddfa0c207179cfa97d1035c7b1776d2b3dba1c601"}
+  ],
+  "excluded_path_tokens": ["held-out","minival","test","formal","report","evalai"]
+}

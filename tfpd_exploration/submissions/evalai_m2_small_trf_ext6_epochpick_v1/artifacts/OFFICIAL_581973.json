@@ -1,0 +1,38 @@
+{
+  "schema": "m2_small_ext6_epochpick_official_581973_v1",
+  "submission_id": 581973,
+  "payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+  "image_id": "sha256:c3297f4c96b70ab00f67a00fb25c5acade47394bccd3b181ab57571b29e720ed",
+  "image_tag": "spint-t4-m2:small-trf-s42-ema-e8-ext6-w0-4db109e7",
+  "method_name": "M2 small Transformer S1-SMALL-COS EMA e8 s42 ext6-epochpick exact-E w0",
+  "official": {
+    "Held Out R2 Mean": 0.3903054960458745,
+    "Held Out R2 Std.": 0.12812796282508818,
+    "Held In R2 Mean": 0.6546381701422587,
+    "Held In R2 Std.": 0.03418323872678692,
+    "Normalized Latency": 0.7360138729810096
+  },
+  "historical_compare_only": {
+    "581971_e19": {
+      "Held Out R2 Mean": 0.35125112231704764,
+      "Held In R2 Mean": 0.6607984925615427,
+      "Normalized Latency": 0.45250021902010773
+    },
+    "581919_move_t4": {
+      "Held Out R2 Mean": 0.3494526364023173,
+      "Held In R2 Mean": 0.5972297932379577,
+      "Normalized Latency": 0.04403732470875482
+    },
+    "delta_vs_581971": {
+      "held_out_r2": 0.03905437372882686,
+      "held_in_r2": -0.006160322419284012,
+      "normalized_latency": 0.28351365396090185
+    },
+    "delta_vs_581919": {
+      "held_out_r2": 0.0408528596435572,
+      "held_in_r2": 0.057408376904301
+    }
+  },
+  "not_for_later_candidate_selection": true,
+  "result_url": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581973/126ad84f-ae66-4d75-9332-599fa8b8a6.json"
+}

@@ -1,0 +1,111 @@
+{
+  "attempt_sha256": "6ede8bd594ac639cbf2a2d3edce9c1de8f7e00d948278592ed43ad29b19f860a",
+  "decision": {
+    "classification": "FILM_EARLY_REPLICATION_ONLY",
+    "early_film_gate": {
+      "contrast": "EP-FILM_MINUS_EP-ZERO",
+      "mean": 0.02392937742418233,
+      "nonnegative_dates": 4,
+      "pass": true,
+      "required_mean": 0.005,
+      "required_nonnegative_dates": 4,
+      "required_worst": -0.01,
+      "values": [
+        0.021928217494672775,
+        0.06403301976471798,
+        0.016313906806193823,
+        -0.008003867716063096,
+        0.025375610771390167
+      ],
+      "worst": -0.008003867716063096
+    },
+    "interaction_by_date": [
+      -0.01863658387905709,
+      -0.059129427726294426,
+      -0.014788881595991676,
+      0.004086576894381577,
+      -0.03226011659964112
+    ],
+    "interaction_mean": -0.024145686581320547,
+    "late_film_gate": {
+      "contrast": "LP-FILM_MINUS_LP-ZERO",
+      "mean": -0.00021630915713821697,
+      "nonnegative_dates": 3,
+      "pass": false,
+      "required_mean": 0.005,
+      "required_nonnegative_dates": 4,
+      "required_worst": -0.01,
+      "values": [
+        0.0032916336156156856,
+        0.004903592038423554,
+        0.0015250252102021467,
+        -0.003917290821681518,
+        -0.006884505828250953
+      ],
+      "worst": -0.006884505828250953
+    },
+    "late_pool_composable": false,
+    "m2_to_h1_early_replication": true,
+    "pass_any_h1_film": true,
+    "pooling_at_zero_by_date": [
+      0.05268306583184501,
+      0.10504421572809297,
+      0.0050546725434875706,
+      0.008839301231495511,
+      0.028469660623375415
+    ],
+    "pooling_at_zero_mean": 0.0400181831916593,
+    "pooling_with_film_by_date": [
+      0.03404648195278792,
+      0.045914788001798545,
+      -0.009734209052504106,
+      0.012925878125877088,
+      -0.0037904559762657053
+    ],
+    "pooling_with_film_mean": 0.015872496610338748,
+    "selected_h1_product": "LP-R3"
+  },
+  "design_sha256": "811ba8bf4f6c5a002d4a7da9f3e8ebaf07520e6b16c9cc6376cb160b000d9be3",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu0_free_mib_at_preflight": 23803,
+  "gpu0_utilization_at_preflight": 0,
+  "gpu1_touched": false,
+  "gpu_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "implementation_sha256": {
+    "tfpd_exploration/h1_series_20260830/scripts/run_h1_calibration_profile_film_v2.py": "d38b883d9bcf6fe4f9642f8cadad52b97e07d209819168ec0e3fbb076ca0a2fd",
+    "tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/core.py": "51821c2bafde1470d0f7c1c3084f6f561fd127afe6461b62f6f731dcc1c37ff3",
+    "tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/evaluate.py": "8793c8ba81b10e3c39f5e330be869dd5197888502ff716fe3eb90ce529f4c484",
+    "tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v1/plan.py": "97a54cbef6a5f4eac3cdfcd6612945287f091f907f846a76bfe27200d938c3be",
+    "tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v2/evaluate.py": "e23d6a6e3bd3f2271e9fc7a9ab124677ca674200a020fd5acc25e48706f63c9d",
+    "tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v2/plan.py": "87015dc611e864032303e0ec8afaeceecbc7fe3acaf37de30011bb082ee9908f"
+  },
+  "incident_document_sha256": "34e3389d4fb7add13defa739b9cedbb49c2bfb7bb93a170f8902def2e6118275",
+  "predecessor_score_sha256": "a07ab80612de53a625b5dc29ef63bc2c24ce249979d5c3afdc43399fb27851b5",
+  "predecessor_terminal_sha256": "c047bbf5bd6e324fcd250ef2702ab507fff54b6a13c6bc1314963983bc298a94",
+  "scheduled_lp_r3_timer_state": "active",
+  "schema": "h1_calibration_profile_film_v2_terminal",
+  "score_sha256": "8b56b105bf1cd965ffa9d74e323dbce7b5d2e2410a8abfb88b5eaa2151494813",
+  "status": "COMPLETE_H1_CALIBRATION_PROFILE_FILM_V2_SOURCE_OOF",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "v1_incident_authority": {
+    "body_sha256": {
+      "attempt.json": "1dd84e148fd03d3da472f3340662adcfbf36e7d3db366e7477075595cacf9d8f",
+      "checkpoint_19250108_ep-film.pt": "25851d58844486126f67e97b5b84ef15728e8ca571dc515dd7e2fdc0b388920b",
+      "checkpoint_19250108_lp-film.pt": "298abb04f2018a09daf0aafbc5a845c7427a1bda774649f21ad8a8f14270e165",
+      "failure.json": "51265f15650c6f4044d80966df94a87011c0bee79a2a9d19712feaf507b93796",
+      "training_19250108.json": "e4691925908f8e7663155bee780cfeda3c2058da854bb7f36804239030af87a5"
+    },
+    "failure_error": "ses-19250108T110520: LP-ZERO prediction anchor drift",
+    "first_fold_film_state_sha256": {
+      "EP-FILM": "60eb1161d9621b0830d226e0eaf07aefb0ee1f56eb72d42880e95aa518bc6b58",
+      "LP-FILM": "fba420f403b248ee0a6fe6c1898f704dc6ae4be0be03d3a92324771afe979736"
+    },
+    "incident_document_sha256": "34e3389d4fb7add13defa739b9cedbb49c2bfb7bb93a170f8902def2e6118275",
+    "root": "tfpd_exploration/h1_series_20260830/results/h1_calibration_profile_film_v1",
+    "validated": true
+  },
+  "workorder_sha256": "c68e05a21e0aad4e4461fa7acc92f8690fe222353826a2592bbc2f3a23ae8f5d"
+}

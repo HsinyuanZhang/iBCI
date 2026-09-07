@@ -1,0 +1,66 @@
+{
+  "arm": "movement_t4_m33_empty_adapter_seed44_epoch08_epochpick",
+  "image_id": "sha256:8de56c58939ebd8306954ea7d180aceb7269fd3df28192f11df0dcaa7b60dc7f",
+  "image_tag": "spint-t4-m2:movement-t4-empty-s44-e08-f2f8cd4c",
+  "payload_sha256": "f2f8cd4c046a5880e9716d61981cee4aa0652d33e411212fa7be217cef05b051",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_means_squeeze_v2_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581919,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581919/ce096f43-4ca8-4cc3-be0f-1db529b21c.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Frozen SPINT M2 decoder with first-33 activity and a 100-600 ms movement-window T4 carrier. The profile-free zero-initialized adapter checkpoint is seed 44 epoch 8, selected before EvalAI on six locally visible held-out sessions from a fixed 3-seed by 12-epoch grid. Deployment uses cached identities and performs no online update.",
+    "method_name": "M2 MOVE-T4 profile-free adapter s44/e08",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-04T18:30:25.068987Z",
+    "when_made_public": null
+  },
+  "submission_id": 581919,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:5b1876c8-9d22-4c8b-acde-706faa4c4624",
+  "uploaded_manifest_digest": "sha256:8de56c58939ebd8306954ea7d180aceb7269fd3df28192f11df0dcaa7b60dc7f",
+  "uuid_tag": "5b1876c8-9d22-4c8b-acde-706faa4c4624"
+}

@@ -1,0 +1,17 @@
+{
+  "arm": "m1_optv2_t_ema_e6_runtime_v3_t2_w0",
+  "budget_disclosure": "10 public calibration trials for B3 E0 and rSyn3-refit-v1 T; source-dev epoch-pick on ses-20120926/27/28 chronological 80/20 tails; ses-20120924 query unread. V3 stream, torch threads=2, dataloader_workers=0.",
+  "container_parity": "{'status': 'PASS', 'long_b4_calls': 256, 'max_native_abs_error': 1.430511474609375e-06, 'partial_shape': [2, 16], 'b1_shape': [1, 16]}",
+  "image_id": "sha256:9b530d8e5c7f8fa36d49b7d49d35f30c1a3e0667ce8ac6c58abade21b3bfbaa9",
+  "image_size": 9598266620,
+  "image_tag": "spint-m1:v3-t-ema-e6-t2-5e44fc37",
+  "method_description": "M1 optimized-v2 current-query Transformer, seed 42 EMA epoch 6, V3 heterogeneous stream (W=100/k=5), torch threads=2, workers=0. Adapter casts official uint8/float64/noncontiguous bins to C-contiguous float32. Source-dev equal-session mean 0.812213. Not an outer-24 result. Replaces failed 581980 dtype reject.",
+  "method_label": "M1 current-query Transformer V3 (formal12_chron80_v2 seed42 EMA e6) t2 w0; official uint8/float coerce; source-dev epoch-pick; not outer-24",
+  "method_name": "M1 optimized-v2 current-query T EMA e6 runtime-v3 t2 w0 cast-f32",
+  "payload_sha256": "5e44fc37965640138bf977da42a988e7636daa996d1eb9b50a75fa5628f9d7b3",
+  "register": true,
+  "submission_id": 581982,
+  "replaces": "581980 failed on official uint8 dtype reject",
+  "selection_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/results/m1_optimized_v2_source_dev_epoch_pick_v1/selection.json",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_runtime_v3_selected_t_v1/artifacts/evalai_push_state.json"
+}

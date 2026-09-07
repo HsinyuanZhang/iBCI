@@ -1,0 +1,8 @@
+# @package _global_
+defaults:
+  - h1_carrierid_shuffle
+
+task_name: h1_carrierid_h32_rs
+tags: [h1, carrierid, h32, m4, source_only, row_shuffle, separately_trained]
+pilot:
+  arm: rs

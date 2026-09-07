@@ -1,0 +1,13 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!trf_falcon_decoder.py
+!m1_exacte_fast.py
+!m1_exacte_ort.py
+!artifacts/
+!artifacts/m1_projadd_p16_d2_s42_ema_e21.pkl
+!artifacts/ort_graphs/
+!artifacts/ort_graphs/**
+!artifacts/vendor/
+!artifacts/vendor/onnxruntime-1.19.2-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl

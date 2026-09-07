@@ -1,0 +1,19 @@
+# Source-only H1-EST4 route.  All receipt paths are deliberately required at
+# launch; this DataModule exposes no target loader/evaluator.
+_target_: src.data.h1_carrierid_date_lodo_est4.H1CarrierIdDateLodoEst4DataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+phase1_preflight_path: ${phase_est4.phase1_preflight_path}
+outer_date: ${phase_est4.outer_date}
+est4_arm: ${phase_est4.arm}
+est4_preflight_path: ${phase_est4.est4_preflight_path}
+five_date_aggregate_path: ${phase_est4.five_date_aggregate_path}
+frozen_plan_path: ${phase_est4.frozen_plan_path}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+seed: 42
+fixed_epochs: 50
+num_workers: 0
+pin_memory: false

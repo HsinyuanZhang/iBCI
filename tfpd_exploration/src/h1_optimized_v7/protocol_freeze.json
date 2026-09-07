@@ -1,0 +1,28 @@
+{
+  "schema": "h1_v7_dropout30_protocol_freeze_v1",
+  "frozen_before_gate": true,
+  "design_variable": "deterministic per-example whole-unit dropout probability only: p=0.30, replacing V6 p=0.10",
+  "architecture": "exact V4 FULL plus exact V6 recency-prior query; signed frontend contract 4 and temporal contract 4 unchanged",
+  "source_gate": {
+    "fixed_train_windows": 208,
+    "updates": 1040,
+    "lr": 0.0002,
+    "microbatch": 4,
+    "effective_batch": 16,
+    "evaluation_dropout": "off",
+    "acceptance": "both FULL and T: R2 >= 0.5 and prediction_std >= 0.5 * target_std"
+  },
+  "formal_if_gate_passes": {
+    "seed": 42,
+    "epochs": 12,
+    "microbatch": 8,
+    "effective_batch": 32,
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "warmup_epochs": 1,
+    "ema_decay": 0.9995,
+    "selection": "all 12 predeclared EMA frozen-minival 2908 endpoint R2 values, earliest tie",
+    "primary_complete": "EMA epoch-12 all 20325 frozen-minival eval bins",
+    "prohibitions": ["no warmstart", "no p sweep", "no retry after gate failure", "no architecture/tau/readout/M3 change"]
+  }
+}

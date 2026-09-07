@@ -1,0 +1,10 @@
+# @package _global_
+defaults:
+  - m1_version_b_c
+
+task_name: m1_version_b_rs4
+run_id: m1_version_b_rs4_f0_s42
+tags: [m1, version-b, source-loso, compact, emg-afc4, rs4, mechanism-control, development-only]
+
+data:
+  afc4_arm: rs4

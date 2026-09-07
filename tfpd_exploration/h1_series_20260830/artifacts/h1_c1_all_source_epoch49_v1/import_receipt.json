@@ -1,0 +1,21 @@
+{
+  "artifact_relative": "tfpd_exploration/h1_series_20260830/artifacts/h1_c1_all_source_epoch49_v1/epoch_049.ckpt",
+  "artifact_sha256": "0f406a8e69fdb57cf6a5480149f04ab3500e7fad849d36db38042edbadb2cd06",
+  "artifact_size_bytes": 43801283,
+  "artifact_source_commit": "84c7aaecb656be812d046317fec07783fa6701a4",
+  "artifact_source_url": "https://github.com/Michael-XVII/iBCI/blob/84c7aaecb656be812d046317fec07783fa6701a4/tfpd_exploration/h1_series_20260830/results/h1_cal_aug_all_source_m3_deployment_v1/training/c1/epoch_049.ckpt",
+  "checkpoint_schema": "h1_cal_aug_all_source_m3_deployment_v1_checkpoint",
+  "cuda_initialized_during_import_validation": false,
+  "epoch_zero_based": 49,
+  "global_step": 206650,
+  "imported_at_date": "2026-09-03",
+  "model_parameter_count": 10947836,
+  "model_state_sha256": "bdaf7dbcbae75ea307f20356aaf80066586f7d9afa273712a5e34708b903eb85",
+  "schema": "h1_c1_all_source_epoch49_import_receipt_v1",
+  "status": "PASS_EXACT_HISTORICAL_C1_CHECKPOINT_CPU_STRICT_LOAD",
+  "strict_load_missing_keys": [],
+  "strict_load_unexpected_keys": [],
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0
+}

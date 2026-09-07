@@ -1,0 +1,15 @@
+{
+  "bytes": 128084089,
+  "checkpoint_sha256": "ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215",
+  "epoch_zero_based": 15,
+  "film_state_sha256": "107ad4dc17cc7965c33712377b756ee72ab0b6f74b2ae216ae2d70732437fe61",
+  "hidden_test_opened": false,
+  "model_state_sha256": "d22988987c307662c6c7caaa4947b153aa215d74c3e3b020d3e2ce681709b70a",
+  "native_identity_bitwise_equal": true,
+  "payload_sha256": "91ef13cc94b9ab865c8f926dcbb6d33e9628bf9cbc9b757665d10e33cfda144a",
+  "schema": "h1_c2_ho_epoch15_evalai_payload_v1",
+  "selection_authority_sha256": "73e2666b1121685ab0d953a72073c4c8b0bc48fbac9d0ca63b0461985a1bdfdc",
+  "selection_mean_r2": 0.4056059026149282,
+  "selection_surface": "visible held-out H1 calibration/development recordings",
+  "session_count": 27
+}

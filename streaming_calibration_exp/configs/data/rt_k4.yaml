@@ -1,0 +1,34 @@
+_target_: src.data.rt_datamodule.RtDataModule
+
+task: rt
+data_dir: ${paths.root_dir}/../sua_exploration/data/dandi_000688/sub-C/
+batch_size: 32
+window_size: 50
+calibration_n_trials: 24
+# Chronological support/query contract: first 24 *trials* produce calibration;
+# all source and target decoder windows start at the following trial boundary.
+query_start_trial: ${.calibration_n_trials}
+
+random_calibration: false
+smooth_calibration: false
+max_trial_length: 100
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+
+validation_protocol: loso
+loso_fold: null
+
+side_feature_group: afc4_vel
+side_feature_shuffle_seed: ${seed}
+
+# Equal source-session exposure.  All pilot arms use this exact budget and
+# seed; a session below it fails rather than being silently upsampled.
+session_window_budget: 4096
+session_balanced_sampling: true
+sampler_reshuffle_each_epoch: true
+expected_session_count: 15
+
+num_workers: 4
+pin_memory: true
+sampler_seed: ${seed}

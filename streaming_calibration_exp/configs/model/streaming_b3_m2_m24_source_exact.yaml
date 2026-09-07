@@ -1,0 +1,40 @@
+# Source-exact B3 model mapping for the M2/M24 domain-query audit only.
+# It deliberately omits later teacher-receipt fields that did not exist in the
+# frozen 20260731 source checkpoint configuration.
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.0001
+  weight_decay: 0.0
+scheduler: null
+compile: false
+task: m2
+teacher_ckpt_path: ${paths.teacher_ckpt_path}
+window_size: ${data.window_size}
+trial_length: ${data.max_trial_length}
+pad_value: ${data.pad_value}
+freeze_decoder: true
+encoder_warmstart_path: null
+freeze_encoder_base: false
+tune_encoder_fusion: false
+fusion_mean_lr_scale: 1.0
+loss_mode: task_plus_y_plus_E
+lambda_y: 1.0
+lambda_E: 0.1
+decode_last_timestep_only: true
+predict_scaled_behavior: true
+behavior_scaling_factor: 5.0
+id_hidden_dim: 128
+hidden_dim: 64
+num_emas: 4
+num_filters: 4
+kernel_size: 5
+learnable_ema_alpha: false
+neuron_dropout_mode: none
+neuron_dropout_p_low: 0.0
+neuron_dropout_p_high: 0.3
+neuron_dropout_block_size: 4
+neuron_dropout_warmup_epochs: 10
+support_prediction_consistency_weight: 0.0
+variant: B3

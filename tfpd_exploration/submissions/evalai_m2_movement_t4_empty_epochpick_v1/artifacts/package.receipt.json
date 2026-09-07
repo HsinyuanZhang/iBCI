@@ -1,0 +1,23 @@
+{
+  "schema": "evalai_m2_epochpick_package_v1",
+  "candidate": "movement_t4_m33_empty_adapter_seed44_epoch08_epochpick",
+  "selection_surface": "six locally visible external M2 sessions",
+  "evalai_opened_during_selection": false,
+  "selected_seed": 44,
+  "selected_epoch_one_based": 8,
+  "local_external_equal_session_mean": 0.36044922649589894,
+  "local_external_worst_session": 0.23400146076575767,
+  "selection_receipt_sha256": "9759e0853655d359146c30f1c6550005f3569b6a391cca5eb371c04749541ee2",
+  "selected_head_state_sha256": "13551d3fc33d1cc296670c577c11519c04abdb42fa081f7d061191bb5610e6c5",
+  "payload_sha256": "f2f8cd4c046a5880e9716d61981cee4aa0652d33e411212fa7be217cef05b051",
+  "image_tag": "spint-t4-m2:movement-t4-empty-s44-e08-f2f8cd4c",
+  "image_id": "sha256:8de56c58939ebd8306954ea7d180aceb7269fd3df28192f11df0dcaa7b60dc7f",
+  "container_payload_sha256_verified": true,
+  "submission_id": 581919,
+  "submission_status_at_registration": "submitted",
+  "stable_terminal_status": "finished",
+  "official_held_out_r2_mean": 0.3494526364023173,
+  "official_held_in_r2_mean": 0.5972297932379577,
+  "submitted_at_utc": "2026-09-04T18:30:25.068987Z",
+  "is_test_time_adaptive": false
+}

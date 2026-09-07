@@ -1,0 +1,12 @@
+# No validation metric selects an epoch.  The only checkpoint is written by
+# Lightning at the fixed terminal epoch 50, independent of validation scores.
+fixed_epoch50:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/fixed_epoch50
+  filename: epoch_{epoch:03d}
+  monitor: null
+  mode: max
+  save_top_k: -1
+  save_last: true
+  every_n_epochs: 50
+  auto_insert_metric_name: false

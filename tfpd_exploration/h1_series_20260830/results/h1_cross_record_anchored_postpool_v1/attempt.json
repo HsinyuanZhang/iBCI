@@ -1,0 +1,11 @@
+{
+  "design_sha256": "b252f43a79405871406dc1db32880b2e243a830ea592f6aa06c1f7d461242385",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu1_touched": false,
+  "gpu_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "result_root": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/h1_series_20260830/results/h1_cross_record_anchored_postpool_v1",
+  "schema": "h1_cross_record_anchored_postpool_v1_attempt",
+  "status": "ATTEMPT_H1_SOURCE_ONLY_SCREEN",
+  "workorder_sha256": "5fa3fda2380972f51556b9ddb410ca7fba5ebb0c212b1f92be65c79f186c621c"
+}

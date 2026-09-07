@@ -1,0 +1,829 @@
+{
+  "activity_budget": 4,
+  "arm": "dopt4_static_m4",
+  "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+  "label_budget": 4,
+  "max_direct_vs_cached_identity_abs": 0.0,
+  "max_direct_vs_decoder_only_abs": 0.0,
+  "normalization_sha256": "d17f5f4c4d106b9f19493be6f5f06846c01e917f408f516e630f5e8f09d1539e",
+  "normalized_lambda": 0.1,
+  "payload_bytes": 18646258,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_dopt_static_v1/artifacts/t4_m2_seed42_dopt4_static_identity.pkl",
+  "payload_sha256": "4f68b7b8d0a64c66b53810dd73a125b9021b0b029dc57f00bb888b783151ecf4",
+  "schema_version": "m2_dopt4_static_official_payload_receipt_v1",
+  "sealed_external_static_m4_equal_session_mean": 0.22271999429945652,
+  "sealed_screen_result": "tfpd_exploration/results/m2_t4_activity_budget_screen_v1/score.json",
+  "sealed_screen_sha256": "6bdad93328ba26c12b8aa3afffcbc3490c312dfe22939b3d3bb3c5ec5b9005ce",
+  "sealed_within_static_m4_equal_session_mean": 0.451784412486647,
+  "session_count": 13,
+  "session_records": {
+    "ses-2020-10-19-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "71702cec002aa75c214709864384ccffa8617860624ebe164a6dcf356c29a2f1",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201019",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "d924f6255b701379a2b0d0b6a81538608a4174c09760b07e89ea2f2f9e631cb7",
+      "sealed_screen_static_m4_r2": 0.4213579095143881,
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "71702cec002aa75c214709864384ccffa8617860624ebe164a6dcf356c29a2f1",
+        "activity_sha256_screen_law": "6c6224d00b15eb80e2cd7874c71540042468cf9064a57a3e648cba8a8054182d",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.3017304132678513,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "baee7e660e1d9e9333371c2f358f9167271020b15b0a59f0c67d0c02af0bbe24",
+        "raw_t4_sha256": "493434ec1230c3d27405e01cf5b91d96d954ee4bdf0f1708911efa040eea7085",
+        "residual_sum_squares": 0.5739675969633494,
+        "selected_indices": [
+          1,
+          3,
+          11,
+          13
+        ],
+        "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            11,
+            13
+          ]
+        },
+        "trace_hat": 2.620778102143555,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "568e7dbd0783d466d0f54448cbf7b23c68d070d65ccf78b20add7d0baf8b0adb",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-19-Run2": {
+      "activity_budget": 4,
+      "activity_sha256": "0c9d7ff01098c77056cfcee418fa8a4994ffcc91100d012234ee566c3cc8bedd",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201019",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "ae4f4e5c4a3ae1bbf8bd0d8d9fdc87a31d4a6fc283295f099bf847acf3251cb3",
+      "sealed_screen_static_m4_r2": 0.4952122419268198,
+      "selected_indices": [
+        1,
+        3,
+        9,
+        13
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "0c9d7ff01098c77056cfcee418fa8a4994ffcc91100d012234ee566c3cc8bedd",
+        "activity_sha256_screen_law": "a23883c43ac61305ee46506a6bd0fb2b09a2bee891a3946a3d8bfafaf7e109d2",
+        "budget": 4,
+        "design_condition": 2.4518965940478226,
+        "design_rank": 3,
+        "gcv": 0.11816070744845396,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "bd7423b1d7713b7dcb5ceb95b0945f049c4c3b436d120ce8f050cfc4c5514620",
+        "raw_t4_sha256": "888c8c7a8eb4130f240a63646871cba3bf7020c7094b65796b7e0d183a9eec59",
+        "residual_sum_squares": 0.21742673737321266,
+        "selected_indices": [
+          1,
+          3,
+          9,
+          13
+        ],
+        "selected_indices_sha256": "ed0f3689b22a1e606437e4274b3b46769bde3dbc983994ce8b25ad97b0b7209d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            9,
+            13
+          ]
+        },
+        "trace_hat": 2.643499577805863,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "353ef2bc9fa063f0c628c55572535e339a2191f06dfeb2201d1b70bdb2620d43",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-20-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "f6d5099044f16b8964e917425fdf9f8a9abba6ba937823f84be7b0a49ecd9826",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201020",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "1bde1b82753d3136b945f39b63d9dd2c21ef781fdda9356c929d535b79d341cd",
+      "sealed_screen_static_m4_r2": 0.4366739609872642,
+      "selected_indices": [
+        1,
+        5,
+        11,
+        21
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "f6d5099044f16b8964e917425fdf9f8a9abba6ba937823f84be7b0a49ecd9826",
+        "activity_sha256_screen_law": "0a76a69659c11c281bcd848a8cfef5d8d710b69a690cab3a132bff148862980e",
+        "budget": 4,
+        "design_condition": 1.6666666859848176,
+        "design_rank": 3,
+        "gcv": 0.3460966695907115,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "d88bbe80cfc81c9b0048f3ddef698659f6932d05c305f037d2db0db72057a06a",
+        "raw_t4_sha256": "2a8693cfa502ca85d2c26c3393add7db0b301c293023cbffd979775c59b702e0",
+        "residual_sum_squares": 0.615282968161265,
+        "selected_indices": [
+          1,
+          5,
+          11,
+          21
+        ],
+        "selected_indices_sha256": "aa3ea5f5ce1828e403999e209206f04ae7de331c568d05d9b32b58b8bea1f136",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            5,
+            11,
+            21
+          ]
+        },
+        "trace_hat": 2.6666666666666665,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "4617a51cae5dacda610a9a9e19fda02f7f2e92ea4d4437739bf30e0a67895b4f",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-20-Run2": {
+      "activity_budget": 4,
+      "activity_sha256": "57a2aacd598b8ac4359073498b6070e53fc7688960f6ce1c6f49e1fd323715aa",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201020",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "b99eb5d400cebe9e452fa4478066e37acb303b4c31b4c99137965c7b6cdb43dc",
+      "sealed_screen_static_m4_r2": 0.4170893489388484,
+      "selected_indices": [
+        3,
+        5,
+        9,
+        15
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "57a2aacd598b8ac4359073498b6070e53fc7688960f6ce1c6f49e1fd323715aa",
+        "activity_sha256_screen_law": "bb21092f01ff98cb8f85e676b78c9aa2f70a157d3d547cf5c9339d72961902e9",
+        "budget": 4,
+        "design_condition": 2.4518965940478226,
+        "design_rank": 3,
+        "gcv": 0.3794309514002862,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "dbf3e0c0015ea9e8e1d49be45789ecab56fb42503f96927894c3553da87b5369",
+        "raw_t4_sha256": "47a672f4e547c44be6a586a2381d1125ce11a25b10d4f168df9c4b91cd59cd51",
+        "residual_sum_squares": 0.6981883876868891,
+        "selected_indices": [
+          3,
+          5,
+          9,
+          15
+        ],
+        "selected_indices_sha256": "6ed924ee20f5e86c7404918a1661475b5db6eb69df66215945579909e4422d25",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            3,
+            5,
+            9,
+            15
+          ]
+        },
+        "trace_hat": 2.643499577805863,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "fb51c4164ce90b96e5050e8d71f1371e28d25110dd10e84e4210a90e156c8e16",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-27-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "18fa8f9c359de0f050357d99dda632b44fcd8b67727d5c3e2f14a5aeb5d75081",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201027",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "bbd507ec851e03c5818cd6c512506603a4bdbde562124ca7de867c6f20ad23d8",
+      "sealed_screen_static_m4_r2": 0.4686382798806136,
+      "selected_indices": [
+        7,
+        9,
+        13,
+        25
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "18fa8f9c359de0f050357d99dda632b44fcd8b67727d5c3e2f14a5aeb5d75081",
+        "activity_sha256_screen_law": "b3fa389062ba4c7af04ee02c8f8df1666608535b3a8901e7ebc7886d36b44c22",
+        "budget": 4,
+        "design_condition": 2.781701588144655,
+        "design_rank": 3,
+        "gcv": 0.12913176446518532,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "753a4674ccabc8309ccdf608d4b6cc966eb4f8fb87c63838da2fd0234b9d60ea",
+        "raw_t4_sha256": "a181072b4831dcde96020929681ec3095b6eb4baa46cc8c2c0c7065d30f4ef0f",
+        "residual_sum_squares": 0.2456412871754459,
+        "selected_indices": [
+          7,
+          9,
+          13,
+          25
+        ],
+        "selected_indices_sha256": "f0feeacc28a992d1f3e5418dbff7af0996a97b71fd0dd7f360251ee9a872984d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            7,
+            9,
+            13,
+            25
+          ]
+        },
+        "trace_hat": 2.6207781156033914,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "852730f26b2b54d948c911c0db802575fb62008e982cfb592ca569d0080d71bc",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-27-Run2": {
+      "activity_budget": 4,
+      "activity_sha256": "4d2ab697ae6d514a49ddfb0d60d88c0a0062558d9cdcc94aa456f4205efacc72",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201027",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "69145ca1a0c133d4b54f853a43411715fa7987d5e980afdac9ab98fa646f8170",
+      "sealed_screen_static_m4_r2": 0.4661670203666355,
+      "selected_indices": [
+        1,
+        5,
+        7,
+        9
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "4d2ab697ae6d514a49ddfb0d60d88c0a0062558d9cdcc94aa456f4205efacc72",
+        "activity_sha256_screen_law": "741b65c561b568a7d24cb4fac4b30f298925b38ffca3ca2a1383d24cfd357db1",
+        "budget": 4,
+        "design_condition": 3.6754878723309212,
+        "design_rank": 3,
+        "gcv": 0.09763554087670218,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "9afd85c12413b8931ef995fe426108acbc15100a2060c79991fe4f879bdd13aa",
+        "raw_t4_sha256": "7b4e725133d1e9a3597d310f0b406acf8982bb830de60b34cfaaf68d27277ab0",
+        "residual_sum_squares": 0.1978843922268551,
+        "selected_indices": [
+          1,
+          5,
+          7,
+          9
+        ],
+        "selected_indices_sha256": "92f7ea5b88f1c7e6332aaedab0ceeb512dbcb8826a08b82666dd724910c7f1f6",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            5,
+            7,
+            9
+          ]
+        },
+        "trace_hat": 2.5763546876841374,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "4acac107366bf59fc2fb49aa822b79c8ab2dcc14ef988b27b78a0a88e0476959",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-28-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "8046c08a8d1f2517ed12920fadc0161e9a19e49bfdb8a7568999ede18281f72d",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201028",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "ac186aabf4c53c8770a8183cd8354f8a8d68ff476367b75c0c515e2156aba1a0",
+      "sealed_screen_static_m4_r2": 0.4573521227119596,
+      "selected_indices": [
+        5,
+        7,
+        11,
+        27
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "8046c08a8d1f2517ed12920fadc0161e9a19e49bfdb8a7568999ede18281f72d",
+        "activity_sha256_screen_law": "0d20983c4321a4a0014fabaeb5572b6d82ba3a902cd6b43948ad6f3ba2733bda",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.22928286695023087,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "a2f802dd54ce88d572514eba6c586dfbd5ff636a3ea16e95ff5c563d8bb39208",
+        "raw_t4_sha256": "3b023b4bab18a654ee706e232cba71b08fb05d2b7ace124fdf3ebde6b76acf98",
+        "residual_sum_squares": 0.4361540314846116,
+        "selected_indices": [
+          5,
+          7,
+          11,
+          27
+        ],
+        "selected_indices_sha256": "825ab26aeed9befb3c3309d7e62fc6d307fa7802c4f9a9a2d4bfde537657fd0c",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            5,
+            7,
+            11,
+            27
+          ]
+        },
+        "trace_hat": 2.6207781021435554,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "d5619c0c63cb012add6e3651ed51829fbd83f1364d6218f8b96b437eb3e43784",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-30-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "5c3a789631ed4f0708359466e6722fdc6b438307034d288b80d4a40522d93091",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201030",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "879cf2d143dd43c68f3b13fa511b621380260c4c4a688514b1ed69f7687f7723",
+      "sealed_screen_static_m4_r2": 0.27687754534045916,
+      "selected_indices": [
+        1,
+        11,
+        17,
+        23
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "5c3a789631ed4f0708359466e6722fdc6b438307034d288b80d4a40522d93091",
+        "activity_sha256_screen_law": "c684dfd306ff19323b93b49d20528cd99cee1c6b33104a2dce6cd7672d94b7c1",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.22572857858860235,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "c1d8ceba413229374a2cabbecfc2b95e10dc7e40f0636be39b56de335f2d2506",
+        "raw_t4_sha256": "339c4057c7527200c032010cd572d0efe1eaec77d7d40442045658f319dfb753",
+        "residual_sum_squares": 0.4293928756311321,
+        "selected_indices": [
+          1,
+          11,
+          17,
+          23
+        ],
+        "selected_indices_sha256": "72bd4d019f789ff3f6048314db39f676061eb5e834142ff9cc4287b013c121af",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            11,
+            17,
+            23
+          ]
+        },
+        "trace_hat": 2.6207781021435554,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "b312a552214e778152cb2a5ea53fdb1ac351be4ff95144c0c52fefcf370a8104",
+      "surface": "external_official_query"
+    },
+    "ses-2020-10-30-Run2": {
+      "activity_budget": 4,
+      "activity_sha256": "e21884698ec91a1e5af073549b75b634d40ea50b67f38fe2b702b4d7d4e16a31",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201030",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "d0a5693a3c324ca99537544009e2f938b4014355f3d97f3e31615eb879a04f9f",
+      "sealed_screen_static_m4_r2": 0.34054027313754365,
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "e21884698ec91a1e5af073549b75b634d40ea50b67f38fe2b702b4d7d4e16a31",
+        "activity_sha256_screen_law": "f54503db8b818b5dfe532908da471345f16a3d9ff910a6d57d736df50f086347",
+        "budget": 4,
+        "design_condition": 1.6666666859848172,
+        "design_rank": 3,
+        "gcv": 0.19454765192809678,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "8cbcc2aab940fe2300d79062c289bd9f6c5a7eb2fe2171a3d72b446bbc2fcc04",
+        "raw_t4_sha256": "f7054dd9ec8c1d839a20127297a7b2ece86426ea764ae81678c4877bf91f535f",
+        "residual_sum_squares": 0.34586249231661637,
+        "selected_indices": [
+          1,
+          3,
+          11,
+          13
+        ],
+        "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            11,
+            13
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "e263be4b9de3d4a5e7e56a68f148ecedefdd5bc258f1b0f917c1954533fdfe13",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-18-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "afae4938da77dde9d67927aa915e78bdb775ec980a61b652c11ef5dbe8a431a9",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201118",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "aec1e3cddd8a8384818e763887559b1517cbc2fbea5d9aff74638dc4292c55de",
+      "sealed_screen_static_m4_r2": 0.1913410482045056,
+      "selected_indices": [
+        7,
+        13,
+        17,
+        29
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "afae4938da77dde9d67927aa915e78bdb775ec980a61b652c11ef5dbe8a431a9",
+        "activity_sha256_screen_law": "5fe796f7f5703376470d3a0ee4a7844aab66699492e657e7410e249037b68586",
+        "budget": 4,
+        "design_condition": 2.781701875285917,
+        "design_rank": 3,
+        "gcv": 0.2645305966089947,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "3965abfea284c03d6ac56016f7a03d8c485cf3367a8a5d428979e78c42ca7d91",
+        "raw_t4_sha256": "6f6ab57e53d9db43372a61bd60a1732cac4e2ecd96d00d54347122ccd743be26",
+        "residual_sum_squares": 0.5032041347115348,
+        "selected_indices": [
+          7,
+          13,
+          17,
+          29
+        ],
+        "selected_indices_sha256": "4357d11c3568303c8f39b00e9f81a85cfd3de8aebbf6116312a308bfde76e660",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            7,
+            13,
+            17,
+            29
+          ]
+        },
+        "trace_hat": 2.620778099120184,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "f25de08d7796f2d3ca1508d77dc8d0afaa6bc0efe5b711da3a1cd1c242d3bc9a",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-19-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "54b118492cc872eb6918ac994e1a995c096d5c689a1d0aad6751ce39c13113f9",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201119",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "4531ab1a658dc219fc067dd4cf502c8ba73c3c0561811ffdbc7b03e546ede7ad",
+      "sealed_screen_static_m4_r2": 0.1084902574295955,
+      "selected_indices": [
+        3,
+        15,
+        17,
+        19
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "54b118492cc872eb6918ac994e1a995c096d5c689a1d0aad6751ce39c13113f9",
+        "activity_sha256_screen_law": "fbde7c17a21a16156abfaabc95108c661dfbe461f1d4e3862be4d3e9cfec6902",
+        "budget": 4,
+        "design_condition": 1.6666666859848163,
+        "design_rank": 3,
+        "gcv": 0.2066664062787253,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "35fedbdaaaf85cea64919f8b5150199db7492265bb92092fe0a104dca05d660b",
+        "raw_t4_sha256": "cbb41628125c5f95490496fea758334be501bdaf2a3d5f456a58b1e92ee64ae2",
+        "residual_sum_squares": 0.3674069444955115,
+        "selected_indices": [
+          3,
+          15,
+          17,
+          19
+        ],
+        "selected_indices_sha256": "c355c9ca0ffe33b92d0329cf3ab9ca1128138bda84bb70aecabc0f84ec55ce4f",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            3,
+            15,
+            17,
+            19
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "c7dbb2819c36e5ac9b24b4150ca666e567d494f25f7e576d1d2c406732654a45",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-24-Run1": {
+      "activity_budget": 4,
+      "activity_sha256": "e01684521141fb98ab5c22d3db9a51a73cc50c0940a926b03c0d54baf555cc16",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201124",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "95b5c8f23381876feb9f08a6b59c3bdeb9eef2dce19004aece0a4a29378e376b",
+      "sealed_screen_static_m4_r2": 0.320486936650602,
+      "selected_indices": [
+        1,
+        3,
+        7,
+        17
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "e01684521141fb98ab5c22d3db9a51a73cc50c0940a926b03c0d54baf555cc16",
+        "activity_sha256_screen_law": "58ff19538e056f01dd2ec73b9af465ed2f01c98f38dc82880e553cd3bebe7239",
+        "budget": 4,
+        "design_condition": 1.6666666887406334,
+        "design_rank": 3,
+        "gcv": 0.14477473073199815,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "3805120c3c61b3e2bb691e0378cf055431c9186909218777e6d1a5f7f046dab3",
+        "raw_t4_sha256": "ef24afc19e80933e0b9c0cdd342f39072249138910afac9bac6a401398e2dfec",
+        "residual_sum_squares": 0.2573772990791077,
+        "selected_indices": [
+          1,
+          3,
+          7,
+          17
+        ],
+        "selected_indices_sha256": "711d0bbb79b9c9a2cef827539956bd28e09d45ac087d57f95907f8a9f3bcc80d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            7,
+            17
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "0eda39d92358fcf939a8500cb8fc906fa87f21874b8fb9a0ed7e3c5202d2b0a4",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-24-Run2": {
+      "activity_budget": 4,
+      "activity_sha256": "6775c9d630faab0726d1ec4a739ea4abf3324dcb96adfb7b3b98f18ea642fab9",
+      "activity_shape": [
+        4,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201124",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "5fd38d19f2a7c4d623b953e0ef5f528e1992882bde80c38d5139fb8a7295ce03",
+      "sealed_screen_static_m4_r2": 0.09858390503403325,
+      "selected_indices": [
+        3,
+        9,
+        11,
+        21
+      ],
+      "side_evidence": {
+        "activity_budget": 4,
+        "activity_pool": "selected_trials_static_mean_pool",
+        "activity_sha256": "6775c9d630faab0726d1ec4a739ea4abf3324dcb96adfb7b3b98f18ea642fab9",
+        "activity_sha256_screen_law": "bdbd65029b16ce17d4a62d58f4bc1a3bb9b608229e3e7341709b79e11c025efb",
+        "budget": 4,
+        "design_condition": 1.6666666859848172,
+        "design_rank": 3,
+        "gcv": 0.1619223797484445,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "c120f5e399521d1a2f7b2464b9ede99ee2a50c94024a9d3e6e2d8c41432ec4d5",
+        "raw_t4_sha256": "74835e48311d95d8c74c06a6c6432c53db5cdb202c68eb74ff761eef9de2258b",
+        "residual_sum_squares": 0.287862008441679,
+        "selected_indices": [
+          3,
+          9,
+          11,
+          21
+        ],
+        "selected_indices_sha256": "8c8aac02b9038067515b29f56be66fc36b9d39145162fadcab44f3e279d60251",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-21",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            3,
+            9,
+            11,
+            21
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "37d8469d3e1a3c7126b0a5886723ba56acc4724d881308379c372062789bbce1",
+      "surface": "external_official_query"
+    }
+  },
+  "status": "EXPORTED_NOT_SUBMITTED",
+  "teacher_checkpoint_sha256": "fbcb9914561c4664fa0f8d0b1791e67505841d3ac470ea7ad68d54e408ca13ec"
+}

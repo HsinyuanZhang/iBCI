@@ -1,0 +1,13 @@
+# @package _global_
+
+defaults:
+  - rt_joint_afc4_vel_m24_loso
+
+# Full AFC4's source-only normalizer is retained, then w_x/w_y are exactly
+# zeroed in normalized coordinates.  This is a component attribution arm, not
+# a new descriptor estimator or a deployment-time adaptation path.
+run_id: rt_joint_afc4_mb4_m24_loso
+tags: ["rt", "afc4_mb4", "m24", "loso", "joint_source_training", "development_only", "component_ablation"]
+
+data:
+  side_feature_group: afc4_mb4

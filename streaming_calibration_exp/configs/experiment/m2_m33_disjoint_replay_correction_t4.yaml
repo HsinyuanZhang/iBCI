@@ -1,0 +1,16 @@
+# @package _global_
+# Test-only configuration for the M33 local-heldout replay correction.
+defaults:
+  - b3s_t4_m2_loso_internal
+  - override /model: streaming_b3s_t4_m33_correction_source_exact
+
+run_id: m2_m33_disjoint_replay_correction_t4_m2
+tags: ["native-mua", "t4", "m2", "m33", "correction", "test-only", "cpu"]
+
+data:
+  calibration_n_trials: 33
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  allow_empty_heldout_query: false

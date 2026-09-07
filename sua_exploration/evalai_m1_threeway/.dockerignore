@@ -1,0 +1,15 @@
+**
+!.dockerignore
+!Dockerfile.original
+!Dockerfile.cached
+!Dockerfile.afc4.cached
+!decode_cached.py
+!cached_identity_decoder.py
+!decode_afc4_cached.py
+!afc4_cached_identity_decoder.py
+!artifacts/
+!artifacts/spint_m1_epoch19.pkl
+!artifacts/t4_m1_f1s42_identity.pkl
+!artifacts/d4_m1_f1s42_identity.pkl
+!artifacts/m1_afc4_full_all_source.pkl
+!artifacts/m1_afc4_b4_all_source.pkl

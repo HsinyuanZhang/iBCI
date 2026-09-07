@@ -1,7 +1,14 @@
 # FP32 T4 Mainline Protocol
 
-**Status:** M2 complete and task-heterogeneous; SUA 9/9 complete and strict-positive;
-confidence-FiLM code/CPU contracts reviewed with `T4@50` anchors running; encoder-INT8 deferred
+> **2026-08-02 boundary audit:** the apparent selected-M50 conflict has been resolved by a
+> scorer-level reconstruction of actual trial indices. Activity support is `[0:30)`, T4 fitting
+> is `[0:50)`, and validation scoring is `[50:end]`; trials 30--49 were not scored. The M50
+> anchors are therefore usable as reused-development evidence, not formal confirmation. This
+> boundary audit alone does not re-authorize any new quantization work. New work is governed by
+> [`T4_NEXT_EXPERIMENT_PROTOCOL_V2.md`](T4_NEXT_EXPERIMENT_PROTOCOL_V2.md).
+
+**Status:** historical completed program; selected M50 boundary reconstructed as non-overlapping;
+M2 evidence and all future experiment authorization remain separate
 
 **Baseline protocol frozen:** 2026-07-30
 
@@ -124,9 +131,15 @@ parameter and session-MAC reduction, unchanged support state, and a strict
 positive T4-content gate. Its B3T/B3TS execution is now genuinely bin-streaming:
 only `[N,K=12]` current-trial basis coefficients are retained, not `[N,T=100]`;
 the learned network is unchanged and batch/full/bin equivalence is tested.
-No branch authorizes INT8 to start before both
-requested additional FP32 experiments have completed and the final FP32
-architecture has been selected.
+No branch authorized INT8 before the requested additional FP32 experiments had resolved and the
+final FP32 architecture was selected. That condition is now satisfied. The immutable selection
+receipt is `manifests/sua_t4_final_architecture_selection_v1.json`: it binds the strong three-seed
+T4-vs-B0/TS4 source result, the terminal candidate artifacts, the strict manifest and teacher,
+and the exact three `T4@50` epoch-11 checkpoints. Formal-test files remain sealed.
+The three-seed T4-vs-B0/TS4 matrix is the M30 mechanism-eligibility evidence; it is not relabelled
+as an M50 comparison. M50 selection is bound by its own three seed artifacts. The downstream
+quantization claim is only paired `INT8-M50 minus FP32-M50` degradation on each exact selected
+checkpoint, not a new claim that M50 was compared with B0/TS4 under a 30/50/50 matrix.
 
 Only the selected final architecture advances to encoder PTQ/QAT. Its paired
 FP32 checkpoint is the quantization reference; losing FP32 candidates are not
@@ -192,9 +205,10 @@ quantization already completed on another platform.  The local experiment is:
 2. Quantize the normalized four-dimensional T4 tensor at the same activation
    scale used by pooled activity at the real `post0 [68→64]` input.  Concatenate
    in the integer domain; a floating-point side-feature bypass is forbidden.
-3. Fit/select PTQ scales using only the 27 training sessions.  Evaluate the
-   frozen candidate on the six validation sessions with the same chronological
-   first-30 support and `trials[30:]` windows.  Do not open formal-test NWBs.
+3. Fit/select PTQ scales using only the 27 training sessions. Activity identity uses the
+   chronological first 30 trials, T4 is fitted from the chronological first 50 rewarded labelled
+   trials, and both FP32 and quantized validation are scored only on `trials[50:]`. Evaluate the
+   frozen candidate once on the six validation sessions. Do not open formal-test NWBs.
 4. PTQ passes only if end-to-end `T4 INT8 encoder + FP decoder`
    `ΔR² ≥ −0.01`, every activation-edge saturation rate is at most `0.5%`,
    INT32 overflow is zero, and the STE encoder output equals the independent
@@ -206,13 +220,13 @@ quantization already completed on another platform.  The local experiment is:
 
 Automation:
 
-- `sua_exploration/scripts/watch_and_launch_t4_encoder_int8.sh` (disabled after
-  the execution-order amendment; restart only after final architecture freeze)
+- `sua_exploration/scripts/watch_and_launch_t4_encoder_int8.sh` (the old watcher remained stopped;
+  the selected M50 run is launched directly after the new fail-closed preflight)
 - `sua_exploration/scripts/run_t4_encoder_int8_after_positive.sh`
 - `sua_exploration/scripts/eval_t4_encoder_int8_dandi688.py`
 - `sua_exploration/scripts/train_t4_encoder_qat_dandi688.py`
 - `sua_exploration/scripts/aggregate_t4_encoder_int8.py`
 
-The permitted claim from this local work is **T4 encoder INT8 + FP decoder**.
+The permitted claim from this local work is **T4@50 encoder INT8 + FP decoder**.
 Any full-model quantization statement must cite the separate decoder result as
 independent evidence instead of attributing decoder quantization to this run.

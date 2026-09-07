@@ -1,0 +1,25 @@
+# @package _global_
+
+# Frozen Gate-B K4 screen.  The online activity/calibration tensor retains the
+# existing M2 B3S parity cap (100 bins); the K4 side feature itself is computed
+# separately from raw full trials and rejects any cap/interpolation path.
+defaults:
+  - b3s_t4_m2_loso_internal
+
+run_id: native_mua_k4_m2_loso_internal
+tags: ["native-mua", "k4", "m2", "loso", "internal-only", "gate-b"]
+
+data:
+  side_feature_group: k4
+  calibration_n_trials: 33
+  smooth_calibration: false
+  max_trial_length: 100
+  random_calibration: false
+  standardize_covariates: false
+  use_intertrials: true
+  remove_calib_still_times: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+
+model:
+  freeze_decoder: true

@@ -1,0 +1,9 @@
+# @package _global_
+
+defaults:
+  - m1_afc4_emg_full_all_source_final
+
+run_id: m1_afc4_emg_b4_all_source_final_dev12
+tags: [native-mua, m1, afc4-emg, all-source, b4, final-candidate, fixed12]
+data:
+  afc4_arm: b4

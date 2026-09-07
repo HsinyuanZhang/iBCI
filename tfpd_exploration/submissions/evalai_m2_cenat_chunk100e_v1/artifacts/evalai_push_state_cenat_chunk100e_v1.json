@@ -1,0 +1,66 @@
+{
+  "arm": "cenat_chunk100e_tta",
+  "image_id": "sha256:28139d5d173b4ee84e4cc5916b9d043e0608fb06f9b24fc8dfff14246da5dc79",
+  "image_tag": "spint-t4-m2:cenat-chunk100e-s42-33181fa3",
+  "payload_sha256": "33181fa3c1543b9af777a17571d9c98d427b7e65d49375716d624e80c99603f3",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m2_cenat_chunk100e_evalai_push_state_v1",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 581763,
+    "ignore_submission": false,
+    "input_file": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581763/7a117226-0cd2-492c-8412-c102c87c1b.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Jointly fine-tuned SPINT M2 decoder (warm-started from the sealed Selected-T4 checkpoint; source training pools built by the same boundary-free chunk law as deployment). Runtime: seed activity pool = the session's public first-30 calibration block; during the eval stream every 100-bin window whose mean rate passes a label-free running-median gate is committed to the pool (capacity 30) and the cached identity is recomputed. Decode-before-commit; no labels, no trial boundaries, no backpropagation online. T4 few-shot calibration uses the 4 public calibration labels per session. Local held-out result: +0.0785 R2 over the static champion (6/6 sessions).",
+    "method_name": "M2 Ce-NAT chunk100e continual TTA (exploratory, sensitivity tier)",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": true
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-03T09:39:13.910749Z",
+    "when_made_public": null
+  },
+  "submission_id": 581763,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:bd1cf674-cef2-4b88-ada1-a3c0cd44d5e9",
+  "uploaded_manifest_digest": "sha256:28139d5d173b4ee84e4cc5916b9d043e0608fb06f9b24fc8dfff14246da5dc79",
+  "uuid_tag": "bd1cf674-cef2-4b88-ada1-a3c0cd44d5e9"
+}

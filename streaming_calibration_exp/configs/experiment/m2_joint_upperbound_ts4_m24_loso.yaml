@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - override /model: streaming_b3s_t4
+  - override /data: falcon_m2
+run_id: m2_joint_t4_upperbound_v2_ts4
+no_early_stopping: true
+require_baseline_validation: false
+tags: ["m2", "joint-upperbound", "ts4", "m24", "source-only"]
+data:
+  validation_protocol: loso
+  loso_fold: 1
+  calibration_n_trials: 24
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  side_feature_group: ts4
+model:
+  freeze_decoder: false
+  require_clean_teacher_receipt: true
+trainer:
+  max_epochs: 12
+callbacks:
+  early_stopping: null

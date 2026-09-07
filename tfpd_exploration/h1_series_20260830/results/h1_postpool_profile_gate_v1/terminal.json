@@ -1,0 +1,27 @@
+{
+  "attempt_sha256": "83ede9315689a40c66ac76d609ea1f805bfc641ccf99bb427df6f4eec0851cf3",
+  "decision": {
+    "mean_gain": 0.007046316627082927,
+    "nonnegative_dates": 2,
+    "pass": false,
+    "required_mean_gain": 0.005,
+    "required_nonnegative_dates": 4,
+    "required_worst_date_gain": -0.01,
+    "verdict": "STOP_H1_POSTPOOL_PROFILE_FAMILY",
+    "worst_date_gain": -0.005266574041607297
+  },
+  "design_sha256": "54309e34e24286d777f2c94434d8661393958d7f2fc60b6825c292c9d4c0c0f6",
+  "direct_predecessor_terminal_sha256": "ec86e26c513c3ccb9ab4ca5f8d0f0ce244e6b162b507c635f581078559a1804a",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu1_touched": false,
+  "gpu_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "scalar_predecessor_terminal_sha256": "8958985646dd801a590cd7bf5429d1be6d061e4eb95c60857e67b9ec007c0f5f",
+  "schema": "h1_postpool_profile_gate_v1_terminal",
+  "score_sha256": "d70524f4b0df907ad8017e64bede429a1801738e17aa6bd11c038285a51a541e",
+  "status": "COMPLETE_H1_POSTPOOL_PROFILE_GATE_SOURCE_OOF",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "workorder_sha256": "119b6384d0390e9c94640b55cdb5811e9b4df4123a3cce01951d407ff067cb3b"
+}

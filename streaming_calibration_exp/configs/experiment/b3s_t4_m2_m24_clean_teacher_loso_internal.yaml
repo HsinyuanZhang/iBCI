@@ -1,0 +1,37 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3s_t4
+  - override /data: falcon_m2
+
+run_id: native_mua_ssc_t4_v1_baseline_m2
+no_early_stopping: true
+# This source-only experiment is anchored by the separately validated clean
+# teacher receipt.  The legacy B0 baseline manifest names a different teacher
+# SHA and therefore must not be used as a second, contradictory prerequisite.
+# Keep the global default true for all ordinary experiments.
+require_baseline_validation: false
+tags: ["native-mua", "m2", "m24", "clean-teacher", "ordinary-b3s-t4", "source-only"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 1
+  calibration_n_trials: 24
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0
+  side_feature_group: t4
+
+model:
+  teacher_receipt_path: ${paths.root_dir}/../sua_exploration/results/m2_ssc_t4_v1/clean_teacher_receipt.json
+  require_clean_teacher_receipt: true
+  freeze_decoder: true
+  support_prediction_consistency_weight: 0.0
+  ssc_t4_prediction_consistency_weight: 0.0
+
+trainer:
+  max_epochs: 12
+
+callbacks:
+  early_stopping: null

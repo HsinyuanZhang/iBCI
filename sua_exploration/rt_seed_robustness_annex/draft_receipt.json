@@ -1,0 +1,457 @@
+{
+  "development_only": true,
+  "failure_policy": {
+    "accounting_or_pair_mismatch": "invalid and no aggregate",
+    "missing_or_failed_cell": "no aggregate, no imputation, no substitute fold/seed, no score-based rerun; preserve seed-42 primary unchanged"
+  },
+  "formal_heldout_opened": false,
+  "freeze": {
+    "date": "2026-08-10",
+    "seed42_blinded": false,
+    "seed42_primary_known_at_freeze": true,
+    "seed43_44_outputs_known_at_freeze": false,
+    "selection_disclosure": "Subset was chosen after sealed seed-42 results were known and before seed-43/44 outputs were known; this is procedural score-independence, not a blinded seed-42 selection.",
+    "selection_used_scores": false
+  },
+  "immutable_anchors": {
+    "full_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "mode": "444",
+      "path": "sua_exploration/results/k4_rt_loso_v1/rt_seed42_clean_nested_aggregate.json",
+      "schema": "rt_seed42_clean_nested_loso_aggregate_v1",
+      "seed": 42,
+      "sha256": "b8e5abcbe6cf7688fb5cb76c3bbd20b835b1e6332de1a59bf0ce2d692974f54a",
+      "status": "PASS_RT_SEALED"
+    },
+    "mb4_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "mode": "444",
+      "path": "sua_exploration/results/rt_mb4_matched_clean_nested_v1/RT_MB4_MATCHED_FULL15_AGGREGATE_v1.json",
+      "schema": "rt_mb4_matched_full_minus_mb4_aggregate_v1",
+      "seed": 42,
+      "sha256": "152b76c149ae6c0cdc75c7320a3ba80863bac5f56abfaea87e58286262d6768a",
+      "status": "PASS_RT_FULL_MINUS_MB4_ALL_15_PAIRED"
+    },
+    "seed42_seal_marker": {
+      "folds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "mode": "444",
+      "path": "sua_exploration/results/k4_rt_loso_v1/rt_seed42_clean_nested_seal.marker",
+      "schema": "rt_seed42_clean_nested_loso_seal_marker_v1",
+      "seed": 42,
+      "sha256": "ef637fc64aaf317deb2111d2daaed2bc7c0aa00e0786a9bf09004b1d82ff2402",
+      "status": "PASS_RT_SEALED"
+    }
+  },
+  "implementation_snapshot": {
+    "streaming_calibration_exp/configs/data/rt_nested_loso_m24.yaml": {
+      "mode": "664",
+      "sha256": "561c7f163cc19cd485d88810d3f9d4ffb4099fe39761895fc4215d188669c911"
+    },
+    "streaming_calibration_exp/configs/experiment/rt_clean_nested_loso_m24.yaml": {
+      "mode": "664",
+      "sha256": "524a9f96a6f321b0c6bdf7927a607389d1752d61f577c5c366a08f29ffbf1600"
+    },
+    "streaming_calibration_exp/configs/model/streaming_b3s_t4.yaml": {
+      "mode": "664",
+      "sha256": "5d18cf026359ec4bcebb081c11b69aa08d97fa342de675d2a8d5d24ff7741195"
+    },
+    "streaming_calibration_exp/configs/trainer/default.yaml": {
+      "mode": "664",
+      "sha256": "9c5693dc2f7c2a3866da678a2a93ff8a9c638936a11d623a1443932016ab0915"
+    },
+    "streaming_calibration_exp/scripts/run_rt_clean_nested_loso.py": {
+      "mode": "664",
+      "sha256": "9a5829017defa4a230d6ae0b7f3a4092394ecbd078de6d4822940e2cda30a59a"
+    },
+    "streaming_calibration_exp/src/callbacks/rt_nested_selection_receipt.py": {
+      "mode": "664",
+      "sha256": "b7d2fa4eae1eff53fdce160943036593b918cef63fe4a81a99094898c8aaa0f8"
+    },
+    "streaming_calibration_exp/src/data/rt_nested_loso_datamodule.py": {
+      "mode": "664",
+      "sha256": "eba9a43f1ed30f65bd0d7e2de6856d42cbf733fffeccdaad7905cae6108237dd"
+    },
+    "streaming_calibration_exp/src/models/components/streaming_spint.py": {
+      "mode": "664",
+      "sha256": "141129622ee2c187c053a0139f3926ab1880871d51dc88d0f8b93cc1b734ad9a"
+    },
+    "streaming_calibration_exp/src/rt_clean_nested_loso_eval.py": {
+      "mode": "664",
+      "sha256": "316d1ea77cc83715bdee820887d49eb782fabcc2745098ea44c29f3dc649707f"
+    }
+  },
+  "launch_blockers": [
+    {
+      "code": "RUNNER_MISSING_AFC4_MB4_CLI",
+      "detail": "run_rt_clean_nested_loso.py does not accept afc4_mb4; add and hash-review the launcher before GPU launch."
+    },
+    {
+      "code": "INITIAL_STATE_HASH_NOT_EXPOSED",
+      "detail": "future paired cells must record an initial_state_hash; no sealed receipt currently exposes this field."
+    },
+    {
+      "code": "ACCOUNTING_REQUIRED_AT_RUN_TIME",
+      "detail": "seed-42 MB4 receipt explicitly lacks parameter/MAC/state accounting; every new cell must emit all three fields."
+    }
+  ],
+  "pair_invariants": {
+    "exact_equal": [
+      "parameter_count",
+      "macs_per_decode_call",
+      "cached_state_bytes",
+      "initial_state_hash"
+    ],
+    "required": {
+      "model_state_unchanged": true,
+      "optimizer_present": false,
+      "target_backpropagation": false
+    }
+  },
+  "per_cell_required_fields": [
+    "seed",
+    "fold",
+    "arm",
+    "target_session",
+    "inner_validation_session",
+    "r2_variance_weighted",
+    "query_windows_evaluated",
+    "selected_epoch",
+    "selected_global_step",
+    "status",
+    "model_state_unchanged",
+    "model_state_before_sha256",
+    "model_state_after_sha256",
+    "target_backpropagation",
+    "optimizer_present",
+    "source_split_manifest_sha256",
+    "source_normalizer_sha256",
+    "checkpoint_sha256",
+    "parameter_count",
+    "macs_per_decode_call",
+    "cached_state_bytes",
+    "initial_state_hash"
+  ],
+  "protocol": {
+    "arms": {
+      "afc4_mb4": {
+        "descriptor": "[0,0,||W||,b]",
+        "implementation_group": "k4__normalized_component_mask",
+        "side_dim": 4
+      },
+      "afc4_vel": {
+        "descriptor": "[w_x,w_y,||W||,b]",
+        "implementation_group": "k4",
+        "side_dim": 4
+      }
+    },
+    "bin_size_ms": 20,
+    "cells": 20,
+    "checkpoint_selection": "val_heldin/r2_mean on the cyclic inner-validation session only",
+    "fresh_fit_from_scratch": true,
+    "max_epochs": 35,
+    "no_early_stopping": true,
+    "no_seed42_checkpoint_reuse": true,
+    "outer_fold_sampling_unit": "fold_within_seed; seed is a nested training repeat; never pool seed\u00d7fold as independent samples",
+    "outer_folds": [
+      0,
+      3,
+      4,
+      11,
+      12
+    ],
+    "paired_fold_seed_pairs": 10,
+    "paired_initialization": "same fold/seed must record identical initial_state_hash for Full and MB4; missing hash is fail-closed",
+    "query_start_trial": 24,
+    "seeds": [
+      43,
+      44
+    ],
+    "split": "development_clean_nested_outer_LOSO",
+    "support_budget_trials": 24,
+    "target_calibration": "support velocity labels only; target query labels are scoring-only",
+    "target_evaluation": "one-shot outer target; no target optimizer, backward, Trainer.test, or target query labels during fit/selection",
+    "task": "rt",
+    "window_size_bins": 50
+  },
+  "readout": {
+    "cross_seed": [
+      "two_seed_means",
+      "two_seed_medians",
+      "mean_of_seed_means",
+      "both_seed_mean_positive",
+      "each_seed_at_least_4_of_5_positive",
+      "all_10_sign_count"
+    ],
+    "inferential_claim": "none; descriptive robustness only because folds are nested within seed",
+    "labels": {
+      "INCOMPLETE_NO_AGGREGATE": "any missing, failed, invalid, or accounting-incomplete cell",
+      "MIXED_DIRECTION": "complete cells but the ROBUST_DIRECTIONAL rule is not met",
+      "ROBUST_DIRECTIONAL": "both seed means and medians > 0 and each seed has at least 4/5 positive folds"
+    },
+    "pair_delta": "Full R2 minus MB4 R2, by fold and seed",
+    "per_seed": [
+      "mean",
+      "median",
+      "positive_negative_tie_counts",
+      "sample_sd",
+      "sample_se"
+    ]
+  },
+  "resource_plan": {
+    "epoch_equivalent_fit_units": 700,
+    "gpu_fit_cells": 20,
+    "no_gpu_launched_by_this_receipt": true,
+    "outer_score_only_evals": 20,
+    "paired_waves_if_two_gpus": 10,
+    "storage_estimate_status": "UNAVAILABLE_NO_SEALED_CHECKPOINT_SIZE",
+    "wall_clock_estimate_status": "UNAVAILABLE_NO_SEALED_TIMING"
+  },
+  "schema": "rt_seed_robustness_annex_v1",
+  "selection": {
+    "canonical_json_sha256_input_bytes": 1781,
+    "method": "sha256_anchor_rank_v1",
+    "ranked_folds": [
+      {
+        "fold": 11,
+        "rank": 1,
+        "rank_sha256": "055166f8aa6d53b3883385047d7c492f0349284494760f2cea1cbf79e2ebf3a2"
+      },
+      {
+        "fold": 3,
+        "rank": 2,
+        "rank_sha256": "290b8c12872e84c29e06815acafccdd60d5e09857c44e0c98db6fa40191c997e"
+      },
+      {
+        "fold": 0,
+        "rank": 3,
+        "rank_sha256": "4615dc8b88e175f53d90ba6c1588ccf908a6310e5b29a4fda86602e9e0a63d91"
+      },
+      {
+        "fold": 12,
+        "rank": 4,
+        "rank_sha256": "52d3ea98c9a159f016bd4624954c6b1a01d7bd227622ca60b9655b45d31dd9a8"
+      },
+      {
+        "fold": 4,
+        "rank": 5,
+        "rank_sha256": "6d67baa687ed89cc85fcfe4fa15efdbc34f215288bb8c016f17276ca72203481"
+      },
+      {
+        "fold": 8,
+        "rank": 6,
+        "rank_sha256": "8db28b35fed85198b218f206c3cf01436264c4819f4ebcc38c0d1d489c9eb5d9"
+      },
+      {
+        "fold": 1,
+        "rank": 7,
+        "rank_sha256": "9daa19592158fff1ffd00c260a126c6979f95cfebed2f520fecea23247fd3323"
+      },
+      {
+        "fold": 13,
+        "rank": 8,
+        "rank_sha256": "b9c87ee718dbd951cd13855a643d414b5051ebd016dee516d89c12d59c493494"
+      },
+      {
+        "fold": 5,
+        "rank": 9,
+        "rank_sha256": "bfae6247b81dbfb447eca1a373f8f2100af875c128098cb1f3371ecd98570430"
+      },
+      {
+        "fold": 9,
+        "rank": 10,
+        "rank_sha256": "c9fbd32376b7fe7826cf995a845f9894394f7b9aa1245b3a66bce3f9b9a49566"
+      },
+      {
+        "fold": 6,
+        "rank": 11,
+        "rank_sha256": "ecd8ecc7441b865f2919c3dc725502e08128db803615742b91649afc5a83e863"
+      },
+      {
+        "fold": 10,
+        "rank": 12,
+        "rank_sha256": "ed81d1ceefae50ca93b116a0ffee594ee4a312f8d54251f952c88147d963a753"
+      },
+      {
+        "fold": 14,
+        "rank": 13,
+        "rank_sha256": "efab85cc80fc98e43f9a2f5fcc6c737ba915b8f50146153c214d7248e08f56d4"
+      },
+      {
+        "fold": 2,
+        "rank": 14,
+        "rank_sha256": "f9558b329a015e7b3a0beea7c83e786b2cd2c074db849a88bf7238a805eae500"
+      },
+      {
+        "fold": 7,
+        "rank": 15,
+        "rank_sha256": "ffdba4e64c7ad6b1928ab975b0a01e7e5cdf5a1a93be30773fe66be934b266b4"
+      }
+    ],
+    "selected_fold_ids": [
+      0,
+      3,
+      4,
+      11,
+      12
+    ],
+    "selected_rank_order": [
+      11,
+      3,
+      0,
+      12,
+      4
+    ],
+    "selection_preimage": {
+      "candidate_fold_bindings": [
+        {
+          "fold": 0,
+          "inner_validation_session": "ses-RT-20131010",
+          "target_session": "ses-RT-20131009"
+        },
+        {
+          "fold": 1,
+          "inner_validation_session": "ses-RT-20131011",
+          "target_session": "ses-RT-20131010"
+        },
+        {
+          "fold": 2,
+          "inner_validation_session": "ses-RT-20131028",
+          "target_session": "ses-RT-20131011"
+        },
+        {
+          "fold": 3,
+          "inner_validation_session": "ses-RT-20131029",
+          "target_session": "ses-RT-20131028"
+        },
+        {
+          "fold": 4,
+          "inner_validation_session": "ses-RT-20131209",
+          "target_session": "ses-RT-20131029"
+        },
+        {
+          "fold": 5,
+          "inner_validation_session": "ses-RT-20131210",
+          "target_session": "ses-RT-20131209"
+        },
+        {
+          "fold": 6,
+          "inner_validation_session": "ses-RT-20131212",
+          "target_session": "ses-RT-20131210"
+        },
+        {
+          "fold": 7,
+          "inner_validation_session": "ses-RT-20131213",
+          "target_session": "ses-RT-20131212"
+        },
+        {
+          "fold": 8,
+          "inner_validation_session": "ses-RT-20131217",
+          "target_session": "ses-RT-20131213"
+        },
+        {
+          "fold": 9,
+          "inner_validation_session": "ses-RT-20131218",
+          "target_session": "ses-RT-20131217"
+        },
+        {
+          "fold": 10,
+          "inner_validation_session": "ses-RT-20150316",
+          "target_session": "ses-RT-20131218"
+        },
+        {
+          "fold": 11,
+          "inner_validation_session": "ses-RT-20150317",
+          "target_session": "ses-RT-20150316"
+        },
+        {
+          "fold": 12,
+          "inner_validation_session": "ses-RT-20150318",
+          "target_session": "ses-RT-20150317"
+        },
+        {
+          "fold": 13,
+          "inner_validation_session": "ses-RT-20150320",
+          "target_session": "ses-RT-20150318"
+        },
+        {
+          "fold": 14,
+          "inner_validation_session": "ses-RT-20131009",
+          "target_session": "ses-RT-20150320"
+        }
+      ],
+      "candidate_fold_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "protocol": "rt_seed_robustness_annex_v1",
+      "seed42_full_aggregate_sha256": "b8e5abcbe6cf7688fb5cb76c3bbd20b835b1e6332de1a59bf0ce2d692974f54a",
+      "seed42_mb4_aggregate_sha256": "152b76c149ae6c0cdc75c7320a3ba80863bac5f56abfaea87e58286262d6768a",
+      "seed42_seal_sha256": "ef637fc64aaf317deb2111d2daaed2bc7c0aa00e0786a9bf09004b1d82ff2402"
+    },
+    "selection_preimage_sha256": "3e0463059d8a4042be4d3374c226178bfe40283d48823be8c9856b90f3de17ad",
+    "selection_used_scores": false
+  },
+  "status": "DRAFT_PREREGISTRATION_NOT_AUTHORIZED_NO_GPU"
+}
+

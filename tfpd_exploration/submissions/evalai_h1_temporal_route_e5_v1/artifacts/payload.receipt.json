@@ -1,0 +1,188 @@
+{
+  "banks": {
+    "c2_ckpt_sha256": "ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215",
+    "c2_payload_sha256": "91ef13cc94b9ab865c8f926dcbb6d33e9628bf9cbc9b757665d10e33cfda144a",
+    "e0_dim": 700,
+    "e0_is_fused_identity": true,
+    "hc_dim": 4,
+    "n_tags": 27,
+    "official_tags": [
+      "S0_set_1",
+      "S0_set_2",
+      "S1_set_1",
+      "S1_set_2",
+      "S1_set_3",
+      "S2_set_1",
+      "S2_set_2",
+      "S3_set_1",
+      "S3_set_2",
+      "S4_set_1",
+      "S4_set_2",
+      "S5_set_1",
+      "S5_set_2",
+      "S6_set_1",
+      "S6_set_2",
+      "S7_set_1",
+      "S7_set_2",
+      "S8_set_1",
+      "S8_set_2",
+      "S9_set_1",
+      "S9_set_2",
+      "S10_set_1",
+      "S10_set_2",
+      "S11_set_1",
+      "S11_set_2",
+      "S12_set_1",
+      "S12_set_2"
+    ],
+    "per_tag": {
+      "S0_set_1": {
+        "e0_sha256": "5875f0c64a4e3be2cbbb833c63446951b2826e5ee5a0451464bbddfc6572f30c",
+        "hc_sha256": "85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2",
+        "session": "ses-19250101T111740"
+      },
+      "S0_set_2": {
+        "e0_sha256": "58c9bb87083289870820591b177e96d928135f08e537f539dc37a9cf9eb985a9",
+        "hc_sha256": "d803dc7f5972229248a5890eefd297f9112f3ebbe43099b1b873761045ba6d0c",
+        "session": "ses-19250101T112404"
+      },
+      "S10_set_1": {
+        "e0_sha256": "2bda8e27d40a931efa41a63f1a0f83eeb9130c1e65277bde5d7dc2965cfa7f43",
+        "hc_sha256": "caeaf425c21b99cf90be1d21b83031868d024ac1d34201fcae54e27450784d04",
+        "session": "ses-19250203T113515"
+      },
+      "S10_set_2": {
+        "e0_sha256": "54e95f56ca1658d22bd4e99f278b2edb716c3895c07744907a8ff06cd468f930",
+        "hc_sha256": "4ddaede283c20386efbb6723a0c3fd227feb4ae72f3265de3a1365739806dc15",
+        "session": "ses-19250203T114018"
+      },
+      "S11_set_1": {
+        "e0_sha256": "1a0eb27e911e9f631d0f4d9228ce70457791069372fad7fe2fddd2f89ed07132",
+        "hc_sha256": "75d061f89b6cbdfdac9cb0910aafa73b7482ec5b0efe411eb5f84579859791f2",
+        "session": "ses-19250206T112219"
+      },
+      "S11_set_2": {
+        "e0_sha256": "60b73f87cd3dcd6874e2a7d58195f39dda5d54099a941c1d150180a03e7e4ce5",
+        "hc_sha256": "a919e59a7620a96784bf223726c80838b588f80f1de3cb32bf47a10887b6a6be",
+        "session": "ses-19250206T112712"
+      },
+      "S12_set_1": {
+        "e0_sha256": "4723dd7f6584d60cf6eeb1b5b95a4c352f074c26e8a92e3acedda81522b701f1",
+        "hc_sha256": "860ae303652fe8029f0fba3d5195f7bf6e81b65ab92320bf6d7de1abc405974a",
+        "session": "ses-19250209T111826"
+      },
+      "S12_set_2": {
+        "e0_sha256": "35d662c5fa7aa5a5df3e0bb9fe637c9a2e242d31acfb605c82484a060eb3519d",
+        "hc_sha256": "4a0015ed8abb3c3b491a4acf8ed7e99620550a3359477ac1788eb9da3ea36d3d",
+        "session": "ses-19250209T112327"
+      },
+      "S1_set_1": {
+        "e0_sha256": "b6a11843daab2e44150064045b0f6bb11ad08bb51f166e84294e7f9ca8e654bd",
+        "hc_sha256": "6472d28da20fd9a90fb2fc4325de7dd9876d80e17d44ab9771c7c7dee6e5bebf",
+        "session": "ses-19250108T110520"
+      },
+      "S1_set_2": {
+        "e0_sha256": "d90d68b1f3c4f1893d2d2a3e5eabfd1de435c4392d9114b1a768c26f46bf648a",
+        "hc_sha256": "f0ab825a9f0976505214c9c067f14f01f39c749a8f6a7ff71386410ccccc0a64",
+        "session": "ses-19250108T111022"
+      },
+      "S1_set_3": {
+        "e0_sha256": "38fba83f62e77df65c2b38f8bdc33175cc4cf2c991e99ea93835c8bb3130bf52",
+        "hc_sha256": "86a446d15c5b885b864209bc7684b4d713d3fdbfb867b25bee31fc5af20731d6",
+        "session": "ses-19250108T111455"
+      },
+      "S2_set_1": {
+        "e0_sha256": "fa98a12ee5854c4b2c280f74086a50071bfb9146af5dc1c06c2b77b2b35d95bf",
+        "hc_sha256": "77b8458b1782620c3d127406065e1184ab86c38f58846fe62485526270ab5a00",
+        "session": "ses-19250113T120811"
+      },
+      "S2_set_2": {
+        "e0_sha256": "8b1d29fb838ef37f8d54f636bc4703e35a6c70d89eb522a76616d35545370797",
+        "hc_sha256": "710ea02e909890c814b32427c5f95432655855bae1a68d2350302ca8cce6c2bc",
+        "session": "ses-19250113T121303"
+      },
+      "S3_set_1": {
+        "e0_sha256": "be21c6962c7544b7005c572b0e3f568f415d066a4ced8625276f26a7c596e67f",
+        "hc_sha256": "cf5487cdab3fccb189b5aa21debee362fd113149224d68ce0dddac0994f6a8b3",
+        "session": "ses-19250115T110633"
+      },
+      "S3_set_2": {
+        "e0_sha256": "94d5fc8d53d9f37f5c682bf2a634574c4699037d990fceee0834b0a004e2780e",
+        "hc_sha256": "1fb82a2fe24070f6e5dc64eaf8fd915abed696c7d8ae548e45989c55e3224c71",
+        "session": "ses-19250115T111328"
+      },
+      "S4_set_1": {
+        "e0_sha256": "310913e5a22d54f1ae78d25a991e3a04a33728f4bce87e8dd6251217c57fe57f",
+        "hc_sha256": "9f5fa91687713b8893d958a72984a3f5189b93295df872a19de0b94e16b614ad",
+        "session": "ses-19250119T113543"
+      },
+      "S4_set_2": {
+        "e0_sha256": "0f39a9d798e961c48849d9ff4bd48c071695bda603cd10292bde00b0af2f0402",
+        "hc_sha256": "39198e7284d93a1b9bc649b9614b8a47160c9d48b8a006ad1b52856e3ae015db",
+        "session": "ses-19250119T114045"
+      },
+      "S5_set_1": {
+        "e0_sha256": "cafded2d5427f57a3061fef398239b747a9e6785552d5ca9c7f67a54dfcb9d19",
+        "hc_sha256": "0c8c8f64b10bb11a86638af6aff247f2278616384007e2586f8fce86b1c3a41e",
+        "session": "ses-19250120T115044"
+      },
+      "S5_set_2": {
+        "e0_sha256": "aef10d82b64dcc16246ce3e3bcb0f3abbf90f7775ecb42e48b6addd01b597aef",
+        "hc_sha256": "3a560d84d4f82822c9550f749f1dd21807f0720d37496990c48d05633c4070f1",
+        "session": "ses-19250120T115537"
+      },
+      "S6_set_1": {
+        "e0_sha256": "a01fbf1387ffe8363dc2d188b2776233e914cafcd5bd2cba36d172815872c8fa",
+        "hc_sha256": "dcfb86316d2d7af8f10ff38234b08bb130553cdb209dcdab892bfc0ed59a0feb",
+        "session": "ses-19250126T113454"
+      },
+      "S6_set_2": {
+        "e0_sha256": "74cad51192ee5f7be73a67ea09c63ec0de71f2e1059c2cd3b179f7f5d29f4125",
+        "hc_sha256": "e2987cf92cd1eeb2bd25a01bf4a72903dfcb60623524a2a9c566fde03e067e70",
+        "session": "ses-19250126T114029"
+      },
+      "S7_set_1": {
+        "e0_sha256": "166767565a6e346af94772f627bedd131f1ce502cfbbdd4b7b9e98ece023a039",
+        "hc_sha256": "9044c8e904b426a75accb2857d248327fe9053d4f5708b22390c50f0dcb71637",
+        "session": "ses-19250127T120333"
+      },
+      "S7_set_2": {
+        "e0_sha256": "a66ef4fa28f14c18543a080f2d7dc3ff9b4fea98046db422fba304fe3b471642",
+        "hc_sha256": "11860768282cacd70e609c96f30bf100a3a5dca700f6090dd7d1ed4f7d701181",
+        "session": "ses-19250127T120826"
+      },
+      "S8_set_1": {
+        "e0_sha256": "766b46cef2d219471965d18491b9ed62712a17f449b108d815a0d19a1c17d0a4",
+        "hc_sha256": "5178fec5f87dc9fd5e2da4140ac0e6257187f7d757d40aea721496eedbec1e40",
+        "session": "ses-19250129T112555"
+      },
+      "S8_set_2": {
+        "e0_sha256": "f35900d0ca252b2a45a2d6dadac8b5d0ef1828bfce921ddf36b4fcaeba4f3af0",
+        "hc_sha256": "1da171ddd58a32580feb03433ff51acd07c62c55fc7870317684584eb10c4ac1",
+        "session": "ses-19250129T113059"
+      },
+      "S9_set_1": {
+        "e0_sha256": "2d133e16295fb7f59ca35f5cfc6762d94b9a491cd7cfca4521f9b6dd0d6b0380",
+        "hc_sha256": "0db194d6449e409454b063634d102ddfc68b579e2223efa4aca401a09a52fc6b",
+        "session": "ses-19250202T113958"
+      },
+      "S9_set_2": {
+        "e0_sha256": "0a81be90f92f4e16664236afac3ef5404d05f00df05346c92562a495873ddf4d",
+        "hc_sha256": "1de7c4879d63abcdf362e19758b09d6f15f8764566e63e52526691bd476dd16a",
+        "session": "ses-19250202T114452"
+      }
+    }
+  },
+  "bytes": 28967293,
+  "c2_ckpt_sha256_calibration_only": "ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215",
+  "c2_identity_swap": false,
+  "epoch": 5,
+  "epochs_target": 12,
+  "kind": "route",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_temporal_route_e5_v1/artifacts/h1_temporal_route_ema_e5.pkl",
+  "payload_sha256": "faf2fecdf8ae1b14bbc5461523a96e490cffcd7613795ce18688685fa384cb52",
+  "schema": "h1_temporal_trf_payload_receipt_v1",
+  "uses_old_c2_decoder": false,
+  "view": "EMA",
+  "weight_sha256": "beffe9e368ee69f94832a697f63c6613e66ba5c0c95aacb1f30b630a85094c89"
+}

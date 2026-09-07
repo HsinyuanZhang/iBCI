@@ -1,0 +1,58 @@
+{
+ "decision_classification": "FILM_EARLY_REPLICATION_ONLY",
+ "ep_film_per_date": [
+  0.4240346405310966,
+  0.3599357395684882,
+  0.6012660501470135,
+  0.339523614404813,
+  0.42480041221054493
+ ],
+ "ep_gain_mean": 0.023927191361337495,
+ "ep_gain_per_date": [
+  0.021928217494672775,
+  0.06403301976471798,
+  0.016302976491969656,
+  -0.008003867716063096,
+  0.025375610771390167
+ ],
+ "ep_gate": {
+  "mean": 0.023927191361337495,
+  "nonnegative_dates": 4,
+  "pass": true,
+  "per_date": [
+   0.021928217494672775,
+   0.06403301976471798,
+   0.016302976491969656,
+   -0.008003867716063096,
+   0.025375610771390167
+  ],
+  "worst": -0.008003867716063096
+ },
+ "ep_zero_per_date": [
+  0.4021064230364238,
+  0.2959027198037702,
+  0.5849630736550439,
+  0.3475274821208761,
+  0.39942480143915476
+ ],
+ "first_fold_film_state_sha256": {
+  "EP-FILM": "60eb1161d9621b0830d226e0eaf07aefb0ee1f56eb72d42880e95aa518bc6b58",
+  "LP-FILM": "fba420f403b248ee0a6fe6c1898f704dc6ae4be0be03d3a92324771afe979736"
+ },
+ "init_film_state_sha_counter": {
+  "8974d5dd3f90bb5b7f72bfd53284a01d60cbf8bd1ac9c76ce04f15afe844e1b1": 5,
+  "ff2263b5705a499caeb5fe807f9889479fdbc31f806b42de82b11d351ba210cf": 10
+ },
+ "lp_gain_mean": -0.00021630915713821697,
+ "lp_gain_per_date": [
+  0.0032916336156156856,
+  0.004903592038423554,
+  0.0015250252102021467,
+  -0.003917290821681518,
+  -0.006884505828250953
+ ],
+ "mode": "full",
+ "perm_sha256": "22a9cbd3bdd23fe5f27f1b0b95cc954a0436a5f01895aefa9de09aab52b45147",
+ "run_status": "COMPLETE_H1_CALIBRATION_PROFILE_FILM_SOURCE_OOF",
+ "schema": "h1_calibration_profile_film_content_diag_v1_mode_result"
+}

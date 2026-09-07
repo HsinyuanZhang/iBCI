@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - rt_joint_afc4_vel_m24_loso
+
+# Full AFC4's source-only normalizer is retained, then only b remains in the
+# normalized [w_x,w_y,||W||,b] interface.
+run_id: rt_joint_afc4_b4_m24_loso
+tags: ["rt", "afc4_b4", "m24", "loso", "joint_source_training", "development_only", "component_ablation"]
+
+data:
+  side_feature_group: afc4_b4

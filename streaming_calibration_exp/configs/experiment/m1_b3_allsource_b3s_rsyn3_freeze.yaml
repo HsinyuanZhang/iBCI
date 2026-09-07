@@ -1,0 +1,34 @@
+# @package _global_
+
+# Wave-2: freeze the official epoch-19 decoder, train rSyn3 encoder only.
+# Same 12-epoch task-only budget as submitted joint b3s_rsyn3.
+defaults:
+  - override /data: falcon_m1_all_source_b3s_rsyn3
+  - override /model: streaming_b3s_rsyn3_m1
+  - override /callbacks: m1_all_source_fixed_epoch
+
+task_name: m1_b3_allsource_v1_b3s_rsyn3_freeze
+run_id: m1_b3_allsource_v1_b3s_rsyn3_freeze_s42_e12
+tags: [native-mua, m1, b3s, rsyn3, all-source, freeze-decoder, fixed12]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: train/loss
+require_baseline_validation: false
+
+model:
+  teacher_ckpt_path: ${paths.m1_teacher_ckpt_path}
+  freeze_decoder: true
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+  predict_scaled_behavior: false
+  behavior_scaling_factor: 1.0
+
+trainer:
+  min_epochs: 12
+  max_epochs: 12
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

@@ -1,0 +1,904 @@
+{
+  "api_inventory": {
+    "asset_detail_endpoint_template": "https://api.dandiarchive.org/api/dandisets/000688/versions/0.250122.1735/assets/{asset_id}/",
+    "asset_list_endpoint": "https://api.dandiarchive.org/api/dandisets/000688/versions/0.250122.1735/assets/?page_size=100",
+    "global_asset_count": 111,
+    "global_bytes": 13179483710,
+    "page_count_fields": [
+      111,
+      null
+    ],
+    "page_lengths": [
+      100,
+      11
+    ],
+    "page_size": 100,
+    "sub_m_asset_count": 28,
+    "sub_m_bytes": 2915252180,
+    "version_endpoint": "https://api.dandiarchive.org/api/dandisets/000688/versions/0.250122.1735/"
+  },
+  "dandiset": {
+    "assets_summary": {
+      "number_of_bytes": 13179483710,
+      "number_of_files": 111,
+      "number_of_subjects": 4
+    },
+    "date_published": "2025-01-22T17:35:47.328807+00:00",
+    "doi": "10.48324/dandi.000688/0.250122.1735",
+    "id": "DANDI:000688/0.250122.1735",
+    "identifier": "DANDI:000688",
+    "name": "Long-term recordings of motor and premotor cortical spiking activity during reaching in monkeys",
+    "schema_version": "0.6.4",
+    "version": "0.250122.1735"
+  },
+  "external_score_only_runner": {
+    "reason": "the existing frozen-manifest MultiSessionDataModule path is tied to the sub-C 27/6/6 source/development registry and max_units_exclusive=100; it is not an authorized sub-M score-only entry point",
+    "required_before_any_gpu_or_score": [
+      "consume this exact scope manifest and a separately authorized schema-preflight receipt",
+      "load only the three bound terminal checkpoints and bound source-only normalizers",
+      "provide no train loader, optimizer, backward path, checkpoint writer, or target normalizer fit",
+      "enforce activity support 30, T4 pool 50, and query start 50",
+      "emit zero target optimizer/backward/update counters and fail if any are nonzero",
+      "write to a fresh single-use output root and refuse retry or overwrite"
+    ],
+    "status": "blocked_not_implemented"
+  },
+  "frozen_c1_candidate": {
+    "c2_status": "closed_not_an_endpoint_rescue",
+    "calibration_contract": {
+      "activity_support": "[0,30)",
+      "bin_size_ms": 20,
+      "query_start_trial": 50,
+      "reward_filter": "result == 'R'",
+      "selection_order": "chronological datamodule-usable rewarded trials",
+      "t4_label_and_rate_pool": "[0,50)",
+      "target_backward_calls": 0,
+      "target_optimizer_steps": 0,
+      "target_weight_updates": 0,
+      "window_size_bins": 50
+    },
+    "candidate": "fresh_shared_t4_c1_fp32",
+    "endpoint_checkpoint_rule": "one terminal epoch_011 FP32 checkpoint per seed; do not select an epoch or reuse the development epoch-window statistic after target access",
+    "lambda_consistency": 0,
+    "normalizers": {
+      "behavior": {
+        "artifacts": [
+          {
+            "bytes": 397,
+            "path": "sua_exploration/cache/t4_paired_view_c1_fresh_controls_prelaunch_v1_20260804/sua/behavior_stats/be50f588491c004f721e.npz",
+            "sha256": "821e98bc0b884d1db1347fbcb5eb654a3e01c23405e84dadcb3ccd86944235cd",
+            "view": "sua"
+          },
+          {
+            "bytes": 397,
+            "path": "sua_exploration/cache/t4_paired_view_c1_fresh_controls_prelaunch_v1_20260804/pseudo_mua/behavior_stats/be50f588491c004f721e.npz",
+            "sha256": "821e98bc0b884d1db1347fbcb5eb654a3e01c23405e84dadcb3ccd86944235cd",
+            "view": "pseudo_mua"
+          }
+        ],
+        "procedure": "fit_behavior_stats(source_train_27, bin_size_ms=20)",
+        "semantic_scope": "source_train_27_only"
+      },
+      "t4_by_view": {
+        "pseudo_mua": {
+          "artifact": {
+            "bytes": 614,
+            "path": "sua_exploration/cache/t4_paired_view_c1_fresh_controls_prelaunch_v1_20260804/pseudo_mua/side_feature_stats/e31b40fe6b85b137b5b9.npz",
+            "sha256": "17596b29d90c29ca67efa87437eda909e53dc931fe8f897f513f7ce8e5790236"
+          },
+          "semantic_scope": "source_train_27_only",
+          "semantic_sha256": "92470ad14062af6cb998e06e7696b94bfdfd20ac5e415615302a5dddc7098fcc"
+        },
+        "sua": {
+          "artifact": {
+            "bytes": 614,
+            "path": "sua_exploration/cache/t4_paired_view_c1_fresh_controls_prelaunch_v1_20260804/sua/side_feature_stats/dd3da1f59700c1b96ab8.npz",
+            "sha256": "32d32a7fe1b80a139571aae0ce3c3a1d802aec21c99b23a4cff72b8a60261701"
+          },
+          "semantic_scope": "source_train_27_only",
+          "semantic_sha256": "ac5156097864110685e0b2fbfe314edcb747e69dc821c10451984a089be8a7a7"
+        }
+      }
+    },
+    "seed_set": [
+      42,
+      43,
+      44
+    ],
+    "seeds": [
+      {
+        "checkpoint_filename_zero_based": "epoch_011.ckpt",
+        "run_metadata": {
+          "bytes": 27006,
+          "path": "sua_exploration/results/t4_paired_view_c1_fresh_v3r2_remote_gate_allowlist/closure/shared_t4_s42/run_metadata.json",
+          "sha256": "98550528e91e6a7c5f637a2acc5112d53ae12412d6077804c30ac950eabfd000"
+        },
+        "seed": 42,
+        "terminal_checkpoint": {
+          "bytes": 64768898,
+          "path": "sua_exploration/checkpoints/t4_paired_view_c1_fresh_prelaunch_v3r2_remote_gate_allowlist_shared_t4_s42/epoch_ckpts/epoch_011.ckpt",
+          "sha256": "ab9df840a07d7aeb6cc417bb684f1f5e0265d50f98168400ac915647cdfd7b9f"
+        },
+        "terminal_epoch_one_based": 12
+      },
+      {
+        "checkpoint_filename_zero_based": "epoch_011.ckpt",
+        "run_metadata": {
+          "bytes": 27006,
+          "path": "sua_exploration/results/t4_paired_view_c1_fresh_v3r2_remote_gate_allowlist/closure/shared_t4_s43/run_metadata.json",
+          "sha256": "f591b4425ce6d39865d2599e96e7211b382fc571c2a7f0b4bfc332577376b83b"
+        },
+        "seed": 43,
+        "terminal_checkpoint": {
+          "bytes": 64768898,
+          "path": "sua_exploration/checkpoints/t4_paired_view_c1_fresh_prelaunch_v3r2_remote_gate_allowlist_shared_t4_s43/epoch_ckpts/epoch_011.ckpt",
+          "sha256": "05c05b3ab82a2fba43c55aca523248982a954faf5f0363a0235a29d64e57ab22"
+        },
+        "terminal_epoch_one_based": 12
+      },
+      {
+        "checkpoint_filename_zero_based": "epoch_011.ckpt",
+        "run_metadata": {
+          "bytes": 27820,
+          "path": "sua_exploration/results/t4_paired_view_c1_fresh_v3r2_remote_gate_allowlist/closure/shared_t4_s44/run_metadata.json",
+          "sha256": "d3e84a1c248a0d2fc97dd2d009f4e31ec7800de4f0358161fab23d7c689807d7"
+        },
+        "seed": 44,
+        "terminal_checkpoint": {
+          "bytes": 64769167,
+          "path": "sua_exploration/checkpoints/t4_paired_view_c1_fresh_prelaunch_v3r2_remote_gate_allowlist_shared_t4_s44/epoch_ckpts/epoch_011.ckpt",
+          "sha256": "a3786023772d5099d709dbd6013812ec70108d0f8fb439ae3a901cd35da271f6"
+        },
+        "terminal_epoch_one_based": 12
+      }
+    ],
+    "source_files": {
+      "data_manifest": {
+        "bytes": 9858,
+        "path": "sua_exploration/results/t4_paired_view_c1_fresh_prelaunch_v3r2_remote_gate_allowlist/c1_train_val_33_manifest.json",
+        "sha256": "1ab97fd67bea26cb2c16ef970bdc6f08e4ba02b7a287a63706cb002e3405ddeb"
+      },
+      "teacher": {
+        "bytes": 55195903,
+        "path": "sua_exploration/checkpoints/teacher_mc_maze/best-epoch=083-val_heldin/r2_mean=0.9061.ckpt",
+        "sha256": "9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d"
+      },
+      "train_val_manifest": {
+        "bytes": 1340,
+        "path": "sua_exploration/configs/subc_co_27_6_strict_train_val_manifest.json",
+        "sha256": "4607e979c6c2ff451c147a8d9878fe1080b9d3e9bbc7304b559616eb2a13a0c9"
+      }
+    },
+    "variant": "shared_t4",
+    "weights_shared_across_sua_and_pseudo_mua": true
+  },
+  "future_score_blind_schema_preflight": {
+    "forbidden": [
+      "model forward pass or behavior prediction score",
+      "checkpoint, lambda, budget, normalizer, component, or session selection from target scores",
+      "target optimizer, backward, or weight update",
+      "silent exclusion of an incompatible asset"
+    ],
+    "gates": [
+      "downloaded bytes must match this manifest's size and SHA-256 before opening",
+      "NWB subject/session/task identity must match the frozen asset row",
+      "event-level Units table must contain spike_times and one valid electrodes reference per unit",
+      "unit count must satisfy 0 < N < 100; no post-hoc truncation or cap change",
+      "trials must contain start_time, stop_time, result, and finite target_dir",
+      "trial rows and usable rewarded trials must be chronological",
+      "with 20-ms bins and 50-bin windows, at least 50 usable rewarded trials must exist",
+      "the first-50 [cos(theta),sin(theta),1] design must have rank 3; imbalance is reported, not tuned",
+      "at least one complete valid query window must remain strictly after trial 50",
+      "cursor_vel must be finite two-dimensional velocity with strictly increasing timestamps",
+      "pseudo-MUA, if reported, must pool raw unit activity by validated electrode then refit T4"
+    ],
+    "scope_policy": "all 22 assets remain in the ledger; apply the same frozen gates to every asset, record every failure, and never remove a session because of a model score",
+    "status": "not_run_requires_separate_authorization_and_local_nwb_content"
+  },
+  "generation": {
+    "deterministic_no_wall_clock": true,
+    "generator": {
+      "bytes": 35190,
+      "path": "sua_exploration/scripts/freeze_dandi688_subm_co_scope.py",
+      "sha256": "23142a547e6c49cbf6f0e0d723e7c7500b4c8fbc9309424702c21f5522f5a971"
+    },
+    "write_policy": "atomic hard-link publication; existing destination is never replaced"
+  },
+  "public_metadata_limits": {
+    "not_proved_without_nwb_content": [
+      "manual-SUA row semantics and per-unit electrode attachment",
+      "trial-table result/target_dir columns and chronological usable rewarded counts",
+      "two-dimensional cursor_vel schema, timestamps, units, and finite values",
+      "unit count below the frozen max_units_exclusive=100 gate",
+      "first-50 T4 design rank and existence of post-trial-50 query windows"
+    ],
+    "proved": [
+      "immutable asset identity, path, size, dandi-etag, and SHA-256",
+      "participant identifier M and center-out session description",
+      "NWB encoding plus Units/Position/ElectrodeGroup metadata categories"
+    ]
+  },
+  "safety_boundary": {
+    "allowed_hosts": [
+      "api.dandiarchive.org"
+    ],
+    "authorizes_download": false,
+    "authorizes_external_scoring": false,
+    "authorizes_schema_preflight": false,
+    "gpu_used": false,
+    "metadata_api_only": true,
+    "model_or_behavior_scores_computed": false,
+    "nwb_content_opened": false,
+    "nwb_downloaded": false,
+    "sub_c_endpoint_opened": false
+  },
+  "schema_version": 1,
+  "scope_id": "dandi_000688_v0.250122.1735_subm_co_scope_freeze_v1",
+  "selected_assets": [
+    {
+      "asset_id": "82d1048c-1fc8-437b-b915-a28e38987a3e",
+      "dandi_etag": "0310095eb83a2b91261a990999d862b8-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140203_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140203",
+      "session_id": "sub-M_ses-CO-20140203",
+      "sha256": "c19b8d59be8cf5fe5478ab4384058b31213762b7dd9d137a22a202e8ff5276c8",
+      "size": 65394068
+    },
+    {
+      "asset_id": "bb18b427-9fd9-4573-9819-621e8b511d51",
+      "dandi_etag": "dd509b8d58239513f7e2c155dc1bcc4d-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140217_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140217",
+      "session_id": "sub-M_ses-CO-20140217",
+      "sha256": "75af55f80c484759600c4d5304512dbd1dac30b785d3c03c9c42b9baa124a965",
+      "size": 85730748
+    },
+    {
+      "asset_id": "f2dae8ff-28bf-441b-a332-ee25941fdd09",
+      "dandi_etag": "24677222c6b888cf53700282482f5d7c-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140218_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140218",
+      "session_id": "sub-M_ses-CO-20140218",
+      "sha256": "a4a60bf0e986d89fa145ccd21b5ef4660baf432df9e2050fcd63796cc30e5496",
+      "size": 93470576
+    },
+    {
+      "asset_id": "48332962-71de-4b27-ab92-679b4a6f4d5b",
+      "dandi_etag": "074235e9c1af8601a5d148999efa05a5-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140303_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140303",
+      "session_id": "sub-M_ses-CO-20140303",
+      "sha256": "2794aca5c1855bd63cc84a651f5b865c003b529fd822162142736f6605752dfc",
+      "size": 73095968
+    },
+    {
+      "asset_id": "1bebe63c-80dc-498b-99c1-c7db6a79367d",
+      "dandi_etag": "069107a1d23dae33b684cb7e6962c54a-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140304_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140304",
+      "session_id": "sub-M_ses-CO-20140304",
+      "sha256": "eae050c2035808e826ed32978b186cdaef723e8ac33069152862f59faf060661",
+      "size": 109669436
+    },
+    {
+      "asset_id": "5026cfcf-8fe2-4394-a6c4-b03f51dc6d5d",
+      "dandi_etag": "9a468aeb44a99ba655c29e172493594c-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140306_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140306",
+      "session_id": "sub-M_ses-CO-20140306",
+      "sha256": "0f093d31937a8a3fb1201c16d5eeb17878367e271cd6d5076077846169e606da",
+      "size": 101093472
+    },
+    {
+      "asset_id": "a72cae17-6e18-4c36-bdaa-f0f31d557888",
+      "dandi_etag": "563e281c2f36efbef17e58931ce75e8f-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140307_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140307",
+      "session_id": "sub-M_ses-CO-20140307",
+      "sha256": "2f109d6daed0ad2c3dba12742d62b7be1f385117c1b0b018205093a873c29927",
+      "size": 74037256
+    },
+    {
+      "asset_id": "7111dfe8-4433-4e70-b146-7d901d7522a1",
+      "dandi_etag": "6cdc9a59330f6ca002659f4a9a477405-3",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140626_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140626",
+      "session_id": "sub-M_ses-CO-20140626",
+      "sha256": "a18525c3b34b457b50f310a407c362d734977deed3d4ad28e3d7dfc7b893e24c",
+      "size": 165550228
+    },
+    {
+      "asset_id": "826da0cb-8e87-4424-b59a-b3c7bde332d9",
+      "dandi_etag": "bc7eba3284d54014a389485fd9c66cce-3",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140627_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140627",
+      "session_id": "sub-M_ses-CO-20140627",
+      "sha256": "fea931a18b76837ee01d6f9fddacabdc3dd5617a87e48595d159aff7280612e7",
+      "size": 171769384
+    },
+    {
+      "asset_id": "fb5a9e43-84a5-4355-ab1f-e8534568e393",
+      "dandi_etag": "5f1d4c613626ff285053c7a3879347f2-5",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20140929_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20140929",
+      "session_id": "sub-M_ses-CO-20140929",
+      "sha256": "74c7f6a86f82d101f60025665f71fb66fec3c1fa2566023619b507ec96172f93",
+      "size": 298961440
+    },
+    {
+      "asset_id": "df4f4f5d-cc60-4df6-b3f4-11a7353d9c76",
+      "dandi_etag": "2eb5b4b4520c32b9a630cea52538cdc8-2",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20141203_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20141203",
+      "session_id": "sub-M_ses-CO-20141203",
+      "sha256": "57c278828255c0b21252f18b12da4e69ccf66e8cba41c629290aebb3f341c673",
+      "size": 85072360
+    },
+    {
+      "asset_id": "dec6c2c1-de1a-4fb5-9657-08e950360eb5",
+      "dandi_etag": "97ae74a8647785704a52e2386afec85e-4",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150511_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150511",
+      "session_id": "sub-M_ses-CO-20150511",
+      "sha256": "c77618af5f611a214b945a9fc8d3ff8af1a466d00c43bab03a052e877721fcf1",
+      "size": 225980460
+    },
+    {
+      "asset_id": "fee6b912-477a-4fea-ad16-e89e4bd42d25",
+      "dandi_etag": "40b36341a7879f8d06d5fc72f89c441d-6",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150512_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150512",
+      "session_id": "sub-M_ses-CO-20150512",
+      "sha256": "c34531cb7ae44ede76ba896bb6aec15432d928f14edf765a628f8c11d5260639",
+      "size": 361586408
+    },
+    {
+      "asset_id": "c18e956d-ecca-4cda-bd04-51730bcbfaff",
+      "dandi_etag": "234ad1c0f7dc0e5acd52bb7fd47fa3f0-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150610_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150610",
+      "session_id": "sub-M_ses-CO-20150610",
+      "sha256": "596f8dd782f158f46b9cba3d3962617ff302b9c2c96cb613fe9127bb58774c88",
+      "size": 38387200
+    },
+    {
+      "asset_id": "43a8aa34-557e-44b9-a533-8456b7833f9b",
+      "dandi_etag": "e01a24b89c5a65f7bfd555ad0c20db5d-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150611_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150611",
+      "session_id": "sub-M_ses-CO-20150611",
+      "sha256": "23df89f58e66f12a20ea92f00522826bb3d63e99f166b6c1549ca8fe5c780f88",
+      "size": 44541220
+    },
+    {
+      "asset_id": "b73f70f2-b635-4060-8f0d-25d9835fa372",
+      "dandi_etag": "8f6676503f6dc4929022c10e9b0c4fc1-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150612_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150612",
+      "session_id": "sub-M_ses-CO-20150612",
+      "sha256": "0afe4c229c840918d652de1c082285cabb5ccf94dbdbfcf2a370f204a98c2bb9",
+      "size": 36421880
+    },
+    {
+      "asset_id": "25132b17-a8bc-4529-9842-c5fb96655a22",
+      "dandi_etag": "12c2e16db747532f71489ad588ccd1bb-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150615_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150615",
+      "session_id": "sub-M_ses-CO-20150615",
+      "sha256": "6d67283a3157f9af5a638f5ff7b5fa61f445528415d5bde099443e811bd3e9f7",
+      "size": 40806584
+    },
+    {
+      "asset_id": "d6255bcf-7d61-4dd8-82e5-b261caab5eaa",
+      "dandi_etag": "1d86931785208838998e58a7c5d4588c-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150616_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150616",
+      "session_id": "sub-M_ses-CO-20150616",
+      "sha256": "09ac802f1f5ab281dd834fee241f93feeca7d4e186922b5c15fb7f7c70f87c92",
+      "size": 46198744
+    },
+    {
+      "asset_id": "ff56a217-3760-4859-b9d5-9b0ca471a0c0",
+      "dandi_etag": "33d12eb2970ee1c6ea92deeabaddf540-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150617_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150617",
+      "session_id": "sub-M_ses-CO-20150617",
+      "sha256": "c30da9ac91a76ee52e63cc2e710ef41b30ac0db783e4f6245d383fcbe8278225",
+      "size": 47598160
+    },
+    {
+      "asset_id": "29a3c63b-c2e9-40d6-8bab-86bd0f7f97fd",
+      "dandi_etag": "9757cc69d1dcc46078b94e0f2cc3c083-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150623_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150623",
+      "session_id": "sub-M_ses-CO-20150623",
+      "sha256": "1df2b39fda0a7aa8cbd25787e3e2dc1a79bc01e7203878ec7059c5c5e710f7aa",
+      "size": 42407740
+    },
+    {
+      "asset_id": "2568210f-1869-413c-b647-dcffd6353f00",
+      "dandi_etag": "f10afa2e7552708be9b22e698f1330ea-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150625_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150625",
+      "session_id": "sub-M_ses-CO-20150625",
+      "sha256": "6bf4435427aa8443d9c5821b404b49fd945bb8e2f1482aab0d12acf38ad2b8fc",
+      "size": 56823220
+    },
+    {
+      "asset_id": "07513cb0-727d-4ad1-8499-a28e244419f2",
+      "dandi_etag": "204eacc5ba26b99041ed49e34a5845d3-1",
+      "encoding_format": "application/x-nwb",
+      "path": "sub-M/sub-M_ses-CO-20150626_behavior+ecephys.nwb",
+      "public_metadata": {
+        "measurement_techniques": [
+          "analytical technique",
+          "behavioral technique",
+          "spike sorting technique",
+          "surgical technique"
+        ],
+        "participant_identifier": "M",
+        "session_description": "Monkey M performing center-out reaching task.",
+        "variable_measured": [
+          "BehavioralTimeSeries",
+          "ElectrodeGroup",
+          "Position",
+          "ProcessingModule",
+          "SpatialSeries",
+          "Units"
+        ]
+      },
+      "session_date": "20150626",
+      "session_id": "sub-M_ses-CO-20150626",
+      "sha256": "122542a1b56e75c786c71055b5a0a924d72a97890d38609090c28bb11bbbb6d9",
+      "size": 47764096
+    }
+  ],
+  "selection": {
+    "exclude_regex": "^sub-M/sub-M_ses-RT-(?P<date>[0-9]{8})_behavior\\+ecephys\\.nwb$",
+    "excluded_sub_m_assets": [
+      {
+        "asset_id": "aea9ae0b-0c2a-4c77-9210-c1bdbc4484de",
+        "path": "sub-M/sub-M_ses-RT-20140114_behavior+ecephys.nwb",
+        "reason": "RT path does not match frozen CO include regex",
+        "size": 125206184
+      },
+      {
+        "asset_id": "a5fbfdf3-69dc-4492-8657-8daaa96af17d",
+        "path": "sub-M/sub-M_ses-RT-20140115_behavior+ecephys.nwb",
+        "reason": "RT path does not match frozen CO include regex",
+        "size": 165437024
+      },
+      {
+        "asset_id": "5899743e-5248-4656-bd0d-12b5c2a3dd7b",
+        "path": "sub-M/sub-M_ses-RT-20140116_behavior+ecephys.nwb",
+        "reason": "RT path does not match frozen CO include regex",
+        "size": 122320364
+      },
+      {
+        "asset_id": "edf9d519-5209-44a4-8c7e-4e54afd32b70",
+        "path": "sub-M/sub-M_ses-RT-20140214_behavior+ecephys.nwb",
+        "reason": "RT path does not match frozen CO include regex",
+        "size": 67770000
+      },
+      {
+        "asset_id": "7941219a-78db-4cbc-afdd-3c63ced7cb70",
+        "path": "sub-M/sub-M_ses-RT-20140221_behavior+ecephys.nwb",
+        "reason": "RT path does not match frozen CO include regex",
+        "size": 63764128
+      },
+      {
+        "asset_id": "8542b34a-abb4-44a0-8987-1291a66a988a",
+        "path": "sub-M/sub-M_ses-RT-20140224_behavior+ecephys.nwb",
+        "reason": "RT path does not match frozen CO include regex",
+        "size": 58393832
+      }
+    ],
+    "excluded_sub_m_bytes": 602891532,
+    "excluded_sub_m_count": 6,
+    "include_regex": "^sub-M/sub-M_ses-CO-(?P<date>[0-9]{8})_behavior\\+ecephys\\.nwb$",
+    "rule": "enumerate all 111 published assets across every API page; select every and only path matching the anchored sub-M center-out NWB regex",
+    "selected_bytes": 2312360648,
+    "selected_count": 22,
+    "subject_prefix": "sub-M/"
+  },
+  "status": "scope_frozen_metadata_only_external_runner_blocked"
+}

@@ -1,0 +1,8 @@
+{
+  "source_checkpoint_path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_c0_f0_s42_f0_s42_20260809_222207/checkpoints/best.ckpt",
+  "source_checkpoint_sha256": "7f653e0e6c0348944d5192d86f7311c724a6b15ab1a64fb38235e287407f6bbe",
+  "selected_by_metric": "val_heldin/r2_mean",
+  "selected_metric_value": null,
+  "artifact_checkpoint_path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23_f0_s42_20260810_021937/checkpoints/best.ckpt",
+  "artifact_checkpoint_sha256": "7f653e0e6c0348944d5192d86f7311c724a6b15ab1a64fb38235e287407f6bbe"
+}

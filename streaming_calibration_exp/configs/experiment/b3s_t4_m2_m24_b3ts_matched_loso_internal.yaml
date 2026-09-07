@@ -1,0 +1,9 @@
+# @package _global_
+
+# Fresh matched ordinary-T4 reference for the B3TS M24 protocol.  It is a
+# separate screen from the prior K4 source and must never be overwritten.
+defaults:
+  - b3s_t4_m2_m24_loso_internal
+
+run_id: native_mua_m24_b3ts_matched_t4_m2_loso_internal
+tags: ["native-mua", "b3s", "t4", "m2", "loso", "internal-only", "m24-b3ts-matched"]

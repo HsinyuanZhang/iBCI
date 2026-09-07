@@ -1,0 +1,16 @@
+{
+  "variant": "B3S",
+  "parameter_count": 18290,
+  "weight_bytes": 73160,
+  "trial_buffer_bytes": 38400,
+  "support_state_bytes": 24576,
+  "peak_live_state_bytes": 62976,
+  "mac_per_trial": 614400,
+  "mac_per_session": 15863808,
+  "requires_cubic_interpolation": true,
+  "requires_general_multiplier": true,
+  "requires_divider": true,
+  "cost_source": "cycle_model_estimate",
+  "seed": 42,
+  "note": "B4-B6 MAC counts valid bins only; cubic-interpolation flag reflects encoder capability."
+}

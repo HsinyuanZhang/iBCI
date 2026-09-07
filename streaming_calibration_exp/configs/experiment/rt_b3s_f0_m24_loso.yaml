@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - rt_b3s_k4_m24_loso
+
+run_id: rt_b3s_zero4_m24_loso
+tags: ["rt", "zero4", "m24", "loso", "sub-c", "b3s", "development_only"]
+
+data:
+  side_feature_group: zero4

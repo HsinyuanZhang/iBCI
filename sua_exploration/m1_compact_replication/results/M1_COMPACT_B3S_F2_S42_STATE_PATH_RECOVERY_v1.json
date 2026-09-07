@@ -1,0 +1,67 @@
+{
+  "canonical_content_sha256": "7111300b2668aaa06d2a567d5eb8068eadc0d4d46e6c918d163671f40d7068de",
+  "canonical_state": {
+    "byte_identical_to_original": true,
+    "mode": "0o444",
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_EXECUTION_v2.json",
+    "sha256": "d9b62e96f9b3bc0fa0a4d577872e447c39fafe53dbd6c6fab0d75686780e30bd"
+  },
+  "evaluator": {
+    "input_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_EXECUTION_v2.json",
+    "input_sha256": "d9b62e96f9b3bc0fa0a4d577872e447c39fafe53dbd6c6fab0d75686780e30bd",
+    "must_use_canonical_copy": true,
+    "target_opened_only_by_cpu_evaluator_after_pair": true
+  },
+  "method": {
+    "copy_only_if_canonical_absent": true,
+    "copy_strategy": "copy_to_temp_fsync_then_hard_link; no overwrite",
+    "original_preserved": true,
+    "retrained": false
+  },
+  "original_state": {
+    "mode": "0o444",
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/M1_COMPACT_B3S_F2_S42_EXECUTION_v2.json",
+    "sha256": "d9b62e96f9b3bc0fa0a4d577872e447c39fafe53dbd6c6fab0d75686780e30bd"
+  },
+  "pair_binding": {
+    "fixed_order": [
+      "b0",
+      "b3s_zero4"
+    ],
+    "proposal_sha256": "f9a8df2da10288bd6ef1dece7be3f840a6cf1cd9628e76829683904be38748a4",
+    "receipt_sha256": "68f1888febfd873ddd629ec386324c6926e9c2fd58f4420b1e51f0a171469333",
+    "resolved_config_sha256": {
+      "b0": "a77234df11a38ff5e731066b6c6e1f300078757de947438e82d12717a422e1a2",
+      "b3s_zero4": "085974ed29eea8cfee968096e761f62b858320fb7a8e200801cb0ccf7008af2a"
+    },
+    "run_ids": {
+      "b0": "2026-08-10-05-29-41-332479_rid-m1_compact_b0_f2_s42_fresh_e11_f2_s42",
+      "b3s_zero4": "2026-08-10-06-18-43-102875_rid-m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42"
+    },
+    "terminal_checkpoint_sha256": {
+      "b0": "5553881befc8be4e4aa8fd0b7035e550ebe2ec25c2f113a5bc7b1c49e0f4d95a",
+      "b3s_zero4": "0454fa6e12c846f06631f2cc43e202ad79d432a18c4adb7a68a9d80947d96858"
+    }
+  },
+  "runner": {
+    "argv": [
+      "/home/xinyuan/miniconda3/envs/spint/bin/python3.10",
+      "sua_exploration/m1_compact_replication/fold2_runner_v2.py",
+      "--execute",
+      "--receipt",
+      "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_STAGED_RECEIPT_v2.json",
+      "--state",
+      "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/M1_COMPACT_B3S_F2_S42_EXECUTION_v2.json",
+      "--allow-root-launch",
+      "FOLD2_APPROVED_BY_ROOT"
+    ],
+    "shell_expansion": {
+      "cause": "remote single-quoted command was interpreted by the remote shell before tmux command creation",
+      "expanded_value": "xinyuan",
+      "token": "$USER"
+    },
+    "state_argument_after_remote_shell_expansion": "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/M1_COMPACT_B3S_F2_S42_EXECUTION_v2.json"
+  },
+  "schema": "m1_compact_b3s_f2_s42_state_path_recovery_v1",
+  "status": "PASS_M1_COMPACT_B3S_F2_S42_STATE_PATH_RECOVERED"
+}

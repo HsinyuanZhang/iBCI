@@ -1,0 +1,103 @@
+{
+  "aggregate": {
+    "all_folds_noninferior": true,
+    "deltas": [
+      0.09597747730477924,
+      -0.02579936719805942,
+      0.044674528970380045
+    ],
+    "max_delta": 0.09597747730477924,
+    "mean_delta": 0.038284213025699954,
+    "median_delta": 0.044674528970380045,
+    "min_delta": -0.02579936719805942,
+    "noninferiority_count_delta_ge_threshold": 3,
+    "positive_count_delta_gt_0": 2
+  },
+  "canonical_content_sha256": "28136cae915e5ce5cfdff62c4fd695864bc72db8169f8d16fc339d7047c72b08",
+  "interpretation": {
+    "claim_limit": "development evidence only; not formal held-out superiority",
+    "improvement_claim": false,
+    "improvement_gate": "not tested; the frozen -0.03 gate is non-inferiority, not a +0.03 improvement test",
+    "noninferiority_claim": "B3S-Zero4 is within 0.03 R2 of B0 on every listed development fold",
+    "positive_delta_count_is_descriptive_only": true,
+    "significance": "no p-value or significance claim; n=3 folds",
+    "training_budget_warning": {
+      "epochs_by_fold": {
+        "0": 24,
+        "1": 12,
+        "2": 12
+      },
+      "note": "fold 0 is E23/24-epoch continuation; folds 1 and 2 are fresh 12-epoch fits; aggregate is descriptive and not a strictly matched-training-budget comparison",
+      "same_epoch_budget": false
+    }
+  },
+  "per_fold": [
+    {
+      "b0_r2": 0.5315313944709066,
+      "b3s_zero4_r2": 0.6275088717756858,
+      "checkpoint_sha256": {
+        "b0": "586af23c58c06994a17fd9db258cca717f7f7a98129c338ab530fbdf3400e472",
+        "b3s_zero4": "74a51b10a070608e5886f5eecbf778044ea00887bd6286489569b36313fd9f08"
+      },
+      "delta": 0.09597747730477924,
+      "epochs": 24,
+      "fold": 0,
+      "global_step": 118824,
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/receipts/M1_COMPACT_B3S_F0_S42_E23_GATE_v1.json",
+      "schema": "m1_compact_b3s_f0_s42_e23_gate_v1",
+      "sha256": "3fcc510cfec1f9ea4be123de4dbf8f27039158a3b65aa91212546c2d7047036c",
+      "status": "PASS_M1_COMPACT_B3S_F0_E23_NONINFERIORITY",
+      "target_session": "ses-20120924"
+    },
+    {
+      "b0_r2": 0.6851638546295719,
+      "b3s_zero4_r2": 0.6593644874315124,
+      "checkpoint_sha256": {
+        "b0": "597a079619f6bcee829d62d4b64e226b91eb7cc236942aa0d04b4675d0f62af5",
+        "b3s_zero4": "11867bfdd5c34e35b51c9177c78dfdf9e22ed48603e0669052eb9221934483bc"
+      },
+      "delta": -0.02579936719805942,
+      "epochs": 12,
+      "fold": 1,
+      "global_step": 59556,
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_GATE_v2.json",
+      "schema": "m1_compact_b3s_f1_s42_gate_v2",
+      "sha256": "5d5fec6cbf97927dd13255a54b38b9a698ba3c43c2ee755fcd45ce7416802b42",
+      "status": "PASS_M1_COMPACT_B3S_F1_S42_NONINFERIORITY",
+      "target_session": "ses-20120926"
+    },
+    {
+      "b0_r2": 0.6143558487282275,
+      "b3s_zero4_r2": 0.6590303776986075,
+      "checkpoint_sha256": {
+        "b0": "5553881befc8be4e4aa8fd0b7035e550ebe2ec25c2f113a5bc7b1c49e0f4d95a",
+        "b3s_zero4": "0454fa6e12c846f06631f2cc43e202ad79d432a18c4adb7a68a9d80947d96858"
+      },
+      "delta": 0.044674528970380045,
+      "epochs": 12,
+      "fold": 2,
+      "global_step": 61524,
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_GATE_v2.json",
+      "schema": "m1_compact_b3s_f2_s42_gate_v2",
+      "sha256": "86fa9bcd87d16d926a0cf7648ac46383ceb3cc4ea8559eab8c5cf93c5f60b7f6",
+      "status": "PASS_M1_COMPACT_B3S_F2_S42_NONINFERIORITY",
+      "target_session": "ses-20120927"
+    }
+  ],
+  "schema": "m1_compact_b3s_f0_f1_f2_s42_aggregate_v1",
+  "scope": {
+    "development_only": true,
+    "folds": [
+      0,
+      1,
+      2
+    ],
+    "formal_opened": false,
+    "heldout_opened": false,
+    "minival_opened": false,
+    "seed": 42,
+    "task": "m1",
+    "threshold": -0.03
+  },
+  "status": "PASS_M1_COMPACT_B3S_F0_F1_F2_ALL_NONINFERIORITY"
+}

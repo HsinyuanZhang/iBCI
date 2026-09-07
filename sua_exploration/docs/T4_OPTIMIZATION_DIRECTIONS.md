@@ -1,7 +1,16 @@
 # T4 network optimization directions
 
-**Status:** analysis and candidate convergence; no new experiment launched  
-**Updated:** 2026-07-30<br>
+> **2026-08-02 execution note:** this file is retained as historical ideation and evidence
+> synthesis. It no longer authorizes experiments. The root-reviewed execution contract is
+> [`T4_NEXT_EXPERIMENT_PROTOCOL_V2.md`](T4_NEXT_EXPERIMENT_PROTOCOL_V2.md), and live status is
+> maintained in
+> [`ACTIVE_EXPERIMENT_CONTROL_BOARD.md`](ACTIVE_EXPERIMENT_CONTROL_BOARD.md). The selected
+> `T4@50` score-boundary ambiguity was subsequently resolved by an actual trial-index trace:
+> scoring begins at usable trial 50 and does not overlap the 50-trial T4 fit. M50 remains
+> reused-development evidence and does not replace the next protocol's M30 attribution substrate.
+
+**Status:** historical analysis; superseded for execution
+**Updated:** 2026-08-02<br>
 **Evidence base:** DANDI 000688 sub-C/CO validation development evidence only
 
 ## 0. Starting point

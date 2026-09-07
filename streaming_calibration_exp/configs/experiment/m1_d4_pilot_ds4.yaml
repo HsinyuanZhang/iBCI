@@ -1,0 +1,21 @@
+# @package _global_
+# DS4 Phase-B matched attachment-control training on [10,210).
+defaults:
+  - b3s_ds4_m1_loso_internal
+
+run_id: m1_d4_pilot_v1_ds4_m1
+tags: ["native-mua", "ds4", "m1", "d4-pilot", "selection", "train"]
+
+train: true
+test: false
+
+data:
+  calibration_n_trials: 10
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  heldin_query_start_trial: 10
+  heldin_query_end_trial: 210
+
+trainer:
+  max_epochs: 12

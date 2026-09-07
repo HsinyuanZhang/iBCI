@@ -1,0 +1,2 @@
+run_id,variant,seed,validation_protocol,fold_id,split,session,M,R2_variance_weighted,R2_delta_vs_matched_baseline,identity_mse,prediction_distill_mse,parameter_count,weight_bytes,MAC_per_trial,MAC_per_session,peak_live_state_bytes,trial_buffer_bytes,support_state_bytes,requires_cubic_interpolation,requires_general_multiplier,requires_divider,quant_format,saturation_count
+p1_redo_anchor_m1_t4_full_cpu_f1_s42_20260809_162022,B3S,42,loso,1,test_heldin,ses-20120926,10,0.75925028,,0.058214899,0.003929276,80676,322704,6291456,64339968,417792,393216,24576,True,True,True,fp32,

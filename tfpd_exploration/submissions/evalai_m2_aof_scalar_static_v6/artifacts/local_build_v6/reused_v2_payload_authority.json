@@ -1,0 +1,7 @@
+{
+  "payload": "65b8001156a7cdb58efd4bbff9547d88443cfa983546558009771f3d4c18ab20",
+  "receipt": "b17e5dc09d99e84ee570baedae68c7a4dae84c0bf7923705a02f6c19704ca336",
+  "schema": "m2_aof_scalar_static_package_v6_reused_v2_payload_authority",
+  "scientific_rebuild": false,
+  "v2_artifact_root": "tfpd_exploration/submissions/evalai_m2_aof_scalar_static_v2/artifacts/local_build_v2"
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "screen_id": "a2_matched_subject_shift_v2",
+  "contract": {
+    "path": "sua_exploration/docs/A2_MATCHED_CORRESPONDENCE_CONTRACT_20260812.md",
+    "binding": "SHA-256 is recomputed by every preflight, evaluator, runner, and aggregate; this config never authorizes execution."
+  },
+  "source_training_cells": [
+    {
+      "name": "source_z4",
+      "arm": "z4",
+      "variant": "B3S",
+      "side_feature_group": "z4"
+    },
+    {
+      "name": "source_t4",
+      "arm": "t4",
+      "variant": "B3S",
+      "side_feature_group": "t4"
+    }
+  ],
+  "seeds": [42, 43, 44],
+  "scoring_domains": [
+    {
+      "name": "within_subject",
+      "subject": "sub-C",
+      "session_count": 6,
+      "session_source": "configs/subc_co_27_6_strict_train_val_manifest.json:session_splits.val"
+    },
+    {
+      "name": "external_subject_M",
+      "subject": "sub-M",
+      "session_count": 15,
+      "session_source": "mc_maze.gpu_contract_common.SUBM_EXTERNAL_SESSIONS"
+    }
+  ],
+  "frozen_protocol": {
+    "signal_view": "sua",
+    "task": "CO",
+    "window_size_bins": 50,
+    "trial_length_bins": 100,
+    "bin_size_ms": 20,
+    "max_units_exclusive": 100,
+    "activity_calibration_trials": 30,
+    "side_feature_label_pool_trials": 30,
+    "evaluation_start_trial_index": 30,
+    "evaluation_query_rule": "usable rewarded trials[30:] only; all 50-bin windows are contained in trials strictly after chronological rewarded trial 30",
+    "selection_mode": "first",
+    "epochs": 12,
+    "epoch_window": [5, 6, 7, 8, 9, 10, 11, 12],
+    "loss_mode": "task_only",
+    "identity_mode": "calibrated",
+    "decoder_mode": "coupled",
+    "learning_rate": 0.0001,
+    "batch_size": 32,
+    "chronological_calibration": true,
+    "no_early_stopping": true,
+    "checkpoint_every_epoch": true
+  },
+  "normalizer_authority": {
+    "behavior": "fit once from the strict 27-session sub-C source-train roster; apply unchanged to sub-C validation and sub-M external scoring",
+    "side_features": "fit raw T4 statistics once from the strict 27-session sub-C source-train roster; use unchanged for z4/t4 scoring in both domains",
+    "target_fit_forbidden": true
+  },
+  "checkpoint_reuse": {
+    "one_source_run_per_arm_seed": true,
+    "source_epoch_checkpoints_scored_on_both_domains": true,
+    "required_epoch_sha256_bundle": [5, 6, 7, 8, 9, 10, 11, 12],
+    "separate_training_by_scoring_domain_forbidden": true
+  },
+  "data_isolation": {
+    "formal_subc_test_sessions_never_opened": true,
+    "formal_subc_test_sessions": [
+      "sub-C_ses-CO-20151113",
+      "sub-C_ses-CO-20151116",
+      "sub-C_ses-CO-20151117",
+      "sub-C_ses-CO-20151119",
+      "sub-C_ses-CO-20151120",
+      "sub-C_ses-CO-20151201"
+    ]
+  },
+  "execution": {
+    "fresh_gpu_training_cells": 6,
+    "gpu_authorization_environment": "A2_V2_GPU_AUTHORIZATION",
+    "gpu_authorization_value": "I_AUTHORIZE_A2_MATCHED_SUBJECT_SHIFT_V2_GPU",
+    "root_go_environment": "A2_V2_ROOT_GO",
+    "root_go_value": "I_SIGN_A2_MATCHED_SUBJECT_SHIFT_V2_ROOT_GO",
+    "preflight_receipt_required_for_launch": true,
+    "one_official_immutable_preflight_for_all_six_cells": true,
+    "official_preflight_path": "results/a2_matched_subject_shift_v2/official_cpu_preflight.json",
+    "python_no_user_site_required": true,
+    "torch_runtime_requirement": "active conda environment torch 2.5.1.post303+cu118 on RTX 3090 class device; user-site torch is forbidden",
+    "immutable_receipts": "O_EXCL + fsync + chmod 0444 body and SHA-256 sidecar; aggregator verifies every domain body/sidecar pair"
+  }
+}

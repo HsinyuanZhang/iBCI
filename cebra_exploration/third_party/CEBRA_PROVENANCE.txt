@@ -1,0 +1,32 @@
+upstream: https://github.com/AdaptiveMotorControlLab/CEBRA
+commit: d1842ccc659bdf2d458ab31784ae029b9d48d21f
+commit_date: Thu Jun 25 23:41:39 2026 +0200
+commit_subject: Support numpy2 on windows (#306)
+version: 0.6.1
+license: Apache-2.0 (see cebra/LICENSE.md)
+vendored_at: 2026-08-13
+clone_command: git clone --depth 1 https://github.com/AdaptiveMotorControlLab/CEBRA.git cebra
+
+reason:
+  Source is vendored rather than pip-installed because we expect to modify the
+  encoder architecture and the deployment path for our no-backprop calibration
+  setting. A pip package would make those edits invisible and unreviewable.
+  The .git and .github directories were removed so this is a plain vendored tree
+  inside the parent repository rather than a nested clone.
+
+local_modifications:
+  2026-08-13 Track B (cebra_frozen_source_adapt):
+    File: cebra/integrations/sklearn/cebra.py
+    Change: CEBRA.fit / partial_fit / _prepare_fit accept freeze_sessions and
+            init_from. freeze_sessions sets requires_grad=False on those session
+            encoders and builds Adam on the remaining parameters only. init_from
+            copies encoder state_dicts from a fitted multi-session estimator
+            into the first N sessions of a larger joint fit.
+    Why: Multi-session CEBRA shares zero weights (coordinator F2b). Cross-session
+         alignment exists only while sessions are in the same contrastive loader.
+         Official adapt=True is a single-session objective and cannot land a new
+         session in the source latent (coordinator F8, target R2 -1.23 vs joint
+         +0.99). freeze_sessions+init_from lets us train only the target encoder
+         while keeping cross-session positive sampling — the minimum-cost
+         adaptation that still aligns.
+    Default behaviour is unchanged: both kwargs default to None.

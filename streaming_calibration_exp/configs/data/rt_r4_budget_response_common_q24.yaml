@@ -1,0 +1,38 @@
+# RT R4: fixed activity/neural M24, variable analytic-carrier prefix, common q24.
+_target_: src.data.rt_r4_budget_response_datamodule.RtR4BudgetResponseNestedLossoDataModule
+
+task: rt
+data_dir: ${paths.root_dir}/../sua_exploration/data/dandi_000688/sub-C/
+batch_size: 32
+window_size: 50
+
+# These two fields are deliberately independent.  R4 changes only the latter.
+calibration_n_trials: 24
+side_feature_calibration_n_trials: 6
+query_start_trial: 24
+rt_r4_common_query_start: true
+allow_conditional_m18: false
+
+random_calibration: false
+smooth_calibration: false
+max_trial_length: 100
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+
+validation_protocol: nested_loso
+loso_fold: 0
+outer_loso_fold: ${.loso_fold}
+
+# Full and MB4 are the only primary R4 arms.  Every launch must override this.
+side_feature_group: null
+side_feature_shuffle_seed: ${seed}
+
+session_window_budget: 4096
+session_balanced_sampling: true
+sampler_reshuffle_each_epoch: true
+expected_session_count: 15
+
+num_workers: 4
+pin_memory: true
+sampler_seed: ${seed}

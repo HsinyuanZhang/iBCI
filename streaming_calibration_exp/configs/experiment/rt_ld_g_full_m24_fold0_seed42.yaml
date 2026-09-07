@@ -1,0 +1,13 @@
+# @package _global_
+
+defaults:
+  - rt_ld_a0_full_m24_fold0_seed42
+
+run_id: rt_ld_g_full_m24_fold0_seed42
+tags: ["rt", "ld", "g_full", "full_identity", "full_gain", "m24", "nested_loso", "fold0", "seed42", "development_only"]
+
+data:
+  rt_ld_gain_source: full
+
+model:
+  rt_ld_arm: g_full

@@ -1,0 +1,14 @@
+# @package _global_
+
+defaults:
+  - b3s_k4_m2_loso_internal
+
+run_id: native_mua_m24_k4_m2_loso_internal
+tags: ["native-mua", "k4", "m2", "loso", "internal-only", "m24-disjoint-source"]
+
+data:
+  calibration_n_trials: 24
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0

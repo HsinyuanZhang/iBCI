@@ -1,0 +1,16 @@
+# RT L-D: ordinary B3S + correctly paired Full AFC4 identity, with an
+# optional separate live-activity gain attached only after common construction.
+defaults:
+  - _streaming_base
+
+_target_: src.models.rt_ld_streaming_module.RtLdStreamingCalibrationLitModule
+variant: B3S
+hidden_dim: 64
+side_dim: 4
+electrode_embed_dim: 0
+num_electrodes: 0
+decoder_mode: coupled
+fixed_slot_count: 0
+rt_ld_arm: ???
+rt_ld_carrier_dim: 4
+rt_ld_window_size: 50

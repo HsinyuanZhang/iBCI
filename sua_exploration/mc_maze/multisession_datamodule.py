@@ -617,17 +617,21 @@ def list_datamodule_rewarded_trials(
     bin_size_ms: int,
     window_size: int,
     trial_result_filter: str = "R",
-) -> list[dict[str, float]]:
+) -> list[dict[str, float | int | None]]:
     """Chronological rewarded trials with the same duration filter as session loading.
 
-    Each entry also carries ``target_dir`` (radians, center-out task target angle) when the
-    NWB trials table has that column and the row's value is finite, else ``None``. This is
-    read from the exact same ``trials_df`` row already visited by the filter loop below, so
-    it does not change which trials are selected or their order -- callers that only need
-    the original ``start_time``/``stop_time``/``start``/``stop`` fields (e.g.
-    ``calibration_pool_end_time``) are unaffected. Added for E3 directional tuning side
-    features (E3_E4_ENCODER_PROGRAM.md section 1), which need each pool trial's target
-    direction and must reuse this filter rather than reimplementing it.
+    Each entry also carries the original NWB trial-table row index and ``target_dir``
+    (radians, center-out task target angle) when the NWB trials table has that column and
+    the row's value is finite, else ``None``. These are read from the exact same
+    ``trials_df`` row already visited by the filter loop below, so they do not change which
+    trials are selected or their order. Callers that only need the original
+    ``start_time``/``stop_time``/``start``/``stop`` fields (e.g.
+    ``calibration_pool_end_time``) are unaffected. The explicit original index allows a
+    read-only audit to bind scorer-order slices to NWB trial-table rows without duplicating
+    the datamodule's rewarded/usable filter.  When present on that same row,
+    ``target_on_time`` and ``go_cue_time`` are also exposed as finite floats (or
+    ``None``).  They are passive metadata: adding them neither changes filtering
+    nor grants any caller access to a different trial surface.
     """
     bin_size_s = bin_size_ms / 1000.0
     with NWBHDF5IO(str(nwb_path), "r") as io:
@@ -642,8 +646,8 @@ def list_datamodule_rewarded_trials(
         num_bins = len(bin_edges) - 1
 
         trials_df = nwb.intervals["trials"].to_dataframe()
-        trial_info: list[dict[str, float]] = []
-        for _, trial in trials_df.iterrows():
+        trial_info: list[dict[str, float | int | None]] = []
+        for original_trial_index, trial in trials_df.iterrows():
             if trial["result"] != trial_result_filter:
                 continue
             start_bin = int(np.searchsorted(bin_edges, trial["start_time"]))
@@ -656,13 +660,26 @@ def list_datamodule_rewarded_trials(
                     target_dir = None
                 else:
                     target_dir = float(target_dir)
+                target_on_time = trial.get("target_on_time")
+                if target_on_time is None or not np.isfinite(target_on_time):
+                    target_on_time = None
+                else:
+                    target_on_time = float(target_on_time)
+                go_cue_time = trial.get("go_cue_time")
+                if go_cue_time is None or not np.isfinite(go_cue_time):
+                    go_cue_time = None
+                else:
+                    go_cue_time = float(go_cue_time)
                 trial_info.append(
                     {
+                        "trial_index": int(original_trial_index),
                         "start_time": float(trial["start_time"]),
                         "stop_time": float(trial["stop_time"]),
                         "start": float(start_bin),
                         "stop": float(stop_bin),
                         "target_dir": target_dir,
+                        "target_on_time": target_on_time,
+                        "go_cue_time": go_cue_time,
                     }
                 )
     return trial_info
@@ -924,6 +941,7 @@ class Dandi688MultiSessionDataModule(pl.LightningDataModule):
         self.session_files: dict[str, list[Path]] = {}
         self.session_unit_counts: dict[str, int] = {}
         self.session_channel_counts: dict[str, int] = {}
+        self.side_feature_exact_zero_m_rows: dict[str, int] = {}
         self._behavior_stats: Optional[tuple[np.ndarray, np.ndarray]] = None
         self._side_feature_stats: Optional[tuple[np.ndarray, np.ndarray]] = None
         self._splits_initialized = False
@@ -984,9 +1002,9 @@ class Dandi688MultiSessionDataModule(pl.LightningDataModule):
                         if is_feature_shuffle_control(self.side_feature_group)
                         else None
                     )
-                    side_features, _ = load_unit_side_features(
+                    side_features, side_metadata = load_unit_side_features(
                         nwb_path,
-                        feature_group=base_feature_group(self.side_feature_group),
+                        feature_group=self.side_feature_group,
                         pool_size=self.side_feature_pool_size,
                         mean=side_mean,
                         std=side_std,
@@ -996,6 +1014,10 @@ class Dandi688MultiSessionDataModule(pl.LightningDataModule):
                         window_size=self.window_size,
                         trial_result_filter=self.trial_result_filter,
                         signal_view=self.signal_view,
+                        label_permutation_seed=(
+                            self.side_permutation_seed
+                            if self.side_feature_group == "ls4" else None
+                        ),
                     )
                     component_shuffle = confidence_component_shuffle(self.side_feature_group)
                     if component_shuffle is not None:
@@ -1068,6 +1090,10 @@ class Dandi688MultiSessionDataModule(pl.LightningDataModule):
                         side_features=side_features,
                         electrode_ids=electrode_ids,
                     )
+                    if self.side_feature_group == "ph4":
+                        self.side_feature_exact_zero_m_rows[record.name] = (
+                            side_metadata.exact_zero_m_unit_count
+                        )
                 sessions[record.name] = record
                 self.session_channel_counts[record.name] = record.neural.shape[1]
             return sessions

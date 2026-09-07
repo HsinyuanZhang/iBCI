@@ -34,6 +34,7 @@ test: True
 
 # simply provide checkpoint path to resume training
 ckpt_path: "last" # null
+clean_teacher_mode: false
 
 # seed for random number generators in pytorch, numpy and python.random
 seed: 42 # null

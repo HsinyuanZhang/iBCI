@@ -1,0 +1,7 @@
+# Source-exact mapping for the frozen M2/M33 TS4 checkpoint.
+defaults:
+  - streaming_b3s_t4_m33_correction_source_exact
+
+# TS4 differs from T4 only in data-side attachment; its checkpoint model map is
+# intentionally identical.  Keeping a distinct named config prevents a future
+# correction runner from silently composing the evolving generic model base.

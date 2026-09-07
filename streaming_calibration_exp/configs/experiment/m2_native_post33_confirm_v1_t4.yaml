@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_post33_confirm_v1
+  - override /model: streaming_b3s_t4
+  - override /callbacks: post33_source_only
+
+run_id: m2_native_post33_confirm_v1_t4
+comparison_role: prospective_native_m2_t4_vs_spint
+tags: ["m2", "native-mua", "t4", "post33", "outer-loso", "source-only-selection"]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: val_heldin/r2_mean
+require_baseline_validation: false
+
+trainer:
+  max_epochs: 12
+
+model:
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+

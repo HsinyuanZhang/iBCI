@@ -22,10 +22,14 @@ loso_fold: null
 rotation_id: 0
 include_heldout_in_fit: false
 include_heldout_in_test: false
+query_start_trial: 0
+heldin_query_start_trial: 0
+heldin_query_end_trial: null
+allow_empty_heldout_query: false
 num_workers: 4
 pin_memory: true
 sampler_seed: ${seed}
 balance_session_batches: false
 reshuffle_train_sampler_each_epoch: false
-side_feature_group: none          # none | t4 | ts4; T4 reads held-in calibration trials only
+side_feature_group: none          # none | t4 | ts4 | d4 | ds4; side labels read from held-in calibration NWB only
 side_feature_shuffle_seed: ${seed}

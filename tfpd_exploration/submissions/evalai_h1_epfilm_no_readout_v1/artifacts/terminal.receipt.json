@@ -1,0 +1,18 @@
+{
+  "completed_at": "2026-09-04T16:05:54.215299Z",
+  "execution_time": 0.126374,
+  "image_id": "sha256:0408012c36a0a15a6a1fc21de4760847d7f64e2ac64139002cf7adc30b06f6b9",
+  "official_result_sha256": "aba76c6021fc51b881c256b08b1278c89bd338b2f97003928e084bab32e45d11",
+  "payload_sha256": "523d3d2e55a8fd4620a3f0a94dea6a99ae6ff53cefe807c3ff809a30b1d2479d",
+  "result_url": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581900/6dbd1449-5f51-4004-a1e3-095475851d.json",
+  "schema": "h1_epfilm_no_readout_evalai_terminal_v1",
+  "scores": {
+    "Held In R2 Mean": 0.4619134437480242,
+    "Held In R2 Std.": 0.033438209914405034,
+    "Held Out R2 Mean": 0.2980939036897756,
+    "Held Out R2 Std.": 0.14219437509014887,
+    "Normalized Latency": 0.03594054644023686
+  },
+  "status": "finished",
+  "submission_id": 581900
+}

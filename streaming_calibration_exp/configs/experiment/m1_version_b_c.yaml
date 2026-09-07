@@ -1,0 +1,28 @@
+# @package _global_
+defaults:
+  - override /data: m1_version_b_source_loso
+  - override /model: m1_version_b_b3s
+  - override /callbacks: m1_version_b_fixed_epoch
+
+task_name: m1_version_b_c
+run_id: m1_version_b_c_f0_s42
+tags: [m1, version-b, source-loso, compact, emg-afc4, development-only]
+train: true
+test: true
+ckpt_path: null
+seed: 42
+no_early_stopping: true
+optimized_metric: test_heldin/r2_mean
+require_baseline_validation: false
+
+data:
+  afc4_arm: full
+  loso_fold: 0
+  source_session_names: [ses-20120926, ses-20120927, ses-20120928]
+
+trainer:
+  min_epochs: 12
+  max_epochs: 12
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

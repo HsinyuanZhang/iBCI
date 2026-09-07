@@ -1,0 +1,27 @@
+{
+  "cpu_thread_env": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "device": "cuda:0",
+  "environment": {
+    "numpy": "1.26.4",
+    "python": "3.11.15",
+    "torch": "2.3.1+cu121"
+  },
+  "evalai_opened": false,
+  "gpu0": {
+    "foreign_compute_processes": "",
+    "free_mib": 23803,
+    "used": true,
+    "utilization": 0,
+    "uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9"
+  },
+  "gpu1_touched": false,
+  "hidden_test_opened": false,
+  "legacy_head": "5dd9bb4a7377a5431b7dbac4f1378e529130eb1a",
+  "schema": "h1_epfilm_evalai_v1_build_attempt",
+  "status": "ATTEMPT_PAYLOAD_BUILD"
+}

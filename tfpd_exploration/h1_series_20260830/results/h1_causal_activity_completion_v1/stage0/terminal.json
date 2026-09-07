@@ -1,0 +1,14 @@
+{
+  "attempt_sha256": "55218ad54e148fa7a361efdb0bee94e58db69627ad60aef4b1c5833e330a4ec3",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "input_authority_sha256": "681bb119dd9bd054cad58ea56a22649a48aa929acfdda0e770b1e1fb3d27cdb3",
+  "minival_opened": false,
+  "schema": "h1_causal_activity_completion_v1_stage0_terminal",
+  "score_sha256": "4c9011ad1368e994e28179aa086a98c863e1f7551ceeda7ef5798c51060ed6b6",
+  "status": "COMPLETE_H1_CAC_STAGE0_FROZEN_WEIGHT_SCORE",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "verdict": "PASS_H1_ACTIVITY_CONTENT_BUT_STOP_BOUNDARY_FREE_DETECTOR"
+}

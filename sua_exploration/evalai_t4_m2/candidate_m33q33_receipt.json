@@ -1,0 +1,100 @@
+{
+  "schema_version": "e8_t4_m2_candidate_m33q33_receipt_v1",
+  "scope": "local M2 development replay; not hidden EvalAI test",
+  "candidate": {
+    "arm": "T4",
+    "seed": 42,
+    "training_sessions": "all seven M2 held-in sessions",
+    "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e"
+  },
+  "protocol": {
+    "calibration_support": "chronological trials [0:33]",
+    "query_start_trial": 33,
+    "window_size_bins": 50,
+    "full_window_disjoint": true,
+    "eligible_sessions": [
+      "ses-2020-10-30-Run1",
+      "ses-2020-10-30-Run2",
+      "ses-2020-11-18-Run1",
+      "ses-2020-11-19-Run1"
+    ],
+    "ineligible_zero_query_sessions": [
+      "ses-2020-11-24-Run1",
+      "ses-2020-11-24-Run2"
+    ],
+    "label_information": {
+      "B0": "same first-33 neural support; no calibration target labels",
+      "T4": "same first-33 neural support plus one target direction per support trial",
+      "TS4": "same T4 labels and width, with deterministic channel-row shuffle"
+    }
+  },
+  "sources": {
+    "B0_teacher_checkpoint": {
+      "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/logs/train/runs/2026-07-07-16-05-16/checkpoints/best_ckpt/epoch_034.ckpt",
+      "sha256": "fbcb9914561c4664fa0f8d0b1791e67505841d3ac470ea7ad68d54e408ca13ec"
+    },
+    "T4_replay_artifact": {
+      "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/outputs/streaming_calibration/e8_t4_m2_submission_candidate_m33q33_v1_s42_20260801_161807",
+      "metrics_per_session_sha256": "47e630b2afbf77fb5053da270309e7a3476272abad760382acda014f110be6ef",
+      "resolved_config_sha256": "ae1500f130e5c5598d94a55549afe1f88251e082acc9936b40f396e91ead1cd5",
+      "split_manifest_sha256": "42e7183e7e6af2e24e93f5606efdaf15789186a566adf33ee922b11573c41a8d",
+      "checkpoint_manifest_sha256": "e9e5940d7462e3980656dbab970341d9397c971e9281534f9b47d475855a5261"
+    },
+    "TS4_checkpoint": {
+      "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/outputs/streaming_calibration/m2_spint_t4_mainline_fp32_v1_ts4_m2_s42_20260730_141614/checkpoints/best.ckpt",
+      "sha256": "e385e2f408d6b3fe65645be934a8f69b3ab4e68b986e56e64512611cac040399"
+    },
+    "TS4_replay_artifact": {
+      "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/outputs/streaming_calibration/e8_ts4_m2_submission_control_m33q33_v1_s42_20260801_162010",
+      "metrics_per_session_sha256": "c0ea7a34bb8534b979125d9f8003794f430c4a93e976332bf959025c52c6070b",
+      "resolved_config_sha256": "45fa110f84be3c1e38482ea6b687916f7c2adbfb8f620f7d5c37e0528733dbf3",
+      "split_manifest_sha256": "1dc187cbf1e4f4ddf220df478a61f7221f272337ec3c832a556a5bb3466b87bf",
+      "checkpoint_manifest_sha256": "098ce534d716de34d837ad197c1521a852c09cb0adfdd8fb1f373c6d903e02d9"
+    }
+  },
+  "per_session_r2": {
+    "ses-2020-10-30-Run1": {
+      "B0": 0.2655988335609436,
+      "T4": 0.37222117,
+      "TS4": 0.29325646,
+      "T4_minus_B0": 0.10662233643905639,
+      "T4_minus_TS4": 0.07896471
+    },
+    "ses-2020-10-30-Run2": {
+      "B0": 0.4043463468551636,
+      "T4": 0.43968308,
+      "TS4": 0.40389287,
+      "T4_minus_B0": 0.03533673314483643,
+      "T4_minus_TS4": 0.03579020999999999
+    },
+    "ses-2020-11-18-Run1": {
+      "B0": 0.23972469568252563,
+      "T4": 0.38411531,
+      "TS4": 0.22685133,
+      "T4_minus_B0": 0.14439061431747435,
+      "T4_minus_TS4": 0.15726398
+    },
+    "ses-2020-11-19-Run1": {
+      "B0": 0.016040556132793427,
+      "T4": -0.01349896,
+      "TS4": -0.12381966,
+      "T4_minus_B0": -0.029539516132793427,
+      "T4_minus_TS4": 0.1103207
+    }
+  },
+  "aggregate": {
+    "B0_mean_r2": 0.23142760805785656,
+    "T4_mean_r2": 0.29563015,
+    "TS4_mean_r2": 0.20004525,
+    "T4_minus_B0_mean_r2": 0.06420254194214343,
+    "T4_minus_TS4_mean_r2": 0.09558489999999999,
+    "T4_minus_B0_positive_sessions": "3/4",
+    "T4_minus_TS4_positive_sessions": "4/4"
+  },
+  "interpretation_limits": [
+    "This exact-candidate replay is positive development evidence, not an external test.",
+    "With four eligible session clusters it cannot establish a conventional two-sided significance result.",
+    "T4 uses calibration target labels that B0 does not; T4-B0 is an end-to-end supervised-calibration contrast.",
+    "The metrics CSV R2_delta_vs_matched_baseline column points to the historical q0 baseline and is not used here; B0 was recomputed at q33."
+  ]
+}

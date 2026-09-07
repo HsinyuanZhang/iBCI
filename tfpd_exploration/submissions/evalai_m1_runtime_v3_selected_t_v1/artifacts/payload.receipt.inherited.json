@@ -1,0 +1,79 @@
+{
+  "banks": {
+    "carrier_npz_sha256": "27016199c39d630b4a0455ddeae36aa90e669bc4e913e765d2b00c03637298ab",
+    "hidden_or_test_opened": false,
+    "opened": [
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121004_behavior+ecephys.nwb",
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121017_behavior+ecephys.nwb",
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121024_behavior+ecephys.nwb"
+    ],
+    "outer_query_opened": false,
+    "records": {
+      "ses-20120924": {
+        "dataset_tag": "20120924",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+        "file_sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": false
+      },
+      "ses-20120926": {
+        "dataset_tag": "20120926",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+        "file_sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": true
+      },
+      "ses-20120927": {
+        "dataset_tag": "20120927",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+        "file_sha256": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": true
+      },
+      "ses-20120928": {
+        "dataset_tag": "20120928",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+        "file_sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": true
+      },
+      "ses-20121004": {
+        "dataset_tag": "20121004",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121004_behavior+ecephys.nwb",
+        "file_sha256": "782c1fd090facfb3c50b6a85da8209ca3aea71f66bd4edc13d61fe4a55a3429d",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": false
+      },
+      "ses-20121017": {
+        "dataset_tag": "20121017",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121017_behavior+ecephys.nwb",
+        "file_sha256": "8dd22c67500445ec1e0c11980475badbba9e960a05db16b78aaaad5502b3c652",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": false
+      },
+      "ses-20121024": {
+        "dataset_tag": "20121024",
+        "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121024_behavior+ecephys.nwb",
+        "file_sha256": "bbeb6c7d66e2c2e9b76506021a6cf8800bc19021b6d1fd03c4eb6de71490bafb",
+        "query_values_read": false,
+        "t_from_sealed_source_bank": false
+      }
+    }
+  },
+  "bytes": 14435204,
+  "evalai_opened": false,
+  "image_state": {
+    "epoch_one_based": 6,
+    "operator": "current_query",
+    "path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/results/decoder_validation_v2/20260905_190000/m1/formal_formal12_chron80_v2_current_query_selected_ema_model_state.pt",
+    "sha256": "8f4a444033136dee6965a2590603a81bfd69e6d00001a42f97ed63761fa817bc"
+  },
+  "outer_query_opened": false,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_optimized_v2_t_e6_v1/artifacts/m1_optimized_v2_t_ema_e6.pkl",
+  "payload_sha256": "5e44fc37965640138bf977da42a988e7636daa996d1eb9b50a75fa5628f9d7b3",
+  "schema": "m1_optimized_v2_t_e6_payload_v1"
+}

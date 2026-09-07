@@ -1,0 +1,15 @@
+{
+  "arm": "small_trf_s42_ema_e8_ext6_w0",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA. Epoch picked on six locally visible official held-out-calib sessions (query_start_trial=0), not on ext-4-only and not on 581971.",
+  "image_id": "sha256:c3297f4c96b70ab00f67a00fb25c5acade47394bccd3b181ab57571b29e720ed",
+  "image_size": 9470655081,
+  "image_tag": "spint-t4-m2:small-trf-s42-ema-e8-ext6-w0-4db109e7",
+  "method_description": "M2 SMALL causal Transformer S1-SMALL-COS seed 42 EMA epoch 8, picked by the MOVE-T4 581919 rule on the six visible official held-out-calib sessions (equal-session mean 0.399069, worst ses-2020-11-19-Run1=0.235447). Exact-E runtime and dataloader_workers=0. Registered as 581973.",
+  "method_label": "M2 small causal Transformer (S1-SMALL-COS seed42 EMA e8) exact-E w0; 6-session official held-out-calib epoch-pick; not 581971",
+  "method_name": "M2 small Transformer S1-SMALL-COS EMA e8 s42 ext6-epochpick exact-E w0",
+  "payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+  "register": true,
+  "submission_id": 581973,
+  "selection_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/results/m2_small_s1_visible_ext6_epoch_pick_v1/selection.json",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_trf_ext6_epochpick_v1/artifacts/evalai_push_state.json"
+}

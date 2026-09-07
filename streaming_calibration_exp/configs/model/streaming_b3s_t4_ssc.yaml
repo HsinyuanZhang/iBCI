@@ -1,0 +1,13 @@
+defaults:
+  - _streaming_base
+
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+variant: B3S
+hidden_dim: 64
+side_dim: 4
+electrode_embed_dim: 0
+num_electrodes: 0
+# SSC-T4 trains only on mutually exclusive M12 activity subsets.  Ordinary
+# full-M24 T4 is deliberately retained for all three forwards.
+support_prediction_consistency_weight: 0.0
+ssc_t4_prediction_consistency_weight: 1.0

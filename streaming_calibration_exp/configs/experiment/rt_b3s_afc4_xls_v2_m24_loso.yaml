@@ -1,0 +1,21 @@
+# @package _global_
+
+defaults:
+  - rt_clean_nested_loso_m24
+
+run_id: rt_b3s_afc4_xls_v2_m24_loso
+tags: ["rt", "afc4_xls_v2", "m24", "clean_nested_loso", "b3s", "development_only"]
+
+data:
+  side_feature_group: afc4_xls_v2
+  xls_v2_support_audit_path: ${paths.root_dir}/../sua_exploration/results/rt_afc4_ls_null_strength_audit_v2/RT_AFC4_LS_NULL_STRENGTH_SUPPORT_AUDIT_v2.json
+
+model:
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 35
+

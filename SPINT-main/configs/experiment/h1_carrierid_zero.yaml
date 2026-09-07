@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - h1_carrierid
+
+task_name: h1_carrierid_h32_zero
+tags: [h1, carrierid, h32, m4, normalized_carrier, fold0, separate_zero]
+pilot:
+  arm: zero
+  zero_carrier: true

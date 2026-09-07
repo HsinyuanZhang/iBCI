@@ -22,6 +22,13 @@ loso_fold: null
 rotation_id: 0
 include_heldout_in_fit: false
 include_heldout_in_test: false
+# Nonzero only for an explicit local held-out test-only replay.  It excludes
+# every query window whose 50-bin history could touch the calibration prefix.
+query_start_trial: 0
+# False for ordinary held-out replays.  A correction-only protocol may set this
+# true to record a session with no trial after the fixed support prefix as
+# ineligible, never as an evaluable score.
+allow_empty_heldout_query: false
 num_workers: 4
 pin_memory: true
 sampler_seed: ${seed}

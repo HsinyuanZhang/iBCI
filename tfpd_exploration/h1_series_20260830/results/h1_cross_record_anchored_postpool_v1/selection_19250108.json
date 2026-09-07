@@ -1,0 +1,46 @@
+{
+  "outer_date": "19250108",
+  "outer_date_calib_opened": false,
+  "outer_date_minival_opened": false,
+  "schema": "h1_cross_record_anchored_postpool_v1_selection",
+  "selection": {
+    "arm": "RP-G000",
+    "family": "RP",
+    "gate": 0.0,
+    "rp_preference_tolerance": 0.002,
+    "smaller_gate_tolerance": 0.001,
+    "source_gain_vs_static": 0.0,
+    "source_mean_r2": 0.9522874759848936,
+    "unconstrained_best_r2": 0.9522874759848936
+  },
+  "source_arm_equal_date_mean_r2": {
+    "A-STATIC": 0.9522874759848936,
+    "RN-G000": 0.9522874759848936,
+    "RN-G005": 0.952260393952437,
+    "RN-G010": 0.9522125456408569,
+    "RN-G020": 0.9520536865330576,
+    "RN-G050": 0.9510550561408131,
+    "RN-G100": 0.9469888645303918,
+    "RP-G000": 0.9522874759848936,
+    "RP-G005": 0.9521817574267532,
+    "RP-G010": 0.9520508000698673,
+    "RP-G020": 0.9517058185654935,
+    "RP-G050": 0.9498641280193894,
+    "RP-G100": 0.9419344330203693
+  },
+  "source_sessions": [
+    "ses-19250101T111740",
+    "ses-19250101T112404",
+    "ses-19250113T120811",
+    "ses-19250113T121303",
+    "ses-19250115T110633",
+    "ses-19250115T111328",
+    "ses-19250119T113543",
+    "ses-19250119T114045",
+    "ses-19250120T115044",
+    "ses-19250120T115537"
+  ],
+  "status": "SELECTED_BEFORE_OUTER_DATE_OPEN",
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0
+}

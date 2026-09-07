@@ -1,0 +1,36 @@
+# C2 Z4 is ordinary T4, masked only after source-normalizer application.
+_target_: src.data.c2_m2_matched_z4_datamodule.C2M2MatchedZ4DataModule
+
+task: m2
+data_dir: ${paths.data_dir}/000953/
+heldin_session_names: ['']
+batch_size: 32
+window_size: 50
+calibration_n_trials: 33
+random_calibration: false
+smooth_calibration: false
+max_trial_length: 100
+standardize_covariates: false
+use_intertrials: true
+use_calib_intertrials: false
+trial_feature_type: raw
+interpolate_trials: true
+interpolate_trials_kind: cubic
+pad_value: -1.0
+validation_protocol: loso
+loso_fold: 0
+rotation_id: 0
+include_heldout_in_fit: false
+include_heldout_in_test: false
+query_start_trial: 0
+heldin_query_start_trial: 0
+heldin_query_end_trial: null
+allow_empty_heldout_query: false
+num_workers: 4
+pin_memory: true
+sampler_seed: ${seed}
+balance_session_batches: false
+reshuffle_train_sampler_each_epoch: false
+side_feature_group: t4
+side_feature_shuffle_seed: ${seed}
+c2_z4_mask_after_standardization: true

@@ -1,0 +1,811 @@
+{
+  "arms": [
+    "FROZEN-C1",
+    "N3-XR12",
+    "J3-XR12"
+  ],
+  "attempt_sha256": "9ca48b503d1f315bc13617cf2aa9ad6a51df4ad99a5d95afdbdd0c8ae7f79d90",
+  "cuda_initialized": true,
+  "date_order": [
+    "19250108",
+    "19250113",
+    "19250115",
+    "19250119",
+    "19250120"
+  ],
+  "decision": {
+    "joint_gain_by_date": [
+      0.019011146824308156,
+      0.05483602724983827,
+      -0.09042223607768163,
+      -0.0023464781102937593,
+      -0.026068356969987327
+    ],
+    "joint_gate": {
+      "mean": -0.008997979416763257,
+      "nonnegative_dates": 2,
+      "pass": false,
+      "required_mean": 0.005,
+      "required_nonnegative_dates": 4,
+      "required_worst": -0.01,
+      "worst": -0.09042223607768163
+    },
+    "joint_increment_by_date": [
+      0.0002818510279709585,
+      -0.00248710053035589,
+      0.0010487569948085529,
+      6.285699511576759e-05,
+      -0.002587675478603224
+    ],
+    "joint_increment_gate": {
+      "mean": -0.0007362621982127671,
+      "nonnegative_dates": 3,
+      "pass": false,
+      "required_mean": 0.0,
+      "required_nonnegative_dates": 3,
+      "required_worst": -0.01,
+      "worst": -0.002587675478603224
+    },
+    "native_gain_by_date": [
+      0.018729295796337198,
+      0.05732312778019416,
+      -0.09147099307249018,
+      -0.002409335105409527,
+      -0.023480681491384103
+    ],
+    "native_gate": {
+      "mean": -0.00826171721855049,
+      "nonnegative_dates": 2,
+      "pass": false,
+      "required_mean": 0.005,
+      "required_nonnegative_dates": 4,
+      "required_worst": -0.01,
+      "worst": -0.09147099307249018
+    },
+    "pass": false,
+    "selected_arm": null,
+    "verdict": "STOP_H1_M3_CROSS_RECORD_MATCHED_TRAINING"
+  },
+  "evalai_opened": false,
+  "folds": [
+    {
+      "alpha": -0.0005811217124573886,
+      "fold_sha256": "7c697b928786c68ee1b5d6924157cd5420a3ad38276fbed8c4cb23c9b9ec91f6",
+      "joint_gain": 0.019011146824308156,
+      "joint_increment": 0.0002818510279709585,
+      "model_authority": {
+        "checkpoint_sha256": "904216a596fb71abc72ce2fcdba9ae207eeb258be5fa32fb2aaf533ab42dd047",
+        "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+        "global_step": 167800,
+        "model_parameter_count": 10947836,
+        "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+        "strict_load_missing_keys": [],
+        "strict_load_unexpected_keys": [],
+        "terminal_sha256": "083a6016d4fc053be34beb2f21bc6b9b24343c134f62ba257ea69fec05a1eec3",
+        "terminal_state_sha256": "db41c05f70af87b58bf05e441f5821ad269a002bd119d34a94f4bc8d77b0d836"
+      },
+      "native_gain": 0.018729295796337198,
+      "outer_date": "19250108",
+      "schema": "h1_m3_cross_record_joint_postpool_v1_fold",
+      "scores": {
+        "FROZEN-C1": 0.4021064230364238,
+        "J3-XR12": 0.42111756986073196,
+        "N3-XR12": 0.420835718832761
+      },
+      "source_plan_authority": {
+        "normalizer_s_src": 5.481521267601705e-06,
+        "normalizer_sha256": "cfe5d7c8f9307ecb2e0962001272e9c37f5309809b63521182df9c3933b6b1ee",
+        "plan_npz_sha256": "1c9af578fb333ebe77acad00f6fdf2da4a6c40fa3dbc1099f308d2bf27d725ad",
+        "plan_sha256": "3f525e5f2b2fb59aadebe8efc4375671d0737a2995a399cea44b381beaa20f1e",
+        "q": 8,
+        "ridge_lambda": 10.0,
+        "source_authority_sha256": "8cdecf55d406ebf1175009140b44a1e5cf7d515a8d054c2416695834f4a9fd2b",
+        "source_sessions": [
+          "ses-19250101T111740",
+          "ses-19250101T112404",
+          "ses-19250113T120811",
+          "ses-19250113T121303",
+          "ses-19250115T110633",
+          "ses-19250115T111328",
+          "ses-19250119T113543",
+          "ses-19250119T114045",
+          "ses-19250120T115044",
+          "ses-19250120T115537"
+        ]
+      },
+      "source_sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633",
+        "ses-19250115T111328",
+        "ses-19250119T113543",
+        "ses-19250119T114045",
+        "ses-19250120T115044",
+        "ses-19250120T115537"
+      ],
+      "status": "COMPLETE_PAIRED_TRAINING_OUTER_SCORE",
+      "tanh_alpha": -0.0005811216542497277,
+      "target_backward_steps": 0,
+      "target_model_updates": 0,
+      "target_optimizer_steps": 0,
+      "target_rows": [
+        {
+          "activity_sha256": "74446fe9abcddd9e907160013ae28030848241bcfcece21b59f527c3663bbfb6",
+          "carrier_sha256": "4b264609abcdfd8beacfe7cc7ecb0b27a0910230292ff6c54e5daae56025ca79",
+          "date": "19250108",
+          "endpoint_sha256": "9abc89ce2be7637440fd0c1e5d42f3f81863fac6e14a109a961833c65e6c0063",
+          "minival_input_sha256": "99fb1997035c4f9b0dd0a97be093042f9b7cf10af55cb2a3dc83eea7e35b4d0e",
+          "prediction_sha256": {
+            "FROZEN-C1": "cba11d3a3940d155acc4c354cba4963b105e8f6e8e7d3d161435184508413448",
+            "J3-XR12": "defb453ad3c0f502749114bee1207585676c90c8f822a105d66f6dbf5f5c23e0",
+            "N3-XR12": "39740503d668e1df1513a8e46ab225fb08488cd8351e1057fe9a5a07a8ee4f43"
+          },
+          "query_neural_sha256": "b50c43909a84677e7209369ea8d7e1aca9b2b62b88ba7608d56a9f76cde16336",
+          "r2": {
+            "FROZEN-C1": 0.22456008797007299,
+            "J3-XR12": 0.24108378753965687,
+            "N3-XR12": 0.23475772623208402
+          },
+          "session": "ses-19250108T110520",
+          "support": {
+            "activity_sha256": "74446fe9abcddd9e907160013ae28030848241bcfcece21b59f527c3663bbfb6",
+            "calibration_input_sha256": "8a09f6ead8a44776d2cee62850ff489bd16b1323799c986cad070dad784a2b83",
+            "carrier_sha256": "4b264609abcdfd8beacfe7cc7ecb0b27a0910230292ff6c54e5daae56025ca79",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "606286d3ae617a4260cc0d53f67106d22f0555bd478cb4e6d92f693c26a6ca08",
+          "target_stream_sha256": "74ffb58266fa7945a3ebd2e53aa5a373136bb55059caf50c9677284bc0ed197e",
+          "train_endpoint_sha256": "b70f8406f832813302f03e9886ab43a024ded4b7dfa85b5bdbfa62199f968037",
+          "training_windows": 408,
+          "windows": 1629
+        },
+        {
+          "activity_sha256": "f51f456b32e5ef1c54ddf389742c38121f7fa9931d72a1505300936b1de3c6d3",
+          "carrier_sha256": "8ad76b12ae94bb326e3d434b53ac315f4904dbd0dfe38a04be53b3bbcc546120",
+          "date": "19250108",
+          "endpoint_sha256": "68dac476507ec6379474b1b83a989ae76c15c414e9c9e12cd0545a4e9f3bd5d4",
+          "minival_input_sha256": "0831e7fb7f262faabc1520237bf8dfeea47dd02211642fac75c5257a24d5bc3f",
+          "prediction_sha256": {
+            "FROZEN-C1": "05aec650518068b07e64fd2fe0362e42e586dd383ebc14dd27cf969a6cb89cb5",
+            "J3-XR12": "3c29c5f55dd8dd63916a2318c9a1a55245f9ca6818794d64653c352b36829b3e",
+            "N3-XR12": "89e5c0e271f59de49fcf34ed3b85a5cad675fdc5e1588220cab3d8aeeade9a6e"
+          },
+          "query_neural_sha256": "69c4317401a084c49cd19b7415cbab4cd22aa8c6d559ba1c32b0eff23d651146",
+          "r2": {
+            "FROZEN-C1": 0.47575270370180534,
+            "J3-XR12": 0.4972438760950393,
+            "N3-XR12": 0.4977603143646775
+          },
+          "session": "ses-19250108T111022",
+          "support": {
+            "activity_sha256": "f51f456b32e5ef1c54ddf389742c38121f7fa9931d72a1505300936b1de3c6d3",
+            "calibration_input_sha256": "9398f27c6164e84a379c4a0b8d40d8acf642659c175b9411d4573147881c0e68",
+            "carrier_sha256": "8ad76b12ae94bb326e3d434b53ac315f4904dbd0dfe38a04be53b3bbcc546120",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "dfe3b019fbb3bc9e0a453415d429db3222f46621a840a439f9b1052d8aa5a077",
+          "target_stream_sha256": "6b73d561e61fa6da0d812652372e10c9b93e4f2b14b9376fc3656ebd1b59c025",
+          "train_endpoint_sha256": "d29f5a3dd675485611452c44c0e2247b19bdca567c77b5d64568fb19735355fc",
+          "training_windows": 453,
+          "windows": 1811
+        },
+        {
+          "activity_sha256": "02c4b06ba0c358ad793c44e80dc5488a6194b3a998481c1cded32a3099a35898",
+          "carrier_sha256": "ee7261589d0e269dbe8256fc2bdaa75a88d4a9df682a10b1a727a0496a5c459c",
+          "date": "19250108",
+          "endpoint_sha256": "d33cab1a26adb103ee2dee987c9af636ee84acf4c38cfc8bfc0af34c8602afda",
+          "minival_input_sha256": "052423d5963899ebfc669d56ada6bc7ab4c060f023616a870c804c1b24f1418e",
+          "prediction_sha256": {
+            "FROZEN-C1": "4960f68dd5db8ddb739773916684ab067d33aa0fdb0db44e21838c37492885e1",
+            "J3-XR12": "ce1a197f359a7b44a47472c04f5624dc94f1f821fa89584bba24ed744aa02337",
+            "N3-XR12": "09ae81c17ea6fd481860969eb261dd1e1240271f181de0242312f51b3a8f7ce7"
+          },
+          "query_neural_sha256": "5ed5e9f0734eecb4c3e8ce98b7fd0d3b80fd6a017c6a87e511a28faa688ac6fa",
+          "r2": {
+            "FROZEN-C1": 0.506006477437393,
+            "J3-XR12": 0.5250250459474999,
+            "N3-XR12": 0.5299891159015214
+          },
+          "session": "ses-19250108T111455",
+          "support": {
+            "activity_sha256": "02c4b06ba0c358ad793c44e80dc5488a6194b3a998481c1cded32a3099a35898",
+            "calibration_input_sha256": "3a093dd558a7c5b3dbb38eaa1bb1699742a4b865066a336e65c5fe3abdfdd861",
+            "carrier_sha256": "ee7261589d0e269dbe8256fc2bdaa75a88d4a9df682a10b1a727a0496a5c459c",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "5d641c23829934b5102cdc532458886504f288a970c580d5a2945c1551f69620",
+          "target_stream_sha256": "519241cc7820b5f4c65e04b2f7e2cb7ed4f43695f4446626cdd7d833513bf82d",
+          "train_endpoint_sha256": "35b6cee922025d9bd84dba7e2f5ef14a4344c4ee178f790d6e28680a18ed395f",
+          "training_windows": 434,
+          "windows": 1736
+        }
+      ],
+      "target_sessions": [
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455"
+      ],
+      "training_sha256": "a035b8e075f3810ddbfd3dee657229c25622408a583ffcd4032ad14b9df5cafc"
+    },
+    {
+      "alpha": -0.004036340396851301,
+      "fold_sha256": "c452ce0bd5c229c56a3f07a97df48bf5a875dbe944c765a243641f505eef6ddc",
+      "joint_gain": 0.05483602724983827,
+      "joint_increment": -0.00248710053035589,
+      "model_authority": {
+        "checkpoint_sha256": "2a114c5f2edddef9df19167e1d756ab80c1cfa04ae20b46343cb7a848f252d35",
+        "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+        "global_step": 171100,
+        "model_parameter_count": 10947836,
+        "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+        "strict_load_missing_keys": [],
+        "strict_load_unexpected_keys": [],
+        "terminal_sha256": "b4d7e301f917477c2e790c7823219ce62f99b0114f41005d1cbc610051da60cb",
+        "terminal_state_sha256": "b2c9f02fac46a2e8edffb9ab534cf965509556053a6e9b08d4007dc685d09448"
+      },
+      "native_gain": 0.05732312778019416,
+      "outer_date": "19250113",
+      "schema": "h1_m3_cross_record_joint_postpool_v1_fold",
+      "scores": {
+        "FROZEN-C1": 0.2959027198037702,
+        "J3-XR12": 0.35073874705360847,
+        "N3-XR12": 0.35322584758396436
+      },
+      "source_plan_authority": {
+        "normalizer_s_src": 5.368179321237253e-06,
+        "normalizer_sha256": "9bb7e3628ebb01b09157f6e76144c06ca34175fbcc777f14afb4c49f65c6cc38",
+        "plan_npz_sha256": "d632a373d712b3f5c9a7882a4f50fd24f58af244e178fd4132bbc1d0309b4e7c",
+        "plan_sha256": "6e8c84abcec1996b2d89c4b810bf23430c5b60e3bed6ad51f70e69aaed50c9d4",
+        "q": 8,
+        "ridge_lambda": 10.0,
+        "source_authority_sha256": "078a57fcf79ebbb161f9d15daabb09100fb22b3dee2a0668ea92c509256c6cf5",
+        "source_sessions": [
+          "ses-19250101T111740",
+          "ses-19250101T112404",
+          "ses-19250108T110520",
+          "ses-19250108T111022",
+          "ses-19250108T111455",
+          "ses-19250115T110633",
+          "ses-19250115T111328",
+          "ses-19250119T113543",
+          "ses-19250119T114045",
+          "ses-19250120T115044",
+          "ses-19250120T115537"
+        ]
+      },
+      "source_sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250115T110633",
+        "ses-19250115T111328",
+        "ses-19250119T113543",
+        "ses-19250119T114045",
+        "ses-19250120T115044",
+        "ses-19250120T115537"
+      ],
+      "status": "COMPLETE_PAIRED_TRAINING_OUTER_SCORE",
+      "tanh_alpha": -0.004036318510770798,
+      "target_backward_steps": 0,
+      "target_model_updates": 0,
+      "target_optimizer_steps": 0,
+      "target_rows": [
+        {
+          "activity_sha256": "a63599461f4c8cd0390fae903b3bc21a55c9a66acaf7ce3ad078d0b5c5bdcc50",
+          "carrier_sha256": "22d1d35689a7372ab4197700a7fc9d651104757c4cea81f5239f96fcf434abc9",
+          "date": "19250113",
+          "endpoint_sha256": "8fd8142bd127adb551c7ec13c47b8ea6516b0d9a37af7fcacae347a0e124d505",
+          "minival_input_sha256": "8fcaf8bf0030556ccccd1ff8133b45728409b4972ab8fcf0f554b9ad8befc41e",
+          "prediction_sha256": {
+            "FROZEN-C1": "faa5c9c4bce0530ff1ab6a640b5575f3ca6a0d9a8863541fc6381871c846081a",
+            "J3-XR12": "643d58878bf860dc221637153b6e4c71b6b0517d828b5ddce59b11a6b6f4a138",
+            "N3-XR12": "528a63ecae036d472b45b75c45ce298cff475a8e1dad558642bb86a9b8eec8c6"
+          },
+          "query_neural_sha256": "bccd49f0b7e8cc87d20cff7d746fdd31f9c509389d5a3bc2142f8d02b307723c",
+          "r2": {
+            "FROZEN-C1": 0.2671588739674864,
+            "J3-XR12": 0.33103545279958324,
+            "N3-XR12": 0.33329315279186866
+          },
+          "session": "ses-19250113T120811",
+          "support": {
+            "activity_sha256": "a63599461f4c8cd0390fae903b3bc21a55c9a66acaf7ce3ad078d0b5c5bdcc50",
+            "calibration_input_sha256": "477410e16b8c1ccfcb3caba9403169ec21ab8bee35c4846376bae781003c5f92",
+            "carrier_sha256": "22d1d35689a7372ab4197700a7fc9d651104757c4cea81f5239f96fcf434abc9",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "e857e6165eac3a1a69caffbbbc3c4ce5083822b6c569ce6ee46498832e99b323",
+          "target_stream_sha256": "76011d3009e166e71bd4248a89d17d5fff308a2b4ca7b142808e9e5297fde9b2",
+          "train_endpoint_sha256": "8ebcdf24015fe18a2492c9daae0e9e97577165d3cba6ce564e80fd37fad48e1c",
+          "training_windows": 360,
+          "windows": 1437
+        },
+        {
+          "activity_sha256": "761380170ef096422c26bc6080f49dc71cd6f3803f8492db06c98d9b08cff306",
+          "carrier_sha256": "288c9e640964b6538e2b83cbd0c7752b29513c6ad490f7dc5b4a1fc89e9d3d46",
+          "date": "19250113",
+          "endpoint_sha256": "37a447eb34fa5e1cf458d0521b2538a03d41bd76ce5399106798b1fbffb832b3",
+          "minival_input_sha256": "8842d94cda42a92e71fb6d611cb97534263887441458086261110f9c3f363b5a",
+          "prediction_sha256": {
+            "FROZEN-C1": "022efe1a8fa1c137483c0226327859ab1d5dfd97e703eeae366c441e0febac90",
+            "J3-XR12": "5d8dc5d1942a68b5aaa8c729a253723e8c853ae586825fcb88f4527890cdcbe8",
+            "N3-XR12": "79579ec44d845cd388351c7aabbb8124ca31a5dc0ecfb3fd2da432a710f42c0e"
+          },
+          "query_neural_sha256": "eaefcefb4c0ab6a8f883e6236624cb37f03bd7f85f8e0fa80f043f1a74718659",
+          "r2": {
+            "FROZEN-C1": 0.324646565640054,
+            "J3-XR12": 0.3704420413076337,
+            "N3-XR12": 0.37315854237606005
+          },
+          "session": "ses-19250113T121303",
+          "support": {
+            "activity_sha256": "761380170ef096422c26bc6080f49dc71cd6f3803f8492db06c98d9b08cff306",
+            "calibration_input_sha256": "29d01954747e028dc8b91f82ece28ef11b95a1a33ab3a57e55eb5f967706419f",
+            "carrier_sha256": "288c9e640964b6538e2b83cbd0c7752b29513c6ad490f7dc5b4a1fc89e9d3d46",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "0fcfdb32ac17ff31b75fb5b6354cd5fdbe96438ae850aaab80860cf47e994bb6",
+          "target_stream_sha256": "dea208e0b965dab2ff04b10cd7ad018cfc7e4d9242c817c31420f72ea7216ea8",
+          "train_endpoint_sha256": "b194950da0312ffe73149f189f78d320519eb12995943d89012b09914a533afd",
+          "training_windows": 380,
+          "windows": 1517
+        }
+      ],
+      "target_sessions": [
+        "ses-19250113T120811",
+        "ses-19250113T121303"
+      ],
+      "training_sha256": "202d4461d9c35e207bb8a000427dd58ba0cd0b08c14560ea11b3b073c9ad76b8"
+    },
+    {
+      "alpha": -0.0013738585403189063,
+      "fold_sha256": "1fe9d534bf9b9a034b70a0bc8a83a53c2abd4438cd184806be98e599f2d06467",
+      "joint_gain": -0.09042223607768163,
+      "joint_increment": 0.0010487569948085529,
+      "model_authority": {
+        "checkpoint_sha256": "0a15fbed098a6488496f8ec7caa5e9ed2ed04c165db80b9ee817c456698af932",
+        "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+        "global_step": 172700,
+        "model_parameter_count": 10947836,
+        "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+        "strict_load_missing_keys": [],
+        "strict_load_unexpected_keys": [],
+        "terminal_sha256": "4aba995c4ba30d45d01dd8ba8a3feeda534d1bb9ae67037bdd29519bbd54e19d",
+        "terminal_state_sha256": "16d5765437d93fcf804e0967cf9956848bdfd372e2138a880e38926e15ad9696"
+      },
+      "native_gain": -0.09147099307249018,
+      "outer_date": "19250115",
+      "schema": "h1_m3_cross_record_joint_postpool_v1_fold",
+      "scores": {
+        "FROZEN-C1": 0.5849630736550439,
+        "J3-XR12": 0.4945408375773622,
+        "N3-XR12": 0.49349208058255367
+      },
+      "source_plan_authority": {
+        "normalizer_s_src": 8.78903698723272e-06,
+        "normalizer_sha256": "560137bda5d945ba1fa9487b37d5b7981b3385727a8b2dc877a5978b4d1741a4",
+        "plan_npz_sha256": "d9e96af3effcdefe2c4782be5edb6138aa1ef9254020b69947c2c4ce834f8ea3",
+        "plan_sha256": "304b0b09d334322e531b4fab95ff8936b9a64a335588d209b70568d95d46f98b",
+        "q": 16,
+        "ridge_lambda": 10.0,
+        "source_authority_sha256": "67bedcb96a6ba82d6730bb8718df2058fb3fd56c12c7013ead64fa90b1f6f406",
+        "source_sessions": [
+          "ses-19250101T111740",
+          "ses-19250101T112404",
+          "ses-19250108T110520",
+          "ses-19250108T111022",
+          "ses-19250108T111455",
+          "ses-19250113T120811",
+          "ses-19250113T121303",
+          "ses-19250119T113543",
+          "ses-19250119T114045",
+          "ses-19250120T115044",
+          "ses-19250120T115537"
+        ]
+      },
+      "source_sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250119T113543",
+        "ses-19250119T114045",
+        "ses-19250120T115044",
+        "ses-19250120T115537"
+      ],
+      "status": "COMPLETE_PAIRED_TRAINING_OUTER_SCORE",
+      "tanh_alpha": -0.0013738577254116535,
+      "target_backward_steps": 0,
+      "target_model_updates": 0,
+      "target_optimizer_steps": 0,
+      "target_rows": [
+        {
+          "activity_sha256": "941277b442e0f1c39873630caf8a7fcfb375e04cf5ff4f6605ddff735b099cf9",
+          "carrier_sha256": "fdd06e2d1835e6e6ea08ff0c0dae6ef72f505da115b62a742e2ff551663a7284",
+          "date": "19250115",
+          "endpoint_sha256": "c36060cb06888bbdaa57ec66f3ec4659e53c50d262bf8644dde800b6b0e23b8c",
+          "minival_input_sha256": "d4616e5bca7d1b4581bfca0796e7a6b2c0fc1d2f2b0f1b24171d63818922fec7",
+          "prediction_sha256": {
+            "FROZEN-C1": "099d468608e78169a6caeb19ae08b22cb376951055a04dcd7fbd1cb831c6f3b6",
+            "J3-XR12": "2cd07d86205820ca092e97d556035f7014f4c62090fbd308bc1ee81235c04f92",
+            "N3-XR12": "427f1e89a8dc0f807e0b27a480a5ac539fd8b65d1cddb25b7c270d08e6988ad0"
+          },
+          "query_neural_sha256": "95cc113272842f93cd09478ac3456900fe1d85d54774dd510529b564959b6cd5",
+          "r2": {
+            "FROZEN-C1": 0.5578990051644308,
+            "J3-XR12": 0.405046695832582,
+            "N3-XR12": 0.40606652274661725
+          },
+          "session": "ses-19250115T110633",
+          "support": {
+            "activity_sha256": "941277b442e0f1c39873630caf8a7fcfb375e04cf5ff4f6605ddff735b099cf9",
+            "calibration_input_sha256": "ed0760aaa946e42f8ad812d3aef7f5faf66b21b5f2804aa77574c7f7ee853451",
+            "carrier_sha256": "fdd06e2d1835e6e6ea08ff0c0dae6ef72f505da115b62a742e2ff551663a7284",
+            "support_trials": [
+              3.0,
+              4.0,
+              5.0
+            ]
+          },
+          "target_sha256": "018cec564a3feb32a09b603ee53c0131075f8a39dd2d842755292c5d971e21aa",
+          "target_stream_sha256": "c203729427bca15b2660beb7d689f8d5462f181d7575d06e63efe5da43de2ebf",
+          "train_endpoint_sha256": "2fe72316698f4b809bbc388779b9b946bcba212b663dc351d2c73bf3512822fb",
+          "training_windows": 373,
+          "windows": 1489
+        },
+        {
+          "activity_sha256": "90e64a4fde9995376db0307b31124d528f4f484b12f13eb81dd299e6cb4ca989",
+          "carrier_sha256": "989a7fcfc914937c080e43226ef4d89eee6c634168001cbfc5f66572b866e174",
+          "date": "19250115",
+          "endpoint_sha256": "83e5ecd2ba7d2f813eeb977cea8ec820e676755dc83440cd7955c74fe1b00d7b",
+          "minival_input_sha256": "dd320a6352e312cdbd89eed3a0a8f0729b49c5c6f24101fd00d3fc334d91671c",
+          "prediction_sha256": {
+            "FROZEN-C1": "33951c31c374ea00f7219936418486d70186d69384598a4f1f65a4b5d0aadb7b",
+            "J3-XR12": "363de04b1cdce7a4102bcf6330597caba5690172585dd4a7ab100e9fd08749bf",
+            "N3-XR12": "5d9ba02c0ee7a090f762134236e348d8a3c8fd28dce5c5bbbd86b5949baf73f1"
+          },
+          "query_neural_sha256": "5e6e1e9ac114e76999390fbb212052db0cfa5135d195bd615d4bc758e8ed4282",
+          "r2": {
+            "FROZEN-C1": 0.6120271421456569,
+            "J3-XR12": 0.5840349793221424,
+            "N3-XR12": 0.5809176384184901
+          },
+          "session": "ses-19250115T111328",
+          "support": {
+            "activity_sha256": "90e64a4fde9995376db0307b31124d528f4f484b12f13eb81dd299e6cb4ca989",
+            "calibration_input_sha256": "022956ab01c8cb645e19327ba3457f2a065b30dd402bb4541e51c684d6a46e20",
+            "carrier_sha256": "989a7fcfc914937c080e43226ef4d89eee6c634168001cbfc5f66572b866e174",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "a0f1a5746fb56ae7b89c476e4cc8398c30eb27abd5e2ac501d4a0b2bafe54ca0",
+          "target_stream_sha256": "fbc572e94b541aa0e81a94516478b5eba84dde994e75146ddf0ec4add1bfd9cc",
+          "train_endpoint_sha256": "d33a06568de11acf6fd4c0785ccd2708493ffb5cdebf8265d10ea5556c976f77",
+          "training_windows": 375,
+          "windows": 1498
+        }
+      ],
+      "target_sessions": [
+        "ses-19250115T110633",
+        "ses-19250115T111328"
+      ],
+      "training_sha256": "938f9480adaaa493300c4adc7121a64c6d998873224a2cfaed177295c52df266"
+    },
+    {
+      "alpha": -0.0010978378122672439,
+      "fold_sha256": "d981e8add358b50dc8bf28534b4a09096de46c7e59f6c37285b9edf2ecdb0c21",
+      "joint_gain": -0.0023464781102937593,
+      "joint_increment": 6.285699511576759e-05,
+      "model_authority": {
+        "checkpoint_sha256": "276a789edae2419704f4649465a477511b7571185441267c1de1073374fecc42",
+        "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+        "global_step": 170200,
+        "model_parameter_count": 10947836,
+        "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+        "strict_load_missing_keys": [],
+        "strict_load_unexpected_keys": [],
+        "terminal_sha256": "377874fc77795c238203e2e45d9e538e7f7b6b6e16b9f5c7d30286822aa01153",
+        "terminal_state_sha256": "8523215e59ed189889f9a4e7eb25fc8834aaa35efd39fba8ab41488973e83ccb"
+      },
+      "native_gain": -0.002409335105409527,
+      "outer_date": "19250119",
+      "schema": "h1_m3_cross_record_joint_postpool_v1_fold",
+      "scores": {
+        "FROZEN-C1": 0.3475274821208761,
+        "J3-XR12": 0.3451810040105823,
+        "N3-XR12": 0.34511814701546656
+      },
+      "source_plan_authority": {
+        "normalizer_s_src": 5.931212349866121e-06,
+        "normalizer_sha256": "23e2c6055388b723580afc0fc774ec24f68d4b223eed09d336f486e4c9f124b6",
+        "plan_npz_sha256": "173f6c0ba4b276f46b485e3dda5c7656daaca4adeaa427a198219a647310db8c",
+        "plan_sha256": "edbe067fdc2a3d668a5c01af20e5f2f2a4862823b6777d359e29427c81708647",
+        "q": 8,
+        "ridge_lambda": 10.0,
+        "source_authority_sha256": "ef89ada380c6329480e6d6ef71715c88bb81c81c124dc4362b48dbd0fd1c891e",
+        "source_sessions": [
+          "ses-19250101T111740",
+          "ses-19250101T112404",
+          "ses-19250108T110520",
+          "ses-19250108T111022",
+          "ses-19250108T111455",
+          "ses-19250113T120811",
+          "ses-19250113T121303",
+          "ses-19250115T110633",
+          "ses-19250115T111328",
+          "ses-19250120T115044",
+          "ses-19250120T115537"
+        ]
+      },
+      "source_sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633",
+        "ses-19250115T111328",
+        "ses-19250120T115044",
+        "ses-19250120T115537"
+      ],
+      "status": "COMPLETE_PAIRED_TRAINING_OUTER_SCORE",
+      "tanh_alpha": -0.0010978373466059566,
+      "target_backward_steps": 0,
+      "target_model_updates": 0,
+      "target_optimizer_steps": 0,
+      "target_rows": [
+        {
+          "activity_sha256": "82feb16bdcdb590380fc8ac304ef4960217923677533930505b41bbc4122f7e6",
+          "carrier_sha256": "e1aed0483abc65a04d647665732fcc88acdd2ffbc6fd9a1c34e0d33305db25d5",
+          "date": "19250119",
+          "endpoint_sha256": "39788e0f3701172f47677513fe82ee27f2830d3a57f2bce5d8b08e7df1e641fb",
+          "minival_input_sha256": "5c5ce0f17fdacfb89d0361eec46bc00ef8472fb8bd1018a124fe28ae8ab8fb54",
+          "prediction_sha256": {
+            "FROZEN-C1": "64a0dadfd321237657d34c81936fcd2dd6ef241696e42ac4b4ca17729b671561",
+            "J3-XR12": "0b4742dd65e701a97ad279d5ba5581b782d74987b4d068a3724a03d05a74a098",
+            "N3-XR12": "4ea9ec00971c70854f268040595f9efe2d1eaf64096ce75497eea0d85e0dddfe"
+          },
+          "query_neural_sha256": "48e226f475f9c538bba7a36ec2c95586c461d6e9959d80c588abf4b76b0ff832",
+          "r2": {
+            "FROZEN-C1": 0.2777145478618036,
+            "J3-XR12": 0.2670459803122912,
+            "N3-XR12": 0.2677602118216711
+          },
+          "session": "ses-19250119T113543",
+          "support": {
+            "activity_sha256": "82feb16bdcdb590380fc8ac304ef4960217923677533930505b41bbc4122f7e6",
+            "calibration_input_sha256": "f176ad4e1221843a94b67f87e0676bbcb83b7b1f5e49a58b2ae1d85b30e445d6",
+            "carrier_sha256": "e1aed0483abc65a04d647665732fcc88acdd2ffbc6fd9a1c34e0d33305db25d5",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "f082d9c14b8ca83c31264ab4edad9249049cb48e0fc4944c1e6b7cee6f31ecc2",
+          "target_stream_sha256": "289c0194dad4b39dcbd1f7def2f252348f7081bd182c3d49e8faa58b6e709a33",
+          "train_endpoint_sha256": "9b246ca8a75e28e44fd659ed05cc4858e4eb0501fec51b6088c6f71df7f0814a",
+          "training_windows": 382,
+          "windows": 1526
+        },
+        {
+          "activity_sha256": "95bdb80b05a7e3153f78be8c2f454891e603025e81c0125661cb9e5670fbb986",
+          "carrier_sha256": "88b046c4261c19b22d0a4da90477a9c128d70c95cbb91ada21f0a64df8e36228",
+          "date": "19250119",
+          "endpoint_sha256": "b1a1dc4b6035b9bfe87c59c8722a992cc871c6d8c02e3174db36f19d2b096750",
+          "minival_input_sha256": "da99134321f3fbd0702791cc76deb46e468260fa24568bc297fb7ba7b7c7ee2e",
+          "prediction_sha256": {
+            "FROZEN-C1": "8ff524152b575d82d35af146cd47eb67080ef1b1cfa5efc4b39db385eec2410f",
+            "J3-XR12": "7df39d09286c072642cd355462f1a76fd1795f3726422fc3e1f2748633bd4af3",
+            "N3-XR12": "3f270e82732f8e61364981e6dc682e41035f8e947bade3a2e472779d991ee077"
+          },
+          "query_neural_sha256": "5ec11aa9f5bde8c04bd7ac813f2de72e41aa972492d45e4c790eb4ca3f20191f",
+          "r2": {
+            "FROZEN-C1": 0.41734041637994856,
+            "J3-XR12": 0.42331602770887344,
+            "N3-XR12": 0.422476082209262
+          },
+          "session": "ses-19250119T114045",
+          "support": {
+            "activity_sha256": "95bdb80b05a7e3153f78be8c2f454891e603025e81c0125661cb9e5670fbb986",
+            "calibration_input_sha256": "a9548924522750f6217409a9797b37389d22c9a0fe3ef145b87343192ff7d6ac",
+            "carrier_sha256": "88b046c4261c19b22d0a4da90477a9c128d70c95cbb91ada21f0a64df8e36228",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "476584cda3860ebb377ff7e1f90592bd63b2061d0c5b0950c286673e93692502",
+          "target_stream_sha256": "5b7f845fda2399774280115fa453944f97215bee94106286092bacc8537ccb37",
+          "train_endpoint_sha256": "0cfdb9736dcc4fa628b54423f828d5ce1d8af0a57f1e004860edf0230c07efab",
+          "training_windows": 402,
+          "windows": 1606
+        }
+      ],
+      "target_sessions": [
+        "ses-19250119T113543",
+        "ses-19250119T114045"
+      ],
+      "training_sha256": "9faa591d865f4c138dd5029a5f3cf5b4adff1fe51faefa79fa067fd721dd66c8"
+    },
+    {
+      "alpha": -0.0015547230141237378,
+      "fold_sha256": "e6e72632522c9dd4fdb10ded8c0e03b01ef67c81c824fa0eda686af5d1ddb956",
+      "joint_gain": -0.026068356969987327,
+      "joint_increment": -0.002587675478603224,
+      "model_authority": {
+        "checkpoint_sha256": "5d7632c604ad92e52a6ae2bfbc77a875ed7b7a12b5ebc44bbfbb35aa1691d186",
+        "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+        "global_step": 170950,
+        "model_parameter_count": 10947836,
+        "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+        "strict_load_missing_keys": [],
+        "strict_load_unexpected_keys": [],
+        "terminal_sha256": "6a754210892c7a714c7ea2fdc9e44b21d34489c10226d6be137b3f3f0d8fa0de",
+        "terminal_state_sha256": "bda95cbd8f9b71db0f3e48012153b1789f3280eec33e8036202e442af4e96786"
+      },
+      "native_gain": -0.023480681491384103,
+      "outer_date": "19250120",
+      "schema": "h1_m3_cross_record_joint_postpool_v1_fold",
+      "scores": {
+        "FROZEN-C1": 0.39942480143915476,
+        "J3-XR12": 0.37335644446916744,
+        "N3-XR12": 0.37594411994777066
+      },
+      "source_plan_authority": {
+        "normalizer_s_src": 6.923691309423385e-06,
+        "normalizer_sha256": "acb4c2caab3cb7fac6ff2c205c40c9b0a30e599b77137c5c1bb12182e7b2cbb9",
+        "plan_npz_sha256": "c9f70f536cf0d0a9fd71b35928d1dae4432a4792bdd7617df0f97b8abdc44221",
+        "plan_sha256": "e7d43cbf1ef87bbb9294d14aab4bbe16c480035fd959b114bd52eb64e218315b",
+        "q": 12,
+        "ridge_lambda": 10.0,
+        "source_authority_sha256": "cd088871268054223a1f14666ffd493d7711e627e92bfe02af8dc782696a6f5d",
+        "source_sessions": [
+          "ses-19250101T111740",
+          "ses-19250101T112404",
+          "ses-19250108T110520",
+          "ses-19250108T111022",
+          "ses-19250108T111455",
+          "ses-19250113T120811",
+          "ses-19250113T121303",
+          "ses-19250115T110633",
+          "ses-19250115T111328",
+          "ses-19250119T113543",
+          "ses-19250119T114045"
+        ]
+      },
+      "source_sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633",
+        "ses-19250115T111328",
+        "ses-19250119T113543",
+        "ses-19250119T114045"
+      ],
+      "status": "COMPLETE_PAIRED_TRAINING_OUTER_SCORE",
+      "tanh_alpha": -0.0015547217335551977,
+      "target_backward_steps": 0,
+      "target_model_updates": 0,
+      "target_optimizer_steps": 0,
+      "target_rows": [
+        {
+          "activity_sha256": "b3a971d27f785536fd1f3713b22a16ee2e0949bd14910fd7017d243674167b96",
+          "carrier_sha256": "63d75f74e12090af4a8f638abf123cb00653a8bd81fd3f83704917921b34bd73",
+          "date": "19250120",
+          "endpoint_sha256": "5640809884c6cc2e6b33669b94647bbbdfe2d316c2210c48c1d35aea6c825f54",
+          "minival_input_sha256": "9b4420f19793bcbe8ed2bb242e1fdc55e223dc20ad6c8c5ed49a4a61fbb11dc4",
+          "prediction_sha256": {
+            "FROZEN-C1": "44bf3cf5e51a6632fdf683f62248faf2f040a99c93e6165f4b3adc11b88671c5",
+            "J3-XR12": "f673432ab42a1e45c6fd02e744b2d4036fd462c2622c639691fdfaa132219b7b",
+            "N3-XR12": "38701b3d6825928c8b6abc8e4e91b41f0028856cbc61e581602ce0232a9a5e8b"
+          },
+          "query_neural_sha256": "c02f1eaebb49020d03c5fa07bbfa1695cf92626b5a5d6ac240311f99ddb586b8",
+          "r2": {
+            "FROZEN-C1": 0.3674013818254136,
+            "J3-XR12": 0.3078362946288341,
+            "N3-XR12": 0.3079184498104407
+          },
+          "session": "ses-19250120T115044",
+          "support": {
+            "activity_sha256": "b3a971d27f785536fd1f3713b22a16ee2e0949bd14910fd7017d243674167b96",
+            "calibration_input_sha256": "34e0f0d229942516aec6148d2deaf0bbeabda3d10b86cd889fedf0563366c084",
+            "carrier_sha256": "63d75f74e12090af4a8f638abf123cb00653a8bd81fd3f83704917921b34bd73",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "524961c70e61d251161dfd44d71eaef00cb2b64340b33f9f63a5ff402c83fdef",
+          "target_stream_sha256": "b5b9cff3447b769475928649070eb4d252590cc62ad45ae7321a5fb0364dfb60",
+          "train_endpoint_sha256": "56c15be7af69e3b82c835ef6e4b4b5fa70d71e24badffb280614d30db761288b",
+          "training_windows": 364,
+          "windows": 1453
+        },
+        {
+          "activity_sha256": "296cb1a846494d2fa6214bb21ea361cb129d7410eff780d831c31dd45baa529a",
+          "carrier_sha256": "06d17e7154f90fefb237fbeedaa46e983f5d1468341e520d456d485b15653611",
+          "date": "19250120",
+          "endpoint_sha256": "e6e9065991edded8986da47f4c55df2df9594cd5fb4568f9b4f1793d78a1c797",
+          "minival_input_sha256": "666047a942c82919bbb6b7bb6dda6c7222091c2051cbe12213b1a493610ae179",
+          "prediction_sha256": {
+            "FROZEN-C1": "97a7265ee1a4f950433dc9c8d5fce919fc44c200b59dc12ef5f1eca6284d7f3c",
+            "J3-XR12": "6251138248f7d01d682f182a954d78228dec561a1e54828c90899455b18b2ae4",
+            "N3-XR12": "5da49d3b013dedd5dc4071a4cfe4f9b46d09ce1a5e56c2a11e1d478031e44fa5"
+          },
+          "query_neural_sha256": "3f44871a84bd853b867d3dca1894c5b38c96b2cb45210c8d42c3b49bd57d583f",
+          "r2": {
+            "FROZEN-C1": 0.43144822105289593,
+            "J3-XR12": 0.43887659430950077,
+            "N3-XR12": 0.4439697900851006
+          },
+          "session": "ses-19250120T115537",
+          "support": {
+            "activity_sha256": "296cb1a846494d2fa6214bb21ea361cb129d7410eff780d831c31dd45baa529a",
+            "calibration_input_sha256": "df0ba7830d01e82b716d7a1eaac0b0400ebc84e8cbf0c9e2e047437a31c43e70",
+            "carrier_sha256": "06d17e7154f90fefb237fbeedaa46e983f5d1468341e520d456d485b15653611",
+            "support_trials": [
+              1.0,
+              2.0,
+              3.0
+            ]
+          },
+          "target_sha256": "4b3dc288f59dfe95e45bedda4454ad3c2b7c64099fe6cb82b2e5e96cb5ff317b",
+          "target_stream_sha256": "3597b63e757064347587eea72aadbcf907729c8648dc57f36986587f51790e09",
+          "train_endpoint_sha256": "e06d892526e9a135014e54486966c811c2aff3c3b9386dbbf7429c51390a2fa1",
+          "training_windows": 375,
+          "windows": 1499
+        }
+      ],
+      "target_sessions": [
+        "ses-19250120T115044",
+        "ses-19250120T115537"
+      ],
+      "training_sha256": "e47f847600e4dae037ecc776f2c58f9a379366726d7804c41e218d926c02f32b"
+    }
+  ],
+  "formal_heldout_opened": false,
+  "schema": "h1_m3_cross_record_joint_postpool_v1_score",
+  "status": "COMPLETE_H1_M3_CROSS_RECORD_JOINT_POSTPOOL_SOURCE_OOF",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0
+}

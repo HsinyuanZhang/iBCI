@@ -1,0 +1,37 @@
+{
+  "authority_sha256": "7ec281631b8e96d0311e029ca227fc7c47b01d9d095f3015399952de2d1f315a",
+  "canonical_content_sha256": "3a372ce7913c073ff4f166b9c384974f75b6ac903a509388e839765dcdfc852f",
+  "data": {
+    "file_count": 12,
+    "files_sha256": {
+      "dandiset.yaml": "6be595b41044e8c9d8a8057cddc9aa157c429da8913cd53b7b9d88724438b055",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254",
+      "sub-MonkeyL-held-in-minival/sub-MonkeyL-held-in-minival_ses-20120924_behavior+ecephys.nwb": "9b3c8d80c699bf123be10d9fbff6799923ee3f00e4de34a18e899d4a66ab136a",
+      "sub-MonkeyL-held-in-minival/sub-MonkeyL-held-in-minival_ses-20120926_behavior+ecephys.nwb": "6fb0cdb4397a58d5a8187000194df83c10df54ef1f0b11f656b0ad96da365494",
+      "sub-MonkeyL-held-in-minival/sub-MonkeyL-held-in-minival_ses-20120927_behavior+ecephys.nwb": "037436d215f547228f36d9b8783c4d803169574cec61e3e315e4a3dee1799e88",
+      "sub-MonkeyL-held-in-minival/sub-MonkeyL-held-in-minival_ses-20120928_behavior+ecephys.nwb": "31b277b158f495f63f880049450c2cd7d8acdd6f0e954887058d6304333453e3",
+      "sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121004_behavior+ecephys.nwb": "782c1fd090facfb3c50b6a85da8209ca3aea71f66bd4edc13d61fe4a55a3429d",
+      "sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121017_behavior+ecephys.nwb": "8dd22c67500445ec1e0c11980475badbba9e960a05db16b78aaaad5502b3c652",
+      "sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121024_behavior+ecephys.nwb": "bbeb6c7d66e2c2e9b76506021a6cf8800bc19021b6d1fd03c4eb6de71490bafb"
+    },
+    "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941",
+    "relative_file_list_sha256": "ee23d75daad42b26afb294c5793e6cfe1cdabd60fb73002b21f55226e30ee2e9"
+  },
+  "proposal_sha256": "403d12e613fc3937580db718ae9cef9d78e1c6ed1680cb4fcc459c9305896fb4",
+  "schema": "m1_compact_b3s_f0_s42_e23_data_binding_v1",
+  "scope": {
+    "fold": 0,
+    "seed": 42,
+    "source_sessions": [
+      "ses-20120926",
+      "ses-20120927",
+      "ses-20120928"
+    ],
+    "target_session": "ses-20120924",
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F0_E23_DATA_BYTE_BINDING"
+}

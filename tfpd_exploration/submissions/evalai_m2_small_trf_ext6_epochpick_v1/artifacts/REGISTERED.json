@@ -1,0 +1,14 @@
+{
+  "schema": "m2_small_ext6_epochpick_evalai_register_v1",
+  "submission_id": 581973,
+  "status_at_register": "submitted",
+  "image_id": "sha256:c3297f4c96b70ab00f67a00fb25c5acade47394bccd3b181ab57571b29e720ed",
+  "image_tag": "spint-t4-m2:small-trf-s42-ema-e8-ext6-w0-4db109e7",
+  "payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+  "method_name": "M2 small Transformer S1-SMALL-COS EMA e8 s42 ext6-epochpick exact-E w0",
+  "pick": "S1-SMALL-COS seed42 EMA epoch 8 on six official held-out-calib sessions",
+  "not_581971": true,
+  "quota_after_register": {"today": 6, "active": 2, "max_per_day": 6, "max_concurrent": 3},
+  "sibling_naive_still_queued": 581937,
+  "m1_image_not_registered": true
+}

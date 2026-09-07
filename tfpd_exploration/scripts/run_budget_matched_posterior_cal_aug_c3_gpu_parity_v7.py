@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+"""Run V7 durable parity-only diagnostic."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+for path in (
+    ROOT / "tfpd_exploration",
+    ROOT / "tfpd_exploration/src",
+    ROOT / "sua_exploration",
+    ROOT / "streaming_calibration_exp/src",
+):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--root-reviewed", action="store_true")
+    args = parser.parse_args()
+    if args.execute != args.root_reviewed:
+        parser.error("--execute and --root-reviewed must be supplied together")
+    if not args.execute:
+        print(json.dumps({
+            "schema": "budget_matched_posterior_cal_aug_c2_c3_gpu_parity_v7_plan",
+            "status": "DRY_NO_DATA_NO_MODEL_NO_CUDA_NO_WRITE",
+            "result_root_relative": (
+                "tfpd_exploration/results/budget_matched_posterior_cal_aug_v1/"
+                "c2_c3_posterior_gpu_parity_v7"
+            ),
+            "failed_v6_root_relative": (
+                "tfpd_exploration/results/budget_matched_posterior_cal_aug_v1/"
+                "c2_c3_posterior_gpu_parity_diagnostic_v6"
+            ),
+            "diagnostic_scope": "FIRST_WITHIN_SESSION_C2_M4_ONLY",
+            "comparison_published_before_final_revalidation": True,
+            "full_matrix_authorized": False,
+            "drift_policy": {
+                "execution_drift": "FAIL_CLOSED_NUMERICAL_DRIFT",
+                "review_drift": "ACCEPTED_NON_NUMERIC_DRIFT",
+                "review_only_path_classes": [
+                    "work_order", "tests", "comments", "review_checklists"
+                ],
+                "numerical_acceptance_affected_by_review_drift": False,
+                "restart_required_for_review_drift": False,
+            },
+            "execute_requires": ["--execute", "--root-reviewed"],
+        }, sort_keys=True, indent=2))
+        return 0
+    from budget_matched_posterior_cal_aug_c3_v1 import score_gpu_v7 as v7
+
+    print(json.dumps(v7.execute_reviewed(ROOT), sort_keys=True, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+

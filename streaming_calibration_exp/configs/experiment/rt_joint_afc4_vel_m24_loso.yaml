@@ -1,0 +1,20 @@
+# @package _global_
+
+defaults:
+  - rt_b3s_k4_m24_loso
+
+# RT is a distinct task.  The M2 checkpoint supplies initialization only;
+# encoder and decoder are trained jointly on the RT source sessions.  Target
+# calibration remains the closed-form M24 AFC4 fit in the DataModule and never
+# participates in backpropagation.
+run_id: rt_joint_afc4_vel_m24_loso
+tags: ["rt", "afc4_vel", "m24", "loso", "joint_source_training", "development_only"]
+
+model:
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+
+trainer:
+  max_epochs: 35

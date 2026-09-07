@@ -13,7 +13,8 @@ RUN CONDA_OVERRIDE_CUDA="11.6" mamba env create -f /tmp/environment.yaml
 RUN echo "mamba activate spint" > ~/.bashrc
 ENV PATH /opt/conda/envs/spint/bin:$PATH
 
-RUN /bin/bash -c "python3 -m pip install falcon_challenge --upgrade"
+# Match the FALCON evaluator version used by the audited local minival run.
+RUN /bin/bash -c "python3 -m pip install falcon_challenge==1.0.2"
 RUN pip install "numpy<2"
 
 ENV PREDICTION_PATH "/submission/submission.csv"
@@ -36,10 +37,11 @@ ENV EVALUATION_LOC remote
 # Defaults are M1's settings.
 ARG TASK=m1
 ARG BATCH_SIZE=4
+ARG MODEL_FILE=spint_${TASK}.pkl
 
 # Add the packaged decoder for the chosen task.
 # Note that Docker cannot easily import across symlinks; make sure data is not symlinked.
-ADD ./local_data/spint_${TASK}.pkl data/decoder.pkl
+ADD ./local_data/${MODEL_FILE} data/decoder.pkl
 
 # Add source code/configs
 ADD ./third_party/ third_party/

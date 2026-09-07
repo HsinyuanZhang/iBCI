@@ -1,0 +1,17 @@
+# @package _global_
+
+# Frozen source-training cell for the chronological-disjoint M24 local
+# held-out-calibration program.  This remains held-in-only; query exclusion is
+# applied exclusively by the later test-only replay.
+defaults:
+  - b3_native_mua_f0_m2_loso_internal
+
+run_id: native_mua_m24_f0_m2_loso_internal
+tags: ["native-mua", "f0", "m2", "loso", "internal-only", "m24-disjoint-source"]
+
+data:
+  calibration_n_trials: 24
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  query_start_trial: 0

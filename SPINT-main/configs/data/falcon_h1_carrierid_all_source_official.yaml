@@ -1,0 +1,12 @@
+_target_: src.data.h1_carrierid_all_source_official.H1CarrierIdAllSourceDataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+asset_manifest_path: ${official_candidate.asset_manifest_path}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+seed: 42
+fixed_epochs: 50
+num_workers: 0
+pin_memory: false

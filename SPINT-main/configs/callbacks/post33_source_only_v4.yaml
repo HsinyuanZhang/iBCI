@@ -1,0 +1,30 @@
+defaults:
+  - override_epoch_step
+  - model_summary
+  - _self_
+
+# Phase-C deliberately runs with ``logger: false`` so TensorBoard cannot
+# create dynamically named event files inside the sealed run tree.
+# Lightning's LearningRateMonitor rejects a Trainer with no logger, so it is
+# intentionally absent from this Phase-C-only callback composition.
+
+source_selector_v4:
+  _target_: src.callbacks.post33_source_selector_v4.Post33SourceSelectorV4
+  checkpoint_dir: ${cell_paths.checkpoints}
+  selector_records_path: ${cell_paths.selector_records}
+  deployment_constants_path: ${cell_paths.deployment_constants}
+  cell_owner_path: ${cell_paths.owner}
+  owner_token: ${cell_owner_token}
+  fold: ${data.loso_fold}
+  seed: ${seed}
+
+source_cost_runtime_v4:
+  _target_: src.callbacks.post33_source_cost_runtime_v4.Post33SourceCostRuntimeV4
+  output_path: ${cell_paths.source_cost_evidence}
+  resolved_config_path: ${cell_paths.resolved_config}
+  cell_owner_path: ${cell_paths.owner}
+  owner_token: ${cell_owner_token}
+  cost_supplement_path: ${cell_paths.cost_supplement}
+  arm: ${arm}
+  fold: ${data.loso_fold}
+  seed: ${seed}

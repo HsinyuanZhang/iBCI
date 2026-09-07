@@ -1,0 +1,206 @@
+{
+  "checkpoint_sha256_expectation": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+  "contract": {
+    "identities_unchanged_across_replay": true,
+    "identity_fingerprint_sha256": "b29cfa39ed8bf3ab451162c6c9be70a2815265f2b830c70619d436c4126906e1",
+    "no_gradient_state_after_replay": true,
+    "no_optimizer_or_calibration_state_on_decoder": true,
+    "on_done_is_noop": true,
+    "parameter_fingerprint_sha256": "de043d000952c29171d72a77065400677f15e64a2e3c1c57ca47ea35a490ed37",
+    "predict_time_selection_law_imports_blocked": true,
+    "trial_metadata_available_at_predict_time": false,
+    "weights_unchanged_across_replay": true
+  },
+  "cuda_visible_devices": "",
+  "evaluator_semantics_replay": {
+    "contract": {
+      "identities_unchanged_across_replay": true,
+      "identity_fingerprint_sha256": "b29cfa39ed8bf3ab451162c6c9be70a2815265f2b830c70619d436c4126906e1",
+      "no_gradient_state_after_replay": true,
+      "no_optimizer_or_calibration_state_on_decoder": true,
+      "on_done_is_noop": true,
+      "parameter_fingerprint_sha256": "de043d000952c29171d72a77065400677f15e64a2e3c1c57ca47ea35a490ed37",
+      "predict_time_selection_law_imports_blocked": true,
+      "trial_metadata_available_at_predict_time": false,
+      "weights_unchanged_across_replay": true
+    },
+    "evaluator_semantics": "reset(dataset_tags) once per session, predict(neural) per bin, batch 1",
+    "law_imports_blocked_during_replay": [
+      "d_optimal_calibration_design",
+      "calibration_budget_comparators_v1",
+      "m2_t4_activity_budget_screen_v1",
+      "laws"
+    ],
+    "surfaces": {
+      "external_official_query": {
+        "equal_session_mean": 0.290992346476189,
+        "equal_session_median": 0.2835351537519425,
+        "max_abs_delta": 5.089531118773749e-08,
+        "mean_abs_delta": 1.5840653511123293e-08,
+        "per_session": {
+          "ses-2020-10-30-Run1": {
+            "dataset_tag": "Run1_20201030",
+            "delta": -1.488981393737987e-08,
+            "replayed_r2": 0.41379608529375267,
+            "sealed_screen_activity30_m4_r2": 0.4137961001835666,
+            "window_count": 2727
+          },
+          "ses-2020-10-30-Run2": {
+            "dataset_tag": "Run2_20201030",
+            "delta": -6.466984725506109e-10,
+            "replayed_r2": 0.4260971610987355,
+            "sealed_screen_activity30_m4_r2": 0.426097161745434,
+            "window_count": 2550
+          },
+          "ses-2020-11-18-Run1": {
+            "dataset_tag": "Run1_20201118",
+            "delta": -5.089531118773749e-08,
+            "replayed_r2": 0.30411724544107177,
+            "sealed_screen_activity30_m4_r2": 0.30411729633638296,
+            "window_count": 2517
+          },
+          "ses-2020-11-19-Run1": {
+            "dataset_tag": "Run1_20201119",
+            "delta": -2.4904405759862414e-08,
+            "replayed_r2": 0.14941111785755845,
+            "sealed_screen_activity30_m4_r2": 0.1494111427619642,
+            "window_count": 3045
+          },
+          "ses-2020-11-24-Run1": {
+            "dataset_tag": "Run1_20201124",
+            "delta": -1.8583278249550972e-09,
+            "replayed_r2": 0.2629530620628132,
+            "sealed_screen_activity30_m4_r2": 0.26295306392114104,
+            "window_count": 2214
+          },
+          "ses-2020-11-24-Run2": {
+            "dataset_tag": "Run2_20201124",
+            "delta": -1.8493638842542737e-09,
+            "replayed_r2": 0.18957940710320254,
+            "sealed_screen_activity30_m4_r2": 0.18957940895256642,
+            "window_count": 2350
+          }
+        },
+        "sealed_equal_session_mean": 0.2909923623168425,
+        "sealed_equal_session_median": 0.283535180128762
+      },
+      "within_post30": {
+        "equal_session_mean": 0.6772200035505521,
+        "equal_session_median": 0.66772293570143,
+        "max_abs_delta": 8.100848236658464e-08,
+        "mean_abs_delta": 2.2720368618246922e-08,
+        "per_session": {
+          "ses-2020-10-19-Run1": {
+            "dataset_tag": "Run1_20201019",
+            "delta": 1.8337849350125168e-08,
+            "replayed_r2": 0.7117805963660068,
+            "sealed_screen_activity30_m4_r2": 0.7117805780281574,
+            "window_count": 18037
+          },
+          "ses-2020-10-19-Run2": {
+            "dataset_tag": "Run2_20201019",
+            "delta": -8.100848236658464e-08,
+            "replayed_r2": 0.66772293570143,
+            "sealed_screen_activity30_m4_r2": 0.6677230167099124,
+            "window_count": 18259
+          },
+          "ses-2020-10-20-Run1": {
+            "dataset_tag": "Run1_20201020",
+            "delta": -2.6319733392732303e-08,
+            "replayed_r2": 0.6629579922657477,
+            "sealed_screen_activity30_m4_r2": 0.6629580185854811,
+            "window_count": 13636
+          },
+          "ses-2020-10-20-Run2": {
+            "dataset_tag": "Run2_20201020",
+            "delta": -1.8084826747255534e-08,
+            "replayed_r2": 0.6575872923221786,
+            "sealed_screen_activity30_m4_r2": 0.6575873104070054,
+            "window_count": 13293
+          },
+          "ses-2020-10-27-Run1": {
+            "dataset_tag": "Run1_20201027",
+            "delta": 3.1208680084660045e-10,
+            "replayed_r2": 0.6540459769945344,
+            "sealed_screen_activity30_m4_r2": 0.6540459766824476,
+            "window_count": 10382
+          },
+          "ses-2020-10-27-Run2": {
+            "dataset_tag": "Run2_20201027",
+            "delta": -5.322096763293871e-09,
+            "replayed_r2": 0.6723585676864348,
+            "sealed_screen_activity30_m4_r2": 0.6723585730085315,
+            "window_count": 12871
+          },
+          "ses-2020-10-28-Run1": {
+            "dataset_tag": "Run1_20201028",
+            "delta": 9.657504906890324e-09,
+            "replayed_r2": 0.7140866635175328,
+            "sealed_screen_activity30_m4_r2": 0.7140866538600279,
+            "window_count": 15901
+          }
+        },
+        "sealed_equal_session_mean": 0.6772200181830803,
+        "sealed_equal_session_median": 0.6677230167099124
+      }
+    }
+  },
+  "official_local_minival": {
+    "batch_size": 7,
+    "evaluator_module": "/home/xinyuan/miniconda3/envs/spint/lib/python3.10/site-packages/falcon_challenge/evaluator.py",
+    "evaluator_semantics_proof": {
+      "on_done_calls": 0,
+      "on_done_never_called_by_official_loop": true,
+      "predict_calls": 194,
+      "reset_calls": 1
+    },
+    "evaluator_sha256": "2b848f84ef620eac82ce53d331d03727d9ae4ea9a5f2e5edb6e6557537ce4418",
+    "gt_pkl": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_act30_dopt4_v1/artifacts/minival_v1/minival_gt.pkl",
+    "gt_sha256": "0608e112ffa388e647e3fad4871d4e68d022398c0c3f73533d135d345dba6681",
+    "metrics": {
+      "result": [
+        {
+          "minival_split_m2": {
+            "Held In R2 Mean": 0.6363852024078369,
+            "Held In R2 Std.": 0.07747734087097415,
+            "Normalized Latency": 0.04827133154185189
+          }
+        }
+      ],
+      "submission_result": {
+        "minival_split_m2": {
+          "Held In R2 Mean": 0.6363852024078369,
+          "Held In R2 Std.": 0.07747734087097415,
+          "Normalized Latency": 0.04827133154185189
+        }
+      }
+    },
+    "phase": "minival",
+    "prediction_pkl": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_act30_dopt4_v1/artifacts/minival_v1/minival_prediction.pkl",
+    "prediction_sha256": "6faf30f6f91a92416e33dbdfbbfb5229eaf255112586a79e0b33c4a6b9583fcd",
+    "wall_seconds": 2.949415124952793
+  },
+  "payload_audit": {
+    "activity_budget": 30,
+    "arm": "dopt4_static_act30",
+    "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+    "identity_count": 13,
+    "identity_shapes": [
+      [
+        96,
+        50
+      ]
+    ],
+    "label_budget": 4,
+    "metadata_is_pure_provenance_json": true,
+    "normalization_sha256": "d17f5f4c4d106b9f19493be6f5f06846c01e917f408f516e630f5e8f09d1539e",
+    "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_act30_dopt4_v1/artifacts/t4_m2_seed42_dopt4_act30_identity.pkl",
+    "payload_sha256": "e4ff17e857c0bab9bbd900bc737ca7c48476a44ed03725cefc5377d92b959261",
+    "schema_version": "e8_t4_m2_cached_identity_v1"
+  },
+  "schema_version": "m2_dopt4_act30_local_validation_v1",
+  "sealed_audit_contract": "tfpd_exploration/results/cdm_p1_m2_v1/audit.json",
+  "sealed_screen_cell": "ridge_activity30_m4",
+  "sealed_screen_result": "tfpd_exploration/results/m2_t4_activity_budget_screen_v1/score.json",
+  "status": "LOCAL_VALIDATION_COMPLETE"
+}

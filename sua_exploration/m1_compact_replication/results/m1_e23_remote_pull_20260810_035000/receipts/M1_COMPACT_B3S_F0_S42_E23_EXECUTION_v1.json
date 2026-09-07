@@ -1,0 +1,162 @@
+{
+  "commands": {
+    "b0": [
+      "/home/xinyuan/miniconda3/envs/spint/bin/python",
+      "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+      "experiment=m1_version_b_hs_continuation",
+      "run_id=m1_compact_b0_f0_s42_resume_e11_to_e23",
+      "data.loso_fold=0",
+      "data.source_session_names=[ses-20120926,ses-20120927,ses-20120928]",
+      "seed=42",
+      "trainer.min_epochs=24",
+      "trainer.max_epochs=24",
+      "trainer.limit_val_batches=0",
+      "trainer.num_sanity_val_steps=0",
+      "test=true",
+      "ckpt_path=/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_hs_continuation_f0_s42_f0_s42_20260809_231214/checkpoints/best.ckpt"
+    ],
+    "b3s_zero4": [
+      "/home/xinyuan/miniconda3/envs/spint/bin/python",
+      "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+      "experiment=m1_version_b_c0",
+      "run_id=m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23",
+      "data.loso_fold=0",
+      "data.source_session_names=[ses-20120926,ses-20120927,ses-20120928]",
+      "seed=42",
+      "trainer.min_epochs=24",
+      "trainer.max_epochs=24",
+      "trainer.limit_val_batches=0",
+      "trainer.num_sanity_val_steps=0",
+      "test=true",
+      "ckpt_path=/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_c0_f0_s42_f0_s42_20260809_222207/checkpoints/best.ckpt"
+    ]
+  },
+  "ended_at_epoch": 1786301019.6993878,
+  "exit_codes": {
+    "b0": 0,
+    "b3s_zero4": 0
+  },
+  "fixed_order": [
+    "b0",
+    "b3s_zero4"
+  ],
+  "launch_receipt": {
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_LAUNCH_RECEIPT_v1.json",
+    "sha256": "d620eed5d82977a5698c5fa18c2ca89bc4efbeccd431f5e2c9ad25a753700fa1"
+  },
+  "logs": {
+    "b0": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/logs/b0.log",
+    "b3s_zero4": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/logs/b3s_zero4.log"
+  },
+  "metadata_enriched_by": {
+    "script": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/e23_pair_runner.py",
+    "script_sha256": "a6ac48667929ed5d973c0e0313038642ec819bc51abed48681d17842d24b6f83",
+    "target_metrics_read": false
+  },
+  "schema": "m1_compact_b3s_f0_s42_e23_execution_v1",
+  "started_at_epoch": 1786296725.6676958,
+  "status": "PASS_M1_COMPACT_B3S_F0_E23_PAIR_TERMINAL",
+  "target_metrics_not_read_by_launcher": true,
+  "terminal_checkpoints": {
+    "b0": {
+      "callback_key": "ModelCheckpoint{'monitor': None, 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 12, 'train_time_interval': None}",
+      "epoch": 23,
+      "fit_loop": {
+        "batch_completed": 118824,
+        "epoch_processed": 24
+      },
+      "global_step": 118824,
+      "launch_command": [
+        "/home/xinyuan/miniconda3/envs/spint/bin/python",
+        "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+        "experiment=m1_version_b_hs_continuation",
+        "run_id=m1_compact_b0_f0_s42_resume_e11_to_e23",
+        "data.loso_fold=0",
+        "data.source_session_names=[ses-20120926,ses-20120927,ses-20120928]",
+        "seed=42",
+        "trainer.min_epochs=24",
+        "trainer.max_epochs=24",
+        "trainer.limit_val_batches=0",
+        "trainer.num_sanity_val_steps=0",
+        "test=true",
+        "ckpt_path=/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_hs_continuation_f0_s42_f0_s42_20260809_231214/checkpoints/best.ckpt"
+      ],
+      "log": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/logs/b0.log",
+        "sha256": "0dc798da2e64888e9807b85ea496647adde9f2782e32d131676edaba8714f18c"
+      },
+      "lr_schedulers": 0,
+      "optimizer": {
+        "all_state_steps": [
+          118824
+        ],
+        "count": 1,
+        "lr": 0.0001,
+        "param_group_count": 1,
+        "state_count": 31,
+        "weight_decay": 0.0
+      },
+      "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-01-32-07-436028_rid-m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+      "pytorch_lightning_version": "2.6.5",
+      "restored_all_states": {
+        "line_count": 1,
+        "line_sha256": "505d1cadb18b14bb7670afc97aa64f567468fa574a507dc1ec0aa0d2029eddfe",
+        "present": true
+      },
+      "resume_parent_sha256": "63e378fbeae2ca72b24812d494255345c01c7353fa584d316846f014097e4078",
+      "sha256": "586af23c58c06994a17fd9db258cca717f7f7a98129c338ab530fbdf3400e472",
+      "strict_terminal_state": true,
+      "variant": "B0"
+    },
+    "b3s_zero4": {
+      "callback_key": "ModelCheckpoint{'monitor': None, 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 12, 'train_time_interval': None}",
+      "epoch": 23,
+      "fit_loop": {
+        "batch_completed": 118824,
+        "epoch_processed": 24
+      },
+      "global_step": 118824,
+      "launch_command": [
+        "/home/xinyuan/miniconda3/envs/spint/bin/python",
+        "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+        "experiment=m1_version_b_c0",
+        "run_id=m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23",
+        "data.loso_fold=0",
+        "data.source_session_names=[ses-20120926,ses-20120927,ses-20120928]",
+        "seed=42",
+        "trainer.min_epochs=24",
+        "trainer.max_epochs=24",
+        "trainer.limit_val_batches=0",
+        "trainer.num_sanity_val_steps=0",
+        "test=true",
+        "ckpt_path=/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_version_b_c0_f0_s42_f0_s42_20260809_222207/checkpoints/best.ckpt"
+      ],
+      "log": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/logs/b3s_zero4.log",
+        "sha256": "e8957fdc756887ca28c6e5b9923233567988005fe4df0fdb9eb1c2f47a6dc114"
+      },
+      "lr_schedulers": 0,
+      "optimizer": {
+        "all_state_steps": [
+          118824
+        ],
+        "count": 1,
+        "lr": 0.0001,
+        "param_group_count": 1,
+        "state_count": 27,
+        "weight_decay": 0.0
+      },
+      "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-02-19-37-217515_rid-m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23_f0_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+      "pytorch_lightning_version": "2.6.5",
+      "restored_all_states": {
+        "line_count": 1,
+        "line_sha256": "47db07e8789388d66f0e5b6733995fa744ab440129b718d88e36db08f6069d66",
+        "present": true
+      },
+      "resume_parent_sha256": "7f653e0e6c0348944d5192d86f7311c724a6b15ab1a64fb38235e287407f6bbe",
+      "sha256": "74a51b10a070608e5886f5eecbf778044ea00887bd6286489569b36313fd9f08",
+      "strict_terminal_state": true,
+      "variant": "B3S"
+    }
+  }
+}

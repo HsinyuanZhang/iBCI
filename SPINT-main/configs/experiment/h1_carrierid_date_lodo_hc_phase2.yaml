@@ -1,0 +1,16 @@
+# @package _global_
+#
+# Reusable source-only H-C companion.  It inherits the exact frozen epoch,
+# no-validation, and fresh-seed contract from the generic H-S template; only
+# the consumer arm changes.  A per-date immutable pair preflight is still
+# mandatory at launch time.
+defaults:
+  - h1_carrierid_date_lodo_hs_phase2
+  - override /model: falcon_h1_carrierid_date_lodo_hc
+
+protocol_id: h1_carrierid_date_lodo_phase2_hc_${phase2.outer_date}_source_only_v1
+task_name: h1_carrierid_date_lodo_hc_${phase2.outer_date}
+tags: [h1, carrierid, date_lodo, source_only, hc, seed42, e49]
+
+phase2:
+  arm: H-C

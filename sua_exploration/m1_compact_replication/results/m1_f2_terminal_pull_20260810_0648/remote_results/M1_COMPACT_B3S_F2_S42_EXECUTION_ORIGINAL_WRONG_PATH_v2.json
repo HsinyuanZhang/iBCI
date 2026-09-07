@@ -1,0 +1,449 @@
+{
+  "canonical_content_sha256": "67347b91a480ae3c44facaf34abf11340283107a246f7459b8e7d5406290027e",
+  "commands": {
+    "b0": [
+      "/home/xinyuan/miniconda3/envs/spint/bin/python",
+      "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+      "experiment=m1_version_b_hs_continuation",
+      "run_id=m1_compact_b0_f2_s42_fresh_e11",
+      "data.loso_fold=2",
+      "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+      "seed=42",
+      "trainer.min_epochs=12",
+      "trainer.max_epochs=12",
+      "trainer.limit_val_batches=0",
+      "trainer.num_sanity_val_steps=0",
+      "data._target_=src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+      "test=false",
+      "optimized_metric=null",
+      "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+      "ckpt_path=null"
+    ],
+    "b3s_zero4": [
+      "/home/xinyuan/miniconda3/envs/spint/bin/python",
+      "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/src/train.py",
+      "experiment=m1_version_b_c0",
+      "run_id=m1_compact_b3s_zero4_f2_s42_fresh_e11",
+      "data.loso_fold=2",
+      "data.source_session_names=[ses-20120924,ses-20120926,ses-20120928]",
+      "seed=42",
+      "trainer.min_epochs=12",
+      "trainer.max_epochs=12",
+      "trainer.limit_val_batches=0",
+      "trainer.num_sanity_val_steps=0",
+      "data._target_=src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+      "test=false",
+      "optimized_metric=null",
+      "model.teacher_ckpt_path=/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+      "ckpt_path=null"
+    ]
+  },
+  "created_at_epoch": 1786315372.1606658,
+  "exit_codes": {
+    "b0": 0,
+    "b3s_zero4": 0
+  },
+  "fixed_order": [
+    "b0",
+    "b3s_zero4"
+  ],
+  "fold1_gate": {
+    "delta": -0.02579936719805942,
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_GATE_v2.json",
+    "schema": "m1_compact_b3s_f1_s42_gate_v2",
+    "sha256": "5d5fec6cbf97927dd13255a54b38b9a698ba3c43c2ee755fcd45ce7416802b42",
+    "status": "PASS_M1_COMPACT_B3S_F1_S42_NONINFERIORITY",
+    "threshold": -0.03
+  },
+  "inventory_after": {
+    "code_files_sha256": {
+      "streaming_calibration_exp/configs/callbacks/m1_version_b_fixed_epoch.yaml": "786b2ae60726c179075939511c78e0fe86c5433dd67f838fa775ce54e5c28f92",
+      "streaming_calibration_exp/configs/data/m1_version_b_source_loso.yaml": "f7be9ce10d23f471ce08e586fcdf0a9cec4f8b1e1d9e112eab4d53513464aca5",
+      "streaming_calibration_exp/configs/experiment/m1_version_b_c0.yaml": "6e281b2ff12f8117e3f5e4f42fff792224ed384d25a3725ca747accdb6816be8",
+      "streaming_calibration_exp/configs/experiment/m1_version_b_hs_continuation.yaml": "a39d83ab313f4c3cdeeb38f9ebdfa56d824e113b65c35bb57306991a1c9e1416",
+      "streaming_calibration_exp/configs/model/m1_version_b_b0.yaml": "e86be2b3e90abe33612b9e786e9f7f228aef7f0164783f70905acd9418976660",
+      "streaming_calibration_exp/configs/model/m1_version_b_b3s.yaml": "8d857a546e0d60d5496794016addf0c406949ebdac64bfae502f69ca38145860",
+      "streaming_calibration_exp/src/data/m1_version_b_source_loso_datamodule.py": "f2fa151235e5c452b5fa93dff707eb82a04339a29408aa93f6324328d34164f3",
+      "streaming_calibration_exp/src/models/components/streaming_encoders.py": "078ebab7d34649effd818946dab9318a971f6f2a1e3f6b2f6e338e93a71d3eee",
+      "streaming_calibration_exp/src/models/components/streaming_spint.py": "70ba93d7a5cd2662cb5c6ce7509e5a1a25c5671e3dade454a9fa681e63df1968",
+      "streaming_calibration_exp/src/models/streaming_calibration_module.py": "464f5e6ae51f4044bd7826de75a0d5acaa57b345642fca02a3f30c088e62cd2d",
+      "streaming_calibration_exp/src/train.py": "eb67d3079fa91abf79ac2a5dd83cf486f6284c14bd5620fea17a3a1756eb3c4d"
+    },
+    "data_root": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941",
+    "source_data_file_count": 3,
+    "source_data_files_sha256": {
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+    },
+    "source_sessions": [
+      "ses-20120924",
+      "ses-20120926",
+      "ses-20120928"
+    ],
+    "target_data_hashed_by_prelaunch": false,
+    "target_session_excluded": "ses-20120927"
+  },
+  "inventory_before": {
+    "code_files_sha256": {
+      "streaming_calibration_exp/configs/callbacks/m1_version_b_fixed_epoch.yaml": "786b2ae60726c179075939511c78e0fe86c5433dd67f838fa775ce54e5c28f92",
+      "streaming_calibration_exp/configs/data/m1_version_b_source_loso.yaml": "f7be9ce10d23f471ce08e586fcdf0a9cec4f8b1e1d9e112eab4d53513464aca5",
+      "streaming_calibration_exp/configs/experiment/m1_version_b_c0.yaml": "6e281b2ff12f8117e3f5e4f42fff792224ed384d25a3725ca747accdb6816be8",
+      "streaming_calibration_exp/configs/experiment/m1_version_b_hs_continuation.yaml": "a39d83ab313f4c3cdeeb38f9ebdfa56d824e113b65c35bb57306991a1c9e1416",
+      "streaming_calibration_exp/configs/model/m1_version_b_b0.yaml": "e86be2b3e90abe33612b9e786e9f7f228aef7f0164783f70905acd9418976660",
+      "streaming_calibration_exp/configs/model/m1_version_b_b3s.yaml": "8d857a546e0d60d5496794016addf0c406949ebdac64bfae502f69ca38145860",
+      "streaming_calibration_exp/src/data/m1_version_b_source_loso_datamodule.py": "f2fa151235e5c452b5fa93dff707eb82a04339a29408aa93f6324328d34164f3",
+      "streaming_calibration_exp/src/models/components/streaming_encoders.py": "078ebab7d34649effd818946dab9318a971f6f2a1e3f6b2f6e338e93a71d3eee",
+      "streaming_calibration_exp/src/models/components/streaming_spint.py": "70ba93d7a5cd2662cb5c6ce7509e5a1a25c5671e3dade454a9fa681e63df1968",
+      "streaming_calibration_exp/src/models/streaming_calibration_module.py": "464f5e6ae51f4044bd7826de75a0d5acaa57b345642fca02a3f30c088e62cd2d",
+      "streaming_calibration_exp/src/train.py": "eb67d3079fa91abf79ac2a5dd83cf486f6284c14bd5620fea17a3a1756eb3c4d"
+    },
+    "data_root": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941",
+    "source_data_file_count": 3,
+    "source_data_files_sha256": {
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+      "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+    },
+    "source_sessions": [
+      "ses-20120924",
+      "ses-20120926",
+      "ses-20120928"
+    ],
+    "target_data_hashed_by_prelaunch": false,
+    "target_session_excluded": "ses-20120927"
+  },
+  "proposal_sha256": "f9a8df2da10288bd6ef1dece7be3f840a6cf1cd9628e76829683904be38748a4",
+  "receipt_sha256": "68f1888febfd873ddd629ec386324c6926e9c2fd58f4420b1e51f0a171469333",
+  "schema": "m1_compact_b3s_f2_s42_execution_v2",
+  "source_sampler": {
+    "canonical_content_sha256": "ede9e3d7c5f3bf81fcbc515637fc64902368df4d530dca5a7413600518135a28",
+    "equivalence": {
+      "calibration_n_trials": 10,
+      "chronological_source_fit": true,
+      "class": "M1VersionBSourceOnlyFitDataModule",
+      "fit_stage": "fit",
+      "target_path_resolved": false,
+      "validation_sessions": []
+    },
+    "launch_policy": {
+      "fold1_gate_required": true,
+      "launch_authorized": false,
+      "prepared_only": true,
+      "target_metrics_read_by_runner": false
+    },
+    "sampler": {
+      "batch_size": 32,
+      "dataset_windows": 164108,
+      "dropped_windows_per_epoch": 44,
+      "sampler_sha256": "d6a4944b8a582f7241507c4a5225c6fcf2690ebf4b08e7048cf691dbf36a20d0",
+      "source_batch_counts": {
+        "ses-20120924": 1714,
+        "ses-20120926": 1702,
+        "ses-20120928": 1711
+      },
+      "source_batches_per_epoch": 5127,
+      "source_scored_windows_per_epoch": 164064
+    },
+    "schema": "m1_compact_b3s_f2_s42_source_sampler_audit_v1",
+    "scope": {
+      "fold": 2,
+      "outer_target": "ses-20120927",
+      "seed": 42,
+      "source_sessions": [
+        "ses-20120924",
+        "ses-20120926",
+        "ses-20120928"
+      ],
+      "target_opened": false,
+      "target_values_used": false,
+      "task": "m1"
+    },
+    "source_inventory": {
+      "code_files_sha256": {
+        "streaming_calibration_exp/configs/callbacks/m1_version_b_fixed_epoch.yaml": "786b2ae60726c179075939511c78e0fe86c5433dd67f838fa775ce54e5c28f92",
+        "streaming_calibration_exp/configs/data/m1_version_b_source_loso.yaml": "f7be9ce10d23f471ce08e586fcdf0a9cec4f8b1e1d9e112eab4d53513464aca5",
+        "streaming_calibration_exp/configs/experiment/m1_version_b_c0.yaml": "6e281b2ff12f8117e3f5e4f42fff792224ed384d25a3725ca747accdb6816be8",
+        "streaming_calibration_exp/configs/experiment/m1_version_b_hs_continuation.yaml": "a39d83ab313f4c3cdeeb38f9ebdfa56d824e113b65c35bb57306991a1c9e1416",
+        "streaming_calibration_exp/configs/model/m1_version_b_b0.yaml": "e86be2b3e90abe33612b9e786e9f7f228aef7f0164783f70905acd9418976660",
+        "streaming_calibration_exp/configs/model/m1_version_b_b3s.yaml": "8d857a546e0d60d5496794016addf0c406949ebdac64bfae502f69ca38145860",
+        "streaming_calibration_exp/src/data/m1_version_b_source_loso_datamodule.py": "f2fa151235e5c452b5fa93dff707eb82a04339a29408aa93f6324328d34164f3",
+        "streaming_calibration_exp/src/models/components/streaming_encoders.py": "078ebab7d34649effd818946dab9318a971f6f2a1e3f6b2f6e338e93a71d3eee",
+        "streaming_calibration_exp/src/models/components/streaming_spint.py": "70ba93d7a5cd2662cb5c6ce7509e5a1a25c5671e3dade454a9fa681e63df1968",
+        "streaming_calibration_exp/src/models/streaming_calibration_module.py": "464f5e6ae51f4044bd7826de75a0d5acaa57b345642fca02a3f30c088e62cd2d",
+        "streaming_calibration_exp/src/train.py": "eb67d3079fa91abf79ac2a5dd83cf486f6284c14bd5620fea17a3a1756eb3c4d"
+      },
+      "data_root": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941",
+      "source_data_file_count": 3,
+      "source_data_files_sha256": {
+        "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+        "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+        "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+      },
+      "source_sessions": [
+        "ses-20120924",
+        "ses-20120926",
+        "ses-20120928"
+      ],
+      "target_data_hashed_by_prelaunch": false,
+      "target_session_excluded": "ses-20120927"
+    },
+    "staged_receipt": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_STAGED_RECEIPT_v2.json",
+      "sha256": "68f1888febfd873ddd629ec386324c6926e9c2fd58f4420b1e51f0a171469333"
+    },
+    "status": "PASS_M1_COMPACT_B3S_F2_S42_SOURCE_SAMPLER_AUDITED_NOT_LAUNCHED",
+    "trainer": {
+      "derivation": "sum(source_batch_counts) * frozen max_epochs=12; no fold-0/fold-1 literal",
+      "epochs": 12,
+      "expected_global_step": 61524
+    }
+  },
+  "source_sampler_audit": {
+    "body": {
+      "canonical_content_sha256": "ede9e3d7c5f3bf81fcbc515637fc64902368df4d530dca5a7413600518135a28",
+      "equivalence": {
+        "calibration_n_trials": 10,
+        "chronological_source_fit": true,
+        "class": "M1VersionBSourceOnlyFitDataModule",
+        "fit_stage": "fit",
+        "target_path_resolved": false,
+        "validation_sessions": []
+      },
+      "launch_policy": {
+        "fold1_gate_required": true,
+        "launch_authorized": false,
+        "prepared_only": true,
+        "target_metrics_read_by_runner": false
+      },
+      "sampler": {
+        "batch_size": 32,
+        "dataset_windows": 164108,
+        "dropped_windows_per_epoch": 44,
+        "sampler_sha256": "d6a4944b8a582f7241507c4a5225c6fcf2690ebf4b08e7048cf691dbf36a20d0",
+        "source_batch_counts": {
+          "ses-20120924": 1714,
+          "ses-20120926": 1702,
+          "ses-20120928": 1711
+        },
+        "source_batches_per_epoch": 5127,
+        "source_scored_windows_per_epoch": 164064
+      },
+      "schema": "m1_compact_b3s_f2_s42_source_sampler_audit_v1",
+      "scope": {
+        "fold": 2,
+        "outer_target": "ses-20120927",
+        "seed": 42,
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ],
+        "target_opened": false,
+        "target_values_used": false,
+        "task": "m1"
+      },
+      "source_inventory": {
+        "code_files_sha256": {
+          "streaming_calibration_exp/configs/callbacks/m1_version_b_fixed_epoch.yaml": "786b2ae60726c179075939511c78e0fe86c5433dd67f838fa775ce54e5c28f92",
+          "streaming_calibration_exp/configs/data/m1_version_b_source_loso.yaml": "f7be9ce10d23f471ce08e586fcdf0a9cec4f8b1e1d9e112eab4d53513464aca5",
+          "streaming_calibration_exp/configs/experiment/m1_version_b_c0.yaml": "6e281b2ff12f8117e3f5e4f42fff792224ed384d25a3725ca747accdb6816be8",
+          "streaming_calibration_exp/configs/experiment/m1_version_b_hs_continuation.yaml": "a39d83ab313f4c3cdeeb38f9ebdfa56d824e113b65c35bb57306991a1c9e1416",
+          "streaming_calibration_exp/configs/model/m1_version_b_b0.yaml": "e86be2b3e90abe33612b9e786e9f7f228aef7f0164783f70905acd9418976660",
+          "streaming_calibration_exp/configs/model/m1_version_b_b3s.yaml": "8d857a546e0d60d5496794016addf0c406949ebdac64bfae502f69ca38145860",
+          "streaming_calibration_exp/src/data/m1_version_b_source_loso_datamodule.py": "f2fa151235e5c452b5fa93dff707eb82a04339a29408aa93f6324328d34164f3",
+          "streaming_calibration_exp/src/models/components/streaming_encoders.py": "078ebab7d34649effd818946dab9318a971f6f2a1e3f6b2f6e338e93a71d3eee",
+          "streaming_calibration_exp/src/models/components/streaming_spint.py": "70ba93d7a5cd2662cb5c6ce7509e5a1a25c5671e3dade454a9fa681e63df1968",
+          "streaming_calibration_exp/src/models/streaming_calibration_module.py": "464f5e6ae51f4044bd7826de75a0d5acaa57b345642fca02a3f30c088e62cd2d",
+          "streaming_calibration_exp/src/train.py": "eb67d3079fa91abf79ac2a5dd83cf486f6284c14bd5620fea17a3a1756eb3c4d"
+        },
+        "data_root": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941",
+        "source_data_file_count": 3,
+        "source_data_files_sha256": {
+          "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+          "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+          "sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+        },
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ],
+        "target_data_hashed_by_prelaunch": false,
+        "target_session_excluded": "ses-20120927"
+      },
+      "staged_receipt": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_STAGED_RECEIPT_v2.json",
+        "sha256": "68f1888febfd873ddd629ec386324c6926e9c2fd58f4420b1e51f0a171469333"
+      },
+      "status": "PASS_M1_COMPACT_B3S_F2_S42_SOURCE_SAMPLER_AUDITED_NOT_LAUNCHED",
+      "trainer": {
+        "derivation": "sum(source_batch_counts) * frozen max_epochs=12; no fold-0/fold-1 literal",
+        "epochs": 12,
+        "expected_global_step": 61524
+      }
+    },
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F2_S42_SOURCE_SAMPLER_AUDIT_v1.json",
+    "sha256": "66be82904125a5c15569cd0231cecc3ee4392f1e3ec831d51c182cac46e22b7a"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F2_S42_V2_PAIR_TERMINAL",
+  "target_metrics_not_read_by_runner": true,
+  "target_opened_by_training": false,
+  "teacher": {
+    "checkpoint": {
+      "epoch": 19,
+      "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/checkpoints/best_ckpt/epoch_019.ckpt",
+      "sha256": "925fba67a6a4338ee6e399751e80d53c5e74a22a7dd3ae0329d9c8da9e0291e2"
+    },
+    "manifest": {
+      "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold2_remote/runs/remote_fold2_source_epoch019/source_only_decoder_manifest.json",
+      "sha256": "4dc53581280281326257c158a977b329195d0335443c658899f83a9a4410e4bb"
+    },
+    "outer_target": "ses-20120927",
+    "source_files": {
+      "ses-20120924": {
+        "bytes": 73077382,
+        "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+        "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+      },
+      "ses-20120926": {
+        "bytes": 80268327,
+        "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+        "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91"
+      },
+      "ses-20120928": {
+        "bytes": 68337100,
+        "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+        "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+      }
+    },
+    "source_only": true,
+    "source_sessions": [
+      "ses-20120924",
+      "ses-20120926",
+      "ses-20120928"
+    ]
+  },
+  "terminal_checkpoints": {
+    "b0": {
+      "epoch": 11,
+      "fit_loop": {
+        "batch_completed": 61524,
+        "epoch_processed": 12
+      },
+      "global_step": 61524,
+      "log": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/fold2_v2_logs/b0.log",
+        "sha256": "3849e06854885f05c1fb83f54c06b8cc2f0cc1c8308bcdb28066e39669401753"
+      },
+      "optimizer": {
+        "count": 1,
+        "lr": 0.0001,
+        "state_steps": [
+          61524
+        ],
+        "weight_decay": 0.0
+      },
+      "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-05-29-41-332479_rid-m1_compact_b0_f2_s42_fresh_e11_f2_s42/checkpoints/fixed_last/epoch_epoch=011.ckpt",
+      "resolved_config": {
+        "arm": "B0",
+        "loso_fold": 2,
+        "optimized_metric": null,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f2_s42_fresh_e11_f2_s42_20260810_052941/resolved_config.yaml",
+        "sha256": "a77234df11a38ff5e731066b6c6e1f300078757de947438e82d12717a422e1a2",
+        "source_only_target": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ],
+        "test": false
+      },
+      "sha256": "5553881befc8be4e4aa8fd0b7035e550ebe2ec25c2f113a5bc7b1c49e0f4d95a",
+      "source_only_manifest": {
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-05-29-41-332479_rid-m1_compact_b0_f2_s42_fresh_e11_f2_s42/m1_version_b_source_only_fit_manifest.json",
+        "schema": "m1_version_b_source_only_fit_v2",
+        "sha256": "540afdf7f9b14181f9a8baaa31ae2c1cb225dc63eba4416f17a6961c7f3c7943",
+        "source_files": {
+          "ses-20120924": {
+            "bytes": 73077382,
+            "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+            "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+          },
+          "ses-20120926": {
+            "bytes": 80268327,
+            "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+            "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91"
+          },
+          "ses-20120928": {
+            "bytes": 68337100,
+            "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+            "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+          }
+        },
+        "source_only": true
+      },
+      "variant": "B0"
+    },
+    "b3s_zero4": {
+      "epoch": 11,
+      "fit_loop": {
+        "batch_completed": 61524,
+        "epoch_processed": 12
+      },
+      "global_step": 61524,
+      "log": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/xinyuan/fold2_v2_logs/b3s_zero4.log",
+        "sha256": "ad1423eb22168bf2117c5afb49c175b1b42949d6d641b55ac40d6f908ef6a466"
+      },
+      "optimizer": {
+        "count": 1,
+        "lr": 0.0001,
+        "state_steps": [
+          61524
+        ],
+        "weight_decay": 0.0
+      },
+      "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-06-18-43-102875_rid-m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42/checkpoints/fixed_last/epoch_epoch=011.ckpt",
+      "resolved_config": {
+        "arm": "B3S",
+        "loso_fold": 2,
+        "optimized_metric": null,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42_20260810_061843/resolved_config.yaml",
+        "sha256": "085974ed29eea8cfee968096e761f62b858320fb7a8e200801cb0ccf7008af2a",
+        "source_only_target": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+        "source_sessions": [
+          "ses-20120924",
+          "ses-20120926",
+          "ses-20120928"
+        ],
+        "test": false
+      },
+      "sha256": "0454fa6e12c846f06631f2cc43e202ad79d432a18c4adb7a68a9d80947d96858",
+      "source_only_manifest": {
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-06-18-43-102875_rid-m1_compact_b3s_zero4_f2_s42_fresh_e11_f2_s42/m1_version_b_source_only_fit_manifest.json",
+        "schema": "m1_version_b_source_only_fit_v2",
+        "sha256": "6e362061f37b89ebce77b85bb3e9511ba4aafe9ea7209cf3e59ccc45b8ef6914",
+        "source_files": {
+          "ses-20120924": {
+            "bytes": 73077382,
+            "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+            "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+          },
+          "ses-20120926": {
+            "bytes": 80268327,
+            "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+            "sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91"
+          },
+          "ses-20120928": {
+            "bytes": 68337100,
+            "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+            "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+          }
+        },
+        "source_only": true
+      },
+      "variant": "B3S"
+    }
+  }
+}

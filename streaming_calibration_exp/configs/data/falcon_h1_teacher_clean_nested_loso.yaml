@@ -1,0 +1,7 @@
+# Teacher counterpart: exact same fold/query split, but no side tensor so
+# FalconLitModule receives its required 4-tuple.
+defaults:
+  - falcon_h1_clean_nested_loso
+
+include_side_features: false
+side_feature_group: zero4

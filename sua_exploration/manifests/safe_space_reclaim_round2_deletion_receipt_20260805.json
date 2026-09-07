@@ -1,0 +1,132 @@
+{
+  "schema": "safe-space-reclaim-deletion-receipt/v1",
+  "created_at": "2026-08-05T07:20:00+08:00",
+  "status": "complete",
+  "scope": "four exact standalone smoke-training log roots only",
+  "safety_contract": {
+    "never_touched": [
+      "C1/QAT",
+      "Phase-C r5",
+      "DANDI/sub-M",
+      "M30",
+      "formal held-out evidence",
+      "all metrics-bearing streaming outputs",
+      "known M1/D4 duplicate checkpoints"
+    ],
+    "pre_delete_checks_per_target": [
+      "canonical path was the exact workspace-relative target",
+      "target was a directory and contained zero symlinks",
+      "target had zero result/metric/receipt/manifest/evidence/ledger/report filenames",
+      "external exact-path and basename textual reference counts were zero",
+      "every contained checkpoint SHA-256 had zero external textual references in source/protocol/result text",
+      "lsof +D returned zero open rows",
+      "earlier ps/tmux review found no owner process"
+    ],
+    "deletion_method": "find -P <exact-root> -depth -delete; no glob and no source-tree deletion",
+    "irreversible": true
+  },
+  "targets": [
+    {
+      "path": "streaming_calibration_exp/logs/train/runs/2026-07-29-13-59-05-924985_rid-native_mua_smoke_t4_m1_f1_s42",
+      "logical_tree_bytes": 363259000,
+      "classification": "native-MUA M1 held-in smoke only",
+      "run_contract": {
+        "fold": 1,
+        "seed": 42,
+        "max_epochs": 1,
+        "limited_train_batches": 2,
+        "limited_val_batches": 2,
+        "test": false,
+        "held_out_log_state": "skipped"
+      },
+      "checkpoint_sha256_external_reference_count": 0,
+      "checkpoint_sha256": [
+        "65fe3adf6eea4c0a98a6a74f2f2658d57e0240187634424502e4b5801f211330",
+        "796145a603b3c942805dc702d6284bb6ba42c627aa530fcdc620d2dd43ee2bce",
+        "0ddeb7faa9dd4fa597e80d6612c07fcdeb319ad303b88303d12354aae1d4ef0a"
+      ],
+      "post_delete_exists": false
+    },
+    {
+      "path": "streaming_calibration_exp/logs/train/runs/2026-07-29-13-59-05-921617_rid-native_mua_smoke_t4_m2_f1_s42",
+      "logical_tree_bytes": 111114699,
+      "classification": "native-MUA M2 held-in smoke only",
+      "run_contract": {
+        "fold": 1,
+        "seed": 42,
+        "max_epochs": 1,
+        "limited_train_batches": 2,
+        "limited_val_batches": 2,
+        "test": false,
+        "held_out_log_state": "skipped"
+      },
+      "checkpoint_sha256_external_reference_count": 0,
+      "checkpoint_sha256": [
+        "bab29eab1d28df97c840a2abb92cdb6d06cd04b7055005559259c8e7872c0560",
+        "dc47f77704608441d0d63e6734fc3094656b8d94bca4db495ce5920f1fa603d4",
+        "3bd634abb20c7f00a9207c6c3e1817a469c3295eca465e18f98afa5027b9041e"
+      ],
+      "post_delete_exists": false
+    },
+    {
+      "path": "streaming_calibration_exp/logs/train/runs/2026-07-31-21-35-09-580764_rid-m2_k4_cpu_smoke_v1_f1_s42",
+      "logical_tree_bytes": 74111183,
+      "classification": "M2 K4 CPU held-in smoke only",
+      "run_contract": {
+        "fold": 1,
+        "seed": 42,
+        "max_epochs": 1,
+        "limited_train_batches": 1,
+        "limited_val_batches": 1,
+        "held_out_log_state": "skipped"
+      },
+      "checkpoint_sha256_external_reference_count": 0,
+      "checkpoint_sha256": [
+        "543d96031a84e7d85c9193abc9f7e5aa818d1bf22753b2cb3bf048b996795595",
+        "32ea68cb383111eabcd0416680966c2eb84a8dd2531e8c753f438e91c60a37bd"
+      ],
+      "post_delete_exists": false
+    },
+    {
+      "path": "streaming_calibration_exp/logs/train/runs/2026-07-31-22-03-52-099379_rid-m2_k4_m24_cpu_smoke_v1_f1_s42",
+      "logical_tree_bytes": 111132333,
+      "classification": "M2 K4 M=24 CPU held-in smoke only",
+      "run_contract": {
+        "fold": 1,
+        "seed": 42,
+        "max_epochs": 1,
+        "limited_train_batches": 1,
+        "limited_val_batches": 1,
+        "limited_test_batches": 1,
+        "held_out_log_state": "skipped"
+      },
+      "checkpoint_sha256_external_reference_count": 0,
+      "checkpoint_sha256": [
+        "6bc0d408b4592de5b21f03a4fa76047c40f8551b6b90f3b24a92c509e4f80833",
+        "8e46d22a8cf1a3648439e4c94825467c29e6f909939bc96a3651a2e53d830133",
+        "d45da839e507c0675e2d6f7ad4b913d00904a5a97f03f44073bdb5ef6363503c"
+      ],
+      "post_delete_exists": false
+    }
+  ],
+  "logical_payload_bytes": 659617215,
+  "filesystem_before_bytes": {
+    "used": 690738704384,
+    "available": 240163344384
+  },
+  "filesystem_after_bytes": {
+    "used": 690079232000,
+    "available": 240822816768
+  },
+  "observed_df_available_delta_bytes": 659472384,
+  "df_delta_note": "df reports allocated filesystem blocks while the target total is apparent logical tree size; concurrent log metadata can also change during the audit window.",
+  "explicitly_preserved_metrics_or_provenance_outputs": [
+    "streaming_calibration_exp/outputs/streaming_calibration/m2_k4_cpu_smoke_v1_f1_s42_20260731_213509",
+    "streaming_calibration_exp/outputs/streaming_calibration/m2_k4_m24_cpu_smoke_v1_f1_s42_20260731_220352",
+    "streaming_calibration_exp/outputs/streaming_calibration/m2_m33_disjoint_replay_correction_v1_f0_m2_profile_retry1_f1_s42_20260801_115745",
+    "streaming_calibration_exp/outputs/streaming_calibration/native_mua_heldout_t4_v1_smoke_t4_m1_f1_s42_f1_s42_20260730_113750",
+    "streaming_calibration_exp/outputs/streaming_calibration/native_mua_heldout_smoke_t4_m1_f1_s42_20260730_113454",
+    "streaming_calibration_exp/outputs/streaming_calibration/native_mua_heldout_t4_v1_smoke_t4_m2_f1_s42_r1_f1_s42_20260730_113820",
+    "streaming_calibration_exp/outputs/streaming_calibration/native_mua_heldout_smoke_t4_m2_f1_s42_20260730_113538"
+  ]
+}

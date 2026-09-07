@@ -1,0 +1,9 @@
+{
+  "bytes": 128083833,
+  "hidden_test_opened": false,
+  "payload_sha256": "523d3d2e55a8fd4620a3f0a94dea6a99ae6ff53cefe807c3ff809a30b1d2479d",
+  "readout": "exact_identity",
+  "schema": "h1_epfilm_no_readout_v1_payload",
+  "sessions": 27,
+  "source_payload_sha256": "df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7"
+}

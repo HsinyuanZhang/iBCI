@@ -1,0 +1,71 @@
+{
+  "schema": "astra_flat_route_operator_family_design_freeze_v1",
+  "status": "DESIGN_REVIEW_FREEZE",
+  "operator_name": "CRST-B4__Calibration-Routed_Set_Temporal_Transformer",
+  "family": "other",
+  "named_family": "Calibration-Routed Set Temporal Transformer with an explicitly declared finite temporal-backbone set",
+  "members": ["CRST-B4-FLAT", "CRST-B4-ROUTE"],
+  "interpretation": "Shared architecture family, not identical networks or cross-dataset shared trained weights.",
+  "temporal_operator": ["FW-CausalPE4", "FW-QueryAge16"],
+  "global_temporal_winner_frozen": false,
+  "engineering_default_for_new_backbones": "m2_like, not a globally selected scientific winner",
+  "routing_difference": "Only calibration-conditioned additive slot-to-unit attention logit bias; never temporal kernel selection.",
+  "shared_must": [
+    "Shared-per-unit Conv1to16 causal-k5 plus SiLU",
+    "Concat local16/E0/T4 Linear256-GELU-Linear256-LayerNorm; proven exact factorization allowed",
+    "8-slot 8-head width256 set attention with identical unit-mask semantics",
+    "Slot residual FFN256-1024-256 and flatten2048-to256 projection",
+    "Width256 heads8 depth4 FFN512; each named temporal member has identical semantics across datasets and within a FLAT/ROUTE pair",
+    "FW-CausalPE4 uses window-relative sinusoidal PE; FW-QueryAge16 uses original-memory four-query updates and linear age16; no hidden log-age/recency change",
+    "Final LayerNorm and last-position Linear256-128-GELU-to-task-output readout",
+    "Same FLAT/ROUTE calibration-logit rule and zero-gate reduction",
+    "Raw-zero startup, strict finite history, session isolation, inactive freeze, native-unit output and versioned invalidation"
+  ],
+  "per_dataset_may": {
+    "m1": {"window": 100, "units": 64, "e0_dim": 100, "functional_dim": 4, "out_dim": 16, "target_multiplier_and_output_divisor": 1, "official_batch_max": 4},
+    "m2_small": {"window": 50, "units": 96, "e0_dim": 50, "functional_dim": 4, "out_dim": 2, "target_multiplier_and_output_divisor": 5, "official_batch_max": 7},
+    "h1": {"window": 700, "units": 176, "e0_dim": 700, "functional_dim": 4, "out_dim": 7, "target_multiplier_and_output_divisor": 20, "official_batch_max": "bind actual H1 protocol; do not infer"},
+    "other": ["Explicit predeclared temporal member from the finite family, fixed within each FLAT/ROUTE pair", "Frozen carrier provenance and legal calibration support", "Documented I/O-only preprocessing and output calibration", "Predeclared training numbers matched within each dataset FLAT/ROUTE pair"]
+  },
+  "first_ablation": {
+    "variable": "calibration_routing_logit_bias_enabled",
+    "values": [false, true],
+    "datasets": ["m1", "m2", "h1"],
+    "fixed": ["The same declared temporal member within each dataset pair", "frontend backbone", "carrier", "local split", "shared initialization", "mask RNG", "training budget", "loss/native units", "epoch-pick rule", "output calibration recipe"],
+    "report_all_cells": true,
+    "not_an_execution_authorization": true
+  },
+  "parallel_hypotheses_reviewed": {
+    "m1_like": "FW-QueryAge16 retained as an allowed explicit backbone member; not renamed ROUTE and not assumed accurate on M2/H1.",
+    "fusion": "FW-C1Q3-PE: one causal context layer plus three current-query reads; requires same-position/same-Norm contextual_depth 0/1/3 controls. Not a default and not ordinary KV cache.",
+    "if_backbones_differ_across_datasets": "Within-dataset FLAT/ROUTE pairs can support a routing-method claim for the tested dataset/backbone combinations; not an identical-network or temporal-superiority claim.",
+    "if_temporal_superiority_or_interaction_is_claimed": "Require the routing x temporal crossed controls on every relevant dataset; do not attribute a dataset/backbone confound to a universal temporal kernel."
+  },
+  "retrain": {
+    "m1": "Existing FULL is an A-family migration candidate subject to strict equivalence; T e6 cannot be relabeled causal. New matched FLAT/ROUTE evidence is required.",
+    "m2": "Existing causal SMALL can be retained after equivalence-only port; new ROUTE or query/fusion requires matched training.",
+    "h1": "Signed V4/V6/V7 cannot populate the common-frontend family. Common-frontend learning and matched FLAT/ROUTE need fresh verification/training; naive timeout alone does not invalidate old causal weights."
+  },
+  "keeps": {
+    "C2": "Separate SPINT control; 581920 is not a B-transformer.",
+    "581973": "Historical causal SMALL official result only; never use official score for new selection.",
+    "M1_T_e6": "Historical source-dev current-query and live V3 runtime control, not official generalization or ROUTE evidence.",
+    "H1_signed": "Honest local signed-frontend diagnostics under original names, not common-frontend family results."
+  },
+  "rejects": [
+    "Dataset-hidden temporal kernel switches",
+    "Relabeling query-memory or signed-mixing as existing ROUTE",
+    "Calling final-layer last-query exact-E a new fusion architecture",
+    "Cross-window contextual KV reuse under the finite-window causal contract",
+    "Treating H1 V6 recency prior as an unmarked family definition",
+    "Resurrecting deleted M1 naive image or closed FiLM/C3/q3-AFC4 paths",
+    "Overwriting historical artifacts or making official-score-driven choices"
+  ],
+  "execution_authorized": false,
+  "training_authorized": false,
+  "packaging_authorized": false,
+  "submission_authorized": false,
+  "hidden_query_access_authorized": false,
+  "review_document": "tfpd_exploration/docs/FREEZE_ASTRA_FLAT_ROUTE_OPERATOR_FAMILY_20260906.md",
+  "supplied_handoff_preserved": "tfpd_exploration/docs/HANDOFF_ASTRA_UNIFIED_TEMPORAL_OPERATOR_20260906.md"
+}

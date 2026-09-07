@@ -1,0 +1,24 @@
+{
+  "completed_at": "2026-09-04T16:21:59.753907Z",
+  "execution_time": 0.109212,
+  "image_id": "sha256:374426038abfc17785148b17b39b081b09df354c5f44802b756811f8b9c8300e",
+  "official_result_sha256": "24b8391d33b353ab7bafbaf58c113c3042edc14ef3cffdb5eac0b567026226e5",
+  "payload_sha256": "f3e64950b00193949f6993d1a9022ba98fb65b759198427d666483d0c6bc49c1",
+  "result_url": "https://evalai.s3.amazonaws.com/media/submission_files/challenge_2319/phase_4599/submission_581899/e68c8269-7835-465f-a1f1-fa48b2cfcf.json",
+  "schema": "m2_movement_t4_evalai_terminal_v1",
+  "scores": {
+    "Held In R2 Mean": 0.5738219775631112,
+    "Held In R2 Std.": 0.030538106551459457,
+    "Held Out R2 Mean": 0.3275179373893048,
+    "Held Out R2 Std.": 0.10491803383474116,
+    "Normalized Latency": 0.04451665781790194
+  },
+  "status": "finished",
+  "submission_id": 581899,
+  "transient_worker_snapshot": {
+    "first_status": "failed",
+    "first_result_body": [],
+    "first_worker_execution_time": 747.854309,
+    "interpretation": "prediction completed; EvalAI host scorer subsequently finalized the same submission"
+  }
+}

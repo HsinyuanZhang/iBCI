@@ -1,0 +1,120 @@
+{
+  "behavior_mean": [
+    -0.001148765324614942,
+    0.002653369214385748
+  ],
+  "behavior_std": [
+    8.63547420501709,
+    8.086690902709961
+  ],
+  "ckpt": "/home/xinyuan/Work_host/SPINT/sua_exploration/checkpoints/a2_matched_subject_shift_v2_source_t4_dandi688_co_s42/best-epoch=006-val_heldin/r2_mean=0.6081.ckpt",
+  "ckpt_dir": "/home/xinyuan/Work_host/SPINT/sua_exploration/checkpoints/a2_matched_subject_shift_v2_source_t4_dandi688_co_s42",
+  "created_at": "2026-08-13T19:04:08.545061+08:00",
+  "forbidden_test_sessions_opened": [],
+  "pool_size": 30,
+  "raw_normalized": false,
+  "sessions": {
+    "sub-C_ses-CO-20151103": {
+      "forbidden_streams": {
+        "present_but_unread": [
+          "Velocity",
+          "Position",
+          "Acceleration"
+        ]
+      },
+      "n_calibration_pool_trials": 30,
+      "n_eval_trials": 220,
+      "n_eval_trials_with_finite_target_dir": 220,
+      "n_eval_windows": 32067,
+      "n_units": 38,
+      "n_usable_trials": 250
+    },
+    "sub-C_ses-CO-20151104": {
+      "forbidden_streams": {
+        "present_but_unread": [
+          "Velocity",
+          "Position",
+          "Acceleration"
+        ]
+      },
+      "n_calibration_pool_trials": 30,
+      "n_eval_trials": 289,
+      "n_eval_trials_with_finite_target_dir": 289,
+      "n_eval_windows": 42792,
+      "n_units": 59,
+      "n_usable_trials": 319
+    },
+    "sub-C_ses-CO-20151106": {
+      "forbidden_streams": {
+        "present_but_unread": [
+          "Velocity",
+          "Position",
+          "Acceleration"
+        ]
+      },
+      "n_calibration_pool_trials": 30,
+      "n_eval_trials": 228,
+      "n_eval_trials_with_finite_target_dir": 228,
+      "n_eval_windows": 38385,
+      "n_units": 60,
+      "n_usable_trials": 258
+    },
+    "sub-C_ses-CO-20151109": {
+      "forbidden_streams": {
+        "present_but_unread": [
+          "Velocity",
+          "Position",
+          "Acceleration"
+        ]
+      },
+      "n_calibration_pool_trials": 30,
+      "n_eval_trials": 143,
+      "n_eval_trials_with_finite_target_dir": 143,
+      "n_eval_windows": 23005,
+      "n_units": 65,
+      "n_usable_trials": 173
+    },
+    "sub-C_ses-CO-20151110": {
+      "forbidden_streams": {
+        "present_but_unread": [
+          "Velocity",
+          "Position",
+          "Acceleration"
+        ]
+      },
+      "n_calibration_pool_trials": 30,
+      "n_eval_trials": 168,
+      "n_eval_trials_with_finite_target_dir": 168,
+      "n_eval_windows": 24763,
+      "n_units": 61,
+      "n_usable_trials": 198
+    },
+    "sub-C_ses-CO-20151112": {
+      "forbidden_streams": {
+        "present_but_unread": [
+          "Velocity",
+          "Position",
+          "Acceleration"
+        ]
+      },
+      "n_calibration_pool_trials": 30,
+      "n_eval_trials": 158,
+      "n_eval_trials_with_finite_target_dir": 158,
+      "n_eval_windows": 23134,
+      "n_units": 42,
+      "n_usable_trials": 188
+    }
+  },
+  "side_feature_group": "t4",
+  "tag": "t4_zeroid",
+  "target_session_kinematics_read": "none",
+  "val_sessions": [
+    "sub-C_ses-CO-20151103",
+    "sub-C_ses-CO-20151104",
+    "sub-C_ses-CO-20151106",
+    "sub-C_ses-CO-20151109",
+    "sub-C_ses-CO-20151110",
+    "sub-C_ses-CO-20151112"
+  ],
+  "zero_identity": true
+}

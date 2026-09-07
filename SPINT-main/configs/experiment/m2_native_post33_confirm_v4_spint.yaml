@@ -1,0 +1,58 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_post33_confirm_v4
+  - override /model: falcon_m2_post33_confirm_v4
+  - override /callbacks: post33_source_only_v4
+  - override /hydra: post33_cell_v4
+
+protocol_id: M2_NATIVE_T4_SPINT_POST33_CONFIRM_V1
+phase_id: PHASE_C_V4
+arm: spint
+task_name: m2_native_post33_confirm_v4_spint
+tags: ["m2", "native-mua", "post33", "phase-c-v4", "exact-six"]
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: val_source/r2_equal_session_mean
+# Phase-C seals a closed run tree.  TensorBoard event files carry dynamic
+# names, so this production plan has no Lightning logger at all.
+logger: false
+
+# ``src.utils.extras`` can otherwise write ``config_tree.log`` beside the
+# owned run artifacts (or prompt/mutate warning policy).  Phase-C owns a
+# closed, deterministic run tree, so all optional extras are explicitly off.
+extras:
+  ignore_warnings: false
+  enforce_tags: false
+  print_config: false
+
+# Keep Lightning's default root inside the same fixed directory that Hydra
+# reserves for this owned cell; the wrapper rejects any runtime override.
+paths:
+  output_dir: ${cell_paths.cell_dir}/run
+
+cell_owner_token: ???
+cell_paths:
+  cell_dir: ???
+  owner: ???
+  hydra: ???
+  selector_records: ???
+  checkpoints: ???
+  resolved_config: ???
+  deployment_constants: ???
+  source_cost_evidence: ???
+  cost_supplement: ???
+
+trainer:
+  max_epochs: 35
+  accelerator: gpu
+  devices: 1
+  precision: 32-true
+  # Keep Lightning's bounded source-only forward-path probe explicit.  The
+  # exact-six metric hook discards its partial session-grouped prefix.
+  num_sanity_val_steps: 2
+  # The source selector writes the exact allowlisted epoch files itself.
+  # Leaving this as Lightning's ``None`` would silently add ModelCheckpoint.
+  enable_checkpointing: false

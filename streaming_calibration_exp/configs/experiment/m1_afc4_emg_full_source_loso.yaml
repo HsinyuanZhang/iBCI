@@ -1,0 +1,45 @@
+# @package _global_
+
+# CPU-preflightable, source-joint M1 AFC4 Full arm.  GPU launch is deliberately
+# outside this config and requires a separately reviewed execution protocol.
+defaults:
+  - override /model: streaming_b3s_afc4_emg_m1
+  - override /data: falcon_m1_emg_afc4
+
+run_id: m1_afc4_emg_full_source_loso
+tags: ["native-mua", "m1", "afc4-emg", "source-joint", "full", "preflight-only"]
+train: false
+# A local, strictly held-in post-M10 test is the only score path; formal and
+# held-out data stay structurally disabled in the AFC4 datamodule.
+test: true
+no_early_stopping: true
+
+data:
+  afc4_arm: full
+
+model:
+  # Do not inherit ``paths.m1_teacher_ckpt_path``.  That 2026-07-21 native-M1
+  # teacher was trained on all four held-in sessions, including every possible
+  # LOSO target.  GPU launch requires a per-fold, source-only M1 decoder
+  # checkpoint plus a reviewed provenance receipt.
+  teacher_ckpt_path: M1_AFC4_SOURCE_LOSO_CHECKPOINT_REQUIRED
+  freeze_decoder: true
+  # Source-joint task loss only: no behavior/identity auxiliary target is
+  # optimized on either the source training batch or its left-out validation.
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+
+trainer:
+  min_epochs: 12
+  max_epochs: 12
+
+callbacks:
+  early_stopping: null
+  # Target sessions are never used for checkpoint selection.  Full/controls
+  # use a fixed 12-epoch development budget and source training loss only.
+  best_checkpoint:
+    monitor: train/loss
+    mode: min
+    save_top_k: 1
+  periodic_checkpoint: null

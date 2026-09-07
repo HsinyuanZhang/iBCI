@@ -1,0 +1,11 @@
+{
+  "arm": "small_trf_s1_ema_e19_exact_e",
+  "budget_disclosure": "33 public calibration trials for native E0 and MOVE-T4; static banks; no TTA. Same sealed SMALL EMA e19 payload as 581937; new exact-E runtime only.",
+  "image_id": "sha256:35b4d16202e189fe7ec7d6520e9542ec9c44f7c201a1c6d3502a6007f2b1764e",
+  "image_tag": "spint-t4-m2:small-trf-s1-ema-e19-exact-e-37071f3e",
+  "method_description": "Same sealed M2 SMALL causal Transformer weights as submission 581937 (seed-42 S1-SMALL-COS EMA epoch 19, visible-product pick on local ext-4, equal-session mean 0.4515). This image replaces only the Falcon runtime: boundary-correct k=5 frontend reuse and last-layer last-query evaluation. Temporal layers 1-3 remain full-window. No cross-window temporal KV reuse, no TTA, output /5, 13 official MOVE-T4/E0 banks. Submitted because the naive full-window sibling 581938 hit the official execution-time limit and 581937 is still queued on the unaccelerated runtime.",
+  "method_label": "M2 small causal Transformer (S1-SMALL-COS seed42 EMA e19) exact-E runtime; same sealed weights/banks as 581937; frontend cache + last-query; no TTA",
+  "method_name": "M2 small Transformer S1-SMALL-COS EMA e19 exact-E runtime",
+  "payload_sha256": "37071f3e718913f994b5015e13aa203026fb630339e87921ddb1c35de9d2bf62",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_trf_e_opt_v1/artifacts/evalai_push_state.json"
+}

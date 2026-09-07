@@ -1,0 +1,17 @@
+{
+  "schema": "m1_v3_evalai_register_v1",
+  "submission_id": 581982,
+  "status_at_register": "submitted",
+  "submitted_at": "2026-09-06T02:55:47.965511Z",
+  "image_id": "sha256:9b530d8e5c7f8fa36d49b7d49d35f30c1a3e0667ce8ac6c58abade21b3bfbaa9",
+  "image_tag": "spint-m1:v3-t-ema-e6-t2-5e44fc37",
+  "payload_sha256": "5e44fc37965640138bf977da42a988e7636daa996d1eb9b50a75fa5628f9d7b3",
+  "method_name": "M1 optimized-v2 current-query T EMA e6 runtime-v3 t2 w0 cast-f32",
+  "method_label": "M1 current-query Transformer V3 (formal12_chron80_v2 seed42 EMA e6) t2 w0; official uint8/float coerce; source-dev epoch-pick; not outer-24",
+  "pick": "formal12_chron80_v2 seed42 EMA epoch 6 current-query; source-dev epoch-pick; not outer-24",
+  "replaces_failed": 581980,
+  "quota_after_register": {"today": 2, "active": 2, "max_per_day": 6, "max_concurrent": 3},
+  "sibling_naive_still_queued": 581937,
+  "fix": "adapter casts official uint8/float64/noncontiguous bins to C-contiguous float32",
+  "not_official_score": true
+}

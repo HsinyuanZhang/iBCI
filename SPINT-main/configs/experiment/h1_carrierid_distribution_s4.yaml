@@ -1,0 +1,8 @@
+# @package _global_
+defaults:
+  - h1_carrierid_distribution
+
+task_name: h1_carrierid_h32_distribution_s4
+tags: [h1, carrierid, h32, m4, source_only, d_s4, leakage_diagnostic_only]
+pilot:
+  arm: s4

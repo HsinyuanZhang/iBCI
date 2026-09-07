@@ -1,0 +1,10 @@
+# @package _global_
+
+defaults:
+  - rt_joint_afc4_vel_m24_loso
+
+run_id: rt_joint_zero4_m24_loso
+tags: ["rt", "zero4", "m24", "loso", "joint_source_training", "development_only"]
+
+data:
+  side_feature_group: zero4

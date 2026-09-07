@@ -1,0 +1,26 @@
+# All-source runs select a checkpoint only from source train/loss at a fixed
+# epoch budget. The data module intentionally has no validation/test loader.
+# Wave-2 prefix arm: train-time calib[:, :M] cycle (10, 5, 2); eval stays M10.
+override_epoch_step:
+  _target_: src.callbacks.override_epoch_step.OverrideEpochStepCallback
+early_stopping: null
+lr_monitor:
+  _target_: lightning.pytorch.callbacks.LearningRateMonitor
+  logging_interval: epoch
+model_summary:
+  _target_: lightning.pytorch.callbacks.RichModelSummary
+  max_depth: -1
+best_checkpoint:
+  _target_: lightning.pytorch.callbacks.ModelCheckpoint
+  dirpath: ${paths.output_dir}/checkpoints/best_ckpt
+  filename: epoch_{epoch:03d}
+  monitor: train/loss
+  mode: min
+  save_last: true
+  auto_insert_metric_name: false
+  save_top_k: 1
+periodic_checkpoint: null
+activity_prefix:
+  _target_: tfpd_exploration.src.m1_b3_allsource_v1.acyc.ActivityPrefixCallback
+  cycle: [10, 5, 2]
+  pool_trials: 10

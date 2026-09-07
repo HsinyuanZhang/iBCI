@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - h1_m4_cce
+
+task_name: h1_m4_cce_base
+tags: [h1, m4, cce, date_lodo, confirmatory, matched_base]
+pilot:
+  arm: base
+  train_residual: false

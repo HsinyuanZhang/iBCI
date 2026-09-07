@@ -1,0 +1,34 @@
+# @package _global_
+
+# All-source B3S + EMG-rSyn3 student. Joint decoder, task-only, 12 epochs.
+# Carrier is source-frozen rectified-EMG Synergy-3 (not native T4 tgt_loc).
+defaults:
+  - override /data: falcon_m1_all_source_b3s_rsyn3
+  - override /model: streaming_b3s_rsyn3_m1
+  - override /callbacks: m1_all_source_fixed_epoch
+
+task_name: m1_b3_allsource_v1_b3s_rsyn3
+run_id: m1_b3_allsource_v1_b3s_rsyn3_s42_e12
+tags: [native-mua, m1, b3s, rsyn3, all-source, joint, fixed12]
+train: true
+test: false
+ckpt_path: null
+no_early_stopping: true
+optimized_metric: train/loss
+require_baseline_validation: false
+
+model:
+  teacher_ckpt_path: ${paths.m1_teacher_ckpt_path}
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+  predict_scaled_behavior: false
+  behavior_scaling_factor: 1.0
+
+trainer:
+  min_epochs: 12
+  max_epochs: 12
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

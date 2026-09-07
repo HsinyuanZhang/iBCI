@@ -1,0 +1,234 @@
+{
+  "canonical_content_sha256": "1a34fe48775f5c6128b86aa9e2ada84c85857e8e977b1d8cfb8804965ab20809",
+  "created_at_epoch": 1786301804.452095,
+  "entries": [
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 6096,
+        "mode": 292,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/receipts/M1_COMPACT_B3S_F0_S42_E23_LAUNCH_RECEIPT_v1.json",
+        "sha256": "d620eed5d82977a5698c5fa18c2ca89bc4efbeccd431f5e2c9ad25a753700fa1"
+      },
+      "relative": "receipts/M1_COMPACT_B3S_F0_S42_E23_LAUNCH_RECEIPT_v1.json",
+      "remote": {
+        "bytes": 6096,
+        "mode": 444,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_LAUNCH_RECEIPT_v1.json",
+        "sha256": "d620eed5d82977a5698c5fa18c2ca89bc4efbeccd431f5e2c9ad25a753700fa1"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 2739,
+        "mode": 292,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/receipts/M1_COMPACT_B3S_F0_S42_E23_DATA_BINDING_v1.json",
+        "sha256": "c17e4291cf29ba2884aff9f91f8e0ef44f68b574663221bd233010a57789d8c8"
+      },
+      "relative": "receipts/M1_COMPACT_B3S_F0_S42_E23_DATA_BINDING_v1.json",
+      "remote": {
+        "bytes": 2739,
+        "mode": 444,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_DATA_BINDING_v1.json",
+        "sha256": "c17e4291cf29ba2884aff9f91f8e0ef44f68b574663221bd233010a57789d8c8"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 6860,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/receipts/M1_COMPACT_B3S_F0_S42_E23_EXECUTION_v1.json",
+        "sha256": "117714a368f10a14df52882e7117d720eecdd6c843688188f1464527a5435810"
+      },
+      "relative": "receipts/M1_COMPACT_B3S_F0_S42_E23_EXECUTION_v1.json",
+      "remote": {
+        "bytes": 6860,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_EXECUTION_v1.json",
+        "sha256": "117714a368f10a14df52882e7117d720eecdd6c843688188f1464527a5435810"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 14790,
+        "mode": 292,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/receipts/M1_COMPACT_B3S_F0_S42_E23_GATE_v1.json",
+        "sha256": "3fcc510cfec1f9ea4be123de4dbf8f27039158a3b65aa91212546c2d7047036c"
+      },
+      "relative": "receipts/M1_COMPACT_B3S_F0_S42_E23_GATE_v1.json",
+      "remote": {
+        "bytes": 14790,
+        "mode": 444,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F0_S42_E23_GATE_v1.json",
+        "sha256": "3fcc510cfec1f9ea4be123de4dbf8f27039158a3b65aa91212546c2d7047036c"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 4456,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/configs/b0_resolved_config.yaml",
+        "sha256": "669412cd95540d335c64e9df7e526fa0f4dad57b3db22714e8db169af8a6918b"
+      },
+      "relative": "configs/b0_resolved_config.yaml",
+      "remote": {
+        "bytes": 4456,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42_20260810_013207/resolved_config.yaml",
+        "sha256": "669412cd95540d335c64e9df7e526fa0f4dad57b3db22714e8db169af8a6918b"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 4498,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/configs/b3s_zero4_resolved_config.yaml",
+        "sha256": "b34fd03ce2097624e6e6ea5ea18e672819afd3c71742a70ec814110c58b59872"
+      },
+      "relative": "configs/b3s_zero4_resolved_config.yaml",
+      "remote": {
+        "bytes": 4498,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23_f0_s42_20260810_021937/resolved_config.yaml",
+        "sha256": "b34fd03ce2097624e6e6ea5ea18e672819afd3c71742a70ec814110c58b59872"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 629,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/artifacts/b0_checkpoint_manifest.json",
+        "sha256": "c09181de9f891d5c9d5486622cf3c4dcc23c475f7153fdccff39f2c84b715006"
+      },
+      "relative": "artifacts/b0_checkpoint_manifest.json",
+      "remote": {
+        "bytes": 629,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42_20260810_013207/checkpoint_manifest.json",
+        "sha256": "c09181de9f891d5c9d5486622cf3c4dcc23c475f7153fdccff39f2c84b715006"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 623,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/artifacts/b3s_zero4_checkpoint_manifest.json",
+        "sha256": "828284ba0affa41039cf66b1b9028bcf82bb646301b7a59e41fe83b8b92f937d"
+      },
+      "relative": "artifacts/b3s_zero4_checkpoint_manifest.json",
+      "remote": {
+        "bytes": 623,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23_f0_s42_20260810_021937/checkpoint_manifest.json",
+        "sha256": "828284ba0affa41039cf66b1b9028bcf82bb646301b7a59e41fe83b8b92f937d"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 892,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/artifacts/b0_run_metadata.json",
+        "sha256": "736954785e6d2e9479fef4c5774a74901dbfca31bb6389bb0072e60af0c4baee"
+      },
+      "relative": "artifacts/b0_run_metadata.json",
+      "remote": {
+        "bytes": 892,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42_20260810_013207/run_metadata.json",
+        "sha256": "736954785e6d2e9479fef4c5774a74901dbfca31bb6389bb0072e60af0c4baee"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 907,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/artifacts/b3s_zero4_run_metadata.json",
+        "sha256": "8d693e6953a842cbe65685d69971ffff363e3ffe0a39654171e220073e374892"
+      },
+      "relative": "artifacts/b3s_zero4_run_metadata.json",
+      "remote": {
+        "bytes": 907,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23_f0_s42_20260810_021937/run_metadata.json",
+        "sha256": "8d693e6953a842cbe65685d69971ffff363e3ffe0a39654171e220073e374892"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 38950,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/logs/b0.log",
+        "sha256": "0dc798da2e64888e9807b85ea496647adde9f2782e32d131676edaba8714f18c"
+      },
+      "relative": "logs/b0.log",
+      "remote": {
+        "bytes": 38950,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/logs/b0.log",
+        "sha256": "0dc798da2e64888e9807b85ea496647adde9f2782e32d131676edaba8714f18c"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 38594,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/logs/b3s_zero4.log",
+        "sha256": "e8957fdc756887ca28c6e5b9923233567988005fe4df0fdb9eb1c2f47a6dc114"
+      },
+      "relative": "logs/b3s_zero4.log",
+      "remote": {
+        "bytes": 38594,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/logs/b3s_zero4.log",
+        "sha256": "e8957fdc756887ca28c6e5b9923233567988005fe4df0fdb9eb1c2f47a6dc114"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 261585007,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/checkpoints/b0_epoch023.ckpt",
+        "sha256": "586af23c58c06994a17fd9db258cca717f7f7a98129c338ab530fbdf3400e472"
+      },
+      "relative": "checkpoints/b0_epoch023.ckpt",
+      "remote": {
+        "bytes": 261585007,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-01-32-07-436028_rid-m1_compact_b0_f0_s42_resume_e11_to_e23_f0_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+        "sha256": "586af23c58c06994a17fd9db258cca717f7f7a98129c338ab530fbdf3400e472"
+      }
+    },
+    {
+      "byte_match": true,
+      "local": {
+        "bytes": 198342223,
+        "mode": 436,
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000/checkpoints/b3s_zero4_epoch023.ckpt",
+        "sha256": "74a51b10a070608e5886f5eecbf778044ea00887bd6286489569b36313fd9f08"
+      },
+      "relative": "checkpoints/b3s_zero4_epoch023.ckpt",
+      "remote": {
+        "bytes": 198342223,
+        "mode": 664,
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-02-19-37-217515_rid-m1_compact_b3s_zero4_f0_s42_resume_e11_to_e23_f0_s42/checkpoints/fixed_last/epoch_epoch=023.ckpt",
+        "sha256": "74a51b10a070608e5886f5eecbf778044ea00887bd6286489569b36313fd9f08"
+      }
+    }
+  ],
+  "entry_count": 14,
+  "pull_root": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/m1_e23_remote_pull_20260810_035000",
+  "schema": "m1_compact_b3s_f0_s42_e23_transfer_manifest_v1",
+  "status": "PASS_M1_COMPACT_B3S_F0_E23_REMOTE_PULL"
+}

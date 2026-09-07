@@ -1,0 +1,75 @@
+{
+  "arm": "m30",
+  "candidate": {
+    "activity_budget": 30,
+    "budget_disclosure": "30 chronological labels/cue rows and first30 B3S activity; static safety reference with no adaptive memory",
+    "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+    "image_id": "sha256:5bf9682c4c96aa27d51b7db8584f634411fe7b7b24bdb1d23052f73c452c86eb",
+    "label_budget": 30,
+    "payload_sha256": "097b0fdf83ac1ac0846b36fc02c6e4f0a755f477514c83c4de8fcd08572797ae",
+    "push_state_sha256": "4e3b8f7f3271cf52ffcf83aa2b24cf258b80601c1eeee975d4b721ce044aacc4",
+    "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:addc14d2-3ca6-4bf7-b857-694930edccc2",
+    "uploaded_manifest_digest": "sha256:5bf9682c4c96aa27d51b7db8584f634411fe7b7b24bdb1d23052f73c452c86eb"
+  },
+  "integrity": {
+    "all_reported_metrics_finite": true,
+    "candidate_runtime_error_observed": false,
+    "official_result_matches_stdout": true,
+    "prediction_schema_matches_finished_submission_578221": true,
+    "retry_or_second_submission_created": false,
+    "submission_private": true
+  },
+  "official_api": {
+    "api_body_sha256": "00db19345e37a1cd14aa043bf5614b867a3d20c0199dae246b4f9034f16a33e4",
+    "challenge_id": 2319,
+    "completed_at": "2026-08-28T12:40:20.975016Z",
+    "execution_time_seconds": 0.140872,
+    "phase_id": 4599,
+    "started_at": "2026-08-28T12:40:20.834144Z",
+    "status": "finished",
+    "submission_id": 581362,
+    "submitted_at": "2026-08-28T12:22:28.217497Z",
+    "team_id": 41975,
+    "team_name": "HKU-ECE"
+  },
+  "official_artifacts": {
+    "input_manifest": {
+      "bytes": 194,
+      "sha256": "98cfea3d164bba912cf53d3514dcba3637c463b1a583a6054013268dcbb597ee"
+    },
+    "prediction_submission": {
+      "all_arrays_finite": true,
+      "bytes": 1258463,
+      "held_in_array_shape": [
+        13014,
+        2
+      ],
+      "held_in_session_count": 7,
+      "held_out_array_shape": [
+        11014,
+        2
+      ],
+      "held_out_session_count": 6,
+      "prediction_dtype": "float32",
+      "sha256": "d170ce991a473cf11f9e4e4410069ab032870098fed06f0a586f964316b4c036",
+      "top_level_key": "m2"
+    },
+    "result": {
+      "bytes": 224,
+      "sha256": "13fed4e46aced350f4a9e62e823fa384631544f6d206680a544e839373ce0088"
+    },
+    "stderr": null,
+    "stdout": {
+      "bytes": 262,
+      "sha256": "73a61d43f5e66c873ce730e03a883d32d8b628488d137f08d1ed2c7f3cc7a974"
+    }
+  },
+  "official_metrics": {
+    "held_in_r2_mean": 0.5754404413011437,
+    "held_in_r2_std": 0.026353584924937428,
+    "held_out_r2_mean": 0.2951607131264304,
+    "held_out_r2_std": 0.10888410118544638,
+    "normalized_latency": 0.044834055592910246
+  },
+  "schema": "m2_activity_budget_evalai_terminal_receipt_v1"
+}

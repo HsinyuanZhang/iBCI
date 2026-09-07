@@ -1,0 +1,38 @@
+# @package _global_
+
+defaults:
+  - override /model: streaming_b3s_t4
+
+task_name: p2_general_carrier_m2_ks4
+tags: ["p2", "ks4", "general-carrier", "m2", "control"]
+
+data:
+  validation_protocol: loso
+  loso_fold: 0
+  calibration_n_trials: 33
+  query_start_trial: 0
+  random_calibration: false
+  include_heldout_in_fit: false
+  include_heldout_in_test: false
+  batch_size: 32
+  window_size: 50
+  smooth_calibration: false
+  max_trial_length: 100
+  use_intertrials: true
+  use_calib_intertrials: false
+  trial_feature_type: raw
+  interpolate_trials: true
+  interpolate_trials_kind: cubic
+  pad_value: -1.0
+  side_feature_group: ks4
+  side_feature_shuffle_seed: ${seed}
+
+model:
+  hidden_dim: 64
+  freeze_decoder: true
+  loss_mode: task_plus_y_plus_E
+  lambda_y: 1.0
+  lambda_E: 0.1
+
+trainer:
+  max_epochs: 35

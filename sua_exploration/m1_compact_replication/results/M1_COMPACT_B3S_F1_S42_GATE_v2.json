@@ -1,0 +1,411 @@
+{
+  "arrays": {
+    "b0_prediction": {
+      "dtype": "float32",
+      "sha256": "f9a23ed7b073a7aa2c3a12c287d87b587ad53c58b0c67c293864bf882e3518f0",
+      "shape": [
+        26528,
+        16
+      ]
+    },
+    "b3s_zero4_prediction": {
+      "dtype": "float32",
+      "sha256": "c76b69557080f3ee82a6f308e2d46ef527b30e648762e336112fddf32a1aafba",
+      "shape": [
+        26528,
+        16
+      ]
+    },
+    "target": {
+      "dtype": "float32",
+      "sha256": "abc5dfb244655f1339a2fe1c587ea95eb12a3e51f094febe97e31984a0fe0ce2",
+      "shape": [
+        26528,
+        16
+      ]
+    }
+  },
+  "bindings": {
+    "b0": {
+      "artifact": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f1_s42_fresh_e11_f1_s42_20260810_034128",
+      "terminal_checkpoint": {
+        "epoch": 11,
+        "fit_loop": {
+          "batch_completed": 59556,
+          "epoch_processed": 12
+        },
+        "global_step": 59556,
+        "log": {
+          "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/fold1_v2_logs/b0.log",
+          "sha256": "db85eec414384e00bd99993e7d3b971a14d087bb4caabb7f1573b52781e5a9e0"
+        },
+        "optimizer": {
+          "count": 1,
+          "lr": 0.0001,
+          "state_steps": [
+            59556
+          ],
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-03-41-28-747038_rid-m1_compact_b0_f1_s42_fresh_e11_f1_s42/checkpoints/fixed_last/epoch_epoch=011.ckpt",
+        "resolved_config": {
+          "arm": "B0",
+          "loso_fold": 1,
+          "optimized_metric": null,
+          "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b0_f1_s42_fresh_e11_f1_s42_20260810_034128/resolved_config.yaml",
+          "sha256": "a1323117e18e80ffebf35f314204d9f9e3143d6f0720de2d8dbb39b9ac486f81",
+          "source_only_target": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+          "source_sessions": [
+            "ses-20120924",
+            "ses-20120927",
+            "ses-20120928"
+          ],
+          "test": false
+        },
+        "restored_teacher": {
+          "config_sha256": "a1323117e18e80ffebf35f314204d9f9e3143d6f0720de2d8dbb39b9ac486f81",
+          "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/checkpoints/best_ckpt/epoch_019.ckpt"
+        },
+        "sha256": "597a079619f6bcee829d62d4b64e226b91eb7cc236942aa0d04b4675d0f62af5",
+        "source_only_manifest": {
+          "body": {
+            "carrier_arm": "none",
+            "checkpoint_selection": "fixed_last_epoch_11_train_source_only",
+            "evalai": false,
+            "formal": false,
+            "heldout_files_opened": false,
+            "heldout_values_used": false,
+            "minival_files_opened": false,
+            "minival_values_used": false,
+            "outer_fold": 1,
+            "outer_left_out": "ses-20120926",
+            "schema": "m1_version_b_source_only_fit_v2",
+            "source_files": {
+              "ses-20120924": {
+                "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+                "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+              },
+              "ses-20120927": {
+                "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+                "sha256": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a"
+              },
+              "ses-20120928": {
+                "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+                "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+              }
+            },
+            "source_only": true,
+            "target_backpropagation": false,
+            "target_path_resolved_during_fit": false,
+            "target_query_values_read_by_fit": false,
+            "task": "m1",
+            "train_sessions": [
+              "ses-20120924",
+              "ses-20120927",
+              "ses-20120928"
+            ],
+            "validation_sessions": []
+          },
+          "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_hs_continuation/runs/2026-08-10-03-41-28-747038_rid-m1_compact_b0_f1_s42_fresh_e11_f1_s42/m1_version_b_source_only_fit_manifest.json",
+          "sha256": "e807ef3bdf0346b4eb4190465fef62c0f6245f022a485651e7367a9147a54a98"
+        },
+        "variant": "B0"
+      }
+    },
+    "b3s_zero4": {
+      "artifact": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f1_s42_fresh_e11_f1_s42_20260810_044734",
+      "terminal_checkpoint": {
+        "epoch": 11,
+        "fit_loop": {
+          "batch_completed": 59556,
+          "epoch_processed": 12
+        },
+        "global_step": 59556,
+        "log": {
+          "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/fold1_recovery_logs/b3s_zero4.log",
+          "sha256": "acbd9e4186d13fb1b921818e17423dfa16f73b7e5ef26470121f6dacb97aaa5b"
+        },
+        "optimizer": {
+          "count": 1,
+          "lr": 0.0001,
+          "state_steps": [
+            59556
+          ],
+          "weight_decay": 0.0
+        },
+        "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-04-47-34-632738_rid-m1_compact_b3s_zero4_f1_s42_fresh_e11_f1_s42/checkpoints/fixed_last/epoch_epoch=011.ckpt",
+        "resolved_config": {
+          "arm": "B3S",
+          "loso_fold": 1,
+          "optimized_metric": null,
+          "path": "/home/xinyuan/Work_host/SPINT/outputs/streaming_calibration/m1_compact_b3s_zero4_f1_s42_fresh_e11_f1_s42_20260810_044734/resolved_config.yaml",
+          "sha256": "8c7600cdfe3645bcd83f42996941dfc84cfe8c8ab3a6722be80f326ee745acaf",
+          "source_only_target": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule",
+          "source_sessions": [
+            "ses-20120924",
+            "ses-20120927",
+            "ses-20120928"
+          ],
+          "test": false
+        },
+        "restored_teacher": {
+          "config_sha256": "8c7600cdfe3645bcd83f42996941dfc84cfe8c8ab3a6722be80f326ee745acaf",
+          "path": "/home/xinyuan/Work_host/SPINT/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold1/runs/2026-08-06-16-20-17-515482_rid-m1_afc4_source_decoder_fold1_dev20_f1_s42/checkpoints/best_ckpt/epoch_019.ckpt"
+        },
+        "sha256": "11867bfdd5c34e35b51c9177c78dfdf9e22ed48603e0669052eb9221934483bc",
+        "source_only_manifest": {
+          "body": {
+            "carrier_arm": "zero4",
+            "checkpoint_selection": "fixed_last_epoch_11_train_source_only",
+            "evalai": false,
+            "formal": false,
+            "heldout_files_opened": false,
+            "heldout_values_used": false,
+            "minival_files_opened": false,
+            "minival_values_used": false,
+            "outer_fold": 1,
+            "outer_left_out": "ses-20120926",
+            "schema": "m1_version_b_source_only_fit_v2",
+            "source_files": {
+              "ses-20120924": {
+                "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+                "sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb"
+              },
+              "ses-20120927": {
+                "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+                "sha256": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a"
+              },
+              "ses-20120928": {
+                "path": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+                "sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254"
+              }
+            },
+            "source_only": true,
+            "target_backpropagation": false,
+            "target_path_resolved_during_fit": false,
+            "target_query_values_read_by_fit": false,
+            "task": "m1",
+            "train_sessions": [
+              "ses-20120924",
+              "ses-20120927",
+              "ses-20120928"
+            ],
+            "validation_sessions": []
+          },
+          "path": "/home/xinyuan/Work_host/SPINT/logs/m1_version_b_c0/runs/2026-08-10-04-47-34-632738_rid-m1_compact_b3s_zero4_f1_s42_fresh_e11_f1_s42/m1_version_b_source_only_fit_manifest.json",
+          "sha256": "1be9ee61b902f7ceb757e0d52144d8a1609821a347db6371c5efdb9c142b2cba"
+        },
+        "variant": "B3S"
+      }
+    },
+    "query": {
+      "batches": 829,
+      "first_identity": [
+        0,
+        0,
+        0,
+        "ses-20120926",
+        3024
+      ],
+      "last_identity": [
+        828,
+        31,
+        26527,
+        "ses-20120926",
+        82712
+      ],
+      "ordered_sampler_indices_sha256": "7bcd6cce8c68b7070a668c81eee5ab08754f6d0c34cabddddac353e5fef36f9e",
+      "ordered_window_identity_sha256": "afdba6d92851b2f0f04563b8b8ed9e52eba386ff04151293f6a1c22375206a87",
+      "samples": 26528,
+      "unique_dataset_indices": true
+    },
+    "receipt": {
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_STAGED_RECEIPT_v2.json",
+      "sha256": "b435c2cdd63537dd814710a744b452ececce95c493a2fbc31812fcdef8085c43"
+    },
+    "source_fit_equivalence": {
+      "equivalence": {
+        "sampler_equal": true,
+        "target_nwb_opened": false,
+        "train_dataset_equal": true,
+        "zero4_side_exact": true
+      },
+      "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_V2_EQUIVALENCE_BINDING_v1.json",
+      "sha256": "742448af4600a15f38adf999ee9b0d56634f61fcee00b35d5b5404b35abfda57",
+      "source_fit_canonical": "474af1818c56b26beed672acfa03e565a80363a437c52ab1ef038f75eea5b7a5",
+      "source_fit_receipt": {
+        "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_SOURCE_FIT_EQUIVALENCE_v1.json",
+        "sha256": "8e37f7bbaa5481ca7361a72f53b6ab46afaa4b81d5e55c3f10c61be5527671ae"
+      }
+    }
+  },
+  "canonical_content_sha256": "acea76aed07c717756e92ef6beb0f9e175bef9b2b7bb5b59cd8e5448a0485b19",
+  "created_at_epoch": 1786310044.3852687,
+  "evaluation_policy": {
+    "claim_limit": "development fold1 source-LOSO replication; not formal held-out superiority",
+    "forward_only": true,
+    "intermediate_target_metric_read": false,
+    "optimizer_constructed": false,
+    "target_opened_here_after_terminal_pair": true,
+    "trainer_constructed": false,
+    "training_target_opened": false
+  },
+  "metrics": {
+    "b0": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6851638546295719,
+      "r2_per_output": [
+        0.8039996082324717,
+        0.7463917875569245,
+        0.7339414794457694,
+        -4.139360825283261,
+        0.804290600384751,
+        0.6651913422863612,
+        0.8242760156176892,
+        0.6017572150929645,
+        0.6310978365790092,
+        0.6291896196915951,
+        0.5671437684452114,
+        0.46983601397623753,
+        0.6826042942659608,
+        -0.07164648511090377,
+        0.4582387553489641,
+        0.7311905780354178
+      ],
+      "samples": 26528,
+      "sse_float64_per_output": [
+        356.26063045598414,
+        269.9404124267176,
+        709.0979850796305,
+        53.27125951387736,
+        1318.2815808557125,
+        1256.2348061981004,
+        914.8706724051026,
+        114.68554949568279,
+        977.021747491035,
+        2335.317721654833,
+        720.7457700627012,
+        3553.8360429477525,
+        1605.107228232073,
+        237.59667531908312,
+        47.65937410132782,
+        3197.1638782605605
+      ],
+      "tss_float64_per_output": [
+        1817.652644687246,
+        1064.3993340212041,
+        2665.1955502214228,
+        10.365347233805336,
+        6735.913468884796,
+        3752.0977347979924,
+        5206.293697590422,
+        287.97897624800567,
+        2648.4576247281548,
+        6297.875803025087,
+        1665.0927433199565,
+        6703.27697964091,
+        5057.117028473814,
+        221.71180386458732,
+        87.97117655033925,
+        11893.79395593437
+      ]
+    },
+    "b3s_zero4": {
+      "definition": "1-sum_output(SSE)/sum_output(TSS); float64 accumulation over the shared ordered query",
+      "outputs": 16,
+      "pooled_variance_weighted_r2": 0.6593644874315124,
+      "r2_per_output": [
+        0.7771799044027508,
+        0.766116884768049,
+        0.7010527593095526,
+        -2.227603556892104,
+        0.7710973832692976,
+        0.6017217410281293,
+        0.7909983917420178,
+        0.5565058975564057,
+        0.589044810790623,
+        0.5920768361012199,
+        0.5464455739500027,
+        0.4742080568146734,
+        0.6679563511067264,
+        -0.16979173128352998,
+        0.43219785168584635,
+        0.709688868910352
+      ],
+      "samples": 26528,
+      "sse_float64_per_output": [
+        405.0095360518051,
+        248.9450320916932,
+        796.7528556391533,
+        33.455231600251835,
+        1541.8682190993125,
+        1494.3789533076445,
+        1088.123755859795,
+        127.71697759373444,
+        1088.397404283176,
+        2569.049423411564,
+        755.2101835164984,
+        3524.529028834861,
+        1679.1835910147543,
+        259.35663488875,
+        49.950223035006324,
+        3452.900776294527
+      ],
+      "tss_float64_per_output": [
+        1817.652644687246,
+        1064.3993340212041,
+        2665.1955502214228,
+        10.365347233805336,
+        6735.913468884796,
+        3752.0977347979924,
+        5206.293697590422,
+        287.97897624800567,
+        2648.4576247281548,
+        6297.875803025087,
+        1665.0927433199565,
+        6703.27697964091,
+        5057.117028473814,
+        221.71180386458732,
+        87.97117655033925,
+        11893.79395593437
+      ]
+    },
+    "b3s_zero4_minus_b0": -0.02579936719805942,
+    "gate_threshold": -0.03
+  },
+  "model_state": {
+    "after_sha256": {
+      "b0": "d7147b587c8bafa0cb5170d73ae871369eba4bffe39b0fd7e36c982bbbbd569f",
+      "b3s_zero4": "f97a356594af2ec8a5a87f7ee086dcffda473221116a7c6bc88496b226d85fb3"
+    },
+    "before_sha256": {
+      "b0": "d7147b587c8bafa0cb5170d73ae871369eba4bffe39b0fd7e36c982bbbbd569f",
+      "b3s_zero4": "f97a356594af2ec8a5a87f7ee086dcffda473221116a7c6bc88496b226d85fb3"
+    },
+    "unchanged": true
+  },
+  "parity": {
+    "side_input_abs_max": 0.0,
+    "side_input_exact_zero": true,
+    "zero4_identity_max_abs_error": 0.0,
+    "zero4_prediction_bit_exact": true,
+    "zero4_prediction_max_abs_error": 0.0
+  },
+  "schema": "m1_compact_b3s_f1_s42_gate_v2",
+  "scope": {
+    "cuda_visible_devices": "-1",
+    "device": "cpu",
+    "fold": 1,
+    "formal_opened": false,
+    "heldout_opened": false,
+    "minival_opened": false,
+    "seed": 42,
+    "target_backward_steps": 0,
+    "target_checkpoint_selection": false,
+    "target_optimizer_steps": 0,
+    "target_session": "ses-20120926",
+    "task": "m1"
+  },
+  "status": "PASS_M1_COMPACT_B3S_F1_S42_NONINFERIORITY"
+}

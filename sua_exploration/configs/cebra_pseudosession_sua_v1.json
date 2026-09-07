@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "screen_id": "cebra_pseudosession_sua_v1",
+  "status": "CPU_CONTRACT__GPU_NOT_YET_LAUNCHED",
+  "parent": {
+    "screen_id": "a2_matched_subject_shift_v2",
+    "official_preflight_sha256": "8ecdabb8226834ed0a419a16ad4b13b43814018f1b1e34297d018539690dfbbd",
+    "terminal_aggregate_sha256": "5b1459df7f65b8dd4cf4ebb9e29b7f82a6def6fc538af71bd822ee26fc7305fc",
+    "t4_normalizer_sha256": "293b8a55417b7acbe5215404003b7d019f3b56b1199c7887dbf91e7dcd2ad5b0",
+    "reuse": "The six sealed A2 W/T4 and W/Z4 source runs remain the no-mixing parent cells; they are never rewritten."
+  },
+  "intervention": {
+    "scope": "source_training_only",
+    "match_kind": "continuous_last_bin_velocity_l2_in_source_normalized_coordinates",
+    "mix_probability": 0.5,
+    "contributors": 3,
+    "unit_quotas": "size matched to the anchor N; three quotas differ by at most one",
+    "max_behavior_residual_per_dimension_rmse": 0.25,
+    "bad_match_policy": "fall back to the byte-identical ordinary anchor example if either donor exceeds the residual threshold",
+    "unit_binding": "a selected unit's neural query, M30 calibration tensor, and T4/Z4 row always move together",
+    "final_unit_order": "one deterministic common permutation is applied to neural, calibration, and side rows",
+    "target": "the anchor session's original behavior window",
+    "anchor_sampling": "unchanged A2 SessionBatchSampler; pseudo-session mixing does not rebalance anchor-session exposure",
+    "validation_and_deployment": "ordinary unmixed A2 data and frozen target-time protocol"
+  },
+  "fresh_source_cells": {
+    "stage_p": [
+      {"arm": "mix_t4", "seed": 42},
+      {"arm": "mix_z4", "seed": 42}
+    ],
+    "stage_f_if_stage_p_passes": [
+      {"arm": "mix_t4", "seed": 43},
+      {"arm": "mix_z4", "seed": 43},
+      {"arm": "mix_t4", "seed": 44},
+      {"arm": "mix_z4", "seed": 44}
+    ]
+  },
+  "frozen_source_training": {
+    "source_sessions": 27,
+    "development_validation_sessions": 6,
+    "formal_test_sessions_opened": false,
+    "task": "CO",
+    "signal_view": "sua",
+    "variant": "B3S",
+    "side_groups": ["t4", "z4"],
+    "window_size": 50,
+    "trial_length": 100,
+    "activity_calibration_trials": 30,
+    "carrier_label_trials": 30,
+    "chronological_calibration": true,
+    "batch_size": 32,
+    "learning_rate": 0.0001,
+    "epochs": 12,
+    "report_epochs": [5, 6, 7, 8, 9, 10, 11, 12],
+    "loss_mode": "task_only",
+    "freeze_decoder": false,
+    "teacher_frozen": true,
+    "target_weight_updates": false
+  },
+  "stage_p_routing": {
+    "absolute_accuracy_gate": "external sub-M mean-session R2(mix_t4_s42) - sealed A2 T4_s42 >= +0.03",
+    "within_noninferiority_gate": "within sub-C mean-session R2(mix_t4_s42) - sealed A2 T4_s42 >= -0.03",
+    "mechanism_report": "report [(mix_t4-base_t4)-(mix_z4-base_z4)] on each domain, but do not let a collapsing mix_z4 create an accuracy pass",
+    "pass": "both absolute_accuracy_gate and within_noninferiority_gate",
+    "fail": "stop after two fresh cells; no probability, contributor, threshold, or architecture tuning"
+  },
+  "terminal_read_after_three_seeds": {
+    "accuracy_effective": [
+      "mean external mix_t4-minus-base_t4 >= +0.03",
+      "all three seed deltas > 0",
+      "median of the 15 seed-averaged session deltas > 0",
+      "at least 10 of 15 seed-averaged external session deltas > 0",
+      "mean within mix_t4-minus-base_t4 >= -0.03"
+    ],
+    "carrier_specific": [
+      "accuracy_effective is true",
+      "mean external interaction [(mix_t4-base_t4)-(mix_z4-base_z4)] >= +0.03",
+      "all three seed interactions > 0"
+    ],
+    "generic_augmentation": "accuracy_effective passes but carrier_specific fails because mix_z4 improves similarly",
+    "negative": "accuracy_effective fails; stop this route",
+    "statistics": "report per-seed and per-session values plus crossed seed-by-session bootstrap; no seed-level Wilcoxon at n=3"
+  },
+  "interpretation_boundaries": {
+    "dense_source_behavior_used": true,
+    "target_dense_behavior_used_for_calibration": false,
+    "target_direction_label_budget_changed": false,
+    "target_optimizer_or_backward_added": false,
+    "equal_session_sampling_tested": false,
+    "cebra_loss_or_projection_head_tested": false,
+    "h1_closed": false,
+    "h1_priority": "deferred until a non-H1 mechanism is established; later use phase-conditioned matching rather than raw 7-DoF nearest neighbors"
+  }
+}

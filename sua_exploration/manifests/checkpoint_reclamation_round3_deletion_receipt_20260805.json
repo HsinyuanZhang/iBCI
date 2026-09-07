@@ -1,0 +1,70 @@
+{
+  "schema": "checkpoint-reclamation-deletion-receipt/v1",
+  "scope": "round3: unlink only predeclared SHA-identical historical periodic checkpoint aliases",
+  "created_at_utc": "2026-08-04T19:04:08Z",
+  "append_only": true,
+  "status": "completed",
+  "candidate_manifest": {
+    "path": "sua_exploration/manifests/checkpoint_reclamation_round3_candidate_manifest_20260805.json",
+    "sha256": "51ba43c6bd0bf33e090c3c68384c4b47a9afb109ba97aeb26ffd74a9c1cf6244"
+  },
+  "pre_delete_revalidation": {
+    "all_15_candidate_sha256_equal_retained_peer": true,
+    "all_15_candidate_and_peer_stats_equal_manifest": true,
+    "all_15_candidate_and_peer_non_symlink_regular_files": true,
+    "all_15_candidate_and_peer_hardlink_count_one": true,
+    "all_15_candidate_runs_without_lock_files": true,
+    "lsof_open_handles_on_candidate_paths": false,
+    "deletion_method": "explicit non-recursive OS unlink of exactly the 15 manifest candidate paths"
+  },
+  "deletion_results_fields": [
+    "id",
+    "candidate_absent_after_os_unlink",
+    "retained_peer_present_regular_file",
+    "retained_peer_sha256_matches_candidate_manifest"
+  ],
+  "deletion_results": [
+    [1, true, true, true],
+    [2, true, true, true],
+    [3, true, true, true],
+    [4, true, true, true],
+    [5, true, true, true],
+    [6, true, true, true],
+    [7, true, true, true],
+    [8, true, true, true],
+    [9, true, true, true],
+    [10, true, true, true],
+    [11, true, true, true],
+    [12, true, true, true],
+    [13, true, true, true],
+    [14, true, true, true],
+    [15, true, true, true]
+  ],
+  "reclaimed_allocation": {
+    "candidate_count": 15,
+    "actual_unique_inode_allocated_blocks_512": 1084920,
+    "actual_unique_inode_allocated_bytes": 555479040,
+    "basis": "sum of deletion-time pre-unlink st_blocks * 512; each candidate had nlink=1 and was absent after unlink",
+    "filesystem_available_bytes_before_delete": 241192865792,
+    "filesystem_available_bytes_immediately_after_delete": 241748230144,
+    "immediate_observed_available_bytes_delta": 555364352,
+    "filesystem_available_bytes_post_verify": 241748152320,
+    "note": "filesystem free-space deltas are observational only because the protected QAT workload continued writing concurrently; allocated-byte reclamation is the per-inode st_blocks accounting above"
+  },
+  "protected_scope_post_delete_checks": {
+    "c1_qat_prelaunch_receipt_present": true,
+    "c1_qat_output_root_present": true,
+    "phase_c_old_incident_root_present": true,
+    "phase_c_r2_program_present": true,
+    "phase_c_r2_portable_present": true,
+    "spint_protected_anchor_count_rehashed_and_matching_prior_receipt": 6,
+    "phase_c_or_c1_candidate_paths_deleted": false,
+    "log_metadata_receipt_aggregate_or_dataset_files_deleted": false
+  },
+  "post_delete_summary": {
+    "all_manifest_candidates_absent": true,
+    "all_retained_identical_peers_rehashed_and_intact": true,
+    "all_deletions_were_periodic_ckpt_last_ckpt_files": true,
+    "all_other_files_and_directories_preserved": true
+  }
+}

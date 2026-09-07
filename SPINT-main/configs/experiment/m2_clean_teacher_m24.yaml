@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_clean_teacher_m24
+  - override /model: falcon_m2
+  - override /callbacks: clean_teacher
+
+task_name: m2_clean_teacher_m24
+tags: ["m2", "clean-teacher", "heldin-only", "m24"]
+train: true
+test: false
+ckpt_path: null
+seed: 42
+clean_teacher_mode: true
+optimized_metric: val_heldin/r2_mean
+
+trainer:
+  max_epochs: 35
+
+model:
+  scheduler: null
+  clean_teacher: true
+  scheduler_monitor: val_heldin/r2_mean

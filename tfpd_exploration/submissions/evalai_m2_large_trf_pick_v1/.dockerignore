@@ -1,0 +1,7 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!trf_falcon_decoder.py
+!artifacts/
+!artifacts/m2_large_trf_s2_raw_e20.pkl

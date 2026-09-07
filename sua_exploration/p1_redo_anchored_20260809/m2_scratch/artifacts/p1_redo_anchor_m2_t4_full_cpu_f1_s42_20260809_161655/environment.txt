@@ -1,0 +1,4 @@
+timestamp_utc=2026-08-09T08:16:55.209346+00:00
+python=Python 3.10.15
+torch=2.12.0+cu130
+cuda_available=False

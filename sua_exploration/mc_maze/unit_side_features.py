@@ -6,9 +6,11 @@ import hashlib
 import json
 import logging
 import math
+import os
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
+from typing import Literal, Sequence
 
 import fcntl
 import h5py
@@ -27,6 +29,57 @@ from mc_maze.multisession_datamodule import (
 )
 
 logger = logging.getLogger(__name__)
+
+# P5a: session-wide directional degeneracy (<2 distinct pool directions).
+# Default is fail-closed (`raise`). Legacy silent all-zero fill remains available
+# only via explicit override — never as the implicit path for RT / new carriers.
+DirectionDegeneracyPolicy = Literal["raise", "warn_and_fill", "fill_zeros"]
+_DIRECTION_DEGENERACY_ENV = "SUA_DIRECTION_DEGENERACY_POLICY"
+_DEFAULT_DIRECTION_DEGENERACY_POLICY: DirectionDegeneracyPolicy = "raise"
+
+
+def resolve_direction_degeneracy_policy(
+    explicit: DirectionDegeneracyPolicy | None = None,
+) -> DirectionDegeneracyPolicy:
+    if explicit is not None:
+        return explicit
+    env = os.environ.get(_DIRECTION_DEGENERACY_ENV)
+    if env is None or env == "":
+        return _DEFAULT_DIRECTION_DEGENERACY_POLICY
+    if env not in {"raise", "warn_and_fill", "fill_zeros"}:
+        raise ValueError(
+            f"invalid {_DIRECTION_DEGENERACY_ENV}={env!r}; "
+            "expected raise|warn_and_fill|fill_zeros"
+        )
+    return env  # type: ignore[return-value]
+
+
+def enforce_direction_degeneracy_policy(
+    *,
+    present_directions: int,
+    num_channels: int,
+    session_name: str,
+    policy: DirectionDegeneracyPolicy | None = None,
+) -> int:
+    """Return insufficient_direction count; raise/warn per policy when degenerate."""
+    if present_directions >= 2:
+        return 0
+    resolved = resolve_direction_degeneracy_policy(policy)
+    msg = (
+        f"{session_name}: directional design degenerate: "
+        f"present_directions={present_directions} < 2 for all {num_channels} channels; "
+        "refusing silent all-zero carrier (P5a fail-closed)"
+    )
+    if resolved == "raise":
+        raise ValueError(msg)
+    if resolved == "warn_and_fill":
+        warnings.warn(msg + " (warn_and_fill)", stacklevel=2)
+        logger.warning("%s", msg + " (warn_and_fill)")
+        return num_channels
+    # fill_zeros: legacy silent path, counted only.
+    logger.warning("%s (legacy fill_zeros)", msg)
+    return num_channels
+
 
 # Existing SUA cache keys deliberately retain version 1/payload compatibility.
 # Pseudo-MUA adds its own signal-view and electrode-mapping fields below, so it
@@ -83,6 +136,13 @@ TUNING_FEATURE_NAMES: dict[str, tuple[str, ...]] = {
         "log_residual_variance", "c_shape_log_condition_cac",
     ),
     "t8": tuple(f"dir_{k}" for k in range(TUNING_NUM_DIRECTIONS)),
+    # Experiment A's phase-only descriptor is intentionally a distinct source-only
+    # normalizer substrate.  The final two raw columns are fixed zeros, retained solely to
+    # preserve the B3S side width of four.
+    "ph4": ("cos_phi", "sin_phi", "zero_2", "zero_3"),
+    # LS4 is refit from a deterministic target-direction permutation, but shares ordinary
+    # T4's train-only normalizer rather than fitting its own statistics.
+    "ls4": ("m_cos_phi_ls", "m_sin_phi_ls", "m_ls", "b_aligned"),
 }
 # Modulation depth m = hypot(a, c) below which a unit's cosine tuning fit is treated as flat
 # (no detectable direction preference). Rates are in Hz; this mirrors the NOISE_STD_EPS /
@@ -104,6 +164,14 @@ SIDE_FEATURE_DIMS: dict[str, int] = {
     "t8": 8,
     "ts4": 4,
     "ts4w3": 4,
+    # Experiment A, strict M30 component attribution.  Every arm remains B3S side_dim=4.
+    "z4": 4,
+    "ph4": 4,
+    "ac4": 4,
+    "ac4rs4": 4,
+    "mb4": 4,
+    "b4": 4,
+    "ls4": 4,
     "ts8": 8,
     # T4-substrate electrode designs (docs/ELECTRODE_ANCHOR_DESIGNS.md). All three reuse T4's
     # own 4-dim cosine-tuning fit as the continuous side_dim concatenated at the psi input;
@@ -145,7 +213,9 @@ ELECTRODE_EMBED_DIM = 8
 # test_known_feature_groups_covers_waveform_and_tuning_real_groups, which asserts fs1/fs3/ts4
 # (any group that only ever appears post-resolution) are absent from this set.
 KNOWN_FEATURE_GROUPS: frozenset[str] = (
-    frozenset(FEATURE_GROUPS) | frozenset(TUNING_FEATURE_NAMES) | frozenset({"f3"})
+    frozenset(FEATURE_GROUPS)
+    | frozenset(TUNING_FEATURE_NAMES)
+    | frozenset({"f3", "z4", "ac4", "ac4rs4", "mb4", "b4"})
 )
 
 # Dimension-matched shuffled controls (UNIT_SIDE_FEATURE_ABLATION.md section 6, revised
@@ -169,6 +239,9 @@ SHUFFLED_CONTROL_BASE_FEATURE_GROUP: dict[str, str] = {
     "ts4": "t4",
     "ts4w3": "t4w3",
     "ts8": "t8",
+    # Experiment A's conditional attachment control.  The specialized loader masks the
+    # normalized T4 to AC4 before applying a session-salted nonidentity row permutation.
+    "ac4rs4": "ac4",
     "t4e_shuffled": "t4e",
     "t4gate_shuffled": "t4gate",
     "t4anchor_shuffled": "t4anchor",
@@ -311,6 +384,10 @@ def base_feature_group(side_feature_group: str) -> str:
         "t4cf_residual", "t4cf_residual_shuffled",
     }:
         return "t4c" if group.startswith("t4cf") else "t4"
+    if group in {"z4", "ac4", "mb4", "b4", "ls4"}:
+        # These arms are transforms of full ordinary T4 *after* its normalizer.  LS4
+        # refits its raw a/c/m values but still standardizes with this same T4 normalizer.
+        return "t4"
     return group
 
 
@@ -366,6 +443,9 @@ class SideFeatureMetadata:
     # every existing keyword-argument call site (all of which predate these fields) keeps
     # working unchanged.
     zero_modulation_unit_count: int = 0
+    # PH4's definition is stricter than the legacy near-flat diagnostic above: only exact
+    # raw m==0 rows receive the [0,0] phase fill.
+    exact_zero_m_unit_count: int = 0
     insufficient_direction_unit_count: int = 0
 
 
@@ -439,6 +519,49 @@ def permute_side_feature_rows(features: np.ndarray, *, permutation_seed: int) ->
     return features[generator.permutation(features.shape[0])]
 
 
+def ac4rs4_derived_seed(*, permutation_seed: int, session_name: str) -> int:
+    """Stable 32-bit seed for the versioned AC4-RS4 permutation family."""
+    payload = (
+        f"ExperimentA-AC4-RS4-v1:{session_name}:seed={permutation_seed}"
+    ).encode("utf-8")
+    return int.from_bytes(hashlib.sha256(payload).digest()[:4], "little")
+
+
+def deterministic_nonidentity_row_permutation(
+    num_rows: int, *, permutation_seed: int, session_name: str
+) -> np.ndarray:
+    """Return a session-salted deterministic row permutation, never identity."""
+    if num_rows < 2:
+        raise ValueError("A nonidentity row shuffle requires at least two rows")
+    derived_seed = ac4rs4_derived_seed(
+        permutation_seed=permutation_seed, session_name=session_name
+    )
+    permutation = np.random.RandomState(derived_seed).permutation(num_rows)
+    if np.array_equal(permutation, np.arange(num_rows)):
+        permutation = np.roll(permutation, 1)
+    assert not np.array_equal(permutation, np.arange(num_rows))
+    return permutation
+
+
+def permute_side_feature_rows_nonidentity(
+    features: np.ndarray, *, permutation_seed: int, session_name: str
+) -> np.ndarray:
+    """Deterministic complete-row shuffle that cannot silently become identity.
+
+    Experiment A's conditionally triggered component controls use this stricter helper.
+    Existing historical shuffle controls retain ``permute_side_feature_rows`` unchanged.
+    """
+    values = np.asarray(features)
+    if values.ndim != 2:
+        raise ValueError(f"Expected side features [rows, dims], got {values.shape}")
+    permutation = deterministic_nonidentity_row_permutation(
+        values.shape[0],
+        permutation_seed=permutation_seed,
+        session_name=session_name,
+    )
+    return values[permutation]
+
+
 def _side_stats_cache_path(
     cache_dir: Path,
     train_files: Sequence[Path],
@@ -480,6 +603,7 @@ def _side_feature_cache_path(
     window_size: int,
     trial_result_filter: str,
     signal_view: str = "sua",
+    label_permutation_seed: int | None = None,
 ) -> Path:
     payload = {
         "cache_format_version": feature_semantics_version(feature_group),
@@ -493,6 +617,8 @@ def _side_feature_cache_path(
         ),
         "source": _source_fingerprint(nwb_path),
     }
+    if label_permutation_seed is not None:
+        payload["label_permutation_seed"] = label_permutation_seed
     if signal_view == "pseudo_mua":
         payload["signal_view"] = signal_view
         payload["electrode_mapping"] = _electrode_mapping_fingerprint(nwb_path)
@@ -802,6 +928,45 @@ def _unit_tuning_features(
     return t4, t8, False, is_zero_modulation
 
 
+def _ls4_direction_indices(
+    direction_indices: np.ndarray,
+    *,
+    session_name: str,
+    seed: int,
+) -> np.ndarray:
+    """Deterministically permute only support-trial target directions for LS4.
+
+    The derived seed includes the session name so a common training seed does not reuse the
+    same position permutation across sessions.  ``-1`` (a missing/noncanonical direction)
+    is retained in the values being permuted, exactly like every other support label: this
+    function neither filters trials nor reorders rates, targets, or activity.
+    """
+    payload = f"ExperimentA-LS4-v1:{session_name}:seed={seed}".encode("utf-8")
+    derived_seed = int.from_bytes(hashlib.sha256(payload).digest()[:4], "little")
+    return np.asarray(direction_indices, dtype=np.int64)[
+        np.random.RandomState(derived_seed).permutation(direction_indices.shape[0])
+    ]
+
+
+def mask_standardized_t4(features: np.ndarray, arm: str) -> np.ndarray:
+    """Apply Experiment-A masks only after full ordinary-T4 standardization."""
+    values = np.asarray(features, dtype=np.float32)
+    if values.ndim != 2 or values.shape[1] != 4:
+        raise ValueError(f"Experiment-A descriptors require [rows,4], got {values.shape}")
+    if arm == "z4":
+        return np.zeros_like(values)
+    result = np.zeros_like(values)
+    if arm == "ac4":
+        result[:, :2] = values[:, :2]
+    elif arm == "mb4":
+        result[:, 2:] = values[:, 2:]
+    elif arm == "b4":
+        result[:, 3] = values[:, 3]
+    else:
+        raise ValueError(f"Unsupported ordinary-T4 mask arm {arm!r}")
+    return result
+
+
 def _pool_trial_rate_matrix(nwb_path: Path, pool_trials: Sequence[dict]) -> tuple[np.ndarray, int]:
     """Per-unit, per-pool-trial firing rate (Hz), shape ``[num_units, len(pool_trials)]``.
 
@@ -842,12 +1007,18 @@ def _compute_tuning_features_uncached(
     window_size: int,
     trial_result_filter: str,
     signal_view: str = "sua",
+    label_permutation_seed: int | None = None,
+    direction_degeneracy_policy: DirectionDegeneracyPolicy | None = None,
 ) -> tuple[np.ndarray, SideFeatureMetadata]:
     """E3 directional tuning features (T4/T8), computed from the first ``pool_size`` rewarded
     trials only -- the identical pool boundary F1/F2 use, via the same
     ``list_datamodule_rewarded_trials`` filter (not reimplemented)."""
     if feature_group not in TUNING_FEATURE_NAMES:
         raise ValueError(f"Unsupported tuning feature_group {feature_group!r}")
+    if feature_group == "ls4" and label_permutation_seed is None:
+        raise ValueError("ls4 requires a deterministic label_permutation_seed")
+    if feature_group != "ls4" and label_permutation_seed is not None:
+        raise ValueError(f"{feature_group} does not accept a label_permutation_seed")
     _validate_signal_view(signal_view)
 
     pool_trials = list_datamodule_rewarded_trials(
@@ -911,20 +1082,44 @@ def _compute_tuning_features_uncached(
             f"got rank={design_rank}, condition={design_condition}"
         )
 
+    ls_direction_indices = (
+        _ls4_direction_indices(
+            direction_indices,
+            session_name=session_name_from_path(nwb_path),
+            seed=int(label_permutation_seed),
+        )
+        if feature_group == "ls4"
+        else None
+    )
+    ls_present_directions = (
+        sorted({int(index) for index in ls_direction_indices if index >= 0})
+        if ls_direction_indices is not None else None
+    )
     if len(present_directions) < 2:
-        # Session-wide degeneracy shared by every unit (E3_E4_ENCODER_PROGRAM.md section 1.4):
-        # with fewer than 2 distinct pool directions, b/a/c are not identifiable from any
-        # unit's data (an underdetermined linear system with <2 independent equations), so
-        # every unit gets the fixed all-zero fill rather than an arbitrary lstsq minimum-norm
-        # answer. Expected to essentially never trigger in practice (ROADMAP.md: the first 30
-        # rewarded trials already cover all 8 directions on the sessions checked), but must
-        # still degrade to a fixed, counted, finite value rather than raising or emitting NaN.
-        insufficient_direction = num_channels
+        # Session-wide degeneracy (E3_E4_ENCODER_PROGRAM.md §1.4 / P5a): b/a/c are not
+        # identifiable with <2 distinct pool directions. Default policy is fail-closed
+        # (`raise`). Legacy all-zero fill requires explicit warn_and_fill / fill_zeros.
+        insufficient_direction = enforce_direction_degeneracy_policy(
+            present_directions=len(present_directions),
+            num_channels=num_channels,
+            session_name=session_name_from_path(nwb_path),
+            policy=direction_degeneracy_policy,
+        )
+        # t4/t8 remain zeros when a fill policy was selected.
     else:
         for unit_idx in range(num_channels):
             unit_t4, unit_t8, is_zero_spike, is_zero_modulation = _unit_tuning_features(
                 rates[unit_idx], direction_indices, present_directions
             )
+            if ls_direction_indices is not None:
+                assert ls_present_directions is not None
+                ls_t4, _, _, _ = _unit_tuning_features(
+                    rates[unit_idx], ls_direction_indices, ls_present_directions
+                )
+                # Copy the ordinary aligned intercept bit-for-bit; do not refit it after
+                # the target-direction permutation.
+                ls_t4[3] = unit_t4[3]
+                unit_t4 = ls_t4
             t4[unit_idx] = unit_t4
             t8[unit_idx] = unit_t8
             if feature_group in {"t4c", "t4w3"}:
@@ -944,6 +1139,11 @@ def _compute_tuning_features_uncached(
         ),
         "source": _source_fingerprint(nwb_path),
     }
+    # The LS4 raw fit is a deterministic function of this seed.  Cache paths
+    # already include it; recording it in the metadata key makes provenance just
+    # as collision-free when raw features are computed without an on-disk cache.
+    if label_permutation_seed is not None:
+        cache_payload["label_permutation_seed"] = label_permutation_seed
     if signal_view == "pseudo_mua":
         cache_payload["signal_view"] = signal_view
         cache_payload["electrode_mapping"] = _electrode_mapping_fingerprint(nwb_path)
@@ -958,6 +1158,7 @@ def _compute_tuning_features_uncached(
         zero_noise_std_unit_count=0,
         zero_template_max_unit_count=0,
         zero_modulation_unit_count=zero_modulation,
+        exact_zero_m_unit_count=int(np.sum(t4[:, 2] == 0.0)),
         insufficient_direction_unit_count=insufficient_direction,
     )
     if feature_group == "t4w3":
@@ -968,6 +1169,15 @@ def _compute_tuning_features_uncached(
         )
     elif feature_group == "t4":
         features = t4
+    elif feature_group == "ls4":
+        features = t4
+    elif feature_group == "ph4":
+        # Exact zero means *only* raw m == 0.  No epsilon or threshold is permitted
+        # for PH4: nonzero modulation preserves a unit phase even when it is tiny.
+        features = np.zeros_like(t4, dtype=np.float32)
+        nonzero = t4[:, 2] != 0.0
+        features[nonzero, 0] = t4[nonzero, 0] / t4[nonzero, 2]
+        features[nonzero, 1] = t4[nonzero, 1] / t4[nonzero, 2]
     elif feature_group == "t4c":
         features = np.concatenate([t4, confidence], axis=1)
     else:
@@ -985,6 +1195,8 @@ def compute_unit_side_features_uncached(
     trial_result_filter: str = "R",
     pool_end_time: float | None = None,
     signal_view: str = "sua",
+    label_permutation_seed: int | None = None,
+    direction_degeneracy_policy: DirectionDegeneracyPolicy | None = None,
 ) -> tuple[np.ndarray, SideFeatureMetadata]:
     _validate_signal_view(signal_view)
     if feature_group in TUNING_FEATURE_NAMES:
@@ -1002,7 +1214,11 @@ def compute_unit_side_features_uncached(
             window_size=window_size,
             trial_result_filter=trial_result_filter,
             signal_view=signal_view,
+            label_permutation_seed=label_permutation_seed,
+            direction_degeneracy_policy=direction_degeneracy_policy,
         )
+    if label_permutation_seed is not None:
+        raise ValueError("label_permutation_seed is valid only for LS4 tuning features")
     if signal_view != "sua":
         raise ValueError(
             "pseudo_mua side features currently support only directional tuning "
@@ -1204,21 +1420,36 @@ def load_unit_side_features(
     window_size: int = 50,
     trial_result_filter: str = "R",
     signal_view: str = "sua",
+    label_permutation_seed: int | None = None,
 ) -> tuple[np.ndarray, SideFeatureMetadata]:
     """Load normalized per-unit (SUA) or per-electrode (pseudo-MUA) features."""
-    if feature_group not in KNOWN_FEATURE_GROUPS:
+    # Controls such as TS4 are aliases for a real fitted substrate (T4).  Resolve
+    # that substrate before applying the registry gate: controls are deliberately
+    # absent from ``KNOWN_FEATURE_GROUPS`` because the raw feature computation
+    # must only ever receive the real group.  Validating the public control token
+    # first rejects TS4 before its T4 substrate can be loaded.
+    raw_feature_group = (
+        "ls4" if feature_group == "ls4" else base_feature_group(feature_group)
+    )
+    if raw_feature_group not in KNOWN_FEATURE_GROUPS:
         raise ValueError(f"Unsupported feature_group {feature_group!r}")
     _validate_signal_view(signal_view)
+
+    if feature_group == "ls4" and label_permutation_seed is None:
+        raise ValueError("ls4 requires a deterministic label_permutation_seed")
+    if feature_group != "ls4" and label_permutation_seed is not None:
+        raise ValueError("label_permutation_seed is valid only for ls4")
 
     raw: np.ndarray
     metadata: SideFeatureMetadata
     compute_kwargs = {
-        "feature_group": feature_group,
+        "feature_group": raw_feature_group,
         "pool_size": pool_size,
         "bin_size_ms": bin_size_ms,
         "window_size": window_size,
         "trial_result_filter": trial_result_filter,
         "signal_view": signal_view,
+        "label_permutation_seed": label_permutation_seed,
     }
     if cache_dir is None:
         raw, metadata = compute_unit_side_features_uncached(nwb_path, **compute_kwargs)
@@ -1226,12 +1457,13 @@ def load_unit_side_features(
         cache_path = _side_feature_cache_path(
             cache_dir,
             nwb_path,
-            feature_group=feature_group,
+            feature_group=raw_feature_group,
             pool_size=pool_size,
             bin_size_ms=bin_size_ms,
             window_size=window_size,
             trial_result_filter=trial_result_filter,
             signal_view=signal_view,
+            label_permutation_seed=label_permutation_seed,
         )
         with _exclusive_cache_lock(cache_path):
             if cache_path.is_file():
@@ -1254,6 +1486,7 @@ def load_unit_side_features(
                             # -- an old-format hit here is discarded and recomputed rather than
                             # crashing.
                             zero_modulation_unit_count=int(cache["zero_modulation_unit_count"].item()),
+                            exact_zero_m_unit_count=int(cache["exact_zero_m_unit_count"].item()),
                             insufficient_direction_unit_count=int(
                                 cache["insufficient_direction_unit_count"].item()
                             ),
@@ -1276,6 +1509,7 @@ def load_unit_side_features(
                         zero_noise_std_unit_count=np.asarray(metadata.zero_noise_std_unit_count),
                         zero_template_max_unit_count=np.asarray(metadata.zero_template_max_unit_count),
                         zero_modulation_unit_count=np.asarray(metadata.zero_modulation_unit_count),
+                        exact_zero_m_unit_count=np.asarray(metadata.exact_zero_m_unit_count),
                         insufficient_direction_unit_count=np.asarray(
                             metadata.insufficient_direction_unit_count
                         ),
@@ -1295,6 +1529,7 @@ def load_unit_side_features(
                     zero_noise_std_unit_count=np.asarray(metadata.zero_noise_std_unit_count),
                     zero_template_max_unit_count=np.asarray(metadata.zero_template_max_unit_count),
                     zero_modulation_unit_count=np.asarray(metadata.zero_modulation_unit_count),
+                    exact_zero_m_unit_count=np.asarray(metadata.exact_zero_m_unit_count),
                     insufficient_direction_unit_count=np.asarray(
                         metadata.insufficient_direction_unit_count
                     ),
@@ -1302,10 +1537,24 @@ def load_unit_side_features(
                 logger.info("Cached side features for %s at %s", nwb_path.name, cache_path)
 
     normalized = ((raw - mean) / std).astype(np.float32)
+    if feature_group in {"z4", "ac4", "ac4rs4", "mb4", "b4"}:
+        mask_arm = "ac4" if feature_group == "ac4rs4" else feature_group
+        normalized = mask_standardized_t4(normalized, mask_arm)
+    elif feature_group == "ph4":
+        # Its own source-only phase normalizer acts on [cos(phi), sin(phi), 0, 0].
+        # The last two raw columns, mean, and standardized values remain exactly zero.
+        normalized[:, 2:] = 0.0
     if permutation_seed is not None:
-        normalized = permute_side_feature_rows(
-            normalized, permutation_seed=permutation_seed
-        )
+        if feature_group == "ac4rs4":
+            normalized = permute_side_feature_rows_nonidentity(
+                normalized,
+                permutation_seed=permutation_seed,
+                session_name=session_name_from_path(nwb_path),
+            )
+        else:
+            normalized = permute_side_feature_rows(
+                normalized, permutation_seed=permutation_seed
+            )
     return normalized, metadata
 
 

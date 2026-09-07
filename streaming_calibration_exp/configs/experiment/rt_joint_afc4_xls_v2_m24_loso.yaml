@@ -1,0 +1,21 @@
+# @package _global_
+
+defaults:
+  - rt_clean_nested_loso_m24
+
+run_id: rt_clean_nested_loso_m24_afc4_xls_v2
+tags: ["rt", "afc4_xls_v2", "m24", "clean_nested_loso", "joint_source_training", "development_only"]
+
+data:
+  side_feature_group: afc4_xls_v2
+  xls_v2_support_audit_path: ${paths.root_dir}/../sua_exploration/results/rt_afc4_ls_null_strength_audit_v2/RT_AFC4_LS_NULL_STRENGTH_SUPPORT_AUDIT_v2.json
+
+model:
+  freeze_decoder: false
+  loss_mode: task_only
+  lambda_y: 0.0
+  lambda_E: 0.0
+
+trainer:
+  max_epochs: 35
+

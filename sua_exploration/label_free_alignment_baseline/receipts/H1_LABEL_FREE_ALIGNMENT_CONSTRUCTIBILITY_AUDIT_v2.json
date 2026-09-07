@@ -1,0 +1,55 @@
+{
+  "conditional_h1_ordered_channel_solution": {
+    "anchor": "H1 fixed ordered channel index, excluding declared all-zero channel 66; this is not a biological identity claim.",
+    "conditioning_limit": "sigma_min > 1e-8 is a numerical definability check only. It is not a reliability gate; no source-only conditioning threshold or calibration-stability evidence is closed.",
+    "cost_contract": {
+      "cached_carrier_bytes": 2816,
+      "cached_carrier_floats": 704,
+      "documented_target_support_blocks_100ms": {"maximum": 696, "minimum": 558, "representative": 627},
+      "mac_claim": "NO hardware/MAC equivalence claim until the consumer is integrated and profiled",
+      "numerical_identifiability_gate": "cross-Gram sigma_min > 1e-8 only; not a reliability/conditioning threshold",
+      "orthonormal_carrier_normalizer": {"derivation": "RMS([active_channels,rank] orthonormal loading matrix) = 1/sqrt(active_channels)", "status": "ALGEBRAIC_CONSTANT_NOT_SOURCE_FITTED", "value": 0.07559289460184544},
+      "reference_pca_weighting": "block_weighted_after_per_recording_centering",
+      "reliability_gate": "NOT_CLOSED: a source-only threshold and calibration-stability validation are required before an accuracy claim",
+      "source_persistent_bytes": 4208,
+      "source_persistent_floats": 1052,
+      "streaming_online_solve": "none after carrier cache, decoder-consumer compatibility unverified",
+      "target_calibration_buffer": {
+        "cases": {
+          "maximum": {"blocks": 696, "target_calibration_buffer_bytes": 489984, "target_calibration_buffer_floats": 122496},
+          "minimum": {"blocks": 558, "target_calibration_buffer_bytes": 392832, "target_calibration_buffer_floats": 98208},
+          "representative": {"blocks": 627, "target_calibration_buffer_bytes": 441408, "target_calibration_buffer_floats": 110352}
+        },
+        "dtype_bytes": 4
+      },
+      "target_solve": {"rank_procrustes": "O(4^3 + 175*4^2)", "standardize_and_center": "O(B*175) for B in [558,696]", "thin_svd": "O(min(B*175^2, B^2*175)) for B in [558,696]"}
+    },
+    "gauge_and_fail_closed": ["deterministic SVD sign convention (largest absolute channel loading; lower index breaks ties)", "Procrustes polar factor fixes order/sign/rotation only relative to frozen source reference", "require enough support blocks, target rank >= 4, finite values, and numerical full rank of the 4x4 cross-Gram (sigma_min > 1e-8)", "dead channel 66 is never normalized or inferred; its output row is zero"],
+    "literature_scope": "A-FULL is an H1-only ordered-channel carrier inspired by aligned-factor-analysis/Procrustes geometry. It is not an implementation or reproduction of a published competing adaptation method. In particular, it does not implement NoMAD-style target-time backpropagation or read-in/readout updates, and it does not by itself close the paper limitation that competing adaptation methods have not been implemented.",
+    "not_general": "This is H1-only. It cannot be claimed for variable-N SUA sorted units or RT channels, where index order is not a stable cross-session correspondence.",
+    "source_only_fit": "Fit source mean/scale and [175,4] reference loading basis inside each source-LODO fold only. Reference PCA is block-weighted after per-recording centering: every valid M=4 source block has equal weight, so a recording with more blocks contributes more rows.",
+    "status": "CONSTRUCTIBLE_IF_FIXED_ORDERED_176_CHANNEL_INDEX_IS_DECLARED_A_VALID_ANCHOR",
+    "target_unlabeled_solve": "From chronological target support neural rates only, compute target PCA axes; solve 4x4 orthogonal Procrustes against source reference; restore dead channel 66 as literal zero; apply fixed 1/sqrt(175) orthonormal-loading scale (not a source-fitted statistic)."
+  },
+  "existing_adapter_blocker": {"reason": "The existing target dataset loads velocity through load_record and calls label-supervised fit_frozen_carrier. A compliance run requires a new target neural-only support adapter with a poison behavior/velocity field test before any decoder experiment.", "static_evidence": ["h1_m4_eb_pilot.py: load_record receives neural and velocity; fit_frozen_carrier consumes trial.velocity", "h1_carrierid_date_lodo_target.py: target support is first four chronological trials, query begins at fifth trial, and current carrier call is fit_frozen_carrier"], "status": "FAIL_CLOSED_FOR_CURRENT_H1_TARGET_PATH"},
+  "generic_cca_or_procrustes": {"reason": "Unpaired source and target neural supports have no common sample/condition correspondence. CCA needs paired observations; Procrustes needs a matched row basis. Behavioral phase, velocity, target labels, or timestamps cannot be introduced without changing the no-label contract.", "status": "FAIL_CLOSED_NO_PAIRED_OBJECT_OR_ANCHOR"},
+  "minimal_viable_alternative_if_ordered_index_is_rejected": {"alternatives": ["obtain a real cross-session channel/unit correspondence or stable metadata anchor, then preregister it", "use matched behavioral/phase anchors and explicitly relabel the method weakly supervised rather than label-free", "keep the current source-trained compact-consumer claim and do not create a fictitious generic CCA/Procrustes baseline"], "status": "NO_GENERIC_LABEL_FREE_ALIGNMENT_BASELINE_IS_IDENTIFIABLE"},
+  "receipt_schema": "label_free_alignment_constructibility_v2",
+  "required_future_controls": {
+    "frozen_arm_schema": {
+      "A-FULL": {"carrier": "proposed H1 ordered-channel target-neural-only aligned [176,4] carrier", "role": "proposed label-free arm", "training": "separately trained"},
+      "A-FULL@RS": {"carrier": "row-shuffle of proposed target carrier supplied to frozen A-FULL checkpoint", "role": "same-checkpoint attachment-sensitivity diagnostic only; not a trained endpoint control", "training": "no retraining"},
+      "A-RS": {"carrier": "complete-row-shuffled proposed aligned carrier, shuffle fixed per record/seed", "role": "correct-attachment necessity control", "training": "separately trained"},
+      "A-Z4": {"carrier": "literal [176,4] zero carrier at the model boundary", "role": "label-free carrier absence control", "training": "separately trained"},
+      "H-C": {"carrier": "existing behavior-label-supervised H1 carrier", "role": "matched labeled operational reference, never an alias for A-FULL", "training": "existing separately trained labeled reference when all protocol fields match"},
+      "H-LS/H-RS": {"carrier": "existing label-shuffled/row-shuffled labeled-carrier controls", "role": "not substitutes for A-RS", "training": "contextual references only unless data boundary, consumer, seed, checkpoint, normalizer, and source-LODO protocol exactly match"}
+    },
+    "source_lodo": "Every outer target date must fit its source mean/scale and reference basis from source recordings only; the orthonormal carrier scale is a fixed algebraic constant, and no target recording contributes to fitting.",
+    "target_boundary": "Target support is the first four chronological trials; query starts at the fifth chronological trial. The new adapter must expose only neural support rates to the alignment solve.",
+    "training_requirement": "A-FULL, A-Z4, and A-RS must be separately trained, with identical source-LODO dates, seeds, checkpoint rule, source mean/scale, carrier width, and target support/query boundary. A-FULL@RS is same-checkpoint diagnostic only. H-C is a labeled operational reference only if all fields match; H-LS/H-RS remain contextual unless exact protocol parity is established."
+  },
+  "scope": {"gpu_started": false, "target_behavior_or_velocity_read": false, "target_decoder_r2_computed": false, "target_nwb_payload_read": false},
+  "static_source_hashes": {"SPINT-main/src/data/h1_carrierid_date_lodo_source.py": "d74e4fb581803c983d51d9e78b0900aefb26cb4747b234358b4585f30855741a", "SPINT-main/src/data/h1_carrierid_date_lodo_target.py": "fd21a140245ca80fa97380dbc764e155681b8b29b3d0d9d279fb8427590fe55e", "SPINT-main/src/data/h1_m4_eb_pilot.py": "8f459b7a06c1b18865fc602b10e46876b4bb1dbf7ecba0fdf8e8f654737c86cb", "streaming_calibration_exp/src/data/rt_datamodule.py": "68a6a6b65a57a663ead16abcd872dae6ae1ec87ff184d311805c45626317fc1a", "sua_exploration/mc_maze/datamodule.py": "0c93359991c32e81b552e00169fa1f31a5b71d345782c9bf81b136bd5c708506"},
+  "status": "CONDITIONAL_H1_ONLY_CONSTRUCTIBLE__NO_GPU_AUTHORIZATION__NEURAL_ONLY_TARGET_ADAPTER_REQUIRED",
+  "supersedes": "H1_LABEL_FREE_ALIGNMENT_CONSTRUCTIBILITY_AUDIT_v1.json"
+}

@@ -1,0 +1,49 @@
+{
+  "ckpt_sha256": "1a6e26f30a79c19a4ad7672db86a7c2eb73a3e0634925ff1b3278afdb293a3fe",
+  "evalai_opened": false,
+  "ort_graphs": {
+    "B1": {
+      "advance": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_adv_b1.onnx",
+      "rebuild": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_rebuild_b1.onnx"
+    },
+    "B2": {
+      "advance": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_adv_b2.onnx",
+      "rebuild": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_rebuild_b2.onnx"
+    },
+    "B3": {
+      "advance": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_adv_b3.onnx",
+      "rebuild": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_rebuild_b3.onnx"
+    },
+    "B4": {
+      "advance": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_adv_b4.onnx",
+      "rebuild": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/ort_graphs/ort_rebuild_b4.onnx"
+    }
+  },
+  "parity_ort_vs_packed_advance_max_abs": 3.2782554626464844e-07,
+  "parity_ort_vs_packed_b4_max_abs": 2.7418136596679688e-06,
+  "parity_ort_vs_packed_smoke_max_abs": 8.344650268554688e-07,
+  "parity_packed_vs_train_max_abs": 2.384185791015625e-07,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_projadd_depth2_ort_v1/artifacts/m1_projadd_p16_d2_s42_ema_e21.pkl",
+  "payload_sha256": "18eaa3c98da87760a835bb52d663e0e0048c3ebeec5396f960b12c18aeba4d6a",
+  "schema": "m1_projadd_depth2_ort_payload_v1",
+  "selection": {
+    "ckpt": "/home/xinyuan/Work_host/SPINT/btransform_unified_v1/results/m1_projadd_depth2/fullsession_20260907_gpu0/depth2/epoch_021.pt",
+    "ckpt_sha256": "1a6e26f30a79c19a4ad7672db86a7c2eb73a3e0634925ff1b3278afdb293a3fe",
+    "epoch": 21,
+    "equal_session_mean": 0.6130939324696859,
+    "per_session_r2": {
+      "20121004": 0.6670401096343994,
+      "20121017": 0.6164286136627197,
+      "20121024": 0.5558130741119385
+    },
+    "view": "EMA",
+    "window_count": {
+      "20121004": 1305,
+      "20121017": 1295,
+      "20121024": 1281
+    },
+    "worst_session": "20121024",
+    "worst_session_r2": 0.5558130741119385
+  },
+  "weight_sha256": "55a9686e073064a6cb20b79c6c401064d3138fb3790bc0636373a12acf932931"
+}

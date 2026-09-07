@@ -1,0 +1,11 @@
+{
+  "arm": "h1_temporal_flat_ema_e5",
+  "budget_disclosure": "first-3 public calibration trials; C2 fused identity + H-C banks; no TTA; snapshot epoch 5 of intended 12; known-source development",
+  "image_id": "sha256:842731732acb1047135d41ef7598b2d4152c57ee5df4ef55ece83c1395be5e45",
+  "image_tag": "h1-temporal-trf:flat-ema-e5-91b9ace7",
+  "method_description": "New temporal Transformer Falcon runtime for H1, not a C2 identity swap and not the old C2/581920/581900 decoder. Architecture: shared causal Conv1\u219216 k5, concat local+E0+H-C, 8-slot set attention d=256, 4-layer causal Transformer d=256/FFN=512, 256\u2192128\u21927 last-bin readout, output /20. Weights are the EMA view of snapshot epoch 5 of the intended 12-epoch FLAT run (seed 42). This is known-source development, not clean LODO. E0 is 700-d C2 fused identity plus raw 4-d H-C from the frozen C2 epoch-15 calibration encoder (SHA ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215) used for materialization only. PE covers 700. on_done is a no-op (continual). No unproven cross-window KV cache. All 27 official H1 dataset tags.",
+  "method_label": "H1 new temporal Transformer FLAT; snapshot epoch 5 of intended 12; EMA; known-source development; not C2 identity swap",
+  "method_name": "H1 temporal Transformer FLAT EMA e5 of 12 known-source",
+  "payload_sha256": "91b9ace7640d8e0a75da1d79dcc566567d909f5bd2130626f475966c212d1cdb",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_temporal_flat_e5_v1/artifacts/evalai_push_state.json"
+}

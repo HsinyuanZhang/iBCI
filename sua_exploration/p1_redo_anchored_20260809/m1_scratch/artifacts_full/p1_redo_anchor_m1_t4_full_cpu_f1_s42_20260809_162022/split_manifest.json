@@ -1,0 +1,54 @@
+{
+  "validation_protocol": "loso",
+  "fold_id": 1,
+  "train_sessions": [
+    "ses-20120924",
+    "ses-20120927",
+    "ses-20120928"
+  ],
+  "validation_sessions": [
+    "ses-20120926"
+  ],
+  "heldout_evaluated_in_fit": false,
+  "heldout_evaluated_in_test": false,
+  "query_start_trial": 0,
+  "heldin_query_start_trial": 210,
+  "heldin_query_end_trial": null,
+  "native_t4_normalization": {
+    "feature_group": "t4",
+    "train_sessions": [
+      "ses-20120924",
+      "ses-20120927",
+      "ses-20120928"
+    ],
+    "mean": [
+      0.03162156417965889,
+      -0.02267315983772278,
+      0.10890481621026993,
+      0.36392268538475037
+    ],
+    "std": [
+      0.06259683519601822,
+      0.1553078293800354,
+      0.13301363587379456,
+      0.5085529088973999
+    ],
+    "sha256": "da187173a51fdfa2b59b52d886dae661a5a3bb8a1f1a312d0b4aa81035bebc0f"
+  },
+  "heldin_query_window_audit": {
+    "ses-20120926": {
+      "total_trials": 409,
+      "support_trials": 210,
+      "query_start_trial": 210,
+      "query_end_trial": null,
+      "query_trials": 199,
+      "raw_query_start_bin": 82852,
+      "minimum_window_start_padded_bin": 82951,
+      "maximum_window_start_padded_bin": 172324,
+      "window_size": 100,
+      "eligible_windows": 26399,
+      "full_window_disjoint": true,
+      "ineligible_reason": null
+    }
+  }
+}

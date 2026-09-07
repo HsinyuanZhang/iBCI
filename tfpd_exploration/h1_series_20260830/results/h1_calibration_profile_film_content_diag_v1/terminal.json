@@ -1,0 +1,189 @@
+{
+ "decision": {
+  "branch": "A_BUDGET_ADAPTATION",
+  "drift_abs": 2.1860628448347463e-06,
+  "drift_ok": true,
+  "empty_gate_pass": true,
+  "empty_mean": 0.025429655867792257,
+  "empty_over_full_ratio": 1.0627931830261743,
+  "full_mean": 0.023927191361337495,
+  "lp_canary": {
+   "empty": {
+    "max_per_date_abs_delta": 0.0,
+    "mean_abs_delta": 0.0
+   },
+   "full": {
+    "max_per_date_abs_delta": 0.0,
+    "mean_abs_delta": 0.0
+   },
+   "rowshuffle": {
+    "max_per_date_abs_delta": 0.0,
+    "mean_abs_delta": 0.0
+   }
+  },
+  "lp_canary_ok": true,
+  "narrative": "C3 permanently cancelled; H1 FiLM story becomes the zero-init adapter result",
+  "rowshuffle_gate": {
+   "mean": 0.02414113701884816,
+   "nonnegative_dates": 5,
+   "pass": true,
+   "per_date": [
+    0.022803466694951147,
+    0.05891478356504437,
+    0.008770693687975117,
+    0.010429531051158125,
+    0.01978721009511203
+   ],
+   "worst": 0.008770693687975117
+  },
+  "rowshuffle_mean": 0.02414113701884816,
+  "schema": "h1_calibration_profile_film_content_diag_v1_decision"
+ },
+ "evalai_opened": false,
+ "formal_heldout_opened": false,
+ "modes": {
+  "empty": {
+   "ep_gain_mean": 0.025429655867792257,
+   "ep_gain_per_date": [
+    0.019393570786556402,
+    0.0544144572936357,
+    0.016362907149437222,
+    0.016107904565378528,
+    0.020869439543953427
+   ],
+   "ep_gate": {
+    "mean": 0.025429655867792257,
+    "nonnegative_dates": 5,
+    "pass": true,
+    "per_date": [
+     0.019393570786556402,
+     0.0544144572936357,
+     0.016362907149437222,
+     0.016107904565378528,
+     0.020869439543953427
+    ],
+    "worst": 0.016107904565378528
+   },
+   "first_fold_film_state_sha256": {
+    "EP-FILM": "3818c02a324eb8d843d70e57c1df8821cd1f7c88c46fda5aec76e729804fdf04",
+    "LP-FILM": "fba420f403b248ee0a6fe6c1898f704dc6ae4be0be03d3a92324771afe979736"
+   },
+   "lp_gain_mean": -0.00021630915713821697,
+   "perm_sha256": "22a9cbd3bdd23fe5f27f1b0b95cc954a0436a5f01895aefa9de09aab52b45147"
+  },
+  "full": {
+   "ep_gain_mean": 0.023927191361337495,
+   "ep_gain_per_date": [
+    0.021928217494672775,
+    0.06403301976471798,
+    0.016302976491969656,
+    -0.008003867716063096,
+    0.025375610771390167
+   ],
+   "ep_gate": {
+    "mean": 0.023927191361337495,
+    "nonnegative_dates": 4,
+    "pass": true,
+    "per_date": [
+     0.021928217494672775,
+     0.06403301976471798,
+     0.016302976491969656,
+     -0.008003867716063096,
+     0.025375610771390167
+    ],
+    "worst": -0.008003867716063096
+   },
+   "first_fold_film_state_sha256": {
+    "EP-FILM": "60eb1161d9621b0830d226e0eaf07aefb0ee1f56eb72d42880e95aa518bc6b58",
+    "LP-FILM": "fba420f403b248ee0a6fe6c1898f704dc6ae4be0be03d3a92324771afe979736"
+   },
+   "lp_gain_mean": -0.00021630915713821697,
+   "perm_sha256": "22a9cbd3bdd23fe5f27f1b0b95cc954a0436a5f01895aefa9de09aab52b45147"
+  },
+  "rowshuffle": {
+   "ep_gain_mean": 0.02414113701884816,
+   "ep_gain_per_date": [
+    0.022803466694951147,
+    0.05891478356504437,
+    0.008770693687975117,
+    0.010429531051158125,
+    0.01978721009511203
+   ],
+   "ep_gate": {
+    "mean": 0.02414113701884816,
+    "nonnegative_dates": 5,
+    "pass": true,
+    "per_date": [
+     0.022803466694951147,
+     0.05891478356504437,
+     0.008770693687975117,
+     0.010429531051158125,
+     0.01978721009511203
+    ],
+    "worst": 0.008770693687975117
+   },
+   "first_fold_film_state_sha256": {
+    "EP-FILM": "d428524528da4badf721d2a725423211d039980b3d19eb18b6b55bde46a68838",
+    "LP-FILM": "fba420f403b248ee0a6fe6c1898f704dc6ae4be0be03d3a92324771afe979736"
+   },
+   "lp_gain_mean": -0.00021630915713821697,
+   "perm_sha256": "22a9cbd3bdd23fe5f27f1b0b95cc954a0436a5f01895aefa9de09aab52b45147"
+  }
+ },
+ "preflight": {
+  "gpu_foreign_compute_processes_at_preflight": "",
+  "gpu_free_mib_at_preflight": 24236,
+  "gpu_index": 1,
+  "gpu_name": "NVIDIA GeForce RTX 3090",
+  "gpu_utilization_at_preflight": 0,
+  "gpu_uuid": "GPU-2220ed5d-25ea-1839-28d7-ad4dfa5f6c86"
+ },
+ "schema": "h1_calibration_profile_film_content_diag_v1_terminal",
+ "sealed_v2": {
+  "ep_film_per_date": [
+   0.4240346405310966,
+   0.3599357395684882,
+   0.6012769804612377,
+   0.339523614404813,
+   0.42480041221054493
+  ],
+  "ep_gain_mean": 0.02392937742418233,
+  "ep_gain_per_date": [
+   0.021928217494672775,
+   0.06403301976471798,
+   0.016313906806193823,
+   -0.008003867716063096,
+   0.025375610771390167
+  ],
+  "ep_zero_per_date": [
+   0.4021064230364238,
+   0.2959027198037702,
+   0.5849630736550439,
+   0.3475274821208761,
+   0.39942480143915476
+  ],
+  "first_fold_film_state_sha256": {
+   "EP-FILM": "60eb1161d9621b0830d226e0eaf07aefb0ee1f56eb72d42880e95aa518bc6b58",
+   "LP-FILM": "fba420f403b248ee0a6fe6c1898f704dc6ae4be0be03d3a92324771afe979736"
+  },
+  "lp_gain_mean": -0.00021630915713821697,
+  "lp_gain_per_date": [
+   0.0032916336156156856,
+   0.004903592038423554,
+   0.0015250252102021467,
+   -0.003917290821681518,
+   -0.006884505828250953
+  ],
+  "outer_dates": [
+   "19250108",
+   "19250113",
+   "19250115",
+   "19250119",
+   "19250120"
+  ]
+ },
+ "status": "COMPLETE_H1_FILM_CONTENT_DIAGNOSTIC_A_BUDGET_ADAPTATION",
+ "target_backward_steps": 0,
+ "target_model_updates": 0,
+ "target_optimizer_steps": 0
+}

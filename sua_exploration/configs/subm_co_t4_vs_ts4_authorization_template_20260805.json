@@ -1,0 +1,44 @@
+{
+  "claim_boundary": "shared_t4_vs_shared_ts4_only_same_dandiset_cross_animal",
+  "deployment_budget": {
+    "activity_identity_trials": 30,
+    "query_start": "strictly_after_rewarded_trial_50",
+    "t4_fit_pool_trials": 50
+  },
+  "do_not_edit_status_to_authorize": true,
+  "execution_policy_sha256": "9da10303f59c054b50560bf24b30322d615e0627fb1d5d8ea19bb06947407b2a",
+  "future_generation_requirements": [
+    "Native-M2 completion receipt supplied to the unsigned-envelope generator",
+    "fresh V3R2 byte-level root review",
+    "fresh output root below the V3R2 output parent",
+    "exact external-NWB root",
+    "fresh 256-bit nonce and <=15-minute issue window",
+    "detached Ed25519 signature created outside the workspace"
+  ],
+  "matrix": {
+    "arms": [
+      "shared_t4",
+      "shared_ts4"
+    ],
+    "cells": 180,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "sessions": 15,
+    "views": [
+      "sua",
+      "pseudo_mua"
+    ]
+  },
+  "not_an_executable_authorization": true,
+  "prelaunch": {
+    "draft_sha256": "13f113de25b20621681282fece849f130c3bc9c8c82fbb10eca4aa803400dd74",
+    "receipt_sha256": "b2f68bf29582486f1cb9a85c79d23e52239d34decfecb7838a7fa59c8fabea8e",
+    "seal_sha256": "89cbf98e826a52120a9b50524694eaa4e49444ba0bcb4e220aa5222949647e37",
+    "status": "STATIC_V3R2_READY_BUT_NOT_AUTHORIZED"
+  },
+  "schema": "dandi_000688_subm_co_external_score_only_authorization_review_template_v3r2",
+  "status": "REVIEW_PENDING_NATIVE_M2_NOT_YET_AUTHORIZED"
+}

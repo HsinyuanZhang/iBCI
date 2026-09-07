@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - h1_m4_eb_normalized_v2
+
+task_name: h1_m4_eb_normalized_v2_joint
+tags: [h1, m4, eb_carrier, fold0, normalized_v2, joint]
+pilot:
+  arm: joint
+  train_residual: true

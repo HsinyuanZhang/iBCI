@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "screen_id": "c1_teacher_domain_ablation_v1",
+  "purpose": "Pre-registered C1 teacher-domain 2x2 with W-add held fixed. Authorizes no GPU run.",
+  "teacher_domains": ["mc_maze", "co_native"],
+  "carriers": ["t4", "z4"],
+  "seeds": [42, 43, 44],
+  "scoring_domains": ["within_subject", "external_subject_M"],
+  "add_site": "W-add",
+  "sampling": "legacy",
+  "loss_mode": "task_only",
+  "hidden_space_adapter": false,
+  "fresh_gpu_source_cells": 12,
+  "domain_retraining_forbidden": true,
+  "frozen_protocol": {
+    "variant": "B3S",
+    "lightning_task": "mc_maze",
+    "identity_mode": "calibrated",
+    "decoder_mode": "coupled",
+    "freeze_decoder": false,
+    "encoder_warmstart_path": null,
+    "copies_teacher_decoder_under_task_only": true,
+    "selected_t4_encoder_warmstart": false,
+    "activity_calibration_trials": 30,
+    "side_feature_label_pool_trials": 30,
+    "evaluation_start_trial_index": 30,
+    "window_size_bins": 50,
+    "trial_length_bins": 100,
+    "bin_size_ms": 20,
+    "epochs": 12,
+    "epoch_window": [5, 6, 7, 8, 9, 10, 11, 12],
+    "hypothesis_status": "plausible_contributor_not_isolated_cause"
+  },
+  "compatibility_gate": {
+    "required_before_gpu": true,
+    "source_only": true,
+    "trained_co_native_teacher_required_for_launch": true
+  }
+}

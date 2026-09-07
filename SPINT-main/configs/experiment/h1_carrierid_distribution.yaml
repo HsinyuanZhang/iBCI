@@ -1,0 +1,39 @@
+# @package _global_
+defaults:
+  - override /data: falcon_h1_carrierid_distribution
+  - override /model: falcon_h1_carrierid_distribution
+  - override /callbacks: h1_carrierid_terminal
+
+protocol_id: h1_carrierid_h32_fresh_distribution_source_only_v1
+task_name: h1_carrierid_h32_fresh_distribution
+tags: [h1, carrierid, h32, m4, source_only, fresh_distribution, leakage_diagnostic_only]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: null
+logger: false
+
+pilot:
+  fold_date: "19250101"
+  arm: s4
+  shared_cache_dir: ${paths.work_dir}/pilot_artifacts/h1_carrierid_distribution/shared_source_cache
+  calibration_n_trials: 4
+  batch_size: 32
+  fixed_terminal_epochs: 50
+  windows_per_schedule: 32
+  no_checkpoint_selection: true
+  leakage_diagnostic_only: true
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

@@ -1,0 +1,40 @@
+# @package _global_
+# Conditional follow-up only.  A launcher supplies a fold-0-eligible compact
+# arm and one of the four remaining development dates; no target route exists
+# in this training configuration.
+defaults:
+  - override /data: falcon_h1_spint_width_date_lodo
+  - override /model: falcon_h1_spint_width_date_lodo
+  - override /callbacks: h1_m4_eb_pilot_terminal
+
+protocol_id: h1_spint_identity_width_date_lodo_${width_date.outer_date}_${width_date.arm}_source_only_v1
+task_name: h1_spint_width_date_lodo_${width_date.arm}_${width_date.outer_date}
+tags: [h1, spint, activity_only, neuronid, identity_width, date_lodo, source_only, seed42, fixed_e49]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+logger: false
+
+width_date:
+  outer_date: "__REQUIRED_DEVELOPMENT_DATE__"
+  arm: "__REQUIRED_ELIGIBLE_COMPACT_ARM__"
+  identity_width: -1
+  fold0_terminal_receipt: "__REQUIRED_IMMUTABLE_FOLD0_RECEIPT__"
+  phase1_preflight_path: ${paths.work_dir}/pilot_artifacts/h1_carrierid_date_lodo_phase1/H1_CARRIERID_DATE_LODO_SOURCE_PREFLIGHT_v1.json
+  noninferiority_margin_r2: 0.03
+  fixed_terminal_epochs: 50
+  no_checkpoint_selection: true
+  carrier_input: absent
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

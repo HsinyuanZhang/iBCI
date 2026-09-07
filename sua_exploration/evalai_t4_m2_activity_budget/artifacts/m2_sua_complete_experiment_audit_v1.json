@@ -1,0 +1,123 @@
+{
+  "completion": {
+    "all_endpoint_compatible_official_budget_submissions_finished": true,
+    "all_local_result_sidecars_rehashed": true,
+    "all_requested_budgets_covered": [
+      4,
+      10,
+      30
+    ],
+    "cdm_official_endpoint_impossibility_recorded": true,
+    "fresh_training_expansion_stopped_by_evidence": true,
+    "precision_seed_expansion_stopped_by_evidence": true,
+    "status": "COMPLETE"
+  },
+  "conclusions": {
+    "m2_official_held_out_order": [
+      "historical_t4_578221",
+      "m30_static_activity30_581362",
+      "cue_budgeted_m4_activity30_581361",
+      "m10_activity30_581359",
+      "original_spint_578218"
+    ],
+    "m2_official_m4_minus_m10_held_out_r2": 0.02591109232909805,
+    "m2_official_m4_minus_m30_held_out_r2": -0.005416725092533881,
+    "m2_official_m10_is_new_best": false,
+    "m2_official_m30_is_new_best": false,
+    "m2_official_m4_is_new_best": false,
+    "native_m2_precision_minus_activity_prediction_identity": "bitwise_equal_all_cells_zero_gate_accepts",
+    "selected_sua_route": "activity_only_frozen_support_carrier",
+    "sua_precision_superiority_over_activity_only": false
+  },
+  "documentation": {
+    "path": "tfpd_exploration/docs/HANDOFF_M2_SUA_COMPLETE_EXPERIMENT_AUDIT_20260828.md",
+    "sha256": "4501151a370ef59c259663dbd1ce74a2dca48315acd506e9c1cec0b81b8436dc"
+  },
+  "endpoint_decisions": {
+    "fresh_m2_matched_phase_c_training": "STOP_EXISTING_THREE_CHECKPOINTS_AGREE_AND_OFFICIAL_METHOD_NOT_NEW_BEST",
+    "native_m2_online_cdm_official_submission": "IMPOSSIBLE_WITHOUT_TRIAL_BOUNDARY_OR_VALIDATED_CHANGE_DETECTOR",
+    "precision_seeds_43_44": "STOP_NO_PRECISION_OVER_ACTIVITY_SIGNAL"
+  },
+  "local_authorities": [
+    {
+      "path": "sua_exploration/results/dandi_000688_subm_co_three_arm_v9_formal_20260805/aggregate/endpoint_aggregate_torchmetrics151.json",
+      "role": "SUA_and_pseudo_MUA_static_T4_three_arm",
+      "sha256": "8a5ba373169cc28237666917f21fc893003afcc9ca486aa8f4b78d3f65aca7f4"
+    },
+    {
+      "path": "sua_exploration/results/dandi_000688_subm_v9_t4_label_budget_v1_full/aggregate/endpoint_aggregate_torchmetrics151.json",
+      "role": "SUA_and_pseudo_MUA_three_seed_label_budget_curve",
+      "sha256": "12c4aead244631ed55e5a3eae7f99c87c4cfc4131ac37aa1f84aa55e5e0d4cc2"
+    },
+    {
+      "path": "sua_exploration/results/dandi_000688_subm_f0_pv_ridge_v1_full_20260805/aggregate/endpoint_aggregate_torchmetrics151.json",
+      "role": "SUA_and_pseudo_MUA_classical_controls",
+      "sha256": "ffccd91fc128edb7ad6199671f2e32d0c6c450cdff4f2b3d734a1815b176ebc0"
+    },
+    {
+      "path": "tfpd_exploration/results/causal_dual_memory_cell_d_activity_only_quick_v2/result.json",
+      "role": "SUA_activity_only_M4_M10",
+      "sha256": "48d658c866b0bcb45a9f03c6e0c84204ecb87286e940d850c846a46f67b33bb8"
+    },
+    {
+      "path": "tfpd_exploration/results/sua_paired_activity_budget_screen_v1/score.json",
+      "role": "SUA_and_pseudo_MUA_paired_activity_three_seed",
+      "sha256": "487d3b18be104ae9a6d40c517de2637162a773a97baeb1e872c44684cb170853"
+    },
+    {
+      "path": "tfpd_exploration/results/pseudo_mua_precision_cdm_v2_screen_v1/score.json",
+      "role": "pseudo_MUA_static_activity_ordinary_precision",
+      "sha256": "97b2aa457785970cd2df6ad61bcca54136c4cc5352e9fcd5314b49b0396582b2"
+    },
+    {
+      "path": "tfpd_exploration/results/m2_t4_activity_budget_screen_v1/score.json",
+      "role": "native_M2_activity_budget_seed42",
+      "sha256": "6bdad93328ba26c12b8aa3afffcbc3490c312dfe22939b3d3bb3c5ec5b9005ce"
+    },
+    {
+      "path": "tfpd_exploration/results/m2_same_query_comparator_v1/score.json",
+      "role": "native_M2_aligned_classical_and_neural_comparators",
+      "sha256": "5efa738ba536ee7cfc624a9dd79fd4ceedb36ae54f482cdcd48e59e355dc3d8b"
+    },
+    {
+      "path": "tfpd_exploration/results/m2_t4_activity_budget_seed_replication_v1/score.json",
+      "role": "native_M2_activity_three_checkpoint_replication",
+      "sha256": "33446390408a610c552cccfac2b892f7cf7add5ab72dc42161c4d83c5027b4c9"
+    },
+    {
+      "path": "tfpd_exploration/results/m2_precision_cdm_v2_screen_v1/score.json",
+      "role": "native_M2_static_activity_ordinary_precision",
+      "sha256": "455485bd854a36392f17ec5ed029b1a4044a01a8dd7dfeae95c7763b8327f5f6"
+    }
+  ],
+  "official_results": [
+    {
+      "arm": "m10",
+      "held_in_r2_mean": 0.5584457832666476,
+      "held_out_r2_mean": 0.26383289570479845,
+      "normalized_latency": 0.044338009469217544,
+      "receipt_sha256": "a747ece42f8b7b467767e4d86debc0368dcc3df0db81195f0849967b35f78c07",
+      "status": "finished",
+      "submission_id": 581359
+    },
+    {
+      "arm": "m4",
+      "held_in_r2_mean": 0.5627788928403332,
+      "held_out_r2_mean": 0.2897439880338965,
+      "normalized_latency": 0.04701159050299251,
+      "receipt_sha256": "68da5427e2d27169b8b6e1e08a487113b65b734a7e7644a5d1778f993febbb97",
+      "status": "finished",
+      "submission_id": 581361
+    },
+    {
+      "arm": "m30",
+      "held_in_r2_mean": 0.5754404413011437,
+      "held_out_r2_mean": 0.2951607131264304,
+      "normalized_latency": 0.044834055592910246,
+      "receipt_sha256": "ea7d4185943602b964accd98e4c8a90758350fb689227efe0fa8ff64fbbe9c5e",
+      "status": "finished",
+      "submission_id": 581362
+    }
+  ],
+  "schema": "m2_sua_complete_experiment_audit_v1"
+}

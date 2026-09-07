@@ -47,6 +47,7 @@ from mc_maze.multisession_datamodule import (
 _sce_root = Path(__file__).resolve().parents[2] / "streaming_calibration_exp"
 sys.path.insert(0, str(_sce_root))
 from src.models.streaming_calibration_module import StreamingCalibrationLitModule
+from src.models.t4_logit_residual_module import T4LogitResidualLitModule
 
 
 def parse_int_list(value: str) -> list[int]:
@@ -86,7 +87,7 @@ def load_frozen_model(
     identity_mode: str = "calibrated",
 ):
     checkpoint = torch.load(str(ckpt_path), map_location="cpu", weights_only=False)
-    model = StreamingCalibrationLitModule(
+    common = dict(
         task="mc_maze", variant=variant, teacher_ckpt_path=str(teacher_ckpt),
         window_size=WINDOW_SIZE, trial_length=TRIAL_LENGTH, id_hidden_dim=ID_HIDDEN_DIM,
         hidden_dim=HIDDEN_DIM, pad_value=PAD_VALUE, freeze_decoder=False,
@@ -96,11 +97,36 @@ def load_frozen_model(
         **checkpoint_architecture_kwargs(checkpoint),
         compile=False,
     )
+    logit_receipt = checkpoint.get("t4_logit_residual_receipt")
+    if logit_receipt is None:
+        model = StreamingCalibrationLitModule(**common)
+    else:
+        if not isinstance(logit_receipt, dict):
+            raise ValueError("malformed T4 logit-residual checkpoint receipt")
+        anchor_path = Path(str(logit_receipt.get("selected_t4_anchor_path", ""))).expanduser()
+        if not anchor_path.is_file():
+            raise FileNotFoundError(f"selected-T4 anchor is missing: {anchor_path}")
+        if sha256_file(anchor_path) != logit_receipt.get("selected_t4_anchor_sha256"):
+            raise ValueError("selected-T4 anchor SHA differs from logit-residual checkpoint receipt")
+        model = T4LogitResidualLitModule(
+            **common,
+            encoder_warmstart_path=str(anchor_path.resolve()),
+            optimizer=None,
+            scheduler=None,
+            residual_mode=str(logit_receipt["residual_mode"]),
+            interaction_mode=str(logit_receipt["interaction_mode"]),
+            residual_rank=int(logit_receipt["residual_rank"]),
+            residual_permutation_seed=logit_receipt.get("residual_permutation_seed"),
+        )
     model.setup("fit")
+    if logit_receipt is not None:
+        model.on_load_checkpoint(checkpoint)
     strict_load = identity_mode != "learned_prior"
     if identity_mode == "learned_prior":
         validate_learned_prior_checkpoint(checkpoint["state_dict"])
     load_result = model.load_state_dict(checkpoint["state_dict"], strict=strict_load)
+    if logit_receipt is not None:
+        model.validate_loaded_t4_logit_residual_receipt()
     if identity_mode == "learned_prior":
         validate_learned_prior_checkpoint(
             checkpoint["state_dict"],

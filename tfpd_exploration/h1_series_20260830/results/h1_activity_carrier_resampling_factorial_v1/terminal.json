@@ -1,0 +1,75 @@
+{
+  "attempt_sha256": "9d95d24e45528d36169a466a19d3761bfdf9f8abaf060d57dd9645c9f0139290",
+  "decision": {
+    "authorizes_evalai": false,
+    "authorizes_model_selection": false,
+    "classification": "ACTIVITY_DIVERSITY_DOMINANT",
+    "directional_components": [
+      "activity_resampling_main_effect"
+    ],
+    "status": "COMPLETE_DESCRIPTIVE_MECHANISM_ONLY",
+    "summaries": {
+      "activity_resampling_main_effect": {
+        "common_sign_dates": 5,
+        "direction": "positive",
+        "directional": true,
+        "mean": 0.021743991183944555,
+        "name": "activity_resampling_main_effect",
+        "nonnegative_dates": 5,
+        "nonpositive_dates": 0,
+        "values": [
+          0.02780695971666111,
+          0.011795417831185873,
+          0.006826532528957874,
+          0.021431511645986306,
+          0.04085953419693161
+        ]
+      },
+      "carrier_resampling_main_effect": {
+        "common_sign_dates": 4,
+        "direction": "positive",
+        "directional": false,
+        "mean": 0.000970459625612774,
+        "name": "carrier_resampling_main_effect",
+        "nonnegative_dates": 4,
+        "nonpositive_dates": 1,
+        "values": [
+          0.0012738145524336664,
+          0.0010167887613510285,
+          0.002007741947923025,
+          -0.002368963449639744,
+          0.0029229163159958937
+        ]
+      },
+      "matched_interaction": {
+        "common_sign_dates": 3,
+        "direction": "negative",
+        "directional": false,
+        "mean": -0.00034165591328201296,
+        "name": "matched_interaction",
+        "nonnegative_dates": 2,
+        "nonpositive_dates": 3,
+        "values": [
+          -0.0005596932596396154,
+          -6.563716147567344e-05,
+          9.365548494610909e-05,
+          -0.005178132061918694,
+          0.004001527431677809
+        ]
+      }
+    }
+  },
+  "design_sha256": "ac7fbf6dc520d93cd63e289c3954d3a7336ddaeef7ab0ec81305dff71e333284",
+  "evalai_opened": false,
+  "formal_heldout_opened": false,
+  "gpu1_touched": false,
+  "gpu_uuid": "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+  "main_terminal_sha256": "c047bbf5bd6e324fcd250ef2702ab507fff54b6a13c6bc1314963983bc298a94",
+  "schema": "h1_activity_carrier_resampling_factorial_v1_terminal",
+  "score_sha256": "e939b13a47006ffd7fadbd63273b3055dce0b2fefb6dfb0af050bcbd1c428df7",
+  "status": "COMPLETE_H1_ACTIVITY_CARRIER_RESAMPLING_FACTORIAL",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "workorder_sha256": "d0eda6a13b9764b4486341566c2969da695c9e5479b817ef0b99efdeb14e28b2"
+}

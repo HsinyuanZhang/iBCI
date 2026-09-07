@@ -1,0 +1,102 @@
+{
+  "activity_calibration_n": 30,
+  "authorized_scope": "T4_B3S_identity_encoder_W8A8_INT32_plus_FP32_decoder",
+  "candidate_dispositions": [
+    {
+      "disposition": "ineffective",
+      "name": "confidence_conditioned_film_m50",
+      "path": "sua_exploration/results/sua_t4_confidence_film_v1/aggregate_m50_seed42.json",
+      "sha256": "aafda2b751d1286c8996353a9146e813776e19e37abae44c4aeb11535a0431d6"
+    },
+    {
+      "disposition": "ineffective",
+      "name": "decoupled_kv_v1",
+      "path": "sua_exploration/results/sua_t4_decoupled_kv_v1/aggregate_seed42.json",
+      "sha256": "e865348a45a2e6c57c535c5afe6edac24d1bfb2f3fc88b6888af8a9fec7c073e"
+    },
+    {
+      "disposition": "failed_noninferiority",
+      "name": "ordinary_t4_m15",
+      "path": "sua_exploration/results/sua_t4_shrinkage_m15_v1/aggregate_ordinary_pair_s42.json",
+      "sha256": "0417588e0f3fb4263842f42f2276fbe2056879d3ee4db9efe360ed6558d0bc94"
+    },
+    {
+      "disposition": "ineffective",
+      "name": "factorized_attention_logit_residual",
+      "path": "sua_exploration/results/sua_t4_factorized_logit_residual_v1/aggregate.json",
+      "sha256": "a1c34a260ff90bf5deed62ac5698f1d55387641406674587a8adfbe6e39f9e14"
+    },
+    {
+      "disposition": "failed_noninferiority",
+      "name": "m2_m24_b3tstream_t4",
+      "path": "sua_exploration/results/m2_m24_b3ts_t4_v1/aggregate_heldout.json",
+      "sha256": "5ba450051c1e5c414741aac93a89899f7acdd6a6969d52c6256d755d46aa8b4f"
+    }
+  ],
+  "created_at": "2026-08-02T21:30:00+08:00",
+  "evaluation_start_trial": 50,
+  "formal_test_files_opened": false,
+  "schema_version": 1,
+  "seeds": [42, 43, 44],
+  "selected_architecture": "coupled_ordinary_B3S_T4",
+  "selected_seed_artifacts": {
+    "42": {
+      "checkpoint": {
+        "path": "sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s42/epoch_ckpts/epoch_011.ckpt",
+        "sha256": "cf533e7cd97801d53985383b37f3fa1ff72fb6c385eaeb8c81273c3fa128273d"
+      },
+      "run_metadata": {
+        "path": "sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s42/run_metadata.json",
+        "sha256": "54ffe32dc43b5500e7b0ebec8ae9d7d7ca821f4716a311d72eccc0a12a375c90"
+      },
+      "validation_result": {
+        "path": "sua_exploration/results/sua_t4_confidence_film_v1/t4m50_s42.json",
+        "sha256": "94e3d31c017f2e66030dc144167fc31c9e1a0caab0bb5e0fdaacc20f62a4d0a7"
+      },
+      "variant_score": 0.5838112477213144
+    },
+    "43": {
+      "checkpoint": {
+        "path": "sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s43/epoch_ckpts/epoch_011.ckpt",
+        "sha256": "ba1e1dcc7041059b2e4527d79beac2b3cf229011da8b5f84801e3c3c881d115d"
+      },
+      "run_metadata": {
+        "path": "sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s43/run_metadata.json",
+        "sha256": "ab92efd17f504b243a4297271794d3d8851a779e2bc02d9780c484eec69d9180"
+      },
+      "validation_result": {
+        "path": "sua_exploration/results/sua_t4_confidence_film_v1/t4m50_s43.json",
+        "sha256": "8b56eef1f3211a3e7e2367f217b618a245889dc4a4234ad04bf83ef8c063dbec"
+      },
+      "variant_score": 0.5586154324313004
+    },
+    "44": {
+      "checkpoint": {
+        "path": "sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s44/epoch_ckpts/epoch_011.ckpt",
+        "sha256": "d0c1c8ba588c7c8016417e50ea96e301ec1fd47e01c1a2420d76b638cbebb6c6"
+      },
+      "run_metadata": {
+        "path": "sua_exploration/checkpoints/sua_t4_confidence_film_v1_t4m50_dandi688_co_s44/run_metadata.json",
+        "sha256": "0040811ca0a7bf5f26a93146aa7f4ecc412b49933c3ad5d4bd87e4aabc274ed2"
+      },
+      "validation_result": {
+        "path": "sua_exploration/results/sua_t4_confidence_film_v1/t4m50_s44.json",
+        "sha256": "0f99d924c9807e274d03d8eb148b5aaf1834b67e9e723e8ad82cd4fca6dadc80"
+      },
+      "variant_score": 0.5819955710321665
+    }
+  },
+  "selection_mode": "chronological_first",
+  "selection_note": "All completed extensions failed their frozen effectiveness/noninferiority gates or were stopped by an authorized early kill signal; ordinary coupled T4@50 is the retained FP32 architecture for encoder-only quantization.",
+  "source_fp32_aggregate": {
+    "path": "sua_exploration/results/sua_spint_t4_mainline_fp32_v1/aggregate.json",
+    "sha256": "8158888b29545a92198ab241a3b4c6b91310c5aad5ec6b3370b68336662d2459"
+  },
+  "source_fp32_evidence_scope": "M30_three_seed_T4_mechanism_eligibility_only",
+  "source_fp32_is_not_the_selected_m50_checkpoint_comparison": true,
+  "status": "selected_and_authorized_for_encoder_int8",
+  "strict_manifest_sha256": "4607e979c6c2ff451c147a8d9878fe1080b9d3e9bbc7304b559616eb2a13a0c9",
+  "strict_manifest_path": "sua_exploration/configs/subc_co_27_6_strict_train_val_manifest.json",
+  "t4_label_feature_pool_n": 50,
+  "teacher_sha256": "9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d"
+}

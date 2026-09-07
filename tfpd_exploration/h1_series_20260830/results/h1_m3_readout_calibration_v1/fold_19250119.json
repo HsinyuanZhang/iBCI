@@ -1,0 +1,123 @@
+{
+  "base_r2": 0.3475274821208761,
+  "model_authority": {
+    "checkpoint_sha256": "276a789edae2419704f4649465a477511b7571185441267c1de1073374fecc42",
+    "config_sha256": "d9a6f5163b9887439de47febdc6c13f3803f9b94a545646488993db212ae1453",
+    "global_step": 170200,
+    "model_parameter_count": 10947836,
+    "source_commit": "5b21de415afc35a5f4ad63dd2e8a459d925dbbf7",
+    "strict_load_missing_keys": [],
+    "strict_load_unexpected_keys": [],
+    "terminal_sha256": "377874fc77795c238203e2e45d9e538e7f7b6b6e16b9f5c7d30286822aa01153",
+    "terminal_state_sha256": "8523215e59ed189889f9a4e7eb25fc8834aaa35efd39fba8ab41488973e83ccb"
+  },
+  "outer_date": "19250119",
+  "schema": "h1_m3_readout_calibration_v1_fold",
+  "selected": {
+    "equal_source_date_mean_r2": 0.9746248106607382,
+    "family": "MAT7",
+    "ridge": 1.0,
+    "session_r2": [
+      0.9795309852780241,
+      0.9745180721494235,
+      0.9695708763233989,
+      0.9790589578323792,
+      0.97754142474353,
+      0.9749091995301161,
+      0.9773133045309099,
+      0.9680778666425994,
+      0.9755829242519132,
+      0.9725458308948465,
+      0.9729890840633455
+    ]
+  },
+  "selected_r2": 0.4468139798537652,
+  "selection_sha256": "98f7d84547d2f29f77345afb7d8c67a53edcd43ad4ba68a6f333c1b6ec04671c",
+  "source_plan_authority": {
+    "normalizer_s_src": 5.931212349866121e-06,
+    "normalizer_sha256": "23e2c6055388b723580afc0fc774ec24f68d4b223eed09d336f486e4c9f124b6",
+    "plan_npz_sha256": "173f6c0ba4b276f46b485e3dda5c7656daaca4adeaa427a198219a647310db8c",
+    "plan_sha256": "edbe067fdc2a3d668a5c01af20e5f2f2a4862823b6777d359e29427c81708647",
+    "q": 8,
+    "ridge_lambda": 10.0,
+    "source_authority_sha256": "ef89ada380c6329480e6d6ef71715c88bb81c81c124dc4362b48dbd0fd1c891e",
+    "source_sessions": [
+      "ses-19250101T111740",
+      "ses-19250101T112404",
+      "ses-19250108T110520",
+      "ses-19250108T111022",
+      "ses-19250108T111455",
+      "ses-19250113T120811",
+      "ses-19250113T121303",
+      "ses-19250115T110633",
+      "ses-19250115T111328",
+      "ses-19250120T115044",
+      "ses-19250120T115537"
+    ]
+  },
+  "status": "COMPLETE_OUTER_DATE_M3_READOUT_SCORE",
+  "target_backward_steps": 0,
+  "target_model_updates": 0,
+  "target_optimizer_steps": 0,
+  "target_rows": [
+    {
+      "base_r2": 0.2777145478618036,
+      "calibration_prediction_sha256": "3199379c0c76fe04f72c39dd1f231fdd4656b580d4c53b95cea1606f66d81af8",
+      "calibration_target_sha256": "b5b4d808f12c378b16cddf4010c7b12fa33f46a57cb48ebd40679c0fd266ac7b",
+      "calibration_windows": 2487,
+      "date": "19250119",
+      "query_prediction_sha256": "64a0dadfd321237657d34c81936fcd2dd6ef241696e42ac4b4ca17729b671561",
+      "query_target_sha256": "f082d9c14b8ca83c31264ab4edad9249049cb48e0fc4944c1e6b7cee6f31ecc2",
+      "query_windows": 1526,
+      "selected_family": "MAT7",
+      "selected_prediction_shape": [
+        1526,
+        7
+      ],
+      "selected_r2": 0.35484870987659445,
+      "selected_ridge": 1.0,
+      "session": "ses-19250119T113543",
+      "support": {
+        "activity_sha256": "82feb16bdcdb590380fc8ac304ef4960217923677533930505b41bbc4122f7e6",
+        "calibration_input_sha256": "f176ad4e1221843a94b67f87e0676bbcb83b7b1f5e49a58b2ae1d85b30e445d6",
+        "carrier_sha256": "e1aed0483abc65a04d647665732fcc88acdd2ffbc6fd9a1c34e0d33305db25d5",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "template_r2": -0.0035575719739753264
+    },
+    {
+      "base_r2": 0.41734041637994856,
+      "calibration_prediction_sha256": "8432a6dff2dc2593c3c3517804aa78d6ff70f72ce8945b6b9cfb074c95d32eda",
+      "calibration_target_sha256": "332349359c100cdb78e0a1d1542600c623c6d8a58d8193492408c52cf5d38ec6",
+      "calibration_windows": 2378,
+      "date": "19250119",
+      "query_prediction_sha256": "8ff524152b575d82d35af146cd47eb67080ef1b1cfa5efc4b39db385eec2410f",
+      "query_target_sha256": "476584cda3860ebb377ff7e1f90592bd63b2061d0c5b0950c286673e93692502",
+      "query_windows": 1606,
+      "selected_family": "MAT7",
+      "selected_prediction_shape": [
+        1606,
+        7
+      ],
+      "selected_r2": 0.538779249830936,
+      "selected_ridge": 1.0,
+      "session": "ses-19250119T114045",
+      "support": {
+        "activity_sha256": "95bdb80b05a7e3153f78be8c2f454891e603025e81c0125661cb9e5670fbb986",
+        "calibration_input_sha256": "a9548924522750f6217409a9797b37389d22c9a0fe3ef145b87343192ff7d6ac",
+        "carrier_sha256": "88b046c4261c19b22d0a4da90477a9c128d70c95cbb91ada21f0a64df8e36228",
+        "support_trials": [
+          1.0,
+          2.0,
+          3.0
+        ]
+      },
+      "template_r2": -0.0020079990263170977
+    }
+  ],
+  "template_r2": -0.002782785500146212
+}

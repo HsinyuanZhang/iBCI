@@ -1,0 +1,17 @@
+defaults:
+  - _streaming_base_m1
+
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+variant: B3S
+teacher_ckpt_path: ${paths.root_dir}/streaming_calibration_exp/logs/m1_afc4_source_decoder_fold0/runs/2026-08-06-16-15-55-070150_rid-m1_afc4_source_decoder_fold0_dev20_resume_e1r1_fNone_s42/checkpoints/best_ckpt/epoch_018.ckpt
+hidden_dim: 64
+side_dim: 4
+electrode_embed_dim: 0
+num_electrodes: 0
+freeze_decoder: false
+loss_mode: task_only
+lambda_y: 0.0
+lambda_E: 0.0
+decode_last_timestep_only: true
+predict_scaled_behavior: false
+behavior_scaling_factor: 1.0

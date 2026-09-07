@@ -1,0 +1,306 @@
+{
+  "M3_ancillary_organizer_held": {
+    "all_support_design_ranks": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "degenerate_channels_union": [
+      66
+    ],
+    "later_disjoint_reference_blocks_min_median_max": [
+      730,
+      1824.0,
+      1937
+    ],
+    "median_per_channel_W_cosine": 0.23016834417197243,
+    "median_phase_conditional_support_later_reference_W_cosine": {
+      "W0": -0.004913382868798542,
+      "W1": 0.012292464022716481,
+      "W2": -0.01632798394583948,
+      "W3": 0.04955766554922319,
+      "W4": 0.04530816873897692,
+      "W5": 0.03884696590862188,
+      "W6": -0.009883242656203535
+    },
+    "median_phase_vs_global_support_W_cosine": {
+      "W0": 0.05718746378879306,
+      "W1": 0.03976566162150692,
+      "W2": 0.04065197950264036,
+      "W3": 0.022323873511108927,
+      "W4": 0.016741781348084954,
+      "W5": 0.037081206051733824,
+      "W6": 0.01615837444969712
+    },
+    "median_support_later_reference_cosine_across_channels": {
+      "W0": 0.2696512842049861,
+      "W1": 0.16442250549973308,
+      "W2": 0.28103122578882767,
+      "W3": 0.6813294821610743,
+      "W4": 0.43348022947741366,
+      "W5": 0.2482594914586399,
+      "W6": 0.5926068681293889,
+      "b": 0.9943382915116858
+    },
+    "phase_conditioned_fit_status_counts": {
+      "FIT": 60,
+      "INSUFFICIENT_BLOCKS_FOR_Bx8": 15,
+      "RANK_OR_CONSTRUCTIBILITY_FAIL": 13
+    },
+    "support_blocks_min_median_max": [
+      430,
+      458.0,
+      543
+    ],
+    "support_raw_condition_min_median_max": [
+      2042.0656381253232,
+      2469.662214026859,
+      2959.2407225544257
+    ]
+  },
+  "M4_primary_development": {
+    "all_support_design_ranks": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "degenerate_channels_union": [
+      66
+    ],
+    "later_disjoint_reference_blocks_min_median_max": [
+      585,
+      1672.0,
+      1793
+    ],
+    "median_per_channel_W_cosine": 0.23899538721196295,
+    "median_phase_conditional_support_later_reference_W_cosine": {
+      "W0": -0.014587957827586534,
+      "W1": 0.036666189605143805,
+      "W2": 0.04679420919158156,
+      "W3": 0.031859864926670874,
+      "W4": 0.029685054333241822,
+      "W5": 0.025436309109085006,
+      "W6": -0.015809721049596593
+    },
+    "median_phase_vs_global_support_W_cosine": {
+      "W0": 0.04127062643245341,
+      "W1": 0.051372737140914865,
+      "W2": 0.07717740920653846,
+      "W3": 0.04374329979303605,
+      "W4": 0.015465560794710169,
+      "W5": 0.04356933602813448,
+      "W6": 0.029559563371051704
+    },
+    "median_support_later_reference_cosine_across_channels": {
+      "W0": 0.2034887490156102,
+      "W1": 0.2846272906774115,
+      "W2": 0.30938682965599523,
+      "W3": 0.6927474564276493,
+      "W4": 0.4556723350883386,
+      "W5": 0.21434819047041015,
+      "W6": 0.6895768323709425,
+      "b": 0.9945138704338972
+    },
+    "phase_conditioned_fit_status_counts": {
+      "FIT": 64,
+      "INSUFFICIENT_BLOCKS_FOR_Bx8": 14,
+      "RANK_OR_CONSTRUCTIBILITY_FAIL": 10
+    },
+    "support_blocks_min_median_max": [
+      558,
+      601.0,
+      696
+    ],
+    "support_raw_condition_min_median_max": [
+      1572.4971158584622,
+      1965.2341704439718,
+      2452.8914835705477
+    ]
+  },
+  "conclusion": {
+    "action": "Do not prepare GPU arms from this object. Preserve the result as a negative CPU constructibility/reliability result; no threshold was selected from target metrics.",
+    "numerical_constructibility": "PASS: all 11 source records have rank-8 forward designs at both M4 and ancillary M3.",
+    "organizer_held_M3": "M3 is explicitly audited on the same source records. Its W reliability is no better than M4, so this precursor cannot support an organizer-held H1 PCF8 claim.",
+    "reliability": "FAIL: baseline b is near-identical between support and later same-recording reference (~0.994 cosine), whereas signed W columns and per-channel W vectors are not reproducible; phase-conditional W fits are near orthogonal to later phase-matched references and to global support W. This is phase-mixing/temporal-instability evidence, not a decoder-R2 prediction."
+  },
+  "future_controls_if_a_new_object_is_independently_proposed": {
+    "HC4P8": {
+      "carrier": "fresh current labeled H-C descriptor padded as [HC0,HC1,HC2,HC3,0,0,0,0]",
+      "role": "fresh width-8 parameter-matched labeled operational reference, not PCF8-FULL",
+      "training": "separately trained"
+    },
+    "PCF8-B8": {
+      "carrier": "[0,0,0,0,0,0,0,b]",
+      "role": "rate-only width-8 control",
+      "training": "separately trained"
+    },
+    "PCF8-FULL": {
+      "carrier": "[W0,W1,W2,W3,W4,W5,W6,b]",
+      "role": "proposed forward functional carrier",
+      "training": "separately trained"
+    },
+    "PCF8-FULL@RS/LS": {
+      "carrier": "row shuffle or label-shuffle supplied to frozen PCF8-FULL checkpoint",
+      "role": "same-checkpoint attachment/pairing diagnostic only, never a trained endpoint control",
+      "training": "no retraining"
+    },
+    "PCF8-LS": {
+      "carrier": "refit PCF8 after one deterministic fixed-point-free permutation of concatenated 100-ms seven-dimensional velocity rows across the four support trials; neural rates unchanged",
+      "role": "strong wrong neural-kinematic pairing control",
+      "training": "separately trained"
+    },
+    "PCF8-RS": {
+      "carrier": "complete descriptor-row permutation, nonidentity and deterministic per source/target record",
+      "role": "correct channel-attachment control",
+      "training": "separately trained"
+    },
+    "PCF8-Z8": {
+      "carrier": "literal zeros [0x8] at model boundary",
+      "role": "carrier-absence width-8 control",
+      "training": "separately trained"
+    }
+  },
+  "normalization": {
+    "M3": {
+      "applied_scale": [
+        2176.6703740041735,
+        1593.3196346700495,
+        1217.7920327556253,
+        376.77810863252347,
+        214.06134452881898,
+        192.8273438576605,
+        182.82589259598427,
+        15.62963792194883
+      ],
+      "columns_using_machine_floor": [],
+      "floor_required_by_observed_zero_or_subfloor_column": false,
+      "floor_selection_status": "machine_safety_constant_only; any larger floor chosen after these source metrics would be SOURCE_SELECTED_NOT_PREREGISTERED_TARGET_EVIDENCE",
+      "formula": "descriptor / max(source_per_column_population_sd, machine_floor); no centering/subtraction",
+      "literal_zero_rows_preserved_exactly": true,
+      "machine_floor": 1e-12,
+      "raw_source_sd": [
+        2176.6703740041735,
+        1593.3196346700495,
+        1217.7920327556253,
+        376.77810863252347,
+        214.06134452881898,
+        192.8273438576605,
+        182.82589259598427,
+        15.62963792194883
+      ]
+    },
+    "M4": {
+      "applied_scale": [
+        1635.8664930578068,
+        1159.7984533815427,
+        990.0448592895472,
+        351.23084961272605,
+        206.03737072781843,
+        181.66544436890806,
+        180.93564392185368,
+        15.51291433043761
+      ],
+      "columns_using_machine_floor": [],
+      "floor_required_by_observed_zero_or_subfloor_column": false,
+      "floor_selection_status": "machine_safety_constant_only; any larger floor chosen after these source metrics would be SOURCE_SELECTED_NOT_PREREGISTERED_TARGET_EVIDENCE",
+      "formula": "descriptor / max(source_per_column_population_sd, machine_floor); no centering/subtraction",
+      "literal_zero_rows_preserved_exactly": true,
+      "machine_floor": 1e-12,
+      "raw_source_sd": [
+        1635.8664930578068,
+        1159.7984533815427,
+        990.0448592895472,
+        351.23084961272605,
+        206.03737072781843,
+        181.66544436890806,
+        180.93564392185368,
+        15.51291433043761
+      ]
+    }
+  },
+  "raw_audit": {
+    "mode": "0o444",
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/h1_pcf8_precursor/receipts/H1_PCF8_SOURCE_AUDIT_M4_PLUS_M3_v1.json",
+    "sha256": "6209c03261826bf02dac09762304069464d527c38c88313bb396a052a6a516be"
+  },
+  "schema": "h1_pcf8_source_constructibility_summary_v1",
+  "scope": {
+    "gpu_used": false,
+    "source_recordings": 11,
+    "target_backward_steps": 0,
+    "target_decoder_r2_computed": false,
+    "target_recordings_opened": 0
+  },
+  "source_hashes": {
+    "SPINT-main/src/data/h1_lag_screen.py": "351d764d0200a5b63d9e438248367cd7a07f2fc586e86a4ecd418ad271738b79",
+    "SPINT-main/src/data/h1_m4_eb_pilot.py": "8f459b7a06c1b18865fc602b10e46876b4bb1dbf7ecba0fdf8e8f654737c86cb",
+    "SPINT-main/src/models/components/h1_carrierid_spint.py": "fcea04965e8fd80bf84ca290ad3d22971b37df3050f9d178e0ac1c3dc91b4618"
+  },
+  "state_compute_contract": {
+    "calibration_compute": {
+      "accumulate_XtX": "O(B*8^2)",
+      "accumulate_XtY": "O(B*8*176)",
+      "factor_and_solve": "O(8^3 + 8^2*176)",
+      "per_column_scale": "O(176*8)",
+      "target_backpropagation": 0
+    },
+    "calibration_minimal_streaming_sufficient_statistics": {
+      "total_floats": 1472,
+      "total_fp32_bytes": 5888,
+      "xtx_floats": 64,
+      "xty_floats": 1408
+    },
+    "carrier_state": {
+      "cached_descriptor_floats": 1408,
+      "cached_descriptor_fp32_bytes": 5632
+    },
+    "consumer_parameter_delta_if_current_HC_h32_topology_is_widened_4_to_8": {
+      "changed_layer": "carrier_post_pool[0]: Linear(32+carrier_dim,32)",
+      "current_HC_carrier_parameters": 58140,
+      "current_HC_whole_model_parameters": 10947836,
+      "delta_parameters": 128,
+      "proposed_width8_carrier_parameters": 58268,
+      "proposed_width8_whole_model_parameters": 10947964
+    },
+    "optional_raw_calibration_buffer_fp32_M4_documented_range": {
+      "maximum": {
+        "blocks": 696,
+        "bytes": 509472,
+        "floats": 127368
+      },
+      "minimum": {
+        "blocks": 558,
+        "bytes": 408456,
+        "floats": 102114
+      },
+      "representative": {
+        "blocks": 627,
+        "bytes": 458964,
+        "floats": 114741
+      }
+    },
+    "optional_raw_calibration_buffer_fp32_general": {
+      "M3_note": "M3 block counts are reported empirically per source recording by this audit; do not reuse M4 range as an organizer-held M3 claim.",
+      "formula_bytes": "4*B*(176+7)",
+      "formula_floats": "B*(176+7)"
+    },
+    "width_hygiene": "SUA T8 evidence cannot establish no H1 width effect; H1 PCF8 requires HC4P8 and all width-8 controls trained in the same H1 topology."
+  },
+  "status": "FAIL_CPU_RELIABILITY_FORWARD_COEFFICIENTS__NO_GPU_AUTHORIZATION"
+}

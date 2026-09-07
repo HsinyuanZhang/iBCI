@@ -1,0 +1,161 @@
+{
+  "arm": "cenat_chunk100e_tta",
+  "chain": {
+    "checkpoint_body_sha256": "c5672a2bfc94f55729d64e5eeb2f6917162c345713e7102dec4ad371cd147ea2",
+    "payload_sha256": "33181fa3c1543b9af777a17571d9c98d427b7e65d49375716d624e80c99603f3",
+    "training_receipt_sha256": "fe2250867c5a4aca7d876ebda3c01d0633614c02050443340a413a97dba7cd20",
+    "v4_score_sha256": "b7e9ab89b5404ede06f2a758d32e2ad8308ae0d2fb19b2f1e5ff86069fe0eacd"
+  },
+  "payload_bytes": 33469174,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_cenat_chunk100e_v1/artifacts/t4_m2_seed42_cenat_chunk100e_tta.pkl",
+  "schema_version": "m2_cenat_chunk100e_payload_receipt_v1",
+  "sealed_checkpoint": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_cenat_chunk100e_v1/artifacts/Ce-NAT_epoch12.sealed.pt",
+  "session_count": 13,
+  "session_records": {
+    "ses-2020-10-19-Run1": {
+      "dataset_tag": "Run1_20201019",
+      "seed_pool_sha256": "a2c1bc7bbc343c636f586dcb2b5de3448d0f5d6c619f70c64c2d822e3682544f",
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "side_sha256": "568e7dbd0783d466d0f54448cbf7b23c68d070d65ccf78b20add7d0baf8b0adb"
+    },
+    "ses-2020-10-19-Run2": {
+      "dataset_tag": "Run2_20201019",
+      "seed_pool_sha256": "242c67cd4fab966488391c576eb8fd5ca7a1ab5e3e3d70c06b316f004acd5646",
+      "selected_indices": [
+        1,
+        3,
+        9,
+        13
+      ],
+      "side_sha256": "353ef2bc9fa063f0c628c55572535e339a2191f06dfeb2201d1b70bdb2620d43"
+    },
+    "ses-2020-10-20-Run1": {
+      "dataset_tag": "Run1_20201020",
+      "seed_pool_sha256": "33fe367ba021347f6a4db7e260fdba395b7505d9f766a5da5c82b2e114103e62",
+      "selected_indices": [
+        1,
+        5,
+        11,
+        21
+      ],
+      "side_sha256": "4617a51cae5dacda610a9a9e19fda02f7f2e92ea4d4437739bf30e0a67895b4f"
+    },
+    "ses-2020-10-20-Run2": {
+      "dataset_tag": "Run2_20201020",
+      "seed_pool_sha256": "2c8fa7cfe4d9ed60f4912ca3ce4aacff57cdb1f21edebf897b0574ae137ac5d1",
+      "selected_indices": [
+        3,
+        5,
+        9,
+        15
+      ],
+      "side_sha256": "fb51c4164ce90b96e5050e8d71f1371e28d25110dd10e84e4210a90e156c8e16"
+    },
+    "ses-2020-10-27-Run1": {
+      "dataset_tag": "Run1_20201027",
+      "seed_pool_sha256": "7de8544807acc9a0e52c228e2ce052b67bc44201e88ce7904ce050c99994d2ef",
+      "selected_indices": [
+        7,
+        9,
+        13,
+        25
+      ],
+      "side_sha256": "852730f26b2b54d948c911c0db802575fb62008e982cfb592ca569d0080d71bc"
+    },
+    "ses-2020-10-27-Run2": {
+      "dataset_tag": "Run2_20201027",
+      "seed_pool_sha256": "bfe00515dd5fa074ea130960190a5c1947246d2d8c42a2a346651c65ab0a8d82",
+      "selected_indices": [
+        1,
+        5,
+        7,
+        9
+      ],
+      "side_sha256": "4acac107366bf59fc2fb49aa822b79c8ab2dcc14ef988b27b78a0a88e0476959"
+    },
+    "ses-2020-10-28-Run1": {
+      "dataset_tag": "Run1_20201028",
+      "seed_pool_sha256": "61bfff612d9d2be146e4a80f9e0a388d81a06a68991a63575219405dcd3355a8",
+      "selected_indices": [
+        5,
+        7,
+        11,
+        27
+      ],
+      "side_sha256": "d5619c0c63cb012add6e3651ed51829fbd83f1364d6218f8b96b437eb3e43784"
+    },
+    "ses-2020-10-30-Run1": {
+      "dataset_tag": "Run1_20201030",
+      "seed_pool_sha256": "4ff148d42991415749e7fae3ef468e61034593cd0f64aa35631ad308ba5e0f8c",
+      "selected_indices": [
+        1,
+        11,
+        17,
+        23
+      ],
+      "side_sha256": "b312a552214e778152cb2a5ea53fdb1ac351be4ff95144c0c52fefcf370a8104"
+    },
+    "ses-2020-10-30-Run2": {
+      "dataset_tag": "Run2_20201030",
+      "seed_pool_sha256": "d6c6f084a961e9de73be6af214a46515b97534340c81ae2d35e66e30696bccf6",
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "side_sha256": "e263be4b9de3d4a5e7e56a68f148ecedefdd5bc258f1b0f917c1954533fdfe13"
+    },
+    "ses-2020-11-18-Run1": {
+      "dataset_tag": "Run1_20201118",
+      "seed_pool_sha256": "e41610e3c224b1a9c448b48a0b008eb31e0adced98c00084d1865ad27d6848de",
+      "selected_indices": [
+        7,
+        13,
+        17,
+        29
+      ],
+      "side_sha256": "f25de08d7796f2d3ca1508d77dc8d0afaa6bc0efe5b711da3a1cd1c242d3bc9a"
+    },
+    "ses-2020-11-19-Run1": {
+      "dataset_tag": "Run1_20201119",
+      "seed_pool_sha256": "12cc011aa8d06aafccc9d934ba772ed503998653540e6776891bb6fac5d4a52f",
+      "selected_indices": [
+        3,
+        15,
+        17,
+        19
+      ],
+      "side_sha256": "c7dbb2819c36e5ac9b24b4150ca666e567d494f25f7e576d1d2c406732654a45"
+    },
+    "ses-2020-11-24-Run1": {
+      "dataset_tag": "Run1_20201124",
+      "seed_pool_sha256": "dd583bc2a2d3fd3323e23bfce1188cda584f5700db31bb56328c8cfc9aee984a",
+      "selected_indices": [
+        1,
+        3,
+        7,
+        17
+      ],
+      "side_sha256": "0eda39d92358fcf939a8500cb8fc906fa87f21874b8fb9a0ed7e3c5202d2b0a4"
+    },
+    "ses-2020-11-24-Run2": {
+      "dataset_tag": "Run2_20201124",
+      "seed_pool_sha256": "994395f3c4ff66ebb87d9f9d06d3489786a050a5e4697834e813b79bda8167e5",
+      "selected_indices": [
+        3,
+        9,
+        11,
+        21
+      ],
+      "side_sha256": "37d8469d3e1a3c7126b0a5886723ba56acc4724d881308379c372062789bbce1"
+    }
+  },
+  "status": "EXPORTED_NOT_SUBMITTED",
+  "test_time_adaptive": true
+}

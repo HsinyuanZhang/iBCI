@@ -3,7 +3,7 @@ Adapted from the FALCON challenge repo (https://github.com/snel-repo/falcon-chal
 Copyright (c) 2024-2026 University of Washington. Developed in UW NeuroAI Lab by Trung Le.
 """
 import io
-from typing import List
+from typing import Iterable, List
 import argparse
 import pickle
 import numpy as np
@@ -121,7 +121,16 @@ class SpintDecoder(BCIDecoder):
 
 
 def main(task, checkpoint_dir, calibration_dir, save_path,
-         max_trial_length, window_size, use_calib_intertrials, calib_start_trial_idx, calib_n_trials, trial_feature_type, behavior_scaling_factor, interpolate_trials, interpolate_trials_kind, smooth_calibration):
+         max_trial_length, window_size, use_calib_intertrials, calib_start_trial_idx, calib_n_trials, trial_feature_type, behavior_scaling_factor, interpolate_trials, interpolate_trials_kind, smooth_calibration,
+         calibration_files: Iterable[str | Path] | None = None):
+    """Package a trained decoder with trialized neural calibration features.
+
+    ``calibration_files`` is an optional explicit allowlist for audited callers.
+    The original CLI behaviour is preserved when it is ``None``: every
+    ``*calib*.nwb`` below ``calibration_dir`` is discovered as before.  Supplying
+    a list deliberately bypasses that recursive discovery, which lets a
+    protocol bind a package to an exact set of public calibration recordings.
+    """
     checkpoint_dir = Path(checkpoint_dir)
     calibration_dir = Path(calibration_dir)
     task_config = FalconConfig(task=FalconTask.__dict__[task])
@@ -132,18 +141,29 @@ def main(task, checkpoint_dir, calibration_dir, save_path,
     model.eval()
     model = model.to('cpu')
 
-    # prepare calibration data:
-    calibration_datafiles = sorted(list(calibration_dir.rglob('*calib*.nwb')))
+    # Prepare calibration data.  Keep the historical recursive discovery path
+    # for the public CLI, while allowing an audited caller to provide a closed
+    # file list and avoid silently absorbing another calibration file.
+    if calibration_files is None:
+        calibration_datafiles = sorted(calibration_dir.rglob('*calib*.nwb'))
+    else:
+        calibration_datafiles = [Path(path).resolve() for path in calibration_files]
+        if not calibration_datafiles:
+            raise ValueError("explicit calibration_files may not be empty")
+        if len(set(calibration_datafiles)) != len(calibration_datafiles):
+            raise ValueError("explicit calibration_files contains duplicate paths")
     calib_trial_features = {}
     for f in calibration_datafiles:
         fn = task_config.hash_dataset(f.stem)
-        neural, covariates, calib_trial_change, calib_eval_mask = load_nwb(f, task_config.task)
+        neural, _covariates, calib_trial_change, calib_eval_mask = load_nwb(f, task_config.task)
         neural = neural.astype(np.float32)
-        covariates = covariates.astype(np.float32)
         if smooth_calibration:
             neural = apply_exponential_filter(neural, tau=NEURAL_TAU_MS, bin_size=task_config.bin_size_ms).astype(np.float32)
         if not use_calib_intertrials:
-            neural, covariates, calib_trial_change = neural[calib_eval_mask], covariates[calib_eval_mask], calib_trial_change[calib_eval_mask]
+            # Calibration identity features are neural-only.  Covariates are
+            # returned by the common loader but never transformed, inspected,
+            # or serialized by this exporter.
+            neural, calib_trial_change = neural[calib_eval_mask], calib_trial_change[calib_eval_mask]
 
         trial_starts = np.where(calib_trial_change == True)[0]
         calib_trialized_neural = []
@@ -191,6 +211,7 @@ def main(task, checkpoint_dir, calibration_dir, save_path,
     }
     with open(save_path, 'wb') as f:
         pickle.dump(decoder_obj, f)
+    return decoder_obj
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

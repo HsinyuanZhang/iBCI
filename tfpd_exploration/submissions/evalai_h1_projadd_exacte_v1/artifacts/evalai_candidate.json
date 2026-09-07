@@ -1,0 +1,17 @@
+{
+  "arm": "h1_projadd_stage2_s42_ema_e24_L200_w0",
+  "budget_disclosure": "H1 CAL-1 deploy M3 (budget=3); C2 e15 frozen materializer; static banks; no TTA. Checkpoint is preregistered endpoint24 EMA. Local minival is diagnostic only.",
+  "evalai_opened": false,
+  "hold_reason": "authorized overnight quota fill before EvalAI daily reset",
+  "image_id": "sha256:711cc5d84df90524218a48262392fa8508f6ada0665c6329e4a6d7fe5287e648",
+  "image_size": 9753420224,
+  "image_tag": "spint-t4-h1:projadd-s42-ema-e24-L200-w0-7a478342",
+  "method_description": "H1 proj_add CausalPE4 stage-2 full-13 retrain, seed 42, endpoint24 EMA, L=200. CAL-1 deploy M3 (budget=3). Official HO unread; minival13 EMA eq 0.587 is diagnostic after the all-13 retrain. Exact-E, dataloader_workers=0. Chosen over +8 (0.586).",
+  "method_label": "H1 proj_add CausalPE4 stage-2 full-13 retrain (seed42 EMA e24 L=200) exact-E w0; not SPINT; not a C2 identity swap",
+  "method_name": "H1 proj_add stage-2 EMA e24 L200 exact-E w0",
+  "payload_sha256": "7a4783426e361101c9a70062dc7789879e607b2b0eeea3584a3c3fd639991f92",
+  "register": false,
+  "selection_mean": 0.5871919998496301,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_projadd_exacte_v1/artifacts/evalai_push_state.json",
+  "window": 200
+}

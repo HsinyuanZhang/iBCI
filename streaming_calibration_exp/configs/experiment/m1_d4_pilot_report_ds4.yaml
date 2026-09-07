@@ -1,0 +1,15 @@
+# @package _global_
+# Test-only DS4 evaluation on the predeclared sealed report window [210,end).
+defaults:
+  - m1_d4_pilot_ds4
+  - override /model: streaming_b3s_t4_m1_correction_source_exact
+
+run_id: m1_d4_pilot_v1_report_ds4_m1
+tags: ["native-mua", "ds4", "m1", "d4-pilot", "report", "test-only"]
+
+train: false
+test: true
+
+data:
+  heldin_query_start_trial: 210
+  heldin_query_end_trial: null

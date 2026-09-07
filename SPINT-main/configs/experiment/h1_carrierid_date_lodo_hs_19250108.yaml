@@ -1,0 +1,34 @@
+# @package _global_
+defaults:
+  - override /data: falcon_h1_carrierid_date_lodo_phase2
+  - override /model: falcon_h1_carrierid_date_lodo_hs
+  - override /callbacks: h1_carrierid_date_lodo_phase2_terminal
+
+protocol_id: h1_carrierid_date_lodo_phase2_hs_19250108_source_only_v1
+task_name: h1_carrierid_date_lodo_hs_19250108
+tags: [h1, carrierid, date_lodo, source_only, hs, seed42, e49]
+seed: 42
+train: true
+test: false
+ckpt_path: null
+logger: false
+
+phase2:
+  outer_date: "19250108"
+  arm: H-S
+  phase1_preflight_path: ${paths.work_dir}/pilot_artifacts/h1_carrierid_date_lodo_phase1/H1_CARRIERID_DATE_LODO_SOURCE_PREFLIGHT_v1.json
+  pair_preflight_path: ${paths.work_dir}/pilot_artifacts/h1_carrierid_date_lodo_phase2/H1_CARRIERID_DATE_LODO_PHASE2_19250108_PAIR_CPU_PREFLIGHT_v2.json
+  warm_start_forbidden: true
+  target_evaluator_status: NOT_IMPLEMENTED
+
+trainer:
+  accelerator: gpu
+  devices: 1
+  max_epochs: 50
+  min_epochs: 50
+  precision: 32-true
+  deterministic: false
+  enable_checkpointing: true
+  limit_val_batches: 0
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 1

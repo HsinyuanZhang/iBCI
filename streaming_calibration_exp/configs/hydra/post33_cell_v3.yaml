@@ -1,0 +1,15 @@
+defaults:
+  - override hydra_logging: colorlog
+  - override job_logging: colorlog
+
+run:
+  dir: ${cell_paths.cell_dir}
+sweep:
+  dir: ${cell_paths.cell_dir}/multirun
+  subdir: ${hydra.job.num}
+
+job_logging:
+  handlers:
+    file:
+      filename: ${hydra.runtime.output_dir}/${task_name}.log
+

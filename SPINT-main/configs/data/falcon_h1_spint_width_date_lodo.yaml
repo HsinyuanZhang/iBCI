@@ -1,0 +1,14 @@
+# Sealed date-LODO source route.  Batches are activity-only M=4 tuples.
+_target_: src.data.h1_spint_width_date_lodo.H1SpintWidthDateLodoSourceDataModule
+task: h1
+data_dir: ${paths.data_dir}/000954
+phase1_preflight_path: ${width_date.phase1_preflight_path}
+outer_date: ${width_date.outer_date}
+batch_size: 32
+window_size: 700
+calibration_n_trials: 4
+max_trial_length: 1024
+seed: 42
+fixed_epochs: 50
+num_workers: 0
+pin_memory: false

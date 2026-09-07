@@ -1,0 +1,78 @@
+{
+  "canonical_content_sha256": "474af1818c56b26beed672acfa03e565a80363a437c52ab1ef038f75eea5b7a5",
+  "classes": {
+    "legacy_reference": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceLOSODataModule",
+    "source_only_fit": "src.data.m1_version_b_source_loso_datamodule.M1VersionBSourceOnlyFitDataModule"
+  },
+  "parent_v2_receipt": {
+    "path": "/home/xinyuan/Work_host/SPINT/sua_exploration/m1_compact_replication/results/M1_COMPACT_B3S_F1_S42_STAGED_RECEIPT_v2.json",
+    "sha256": "b435c2cdd63537dd814710a744b452ececce95c493a2fbc31812fcdef8085c43"
+  },
+  "representative_samples": {
+    "0": {
+      "legacy_digest": "53969e6e0b346ca3db0c55c8777af05d873f599f75e25d0735d345f715ce0b89",
+      "side_exact_zero": true,
+      "source_digest": "53969e6e0b346ca3db0c55c8777af05d873f599f75e25d0735d345f715ce0b89"
+    },
+    "158859": {
+      "legacy_digest": "f7792a9e6fea10099471dbaae934a2c2e466169d3b9b074b3b22d79944b8cd0a",
+      "side_exact_zero": true,
+      "source_digest": "f7792a9e6fea10099471dbaae934a2c2e466169d3b9b074b3b22d79944b8cd0a"
+    },
+    "79430": {
+      "legacy_digest": "6a3ed5d07dbe7fa0fe2fd9a7c03fc28a266456b051b880b9bd1a0e33b8a4de76",
+      "side_exact_zero": true,
+      "source_digest": "6a3ed5d07dbe7fa0fe2fd9a7c03fc28a266456b051b880b9bd1a0e33b8a4de76"
+    }
+  },
+  "sampler": {
+    "equal": true,
+    "legacy_batch_counts": {
+      "ses-20120924": 1714,
+      "ses-20120927": 1538,
+      "ses-20120928": 1711
+    },
+    "legacy_sha256": "d706e2a28e021936757be99f98a67920120ce5c12ca2f6bed773258315dfbe3e",
+    "legacy_windows": 158816,
+    "source_batch_counts": {
+      "ses-20120924": 1714,
+      "ses-20120927": 1538,
+      "ses-20120928": 1711
+    },
+    "source_sha256": "d706e2a28e021936757be99f98a67920120ce5c12ca2f6bed773258315dfbe3e",
+    "source_windows": 158816
+  },
+  "schema": "m1_compact_b3s_f1_s42_source_fit_equivalence_v1",
+  "scope": {
+    "arm": "b3s_zero4",
+    "fold": 1,
+    "seed": 42,
+    "source_sessions": [
+      "ses-20120924",
+      "ses-20120927",
+      "ses-20120928"
+    ],
+    "target_session": "ses-20120926",
+    "target_values_opened_by_audit": false,
+    "target_values_used": false,
+    "task": "m1"
+  },
+  "source_only_guard": {
+    "source_prepare_sessions": [
+      "ses-20120924",
+      "ses-20120927",
+      "ses-20120928"
+    ],
+    "target_nwb_opened": false,
+    "target_path_attribute_absent": true,
+    "target_prepare_calls_in_legacy_guarded_reference": [
+      "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb"
+    ]
+  },
+  "status": "PASS_M1_COMPACT_B3S_F1_S42_SOURCE_FIT_EQUIVALENT",
+  "train_dataset": {
+    "equal": true,
+    "legacy_len": 158860,
+    "source_only_len": 158860
+  }
+}

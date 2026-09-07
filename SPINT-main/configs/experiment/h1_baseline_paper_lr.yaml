@@ -1,0 +1,34 @@
+# @package _global_
+# Named paper-learning-rate reproduction: Adam lr=1e-5.
+defaults:
+  - override /data: falcon_h1_baseline
+  - override /model: falcon_h1_baseline
+  - override /callbacks: h1_baseline_fixed_epoch
+
+protocol_id: spint_h1_baseline_reproduction_v1
+protocol_variant: paper_lr_1e-5
+comparison_role: appendix_paper_reference
+task_name: h1_baseline_paper_lr
+tags: [h1, baseline, spint, heldin_only, paper_lr_1e-5]
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: null
+logger: false
+
+model:
+  optimizer:
+    lr: 1.0e-5
+
+trainer:
+  max_epochs: 50
+  min_epochs: 50
+  accelerator: gpu
+  devices: 1
+  precision: 32-true
+  # Match the released trainer default; seed=42 still fixes the declared RNG
+  # streams, while deterministic kernels are not claimed by the paper run.
+  deterministic: false
+  check_val_every_n_epoch: 1
+  enable_checkpointing: true

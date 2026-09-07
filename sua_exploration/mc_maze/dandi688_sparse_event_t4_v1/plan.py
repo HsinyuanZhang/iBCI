@@ -1,0 +1,136 @@
+"""Frozen, CPU-safe contract constants for sparse-event T4 / FiLM V1."""
+from __future__ import annotations
+
+from pathlib import Path
+
+ROUTE_NAME = "dandi688_sparse_event_t4_v1"
+SCHEMA_VERSION = 1
+
+DESIGN_RELATIVE = "sua_exploration/docs/DESIGN_DANDI_000688_SPARSE_EVENT_T4_FILM_V1_20260904.md"
+DESIGN_SHA256 = "56982085d4cc7c4e06d29d79a3701e8e6f6d93d08955ceff4c09737bef956705"
+WORKORDER_RELATIVE = "sua_exploration/docs/WORKORDER_DANDI_000688_SPARSE_EVENT_T4_FILM_V1_20260904.md"
+WORKORDER_SHA256 = "18cc4dde507a41b3853cb6b5a6bd6f9f5c3d47b0837e26949433803ce427c6d2"
+MANIFEST_RELATIVE = "sua_exploration/configs/subc_co_27_6_strict_train_val_manifest.json"
+MANIFEST_SHA256 = "4607e979c6c2ff451c147a8d9878fe1080b9d3e9bbc7304b559616eb2a13a0c9"
+PHYSICAL_GPU_UUIDS = {
+    0: "GPU-ac7388a5-2e98-300a-fdb3-0b67bfd494d9",
+    1: "GPU-2220ed5d-25ea-1839-28d7-ad4dfa5f6c86",
+}
+DATA_RELATIVE = "sua_exploration/data/dandi_000688/sub-C"
+RESULT_PARENT_RELATIVE = "sua_exploration/results/dandi688_sparse_event_t4_v1"
+STAGE0_RELATIVE = RESULT_PARENT_RELATIVE + "/stage0"
+STAGE0_SUPPLEMENT_RELATIVE = RESULT_PARENT_RELATIVE + "/stage0_supplement_v1"
+STAGE3_RELATIVE = RESULT_PARENT_RELATIVE + "/stage3"
+FINAL_AGGREGATE_RELATIVE = RESULT_PARENT_RELATIVE + "/aggregate"
+STAGE3_PSEUDO_MUA_AGGREGATE_NAME = "stage3_pseudo_mua.json"
+MASK_AUTHORITY_RELATIVE = "sua_exploration/docs/DESIGN_DANDI_000688_SPARSE_EVENT_T4_FILM_STAGE0_MASK_AUTHORITY_V1_20260904.md"
+MASK_AUTHORITY_SHA256 = "7a5a4cf505a31e12b423059e8a2df0de7ff534d6301ed3409a8064584088bb54"
+STAGE1_SUCCESSOR_INCIDENT_RELATIVE = "sua_exploration/docs/INCIDENT_DANDI_000688_SPARSE_EVENT_T4_FILM_STAGE1_V1_20260904.md"
+STAGE1_SUCCESSOR_INCIDENT_SHA256 = "baf7e989c5439239a1214aa083fa06ad6d825b32fc1a9b45dafeb679b853841c"
+STAGE1_V3_INCIDENT_RELATIVE = "sua_exploration/docs/INCIDENT_DANDI_000688_SPARSE_EVENT_T4_FILM_STAGE1_V2_20260904.md"
+STAGE1_V3_INCIDENT_SHA256 = "badc692a65c0708d1ab4da8427d92b365b04ff50b50ac0889b3ed01a0a991a23"
+STAGE1_SUCCESSOR_RELATIVE = RESULT_PARENT_RELATIVE + "/stage1_v3"
+STAGE2_V2_INCIDENT_RELATIVE = "sua_exploration/docs/INCIDENT_DANDI_000688_SPARSE_EVENT_T4_FILM_STAGE2_V1_20260904.md"
+STAGE2_V2_INCIDENT_SHA256 = "92312d26628d710b0f7922495b79ae06d379351dd822b9d2259cb0917b609384"
+STAGE2_V2_RELATIVE = RESULT_PARENT_RELATIVE + "/stage2_v2"
+STAGE2_V1_INTERRUPTED_ATTEMPTS = {
+    "estimator": {44: "4a89bdbf837cdf25c5d39708b5c4511f554a64fa698adcea6c192d55020d42e0"},
+    "film": {42: "17571373cde77c77375cf594fd63d80019c34b18b980af1e1d9e755e80d45bb9"},
+}
+STAGE2_V3_INCIDENT_RELATIVE = "sua_exploration/docs/INCIDENT_DANDI_000688_SPARSE_EVENT_T4_FILM_STAGE2_V2_20260904.md"
+STAGE2_V3_INCIDENT_SHA256 = "9a76a3228768878d5c3e4ab3524af7c3456e53eb87753b0cf8cd815faa854054"
+STAGE2_V3_RELATIVE = RESULT_PARENT_RELATIVE + "/stage2_v3"
+STAGE2_V2_INTERRUPTED_ESTIMATOR = {
+    "attempt_sha256": "c6b85f67d7029d6a338b0966d77bc6d1bffa1479dd3cc0066275547411e6cf85",
+    "failure_sha256": "95103d16b9b0013b8e6df4f446e84f5835647d5baaf7b6707c0b1e1bd67e3477",
+}
+STAGE1_V1_FAILURE_WITNESSES = {
+    42: {
+        "root": RESULT_PARENT_RELATIVE + "/stage1/sua/seed42",
+        "attempt_sha256": "13f057b55b58b4338441bb9409f5ab19d75c9b892390939a5b251157e228b481",
+        "failure_sha256": "cc1d71826cf3db5184578b80872a8636f704219c579a384b9c51931103183353",
+    },
+    43: {
+        "root": RESULT_PARENT_RELATIVE + "/stage1/sua/seed43",
+        "attempt_sha256": "32bbe68030a7e19101d9610e5675c06696e2e4115912f1144f409978069faa43",
+        "failure_sha256": "87712acc8a4ded570dee9c0c5d5f3a1313568e244aea8cb2c12eeb2e37d67218",
+    },
+}
+STAGE1_V2_FAILURE_WITNESSES = {
+    42: {
+        "root": RESULT_PARENT_RELATIVE + "/stage1_v2/sua/seed42",
+        "attempt_sha256": "9eff68b6cdba7a97ba660d9eff138673bb4eb360680103f1a20125ce760d8fd1",
+        "failure_sha256": "eefbb33d2b86e87934d1940bbc91415f0d1c2fe53dcd974ba4e2427f82e140fd",
+    },
+    43: {
+        "root": RESULT_PARENT_RELATIVE + "/stage1_v2/sua/seed43",
+        "attempt_sha256": "37c0ccab9835254d06df636174f26308a9fff5fa141f28571e878b3cad5b1abb",
+        "failure_sha256": "0f5be1c791cbba11f92c1462aab4edb4d7551ee3835992f503b5cad56250332a",
+    },
+}
+PRODUCTION_PYTHONPATH = "/home/xinyuan/Work_host/SPINT/sua_exploration:/home/xinyuan/Work_host/SPINT/streaming_calibration_exp:/home/xinyuan/Work_host/SPINT"
+TEACHER_RELATIVE = "sua_exploration/checkpoints/teacher_mc_maze/best-epoch=083-val_heldin/r2_mean=0.9061.ckpt"
+TEACHER_SHA256 = "9b4a94ca890042ca3570ec2fceedcc7597a64bc42a70d87182739d0aa9ee831d"
+
+PARENT_RELATIVE = {
+    42: "sua_exploration/checkpoints/sua_spint_t4_mainline_fp32_v1_t4_dandi688_co_s42/epoch_ckpts/epoch_011.ckpt",
+    43: "sua_exploration/checkpoints/sua_spint_t4_mainline_fp32_v1_t4_dandi688_co_s43/epoch_ckpts/epoch_011.ckpt",
+    44: "sua_exploration/checkpoints/sua_spint_t4_mainline_fp32_v1_t4_dandi688_co_s44/epoch_ckpts/epoch_011.ckpt",
+}
+PARENT_SHA256 = {
+    42: "2a50fb2072f0fc76057c22639615a37a21cfa9b83c282cd7fb5e5482b40a199d",
+    43: "2126ee843d1b90ce2273f52be81f414f1cd9bc9241f965203445a86981fa7ec5",
+    44: "654b5423e3f4450d9cf6f4135ddbe1d425e3a2f5e114948d4fb2792f029aa5a7",
+}
+
+BIN_SIZE_MS = 20
+WINDOW_SIZE_BINS = 50
+REWARDED_RESULT = "R"
+CARRIER_PROFILE_LABEL_HORIZON = 10
+# Compatibility-facing name for route adapters.  It is intentionally a
+# separate constant from ACTIVITY_SUPPORT_N and QUERY_START_TRIAL, never an
+# overloaded ``calibration_n_trials`` argument.
+CANDIDATE_POOL_N = CARRIER_PROFILE_LABEL_HORIZON
+ACTIVITY_SUPPORT_N = 30
+QUERY_START_TRIAL = 50
+H300_SECONDS = 0.300
+R700_SECONDS = 0.700
+PROFILE_DIM = 4
+T4_DIM = 4
+PROFILE_COLUMN_NAMES = ("a_R", "c_R", "m_R", "delta_b")
+SEEDS = (42, 43, 44)
+EPOCHS = 12
+AVERAGE_EPOCHS_ZERO_BASED = (8, 9, 10, 11)
+FILM_RANK = 8
+HIDDEN_DIM = 64
+CONTEXT_DIM = 8
+FILM_PARAMETERS = 1224
+FILM_HEAD_LEARNING_RATE = 3.0e-4
+STAGE2_BASE_LEARNING_RATE = 1.0e-4
+NORMALIZER_SCALE_FLOOR = 1.0e-6
+ROW_SHUFFLE_DOMAIN = "DANDI688_SPARSE_EVENT_T4_FILM_V1/ROW_SHUFFLE"
+
+ERA_NO_DELAY_UPPER_SECONDS = 0.05
+ERA_SHORT_DELAY_UPPER_SECONDS = 0.60
+ERA_EXPECTED_COUNTS = {
+    "no_delay": {"train": 9, "val": 0},
+    "short_delay": {"train": 5, "val": 0},
+    "long_delay": {"train": 13, "val": 6},
+}
+
+SPLIT_HALF_MIN_FINITE_SESSIONS = 24
+SPLIT_HALF_FISHER_Z_MIN = 0.50
+SPLIT_HALF_MEDIAN_MIN = 0.40
+SPLIT_HALF_POSITIVE_MIN = 20
+REFERENCE_FISHER_Z_MIN = 0.40
+REFERENCE_MEDIAN_MIN = 0.30
+REFERENCE_POSITIVE_MIN = 18
+
+STAGE1_ESTIMATOR_ARMS = ("WHOLE-PARENTNORM", "WHOLE-M10NORM", "POST700-M10NORM")
+STAGE1_FILM_ARMS = ("WHOLE-NATIVE", "EMPTY", "PHASE-R", "SE-T4", "ROW-SHUFFLE")
+STAGE2_ESTIMATOR_ARMS = ("WHOLE-T4", "POST700-T4")
+STAGE2_FILM_ARMS = STAGE1_FILM_ARMS
+
+
+def path(repo_root: Path, relative: str) -> Path:
+    return Path(repo_root) / relative

@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - override /data: falcon_m2_post33_confirm_v1
+  - override /model: falcon_m2
+  - override /callbacks: post33_source_only
+
+task_name: m2_native_post33_confirm_v1_spint
+tags: ["m2", "native-mua", "post33", "outer-loso", "source-only-selection"]
+train: true
+test: false
+ckpt_path: null
+clean_teacher_mode: false
+optimized_metric: val_heldin/r2_mean
+
+trainer:
+  max_epochs: 35
+
+model:
+  scheduler: null
+  clean_teacher: false
+  scheduler_monitor: val_heldin/r2_mean
+

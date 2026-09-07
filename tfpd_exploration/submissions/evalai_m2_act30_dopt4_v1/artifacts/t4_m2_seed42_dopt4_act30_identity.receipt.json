@@ -1,0 +1,909 @@
+{
+  "activity_budget": 30,
+  "arm": "dopt4_static_act30",
+  "checkpoint_sha256": "25d7bc72b4d440004b58f1beaeadb7e15565a43e83dd1eadd160374270ec1d3e",
+  "label_budget": 4,
+  "max_direct_vs_cached_identity_abs": 0.0,
+  "max_direct_vs_decoder_only_abs": 0.0,
+  "normalization_sha256": "d17f5f4c4d106b9f19493be6f5f06846c01e917f408f516e630f5e8f09d1539e",
+  "normalized_lambda": 0.1,
+  "payload_bytes": 18646266,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_act30_dopt4_v1/artifacts/t4_m2_seed42_dopt4_act30_identity.pkl",
+  "payload_sha256": "e4ff17e857c0bab9bbd900bc737ca7c48476a44ed03725cefc5377d92b959261",
+  "prior_deployed_identity_sha256_matches": 0,
+  "prior_deployment_receipt": "sua_exploration/evalai_t4_m2_activity_budget/artifacts/t4_m2_seed42_ridge_m4_activity30_identity.receipt.json",
+  "schema_version": "m2_dopt4_act30_official_payload_receipt_v1",
+  "sealed_external_activity30_m4_equal_session_mean": 0.2909923623168425,
+  "sealed_screen_result": "tfpd_exploration/results/m2_t4_activity_budget_screen_v1/score.json",
+  "sealed_screen_sha256": "6bdad93328ba26c12b8aa3afffcbc3490c312dfe22939b3d3bb3c5ec5b9005ce",
+  "sealed_within_activity30_m4_equal_session_mean": 0.6772200181830803,
+  "session_count": 13,
+  "session_records": {
+    "ses-2020-10-19-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "a2c1bc7bbc343c636f586dcb2b5de3448d0f5d6c619f70c64c2d822e3682544f",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201019",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "5bd41c5d29dddbba11c71eb1b9124a64e8b1032d2217a1cd8cce0c48072fc3aa",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "41248f335e927249f2d2becaa8a42b79bfe004e82a6016a9e389de78f6bd052f",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.7117805780281574,
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "a2c1bc7bbc343c636f586dcb2b5de3448d0f5d6c619f70c64c2d822e3682544f",
+        "activity_sha256_screen_law": "2b6e2deaec99fc874dd87aec616972701a00f891de7039134621bb8daee5ff46",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.3017304132678513,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "baee7e660e1d9e9333371c2f358f9167271020b15b0a59f0c67d0c02af0bbe24",
+        "raw_t4_sha256": "493434ec1230c3d27405e01cf5b91d96d954ee4bdf0f1708911efa040eea7085",
+        "residual_sum_squares": 0.5739675969633494,
+        "selected_indices": [
+          1,
+          3,
+          11,
+          13
+        ],
+        "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            11,
+            13
+          ]
+        },
+        "trace_hat": 2.620778102143555,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "568e7dbd0783d466d0f54448cbf7b23c68d070d65ccf78b20add7d0baf8b0adb",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-19-Run2": {
+      "activity_budget": 30,
+      "activity_sha256": "242c67cd4fab966488391c576eb8fd5ca7a1ab5e3e3d70c06b316f004acd5646",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201019",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "49689bc5bd33ec73c347e78f1dbdaca6e003669b64849fa819c935a5a064b1f0",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "2f34d914c74e3066cc11186fcbf562b8d0c52b8d782a0331d31dc6de07a38f7c",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.6677230167099124,
+      "selected_indices": [
+        1,
+        3,
+        9,
+        13
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "242c67cd4fab966488391c576eb8fd5ca7a1ab5e3e3d70c06b316f004acd5646",
+        "activity_sha256_screen_law": "5a1ed15df9e906cde5cd9d1908d95dc40c235c74cc695ccdfb2fc2da58fa0564",
+        "budget": 4,
+        "design_condition": 2.4518965940478226,
+        "design_rank": 3,
+        "gcv": 0.11816070744845396,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "bd7423b1d7713b7dcb5ceb95b0945f049c4c3b436d120ce8f050cfc4c5514620",
+        "raw_t4_sha256": "888c8c7a8eb4130f240a63646871cba3bf7020c7094b65796b7e0d183a9eec59",
+        "residual_sum_squares": 0.21742673737321266,
+        "selected_indices": [
+          1,
+          3,
+          9,
+          13
+        ],
+        "selected_indices_sha256": "ed0f3689b22a1e606437e4274b3b46769bde3dbc983994ce8b25ad97b0b7209d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            9,
+            13
+          ]
+        },
+        "trace_hat": 2.643499577805863,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "353ef2bc9fa063f0c628c55572535e339a2191f06dfeb2201d1b70bdb2620d43",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-20-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "33fe367ba021347f6a4db7e260fdba395b7505d9f766a5da5c82b2e114103e62",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201020",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "9f7935b21ee4c0da4455ff5013be6428818634df7d8ea9d705823390373b1385",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "031eca3d746921eeb07bd92ed2256f0892f9d3c76987ab1fb3035550ec5f8735",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.6629580185854811,
+      "selected_indices": [
+        1,
+        5,
+        11,
+        21
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "33fe367ba021347f6a4db7e260fdba395b7505d9f766a5da5c82b2e114103e62",
+        "activity_sha256_screen_law": "3cff74d4d3b4fc2257fb3f005b54bc345bc7af0a147bac93dfef7ca8bbeaf9c6",
+        "budget": 4,
+        "design_condition": 1.6666666859848176,
+        "design_rank": 3,
+        "gcv": 0.3460966695907115,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "d88bbe80cfc81c9b0048f3ddef698659f6932d05c305f037d2db0db72057a06a",
+        "raw_t4_sha256": "2a8693cfa502ca85d2c26c3393add7db0b301c293023cbffd979775c59b702e0",
+        "residual_sum_squares": 0.615282968161265,
+        "selected_indices": [
+          1,
+          5,
+          11,
+          21
+        ],
+        "selected_indices_sha256": "aa3ea5f5ce1828e403999e209206f04ae7de331c568d05d9b32b58b8bea1f136",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            5,
+            11,
+            21
+          ]
+        },
+        "trace_hat": 2.6666666666666665,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "4617a51cae5dacda610a9a9e19fda02f7f2e92ea4d4437739bf30e0a67895b4f",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-20-Run2": {
+      "activity_budget": 30,
+      "activity_sha256": "2c8fa7cfe4d9ed60f4912ca3ce4aacff57cdb1f21edebf897b0574ae137ac5d1",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201020",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "e7d74089903b871f764188691fd9a396141b44a52239408aeaa7cd517b902c3e",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "c7b0908073979859e36bd48882aa74b129ab46d4a70e297cf27a2ccfca866d1c",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.6575873104070054,
+      "selected_indices": [
+        3,
+        5,
+        9,
+        15
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "2c8fa7cfe4d9ed60f4912ca3ce4aacff57cdb1f21edebf897b0574ae137ac5d1",
+        "activity_sha256_screen_law": "27c36e9778746fdeabaab87b7ce60b898254f9ea684bee91273ade7934e8faf0",
+        "budget": 4,
+        "design_condition": 2.4518965940478226,
+        "design_rank": 3,
+        "gcv": 0.3794309514002862,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "dbf3e0c0015ea9e8e1d49be45789ecab56fb42503f96927894c3553da87b5369",
+        "raw_t4_sha256": "47a672f4e547c44be6a586a2381d1125ce11a25b10d4f168df9c4b91cd59cd51",
+        "residual_sum_squares": 0.6981883876868891,
+        "selected_indices": [
+          3,
+          5,
+          9,
+          15
+        ],
+        "selected_indices_sha256": "6ed924ee20f5e86c7404918a1661475b5db6eb69df66215945579909e4422d25",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            3,
+            5,
+            9,
+            15
+          ]
+        },
+        "trace_hat": 2.643499577805863,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "fb51c4164ce90b96e5050e8d71f1371e28d25110dd10e84e4210a90e156c8e16",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-27-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "7de8544807acc9a0e52c228e2ce052b67bc44201e88ce7904ce050c99994d2ef",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201027",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "de4e8c2f4d3cf25f7114f149f34163b35d4aba8ab66b1c1c0a932772f61cb66e",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "c587f2ed137dea2bbe24ae2a3598cd98da3a41cbf20bf66f91bbf920713081e2",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.6540459766824476,
+      "selected_indices": [
+        7,
+        9,
+        13,
+        25
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "7de8544807acc9a0e52c228e2ce052b67bc44201e88ce7904ce050c99994d2ef",
+        "activity_sha256_screen_law": "18985e4e148c543a2c5cd1358d1daf1371a67f8c8ec5433ff83d7e1d4a727cf2",
+        "budget": 4,
+        "design_condition": 2.781701588144655,
+        "design_rank": 3,
+        "gcv": 0.12913176446518532,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "753a4674ccabc8309ccdf608d4b6cc966eb4f8fb87c63838da2fd0234b9d60ea",
+        "raw_t4_sha256": "a181072b4831dcde96020929681ec3095b6eb4baa46cc8c2c0c7065d30f4ef0f",
+        "residual_sum_squares": 0.2456412871754459,
+        "selected_indices": [
+          7,
+          9,
+          13,
+          25
+        ],
+        "selected_indices_sha256": "f0feeacc28a992d1f3e5418dbff7af0996a97b71fd0dd7f360251ee9a872984d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            7,
+            9,
+            13,
+            25
+          ]
+        },
+        "trace_hat": 2.6207781156033914,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "852730f26b2b54d948c911c0db802575fb62008e982cfb592ca569d0080d71bc",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-27-Run2": {
+      "activity_budget": 30,
+      "activity_sha256": "bfe00515dd5fa074ea130960190a5c1947246d2d8c42a2a346651c65ab0a8d82",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201027",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "a4b9f5d9445afc85fc56938972349ad8c359b35187bd55c257fe5329f4736c04",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "0eb75701b6b0c16cb6dc730026f6d3da194e801796a191cc6fac640358de5b5c",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.6723585730085315,
+      "selected_indices": [
+        1,
+        5,
+        7,
+        9
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "bfe00515dd5fa074ea130960190a5c1947246d2d8c42a2a346651c65ab0a8d82",
+        "activity_sha256_screen_law": "425cc8f8541b72e9dbc702323bcc708005b5dc17d89234ef56a2c73043b6a20f",
+        "budget": 4,
+        "design_condition": 3.6754878723309212,
+        "design_rank": 3,
+        "gcv": 0.09763554087670218,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "9afd85c12413b8931ef995fe426108acbc15100a2060c79991fe4f879bdd13aa",
+        "raw_t4_sha256": "7b4e725133d1e9a3597d310f0b406acf8982bb830de60b34cfaaf68d27277ab0",
+        "residual_sum_squares": 0.1978843922268551,
+        "selected_indices": [
+          1,
+          5,
+          7,
+          9
+        ],
+        "selected_indices_sha256": "92f7ea5b88f1c7e6332aaedab0ceeb512dbcb8826a08b82666dd724910c7f1f6",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            5,
+            7,
+            9
+          ]
+        },
+        "trace_hat": 2.5763546876841374,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "4acac107366bf59fc2fb49aa822b79c8ab2dcc14ef988b27b78a0a88e0476959",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-28-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "61bfff612d9d2be146e4a80f9e0a388d81a06a68991a63575219405dcd3355a8",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201028",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "ad8c90d3e0cb01a1ed267fabf1f7a6cfbe7297b94507c68105e07f9c36e45120",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "7ac00f10cb1dec4de77316c9e749a6d3ff6b6c19f700f3b84e22b0bb33dbae94",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.7140866538600279,
+      "selected_indices": [
+        5,
+        7,
+        11,
+        27
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "61bfff612d9d2be146e4a80f9e0a388d81a06a68991a63575219405dcd3355a8",
+        "activity_sha256_screen_law": "74ae8db5ce200a9c880816d5707f5b245b4aee1666902609d9f61cf9de826ef6",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.22928286695023087,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "a2f802dd54ce88d572514eba6c586dfbd5ff636a3ea16e95ff5c563d8bb39208",
+        "raw_t4_sha256": "3b023b4bab18a654ee706e232cba71b08fb05d2b7ace124fdf3ebde6b76acf98",
+        "residual_sum_squares": 0.4361540314846116,
+        "selected_indices": [
+          5,
+          7,
+          11,
+          27
+        ],
+        "selected_indices_sha256": "825ab26aeed9befb3c3309d7e62fc6d307fa7802c4f9a9a2d4bfde537657fd0c",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            5,
+            7,
+            11,
+            27
+          ]
+        },
+        "trace_hat": 2.6207781021435554,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "d5619c0c63cb012add6e3651ed51829fbd83f1364d6218f8b96b437eb3e43784",
+      "surface": "within_post30"
+    },
+    "ses-2020-10-30-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "4ff148d42991415749e7fae3ef468e61034593cd0f64aa35631ad308ba5e0f8c",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201030",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "b12f37504922043206552e1dbb09a254284ffca5fd3f90ed8d57f8cc82ea205e",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "71910fbf2eaed3e5a3402aaa6aa4c2b9ce952007c68a5be9940417077dd951fa",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.4137961001835666,
+      "selected_indices": [
+        1,
+        11,
+        17,
+        23
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "4ff148d42991415749e7fae3ef468e61034593cd0f64aa35631ad308ba5e0f8c",
+        "activity_sha256_screen_law": "88f15cb5e3e9b9cc6dc10d25ecfeda1bb5f2075f7bd8df0c05d3fc565f8abd7b",
+        "budget": 4,
+        "design_condition": 2.7817018381852647,
+        "design_rank": 3,
+        "gcv": 0.22572857858860235,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "c1d8ceba413229374a2cabbecfc2b95e10dc7e40f0636be39b56de335f2d2506",
+        "raw_t4_sha256": "339c4057c7527200c032010cd572d0efe1eaec77d7d40442045658f319dfb753",
+        "residual_sum_squares": 0.4293928756311321,
+        "selected_indices": [
+          1,
+          11,
+          17,
+          23
+        ],
+        "selected_indices_sha256": "72bd4d019f789ff3f6048314db39f676061eb5e834142ff9cc4287b013c121af",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            11,
+            17,
+            23
+          ]
+        },
+        "trace_hat": 2.6207781021435554,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "b312a552214e778152cb2a5ea53fdb1ac351be4ff95144c0c52fefcf370a8104",
+      "surface": "external_official_query"
+    },
+    "ses-2020-10-30-Run2": {
+      "activity_budget": 30,
+      "activity_sha256": "d6c6f084a961e9de73be6af214a46515b97534340c81ae2d35e66e30696bccf6",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201030",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "2a1310e1b5fcfd4ffaa3ee254212844ea1fef3eac99d2c5096e4988b09f94045",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "915ce8558e7464ef80cf6883c1d07e677dc33de9189f4129d5ab1f561fd66159",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.426097161745434,
+      "selected_indices": [
+        1,
+        3,
+        11,
+        13
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "d6c6f084a961e9de73be6af214a46515b97534340c81ae2d35e66e30696bccf6",
+        "activity_sha256_screen_law": "2c1bf3f2c4c3fc6f0e6e3650c00816ccfe7e71fee111739e178a5e1112eb886d",
+        "budget": 4,
+        "design_condition": 1.6666666859848172,
+        "design_rank": 3,
+        "gcv": 0.19454765192809678,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "8cbcc2aab940fe2300d79062c289bd9f6c5a7eb2fe2171a3d72b446bbc2fcc04",
+        "raw_t4_sha256": "f7054dd9ec8c1d839a20127297a7b2ece86426ea764ae81678c4877bf91f535f",
+        "residual_sum_squares": 0.34586249231661637,
+        "selected_indices": [
+          1,
+          3,
+          11,
+          13
+        ],
+        "selected_indices_sha256": "05c8f09cd570868689986d41db1d501554c67db9405792998ab299acf3ee45fd",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            11,
+            13
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "e263be4b9de3d4a5e7e56a68f148ecedefdd5bc258f1b0f917c1954533fdfe13",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-18-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "e41610e3c224b1a9c448b48a0b008eb31e0adced98c00084d1865ad27d6848de",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201118",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "326cca5ad3dc5d96a663760a1307aae661f7cccb78a4f110cc1b428ea3ca67e1",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "524d283ff5f12d511046fe422f50fd054a604f9db4ad7d3bc062aed16990a7df",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.30411729633638296,
+      "selected_indices": [
+        7,
+        13,
+        17,
+        29
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "e41610e3c224b1a9c448b48a0b008eb31e0adced98c00084d1865ad27d6848de",
+        "activity_sha256_screen_law": "b9f0e20c9c037997c0a7e9fc0a54be990a9c7f2e22d27dfc0f0e49865439ef92",
+        "budget": 4,
+        "design_condition": 2.781701875285917,
+        "design_rank": 3,
+        "gcv": 0.2645305966089947,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "3965abfea284c03d6ac56016f7a03d8c485cf3367a8a5d428979e78c42ca7d91",
+        "raw_t4_sha256": "6f6ab57e53d9db43372a61bd60a1732cac4e2ecd96d00d54347122ccd743be26",
+        "residual_sum_squares": 0.5032041347115348,
+        "selected_indices": [
+          7,
+          13,
+          17,
+          29
+        ],
+        "selected_indices_sha256": "4357d11c3568303c8f39b00e9f81a85cfd3de8aebbf6116312a308bfde76e660",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            7,
+            13,
+            17,
+            29
+          ]
+        },
+        "trace_hat": 2.620778099120184,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "f25de08d7796f2d3ca1508d77dc8d0afaa6bc0efe5b711da3a1cd1c242d3bc9a",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-19-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "12cc011aa8d06aafccc9d934ba772ed503998653540e6776891bb6fac5d4a52f",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201119",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "3c5c1cb00c9ac1ecedd651aa205ddd8387dd7818f3022cdf16cb0d0b221f377c",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "7936e42efcce7dc7cd2640dd7d3ea2278c4d6c211255dc1b0e2760c95731c219",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.1494111427619642,
+      "selected_indices": [
+        3,
+        15,
+        17,
+        19
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "12cc011aa8d06aafccc9d934ba772ed503998653540e6776891bb6fac5d4a52f",
+        "activity_sha256_screen_law": "4deaa246b3440d9a2400b123eea28ed77ac14361f60da0f56c683480c0e874cf",
+        "budget": 4,
+        "design_condition": 1.6666666859848163,
+        "design_rank": 3,
+        "gcv": 0.2066664062787253,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "35fedbdaaaf85cea64919f8b5150199db7492265bb92092fe0a104dca05d660b",
+        "raw_t4_sha256": "cbb41628125c5f95490496fea758334be501bdaf2a3d5f456a58b1e92ee64ae2",
+        "residual_sum_squares": 0.3674069444955115,
+        "selected_indices": [
+          3,
+          15,
+          17,
+          19
+        ],
+        "selected_indices_sha256": "c355c9ca0ffe33b92d0329cf3ab9ca1128138bda84bb70aecabc0f84ec55ce4f",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            3,
+            15,
+            17,
+            19
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "c7dbb2819c36e5ac9b24b4150ca666e567d494f25f7e576d1d2c406732654a45",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-24-Run1": {
+      "activity_budget": 30,
+      "activity_sha256": "dd583bc2a2d3fd3323e23bfce1188cda584f5700db31bb56328c8cfc9aee984a",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run1_20201124",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "16c83c65774789fdbac8d70d3283a2b091f4d7ae4c811d849ab166d4e086137a",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "751c5cc60763d5177f4a9682d0c528ea9e762582f4d239bdd8732137ceb130c4",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.26295306392114104,
+      "selected_indices": [
+        1,
+        3,
+        7,
+        17
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "dd583bc2a2d3fd3323e23bfce1188cda584f5700db31bb56328c8cfc9aee984a",
+        "activity_sha256_screen_law": "2a4afe788756cf4501b0a845f5a8042398ac4c0a934641c827407c64175ec118",
+        "budget": 4,
+        "design_condition": 1.6666666887406334,
+        "design_rank": 3,
+        "gcv": 0.14477473073199815,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "3805120c3c61b3e2bb691e0378cf055431c9186909218777e6d1a5f7f046dab3",
+        "raw_t4_sha256": "ef24afc19e80933e0b9c0cdd342f39072249138910afac9bac6a401398e2dfec",
+        "residual_sum_squares": 0.2573772990791077,
+        "selected_indices": [
+          1,
+          3,
+          7,
+          17
+        ],
+        "selected_indices_sha256": "711d0bbb79b9c9a2cef827539956bd28e09d45ac087d57f95907f8a9f3bcc80d",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            1,
+            3,
+            7,
+            17
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "0eda39d92358fcf939a8500cb8fc906fa87f21874b8fb9a0ed7e3c5202d2b0a4",
+      "surface": "external_official_query"
+    },
+    "ses-2020-11-24-Run2": {
+      "activity_budget": 30,
+      "activity_sha256": "994395f3c4ff66ebb87d9f9d06d3489786a050a5e4697834e813b79bda8167e5",
+      "activity_shape": [
+        30,
+        100,
+        96
+      ],
+      "dataset_tag": "Run2_20201124",
+      "direct_vs_cached_max_abs": 0.0,
+      "direct_vs_decoder_max_abs": 0.0,
+      "identity_sha256": "9fc8292a6d4a13ed8dc4b0c32eb3ccd7d6e6605f9c450b81df4325b05dcc39c6",
+      "label_budget": 4,
+      "prior_deployed_identity_sha256": "a7a4ef1f429d91f6b3ffa82cfa91141e5fd95f1da4fb027053692df9b98303a3",
+      "prior_deployed_identity_sha256_match": false,
+      "sealed_screen_activity30_m4_r2": 0.18957940895256642,
+      "selected_indices": [
+        3,
+        9,
+        11,
+        21
+      ],
+      "side_evidence": {
+        "activity_budget": 30,
+        "activity_pool": "first30_calibration_block_label_free",
+        "activity_sha256": "994395f3c4ff66ebb87d9f9d06d3489786a050a5e4697834e813b79bda8167e5",
+        "activity_sha256_screen_law": "a92e25c9c20376e61cc20f0b10ca721e004586437a02a78d362bfb7c51bb3df9",
+        "budget": 4,
+        "design_condition": 1.6666666859848172,
+        "design_rank": 3,
+        "gcv": 0.1619223797484445,
+        "label_budget": 4,
+        "normalized_lambda": 0.1,
+        "normalized_t4_sha256": "c120f5e399521d1a2f7b2464b9ede99ee2a50c94024a9d3e6e2d8c41432ec4d5",
+        "raw_t4_sha256": "74835e48311d95d8c74c06a6c6432c53db5cdb202c68eb74ff761eef9de2258b",
+        "residual_sum_squares": 0.287862008441679,
+        "selected_indices": [
+          3,
+          9,
+          11,
+          21
+        ],
+        "selected_indices_sha256": "8c8aac02b9038067515b29f56be66fc36b9d39145162fadcab44f3e279d60251",
+        "selection": "doptimal_noncentre_first30",
+        "selection_law_verification": {
+          "activity_pool_rows": 30,
+          "mirror_equals_sealed": true,
+          "provenance": {
+            "activity_pool": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/core.py:67-87 activity_budget==30 branch (mirrored verbatim; sealed import cross-checked)",
+            "constants": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/plan.py:17-23",
+            "greedy_core": "sua_exploration/mc_maze/d_optimal_calibration_design.py:115-121,176-219 (mirrored verbatim)",
+            "m4_branch": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:17-35 (mirrored verbatim; sealed import cross-checked)",
+            "ridge_side": "tfpd_exploration/src/m2_t4_activity_budget_screen_v1/physical.py:38-71 (imported, _ridge_side)",
+            "ridge_t4": "tfpd_exploration/src/calibration_budget_comparators_v1.py:56-95 (imported, fit_ridge_t4)"
+          },
+          "selected_indices": [
+            3,
+            9,
+            11,
+            21
+          ]
+        },
+        "trace_hat": 2.666666666666667,
+        "usable_directional_trials": 4
+      },
+      "side_sha256": "37d8469d3e1a3c7126b0a5886723ba56acc4724d881308379c372062789bbce1",
+      "surface": "external_official_query"
+    }
+  },
+  "status": "EXPORTED_NOT_SUBMITTED",
+  "teacher_checkpoint_sha256": "fbcb9914561c4664fa0f8d0b1791e67505841d3ac470ea7ad68d54e408ca13ec"
+}

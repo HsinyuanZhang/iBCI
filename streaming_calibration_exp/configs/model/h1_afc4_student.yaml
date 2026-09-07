@@ -1,0 +1,17 @@
+# H1 Full/B4/Zero student. All three arms must point to one selected teacher.
+defaults:
+  - _streaming_base
+
+_target_: src.models.streaming_calibration_module.StreamingCalibrationLitModule
+variant: B3S
+# H1 tests whether a source-trained decoder can learn to consume the new
+# functional carrier.  Freezing the copied teacher decoder would instead test
+# representation compatibility with a consumer that never saw this carrier.
+freeze_decoder: false
+loss_mode: task_only
+lambda_y: 0.0
+lambda_E: 0.0
+hidden_dim: 64
+side_dim: 4
+electrode_embed_dim: 0
+num_electrodes: 0

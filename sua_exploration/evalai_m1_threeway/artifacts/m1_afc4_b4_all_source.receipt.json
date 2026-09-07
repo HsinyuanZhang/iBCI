@@ -1,0 +1,141 @@
+{
+  "arm": "b4",
+  "calibration_n_trials": 10,
+  "checkpoint_sha256": "730d1779bc7748ec0ebcfaf1d23a7b56ce626fd8dc2ff2ec704406160ea765e2",
+  "dataset_tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "max_direct_vs_cached_identity_abs": 0.0,
+  "max_direct_vs_decoder_only_abs": 0.0,
+  "payload_bytes": 60233698,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/evalai_m1_threeway/artifacts/m1_afc4_b4_all_source.pkl",
+  "payload_sha256": "b932406e0d18b2e7f2c4fb284b0c7878cef026df419497e4a5cc869cedced313",
+  "schema_version": "evalai_m1_afc4_export_receipt_v1",
+  "session_count": 7,
+  "session_records": {
+    "ses-20120924": {
+      "b4_side_sha256": "e4117d4de6eb4d62473f4210ddaa7d2ec35472ba311fdef6cb55dfcbe97665c5",
+      "calibration_sha256": "700cbc534a38ed886270ba115b0d137afeb00cfe74b9d62b44f03c47f89909c8",
+      "dataset_tag": "20120924",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys.nwb",
+      "file_sha256": "63ee25782c62ff2275dcfbdcaa56552ec4c26fcde00f5a74e5be54785b5c25eb",
+      "future_query_values_read": false,
+      "identity_sha256": "555b6e92998eb6253b982db8a06a80dede5758ca53229c6e8edb751140a94a7d",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20120926": {
+      "b4_side_sha256": "699717097edba1090a55d307215047b65c0778552285801947224010ac0f00cb",
+      "calibration_sha256": "9d6052964fe25089f2ab32329bc6add98e4485e17635b9d6f49f9d292f250a80",
+      "dataset_tag": "20120926",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys.nwb",
+      "file_sha256": "9c72512308194b93cc19b51733514eb9721152ffe4dd357ee93aabd4be5caa91",
+      "future_query_values_read": false,
+      "identity_sha256": "9ec94e8f5ae3fc12703c60dc939cd9eb98f853de5d14863343cf463a505e45fa",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20120927": {
+      "b4_side_sha256": "28cd304a29be3cab7a38389a5f922177366d91b5f79bb8f9d9313826461e6e7a",
+      "calibration_sha256": "b7df479577111bde77bb5e46ac9a1af508d57ed0f5bb8f5cd44e75bca856270f",
+      "dataset_tag": "20120927",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys.nwb",
+      "file_sha256": "2d2fdc9be5ccb7a47969894ff1da43a994da11bfff298353f94d489c4af37b3a",
+      "future_query_values_read": false,
+      "identity_sha256": "25defc5b9cea374e099649a62a782e7f3adf6d1b81f94653150e259e787d3d1a",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20120928": {
+      "b4_side_sha256": "594eea78ae276df1c7c622e539a7360574f5a5035a0a14563bf6518f67f0eb36",
+      "calibration_sha256": "bb8f7ab8598d6420151eb52695ba520296e4ee35684b6bcb8ea0d73e5bd2d47e",
+      "dataset_tag": "20120928",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-in-calib/sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys.nwb",
+      "file_sha256": "96e7f078c6acb89b802b6241a36b9c9e2d04df82c180a63354fd3f7e74357254",
+      "future_query_values_read": false,
+      "identity_sha256": "528c336c8a0bc86128022265ccde267694b1e2dd4add4e72bf6501df02a690c9",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20121004": {
+      "b4_side_sha256": "05a88042cf732cfff81f670550b6fedcf8651dbc9a24b5032d96cedb8f3fba4d",
+      "calibration_sha256": "f01675cddb334074d352c94ee2c21116c54505e877fd05f38f9e95a4b05b413f",
+      "dataset_tag": "20121004",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121004_behavior+ecephys.nwb",
+      "file_sha256": "782c1fd090facfb3c50b6a85da8209ca3aea71f66bd4edc13d61fe4a55a3429d",
+      "future_query_values_read": false,
+      "identity_sha256": "d153520fcb64aa64753489b28fe1135c4071b750aee7c993cb8c58d4f40613fa",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20121017": {
+      "b4_side_sha256": "63dbcad5d79615c957cd6e429942d58b0e23400580293866fd7308add762ca21",
+      "calibration_sha256": "d59da33cb3455a2e9fa228429c069c9856c6125f7ec9765b9a724f45013d4147",
+      "dataset_tag": "20121017",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121017_behavior+ecephys.nwb",
+      "file_sha256": "8dd22c67500445ec1e0c11980475badbba9e960a05db16b78aaaad5502b3c652",
+      "future_query_values_read": false,
+      "identity_sha256": "5e851e3453eccb77fdc15f62ddd8011bed83ef6f387c9a9e11a4927ec54e27c7",
+      "identity_shape": [
+        64,
+        100
+      ]
+    },
+    "ses-20121024": {
+      "b4_side_sha256": "388c3d434d5ae5f418889313c6d79f3420bddd67bb1d15faea81aee3f16d7959",
+      "calibration_sha256": "b5389c5e641c6c68ac2071613a87761cfa0bab924034368d8b83c94ac2ae1318",
+      "dataset_tag": "20121024",
+      "direct_vs_cached_identity_max_abs": 0.0,
+      "direct_vs_decoder_only_max_abs": 0.0,
+      "file": "/home/xinyuan/Work_host/SPINT/SPINT-main/data/000941/sub-MonkeyL-held-out-calib/sub-MonkeyL-held-out-calib_ses-20121024_behavior+ecephys.nwb",
+      "file_sha256": "bbeb6c7d66e2c2e9b76506021a6cf8800bc19021b6d1fd03c4eb6de71490bafb",
+      "future_query_values_read": false,
+      "identity_sha256": "2097015a7a5a04d2bc1a8300583e7e0c1b123d365cad65cf08cea05bf7964546",
+      "identity_shape": [
+        64,
+        100
+      ]
+    }
+  },
+  "source_sessions": [
+    "ses-20120924",
+    "ses-20120926",
+    "ses-20120927",
+    "ses-20120928"
+  ],
+  "target_query_values_read": false,
+  "target_sessions": [
+    "ses-20121004",
+    "ses-20121017",
+    "ses-20121024"
+  ],
+  "teacher_checkpoint_sha256": "c24dce5c3d4a40ebc57c6de3b50a5e9d599b2d9ce447b4eb6dd7d0f82b7aec65"
+}
