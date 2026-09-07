@@ -1,0 +1,16 @@
+{
+  "submission_id": 582044,
+  "status": "finished",
+  "method_name": "H1 C2-CAL-1 B2 P16 L200 e18 ORT exact-E w0",
+  "identity": "E-ORT wrap of C2-CAL-1 B2 e18; not 582025; not SPINT",
+  "test_split_h1": {
+    "Normalized Latency": 0.7834237955071525,
+    "Held Out R2 Mean": 0.3751451552993994,
+    "Held Out R2 Std.": 0.1953810164449193,
+    "Held In R2 Mean": 0.5822121260252614,
+    "Held In R2 Std.": 0.03002515018455001
+  },
+  "local_ho_m3_pick": 0.3784,
+  "prior_582025_ho": 0.339,
+  "note": "EvalAI execution_time field is 0.13s clock artifact; stderr shows real eval (e.g. 8:38 on a 2-file chunk)."
+}

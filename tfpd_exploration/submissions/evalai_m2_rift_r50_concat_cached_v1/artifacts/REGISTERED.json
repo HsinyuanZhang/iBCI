@@ -1,0 +1,12 @@
+{
+  "submission_id": 582128,
+  "arm": "m2_rift_r50_concat_e7_cached",
+  "image_id": "sha256:a639a7b9ca9ec142996c218b879828a28a6f3f2248a2324efae1b6c55aaa898e",
+  "payload_sha256": "3a99d8b7f998492d8ceab2272c47fb51193e2dcd0628f036c1a5a8d2d122a937",
+  "method_name": "M2 RIFT R50 concat e7 cached",
+  "phase": 4599,
+  "challenge": 2319,
+  "status": "submitted",
+  "host_verify_max_abs_b1": 0.0,
+  "host_verify_max_abs_b7": 2.421438694000244e-08
+}

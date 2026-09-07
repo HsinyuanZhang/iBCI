@@ -1,0 +1,11 @@
+{
+  "submission_id": 582073,
+  "arm": "h1_rift_r300_recency_e22_cached",
+  "image_id": "sha256:3d9f1c35371778078225c8b28895fc32dd526b094b0c182daae78f19768fa5df",
+  "payload_sha256": "7957ce7b52596745aab55e5955e8763cab3b2f4808c25a037688890728883b56",
+  "method_name": "H1 RIFT R300 recency e22 cached",
+  "phase": 4599,
+  "challenge": 2319,
+  "status": "registered",
+  "host_verify_max_abs_b1_b8": 0.0
+}

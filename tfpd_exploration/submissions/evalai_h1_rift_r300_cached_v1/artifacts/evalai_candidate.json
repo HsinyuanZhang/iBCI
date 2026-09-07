@@ -1,0 +1,62 @@
+{
+  "arm": "h1_rift_r300_recency_e22_cached",
+  "budget_disclosure": "H1 C2-CAL-1 B2 official banks (27 tags, deploy M3). RIFT R300 recency seed42 EMA e22 after 32-epoch 13-session train. Local HO-M3 is development selection, not official HO. Cached CPU runtime, no TTA, no ORT.",
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1"
+      ]
+    },
+    "B8": {
+      "last_shape": [
+        8,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1",
+        "S0_set_2",
+        "S1_set_1",
+        "S1_set_2",
+        "S1_set_3",
+        "S2_set_1",
+        "S2_set_2",
+        "S3_set_1"
+      ]
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_cached_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:3d9f1c35371778078225c8b28895fc32dd526b094b0c182daae78f19768fa5df",
+  "image_size": 9758746229,
+  "image_tag": "h1-rift-r300-cached-e22:v1",
+  "method_description": "H1 RIFT (Recency-biased Incremental Finite-context Transformer) R300, D4/P16/width256, recency half-lives, cached CPU KV. Same C2-CAL-1 B2 banks as 582044. HO-M3 pick e22 mean 0.3748 worst 0.2059. Not BT-EORT, not SPINT.",
+  "method_label": "H1 RIFT R300 recency e22 EMA cached CPU; architecture=RIFT backend=cached; not BT-EORT; not SPINT",
+  "method_name": "H1 RIFT R300 recency e22 cached",
+  "payload_sha256": "7957ce7b52596745aab55e5955e8763cab3b2f4808c25a037688890728883b56",
+  "register": false,
+  "selection_mean": 0.3748232633647425,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_cached_v1/artifacts/evalai_push_state.json",
+  "window": 300
+}

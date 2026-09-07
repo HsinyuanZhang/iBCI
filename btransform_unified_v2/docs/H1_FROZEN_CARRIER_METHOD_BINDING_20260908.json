@@ -1,0 +1,78 @@
+{
+  "bank_authority": {
+    "bank_sha_authority": "payload.receipt.json banks.per_tag records every official tag E0 and H-C byte SHA256; e.g. S0_set_1 E0=5875f0c64a4e3be2cbbb833c63446951b2826e5ee5a0451464bbddfc6572f30c, H-C=85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2",
+    "e0_is_fused_identity": true,
+    "payload_receipt": "tfpd_exploration/submissions/evalai_h1_c2_cal1_b2_ort_v1/artifacts/payload.receipt.json",
+    "payload_receipt_sha256": "8bbeb2f72c89f5fdf0844ec325391b489d7c609d805a2bc7118531c533d77ebf",
+    "source_c2_checkpoint_sha256": "ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215",
+    "source_c2_m3_payload": "tfpd_exploration/submissions/evalai_h1_c2_ho_epoch15_v1/artifacts/decoder.pt",
+    "source_c2_m3_payload_sha256": "91ef13cc94b9ab865c8f926dcbb6d33e9628bf9cbc9b757665d10e33cfda144a",
+    "tag_count": 27
+  },
+  "family_separation": {
+    "do_not_infer_from": "unrelated B2 diagnostics or H1 carrier-family experiments",
+    "frozen_582073_family": "C2-CAL-1 B2 sealed H-C arrays, deployed M3, copied unchanged into RIFT",
+    "paper_formula_family": "population-conditioned q16/lambda100/shrinkage description; artifact-level equality to the C2-CAL-1 B2 arrays is not established"
+  },
+  "materializer": {
+    "exact_operation": "activity_signature: pre_pool Linear(1024,32)+ReLU per trial then mean across M3; concatenate [32 activity, 4 precomputed H-C]; post_pool Linear(36,32)+ReLU -> Linear(32,32)+ReLU -> Linear(32,700).",
+    "input": "sealed C2 M3 payload row identity [3,1024,176] plus precomputed carrier [176,4]",
+    "non_claim": "this code consumes H-C but contains no target H-C PCA, regression, shrinkage, or normalizer construction",
+    "source": "tfpd_exploration/src/two_mainlines_long_v1/decoder/h1_calibration.py",
+    "source_sha256": "43245ed5058e11a98c3bf4c9cb980f9f0d2362faa1ea19afe7ca553d3bc68b70"
+  },
+  "paper_binding": {
+    "binding_result": "UNPROVEN_FOR_SUBMISSION_582073",
+    "claimed_formula_location": "lines 230-265",
+    "claimed_parameters": {
+      "empirical_bayes_shrinkage": true,
+      "lambda_H": 100,
+      "q": 16,
+      "right_singular_basis_U": true,
+      "source_mean_scale_PCA": true
+    },
+    "paper": "bci_paper_overleaf/paper_4pp.tex",
+    "paper_sha256": "3c7984fc068b1732aa74ff626a03926321c91d6681e382685b56789aa889db7b",
+    "reason": "the sealed C2/RIFT chain establishes exact final arrays and their materializer, but neither the RIFT payload, copied B2 payload receipt, C2 M3 payload receipt, nor the materializer contains a solver provenance record tying those arrays to q=16, lambda=100, PCA/whitening, U, shrinkage, or a source normalizer. The paper formula may describe another H1 carrier family; it cannot be asserted as the frozen submission method from the audited artifacts."
+  },
+  "payload_derivation": {
+    "statement": "loads BT_PAYLOAD h1_c2_cal1_b2_s42_ema_e18_L200.pkl, assigns banks = bt[bank_by_dataset_tag], then serializes the same banks into the RIFT payload; no H-C estimator is called",
+    "upstream_bt_payload": "tfpd_exploration/submissions/evalai_h1_c2_cal1_b2_ort_v1/artifacts/h1_c2_cal1_b2_s42_ema_e18_L200.pkl",
+    "upstream_bt_payload_sha256": "91bb23f50b214b3841f19d6fcc8e7ac11c7b2b179f615b08be111f07dd4d1565",
+    "verified_path": "tfpd_exploration/submissions/evalai_h1_rift_r300_cached_v1/pack_and_verify.py::_build_payload",
+    "verified_path_sha256": "3a6f41b5c895d6970de269879e6bbf1c5240d9ad020952a106b5a591b661730b"
+  },
+  "required_to_close_formula_binding": [
+    "a sealed C2 carrier-construction receipt or source snapshot whose input array hashes and output H-C hashes match all 27 payload tags",
+    "the exact values/provenance of source mean/scale, PCA P, U, shrinkage hyperparameters, and normalizer, or an explicit declaration that the paper must not attribute them to 582073"
+  ],
+  "runtime_consumption": {
+    "bank_fields": {
+      "E0": "float32 [176,700], used as static identity",
+      "T": "float32 [176,4], passed as direct carrier",
+      "unit_mask": "bool [176]"
+    },
+    "source": "tfpd_exploration/submissions/evalai_h1_rift_r300_cached_v1/h1_rift_falcon_decoder.py",
+    "source_sha256": "8ef7ff3c4292bec051e5dafab236bb6792b093708ae0ca9076bce3e777a426b2",
+    "task_config": {
+      "behavior_scale": 20.0,
+      "bias_mode": "recency",
+      "carrier_dim": 4,
+      "channels": 176,
+      "context_bins": 300,
+      "expected_tags": 27,
+      "task": "h1"
+    }
+  },
+  "schema": "h1_frozen_carrier_method_binding_receipt_v1",
+  "scope": "read-only binding audit for frozen H1 RIFT submission 582073; no score, GPU, model, or paper mutation",
+  "status": "AUDIT_COMPLETE_METHOD_BINDING_INSUFFICIENT_FOR_FORMULA_EQUIVALENCE",
+  "submission": {
+    "arm": "h1_rift_r300_recency_e22_cached",
+    "frozen_manifest": "btransform_unified_v2/results/rift_v1/h1_rift_r300_official_freeze_20260907/manifest.json",
+    "frozen_manifest_sha256": "14a7014a799c43f2d1ab5f9a12e3fee9af514a10802bd41f77984bafc4d0f299",
+    "id": 582073,
+    "payload": "tfpd_exploration/submissions/evalai_h1_rift_r300_cached_v1/artifacts/h1_rift_r300_recency_e22.pkl",
+    "payload_sha256": "7957ce7b52596745aab55e5955e8763cab3b2f4808c25a037688890728883b56"
+  }
+}

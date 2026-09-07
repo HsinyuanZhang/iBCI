@@ -1,0 +1,19 @@
+{
+  "submission_id": 582047,
+  "status": "finished",
+  "method_name": "M2 SMALL concat S1-SMALL-COS EMA e8 s42 ORT exact-E w0",
+  "identity": "E-ORT wrap of sealed M2 SMALL concat 581973 e8; not proj_add 582009; not 581971",
+  "test_split_m2": {
+    "Normalized Latency": 0.3353816919354827,
+    "Held Out R2 Mean": 0.39030538635614676,
+    "Held Out R2 Std.": 0.12812799066315134,
+    "Held In R2 Mean": 0.6546380835824251,
+    "Held In R2 Std.": 0.03418321897208976
+  },
+  "source_581973": {
+    "Held Out R2 Mean": 0.390305,
+    "Held In R2 Mean": 0.655,
+    "Normalized Latency": 0.736
+  },
+  "note": "HO matches 581973 to reported precision. NL 0.736 -> 0.335. EvalAI execution_time field is a clock artifact."
+}

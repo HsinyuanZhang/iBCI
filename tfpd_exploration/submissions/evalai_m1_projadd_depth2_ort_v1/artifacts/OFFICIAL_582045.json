@@ -1,0 +1,17 @@
+{
+  "submission_id": 582045,
+  "status": "finished",
+  "method_name": "M1 proj_add P16 CausalPE depth-2 EMA e21 ORT exact-E w0",
+  "identity": "E-ORT wrap of M1 P16 depth-2 e21; not 581982 V3; not 582019 depth-4",
+  "test_split_m1": {
+    "Normalized Latency": 0.20360949443670875,
+    "Held Out R2 Mean": 0.5331122949069641,
+    "Held Out R2 Std.": 0.0749737097017216,
+    "Held In R2 Mean": 0.7738951422239772,
+    "Held In R2 Std.": 0.024823063765575012
+  },
+  "local_ho_calib_pick_eq": 0.6131,
+  "prior_581982_ho": 0.574,
+  "prior_582019": "FAILED time limit (depth-4 exact-E)",
+  "note": "EvalAI execution_time 0.26s is a clock artifact. NL 0.204 means E-ORT cleared the 7200s budget."
+}

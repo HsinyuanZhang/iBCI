@@ -159,6 +159,13 @@ btransform_unified_v1/cache/
 btransform_unified_v1/results/
 btransform_unified_v1/logs/
 btransform_unified_v1/outputs/
+btransform_unified_v2/data/
+btransform_unified_v2/cache/
+btransform_unified_v2/results/
+btransform_unified_v2/newresults/
+btransform_unified_v2/logs/
+btransform_unified_v2/outputs/
+diagnostics_v1/results/
 **/ort_venv/
 **/.venv/
 **/site-packages/

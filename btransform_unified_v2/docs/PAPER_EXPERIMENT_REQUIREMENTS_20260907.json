@@ -1,0 +1,400 @@
+{
+  "schema": "paper_experiment_requirements_v1",
+  "audit_date": "2026-09-07",
+  "scope": "Requirements inventory only; no paper, code, checkpoint, or experiment mutation.",
+  "paper": "bci_paper_overleaf/paper_4pp.tex",
+  "evidence_gate": [
+    "immutable_or_reproducible_provenance",
+    "legal_target_exposure",
+    "paired_comparison",
+    "matched_query_surface",
+    "uncertainty_and_reliability",
+    "checkpoint_architecture_backend_binding"
+  ],
+  "global_decision": "RIFT with cached CPU runtime is the active mainline. Published SPINT/Wiener establish external BP-free FALCON references; H1 submission 582073 now has archived official results. Four-task profile effects remain open. Paper RIFT methods update was pushed at a186dd9.",
+  "requirements": [
+    {
+      "id": "P01",
+      "paper_location": "abstract:40-50; conclusion:537-544",
+      "claim": "Verified profile effects and calibration cost across 688, M2, M1, H1 using RIFT as the active model family.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "open",
+      "class": "must_do",
+      "required_proof": [
+        "paired profile-minus-activity effect",
+        "session/date score arrays",
+        "interval and analysis unit",
+        "support cost wall time",
+        "same query surface",
+        "RIFT checkpoint/runtime binding"
+      ],
+      "acceptance": "One receipt-bound result bundle per task; no historical cross-family score substitution."
+    },
+    {
+      "id": "P02",
+      "paper_location": "160-285",
+      "claim": "Four task-structured estimators yield a common 4D BP-free carrier.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "partially_specified",
+      "class": "must_do",
+      "required_proof": [
+        "frozen source parameters",
+        "support input hash",
+        "4D output/normalizer",
+        "zero target network backward steps",
+        "carrier implementation binding"
+      ],
+      "acceptance": "Per-task constructibility and legality receipt."
+    },
+    {
+      "id": "P03",
+      "paper_location": "406-412",
+      "claim": "B architecture, task windows, and checkpoint binding.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "open",
+      "class": "protocol_undecided",
+      "required_proof": [
+        "family name BT-EORT or RIFT",
+        "checkpoint hash",
+        "config/window",
+        "source data manifest",
+        "runtime backend"
+      ],
+      "acceptance": "Every reported B score resolves to exactly one model configuration."
+    },
+    {
+      "id": "P04",
+      "paper_location": "416-434",
+      "claim": "Matched evaluation protocol and provenance.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "open",
+      "class": "must_do",
+      "required_proof": [
+        "support/query hash",
+        "valid-frame mask",
+        "source/eval counts",
+        "seed plan",
+        "selection surface",
+        "R2 aggregation",
+        "SPINT provenance"
+      ],
+      "acceptance": "Manifest is shared by all paired arms in a task."
+    },
+    {
+      "id": "P05",
+      "paper_location": "main_table:452-457",
+      "claim": "Six rows by four task columns.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "partially_closed_with_published_SPINT",
+      "class": "must_do_or_reduce_table",
+      "required_proof": [
+        "numeric receipt or explicit N/A",
+        "target BP protocol",
+        "matched score surface",
+        "published SPINT Table 1 citation/surface label"
+      ],
+      "acceptance": "Published SPINT/Wiener values may appear only with their Table-1 held-out surface marker; local RIFT rows still require receipts."
+    },
+    {
+      "id": "P06",
+      "paper_location": "474-491",
+      "claim": "Profile effect, B effect, carrier stability, and basis coverage.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "open",
+      "class": "must_do_or_delete",
+      "required_proof": [
+        "paired effects",
+        "intervals",
+        "resampled carrier stability",
+        "predefined coverage metric",
+        "association analysis"
+      ],
+      "acceptance": "Claim scope matches actual task coverage and inference unit."
+    },
+    {
+      "id": "P07",
+      "paper_location": "480-513",
+      "claim": "Representative M2 source-seven/ext4 information and architecture mechanism matrix; not a four-task 28-cell requirement.",
+      "tasks": [
+        "M2"
+      ],
+      "status": "protocol_frozen_M2_pending_results",
+      "class": "must_do_for_representative_table",
+      "required_proof": [
+        "B activity-only",
+        "C carrier-only",
+        "D joint",
+        "D-shuffle",
+        "mean-vs-slot",
+        "matched nonattention-vs-temporal",
+        "same source-seven/ext4 support/query/training budget"
+      ],
+      "acceptance": "M2 source-seven/ext4 is fixed before mechanism scores; A/no-calibration is an optional diagnostic. Three seeds prioritize paired B/D; seed42-only auxiliary arms are exploratory until expanded."
+    },
+    {
+      "id": "P08",
+      "paper_location": "515-534",
+      "claim": "RIFT cached CPU parity, latency, memory, and calibration cost; BT-EORT only as an explicitly labelled comparison.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "paper_rewrite_required",
+      "class": "must_do_for_reported_RIFT_tasks",
+      "required_proof": [
+        "RIFT cached parity",
+        "complete-call median/P95",
+        "calibration wall time where claimed",
+        "peak memory where claimed",
+        "device/thread/precision/batch",
+        "BT-EORT comparison labelled as separate family"
+      ],
+      "acceptance": "Rewrite E-ORT/ONNX paper text to RIFT cached CPU; do not require an E-ORT/ONNX four-task rerun."
+    },
+    {
+      "id": "P09",
+      "paper_location": "73-80; main_table",
+      "claim": "BP-free comparator boundary, including RIFT target calibration with zero network BP.",
+      "tasks": [
+        "688",
+        "M2",
+        "M1",
+        "H1"
+      ],
+      "status": "published_SPINT_rows_available",
+      "class": "must_do_or_remove_row",
+      "required_proof": [
+        "exact target calibration protocol",
+        "legality",
+        "query identity",
+        "score receipt",
+        "published Table 1 provenance and eligibility classification"
+      ],
+      "acceptance": "Use published SPINT and zero-shot Wiener without replay; exclude target-day trained CycleGAN/NoMAD/NDT2 FSS/OR."
+    }
+  ],
+  "task_inventory": {
+    "688": {
+      "status": "strict_manifest_pending",
+      "assets": [
+        "audited 27-train/6-validation strict manifest"
+      ],
+      "known_candidate": "The prior 15-session three-seed candidate is not provenance-trustworthy; its seed44 run was interrupted and it is quarantined.",
+      "reusable_if": [
+        "strict manifest boundary",
+        "new receipt-bound runs only"
+      ],
+      "gaps": [
+        "all RIFT scores",
+        "paired profile result",
+        "baseline surface"
+      ],
+      "priority": 3
+    },
+    "M2": {
+      "status": "formal24_complete_joint_pending",
+      "assets": [
+        "btransform_unified_v2/results/rift_v1/m2_r50_recency_s42_formal_v1/run_meta.json"
+      ],
+      "known_candidate": "B42 formal development score is 0.266825; D/joint is live. Source-seven/ext4 remains frozen representative protocol.",
+      "reusable_if": [
+        "same source-seven/M33 cache",
+        "same ext4 query contract",
+        "fresh paired RIFT initialization"
+      ],
+      "gaps": [
+        "B/C/D/shuffle/spatial/temporal matrix",
+        "paired B/D multi-seed reliability",
+        "selection/receipt for paper claim"
+      ],
+      "priority": 1
+    },
+    "M1": {
+      "status": "RIFT_formal_complete_concat_live",
+      "assets": [
+        "btransform_unified_v2/results/rift_v1/m1_r100_recency_s42_formal_v3",
+        "FrozenB3 + BT/Joint + concat same-HO-trio frozen comparisons"
+      ],
+      "known_candidate": "Formal v3 completed; score receipt selected EMA epoch 3, visible HO-trio equal-session mean 0.7046861491. Full-concat is live and not yet a scored result.",
+      "reusable_if": [
+        "formal completion",
+        "bind source NMF/RMS/order",
+        "audit target NNLS/ridge and BP=0"
+      ],
+      "gaps": [
+        "paired outcome and scope decision for mechanisms/seeds"
+      ],
+      "priority": 2
+    },
+    "H1": {
+      "status": "official_result_archived_frozen",
+      "assets": [
+        "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/submission_get.json",
+        "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/official_result.json",
+        "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/retrieval_receipt.json",
+        "btransform_unified_v2/results/rift_v1/cpu_trained_h1_final_20260907T1154Z/benchmark.json"
+      ],
+      "known_candidate": "Submission 582073 official: held-out 0.4027782688014744\u00b10.14526658466582196; held-in 0.6681165838896308\u00b10.025051352172649453; normalized latency 0.14299749625157748. Frozen; no new score chasing. Official receipt is archived and verified.",
+      "reusable_if": [
+        "keep official/development surfaces separate"
+      ],
+      "gaps": [
+        "not a profile-effect mechanism matrix"
+      ],
+      "priority": 4
+    }
+  },
+  "mechanism_arms": [
+    {
+      "id": "A",
+      "name": "no_calibration",
+      "status": "open",
+      "definition": "No activity signature and no carrier; compatible fixed missing/zero representation.",
+      "acceptance": "Architecture compatibility and identical live-unit masks."
+    },
+    {
+      "id": "B",
+      "name": "activity_only_B3S",
+      "status": "candidate_only",
+      "definition": "Activity-derived identity only; remove carrier from both embedding and direct path.",
+      "acceptance": "No target labels influence the identity."
+    },
+    {
+      "id": "C",
+      "name": "carrier_only",
+      "status": "open",
+      "definition": "Carrier retained, activity identity fixed/zero; live neural stream remains present.",
+      "acceptance": "Only static activity identity is removed."
+    },
+    {
+      "id": "D",
+      "name": "joint_T4",
+      "status": "candidate_only",
+      "definition": "Activity identity plus functional carrier condition the same decoder.",
+      "acceptance": "Budget and all non-information factors match B/C."
+    },
+    {
+      "id": "D_shuffle",
+      "name": "unit_shuffled_carrier",
+      "status": "candidate_only",
+      "definition": "One unit permutation applied before embedding and direct carrier fusion.",
+      "acceptance": "Permutation hash and independent-training semantics recorded."
+    },
+    {
+      "id": "S",
+      "name": "mean_vs_slot",
+      "status": "open",
+      "definition": "Mean pooling versus learned slot aggregation with matched downstream dimensions.",
+      "acceptance": "Same input, horizon, selection, and query."
+    },
+    {
+      "id": "T",
+      "name": "nonattention_vs_temporal",
+      "status": "open",
+      "definition": "Matched causal non-attention temporal control versus transformer.",
+      "acceptance": "Same frontend, receptive field, and reporting of parameter/compute differences."
+    }
+  ],
+  "baseline_disposition": {
+    "activity_only_spint": "needs_per_task_binding",
+    "population_vector": "688_M2_audit_then_define_or_NA",
+    "ridge_wiener": "H1_v2r2_candidate_only_else_audit",
+    "kalman": "pending_real_data_receipt",
+    "profile_frozen_spint": "candidate_only_requires_carrier_binding",
+    "proposed_B": "open_requires_family_checkpoint_binding",
+    "CEBRA_adapt_true": "excluded",
+    "frozen_CEBRA": "protocol_confirmation_required",
+    "NoMAD_CycleGAN_FA": "protocol_confirmation_required",
+    "published_SPINT": "eligible: Table 1 held-out private EvalAI mean\u00b1SD R2 across held-out sessions; M1 .66\u00b1.07, M2 .26\u00b1.13, H1 .29\u00b1.15; no 688",
+    "published_zero_shot_Wiener": "eligible: Table 1 held-out M1 .34\u00b1.06, M2 .06\u00b1.04, H1 .16\u00b1.03; trained one held-in session then zero-shot",
+    "CycleGAN_NoMAD": "excluded: target-day alignment/GAN training in SPINT Sec. 4.2",
+    "NDT2_FSS_OR": "excluded: held-out supervised/private-label training"
+  },
+  "runtime_gate": {
+    "claimed_backend": "RIFT cached CPU runtime; paper E-ORT/ONNX text requires rewrite. BT-EORT/ORT is a separately labelled comparison only.",
+    "current_evidence": "H1 trained end-to-end B1/B8 raw-flow benchmark: RIFT cached/reference parity over 401 advances max_abs_error=0; B1 cached median 2.696786 ms, P95 2.803313 ms (300 calls).",
+    "required_fields": [
+      "RIFT parity inputs/calibration/output",
+      "complete-call latency median/P95",
+      "calibration solve/embedding/cache time only where claimed",
+      "peak memory where claimed",
+      "device OS threads precision batch streams window backend version",
+      "comparison family clearly labelled",
+      "trained-vs-synthetic disclosure"
+    ]
+  },
+  "roadmap": [
+    {
+      "phase": "P0",
+      "resource": "CPU/read-only",
+      "actions": [
+        "record published SPINT Table-1 surface separately from local manifests",
+        "bind paper B to RIFT and rewrite legacy E-ORT wording",
+        "audit 688/H1/M2 candidates",
+        "bundle M1 FrozenB3/BT/Joint/concat context and verify M1 constructibility"
+      ],
+      "exit": "Every candidate is eligible or explicitly quarantined."
+    },
+    {
+      "phase": "P1",
+      "resource": "GPU plus CPU scoring",
+      "actions": [
+        "freeze M2 source-seven/ext4 representative matrix",
+        "run B/C/D/shuffle/spatial/temporal under paired contracts",
+        "prioritize three seeds for paired B/D",
+        "treat seed42-only auxiliary arms as exploratory unless uncertainty/final claim requires expansion"
+      ],
+      "exit": "Representative mechanism table is receipt-bound without asserting four-task architecture ablations."
+    },
+    {
+      "phase": "P2",
+      "resource": "official/container/CPU",
+      "actions": [
+        "obtain/archive official receipts after frozen submissions",
+        "benchmark actual RIFT cached CPU backend for reported tasks",
+        "run BT-EORT only when a labelled comparison is needed"
+      ],
+      "exit": "External and runtime claims are receipt-bound."
+    }
+  ],
+  "deletion_rules": [
+    "Without four qualified effects, delete four-dataset matched-evaluation and conclusion claims.",
+    "Without M1 paired outcome, remove M1 as empirical dataset.",
+    "Without B binding, remove B architecture and B-minus-profile claims.",
+    "Without independently trained controls, remove causal mechanism attribution.",
+    "Without Kalman/PV real-data receipts, use N/A or remove rows.",
+    "Without RIFT cached-CPU parity and a benchmark for a reported task, remove its RIFT runtime number; rewrite legacy E-ORT/ONNX text regardless of further BT-EORT measurement."
+  ]
+}

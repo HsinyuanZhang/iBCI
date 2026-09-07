@@ -297,6 +297,24 @@ def cell_id(depth: int) -> str:
 # ---------------------------------------------------------------------------
 
 
+def prepare_trained_model(
+    model: BTransformerUnifiedDecoderIdentity,
+    *,
+    banks: dict,
+    device,
+    face: str = "",
+    stage: str = "",
+    calib_by_session: dict | None = None,
+) -> BTransformerUnifiedDecoderIdentity:
+    """Hook for cells that attach extra session memory after the decoder build.
+
+    Default is identity. Joint B3S overrides this to register calib + rSyn3
+    and switch the decoder onto live E0. Called after ``.to(device)`` and the
+    param-count gate, before optimizer / EMA / scoring.
+    """
+    return model
+
+
 def _build_model(depth: int) -> BTransformerUnifiedDecoderIdentity:
     """proj_add P16 at a given temporal depth (depth 4 == the settled build)."""
     model = BTransformerUnifiedDecoderIdentity(
@@ -404,7 +422,10 @@ def gpu_preflight(out_path: Path, depth: int, stage: str) -> dict[str, Any]:
     }
     ok = raw == str(CUDA_PIN) and not foreign and torch.cuda.device_count() == 1
     report["ok"] = bool(ok)
-    _seal(out_path, report)
+    if out_path.exists():
+        _write_json(out_path.with_name(out_path.stem + "_live.json"), report)
+    else:
+        _seal(out_path, report)
     return report
 
 
@@ -1075,6 +1096,33 @@ def _load_inventory(root: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _latest_complete_epoch(dest: Path) -> int:
+    last = 0
+    for epoch in range(1, EPOCHS + 1):
+        if not (dest / f"epoch_{epoch:03d}.pt").is_file():
+            break
+        last = epoch
+    return last
+
+
+def _epoch_series_from_metrics(dest: Path) -> tuple[dict[int, float], dict[int, float]]:
+    mse: dict[int, float] = {}
+    lr: dict[int, float] = {}
+    path = dest / "metrics.jsonl"
+    if not path.is_file():
+        return mse, lr
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if row.get("event") != "epoch":
+            continue
+        epoch = int(row["epoch"])
+        mse[epoch] = float(row["train_mse"])
+        lr[epoch] = float(row["lr"])
+    return mse, lr
+
+
 def run_train(root: Path, dest: Path, depth: int, peak_lr: float, face: str) -> dict[str, Any]:
     from torch.utils.data import DataLoader
 
@@ -1108,6 +1156,19 @@ def run_train(root: Path, dest: Path, depth: int, peak_lr: float, face: str) -> 
     model = _build_model(depth).to(device)
     if int(sum(p.numel() for p in model.parameters())) != EXPECTED_PARAMS_BY_DEPTH[depth]:
         raise RuntimeError("param count drift vs expectation")
+    train_calib = None
+    if face == "fullsession":
+        train_calib = mp.calib_trials_from_dataset(train_ds)
+    elif face == "chron80":
+        train_calib = calib_from_source_dm()
+    model = prepare_trained_model(
+        model,
+        banks=banks,
+        device=device,
+        face=face,
+        stage="train",
+        calib_by_session=train_calib,
+    )
 
     from tfpd_exploration.src.m2_dual_track_v1 import training as dual_training
 
@@ -1122,10 +1183,34 @@ def run_train(root: Path, dest: Path, depth: int, peak_lr: float, face: str) -> 
 
     anchor = _budget_anchor(root)
     deadline_unix = float(anchor["unix"]) + OVERALL_BUDGET_SECONDS
+    last_complete = _latest_complete_epoch(dest)
+    resume_from = last_complete if last_complete >= 1 and not (dest / "train_receipt.json").exists() else 0
+    if resume_from and last_complete < EPOCHS:
+        ckpt_path = dest / f"epoch_{last_complete:03d}.pt"
+        ckpt = torch.load(ckpt_path, map_location=device, weights_only=False)
+        if ckpt.get("schema") != "btransform_unified_v1_m1_projadd_depth2_ckpt":
+            raise RuntimeError(f"resume ckpt schema drift: {ckpt_path}")
+        if int(ckpt.get("epoch", -1)) != last_complete:
+            raise RuntimeError(f"resume ckpt epoch {ckpt.get('epoch')} != {last_complete}")
+        if int(ckpt.get("global_step", -1)) != last_complete * updates_per_epoch:
+            raise RuntimeError(
+                f"resume ckpt global_step {ckpt.get('global_step')} != {last_complete * updates_per_epoch}"
+            )
+        model.load_state_dict(ckpt["raw_state_dict"], strict=True)
+        optimizer.load_state_dict(ckpt["optimizer"])
+        ema.load_state_dict(ckpt["ema"])
+        print(
+            f"[depth2] resume {cell_id(depth)} from {ckpt_path.name} "
+            f"epoch={last_complete} step={ckpt['global_step']} ema={ema.n_updates}",
+            flush=True,
+        )
+    elif resume_from and last_complete >= EPOCHS:
+        print(f"[depth2] all {EPOCHS} epoch ckpts present; sealing train receipt only", flush=True)
 
-    _seal(
-        dest / "run_meta.json",
-        {
+    if not (dest / "run_meta.json").exists():
+        _seal(
+            dest / "run_meta.json",
+            {
             "schema": "btransform_unified_v1_m1_projadd_depth2_run_meta",
             "cell": cell_id(depth),
             "route": "ADDENDUM-DEPTH2-PROMOTED (user directive 2026-09-07; §7 priority plan -> formal cell)",
@@ -1178,19 +1263,27 @@ def run_train(root: Path, dest: Path, depth: int, peak_lr: float, face: str) -> 
             "cuda": torch.version.cuda,
             "gpu_name": torch.cuda.get_device_name(0),
             "picks": picks,
-        },
-    )
+            },
+        )
 
     loader = DataLoader(train_ds, batch_sampler=sampler, collate_fn=_collate, num_workers=0)
     metrics_path = dest / "metrics.jsonl"
     heartbeat = dest / "heartbeat.json"
     started = time.monotonic()
-    global_step = 0
-    train_mse_series: dict[int, float] = {}
-    lr_series: dict[int, float] = {}
-    projection_reported = False
+    first_epoch = last_complete + 1 if resume_from else 1
+    global_step = last_complete * updates_per_epoch if resume_from else 0
+    train_mse_series, lr_series = _epoch_series_from_metrics(dest) if resume_from else ({}, {})
+    projection_reported = (dest / "budget_projection.json").exists()
+    resume_note = None
+    if resume_from:
+        resume_note = {
+            "resumed_from_epoch": last_complete,
+            "first_remaining_epoch": first_epoch,
+            "reason": "host reboot mid-epoch; leftover epochs continue from last sealed epoch ckpt",
+            "in_progress_epoch_discarded": last_complete + 1 if last_complete < EPOCHS else None,
+        }
 
-    for epoch in range(1, EPOCHS + 1):
+    for epoch in range(first_epoch, EPOCHS + 1):
         model.train()
         epoch_t0 = time.monotonic()
         running = 0.0
@@ -1312,7 +1405,10 @@ def run_train(root: Path, dest: Path, depth: int, peak_lr: float, face: str) -> 
             "lr": float(lr),
             "ema_decay": ema.decay,
         }
-        torch.save(ckpt, dest / f"epoch_{epoch:03d}.pt")
+        ckpt_out = dest / f"epoch_{epoch:03d}.pt"
+        if ckpt_out.exists():
+            raise FileExistsError(f"refusing to overwrite checkpoint {ckpt_out}")
+        torch.save(ckpt, ckpt_out)
         _append_jsonl(metrics_path, {"event": "epoch", "epoch": epoch, "cell": cell_id(depth), **extras, "unix": time.time()})
         _write_json(heartbeat, {"event": "epoch", "cell": cell_id(depth), "epoch": epoch, **extras, "unix": time.time(), "gpu_uuid": GPU_UUIDS[CUDA_PIN]})
 
@@ -1338,6 +1434,7 @@ def run_train(root: Path, dest: Path, depth: int, peak_lr: float, face: str) -> 
         "lr_at_epoch_end": lr_series,
         "elapsed_s": time.monotonic() - started,
         "sampler_batch_sha256": inventory["sampler_batch_sha256"],
+        "resume": resume_note,
         "picks": picks,
         "note_six_rows": picks["note_six_rows"],
         "finished_utc": utc_iso(),
@@ -1492,6 +1589,19 @@ def run_score(root: Path, dest: Path, depth: int, face: str = "chron80") -> dict
             raise RuntimeError(f"bank carrier digest drift vs sealed probe inventory: {name}")
 
     model = _build_model(depth).to(device)
+    score_calib = None
+    if face == "fullsession":
+        score_calib = mp.calib_trials_from_dataset(_ds)
+    elif face == "chron80":
+        score_calib = calib_from_source_dm()
+    model = prepare_trained_model(
+        model,
+        banks=banks,
+        device=device,
+        face=face,
+        stage="score",
+        calib_by_session=score_calib,
+    )
     view = _apply_endpoint24_ema(model, dest)
 
     minival = _score_source_minival(model, banks, device, face)
@@ -1685,12 +1795,15 @@ def run_pick(root: Path, dest: Path, depth: int, epoch_lo: int, epoch_hi: int) -
     provider = mp.default_identity_provider()
     sessions: dict[str, dict[str, Any]] = {}
     banks: dict[str, TaskBank] = {}
+    pick_calib: dict[str, Any] = {}
     for session in HELDOUT_CALIB_SESSIONS:
         opened = open_heldout_calib_session(session)
         carrier, carrier_meta = encode_heldout_calib_carrier(session)
         e0 = provider(opened["calib10"])
         bank = make_pick_bank(session, e0, carrier)
         banks[session] = bank
+        pick_calib[session] = opened["calib10"]
+        pick_calib[bank.session_id] = opened["calib10"]
         opened.pop("calib10")
         opened["bank"] = {
             "e0_sha256": bank.calibration_meta["array_sha256"],
@@ -1699,8 +1812,15 @@ def run_pick(root: Path, dest: Path, depth: int, epoch_lo: int, epoch_hi: int) -
             "body_sha256": opened["body_sha256"],
         }
         sessions[session] = opened
-
     model = _build_model(depth).to(device)
+    model = prepare_trained_model(
+        model,
+        banks=banks,
+        device=device,
+        face="pick",
+        stage="pick",
+        calib_by_session=pick_calib,
+    )
     rows: list[dict[str, Any]] = []
     for epoch in range(epoch_lo, epoch_hi + 1):
         ckpt_path = dest / f"epoch_{epoch:03d}.pt"
