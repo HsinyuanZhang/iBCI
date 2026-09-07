@@ -1,0 +1,830 @@
+{
+  "hyper_parameters": {
+    "behavior_scaling_factor": 5.0,
+    "compile": false,
+    "decode_last_timestep_only": true,
+    "electrode_embed_dim": 0,
+    "encoder_warmstart_path": null,
+    "fixed_slot_count": 0,
+    "fixed_slot_dim": 32,
+    "fixed_slot_fusion": "film",
+    "fixed_slot_mode": "soft",
+    "fixed_slot_temperature": 1.0,
+    "freeze_decoder": false,
+    "freeze_encoder_base": false,
+    "fusion_mean_lr_scale": 1.0,
+    "hidden_dim": 64,
+    "id_hidden_dim": 128,
+    "identity_mode": "calibrated",
+    "kernel_size": 5,
+    "lambda_E": 0.1,
+    "lambda_y": 1.0,
+    "learnable_ema_alpha": false,
+    "loss_mode": "task_only",
+    "neuron_dropout_block_size": 4,
+    "neuron_dropout_mode": "none",
+    "neuron_dropout_p_high": 0.3,
+    "neuron_dropout_p_low": 0.0,
+    "neuron_dropout_warmup_epochs": 10,
+    "num_electrodes": 0,
+    "num_emas": 4,
+    "num_filters": 4,
+    "pad_value": -1.0,
+    "predict_scaled_behavior": true,
+    "side_dim": 0,
+    "sparsity_k": 16,
+    "support_prediction_consistency_weight": 0.0,
+    "task": "mc_maze",
+    "teacher_ckpt_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/checkpoints/teacher_mc_maze/best-epoch=083-val_heldin/r2_mean=0.9061.ckpt",
+    "trial_length": 100,
+    "tune_encoder_fusion": false,
+    "variant": "B0",
+    "window_size": 50
+  },
+  "npz_sha256": "24c9d560e822888ae28a871fa00fbb32f87ada3a14ab5cafbf724e780fec5c18",
+  "resume_training": false,
+  "schema": "dandi688-state-npz-v1",
+  "source_epoch": 11,
+  "source_global_step": 407100,
+  "source_path": "sua_exploration/checkpoints/sua_spint_t4_mainline_fp32_v1_b0_dandi688_co_s42/epoch_ckpts/epoch_011.ckpt",
+  "source_sha256": "dc1c8e512cb1731154243918cda457bae2ad55da8cb97aac442ae662f36ce2cc",
+  "state_only": true,
+  "tensors": [
+    {
+      "key": "student.decoder.fc_id_in.0.bias",
+      "name": "tensor_00000",
+      "numpy_dtype": "<f4",
+      "sha256": "ce2990a7e5789ce1faac0703c448f3aa72991ab9b8ad7c86d6f80308f7cd0afd",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_in.0.weight",
+      "name": "tensor_00001",
+      "numpy_dtype": "<f4",
+      "sha256": "f4787e3a1f2494164af20c5ecdefdc07c2f1c379d8ddd910990dc8888a54a25f",
+      "shape": [
+        512,
+        100
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_in.2.bias",
+      "name": "tensor_00002",
+      "numpy_dtype": "<f4",
+      "sha256": "123426fcada7bcaa4a41362cb40fe85a6778754abba72aa52063d45ee766c410",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_in.2.weight",
+      "name": "tensor_00003",
+      "numpy_dtype": "<f4",
+      "sha256": "db0f14d12365db97a8ddb64b04b9e646f4e9707036826de586f906eff3c7e729",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_in.4.bias",
+      "name": "tensor_00004",
+      "numpy_dtype": "<f4",
+      "sha256": "ebdf05269a342d6b9f8836c1d8d10569256f5266b92ba6d38dc7195995f0a492",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_in.4.weight",
+      "name": "tensor_00005",
+      "numpy_dtype": "<f4",
+      "sha256": "aec6b0425f4c8a74db4f0c9c765fcab8684289f291fc43a104a54b22b5137768",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_out.0.bias",
+      "name": "tensor_00006",
+      "numpy_dtype": "<f4",
+      "sha256": "37d6cdb081843ee6aa34446870ce22b250240aeb2278ff85a197cce38f8aec9f",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_out.0.weight",
+      "name": "tensor_00007",
+      "numpy_dtype": "<f4",
+      "sha256": "3197f13f8601573e63163e4f8e7222d8867d694e9fffa92647c1def00dbe8455",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_out.2.bias",
+      "name": "tensor_00008",
+      "numpy_dtype": "<f4",
+      "sha256": "56d9895849b438882f9b580604d102f4af1d7b221232d9825505abd01a7a2e56",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_out.2.weight",
+      "name": "tensor_00009",
+      "numpy_dtype": "<f4",
+      "sha256": "291c06c1b8e30217caf130a5abde90ac222a84feb507fae14fba65b6e9eb8671",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_out.4.bias",
+      "name": "tensor_00010",
+      "numpy_dtype": "<f4",
+      "sha256": "dc110eff83ef6c72607dd152607097c754a044b7361e5525ba659af00a126105",
+      "shape": [
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_id_out.4.weight",
+      "name": "tensor_00011",
+      "numpy_dtype": "<f4",
+      "sha256": "424f2c13ada8b0a7081cdca79bac7a3a0b37972b5232ae1066a35db0fa9d5b3f",
+      "shape": [
+        50,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_in.0.bias",
+      "name": "tensor_00012",
+      "numpy_dtype": "<f4",
+      "sha256": "021bf12ac4941cbdf1cffcb3332224267349c125995474546c337fff63a50745",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_in.0.weight",
+      "name": "tensor_00013",
+      "numpy_dtype": "<f4",
+      "sha256": "bda623c862dd3c7344f5e6877844fe254662c982e7e1af5594a7707f3c004ef7",
+      "shape": [
+        512,
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_in.2.bias",
+      "name": "tensor_00014",
+      "numpy_dtype": "<f4",
+      "sha256": "17332841d9ed57dc771990bd2c3d59019df29ceb901afd7495246e504a75fc63",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_in.2.weight",
+      "name": "tensor_00015",
+      "numpy_dtype": "<f4",
+      "sha256": "72085d36811adfc04b9bc274307be7d4536209b8ac59d5ab1dcaaf1d099f524f",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_out.bias",
+      "name": "tensor_00016",
+      "numpy_dtype": "<f4",
+      "sha256": "c91efe7adf6e4da716e2ae22ec2fcf4e07431e4330e14f2f33d6a374745a06ef",
+      "shape": [
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.fc_out.weight",
+      "name": "tensor_00017",
+      "numpy_dtype": "<f4",
+      "sha256": "bcbe7d384fcd96a73d4358cc9c91ab669196e1951d3ed1021ad5d3de5b1d915c",
+      "shape": [
+        50,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.rep",
+      "name": "tensor_00018",
+      "numpy_dtype": "<f4",
+      "sha256": "5cabd466f2035a9c9dbac87886a7941f636d2d26ecad3b7d4b54db6ed299d42c",
+      "shape": [
+        1,
+        2,
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.cross_attn.in_proj_bias",
+      "name": "tensor_00019",
+      "numpy_dtype": "<f4",
+      "sha256": "3378f14f314e44a397c3c8ebc12407107b2b928d8a0aad3e8d71477e14b774d4",
+      "shape": [
+        1536
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.cross_attn.in_proj_weight",
+      "name": "tensor_00020",
+      "numpy_dtype": "<f4",
+      "sha256": "591b2bac36bf95f8465934b35edb634cdf88e7d05b91db758f6dc3fe5600a9f5",
+      "shape": [
+        1536,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.cross_attn.out_proj.bias",
+      "name": "tensor_00021",
+      "numpy_dtype": "<f4",
+      "sha256": "6d58f6e5c175ed6e66d92e5cc30428be695831a9ca525d0f1e2f0a5afbfba12c",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.cross_attn.out_proj.weight",
+      "name": "tensor_00022",
+      "numpy_dtype": "<f4",
+      "sha256": "45293f81b59f181c1b5d0d8139f9460f0a0e8d7f91091bb29ef88deb7d6f01c5",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.ffn.0.bias",
+      "name": "tensor_00023",
+      "numpy_dtype": "<f4",
+      "sha256": "3d3a87c79a522d72d8fec7a90926998e2efcd76779b26d267a72d6c82e41714b",
+      "shape": [
+        2048
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.ffn.0.weight",
+      "name": "tensor_00024",
+      "numpy_dtype": "<f4",
+      "sha256": "8ce0111c18e97ad8cbf01fb38c328483458b20da5354ad771c6b92fbcd541b77",
+      "shape": [
+        2048,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.ffn.3.bias",
+      "name": "tensor_00025",
+      "numpy_dtype": "<f4",
+      "sha256": "3d604878b3a7ea86a540e963c9ec13cc18d26fae2cd29e7b86320b58a4f33852",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.ffn.3.weight",
+      "name": "tensor_00026",
+      "numpy_dtype": "<f4",
+      "sha256": "470af7bb1cb11181c8758bd039e980f66ec3b4f374ed2201cdb85e0209dcd235",
+      "shape": [
+        512,
+        2048
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.norm1.bias",
+      "name": "tensor_00027",
+      "numpy_dtype": "<f4",
+      "sha256": "4623d72a1c6f9974ff1c48c4678559228fff427643b8a822f19112ade5b501be",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.norm1.weight",
+      "name": "tensor_00028",
+      "numpy_dtype": "<f4",
+      "sha256": "a429a6fad203255cc27f1cbcfb976fbe612e1faf8f287780dcec7a5b02699707",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.norm2.bias",
+      "name": "tensor_00029",
+      "numpy_dtype": "<f4",
+      "sha256": "0a8aed71dee29628a783af571cd802e13f01fa901d35460005e02d9427e81647",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.decoder.transformer.layers.0.norm2.weight",
+      "name": "tensor_00030",
+      "numpy_dtype": "<f4",
+      "sha256": "30605cf8d0cb660e76df34eefbd510a40049ad30943be52a7dd59cac5f5dcd39",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_in.0.bias",
+      "name": "tensor_00031",
+      "numpy_dtype": "<f4",
+      "sha256": "a1dae9f96cda124fed2d6690edfa6798947a8ef3b48d58b66d75b5baa2a352b9",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_in.0.weight",
+      "name": "tensor_00032",
+      "numpy_dtype": "<f4",
+      "sha256": "ba4005c30737a18b5c9a07595df71f510c8a3e5b2e9ab1f0051157029722372d",
+      "shape": [
+        512,
+        100
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_in.2.bias",
+      "name": "tensor_00033",
+      "numpy_dtype": "<f4",
+      "sha256": "dd298e3dd27e5e5a21f73e4f39f68f28e6dc888de47545390fb1a165b043af0d",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_in.2.weight",
+      "name": "tensor_00034",
+      "numpy_dtype": "<f4",
+      "sha256": "bf7e1f0c8ea942aa534ff708f4b9ca7f7448d0383bbd854ea579e8941bdfaf34",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_in.4.bias",
+      "name": "tensor_00035",
+      "numpy_dtype": "<f4",
+      "sha256": "f884cc844da210fbb186ec961cbaa92dfc9d748e323f6f827cf4906ba4667f55",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_in.4.weight",
+      "name": "tensor_00036",
+      "numpy_dtype": "<f4",
+      "sha256": "3aa7f24f76958b92fa829db1c2f6b292d2710d69469800f19cb10f0e640eadfa",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_out.0.bias",
+      "name": "tensor_00037",
+      "numpy_dtype": "<f4",
+      "sha256": "052ec79fdfdb40836b1102a7c23fa7f2dbffc0cc94c35f119172433cadd28621",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_out.0.weight",
+      "name": "tensor_00038",
+      "numpy_dtype": "<f4",
+      "sha256": "759cb4a1b15c067be37b6adf0b075127c9201df7672727929ea8cf24139b513d",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_out.2.bias",
+      "name": "tensor_00039",
+      "numpy_dtype": "<f4",
+      "sha256": "fc386bda307cd438ba7d63912c1f1d133f31a6ec368250c9fc2bdc6388bc26c2",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_out.2.weight",
+      "name": "tensor_00040",
+      "numpy_dtype": "<f4",
+      "sha256": "41fc75574ce9429d37cf41926576834c03c2f7d0f42122f6b3ea83ac465e7c9e",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_out.4.bias",
+      "name": "tensor_00041",
+      "numpy_dtype": "<f4",
+      "sha256": "4491a0b5885d1e408f17e8cf074d713427af0f0921bbdd2ec20fe2c85dd29f05",
+      "shape": [
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "student.id_encoder.fc_id_out.4.weight",
+      "name": "tensor_00042",
+      "numpy_dtype": "<f4",
+      "sha256": "3ed75f475c8702e98e0c9935099033a8226f4e46c0015ea7a944953d02f693a7",
+      "shape": [
+        50,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_in.0.bias",
+      "name": "tensor_00043",
+      "numpy_dtype": "<f4",
+      "sha256": "ce2990a7e5789ce1faac0703c448f3aa72991ab9b8ad7c86d6f80308f7cd0afd",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_in.0.weight",
+      "name": "tensor_00044",
+      "numpy_dtype": "<f4",
+      "sha256": "f4787e3a1f2494164af20c5ecdefdc07c2f1c379d8ddd910990dc8888a54a25f",
+      "shape": [
+        512,
+        100
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_in.2.bias",
+      "name": "tensor_00045",
+      "numpy_dtype": "<f4",
+      "sha256": "123426fcada7bcaa4a41362cb40fe85a6778754abba72aa52063d45ee766c410",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_in.2.weight",
+      "name": "tensor_00046",
+      "numpy_dtype": "<f4",
+      "sha256": "db0f14d12365db97a8ddb64b04b9e646f4e9707036826de586f906eff3c7e729",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_in.4.bias",
+      "name": "tensor_00047",
+      "numpy_dtype": "<f4",
+      "sha256": "ebdf05269a342d6b9f8836c1d8d10569256f5266b92ba6d38dc7195995f0a492",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_in.4.weight",
+      "name": "tensor_00048",
+      "numpy_dtype": "<f4",
+      "sha256": "aec6b0425f4c8a74db4f0c9c765fcab8684289f291fc43a104a54b22b5137768",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_out.0.bias",
+      "name": "tensor_00049",
+      "numpy_dtype": "<f4",
+      "sha256": "37d6cdb081843ee6aa34446870ce22b250240aeb2278ff85a197cce38f8aec9f",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_out.0.weight",
+      "name": "tensor_00050",
+      "numpy_dtype": "<f4",
+      "sha256": "3197f13f8601573e63163e4f8e7222d8867d694e9fffa92647c1def00dbe8455",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_out.2.bias",
+      "name": "tensor_00051",
+      "numpy_dtype": "<f4",
+      "sha256": "56d9895849b438882f9b580604d102f4af1d7b221232d9825505abd01a7a2e56",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_out.2.weight",
+      "name": "tensor_00052",
+      "numpy_dtype": "<f4",
+      "sha256": "291c06c1b8e30217caf130a5abde90ac222a84feb507fae14fba65b6e9eb8671",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_out.4.bias",
+      "name": "tensor_00053",
+      "numpy_dtype": "<f4",
+      "sha256": "dc110eff83ef6c72607dd152607097c754a044b7361e5525ba659af00a126105",
+      "shape": [
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_id_out.4.weight",
+      "name": "tensor_00054",
+      "numpy_dtype": "<f4",
+      "sha256": "424f2c13ada8b0a7081cdca79bac7a3a0b37972b5232ae1066a35db0fa9d5b3f",
+      "shape": [
+        50,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_in.0.bias",
+      "name": "tensor_00055",
+      "numpy_dtype": "<f4",
+      "sha256": "11e91044f58a476934ac3066ef701a1f392340f2a0335e867eed2773c3dc8e1d",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_in.0.weight",
+      "name": "tensor_00056",
+      "numpy_dtype": "<f4",
+      "sha256": "70680ff84993f8bf4835a7c4aa7476d166e703bf8f22e030ccdb72fb57b113e1",
+      "shape": [
+        512,
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_in.2.bias",
+      "name": "tensor_00057",
+      "numpy_dtype": "<f4",
+      "sha256": "942def5a9d0d6cc226e14e0a070312469975a5a1bee5a9134f39316da6dc3ba1",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_in.2.weight",
+      "name": "tensor_00058",
+      "numpy_dtype": "<f4",
+      "sha256": "a4950396fb2070feb71da1640737562e6e51919b3815120b229133656c88015a",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_out.bias",
+      "name": "tensor_00059",
+      "numpy_dtype": "<f4",
+      "sha256": "34dca992bcd0f62c855fb1fb3e383bffe36c4dd15fa655b11d3baaef553480a1",
+      "shape": [
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.fc_out.weight",
+      "name": "tensor_00060",
+      "numpy_dtype": "<f4",
+      "sha256": "0f2f2aef5700a46daac274dae8be20c363c561c2797661816e22c3d2060e4964",
+      "shape": [
+        50,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.rep",
+      "name": "tensor_00061",
+      "numpy_dtype": "<f4",
+      "sha256": "871e217fa5d51e389a08b7a86997164f6bb56face21126f6f4d9ba4cc56eb979",
+      "shape": [
+        1,
+        2,
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.cross_attn.in_proj_bias",
+      "name": "tensor_00062",
+      "numpy_dtype": "<f4",
+      "sha256": "0b1e65661aeba384aa582ea4ebfa902e9ed994207827795c6155286c29941e70",
+      "shape": [
+        1536
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.cross_attn.in_proj_weight",
+      "name": "tensor_00063",
+      "numpy_dtype": "<f4",
+      "sha256": "c8c1fd95c2e26cff507f48411dab8c8407c065031f04a6032b99f0ef3ab95c02",
+      "shape": [
+        1536,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.cross_attn.out_proj.bias",
+      "name": "tensor_00064",
+      "numpy_dtype": "<f4",
+      "sha256": "a8b27756dd3bcd28218fa7d0eaa96ae8f5dc90b29aecf8ae0ce9232ec0222b68",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.cross_attn.out_proj.weight",
+      "name": "tensor_00065",
+      "numpy_dtype": "<f4",
+      "sha256": "97ddcf2a4d2ee46f68fd4c190582451f3433131b4a42442c23ca290a4f13daa0",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.ffn.0.bias",
+      "name": "tensor_00066",
+      "numpy_dtype": "<f4",
+      "sha256": "f82b65d4448b3461fedb3dcdbcd2a089bf0f31a5c38d39fde08b34622e619dfe",
+      "shape": [
+        2048
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.ffn.0.weight",
+      "name": "tensor_00067",
+      "numpy_dtype": "<f4",
+      "sha256": "7930120e24e6d52591191d6d9d24ce30606258c9d62e359ec16bda0e64edab9d",
+      "shape": [
+        2048,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.ffn.3.bias",
+      "name": "tensor_00068",
+      "numpy_dtype": "<f4",
+      "sha256": "55cfabe8481cc9ffe583a075fa248c39b2ecc1116c8183b6f2b48c2c533d80a3",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.ffn.3.weight",
+      "name": "tensor_00069",
+      "numpy_dtype": "<f4",
+      "sha256": "23199fc651baed28af4d1685ec02dec87025057521ca4dde189ac16cb629cb4f",
+      "shape": [
+        512,
+        2048
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.norm1.bias",
+      "name": "tensor_00070",
+      "numpy_dtype": "<f4",
+      "sha256": "7fa0368ec29a733fe63671acbce9116628e5f22351d07233749d8e357349a548",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.norm1.weight",
+      "name": "tensor_00071",
+      "numpy_dtype": "<f4",
+      "sha256": "59a8cac1274b5b4681d24c230c9e14794cdc13074dbdc51b2deaadc650fb280c",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.norm2.bias",
+      "name": "tensor_00072",
+      "numpy_dtype": "<f4",
+      "sha256": "b608fa2dd7b4a23bf9c7f6914c7990fbc4d6192ba591fa94d18efdddb3ee0f20",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "teacher.transformer.layers.0.norm2.weight",
+      "name": "tensor_00073",
+      "numpy_dtype": "<f4",
+      "sha256": "2616ad817e0c383a26193850aea551963c88b65a5a37688b187fa3624f206dfc",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    }
+  ]
+}

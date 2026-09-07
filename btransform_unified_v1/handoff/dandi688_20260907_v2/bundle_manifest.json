@@ -1,0 +1,42 @@
+{
+  "assets": [
+    {
+      "bytes": 38333373,
+      "file": "b0_s42_e11_full.npz",
+      "roundtrip": "BITWISE_PASS",
+      "sha256": "24c9d560e822888ae28a871fa00fbb32f87ada3a14ab5cafbf724e780fec5c18",
+      "tensors": 74
+    },
+    {
+      "bytes": 4190550,
+      "file": "b0_s42_e11_encoder.npz",
+      "roundtrip": "BITWISE_PASS",
+      "sha256": "889546a4588fcbed9c5c966784a981391bedbec1db9f16decbe0f98511c3a0be",
+      "tensors": 12
+    },
+    {
+      "bytes": 34215175,
+      "file": "t4_s42_e11_full.npz",
+      "roundtrip": "BITWISE_PASS",
+      "sha256": "6721ade9d6c9483ae8c7edd545de74fa8720d975f60791a25d764680db1f7e18",
+      "tensors": 70
+    }
+  ],
+  "exclusions": [
+    "NWB/data",
+    "dense caches",
+    "optimizer",
+    "scheduler",
+    "RNG",
+    "EMA resume state"
+  ],
+  "formal_training_runner": "NOT_IMPLEMENTED_IN_THIS_HANDOFF",
+  "git_head": "21d0881f50a8d88d78fb5d5b941a6bf470019e9f",
+  "numpy_version": "2.2.6",
+  "schema": "dandi688-state-npz-v1",
+  "source_files": 537,
+  "source_snapshot_sha256": "24918c066653d97a34abd755a6b60ac64f6361f75b7bf01705d9d9c3a2c3621d",
+  "teacher_dependency": "PRESENT; embedded teacher weights included in full NPZ; roster audit still required",
+  "torch_version": "2.12.0+cu130",
+  "working_tree_snapshot": true
+}

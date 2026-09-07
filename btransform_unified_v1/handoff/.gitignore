@@ -1,0 +1,6 @@
+# Deliberately bounded transfer assets; do not unignore arbitrary experiment caches.
+dandi688_20260907_v1/
+!dandi688_20260907_v2/b0_s42_e11_encoder.npz
+!dandi688_20260907_v2/b0_s42_e11_full.npz
+!dandi688_20260907_v2/t4_s42_e11_full.npz
+!dandi688_20260907_v2/source_snapshot.zip

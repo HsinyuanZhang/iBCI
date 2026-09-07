@@ -1,0 +1,182 @@
+{
+  "e0_dim": 50,
+  "hyper_parameters": {
+    "behavior_scaling_factor": 5.0,
+    "compile": false,
+    "decode_last_timestep_only": true,
+    "electrode_embed_dim": 0,
+    "encoder_warmstart_path": null,
+    "fixed_slot_count": 0,
+    "fixed_slot_dim": 32,
+    "fixed_slot_fusion": "film",
+    "fixed_slot_mode": "soft",
+    "fixed_slot_temperature": 1.0,
+    "freeze_decoder": false,
+    "freeze_encoder_base": false,
+    "fusion_mean_lr_scale": 1.0,
+    "hidden_dim": 64,
+    "id_hidden_dim": 128,
+    "identity_mode": "calibrated",
+    "kernel_size": 5,
+    "lambda_E": 0.1,
+    "lambda_y": 1.0,
+    "learnable_ema_alpha": false,
+    "loss_mode": "task_only",
+    "neuron_dropout_block_size": 4,
+    "neuron_dropout_mode": "none",
+    "neuron_dropout_p_high": 0.3,
+    "neuron_dropout_p_low": 0.0,
+    "neuron_dropout_warmup_epochs": 10,
+    "num_electrodes": 0,
+    "num_emas": 4,
+    "num_filters": 4,
+    "pad_value": -1.0,
+    "predict_scaled_behavior": true,
+    "side_dim": 0,
+    "sparsity_k": 16,
+    "support_prediction_consistency_weight": 0.0,
+    "task": "mc_maze",
+    "teacher_ckpt_path": "/home/xinyuan/Work_host/SPINT/sua_exploration/checkpoints/teacher_mc_maze/best-epoch=083-val_heldin/r2_mean=0.9061.ckpt",
+    "trial_length": 100,
+    "tune_encoder_fusion": false,
+    "variant": "B0",
+    "window_size": 50
+  },
+  "npz_sha256": "889546a4588fcbed9c5c966784a981391bedbec1db9f16decbe0f98511c3a0be",
+  "resume_training": false,
+  "schema": "dandi688-state-npz-v1",
+  "source_epoch": 11,
+  "source_global_step": 407100,
+  "source_path": "sua_exploration/checkpoints/sua_spint_t4_mainline_fp32_v1_b0_dandi688_co_s42/epoch_ckpts/epoch_011.ckpt",
+  "source_sha256": "dc1c8e512cb1731154243918cda457bae2ad55da8cb97aac442ae662f36ce2cc",
+  "state_only": true,
+  "stripped_prefix": "student.id_encoder.",
+  "tensors": [
+    {
+      "key": "fc_id_in.0.bias",
+      "name": "tensor_00000",
+      "numpy_dtype": "<f4",
+      "sha256": "a1dae9f96cda124fed2d6690edfa6798947a8ef3b48d58b66d75b5baa2a352b9",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_in.0.weight",
+      "name": "tensor_00001",
+      "numpy_dtype": "<f4",
+      "sha256": "ba4005c30737a18b5c9a07595df71f510c8a3e5b2e9ab1f0051157029722372d",
+      "shape": [
+        512,
+        100
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_in.2.bias",
+      "name": "tensor_00002",
+      "numpy_dtype": "<f4",
+      "sha256": "dd298e3dd27e5e5a21f73e4f39f68f28e6dc888de47545390fb1a165b043af0d",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_in.2.weight",
+      "name": "tensor_00003",
+      "numpy_dtype": "<f4",
+      "sha256": "bf7e1f0c8ea942aa534ff708f4b9ca7f7448d0383bbd854ea579e8941bdfaf34",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_in.4.bias",
+      "name": "tensor_00004",
+      "numpy_dtype": "<f4",
+      "sha256": "f884cc844da210fbb186ec961cbaa92dfc9d748e323f6f827cf4906ba4667f55",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_in.4.weight",
+      "name": "tensor_00005",
+      "numpy_dtype": "<f4",
+      "sha256": "3aa7f24f76958b92fa829db1c2f6b292d2710d69469800f19cb10f0e640eadfa",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_out.0.bias",
+      "name": "tensor_00006",
+      "numpy_dtype": "<f4",
+      "sha256": "052ec79fdfdb40836b1102a7c23fa7f2dbffc0cc94c35f119172433cadd28621",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_out.0.weight",
+      "name": "tensor_00007",
+      "numpy_dtype": "<f4",
+      "sha256": "759cb4a1b15c067be37b6adf0b075127c9201df7672727929ea8cf24139b513d",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_out.2.bias",
+      "name": "tensor_00008",
+      "numpy_dtype": "<f4",
+      "sha256": "fc386bda307cd438ba7d63912c1f1d133f31a6ec368250c9fc2bdc6388bc26c2",
+      "shape": [
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_out.2.weight",
+      "name": "tensor_00009",
+      "numpy_dtype": "<f4",
+      "sha256": "41fc75574ce9429d37cf41926576834c03c2f7d0f42122f6b3ea83ac465e7c9e",
+      "shape": [
+        512,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_out.4.bias",
+      "name": "tensor_00010",
+      "numpy_dtype": "<f4",
+      "sha256": "4491a0b5885d1e408f17e8cf074d713427af0f0921bbdd2ec20fe2c85dd29f05",
+      "shape": [
+        50
+      ],
+      "torch_dtype": "torch.float32"
+    },
+    {
+      "key": "fc_id_out.4.weight",
+      "name": "tensor_00011",
+      "numpy_dtype": "<f4",
+      "sha256": "3ed75f475c8702e98e0c9935099033a8226f4e46c0015ea7a944953d02f693a7",
+      "shape": [
+        50,
+        512
+      ],
+      "torch_dtype": "torch.float32"
+    }
+  ]
+}
