@@ -1,0 +1,14 @@
+{
+  "arm": "m2_rift_r50_concat_e9_cached",
+  "challenge": 2319,
+  "host_verify_max_abs_b1": 0.0,
+  "host_verify_max_abs_b7": 3.562308847904205e-08,
+  "image_id": "sha256:413996a61743bcdb4a86ed90a76dfcf75692d284599cbc1225767ac73469ad57",
+  "method_name": "M2 RIFT R50 concat e9 cached",
+  "payload_sha256": "5e8655a7de776c999064574dc0571f21275f581c972cd52624cf87521ec41d2d",
+  "phase": 4599,
+  "previous_submission_id": 582134,
+  "resubmit_reason": "stuck_no_worker_1h",
+  "status": "submitted",
+  "submission_id": 582151
+}

@@ -1,0 +1,20 @@
+{
+  "submission_id": 582128,
+  "status": "finished",
+  "method_name": "M2 RIFT R50 concat e7 cached",
+  "identity": "RIFT R50 D4/width256 concat cached CPU KV; same 13-tag banks as 582047; not BT-EORT, not ORT, not SPINT",
+  "test_split_m2": {
+    "Normalized Latency": 0.10876211095610985,
+    "Held Out R2 Mean": 0.33793158813946816,
+    "Held Out R2 Std.": 0.13593890818054502,
+    "Held In R2 Mean": 0.6418733686451893,
+    "Held In R2 Std.": 0.024104636810546913
+  },
+  "local_ext4_pick_eq": 0.3826,
+  "prior_582047_official": {
+    "Held Out R2 Mean": 0.390305,
+    "Held In R2 Mean": 0.654638,
+    "Normalized Latency": 0.335382
+  },
+  "note": "EvalAI execution_time 0.11s is a clock artifact. Official HO is 0.045 below local ext4 e7 and 0.052 below 582047 SMALL concat."
+}

@@ -1,400 +1,342 @@
 {
-  "schema": "paper_experiment_requirements_v1",
-  "audit_date": "2026-09-07",
-  "scope": "Requirements inventory only; no paper, code, checkpoint, or experiment mutation.",
-  "paper": "bci_paper_overleaf/paper_4pp.tex",
-  "evidence_gate": [
-    "immutable_or_reproducible_provenance",
-    "legal_target_exposure",
-    "paired_comparison",
-    "matched_query_surface",
-    "uncertainty_and_reliability",
-    "checkpoint_architecture_backend_binding"
-  ],
-  "global_decision": "RIFT with cached CPU runtime is the active mainline. Published SPINT/Wiener establish external BP-free FALCON references; H1 submission 582073 now has archived official results. Four-task profile effects remain open. Paper RIFT methods update was pushed at a186dd9.",
-  "requirements": [
-    {
-      "id": "P01",
-      "paper_location": "abstract:40-50; conclusion:537-544",
-      "claim": "Verified profile effects and calibration cost across 688, M2, M1, H1 using RIFT as the active model family.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "open",
-      "class": "must_do",
-      "required_proof": [
-        "paired profile-minus-activity effect",
-        "session/date score arrays",
-        "interval and analysis unit",
-        "support cost wall time",
-        "same query surface",
-        "RIFT checkpoint/runtime binding"
-      ],
-      "acceptance": "One receipt-bound result bundle per task; no historical cross-family score substitution."
+  "closed": {
+    "h1_method": {
+      "audit": "btransform_unified_v2/docs/H1_FROZEN_CARRIER_METHOD_BINDING_20260908.json",
+      "cost_parity": "81/81 T and E0 byte-equal",
+      "cost_receipt": "btransform_unified_v2/results/diagnostics_v1/h1_frozen_calibration_cost_v2/report.json",
+      "cost_sha256": "54d737eac6342f10d0f6517bfe94f48ff6303e35e7a160012727b98b83d53186",
+      "cost_warm_ms": {
+        "median": 1.085079,
+        "p95": 1.155038
+      },
+      "functional_replay": "replayed FP64 pcs/U/mu differ from sealed hashes, but all 27 normalized float32 deployed T arrays are byte-equal; this is not original NPZ byte recovery",
+      "method": "frozen M3 H-C: source-only q=12, ridge lambda=10.0, source PCA/output-SVD/EB shrinkage/source-RMS normalizer",
+      "original_payload_lineage": "27/27 source candidate -> C2 -> B2 T byte-equal",
+      "status": "COMPLETE_FUNCTIONAL_REPLAY_AND_COST",
+      "verify27_sha256": "5c64b943c2d6758493d88ecaee714edfd1294b9fd28a2eedeec4006fd6461aca"
     },
-    {
-      "id": "P02",
-      "paper_location": "160-285",
-      "claim": "Four task-structured estimators yield a common 4D BP-free carrier.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "partially_specified",
-      "class": "must_do",
-      "required_proof": [
-        "frozen source parameters",
-        "support input hash",
-        "4D output/normalizer",
-        "zero target network backward steps",
-        "carrier implementation binding"
-      ],
-      "acceptance": "Per-task constructibility and legality receipt."
+    "h1_official": {
+      "held_out_mean": 0.4027782688014744,
+      "held_out_std": 0.14526658466582196,
+      "receipt": "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/official_result.json",
+      "sha256": "52e88d57b25c47f1648b73d4b8dad431a01fe49c4ea017153652de0266cc54d8",
+      "status": "COMPLETE_ARCHIVED",
+      "submission": 582073
     },
-    {
-      "id": "P03",
-      "paper_location": "406-412",
-      "claim": "B architecture, task windows, and checkpoint binding.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "open",
-      "class": "protocol_undecided",
-      "required_proof": [
-        "family name BT-EORT or RIFT",
-        "checkpoint hash",
-        "config/window",
-        "source data manifest",
-        "runtime backend"
-      ],
-      "acceptance": "Every reported B score resolves to exactly one model configuration."
+    "m1_baseline_s42": {
+      "equal_session_mean": 0.7046861491278348,
+      "receipt": "btransform_unified_v2/results/rift_v1/m1_r100_recency_s42_formal_v3/score_receipt.json",
+      "selected_ema_epoch": 3,
+      "status": "COMPLETE_DEVELOPMENT"
     },
-    {
-      "id": "P04",
-      "paper_location": "416-434",
-      "claim": "Matched evaluation protocol and provenance.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "open",
-      "class": "must_do",
-      "required_proof": [
-        "support/query hash",
-        "valid-frame mask",
-        "source/eval counts",
-        "seed plan",
-        "selection surface",
-        "R2 aggregation",
-        "SPINT provenance"
-      ],
-      "acceptance": "Manifest is shared by all paired arms in a task."
+    "m1_concat_s42": {
+      "calibration_cost_ms_approx": 50.87,
+      "equal_session_mean": 0.734192,
+      "runtime_ms": {
+        "B1_median": 1.954,
+        "B1_p95": 1.989
+      },
+      "selected_ema_epoch": 3,
+      "status": "COMPLETE_DEVELOPMENT"
     },
-    {
-      "id": "P05",
-      "paper_location": "main_table:452-457",
-      "claim": "Six rows by four task columns.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "partially_closed_with_published_SPINT",
-      "class": "must_do_or_reduce_table",
-      "required_proof": [
-        "numeric receipt or explicit N/A",
-        "target BP protocol",
-        "matched score surface",
-        "published SPINT Table 1 citation/surface label"
-      ],
-      "acceptance": "Published SPINT/Wiener values may appear only with their Table-1 held-out surface marker; local RIFT rows still require receipts."
+    "m1_direct_25_conditions": {
+      "status": "COMPLETE"
     },
-    {
-      "id": "P06",
-      "paper_location": "474-491",
-      "claim": "Profile effect, B effect, carrier stability, and basis coverage.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "open",
-      "class": "must_do_or_delete",
-      "required_proof": [
-        "paired effects",
-        "intervals",
-        "resampled carrier stability",
-        "predefined coverage metric",
-        "association analysis"
-      ],
-      "acceptance": "Claim scope matches actual task coverage and inference unit."
+    "m1_joint_d42": {
+      "checkpoint_epoch_3_sha256": "d7eba8ba9cea88b1290a68ed86fa3a75d51a11256747c6232fcb1c17b341efba",
+      "delta_vs_frozen_concat_e3": 6.776958380461107e-05,
+      "equal_session_mean": 0.7342600300996954,
+      "limits": "single D arm and seed42 development evidence; the small delta is not a benefit, profile-effect, or mechanism-effect claim",
+      "selected_ema_epoch": 3,
+      "status": "COMPLETE_DEVELOPMENT_SEED42_D_ONLY",
+      "validation": "btransform_unified_v2/results/rift_v1/m1_r100_joint_d_s42_formal_v1/validation_audit.json",
+      "validation_sha256": "7fa2c2092b34670cd368ee1795eb555d5ed7671334ce4b549abeddd5dd41a4f7"
     },
-    {
-      "id": "P07",
-      "paper_location": "480-513",
-      "claim": "Representative M2 source-seven/ext4 information and architecture mechanism matrix; not a four-task 28-cell requirement.",
-      "tasks": [
-        "M2"
-      ],
-      "status": "protocol_frozen_M2_pending_results",
-      "class": "must_do_for_representative_table",
-      "required_proof": [
-        "B activity-only",
-        "C carrier-only",
-        "D joint",
-        "D-shuffle",
-        "mean-vs-slot",
-        "matched nonattention-vs-temporal",
-        "same source-seven/ext4 support/query/training budget"
-      ],
-      "acceptance": "M2 source-seven/ext4 is fixed before mechanism scores; A/no-calibration is an optional diagnostic. Three seeds prioritize paired B/D; seed42-only auxiliary arms are exploratory until expanded."
+    "m1_joint_pair_seed42": {
+      "B": {
+        "epoch_24_equal_session_mean": 0.5799890397983798,
+        "selected_ema_epoch": 3,
+        "selected_equal_session_mean": 0.6630568974542209,
+        "validation": "btransform_unified_v2/results/rift_v1/m1_r100_joint_b_s42_formal_v1/validation_audit.json",
+        "validation_sha256": "a01e762028186891d19e9ec0717c3d752239e8291960f3f360ff8b905e7b3a6e"
+      },
+      "D": {
+        "epoch_24_equal_session_mean": 0.6675785440106274,
+        "selected_ema_epoch": 3,
+        "selected_equal_session_mean": 0.7342600300996954
+      },
+      "fixed_epoch_24_d_minus_b": 0.08758950421224765,
+      "independent_pick_d_minus_b": 0.07120313264547451,
+      "limits": "one paired seed42 visible-HO3 M10/query-trial-0 development comparison; sessions are within-seed repeated measurements, support may overlap query recordings, and there is no CI, p value, multi-seed, independent-generalization, official-test, or joint-encoder-benefit inference",
+      "pair_summary": "btransform_unified_v2/results/diagnostics_v1/m1_joint_pair_summary_v1.json",
+      "pair_summary_sha256": "b85d061fca7d13aed62b22be10bdb296428ffcca4c07364e1cf462017572d415",
+      "status": "COMPLETE_VISIBLE_HO3_SEED42_DESCRIPTIVE"
     },
-    {
-      "id": "P08",
-      "paper_location": "515-534",
-      "claim": "RIFT cached CPU parity, latency, memory, and calibration cost; BT-EORT only as an explicitly labelled comparison.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "paper_rewrite_required",
-      "class": "must_do_for_reported_RIFT_tasks",
-      "required_proof": [
-        "RIFT cached parity",
-        "complete-call median/P95",
-        "calibration wall time where claimed",
-        "peak memory where claimed",
-        "device/thread/precision/batch",
-        "BT-EORT comparison labelled as separate family"
-      ],
-      "acceptance": "Rewrite E-ORT/ONNX paper text to RIFT cached CPU; do not require an E-ORT/ONNX four-task rerun."
+    "m1_joint_d42_e3_cpu_benchmark": {
+      "benchmark": "btransform_unified_v2/results/rift_v1/m1_joint_d42_e3_cpu_benchmark_v1/benchmark.json",
+      "benchmark_sha256": "8670f2abe91a7e6e4e30d2d3ba2763a4ff423dbec68f8561755634aa640ab8e8",
+      "cpu": "AMD Ryzen 9 7950X; 2 CPU threads",
+      "limits": "D model only; HO3 runtime streams differ from frozen concat source4 inputs; no B-side benchmark, speedup, incremental-memory, official-test, or final-ranking inference",
+      "runtime_ms": {
+        "B1_median": 1.9886135014530737,
+        "B1_p95": 2.0413408488821005,
+        "B8_median": 15.778392500578775,
+        "B8_p95": 16.278373649038258
+      },
+      "status": "COMPLETE_BENCHMARK_LIMITED",
+      "validation": "btransform_unified_v2/results/rift_v1/m1_joint_d42_e3_cpu_benchmark_v1/validation_audit.json",
+      "validation_sha256": "9a2399ae8d24b263c9a88f0bb240ec52e285e502552ad88c4623fbd8457b6e4e"
     },
-    {
-      "id": "P09",
-      "paper_location": "73-80; main_table",
-      "claim": "BP-free comparator boundary, including RIFT target calibration with zero network BP.",
-      "tasks": [
-        "688",
-        "M2",
-        "M1",
-        "H1"
-      ],
-      "status": "published_SPINT_rows_available",
-      "class": "must_do_or_remove_row",
-      "required_proof": [
-        "exact target calibration protocol",
-        "legality",
-        "query identity",
-        "score receipt",
-        "published Table 1 provenance and eligibility classification"
-      ],
-      "acceptance": "Use published SPINT and zero-shot Wiener without replay; exclude target-day trained CycleGAN/NoMAD/NDT2 FSS/OR."
-    }
-  ],
-  "task_inventory": {
-    "688": {
-      "status": "strict_manifest_pending",
-      "assets": [
-        "audited 27-train/6-validation strict manifest"
-      ],
-      "known_candidate": "The prior 15-session three-seed candidate is not provenance-trustworthy; its seed44 run was interrupted and it is quarantined.",
-      "reusable_if": [
-        "strict manifest boundary",
-        "new receipt-bound runs only"
-      ],
-      "gaps": [
-        "all RIFT scores",
-        "paired profile result",
-        "baseline surface"
-      ],
-      "priority": 3
+    "m2_b43": {
+      "equal_session_mean": 0.31319822234368966,
+      "status": "COMPLETE_DEVELOPMENT"
     },
-    "M2": {
-      "status": "formal24_complete_joint_pending",
-      "assets": [
-        "btransform_unified_v2/results/rift_v1/m2_r50_recency_s42_formal_v1/run_meta.json"
-      ],
-      "known_candidate": "B42 formal development score is 0.266825; D/joint is live. Source-seven/ext4 remains frozen representative protocol.",
-      "reusable_if": [
-        "same source-seven/M33 cache",
-        "same ext4 query contract",
-        "fresh paired RIFT initialization"
-      ],
-      "gaps": [
-        "B/C/D/shuffle/spatial/temporal matrix",
-        "paired B/D multi-seed reliability",
-        "selection/receipt for paper claim"
-      ],
-      "priority": 1
+    "m2_b44": {
+      "equal_session_mean": 0.2508328368160401,
+      "selected_ema_epoch": 16,
+      "status": "COMPLETE_DEVELOPMENT_SEED44_EXT4_ONLY",
+      "validation": "btransform_unified_v2/results/rift_v1/m2_r50_joint_b_s44_formal_v1/validation_audit.json",
+      "validation_sha256": "3c7350709707dfa155db179a90b802c9bc7c34ddf11377feb6041c8870570f12"
     },
-    "M1": {
-      "status": "RIFT_formal_complete_concat_live",
-      "assets": [
-        "btransform_unified_v2/results/rift_v1/m1_r100_recency_s42_formal_v3",
-        "FrozenB3 + BT/Joint + concat same-HO-trio frozen comparisons"
-      ],
-      "known_candidate": "Formal v3 completed; score receipt selected EMA epoch 3, visible HO-trio equal-session mean 0.7046861491. Full-concat is live and not yet a scored result.",
-      "reusable_if": [
-        "formal completion",
-        "bind source NMF/RMS/order",
-        "audit target NNLS/ridge and BP=0"
-      ],
-      "gaps": [
-        "paired outcome and scope decision for mechanisms/seeds"
-      ],
-      "priority": 2
+    "m2_c42": {
+      "equal_session_mean": 0.2758,
+      "status": "COMPLETE_DEVELOPMENT"
     },
-    "H1": {
-      "status": "official_result_archived_frozen",
-      "assets": [
-        "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/submission_get.json",
-        "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/official_result.json",
-        "btransform_unified_v2/results/rift_v1/h1_r300_official_receipt_20260907/retrieval_receipt.json",
-        "btransform_unified_v2/results/rift_v1/cpu_trained_h1_final_20260907T1154Z/benchmark.json"
-      ],
-      "known_candidate": "Submission 582073 official: held-out 0.4027782688014744\u00b10.14526658466582196; held-in 0.6681165838896308\u00b10.025051352172649453; normalized latency 0.14299749625157748. Frozen; no new score chasing. Official receipt is archived and verified.",
-      "reusable_if": [
-        "keep official/development surfaces separate"
-      ],
-      "gaps": [
-        "not a profile-effect mechanism matrix"
-      ],
-      "priority": 4
+    "m2_concat_ext6_submission_candidates": {
+      "auditor_source_sha256": "bde4da83bfcfb9c7e1796409ce89346e3c19af5a99e4c7d8ea5a2dbbac852a96",
+      "concat_e9_ext6": 0.3900576650553506,
+      "d42_e13_ext6": 0.3478275158419855,
+      "d43_e8_ext6": 0.385522723151031,
+      "d43_validation": "btransform_unified_v2/results/rift_v1/m2_r50_joint_d_s43_ext6_pick_v1/validation_audit.json",
+      "d43_validation_sha256": "1e374d0d804599ee4f1249d86e464ab9fc6832027a18aa0582b99599542462dd",
+      "d44_e11_ext6": 0.36275330837379643,
+      "d44_validation": "btransform_unified_v2/results/rift_v1/m2_r50_joint_d_s44_ext6_pick_v1/validation_audit.json",
+      "d44_validation_sha256": "3c395884e1937a40468c1c93f8335e9f09e6a49bb0a86f9e801f90b67632518c",
+      "final_package_audit": "D43/D44 PASSED: 279 checks each, all 24 curve epochs, and exact EMA 121-state-key/alias binding",
+      "leading_candidate": "concat_e9_ext6",
+      "restriction": "does not alter original ext4 mechanism evidence",
+      "status": "COMPLETE_SUBMISSION_CANDIDATE_ONLY"
+    },
+    "m2_d43": {
+      "b43_d43_independent_pick_d_minus_b": 0.10702026564802603,
+      "b43_d43_negative_session": "ses-2020-10-30-Run2",
+      "equal_session_mean": 0.4202184879917157,
+      "selected_ema_epoch": 18,
+      "status": "COMPLETE_DEVELOPMENT_SEED43_EXT4_ONLY"
+    },
+    "m2_d44": {
+      "epoch_24_equal_session_mean": 0.3646836676840557,
+      "equal_session_mean": 0.42731552501440395,
+      "selected_ema_epoch": 11,
+      "status": "COMPLETE_DEVELOPMENT_SEED44_EXT4_ONLY",
+      "validation": "btransform_unified_v2/results/rift_v1/m2_r50_joint_d_s44_formal_v1/validation_audit.json",
+      "validation_sha256": "fe03fae483361923a96d80224284b0cc7f62fa1565e75146395f15db316fbfb0"
+    },
+    "m2_e9_new_benchmark": {
+      "benchmark": "btransform_unified_v2/results/rift_v1/m2_concat_ext6_e9_cpu_benchmark_v1/benchmark.json",
+      "benchmark_sha256": "d7d0743a319b37a004f44e3c27e02ccb14656e0337c4579578c034736d068019",
+      "limits": "checkpoint/host/ext4-runtime-input/protocol only; ext6 selects the post-training checkpoint",
+      "protocol_note": "btransform_unified_v2/docs/M2_CONCAT_EXT6_E9_CPU_RUNTIME_20260908.md",
+      "status": "COMPLETE_BENCHMARK_LIMITED",
+      "validation": "btransform_unified_v2/results/rift_v1/m2_concat_ext6_e9_cpu_benchmark_v1/validation_audit.json",
+      "validation_sha256": "0a16b5fd4a10b8d5ba8470b2b4842ccc3ebbe108ecd6293d0d0054e925e59725"
+    },
+    "m2_cpu_d42_e17": {
+      "finite_only_certificate": "btransform_unified_v2/results/rift_v1/m2_d42_e17_finite_parity_v1/benchmark.json",
+      "finite_only_certificate_sha256": "6072ef9c2d7397c7fd1ecbcd7e0daf99190855bb31639686cdc36e673207194e",
+      "finite_only_status": "PASSED_NO_RETIME",
+      "finite_only_validation": "btransform_unified_v2/results/rift_v1/m2_d42_e17_finite_parity_v1/validation_audit.json",
+      "finite_only_validation_sha256": "669f36741f19669f9d687a2cc842321f58c086d021b31a90cd4a45f8b9455e81",
+      "limits": "checkpoint/host/protocol only; no cross-task, calibration-cost, or total-memory inference",
+      "receipt": "btransform_unified_v2/results/rift_v1/m2_joint_d_s42_trained_cpu_benchmark_v1/benchmark.json",
+      "sha256": "17a083a0b531d8437bb6d56f24698171bdef724f4077e33551f367bf1148dead",
+      "status": "BENCHMARK_COMPLETED_LIMITED"
+    },
+    "m2_direct_reliance": {
+      "status": "COMPLETE_V2_ONLY",
+      "v1": "INVALID_PROHIBITED",
+      "v2": "btransform_unified_v2/results/rift_v1/m2_move_t4_concat_carrier_reliance_v2_20260907T162508Z/report.json",
+      "v2_sha256": "018793d1b965dc88ea77595f3c9d7ca34534d463bda7e7ba635069d3f0777bec"
+    },
+    "m2_matched_seed42": {
+      "b42": {
+        "epoch": 7,
+        "equal_session_mean": 0.26682546439211335
+      },
+      "d42": {
+        "epoch": 17,
+        "equal_session_mean": 0.3935032532903647
+      },
+      "d_minus_b": 0.12667778889825132,
+      "status": "COMPLETE_DEVELOPMENT_SEED42_ONLY"
+    },
+    "m2_mean42": {
+      "epoch_24_equal_session_mean": 0.24337902866110805,
+      "limits": "seed42 ext4 development control only; architecture/control differences require the complete formal control summary",
+      "receipt": "btransform_unified_v2/results/rift_v1/m2_r50_mechanism_mean_s42_formal_v1/score_receipt.json",
+      "selected_ema_epoch": 12,
+      "selected_equal_session_mean": 0.2932165628085156,
+      "status": "COMPLETE_DEVELOPMENT_SEED42_ONLY",
+      "validation": "btransform_unified_v2/results/rift_v1/m2_r50_mechanism_mean_s42_formal_v1/validation_audit.json",
+      "validation_sha256": "63f74346fbea0e91da66de6fb7d785094831ccc506bf9e1d9b628c908ce28b00"
+    },
+    "m2_nonattention42": {
+      "epoch_24_equal_session_mean": 0.370724401215297,
+      "limits": "seed42 ext4 development control only; a negative D-minus-nonattention difference does not prove temporal-attention equivalence",
+      "receipt": "btransform_unified_v2/results/rift_v1/m2_r50_mechanism_nonattn_s42_formal_v1/score_receipt.json",
+      "selected_ema_epoch": 8,
+      "selected_equal_session_mean": 0.3939113798031849,
+      "status": "COMPLETE_DEVELOPMENT_SEED42_ONLY",
+      "validation": "btransform_unified_v2/results/rift_v1/m2_r50_mechanism_nonattn_s42_formal_v1/validation_audit.json",
+      "validation_sha256": "4d8ccde62686df456e9216d1c1c4b871c939907d2a26845e0c071f85cfd2ab27"
+    },
+    "m2_mechanism_controls_summary": {
+      "d_minus_mean": {
+        "fixed_epoch_24": 0.11764316829207055,
+        "independently_selected": 0.10028669048184907
+      },
+      "d_minus_nonattention": {
+        "fixed_epoch_24": -0.009702204262118375,
+        "independently_selected": -0.0004081265128202394
+      },
+      "limits": "seed42 ext4 descriptive control summary only; it does not support temporal-attention superiority or establish equivalence; D-minus-shuffle has a positive equal-session mean but two of four session differences are negative",
+      "receipt": "btransform_unified_v2/results/diagnostics_v1/m2_mechanism_controls_summary_v1.json",
+      "status": "COMPLETE_EXT4_SEED42_DESCRIPTIVE",
+      "validation": "all 144 checkpoints, source/cache bindings, and selection rules passed",
+      "validation_sha256": "b55cb2d71b4b5d704bfce0a3c8a6ae1fe4077b27cbdb3762399ba463d0c71de5"
+    },
+    "m2_shuffle42": {
+      "d42_minus_shuffle42_selected": 0.11513502354880062,
+      "limits": "seed42 ext4 descriptive mean only; it is neither a multi-seed control effect nor an all-four-sessions-positive claim",
+      "receipt": "btransform_unified_v2/results/rift_v1/m2_r50_mechanism_shuffle_s42_formal_v1/score_receipt.json",
+      "selected_ema_epoch": 10,
+      "selected_equal_session_mean": 0.27836822974156405,
+      "status": "COMPLETE_DEVELOPMENT_SEED42_ONLY",
+      "validation": "btransform_unified_v2/results/rift_v1/m2_r50_mechanism_shuffle_s42_formal_v1/validation_audit.json",
+      "validation_sha256": "07ea8a52aabcdb8c5ee00390a64013c9407b1f5cc05d6c3fe1d1daed64b4aa62"
+    },
+    "m2_three_seed_paired_effects": {
+      "fixed_epoch_24_d_minus_b": {
+        "mean": 0.15368779486183196,
+        "n_independent_seed_pairs": 3,
+        "sample_sd": 0.03575406559424156
+      },
+      "independent_epoch_pick_d_minus_b": {
+        "mean": 0.13672691424821373,
+        "n_independent_seed_pairs": 3,
+        "sample_sd": 0.03580496790760836
+      },
+      "limits": "descriptive seed-paired EXT4 development summary only; no CI, p value, significance, session-level pseudo-replication, ext6, or official-test inference",
+      "negative_session_seed43": "ses-2020-10-30-Run2",
+      "receipt": "btransform_unified_v2/results/diagnostics_v1/m2_joint_paired_seed_effects_v1.json",
+      "sha256": "abcba3df8de3601058f758818d37db79fb46d8f1270f248eafa95ca901c2efde",
+      "status": "COMPLETE_EXT4_THREE_SEED_DESCRIPTIVE"
+    },
+    "support_stability": {
+      "m1": "btransform_unified_v2/results/diagnostics_v1/m1_carrier_support_stability_v2.json",
+      "m1_sha256": "c0f7308d686c48d8a0643045b541cd64cae05135be92f4b52eaeeca94286c511",
+      "m2": "btransform_unified_v2/results/diagnostics_v1/m2_carrier_support_stability_full_v1/report.json",
+      "m2_descriptive_post_hoc": {
+        "ext4_main_group_equal_session_mean_of_session_medians": {
+          "M16": {
+            "cosine_vs_m33": 0.9076217487454414,
+            "relative_frobenius_vs_m33": 0.4646826572716236,
+            "valid_records": "40/40"
+          },
+          "M25": {
+            "cosine_vs_m33": 0.9758219793438911,
+            "relative_frobenius_vs_m33": 0.22864267602562904,
+            "valid_records": "40/40"
+          },
+          "M8": {
+            "cosine_vs_m33": 0.7743412,
+            "invalid_records": 14,
+            "invalid_reason_counts": {
+              "directional_trial_coverage_under_3": 8,
+              "rank_deficiency": 6
+            },
+            "relative_frobenius_vs_m33": 1.06196196377,
+            "valid_records": "26/40"
+          }
+        },
+        "figure_data": "btransform_unified_v2/results/diagnostics_v1/m2_carrier_support_stability_descriptive_v2/figure_data.json",
+        "figure_data_sha256": "12f92f2972d896c2b1e1fc95792ffcc4a67af71e49d29635eb5e2e127a44a56d",
+        "limits": "post-hoc descriptive summary only; per-session valid-resample medians then equal-session mean on ext4; source7 remains separate; no CI, p value, training-seed, decoder-R2, correlation, causal, runtime, or calibration-cost inference",
+        "m33_anchor": "repeated canonical M33 is audit-only and not ten independent resamples",
+        "summary": "btransform_unified_v2/results/diagnostics_v1/m2_carrier_support_stability_descriptive_v2/summary.json",
+        "summary_sha256": "e883763a13f6b8cdfb3938d471e74fe2f9649d4d3481dd48e361646cd0d5b342",
+        "validation": "btransform_unified_v2/results/diagnostics_v1/m2_carrier_support_stability_descriptive_v2/validation_audit.json",
+        "validation_sha256": "2aafb808e9b0a8d36e0436e57aadffc54b2e23fac3b34969eeda5cccabea2801"
+      },
+      "m2_sha256": "573711d9b144b00387e3de07f60c6c89990f81d1681d2a550eb3e394c4443bac",
+      "status": "COMPLETE_M1_M2"
+    },
+    "paper_final_static_review": {
+      "status": "COMPLETE_STATIC_REVIEW_COMMITTED",
+      "claim_scope": "Final paper claims use only the completed evidence and writing limits recorded here; four-task matched-profile effects and general architecture effects are outside the final claimed scope. M1 reports only the completed single-seed HO3 paired development result, with no cross-seed or independent-generalization claim.",
+      "paper_commit": "9b8c7a0d8ba949b2584d2f0072bf34604af1e7cd",
+      "branch": "origin/main",
+      "review": "static review only; TeX was not compiled",
+      "no_new_execution": "no numerical run, scoring, submission, permission change, or 688 work",
+      "final_handoff_sha256": "3ac7a6e95316fd99ec47fc655d5d00f5c65e1ca52d30538dca798773d04facf9",
+      "inventory_sha256": "d2a34bcbe84d3795c2fad533fff0419a9fbe87a6fbf645f60f759fe81b335706",
+      "completion_validation_sha256": "6de941152ff0880c2fdab9410cc345dce8a05866bdbbcf64116860dc1862b778"
     }
   },
-  "mechanism_arms": [
-    {
-      "id": "A",
-      "name": "no_calibration",
-      "status": "open",
-      "definition": "No activity signature and no carrier; compatible fixed missing/zero representation.",
-      "acceptance": "Architecture compatibility and identical live-unit masks."
-    },
-    {
-      "id": "B",
-      "name": "activity_only_B3S",
-      "status": "candidate_only",
-      "definition": "Activity-derived identity only; remove carrier from both embedding and direct path.",
-      "acceptance": "No target labels influence the identity."
-    },
-    {
-      "id": "C",
-      "name": "carrier_only",
-      "status": "open",
-      "definition": "Carrier retained, activity identity fixed/zero; live neural stream remains present.",
-      "acceptance": "Only static activity identity is removed."
-    },
-    {
-      "id": "D",
-      "name": "joint_T4",
-      "status": "candidate_only",
-      "definition": "Activity identity plus functional carrier condition the same decoder.",
-      "acceptance": "Budget and all non-information factors match B/C."
-    },
-    {
-      "id": "D_shuffle",
-      "name": "unit_shuffled_carrier",
-      "status": "candidate_only",
-      "definition": "One unit permutation applied before embedding and direct carrier fusion.",
-      "acceptance": "Permutation hash and independent-training semantics recorded."
-    },
-    {
-      "id": "S",
-      "name": "mean_vs_slot",
-      "status": "open",
-      "definition": "Mean pooling versus learned slot aggregation with matched downstream dimensions.",
-      "acceptance": "Same input, horizon, selection, and query."
-    },
-    {
-      "id": "T",
-      "name": "nonattention_vs_temporal",
-      "status": "open",
-      "definition": "Matched causal non-attention temporal control versus transformer.",
-      "acceptance": "Same frontend, receptive field, and reporting of parameter/compute differences."
+  "external_delegation": {
+    "dandi688": {
+      "cluster_actions_forbidden": [
+        "audit",
+        "run",
+        "queue",
+        "edit",
+        "score"
+      ],
+      "integration": "await teammate receipt/interface",
+      "status": "EXTERNAL_DELEGATED"
     }
-  ],
-  "baseline_disposition": {
-    "activity_only_spint": "needs_per_task_binding",
-    "population_vector": "688_M2_audit_then_define_or_NA",
-    "ridge_wiener": "H1_v2r2_candidate_only_else_audit",
-    "kalman": "pending_real_data_receipt",
-    "profile_frozen_spint": "candidate_only_requires_carrier_binding",
-    "proposed_B": "open_requires_family_checkpoint_binding",
-    "CEBRA_adapt_true": "excluded",
-    "frozen_CEBRA": "protocol_confirmation_required",
-    "NoMAD_CycleGAN_FA": "protocol_confirmation_required",
-    "published_SPINT": "eligible: Table 1 held-out private EvalAI mean\u00b1SD R2 across held-out sessions; M1 .66\u00b1.07, M2 .26\u00b1.13, H1 .29\u00b1.15; no 688",
-    "published_zero_shot_Wiener": "eligible: Table 1 held-out M1 .34\u00b1.06, M2 .06\u00b1.04, H1 .16\u00b1.03; trained one held-in session then zero-shot",
-    "CycleGAN_NoMAD": "excluded: target-day alignment/GAN training in SPINT Sec. 4.2",
-    "NDT2_FSS_OR": "excluded: held-out supervised/private-label training"
   },
-  "runtime_gate": {
-    "claimed_backend": "RIFT cached CPU runtime; paper E-ORT/ONNX text requires rewrite. BT-EORT/ORT is a separately labelled comparison only.",
-    "current_evidence": "H1 trained end-to-end B1/B8 raw-flow benchmark: RIFT cached/reference parity over 401 advances max_abs_error=0; B1 cached median 2.696786 ms, P95 2.803313 ms (300 calls).",
-    "required_fields": [
-      "RIFT parity inputs/calibration/output",
-      "complete-call latency median/P95",
-      "calibration solve/embedding/cache time only where claimed",
-      "peak memory where claimed",
-      "device OS threads precision batch streams window backend version",
-      "comparison family clearly labelled",
-      "trained-vs-synthetic disclosure"
-    ]
+  "m2_submission_epoch_pick_policy": {
+    "audit": "btransform_unified_v2/docs/M2_SUBMISSION_EPOCH_PICK_ALIGNMENT_20260908.json",
+    "candidate_epochs": "1..24",
+    "ext6_sessions": [
+      "ses-2020-10-30-Run1",
+      "ses-2020-10-30-Run2",
+      "ses-2020-11-18-Run1",
+      "ses-2020-11-19-Run1",
+      "ses-2020-11-24-Run1",
+      "ses-2020-11-24-Run2"
+    ],
+    "forbidden_inference": "The difference between submissions 582047 and 582128 is not a matched architecture effect.",
+    "future_submission_scan": "A separate post-training ext6 epoch scan selects submissions and must not modify old receipts.",
+    "mechanism_protocol_unchanged": "Existing representative mechanism arms remain preregistered ext4 with four sessions.",
+    "sealed_582047": "S1-SMALL-COS EMA e8 selected on ext6",
+    "sealed_582128": "separately trained RIFT-concat EMA e7 selected on ext4",
+    "selected_weight": "EMA",
+    "selection_rule": "unweighted arithmetic mean of six session R2 values; earliest maximum",
+    "status": "EXT6_REQUIRED_ALIGNMENT_AUDITED",
+    "submission_surface": "ext6",
+    "unverified_for_future_new_architectures": []
   },
-  "roadmap": [
-    {
-      "phase": "P0",
-      "resource": "CPU/read-only",
-      "actions": [
-        "record published SPINT Table-1 surface separately from local manifests",
-        "bind paper B to RIFT and rewrite legacy E-ORT wording",
-        "audit 688/H1/M2 candidates",
-        "bundle M1 FrozenB3/BT/Joint/concat context and verify M1 constructibility"
-      ],
-      "exit": "Every candidate is eligible or explicitly quarantined."
-    },
-    {
-      "phase": "P1",
-      "resource": "GPU plus CPU scoring",
-      "actions": [
-        "freeze M2 source-seven/ext4 representative matrix",
-        "run B/C/D/shuffle/spatial/temporal under paired contracts",
-        "prioritize three seeds for paired B/D",
-        "treat seed42-only auxiliary arms as exploratory unless uncertainty/final claim requires expansion"
-      ],
-      "exit": "Representative mechanism table is receipt-bound without asserting four-task architecture ablations."
-    },
-    {
-      "phase": "P2",
-      "resource": "official/container/CPU",
-      "actions": [
-        "obtain/archive official receipts after frozen submissions",
-        "benchmark actual RIFT cached CPU backend for reported tasks",
-        "run BT-EORT only when a labelled comparison is needed"
-      ],
-      "exit": "External and runtime claims are receipt-bound."
-    }
+  "open_required": [
+    "external 688 receipt integration only; no local 688 action"
   ],
-  "deletion_rules": [
-    "Without four qualified effects, delete four-dataset matched-evaluation and conclusion claims.",
-    "Without M1 paired outcome, remove M1 as empirical dataset.",
-    "Without B binding, remove B architecture and B-minus-profile claims.",
-    "Without independently trained controls, remove causal mechanism attribution.",
-    "Without Kalman/PV real-data receipts, use N/A or remove rows.",
-    "Without RIFT cached-CPU parity and a benchmark for a reported task, remove its RIFT runtime number; rewrite legacy E-ORT/ONNX text regardless of further BT-EORT measurement."
+  "queue": {
+    "m1_joint_b42": "COMPLETE_FORMAL_AND_PAIRED_SUMMARY",
+    "m2_b44": "COMPLETE_DEVELOPMENT_SEED44_EXT4_ONLY",
+    "m2_d43_d44_ext6_after_formal": "COMPLETE_FINAL_PACKAGE_AUDITED",
+    "m2_d44": "COMPLETE_DEVELOPMENT_SEED44_EXT4_ONLY",
+    "m2_remaining_mechanism_arms": "COMPLETE_EXT4_SEED42_CONTROL_SUMMARY"
+  },
+  "refreshed_date": "2026-09-08",
+  "schema": "paper_experiment_requirements_v3",
+  "scope": "documentation only; no jobs, submissions, scoring, training, or 688 work authorized here",
+  "writing_limits": [
+    "H1 functional replay proves deployed normalized float32 T equivalence, not original FP64 plan-NPZ byte recovery",
+    "H1 official result is not a profile-only effect",
+    "M2 three-seed B/D EXT4 evidence is descriptive at the seed-pair level; control arms remain required for mechanism-control conclusions",
+    "queued cells are not results",
+    "M2 reliance v1 is prohibited",
+    "published SPINT/Wiener are external references, not local paired effects"
   ]
 }

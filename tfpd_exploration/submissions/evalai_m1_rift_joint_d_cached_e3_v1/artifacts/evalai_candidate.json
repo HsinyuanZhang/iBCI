@@ -1,0 +1,44 @@
+{
+  "arm": "m1_rift_joint_d_e3_cached",
+  "budget_disclosure": "Official 7-tag M1 banks (M10 raw + sealed rSyn3 T from 582045). Live B3S E0 sealed from joint-D EMA e3. Visible HO3 equal-session 0.734260 is development selection, not official HO. Cached CPU runtime, no TTA, no ORT.",
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        16
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "20121004"
+      ],
+      "steps": 80
+    },
+    "B3": {
+      "last_shape": [
+        3,
+        16
+      ],
+      "max_abs": 2.384185791015625e-07,
+      "sessions": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_joint_d_cached_e3_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:b4554299d47ed56e0183b15e19d5cf6a7931ee8aa639240aaf6480001141e9cd",
+  "image_size": 9603637184,
+  "image_tag": "m1-rift-joint-d-cached-e3:v1",
+  "method_description": "M1 RIFT joint D (live B3S + concat R100/D4), recency, cached CPU KV. Same rSyn3 T as 582045; E0 is trained B3S on M10. HO3 pick e3 mean 0.734260. Not BT-EORT, not ORT, not SPINT, not 582045.",
+  "method_label": "M1 RIFT joint D R100 concat e3 EMA cached CPU; architecture=RIFT backend=cached identity=live_b3s_concat_sealed; not BT-EORT; not ORT; not SPINT",
+  "method_name": "M1 RIFT joint D R100 concat e3 cached",
+  "payload_sha256": "af6894f498efa52b3dee55f9641c2930d9dac9a670ce98675cdb0e7dde94a8a5",
+  "register": false,
+  "selection_mean": 0.7342600300996954,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_joint_d_cached_e3_v1/artifacts/evalai_push_state.json",
+  "window": 100
+}

@@ -1,0 +1,198 @@
+{
+  "as_of": "2026-09-08",
+  "candidates": [
+    {
+      "cell": "M1-RIFT-R100-D4-CONCAT-E100-RECENCY-V1",
+      "checkpoint": {
+        "path": "results/rift_v1/m1_r100_concat_s42_formal_v1/epoch_003.pt",
+        "sha256": "c202daff85412470e57a81a8db199d54fe2c7ed4d79850adf39f482b9cb806d4"
+      },
+      "dataset": "M1",
+      "kind": "concat",
+      "local_evidence": {
+        "equal_session_r2_mean": 0.7341922605158908,
+        "per_session": {
+          "20121004": {
+            "prediction_sha256": "2e2ea967b41bd18c0e82eec17e7b5b09071a8e4e828a8fd0953447ad17dbb8c1",
+            "r2": 0.7517464366575785,
+            "window_count": 1305
+          },
+          "20121017": {
+            "prediction_sha256": "80e31623e1cb34e5df73790cb840b3d354ae3998d109d0cc77e0bee8ef12a9ad",
+            "r2": 0.7074735735241242,
+            "window_count": 1295
+          },
+          "20121024": {
+            "prediction_sha256": "538ab59203572e60375858fd29dc3190a3a961978860a676464c61a13e43e877",
+            "r2": 0.6548384372018015,
+            "window_count": 1281
+          }
+        },
+        "score_receipt": {
+          "path": "results/rift_v1/m1_r100_concat_s42_formal_v1/score_receipt.json",
+          "sha256": "8edee971ea3b2e47d5e8ec8c99d81f7467e212aae9d1389f3b1687e183e40288"
+        },
+        "train_receipt_sha256": "12314de708d991fed4c6e49a3c518264099ebadf81e07eddf36c57965d44e5fc"
+      },
+      "official_result": null,
+      "remaining_evidence": [
+        "complete joint final receipt",
+        "predeclared joint comparison and selection contract",
+        "final priority comparison against joint"
+      ],
+      "selected_epoch": 3,
+      "selection": {
+        "candidate_epoch_range_source": "Complete score receipt epoch map",
+        "rule": "earliest maximum equal-session mean EMA",
+        "surface": "visible HO-trio"
+      },
+      "status": "ELIGIBLE_CANDIDATE_FINAL_RECOMMENDATION_PENDING_COMPARISONS",
+      "weight_view": "EMA"
+    },
+    {
+      "cell": "M2-RIFT-R50-D4-CONCAT-E50-RECENCY-V1",
+      "checkpoint": {
+        "path": "results/rift_v1/m2_r50_concat_s42_formal_v1/epoch_009.pt",
+        "sha256": "78435b8e01b0beaa78057c918ec195558d9c100a692ab7a8c066766f675ac88b"
+      },
+      "dataset": "M2",
+      "joint_d_ext6": {
+        "comparison_to_concat_e9": {
+          "conclusion": "does not exceed concat e9",
+          "delta_D42_minus_concat_e9": -0.04223014921336511
+        },
+        "equal_session_r2_mean": 0.3478275158419855,
+        "limit": "A single D42 ext6 curve does not generalize to seed43/44; remaining paired mechanism seeds are pending.",
+        "score_receipt": {
+          "path": "results/rift_v1/m2_r50_joint_d_s42_ext6_pick_v1/score_receipt.json",
+          "sha256": "ba4af2892bedbaa9766b27642624e9ad6438a4515904ea40724a6a219220b5b6"
+        },
+        "seed": 42,
+        "selected_epoch": 13,
+        "status": "COMPLETED_SINGLE_SEED_NOT_PROMOTING",
+        "validation_audit": {
+          "path": "results/rift_v1/m2_r50_joint_d_s42_ext6_pick_v1/validation_audit.json",
+          "sha256": "5d70094307e15eea99642944fc9f4ed22d267c252f7e4f561376f896669481ac",
+          "status": "PASSED"
+        }
+      },
+      "kind": "concat",
+      "local_evidence": {
+        "delta_e9_minus_e7": 0.015799437454359855,
+        "equal_session_r2_mean": 0.3900576650553506,
+        "manifest_sha256": "5d1bb0bf640c3d6ef646a0a6f7366bd2d3ff6befc506325da2d0c7aa7ca38884",
+        "per_session": {
+          "ses-2020-10-30-Run1": {
+            "prediction_sha256": "5292aed78c8e7e42b934df6bc6d6c0e4809229350c0c3c1d0ccdfb316bc23b0a",
+            "r2": 0.584756390157255,
+            "window_count": 2727
+          },
+          "ses-2020-10-30-Run2": {
+            "prediction_sha256": "71c8682f57fd74b2e5113f67347daf05b1c005530b7a1afd83a4b641781b7bf2",
+            "r2": 0.503229844760272,
+            "window_count": 2550
+          },
+          "ses-2020-11-18-Run1": {
+            "prediction_sha256": "45200b902c4c4d3cc7362653561dae6292f429700211da5e3336d382e1792024",
+            "r2": 0.33396945921081034,
+            "window_count": 2517
+          },
+          "ses-2020-11-19-Run1": {
+            "prediction_sha256": "4b565ad8224fdbf03812f525872d933f9f9a18a3cc1910ea04f3453e9d929ac5",
+            "r2": 0.24492190332616237,
+            "window_count": 3045
+          },
+          "ses-2020-11-24-Run1": {
+            "prediction_sha256": "0c1f3fb2da855dfeb174cc352755b4170cdf8f59c1b76e8890c4113c7032e094",
+            "r2": 0.3907147752721388,
+            "window_count": 2214
+          },
+          "ses-2020-11-24-Run2": {
+            "prediction_sha256": "69c684bc522b342cca05873284341b21760044f020e3a4f84b9e77a4418c6c5a",
+            "r2": 0.28275361760546436,
+            "window_count": 2350
+          }
+        },
+        "same_run_epoch_7_ext6": 0.37425822760099076,
+        "score_receipt": {
+          "path": "results/rift_v1/m2_r50_concat_s42_ext6_pick_v1/score_receipt.json",
+          "sha256": "6a985e1f3fb9392198725d6920efb7ea24b41052ddae84a335ae66ea72022e31"
+        },
+        "selected_ema": {
+          "path": "results/rift_v1/m2_r50_concat_s42_ext6_pick_v1/selected_ema.pt",
+          "raw_state_serialized": false,
+          "sha256": "8d156b28a9d144ebcd39f1597c7eb1af4a4e186a3af397b2442c911b5076418f"
+        },
+        "validation_audit": {
+          "path": "results/rift_v1/m2_r50_concat_s42_ext6_pick_v1/validation_audit.json",
+          "sha256": "26158347862d2e48a8baae13a72b7ec3cdf0cfc4e7a29f45541d8f0d1de8621b",
+          "status": "PASSED"
+        },
+        "window_count": 15403
+      },
+      "official_result": null,
+      "remaining_evidence": [
+        "complete remaining B/D mechanism seed receipts",
+        "three-seed paired ext4 mechanism summary",
+        "predeclared concat-versus-joint comparison/selection contract",
+        "final priority decision and any authorized packing receipt"
+      ],
+      "selected_epoch": 9,
+      "selection": {
+        "candidate_epoch_range": "1..24",
+        "rule": "earliest maximum finite unweighted equal_session_mean",
+        "surface": "frozen ext6 six-session evaluation"
+      },
+      "status": "ELIGIBLE_CANDIDATE_FINAL_RECOMMENDATION_PENDING_REMAINING_MECHANISM_SEEDS",
+      "weight_view": "EMA"
+    },
+    {
+      "cell": "RIFT R300 recency EMA e22",
+      "dataset": "H1",
+      "interpretation_limit": "Do not conflate this reference with a profile-only effect.",
+      "official_result": {
+        "held_out_r2_mean": 0.4027782688014744,
+        "held_out_r2_std": 0.14526658466582196,
+        "receipt": {
+          "path": "results/rift_v1/h1_r300_official_receipt_20260907/official_result.json",
+          "sha256": "52e88d57b25c47f1648b73d4b8dad431a01fe49c4ea017153652de0266cc54d8"
+        }
+      },
+      "recommendation": "Retain as a frozen official reference; do not score-chase, repack, or recommend resubmission.",
+      "status": "REFERENCE_FROZEN",
+      "submission_id": 582073
+    },
+    {
+      "cell": "external teammate lane",
+      "dataset": "688",
+      "local_candidate_exists": false,
+      "required_from_external_owner": [
+        "strict manifest",
+        "weight and selection evidence",
+        "local score receipt",
+        "official receipt when available"
+      ],
+      "status": "EXTERNAL_PENDING_INTERFACE"
+    }
+  ],
+  "promotion_rule": {
+    "disallowed_evidence": [
+      "partial epoch curves",
+      "mechanism B/C arms",
+      "shuffle, mean, or nonattention arms",
+      "ext4 scores when the M2 policy requires ext6"
+    ],
+    "required_status": "RECOMMENDED",
+    "requirements": [
+      "immutable model or weight view",
+      "selected epoch and checkpoint SHA-256",
+      "predeclared selection surface and rule",
+      "complete candidate-range score receipt",
+      "local aggregate and per-session details",
+      "official result when one already exists",
+      "completed relevant comparisons that do not invalidate priority"
+    ]
+  },
+  "schema": "evalai_recommendations_after_experiments_v1",
+  "scope": "Evidence ledger for future human review only. This document does not authorize or perform an EvalAI submission."
+}

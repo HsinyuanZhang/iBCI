@@ -1,0 +1,69 @@
+{
+  "arm": "m2_rift_r50_concat_e9_cached",
+  "image_id": "sha256:413996a61743bcdb4a86ed90a76dfcf75692d284599cbc1225767ac73469ad57",
+  "image_tag": "m2-rift-r50-concat-cached-e9:v1",
+  "payload_sha256": "5e8655a7de776c999064574dc0571f21275f581c972cd52624cf87521ec41d2d",
+  "previous_submission_id": 582134,
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "resubmit_reason": "stuck_no_worker_1h",
+  "resubmitted_at": "2026-09-08T07:54:52.266861+00:00",
+  "schema_version": "m2_rift_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 582151,
+    "ignore_submission": false,
+    "input_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582151/49ca5237-8ff0-483c-af95-25adceed7a.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "M2 RIFT (Recency-biased Incremental Finite-context Transformer) R50, D4/width256, concat identity [local16|E0_50|T4], recency half-lives, cached CPU KV. Same official 13-tag banks as 582047. ext6 pick e9 mean 0.390058. Not BT-EORT, not ORT, not SPINT. Not 582128 e7.",
+    "method_name": "M2 RIFT R50 concat e9 cached",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-08T07:55:07.686280Z",
+    "when_made_public": null
+  },
+  "submission_id": 582151,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:04b78aa1-f9a0-4aa1-8915-d9b297cc0a3a",
+  "uploaded_manifest_digest": "sha256:413996a61743bcdb4a86ed90a76dfcf75692d284599cbc1225767ac73469ad57",
+  "uuid_tag": "04b78aa1-f9a0-4aa1-8915-d9b297cc0a3a"
+}

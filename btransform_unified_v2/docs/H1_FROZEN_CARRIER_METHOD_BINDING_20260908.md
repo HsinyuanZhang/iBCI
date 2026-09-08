@@ -2,35 +2,52 @@
 
 ## Decision
 
-The official H1 RIFT submission **582073** is exactly bound to a sealed four-dimensional H-C tensor, but the available frozen artifacts do **not** prove that this tensor was constructed by the `q=16`, `lambda_H=100`, PCA/whitening, output-SVD, empirical-Bayes-shrinkage formula currently stated in `bci_paper_overleaf/paper_4pp.tex`. The paper must not attribute that full formula to submission 582073 without a missing construction-level provenance record.
+The official H1 RIFT submission **582073** is now bound to the actual upstream H-C construction family.  Its four-dimensional carrier was produced in the all-source M3 pipeline with **source-centering/scaling, PCA `q=12`, intercept-unpenalized ridge `lambda=10.0`, a source output-SVD basis `U` reduced to four coordinates, analytic empirical-Bayes shrinkage, and source-RMS normalization**.  It was then copied unchanged through the EP-FiLM, C2, B2, and RIFT packaging chain.
 
-This is not evidence against the formula or the final bank arrays. It is a provenance boundary: the frozen deployment payload contains final arrays, while the audited chain lacks the source-solver receipt needed to bind its estimator parameters to those arrays.
+This corrects the prior provenance boundary.  The manuscript's `q=16`, `lambda_H=100` formula does **not** describe submission 582073.  It must be changed to the bound `q=12`, `lambda=10.0` construction or explicitly identified as a different carrier family.
 
-## Frozen submission chain
+## Byte chain: source M3 payload → C2 → B2 → RIFT
 
-The freeze manifest identifies submission 582073 as H1 RIFT R300 recency EMA-22, cached CPU, context 300, seed 42, `proj_add`, and payload SHA `7957ce7b52596745aab55e5955e8763cab3b2f4808c25a037688890728883b56`.
+The upstream source candidate is the immutable EP-FiLM payload `SPINT-main/local_data/h1_epfilm_evalai_v1/decoder.pt` (SHA `df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7`). Its builder creates each row with exactly the first three public trial numbers, calls `fit_deployment_carrier(record, plan, values)`, divides its four-column result by the sealed source normalizer, and serializes it as `sessions[tag]["carrier"]`.
 
-`pack_and_verify.py::_build_payload` loads the sealed 582044 B2 payload, assigns `banks = bt["bank_by_dataset_tag"]`, and writes those same banks into the RIFT payload. It does not call an H-C estimator. Thus the correct upstream bank authority is the C2-CAL-1 B2 payload, not any later B2 diagnostic.
+A read-only comparison of all 27 `float32` contiguous carrier arrays found that the source candidate's `carrier`, C2 M3 `sessions[tag]["carrier"]`, and B2 `bank_by_dataset_tag[tag]["T"]` are byte-identical for every official tag. The canonical ordered comparison-record digest is `a07eead0cae895eed606d9efcfc0048e43fdaa2576619f090198f5d2345ba407`.
 
-The RIFT decoder converts each payload row into `TaskBank(E0, T, unit_mask)`. `E0` is `[176,700]`; `T` is the direct `[176,4]` H-C carrier; all 27 official tags are required. The upstream B2 receipt records every tag's array hashes. For example, `S0_set_1` has E0 SHA `5875f0c64a4e3be2cbbb833c63446951b2826e5ee5a0451464bbddfc6572f30c` and H-C SHA `85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2`.
+For the required concrete anchor, `S0_set_1` in the source candidate has shape `[176,4]`, calibration trials `[3.0,4.0,5.0]`, and raw contiguous float32 SHA-256 `85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2`. That is exactly the SHA recorded for C2 and B2, and therefore exactly the direct `T` in frozen RIFT submission 582073.
 
-## What C2 proves
+C2’s `build_payload.py` changes only decoder-state / zero-FiLM data. It inherits the source 27-session M3 rows byte-for-byte. B2’s payload packer turns the C2 row `carrier` into its `T`; RIFT’s packer copies the B2 banks without calling an H-C estimator.
 
-The frozen C2 materializer consumes a sealed M3 payload containing per-session activity `[3,1024,176]` and already-computed H-C `[176,4]`. It applies a frozen `1024→32` pre-pool with ReLU, averages the three trials, concatenates the 32 activity coordinates and the four supplied H-C coordinates, then applies frozen `36→32→32→700` post-pool layers. It verifies the C2 checkpoint SHA `ce46267eb220142b8ef1f2e5acf05194650796ac2752594995b40d2ad0950215`.
+## Sealed H-C construction authority
 
-Consequently, the RIFT bank's E0 includes H-C-derived information, while `T` supplies the same four H-C coordinates through the direct path. This is why direct-carrier ablations hold E0 fixed and cannot establish total H-C removal.
+The actual source authority is in the historical all-source M3 producer checkout:
 
-## Paper formula comparison
+`/home/xinyuan/Work_host/ibci_c3_film/tfpd_exploration/h1_series_20260830/results/h1_cal_aug_all_source_m3_deployment_v1/source_authority/`.
 
-The current 4-page manuscript describes H1 as source-centering/scaling, `q=16` PCA, ridge `lambda_H=100`, a source right-singular basis `U`, and empirical-Bayes shrinkage. Those parameter claims are visible in the paper, but they are absent from the frozen RIFT payload, B2 payload receipt, C2 M3 payload, and C2 materializer. The materializer has no PCA, ridge, shrinkage, or normalizer solver; it only consumes the precomputed H-C tensor.
+Its sealed `plan.json` (SHA `a92b57350f2dcb04027bb6d848e5582d84e1bef4bf507d6844963ccad3c87bd5`) records:
 
-Therefore the audited artifacts establish that 582073 consumes a dense, labelled-support-derived H-C carrier, but leave the exact construction parameters of that carrier **unbound**. A similarly named or unrelated B2 implementation cannot fill this gap.
+- selected `q=12` and ridge `lambda=10.0`, selected from the sealed source-only grid receipt `selection.json` (SHA `3a9f59f75da95aab056850f70e4b5c47afc093125e02e789f0c2f7db59ce6067`);
+- source mean, scale, PCA rows, output basis `U`, and prior mean hashes; `tau2=1.0378493774682498e-10`; transform SHA `1c566312152d0203b282fd62a415694d9ddf5845a0208c291e4240e2b9b3ccd7`;
+- all 13 source recording identities and input hashes.
 
-## Minimum evidence to close the gap
+Its sealed `normalizer.json` (SHA `9b35870244a38d0568c3e5f3fd5ab2f10bc2ede815dafe308a130a04e5db6732`) fixes
 
-A valid closure requires one of the following:
+`C_norm = C_raw / max(s_src, 1e-12)`, where `s_src = sqrt(mean(C_src_raw**2)) = 6.8260113140959355e-06`.
 
-1. A sealed C2 H-C construction receipt/source snapshot that records source mean and scale, PCA basis, output basis, ridge/shrinkage settings, and input/output array hashes that reproduce every one of the 27 H-C payload hashes; or
-2. A paper revision that treats the `q=16`, `lambda_H=100` formula as a separately evidenced H1 carrier family rather than the proven estimator behind 582073.
+The source package applies this exact normalizer after `fit_deployment_carrier` and casts the result to contiguous `float32` before serialization.
 
-The companion JSON receipt contains all paths, SHA-256 values, and exact status. This audit did not load data, score a model, open EvalAI, or modify payloads, code, paper text, or results.
+The named construction operator is `SPINT-main/src/data/h1_m4_eb_pilot.py::fit_deployment_carrier` (current audited source SHA `c73c80fcec05d323052d9a4154a4cf7c46e90989a917c89116ce085e76b50a8a`). It accepts exactly three or four unique support trials; this deployment row uses exactly three, with no padding. It projects rate blocks as `((rates-mean)/scale) @ pcs[:q].T`, fits a ridge decoder with an unpenalized intercept, maps coefficients through `pcs[:q].T / scale` and `U`, then applies the analytic EB weight `tau2/(tau2+projected_variance)` about `mu`. This establishes the PCA, ridge, output-SVD, EB-shrinkage, and normalizer stages that C2 itself only consumes.
+
+## C2 and runtime consumption
+
+The frozen C2 materializer consumes its already-computed M3 carrier `[176,4]`, combines it with the three-trial activity identity, and emits `E0`; it does not re-fit H-C. The RIFT decoder uses `E0 [176,700]` as static identity and the same `T [176,4]` as a direct carrier. Direct-carrier ablations holding E0 fixed therefore do not remove H-C information already fused into `E0`.
+
+## Functional replay proof and calibrated construction cost
+
+The original sealed authority retains the parameter receipts but not the original plan-NPZ bytes. A source-only replay therefore rebuilt the numeric plan from the sealed `q=12` / `lambda=10.0` selection and the 13 public source calibrations. Its FP64 `mean` and `scale` hashes agree with the sealed receipt, while the replayed `pcs`, `U`, and `mu` FP64 hashes differ. This is recorded as a provenance difference; it is not treated as a parameter substitution or numerical correction.
+
+The functional test is stronger for the deployed boundary: with that replayed plan, all 27 public-calibration rows use their original first-three trial supports and reproduce the normalized contiguous `float32` carrier bytes of both the source payload and frozen RIFT banks. The verify-27 receipt is `results/diagnostics_v1/h1_source_plan_replay_verify27_v1/report.json` (SHA `5c64b943c2d6758493d88ecaee714edfd1294b9fd28a2eedeec4006fd6461aca`). Thus the replay is functionally equivalent at the deployed `T` boundary, but it does **not** claim recovery of the original plan-NPZ container or identical FP64 PCA/SVD arrays.
+
+The resulting H1 calibration-cost receipt uses this verified replay only after that all-27 gate. It measures 27 sessions × 3 warm rounds with public support records and interpolated M3 activity preloaded: replayed carrier solve → frozen C2 `E0` materialization → static bank construction. All 81 rounds reproduce both frozen `T` and `E0` byte-for-byte. The total warm wall time is `1.001563` ms minimum, `1.085079` ms median, `1.155038` ms P95, and `1.325125` ms maximum. File and report hashing, source-plan construction, raw-record loading, and activity interpolation are outside this timing scope. The cost receipt is `results/diagnostics_v1/h1_frozen_calibration_cost_v2/report.json` (SHA `54d737eac6342f10d0f6517bfe94f48ff6303e35e7a160012727b98b83d53186`); its validation receipt SHA is `20860381e55a781047e8c5e7b6942d6f78764094cfe5d2360e57999a4bc5a03d`.
+
+## Scope and limitation
+
+This is a read-only provenance audit plus read-only public-calibration replay and cost measurement. It did not score a model, use a GPU, open EvalAI, modify frozen payloads, train weights, or access hidden test data. The historical source checkout has advanced past the producer's recorded `LEGACY_HEAD` and does not retain that Git object locally; the binding relies on immutable authority receipts, the source package's recorded construction route, and deployed-array equality. The missing Git object still limits commit-level and byte-identical plan-NPZ reconstruction; the replay evidence establishes functional equivalence only at the 27 deployed normalized `float32` carrier arrays.

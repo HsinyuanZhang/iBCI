@@ -1,4 +1,25 @@
 {
+  "array_lineage": {
+    "all_tags_equal": true,
+    "comparison": "source candidate sessions[tag].carrier == C2 sessions[tag].carrier == B2 bank_by_dataset_tag[tag].T, raw contiguous float32 bytes",
+    "ordered_comparison_record_sha256": "a07eead0cae895eed606d9efcfc0048e43fdaa2576619f090198f5d2345ba407",
+    "s0_set_1": {
+      "b2_T_sha256": "85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2",
+      "c2_T_sha256": "85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2",
+      "calibration_trials": [
+        3.0,
+        4.0,
+        5.0
+      ],
+      "session": "ses-19250101T111740",
+      "shape": [
+        176,
+        4
+      ],
+      "source_candidate_T_sha256": "85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2"
+    },
+    "tag_count": 27
+  },
   "bank_authority": {
     "bank_sha_authority": "payload.receipt.json banks.per_tag records every official tag E0 and H-C byte SHA256; e.g. S0_set_1 E0=5875f0c64a4e3be2cbbb833c63446951b2826e5ee5a0451464bbddfc6572f30c, H-C=85d4801852554164421218d030404d07d8bcfea7795296e1ae28ffc82d17e2a2",
     "e0_is_fused_identity": true,
@@ -9,10 +30,38 @@
     "source_c2_m3_payload_sha256": "91ef13cc94b9ab865c8f926dcbb6d33e9628bf9cbc9b757665d10e33cfda144a",
     "tag_count": 27
   },
+  "calibration_cost": {
+    "parity": "all 81 rounds T and E0 byte-equal frozen arrays",
+    "receipt": "btransform_unified_v2/results/diagnostics_v1/h1_frozen_calibration_cost_v2/report.json",
+    "receipt_sha256": "54d737eac6342f10d0f6517bfe94f48ff6303e35e7a160012727b98b83d53186",
+    "rounds": 81,
+    "status": "COMPLETE_ALL_27_X_3_WARM_PARITY",
+    "timing_scope": "preloaded public support record/activity and verified replay plan: carrier solve -> frozen C2 E0 -> static bank; file/report hashes, source-plan construction, raw load, and activity interpolation excluded",
+    "total_warm_milliseconds": {
+      "max": 1.325125,
+      "median": 1.085079,
+      "min": 1.001563,
+      "p95": 1.155038
+    },
+    "validation_sha256": "20860381e55a781047e8c5e7b6942d6f78764094cfe5d2360e57999a4bc5a03d"
+  },
   "family_separation": {
-    "do_not_infer_from": "unrelated B2 diagnostics or H1 carrier-family experiments",
-    "frozen_582073_family": "C2-CAL-1 B2 sealed H-C arrays, deployed M3, copied unchanged into RIFT",
-    "paper_formula_family": "population-conditioned q16/lambda100/shrinkage description; artifact-level equality to the C2-CAL-1 B2 arrays is not established"
+    "frozen_582073_family": "all-source M3 q12/lambda10 PCA/ridge/U/EB/source-RMS carrier, C2 M3 payload then B2 then copied into RIFT",
+    "paper_formula_family": "q16/lambda100 formula is a distinct and unbound carrier family for 582073"
+  },
+  "functional_replay_proof": {
+    "functional_boundary": "The replay is functionally equivalent only at the deployed normalized float32 T boundary for all 27 official tags.",
+    "plan_array_provenance": "replayed mean/scale FP64 hashes equal sealed receipt; replayed pcs/U/mu FP64 hashes differ. This is not a recovery of the original plan NPZ bytes or FP64 arrays.",
+    "reconstruction_probe": {
+      "path": "btransform_unified_v2/results/diagnostics_v1/h1_source_plan_reconstruct_probe_v1/report.json",
+      "sha256": "7594dbd4ccf54e73f8ea5280c728be7d966acd63cb6baf83f56640449bf7ca27"
+    },
+    "status": "PASS_ALL_27_FUNCTIONAL_REPLAY_T_BYTE_EQUAL",
+    "verify27": {
+      "path": "btransform_unified_v2/results/diagnostics_v1/h1_source_plan_replay_verify27_v1/report.json",
+      "result": "all 27 replayed normalized float32 T arrays byte-equal source payload and frozen RIFT T",
+      "sha256": "5c64b943c2d6758493d88ecaee714edfd1294b9fd28a2eedeec4006fd6461aca"
+    }
   },
   "materializer": {
     "exact_operation": "activity_signature: pre_pool Linear(1024,32)+ReLU per trial then mean across M3; concatenate [32 activity, 4 precomputed H-C]; post_pool Linear(36,32)+ReLU -> Linear(32,32)+ReLU -> Linear(32,700).",
@@ -22,18 +71,24 @@
     "source_sha256": "43245ed5058e11a98c3bf4c9cb980f9f0d2362faa1ea19afe7ca553d3bc68b70"
   },
   "paper_binding": {
-    "binding_result": "UNPROVEN_FOR_SUBMISSION_582073",
-    "claimed_formula_location": "lines 230-265",
-    "claimed_parameters": {
+    "binding_result": "BOUND_TO_Q12_LAMBDA10_ALL_SOURCE_M3_NOT_Q16_LAMBDA100",
+    "bound_parameters": {
       "empirical_bayes_shrinkage": true,
-      "lambda_H": 100,
-      "q": 16,
+      "output_dim": 4,
+      "q": 12,
+      "ridge_lambda": 10.0,
       "right_singular_basis_U": true,
-      "source_mean_scale_PCA": true
+      "s_src": 6.8260113140959355e-06,
+      "source_center_scale": true,
+      "source_normalizer": "C_norm=C_raw/max(s_src,1e-12)",
+      "source_pca": true,
+      "support_trial_policy": "first three unique public trials; no padding",
+      "support_trials": 3,
+      "tau2": 1.0378493774682498e-10
     },
+    "claimed_formula_location": "lines 230-265",
     "paper": "bci_paper_overleaf/paper_4pp.tex",
-    "paper_sha256": "3c7984fc068b1732aa74ff626a03926321c91d6681e382685b56789aa889db7b",
-    "reason": "the sealed C2/RIFT chain establishes exact final arrays and their materializer, but neither the RIFT payload, copied B2 payload receipt, C2 M3 payload receipt, nor the materializer contains a solver provenance record tying those arrays to q=16, lambda=100, PCA/whitening, U, shrinkage, or a source normalizer. The paper formula may describe another H1 carrier family; it cannot be asserted as the frozen submission method from the audited artifacts."
+    "required_correction": "The q=16/lambda_H=100 description is not the method of 582073. Replace it with q=12/lambda=10.0 all-source M3 carrier construction, or label it a separate family."
   },
   "payload_derivation": {
     "statement": "loads BT_PAYLOAD h1_c2_cal1_b2_s42_ema_e18_L200.pkl, assigns banks = bt[bank_by_dataset_tag], then serializes the same banks into the RIFT payload; no H-C estimator is called",
@@ -42,10 +97,6 @@
     "verified_path": "tfpd_exploration/submissions/evalai_h1_rift_r300_cached_v1/pack_and_verify.py::_build_payload",
     "verified_path_sha256": "3a6f41b5c895d6970de269879e6bbf1c5240d9ad020952a106b5a591b661730b"
   },
-  "required_to_close_formula_binding": [
-    "a sealed C2 carrier-construction receipt or source snapshot whose input array hashes and output H-C hashes match all 27 payload tags",
-    "the exact values/provenance of source mean/scale, PCA P, U, shrinkage hyperparameters, and normalizer, or an explicit declaration that the paper must not attribute them to 582073"
-  ],
   "runtime_consumption": {
     "bank_fields": {
       "E0": "float32 [176,700], used as static identity",
@@ -64,9 +115,38 @@
       "task": "h1"
     }
   },
-  "schema": "h1_frozen_carrier_method_binding_receipt_v1",
-  "scope": "read-only binding audit for frozen H1 RIFT submission 582073; no score, GPU, model, or paper mutation",
-  "status": "AUDIT_COMPLETE_METHOD_BINDING_INSUFFICIENT_FOR_FORMULA_EQUIVALENCE",
+  "schema": "h1_frozen_carrier_method_binding_receipt_v2",
+  "scope": "read-only binding audit for frozen H1 RIFT submission 582073; no score, GPU, model, paper, frozen-artifact, or runtime mutation",
+  "source_construction": {
+    "all_source_authority_dir": "/home/xinyuan/Work_host/ibci_c3_film/tfpd_exploration/h1_series_20260830/results/h1_cal_aug_all_source_m3_deployment_v1/source_authority",
+    "authority_json_sha256": "8ea4bb1174c00ab713843cd7561562d43f81509eaaea6ea12ee80cd4eba95de7",
+    "historical_git_limitation": "producer LEGACY_HEAD 5dd9bb4a7377a5431b7dbac4f1378e529130eb1a is referenced but unavailable in present legacy clone; immutable plan/normalizer/selection receipts remain available",
+    "normalizer": {
+      "floor": 1e-12,
+      "formula": "s_src=sqrt(mean(C_src_raw**2)); C_norm=C_raw/max(s_src,1e-12)",
+      "s_src": 6.8260113140959355e-06
+    },
+    "normalizer_json_sha256": "9b35870244a38d0568c3e5f3fd5ab2f10bc2ede815dafe308a130a04e5db6732",
+    "operator": "SPINT-main/src/data/h1_m4_eb_pilot.py::fit_deployment_carrier",
+    "operator_current_source_sha256": "c73c80fcec05d323052d9a4154a4cf7c46e90989a917c89116ce085e76b50a8a",
+    "operator_steps": [
+      "100-ms rates and velocity blocks",
+      "source center/scale",
+      "PCA projection q=12",
+      "ridge lambda=10.0 with intercept unpenalized",
+      "back-project and output SVD basis U to 4 dimensions",
+      "analytic empirical-Bayes shrinkage about mu",
+      "divide by source RMS normalizer and serialize float32"
+    ],
+    "plan_json_sha256": "a92b57350f2dcb04027bb6d848e5582d84e1bef4bf507d6844963ccad3c87bd5",
+    "selection_json_sha256": "3a9f59f75da95aab056850f70e4b5c47afc093125e02e789f0c2f7db59ce6067",
+    "source_candidate_builder": "tfpd_exploration/h1_series_20260830/src/h1_calibration_profile_film_v3/package.py::build_payload",
+    "source_candidate_builder_sha256": "d630a3979115a22b5f274fc80d5b04fb60c20407f396c61b1473240a61e11a9f",
+    "source_candidate_payload": "SPINT-main/local_data/h1_epfilm_evalai_v1/decoder.pt",
+    "source_candidate_payload_sha256": "df71cb9329a87b5073242044b2933391ced7bf866d1f481e994f71dbd97ba2d7",
+    "transform_sha256": "1c566312152d0203b282fd62a415694d9ddf5845a0208c291e4240e2b9b3ccd7"
+  },
+  "status": "AUDIT_COMPLETE_METHOD_BOUND_FUNCTIONAL_REPLAY_AND_COST_COMPLETE",
   "submission": {
     "arm": "h1_rift_r300_recency_e22_cached",
     "frozen_manifest": "btransform_unified_v2/results/rift_v1/h1_rift_r300_official_freeze_20260907/manifest.json",

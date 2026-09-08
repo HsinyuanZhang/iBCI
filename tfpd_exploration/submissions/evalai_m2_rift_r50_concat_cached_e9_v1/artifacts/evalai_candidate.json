@@ -1,0 +1,48 @@
+{
+  "arm": "m2_rift_r50_concat_e9_cached",
+  "budget_disclosure": "Official 13-tag M2 banks (33-trial native E0 + MOVE-T4, same sealed banks as 582047). RIFT R50 concat seed42 EMA e9 after 24-epoch source-seven train. ext6 equal-session 0.390058 is development selection, not official HO. Cached CPU runtime, no TTA, no ORT.",
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        2
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7": {
+      "last_shape": [
+        7,
+        2
+      ],
+      "max_abs": 3.562308847904205e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run2_20201019",
+        "Run1_20201020",
+        "Run2_20201020",
+        "Run1_20201027",
+        "Run2_20201027",
+        "Run1_20201028"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_cached_e9_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:413996a61743bcdb4a86ed90a76dfcf75692d284599cbc1225767ac73469ad57",
+  "image_size": 9476037246,
+  "image_tag": "m2-rift-r50-concat-cached-e9:v1",
+  "method_description": "M2 RIFT (Recency-biased Incremental Finite-context Transformer) R50, D4/width256, concat identity [local16|E0_50|T4], recency half-lives, cached CPU KV. Same official 13-tag banks as 582047. ext6 pick e9 mean 0.390058. Not BT-EORT, not ORT, not SPINT. Not 582128 e7.",
+  "method_label": "M2 RIFT R50 concat e9 EMA cached CPU; architecture=RIFT backend=cached identity=concat; ext6 pick; not BT-EORT; not ORT; not SPINT",
+  "method_name": "M2 RIFT R50 concat e9 cached",
+  "payload_sha256": "5e8655a7de776c999064574dc0571f21275f581c972cd52624cf87521ec41d2d",
+  "register": false,
+  "selection_mean": 0.3900576650553506,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_cached_e9_v1/artifacts/evalai_push_state.json",
+  "window": 50
+}

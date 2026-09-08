@@ -1,156 +1,66 @@
-# 论文实验需求与可用证据审计（2026-09-07）
+# 论文实验需求与证据状态（2026-09-08 刷新）
 
-**审计对象。** 本文只把 `bci_paper_overleaf/paper_4pp.tex` 中已经写出的实验主张、表格和 `TBD` 转为可执行的证据要求；不修改论文、代码、权重或既有结果。本文的伴随机器可读清单是 [PAPER_EXPERIMENT_REQUIREMENTS_20260907.json](PAPER_EXPERIMENT_REQUIREMENTS_20260907.json)。
+本清单只记录可进入论文的证据边界、已完成结果及已排队闭合项。它不授权新训练、评分、提交或 688 工作。机器可读副本为 [PAPER_EXPERIMENT_REQUIREMENTS_20260907.json](PAPER_EXPERIMENT_REQUIREMENTS_20260907.json)。
 
-**结论。** Published SPINT/zero-shot Wiener 已填充 M1/M2/H1 的外部 BP-free reference；H1 RIFT submission 582073 也已有归档官方 result。它们都不闭合四任务 profile effect。688 现应采用已审计的 `27 train / 6 validation` strict manifest；先前 15-session 三 seed候选的来源/协议不可靠，不能进入本文。M2 RIFT B42 formal 已完成 development score（ext4 `0.266825`）；D/joint 条件仍在运行。M1 RIFT formal v3 已完成，selected EMA epoch 3 的 HO-trio equal-session mean 为 `0.7046861491`；M1 concat 条件仍在运行。尚未形成论文所要求的完整四任务、同一模型族、同一支持/查询与明确 checkpoint 的配对矩阵。
+## 当前结论
 
-因此，论文中所有红色数值和任何“跨四数据集”“架构贡献”的叙述均保持未证实。当前实验主线是 **RIFT + cached CPU runtime**；旧论文中的 E-ORT/ONNX 描述不是继续补跑的四任务门槛，而是**待按 RIFT 主线改写**。BT-EORT 只保留为必要的架构/运行时对照，不能替代 RIFT 的精度或机制证据。下列工作流将缺口明确分为必须完成、先定协议和若无法证明则删除三类，避免把历史开发分数或不同系统的官方分数误写成新 RIFT/B 论文结果。
+H1 方法绑定、官方结果和 calibration cost 已闭合：submission 582073 使用冻结 M3 H-C，source-only `q=12`、ridge `lambda=10.0`、source PCA/output-SVD/EB shrinkage 和单一 source-RMS normalizer；replayed plan 的 FP64 PCA/SVD arrays 并非原封存数组字节恢复，但其 27/27 normalized `float32` deployed `T` 已严格复现，且 81 次 warm carrier→E0→bank 路径均与冻结 `T/E0` 字节一致。所有自有 FALCON M1/M2 训练、formal validation、paired/control summary 与已声明的 CPU/support evidence 均已闭合。M1 B/D 是一个 seed42 的 visible-HO3 paired development result；M2 B/D 三 seed 与全部 controls 分别受其 ext4 scope 限制，均不涉及 official test。M2 ext6 audit 只闭合 post-training submission candidate selection。M2 corrected BT direct-carrier reliance v2 已完成；v1 坐标契约无效，禁止用于任何结论。
 
-## 1. 证据准入规则
+论文范围已于 2026-09-08 静态审阅并推送到 `origin/main` commit `9b8c7a0d8ba949b2584d2f0072bf34604af1e7cd`；此闭合只确认采用本清单既有证据边界和缩小后的主张，**未编译 TeX，亦未新增数值运行、评分、提交或权限变更**。最终 handoff 文档 SHA-256 为 `3ac7a6e95316fd99ec47fc655d5d00f5c65e1ca52d30538dca798773d04facf9`，inventory SHA-256 为 `d2a34bcbe84d3795c2fad533fff0419a9fbe87a6fbf645f60f759fe81b335706`，completion validation SHA-256 为 `6de941152ff0880c2fdab9410cc345dce8a05866bdbbcf64116860dc1862b778`。四任务 matched profile effect 和全任务架构效应不在最终论文的已主张范围内；M1 仅报告已完成的 single-seed HO3 paired development result，不主张跨 seed 或独立泛化；不得由不同 surface、旧 decoder 或单 seed 数值代填。
 
-一项结果只有同时满足下列条件，才可以进入主文定量表格或支撑对应因果句：
+## 证据准入
 
-1. **来源绑定：** 有不可变或可复算的 receipt/manifest，记录代码与配置哈希、训练数据、source checkpoint、target support、query、随机 seed、模型选择面和指标实现。
-2. **暴露合法：** target carrier 只能读取声明的 support；query 行为只用于打分。源侧训练可反传；目标 session 不可进行网络反传或梯度更新。
-3. **比较配对：** 一项差值的双方共享 source 数据、初始化/seed 计划、support、query、有效帧、评分、选择规则和训练预算；唯一变化是被声明的因素。
-4. **查询面匹配：** 不能把 M2/H1 organizer score、688 本地 development score、历史 SPINT 分数或不同版本 decoder 分数混在同一列。每个单元格写清官方或本地评分面及聚合方式。
-5. **不确定性：** 跨 session/date 的 effect 必须报告单位、点估计、区间/重采样方法、正向单位数和 seed 覆盖。单 seed 训练不能支撑可靠性、显著性或“四任务一致”。
-6. **执行模型绑定：** 论文所称 `B` 必须绑定实际网络、窗口、权重和运行后端。BT-EORT、RIFT、旧 SPINT 或只含 carrier 的冻结 consumer 不是可互换名称。
+主文的定量单元或差值必须同时具有：(1) receipt/manifest 绑定代码、权重、数据、support/query、seed、选择规则和指标；(2) target query labels 只用于评分、target 无网络反传；(3) 被比较 arms 共享协议且只改变声明因素；(4) 明确评分 surface 和聚合；(5) 与主张相称的 seed/session 不确定性；(6) 网络、窗口和 runtime backend 的实际绑定。缺任一项只能作为开发证据或缩小表述的依据。
 
-旧结果可作为开发导向、复用权重或协议模板；只要缺任一字段，状态为 `candidate_only`，不是论文数值。
+## 已闭合证据
 
-## 2. 论文逐项承诺与关闭条件
-
-| ID | 论文位置 | 承诺/表格单元 | 关闭所需证据 | 当前判断 |
-|---|---|---|---|---|
-| P01 | 摘要 40–50，结论 537–544 | 688/M2/M1/H1 上 profile 效果和 calibration cost；主线模型为 RIFT | 每任务 `profile+frozen reference − activity-only reference` 的同面配对 effect、区间、support 成本；RIFT checkpoint/runtime binding | **必须完成**；没有跨四任务闭合 |
-| P02 | 160–285 | 四种 task-specific estimator 都产出合法四维 carrier，且无 target BP | 每任务 source 参数、target support 输入、4D 输出、normalizer、目标反传步数为零的审计 | 方法可读，实证绑定未完成 |
-| P03 | 406–412 | B 的 filterbank/slots/temporal 架构及任务窗口 | 每任务 checkpoint→config→architecture→backend 映射；RIFT 与 BT-EORT 的名称不可混用 | **协议先定**；当前论文未绑定 |
-| P04 | 416–434 | 公平 evaluation protocol | 逐单元的 support/query hash、source/eval count、seed、选择面、R² 聚合和 SPINT provenance | **必须完成** |
-| P05 | 主表 452–457 | baseline/system × 四任务 | Published SPINT/zero-shot Wiener 可直接引用其原始 FALCON held-out Table 1 值；新 RIFT/本地行仍须各自有 receipt；不适用的 PV 要明确为 N/A | **已部分闭合**；published 数不能被表述为本地配对 effect |
-| P06 | 474–491 | profile effect、B effect、carrier stability/basis coverage | 四任务或明确限定任务的配对差、重采样 stability、coverage 定义和关联分析 | **必须完成或删去泛化句** |
-| P07 | 480–513 | 代表性 task/split 上的 activity-only、carrier-only、joint、shuffle、spatial、temporal mechanism matrix | **冻结 M2 source-seven/ext4 为代表协议**；同一 decoder/budget/训练方案下的独立 arm；shuffle 在两条 carrier 路径之前 | **必须完成于该代表矩阵**；不把 7 arms 扩写为四任务 28 cells |
-| P08 | 515–534 | CPU runtime 与 calibration cost | RIFT cached CPU 的完整调用 parity、median/P95、校准时间、峰值内存、设备/线程/精度/batch；BT-EORT 仅作明确标记的对照 | **论文文字待按 RIFT 主线改写**；不要求重跑 E-ORT/ONNX 四任务矩阵 |
-| P09 | 73–80，主表 | BP-free comparator boundary | 每 baseline 的目标校准协议、合法性、query identity 和 score receipt；RIFT 的 target calibration 同样满足零 network BP | ridge 可用候选；Kalman/PV/CEBRA 大部未闭合 |
-
-## 3. 现有资产：可用范围与禁用范围
-
-### 688：已改为 strict manifest 路线；旧候选不可用
-
-688 当前采用已审计的 `27 train / 6 validation` strict manifest。此前 `dandi688_sparse_event_t4_v1` 的 15-session/三-seed 候选不具备可信的论文 provenance，seed44 还曾中断；不得再将其差值、bootstrap 或 `15/15` 写为可复用证据。
-
-不得直接复用为本论文单元格，直到确认：
-
-- `shared_t4` 的 carrier 与论文 Eq. (688) 的 native trial-direction、rate window、equal-direction weight 和 source winsorizer 一致；
-- 支持预算、post-support query、session split、R² 聚合和 bootstrap 单位与主表协议一致；
-- `shared_zero4` 真正移除了 `e_i` 与 direct `c_i` 两条 profile 路径；`shared_ts4` 在两路径前同一 unit-wise permutation；
-- 固定 decoder/checkpoint 是否等于论文 `Profile + frozen SPINT`，而非另一训练家族；
-- 688 需要另建 proposed B/RIFT 对照、活动-only SPINT、ridge、PV（如定义）和 Kalman（如保留）。
-
-只复用 strict manifest、已审计数据边界和可验证的接口；在该范围产生新 receipt 前，688 主表为 pending，published SPINT 也为 N/A。
-
-### M2：代表性机制 task；formal24 已完成，joint 条件待闭合
-
-M2 RIFT formal24 已冻结为 R50、local attention、`proj_add` P16、seed42、M33 banks、24 epoch source-only contract，并完成 development scoring：ext4 epoch11 `0.3408126083`、epoch24 `0.3366115095`。这些是 development 诊断，不填 published 主表；当前正在核对 concat/joint 条件。M2 source-seven/ext4 已冻结为论文 Table~\ref{tab:ablation} 的代表性 mechanism protocol，选择不再按模型分数更换任务。
-
-旧 M2 T4 及 official submission 记录可以作为 `Profile + frozen SPINT` 的候选来源，但 `M2_MATCHED_EPOCH34_B0_EVALAI_ELIGIBILITY_20260804.md` 明确说明现有 T4 official epoch-34 与 original-SPINT epoch-27 不匹配。因此官方差值只能称端到端系统差，不能称 profile-only matched effect。复用 M33 cache、frozen mapping 和 source manifest 能节省数据准备；仍需产生配对 B3S、T4、activity-only、carrier-only、shuffle、spatial/temporal B arms 以及清楚的选择和 score receipt。
-
-SPINT 原论文 Table 1 可直接引用 M2 held-out private-split `0.26\pm0.13`（SPINT GF-FSU）和 `0.06\pm0.04`（zero-shot Wiener）：均为跨 held-out session mean$\pm$SD $R^2$。它们是 published FALCON reference，不是本地 M33/RIFT 的 matched delta。
-
-### M1：存在冻结三臂背景对照；RIFT formal 已完成
-
-M1 的 rank-three NMF/NNLS/ridge 公式给出了可审计的四维 carrier 方案；`behavior_autoencoder_v1` 等源侧研究是建立源表示的候选资产。另有同一 HO-trio 下的 FrozenB3、BT/Joint、concat 三臂冻结对照；这些可作为**上下文和支撑性比较**，并能帮助核对 source/HO 边界和静态侧信息注入语义。它们不是 RIFT 训练、也不自动满足本文 A/B/C/D 的成对机制口径，不能直接代填 RIFT 主表。
-
-`m1_r100_recency_s42_formal_v3` 已完成冻结 B3+rSyn3、24 epochs 和完整 HO-trio scan；selected EMA epoch 3 的 equal-session mean 为 `0.7046861491`。先完成 CPU constructibility/provenance receipt（冻结 `H`、source RMS、排序、NNLS 收敛、support/query 和零 target-BP 审计），并将 FrozenB3/BT-Joint/concat 三臂整理为 context bundle。M1 后续是否扩展机制/seed 取决于结果不确定性与最终主张。
-
-### H1：已有冻结 RIFT 官方候选、已完成 selection 与 trained CPU 证据
-
-H1 可复用的严谨候选包括：
-
-- `h1_ridge_baseline_v2r2`：两 fold-0 development recordings、严格 post-support 的 8,965 query windows、固定四 trial/session Ridge50，pooled R² `0.258235`，from-source byte-identical replay 通过；它是描述性 dense-velocity comparator，**不是** matched carrier ablation。
-- 同一 H1 发展边界的 H-S、H-SE5、Context Full、H-C 分数和 sparse-support accounting（详见 `HANDOFF_H1_RIDGE_BASELINE_20260812.md`）。这些可作为 frozen-SPINT/profile 候选，但需把本论文 H1 readout carrier Eq. (H1) 的 PCA/q16/lambda100/shrinkage 与实际 carrier 逐字节绑定。
-- RIFT R300 recency/flat 两臂 formal 与 selection 已完成；冻结候选为 `h1_rift_r300_recency_e22_cached`（submission `582073`，R300/D4/P16/width256、seed42、EMA epoch22、13 source sessions、cached CPU KV）。`FREEZE_H1_RIFT_20260907.md` 记录用户报告官方 Held-out/held-in/normalized latency 为 `0.403/0.668/0.143`；本地没有官方回执，故可在文稿中标为 **user-reported official result，待 receipt 独立核验**，不可冒充本地复核。
-- `cpu_trained_h1_final_20260907T1154Z/benchmark.json` 是训练后 H1 raw-flow B1/B8 end-to-end benchmark；RIFT cached 与 reference 进行了 401 advances 的 `max_abs_error=0` parity，并记录 B1 cached median `2.697 ms`、P95 `2.803 ms`。这是 RIFT cached CPU 的可复用运行时证据；BT-EORT/ORT 同文件中是旧模型对照，不能归为 RIFT。
-
-H1 已完成主线候选冻结，不再用它追逐新分数。submission 582073 的归档官方结果为 held-out mean/std `0.4027782688014744 / 0.14526658466582196`、held-in mean/std `0.6681165838896308 / 0.025051352172649453`、normalized latency `0.14299749625157748`，见 `results/rift_v1/h1_r300_official_receipt_20260907/{submission_get.json,official_result.json,retrieval_receipt.json}`。不得把 development H-C/H-SE5、旧 BT-EORT 或该 official RIFT 结果合并为同一个 profile effect。
-
-SPINT 原论文 Table 1 可直接引用 H1 held-out private-split `0.29\pm0.15`（SPINT GF-FSU）和 `0.16\pm0.03`（zero-shot Wiener），均为跨 held-out session mean$\pm$SD $R^2$；这些不是本文 H1 development 或 RIFT official 的同一查询面。
-
-## 4. 信息与架构机制矩阵
-
-论文的四条 carrier 路径必须采用以下定义。名称 `B3S` 表示活动 identity 的冻结 forward baseline，不能仅凭目录名推断。
-
-| Arm | 保留信息与训练规则 | 必须检查 | 论文回答的问题 | 现状 |
-|---|---|---|---|---|
-| A / no calibration | 无 activity signature、无 carrier；若作为网络输入，使用固定零/缺失表示且不扩大模型 | 参数数、初始化和有效 unit mask 与其他 arm 兼容 | 校准本身是否有价值 | 各任务待建 |
-| B / activity-only B3S | 仅 neural activity-derived identity；carrier 从 `e_i` 和 direct `c_i` 同时移除 | no-carrier parity，support 无标签依赖 | activity statistics 是否足够 | 旧 SPINT/H-S 等候选，不是完整矩阵 |
-| C / carrier-only | carrier 保留，activity identity 置零/固定；动态 live neural input 不变 | 静态 path 的零化不改变 live activity | carrier 单独可否工作 | 待建 |
-| D / joint T4 | activity identity + task carrier，且联合输入 fusion | 与 B/C/A 同训练预算 | 二者是否互补 | 688 可能有候选；其余待建 |
-| D-shuffle | 对 carrier 做固定 unit permutation，再同时送入 embedding 和 direct path；最好独立训练该扰动 arm | permutation SHA、两路径一致、同 seed | unit–carrier 对应性是否重要 | 688 标签置换候选；其余待建 |
-| spatial | mean pooling vs learned slots；下游 readout参数应匹配 | 参数/width、输入、训练选择和 query 相同 | 自适应集合聚合的贡献 | 待建 |
-| temporal | causal transformer vs matched non-attention causal control，保留 horizon/frontend | receptive field、causality、参数/compute报告 | 时序建模的贡献 | 待建 |
-
-**重要限制：** 同 checkpoint 的 forward shuffle 是有用诊断，却会低估“未曾训练过正确 carrier”的依赖；论文若写训练归因，需要单独训练的 shuffle/no-carrier arms。688 旧 `shared_ts4` 的具体训练语义必须在 provenance 审计中确认后再决定是否足够。
-
-Carrier stability/basis coverage 的最低 protocol：每 task/session 由同一支持集做预注册重采样，保存每 unit 4D vector，比较 Pearson/cosine/Procrustes 或预先选定的坐标一致性；coverage 用方向角/协方差条件数（688/M2）、NNLS basis activation/span（M1）或 H1 projected readout design rank/conditioning 表示。只报告稳定性与 coverage 之间的相关时，必须有独立 session 单位、置信区间和未选择性筛选规则。
-
-## 5. 主表与 baseline 的可执行处置
-
-| Row | 可保留的条件 | 当前处置 |
+| 范围 | 状态与可用结论 | 绑定证据 |
 |---|---|---|
-| Published SPINT | 直接引用 SPINT Table 1 的 FALCON held-out private-split结果：M1 `0.66\pm0.07`、M2 `0.26\pm0.13`、H1 `0.29\pm0.15`；目标端只处理未标注 calibration activity、无参数更新 | 可引用；688 为 N/A；不得称作本地 replay 或同面 RIFT effect |
-| Published zero-shot Wiener | 直接引用 SPINT Table 1：M1 `0.34\pm0.06`、M2 `0.06\pm0.04`、H1 `0.16\pm0.03`；single held-in-session fit、held-out zero-shot | 可引用；不是 target-prefix ridge，688 为 N/A |
-| Population vector | 只在行为可定义的任务实现；写清 tuning/support/readout。M1/H1 若无合理定义应为 N/A | 688/M2 先审计；H1 旧结果已隔离；M1 未定义 |
-| Ridge / target-prefix Wiener | target prefix、lambda/selection、dense label accounting、query identity 和 score receipt | H1 v2r2可用候选；不为填表另开实验；只有 RIFT 比较需要该同面 baseline 时才补 |
-| Kalman | analytic state fit、state construction、target/query identity和真实数据 receipt | 代码/合成测试不是论文结果；未完成则删数值行，必要时删行 |
-| Profile + frozen SPINT | 明确本论文 carrier estimator、frozen consumer、support budget和 matched B baseline | 688/H1/M2各有候选，但均需确认绑定；M1缺失 |
-| Proposed set-temporal B | 明确为 BT-EORT 或 RIFT；每任务 checkpoint/config/backend/selection 可追溯 | 四任务均未闭合；M2/H1当前训练记录不等于分数 |
+| H1 carrier method and cost | **完成。** 582073 的冻结 `T` 属于 all-source M3 `q=12/lambda=10.0` family；不是旧 `q=16/lambda=100` family。replayed plan 的 FP64 `pcs/U/mu` 与 sealed hashes 不同，但 27/27 normalized `float32` `T` 严格复现，不能把它写成原 NPZ 字节恢复。27×3 warm carrier→C2 E0→bank 共 81 次均 `T/E0` 字节一致，total median/P95 为 `1.085079/1.155038 ms`。 | `docs/H1_FROZEN_CARRIER_METHOD_BINDING_20260908.json`；verify27 receipt SHA `5c64b943c2d6758493d88ecaee714edfd1294b9fd28a2eedeec4006fd6461aca`；cost receipt SHA `54d737eac6342f10d0f6517bfe94f48ff6303e35e7a160012727b98b83d53186`。 |
+| M1 concat seed42 | **完成，开发面。** selected EMA e3 equal-session mean `0.734192`。runtime B1 median/P95 为 `1.954/1.989 ms`；calibration cost 已完成，约 `50.87 ms`。 | 对应 concat train/runtime/cost receipts；该 runtime/cost 只适用于该权重、主机和 protocol。 |
+| M1 joint D42 | **完成，开发面、仅 D seed42。** selected EMA e3 equal-session mean `0.7342600300996954`，相对 frozen concat e3 为 `+0.00006776958380461107`；这个很小的单 seed 差值不构成收益结论。D42/e3 CPU benchmark 已完成：B1 median/P95 `1.98861350145/2.04134084888 ms`，B8 `15.77839250058/16.27837364904 ms`。 | formal validation SHA `7fa2c2092b34670cd368ee1795eb555d5ed7671334ce4b549abeddd5dd41a4f7`；benchmark SHA `8670f2abe91a7e6e4e30d2d3ba2763a4ff423dbec68f8561755634aa640ab8e8`；详见 `docs/M1_JOINT_D42_E3_VALIDATION_AND_CPU_RUNTIME_20260908.md`。 |
+| M1 joint B/D pair | **完成，visible HO3 development、一个 paired seed42。** B/D 均 selected EMA e3，B/D mean 为 `0.6630568974542209 / 0.7342600300996954`，selected D−B 为 `+0.07120313264547451`；fixed epoch 24 D−B 为 `+0.08758950421224765`，三 session 均正。session 是同一 seed 内重复测量，不能报告 CI、p 值、多-seed 或独立 generalization。D 相对 frozen concat 的 `+0.00006776958380461107` 不支持 joint-encoder 收益主张。 | pair summary `results/diagnostics_v1/m1_joint_pair_summary_v1.json` SHA `b85d061fca7d13aed62b22be10bdb296428ffcca4c07364e1cf462017572d415`；B audit SHA `a01e762028186891d19e9ec0717c3d752239e8291960f3f360ff8b905e7b3a6e`；`docs/M1_JOINT_PAIR_VALIDATION_20260908.md`。 |
+| H1 official | **完成。** 582073 official held-out mean/std 为 `0.4027782688 / 0.1452665847`；它是冻结系统结果，不是 profile-only effect。 | `results/rift_v1/h1_r300_official_receipt_20260907/official_result.json`，SHA `52e88d57b25c47f1648b73d4b8dad431a01fe49c4ea017153652de0266cc54d8`。 |
+| M1 baseline | **完成，开发面。** R100 recency seed42 selected EMA e3 equal-session mean `0.7046861491`。 | `results/rift_v1/m1_r100_recency_s42_formal_v3/{train,score}_receipt.json`。 |
+| M2 matched seed42 | **完成，开发面、仅 seed42。** B42 selected e7 `0.2668254644`；D42 selected e17 `0.3935032533`；差 `0.1266777889`，不得外推为多-seed效应。 | `results/rift_v1/m2_r50_joint_{b,d}_s42_formal_v1/{train,score}_receipt.json`。 |
+| M2 shuffle42 control | **完成，ext4 development、仅 seed42。** selected EMA e10 equal-session mean `0.27836822974156405`；D42 minus shuffle42 selected difference 为 `+0.11513502354880062`。这是单一 seed 的描述性均值，不能写为四个 session 均为正或多-seed 控制效应。 | `results/rift_v1/m2_r50_mechanism_shuffle_s42_formal_v1/{run_meta,train_receipt,score_receipt,validation_audit}.json`；validation SHA `07ea8a52aabcdb8c5ee00390a64013c9407b1f5cc05d6c3fe1d1daed64b4aa62`。 |
+| M2 mean42 control | **完成，ext4 development、仅 seed42。** selected EMA e12 equal-session mean `0.2932165628085156`；fixed epoch 24 为 `0.24337902866110805`。结果与空间差值须等待全部 control summary 后按同一规则解释。 | `results/rift_v1/m2_r50_mechanism_mean_s42_formal_v1/{run_meta,train_receipt,score_receipt,validation_audit}.json`；validation SHA `63f74346fbea0e91da66de6fb7d785094831ccc506bf9e1d9b628c908ce28b00`。 |
+| M2 nonattention42 control | **完成，ext4 development、仅 seed42。** selected EMA e8 equal-session mean `0.3939113798031849`；fixed epoch 24 为 `0.370724401215297`。 | `results/rift_v1/m2_r50_mechanism_nonattn_s42_formal_v1/{run_meta,train_receipt,score_receipt,validation_audit}.json`；validation SHA `4d8ccde62686df456e9216d1c1c4b871c939907d2a26845e0c071f85cfd2ab27`。 |
+| M2 mechanism controls summary | **完成，ext4 development、仅 seed42。** D−mean 为 selected `+0.10028669048184907`、fixed epoch 24 `+0.11764316829207055`；D−nonattention 为 selected `-0.0004081265128202394`、fixed epoch 24 `-0.009702204262118375`。因此这一个 seed42 control set 不支持 temporal attention 优越，也不证明两者等效。D−shuffle 虽为正的 equal-session mean，四个 session 中有两个为负，不能写成全 session 正向。 | `results/diagnostics_v1/m2_mechanism_controls_summary_v1.json`，SHA `b55cb2d71b4b5d704bfce0a3c8a6ae1fe4077b27cbdb3762399ba463d0c71de5`；summary 已验证 144 checkpoints、source/cache 与 selection。 |
+| M2 three-seed paired B/D | **完成，ext4 development evidence。** 三对独立 model seed 的 independent-pick D−B mean/sample SD 为 `0.13672691424821373 / 0.03580496790760836`；fixed epoch 24 为 `0.15368779486183196 / 0.03575406559424156`。不报告 CI、p 值或 session-level pseudo-replication，也不外推到 ext6 或 official test。 | `results/diagnostics_v1/m2_joint_paired_seed_effects_v1.json`，SHA `abcba3df8de3601058f758818d37db79fb46d8f1270f248eafa95ca901c2efde`；`docs/M2_THREE_SEED_PAIRED_EFFECTS_20260908.md`。 |
+| Support stability | **完成，描述性。** M1 receipt 保持原有边界。M2 的 post-hoc summary 重读全部 440 条既有记录；主 EXT4 四 session 的 M8/16/25 按每 session 有效 resample median 后等权聚合，M8 的有效率为 `26/40`，M16/M25 均为 `40/40`。它不重算 carrier、不训练或评分 decoder。 | M1：`results/diagnostics_v1/m1_carrier_support_stability_v2.json` SHA `c0f7308d686c48d8a0643045b541cd64cae05135be92f4b52eaeeca94286c511`；M2 source report SHA `573711d9b144b00387e3de07f60c6c89990f81d1681d2a550eb3e394c4443bac`；post-hoc summary SHA `e883763a13f6b8cdfb3938d471e74fe2f9649d4d3481dd48e361646cd0d5b342`；详见 `docs/M2_SUPPORT_STABILITY_DESCRIPTIVE_20260908.md`。 |
+| M2 BT direct reliance | **完成，仅 corrected v2。** direct/full oracle 与 wrong-start negative control 通过；v1 无效且禁止引用。它不等于 RIFT mechanism effect。 | `results/rift_v1/m2_move_t4_concat_carrier_reliance_v2_20260907T162508Z/report.json` SHA `018793d1b965dc88ea77595f3c9d7ca34534d463bda7e7ba635069d3f0777bec`。 |
+| M2 trained CPU D42 e17 | **完成，限定 benchmark。** 2 CPU threads、402 parity advances max error 0；B1 median/P95 `2.702/14.974 ms`，B8 `17.344/18.332 ms`。报告只能说明该 checkpoint、该主机和该 protocol；不代表 M1、全任务 speedup、calibration cost 或整体 memory claim。 | `results/rift_v1/m2_joint_d_s42_trained_cpu_benchmark_v1/benchmark.json` SHA `17a083a0b531d8437bb6d56f24698171bdef724f4077e33551f367bf1148dead`。 |
+| M2 D42/e17 finite-only parity | **完成，未重计时。** 该证书只验证原 e17 checkpoint 与 B1/B8 输入的 finite parity，不能替代或更新既有 timing receipt。 | `results/rift_v1/m2_d42_e17_finite_parity_v1/benchmark.json` SHA `6072ef9c2d7397c7fd1ecbcd7e0daf99190855bb31639686cdc36e673207194e`；validation SHA `669f36741f19669f9d687a2cc842321f58c086d021b31a90cd4a45f8b9455e81`。 |
+| M2 concat ext6-selected e9 CPU runtime | **完成，限定 benchmark。** 当前 full-concat EMA e9 的 CPU runtime receipt 已由 validation 审计；它只绑定该 checkpoint、主机、ext4 runtime inputs 和 protocol，ext6 只负责 post-training checkpoint selection。 | `results/rift_v1/m2_concat_ext6_e9_cpu_benchmark_v1/benchmark.json` SHA `d7d0743a319b37a004f44e3c27e02ccb14656e0337c4579578c034736d068019`；validation SHA `0a16b5fd4a10b8d5ba8470b2b4842ccc3ebbe108ecd6293d0d0054e925e59725`；`docs/M2_CONCAT_EXT6_E9_CPU_RUNTIME_20260908.md`。 |
 
-CEBRA `adapt=True` 仍排除；只有冻结 source transform 加指定 non-gradient readout 的 receipt 才能重新考虑。SPINT 原文说明 CycleGAN 在 held-out day 训练 GAN、NoMAD 在 held-out day 训练 alignment network，因此二者不属于本文的 target-BP-free 定量行；NDT2 FSS/OR 也不属于该行。NoMAD、CycleGAN、FA 或其他历史家族不因名称自动成为合格行。
+Published SPINT/zero-shot Wiener 仍可作为外部 FALCON reference，不是本地 paired effect；688 无 published column。
 
-## 6. 运行时与校准成本：RIFT cached CPU 发布门
+## 已归档限制与外部接口
 
-论文方法 RIFT 表述已在已推送的方法更新 `a186dd9` 中对齐 cached CPU 主线；requirements 仍要求所有数值按 receipt 绑定。RIFT runtime 以 cached CPU 为报告对象；BT-EORT/ORT 仅可作为明确分列的旧架构对照。每个实际报告任务仍应提供：
+**M2 submission epoch-pick policy.** 后续用于提交的 M2 epoch-pick 统一使用
+独立的 `ext6` surface：六个 session 是 2020-10-30 Run1/Run2、2020-11-18
+Run1、2020-11-19 Run1、**2020-11-24 Run1/Run2**；这里的 `11-24` 是日期，
+不是 epoch 范围。submitted weight 必须为 selected **EMA**，候选一律是同一
+epoch `1..24`，以六个 session R² 的非加权算术均值取 earliest maximum。封存
+submission 582047 是 `S1-SMALL-COS` EMA e8、按 ext6 选择；submission 582128
+是另训 RIFT-concat EMA e7、按 ext4 选择。因此两次 submission 的差值不是
+matched architecture effect。当前 M2 representative mechanism arms 保持预注册的
+ext4（四 session）闭合；未来独立 ext6 后训练 epoch scan 只负责 submission
+选模，绝不改写旧 receipt。
 
-1. 输入、校准 embedding、stream output 的 numeric parity（阈值、样本数、最大/分位误差）；
-2. 完整 decoding call 的 warm-up 后 median/P95，包含 static-cache 查找、frontend、state update、temporal、readout，不以 isolated kernel 替代；
-3. one-time calibration wall time，分出 carrier solve、embedding construction、cache/serialization；
-4. peak RSS/allocator memory、模型参数、设备、OS/CPU、thread affinity、precision、batch/streams、window、backend version；
-5. 同等 batch/precision/thread 的明确 baseline，以及每项是否使用训练后权重或合成输入；
-6. 失败/回退行为和 session boundary reset；不得把 logical KV payload 写成总内存。
+| 范围 | 已归档状态 | 论文可用边界或外部接口 |
+|---|---|---|
+| 688 | **external delegated，唯一外部接口。** 本集群不得审计、运行、排队、编辑或推断 688；仅保留队友结果/receipt 接入接口。 | 等外部团队提供 strict-manifest、arms、score 和 provenance 后再决定表述；本清单没有 688 行动项。 |
+| M1 | concat seed42、joint B42/D42 与 B/D paired summary 已完成；CPU runtime 只绑定 D42 checkpoint、主机和 HO3 stream protocol。M1 direct 25 conditions 已完成。 | M1 paired证据仅为一个 seed42、visible HO3 M10/query-trial-0 且可能 support overlap 的 development comparison；不得扩张为多-seed、独立 generalization、official test 或 joint-encoder收益结论。 |
+| M2 | B/D 的 42、43、44 ext4 formal receipt 与 three-seed paired summary 已完成。D44 selected EMA e11 `0.42731552501440395`，epoch 24 `0.3646836676840557`，validation SHA `fe03fae483361923a96d80224284b0cc7f62fa1565e75146395f15db316fbfb0`。C/shuffle/mean/nonattention seed42 controls 与 complete control summary 已完成；D−mean selected/fixed 为 `+0.10028669048184907 / +0.11764316829207055`，D−nonattention 为 `-0.0004081265128202394 / -0.009702204262118375`，故不得声称 temporal attention 优越或等效。D−shuffle 的 equal-session mean 为正但有两个负 session，仍不作全 session 正向主张。seed43 含一个负 B/D session delta，仍按 seed-pair 而非 session 解释。四个 ext6 submission candidates 已有完整扫描和 final-package audit：concat e9 `0.3900577`、D42 e13 `0.3478275`、D43 e8 `0.3855227`、D44 e11 `0.3627533`；concat 仍领先。它们只用于提交候选选择，不改写 original ext4 mechanism。 | M2 mechanism controls 已闭合为 seed42 ext4 descriptive evidence；它不构成 multi-seed control/architecture conclusion。D43/D44 ext6 final-package validation 各 279 checks 通过、all-24 scan 和 EMA 121 state-key/alias 绑定均通过；这仍是 ext6 submission selection，不影响 EXT4 paired summary。 |
+| H1 | frozen；carrier method、functional replay 与 warm calibration cost complete；不再 score chasing。 | 仅可保持 official-system、method binding 和已定义 timing claim；profile effect 或超出 receipts 的 runtime/generalization 仍须缩小表述。 |
 
-H1 已有训练后 public raw-flow 的 RIFT cached CPU benchmark：B1/B8 的 reference-cached parity 共核验 401 advances，最大绝对误差为 0；B1 cached steady median `2.697 ms`、P95 `2.803 ms`（300 calls）。该证据可报告为 H1、指定设备/线程/precision 下的 RIFT runtime；仍不得外推为四数据集 speedup、校准总成本或总内存。早期未训练 synthetic probe 仅保留作工程诊断。
+## 删除或缩小表述规则
 
-## 7. 最小可发表闭合计划与资源排序
-
-### P0：无 GPU 的协议与来源闭合
-
-1. 建每任务唯一 manifest：source sessions/checkpoint、support/query hashes、metric、aggregation、合法性审计、model-selection surface；逐个核验现有 688/H1/M2候选。Published SPINT/zero-shot Wiener 不重跑，单列原文 Table 1 的 FALCON held-out surface。
-2. 论文 `B` 已按当前主线指向 RIFT；改写旧 E-ORT/ONNX 文字为 RIFT cached CPU，BT-EORT 仅作为需要时的单独对照。
-3. 完成 M1 carrier CPU constructibility、M2/688 directional contract、H1 Eq. (H1) carrier implementation binding；固定 support budget、单位和重采样。
-4. 只读复算 688 三 seed汇总、H1 ridge/references，输出与主表完全相同的 score surface。任何 hash 或边界不一致即降为 `candidate_only`。
-
-### P1：最高信息密度的训练与评分
-
-完整 mechanism matrix 先在已冻结的 **M2 source-seven/ext4** 协议上运行：B/activity-only、C/carrier-only、D/joint、D-shuffle、mean-vs-slot、matched non-attention temporal control。A/no-calibration 是有价值的附加诊断，不是当前表格四行的硬门槛。三 seed 优先用于 paired B/D；其他 arms 的 seed42 先作为探索性结果，是否扩展由不确定性和最终主张决定。预先锁定选择策略，official test 不参与选点。
-
-优先顺序是 **M2 representative mechanism closure → M1 formal closure → 688 strict-manifest evidence**。H1 已冻结并只归档。若 GPU 时数不足，宁可缩小跨任务主张，也不要用异构旧分数伪造四任务效应。
-
-### P2：外部评分与运行时
-
-H1 submission `582073` 的官方回执已归档且已验证，不再追逐新 H1 score；M2/M1 的 official 行动在 development closure 后决定。运行时任务与精度任务分开：以实际 RIFT cached CPU 后端做 calibration 和 streaming 测量，BT-EORT 只在明确比较目的下运行。
-
-## 8. 删除条件（不是待补数字）
-
-以下任一项在锁稿前不满足，应删除相应主张，而非保留 `TBD` 或替换为旧数：
-
-- 无四个合格 effect → 删除“matched evaluations across four datasets”和结论中的“verified four-task profile effects”。
-- M1 无 paired outcome → 删除 M1 作为实证数据集，只保留且明确标为设计方法。
-- B 无 checkpoint/architecture binding → 删除具体 B 结构、架构表和 B-minus-profile claims。
-- 无独立训练 arm → 删除“carrier-only/joint/shuffle isolate contribution”及 spatial/temporal 因果归因。
-- 无 RIFT cached CPU parity 与所报告任务 benchmark → 删除对应 RIFT runtime 数值；旧 E-ORT/ONNX 表述无论是否补测都应按主线改写。
-- Kalman/PV 没有合法真实数据 receipt → 填 N/A 或删除该 baseline 行；不可用红色 TBD 暗示已评估。
-
-## 9. 最终交付检查单
-
-在把数值写入论文前，对每个表格格子勾选：`source manifest`、`support/query hash`、`target BP=0`、`checkpoint/config/backend`、`selection surface`、`metric/aggregation`、`seed/session score arrays`、`effect/interval`、`baseline protocol`、`receipt path`。伴随 JSON 中每项均有 `acceptance` 字段，可由汇总脚本判定；任一必填缺失，状态必须保持 `open` 或 `candidate_only`。
+- 没有四个合格 paired effects：删除“四任务 matched profile effects”及对应架构泛化句。
+- 没有 M1 paired outcome：删除 M1 的实证 profile/mechanism claim；但已完成的 concat runtime/calibration-cost receipt 可以按其 checkpoint、主机和 protocol 边界报告。
+- M2 的三-seed EXT4 summary 只能报告 seed-paired descriptive mean/sample SD；不得报告 CI、p 值、显著性或将 session 当独立重复。
+- 无实际 M1 runtime/calibration-cost receipt：不填 M1 runtime/cost 数字。
+- v1 M2 direct-reliance 报告不得用于论文、图表或对照；只可引用 v2。
+- 688 的证据和生命周期完全由外部团队管理；未接入 receipt 前保持 pending/N/A。

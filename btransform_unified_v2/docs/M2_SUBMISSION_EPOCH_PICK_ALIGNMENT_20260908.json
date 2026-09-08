@@ -1,0 +1,63 @@
+{
+  "authorized_future_submission_pick_surface": "ext6",
+  "ext6_sessions": [
+    "ses-2020-10-30-Run1",
+    "ses-2020-10-30-Run2",
+    "ses-2020-11-18-Run1",
+    "ses-2020-11-19-Run1",
+    "ses-2020-11-24-Run1",
+    "ses-2020-11-24-Run2"
+  ],
+  "mechanism_ext4_protocol_unchanged": true,
+  "rift_concat_ext6_readiness": {
+    "epoch_checkpoints_available": 24,
+    "existing_receipt_surface": "ext4 only",
+    "ext6_curve_available": false
+  },
+  "schema": "m2_submission_epoch_pick_alignment_audit_v1",
+  "sources": {
+    "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/results/rift_v1/m2_r50_concat_s42_formal_v1/epoch_007.pt": "90d7d9b90353d16f95cc43b9b1869ac177220112491dbfe762139fa65e9502ad",
+    "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/results/rift_v1/m2_r50_concat_s42_formal_v1/score_receipt.json": "ef751d435cf042c306b0fea6a3b15a2c77e9229aed97785ecb92736c9fa2091d",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/results/m2_small_s1_visible_ext6_epoch_pick_v1/selection.json": "3e23785d860603b498048e5308a75329c24ace613e2714a7a75fb5766aff35d2",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_cached_v1/artifacts/OFFICIAL_582128.json": "16c0486b4b717d1a3900b400be4cae7668352b9dbd32619eaf0f91d834c26ce2",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_cached_v1/artifacts/m2_rift_r50_concat_e7.pkl": "3a99d8b7f998492d8ceab2272c47fb51193e2dcd0628f036c1a5a8d2d122a937",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_cached_v1/pack_and_verify.py": "8b04b047003b6ff618225de95fbd3bd343085bcc108e133f350ab5f2b7056dcb",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_concat_ort_v1/artifacts/OFFICIAL_582047.json": "f29963146d2c8fef22e3e5439700540c8b48591ac2cc52b7d71527fb1055ff21",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_concat_ort_v1/artifacts/m2_small_trf_s42_ema_e08_ext6.pkl": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+    "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_concat_ort_v1/artifacts/payload.receipt.json": "84b6c2afa8a403023b7f385c347afcd5c6927e91d5a5bcb2cc6f3909943cabc7"
+  },
+  "status": "READ_ONLY_AUDIT",
+  "submissions": {
+    "582047": {
+      "aggregation": "unweighted arithmetic equal-session mean",
+      "candidate_epochs": [
+        1,
+        24
+      ],
+      "checkpoint_sha256": "68c1694f73ee3932df41a7bcdf8b40b19cce43ede93eca83f8f3047070ebdd33",
+      "epoch": 8,
+      "official_ho_mean": 0.39030538635614676,
+      "payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+      "selection_rule": "earliest maximum",
+      "selection_surface": "ext6 six visible held-out-calibration sessions query_start_trial=0",
+      "weight_average": "no evidence of averaging beyond EMA",
+      "weight_view": "EMA"
+    },
+    "582128": {
+      "aggregation": "unweighted arithmetic equal-session mean",
+      "candidate_epochs": [
+        1,
+        24
+      ],
+      "checkpoint_sha256": "90d7d9b90353d16f95cc43b9b1869ac177220112491dbfe762139fa65e9502ad",
+      "epoch": 7,
+      "official_ho_mean": 0.33793158813946816,
+      "payload_sha256": "3a99d8b7f998492d8ceab2272c47fb51193e2dcd0628f036c1a5a8d2d122a937",
+      "raw_available_but_not_submitted": true,
+      "selection_rule": "earliest maximum",
+      "selection_surface": "ext4 four-session development",
+      "weight_average": "no evidence of averaging beyond EMA",
+      "weight_view": "EMA applied from checkpoint ema.shadow"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "arm": "m1_rift_joint_d_e3_cached",
+  "challenge": 2319,
+  "host_verify_max_abs_b1": 0.0,
+  "host_verify_max_abs_b3": 2.384185791015625e-07,
+  "image_id": "sha256:b4554299d47ed56e0183b15e19d5cf6a7931ee8aa639240aaf6480001141e9cd",
+  "method_name": "M1 RIFT joint D R100 concat e3 cached",
+  "payload_sha256": "af6894f498efa52b3dee55f9641c2930d9dac9a670ce98675cdb0e7dde94a8a5",
+  "phase": 4599,
+  "previous_submission_id": 582133,
+  "resubmit_reason": "stuck_no_worker_1h",
+  "status": "submitted",
+  "submission_id": 582150
+}

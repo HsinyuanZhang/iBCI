@@ -1,0 +1,135 @@
+{
+  "evidence_levels": {
+    "completed_receipt": "completed train/score receipt",
+    "pending_result": "configuration fixed; result not completed",
+    "source_config": "source runner and/or run_meta"
+  },
+  "h1_r300_recency": {
+    "completed_receipt": {
+      "ema_pick": 22,
+      "path": "btransform_unified_v2/results/rift_v1/h1_r300_pair_20260907T075312Z/recency_20260907_155347/formal/train_receipt.json",
+      "sha256": "64f9ff37ef3ee6b6341bb7ab538915d50ff7a31bdb1cc005661d74415e9d29bb"
+    },
+    "deployment_carrier_support_m": 3,
+    "not": "R200",
+    "run_meta": {
+      "path": "btransform_unified_v2/results/rift_v1/h1_r300_pair_20260907T075312Z/recency_20260907_155347/formal/run_meta.json",
+      "sha256": "94248c4267b1b5caac8230ccaf8bc8055cd3889392e091bc4ecdd07a226d5696"
+    },
+    "source_config": {
+      "batch": 32,
+      "binding_limitation": "Current helper code plus actual R300 bank roster is bound; run metadata does not independently hash every historical helper revision.",
+      "context": 300,
+      "deployment_carrier_support_m": 3,
+      "ema": 0.9995,
+      "epochs": 32,
+      "grad_clip": 1.0,
+      "loss": "MSE",
+      "lr_floor": 1e-05,
+      "lr_peak": 0.0001,
+      "microbatch": 32,
+      "optimizer": "AdamW",
+      "path": "btransform_unified_v2/scripts/rift_v1/h1_train.py",
+      "sha256": "2ef5daee9de79ac6f5dfc12c6830d3d8b926dbade3055f447ab7fdaefdd3b18e",
+      "source_session_count": 13,
+      "source_training_bank": {
+        "activity_M_cycle": [
+          7,
+          5,
+          4,
+          3
+        ],
+        "basis": "13 source sessions first4; selected q12 lambda10 sourceRMS 6.8260113140959355e-06",
+        "carrier": "M4 fit_frozen_carrier(first4) for activity M7/M5/M4; M3 fit_deployment_carrier(first3)",
+        "cycle_source": "btransform_unified_v1/src/btransform_unified_v1/c2_protocol.py",
+        "cycle_source_sha256": "44d2e53f1dd8297d0b95572bd5127468c9a441894b26130088611a5cef6b5819",
+        "helper": "btransform_unified_v1/scripts/h1_c2_cal1_b2_l200_p16.py",
+        "helper_sha256": "7154deb38b6f1d2f536b7020153fb82fa48c07ab8b138d7336d1961eecee83e8"
+      },
+      "updates_per_epoch": 731,
+      "weight_decay": 0.01
+    }
+  },
+  "m1_concat": {
+    "query": {
+      "official_test": false,
+      "pick": "earliest equal-session EMA e3",
+      "sessions": 3,
+      "surface": "visible HO-calib M10",
+      "windows": 3881
+    },
+    "run_meta": {
+      "path": "btransform_unified_v2/results/rift_v1/m1_r100_concat_s42_formal_v1/run_meta.json",
+      "sha256": "46184396bea473343b89cd66d6f7c31cbc9bf7e1bbd4d87c4467cdb58d9c188f"
+    },
+    "source_config": {
+      "batch": 32,
+      "ema": 0.9995,
+      "epochs": 24,
+      "grad_clip": 1.0,
+      "loss": "MSE",
+      "lr_floor": 1e-05,
+      "lr_peak": 0.0001,
+      "optimizer": "AdamW",
+      "path": "btransform_unified_v2/scripts/rift_v1/m1_concat_train.py",
+      "sha256": "68d9d35727101a90bc9113ab1ff0a6554c3cd6340ee926b1d58a3f4c207d0668",
+      "source_sessions": [
+        "ses-20120924",
+        "ses-20120926",
+        "ses-20120927",
+        "ses-20120928"
+      ],
+      "support_m": 10,
+      "updates_per_epoch": 6665,
+      "weight_decay": 0.01
+    },
+    "status": "COMPLETE"
+  },
+  "m1_joint": {
+    "source_config": {
+      "batch": 32,
+      "ema": 0.9995,
+      "epochs": 24,
+      "grad_clip": 1.0,
+      "loss": "MSE",
+      "lr_floor": 1e-05,
+      "lr_peak": 0.0001,
+      "optimizer": "AdamW",
+      "path": "btransform_unified_v2/scripts/rift_v1/m1_joint_train.py",
+      "sha256": "15affe894d757f0acbed302e3226f6e9299190dad33a1d359c18a991c7c2dfc7",
+      "source_session_count": 4,
+      "support_m": 10,
+      "updates_per_epoch": 6665,
+      "weight_decay": 0.01
+    },
+    "status": "PENDING_RESULT_CONFIG_FROZEN"
+  },
+  "m2_joint": {
+    "query": {
+      "official_test": false,
+      "sessions": 4,
+      "surface": "ext4 visible development"
+    },
+    "source_config": {
+      "batch": 32,
+      "ema": 0.9995,
+      "epochs": 24,
+      "grad_clip": 1.0,
+      "loss": "MSE",
+      "lr_floor": 3e-05,
+      "lr_peak": 0.0003,
+      "optimizer": "AdamW",
+      "path": "btransform_unified_v2/scripts/rift_v1/m2_joint_train.py",
+      "sha256": "8c1307cab905df8093ddc5ff9df9b518f775006d1ff90bb2a7c139969925a139",
+      "source_session_count": 7,
+      "support_m": 33,
+      "updates_per_epoch": 3165,
+      "weight_decay": 0.01
+    }
+  },
+  "schema": "falcon_training_and_evaluation_contracts_v2",
+  "scope": {
+    "dandi688": "EXTERNAL_OUT_OF_SCOPE",
+    "read_only": true
+  }
+}
