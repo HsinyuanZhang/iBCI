@@ -47,6 +47,16 @@
 | E0-zero | T4 + E0 置零 | identity 贡献分解（可选，M1 RIFT 的 25-condition 方法移植） |
 | support-resample | M5/M8/M10 各 n 次重采样 | carrier 支持稳定性（可选，同 M1 协议） |
 
+**vstate-688 系列（2026-09-09 用户指令增补，指令原文："立刻开始准备 vstate-688，注意消融——z 系列 = 完全不在新日期校准（bank 复用旧日期/source），f 系列 = 不使用任何标签校准（label-free）"）**：
+
+| 臂 | carrier | 回答 |
+|---|---|---|
+| **vstate**（主臂） | M2 vstate4 配方适配 688：M10 同集 trial 的 R700/H300 窗口内 100ms 块，searchsorted 半开计数/块时长；状态 W=[softplus(v_x/rms_x), softplus(−v_x/rms_x), softplus(v_y/rms_y), softplus(−v_y/rms_y)]（v=cursor_vel 块均值，rms 与列归一都只用协议 train sessions 拟合）；Poisson 标准化（Δ=0.1s）+ n0=10 块收缩；读出 [a,c,m,b=meanₖR−R_hold] | 有符号速度状态在支持集不变（只有标签从方向换速度）时能否 ≥ t4+0.03；E0 同变重算 post_pool(cat(pre_pool 均值, vstate carrier)) |
+| **z_vstate_srcbank**（z 系列消融） | 模型/训练同 vstate；exam session 的 bank（E0+carrier）在加载后被冻结的最近日期 train session bank 替换（exp1 全部 4 个 exam→2015-07-10；exp2 全部 6 个 val→2015-07-16；映射表与泄漏断言冻结在 plan.Z_SRCBANK_MAPS） | "完全不在新日期校准、只带旧 bank"的部署退化 = z − vstate |
+| **f_labelfree**（f 系列消融） | carrier 全零；E0 = post_pool(cat(pre_pool 活动均值, 零 side))——ACTIVITY-ONLY identity（此前诊断缺失的干净消融；legacy f0 保留的是标签熔炼的冻结 E0，测不出该量） | "纯活动校准、无任何标签信息"的地板；vstate − f_labelfree = 标签信息总增量 |
+
+**披露（vstate 消费 dense cursor_vel 校准标签，与 688 旧 sparse 纪律的对照）**：vstate 的状态标签来自 M10 支持 trial 的稠密 cursor_vel。这与 688 生产路径的 sparse-label 纪律（`materialize_sparse_event_t4` 明确不读 dense behavior）不是同一个问题：carrier 校准面按 FALCON 口径允许消费支持 trial 的行为标签（M2 侧 `PLAN_CARRIER_ITERATION_M2_688` §3.2 对 vstate4 有同款披露）。旧 688 dense-null（dense-speed CP-FiLM REAL<EMPTY）不构成对 vstate 的反证，三轴辨析：(1) 符号轴——null 用无符号速度分位数 profile，vstate 用有符号方向状态；(2) 位置轴——null 把 dense profile **叠加**在完整 T4 之上（加性修饰），vstate 是**替换** T4 坐上 carrier 席位（M10 支持集不变）；(3) 通路轴——null 走 CP-FiLM side 调制通路，vstate 走 carrier token 通路。M2 侧的 dense-profile null 同理（无符号 profile 叠加 T4，非有符号状态替换）。
+
 **融合轴（与 carrier 臂正交，用户裁定 2026-09-09 原文："M1/H1 上 add 是必须的（维度问题）；M2/688 上 concat 和 add（joint）都要试"）**：T4/F0/TS4 全部保持 settled `proj_add` 前端（P: 50→16 加到 local，token_in=20）；T4-concat = 真 carrier 走 matched concat 前端（v2 `concat_model.py`：`[local16 | E0_50 | carrier4]`，token_in=70，init 为 proj_add 的函数保持折叠，几何/种子/数据合同全同）。动因：M2 的先验是 concat 略优（0.4501 vs 0.4016；RIFT 线 concat 0.3901 > joint 变体），688 与 M2 同宽 70，此臂直接检验该先验是否迁移。M1/H1 不开 concat 臂——E0 原始宽度（700/100）无法不经投影加到 16 个 local 通道上，add（proj_add）在该线是维度上的必须选择。
 
 **M2 侧备忘**（不改 M2 代码）：M2 的 concat vs add 并测在 RIFT 主线已有部分证据（concat 0.3901 vs D42 joint 0.3478），完整双臂补测列入 RIFT M2 待办。
@@ -55,6 +65,7 @@
 1. T4 − F0 ≥ **+0.03** 且 T4 − TS4 ≥ +0.03（增量成立的双门——比照 pseudo-MUA 先例里两组比较全正的组级判据）；
 2. RIFT+T4 对封存参照 **SPINT+T4 0.5750**（dev-6 同域）非劣（≥ −0.01）为"架构可迁移"判据；超过则为新冠军；
 3. 过门后 formal test 一次性解封：报 T4/F0/TS4 三臂终局。
+4. vstate-688 系列门（2026-09-09 增补，exam 面同口径）：**vstate − t4 ≥ +0.03** 为增益门；z_vstate_srcbank − vstate（校准缺失代价）与 f_labelfree − vstate（标签信息总增量的负值）为消融读数，不设 pass/fail（`plan.vstate_gate_report`）。
 
 ## 4. 与外部队友线的边界
 
