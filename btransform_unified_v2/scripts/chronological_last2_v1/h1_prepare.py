@@ -1,0 +1,185 @@
+"""Prepare the fixed chronological H1 leave-last-two-dates split.
+
+This is an independent program.  It never writes into the historical LODO
+tree and it has no single-date ``--fold`` interface.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+import numpy as np
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+CROSS = ROOT / "scripts" / "cross_session_v1"
+for item in (str(ROOT.parent / "btransform_unified_v1" / "src"),):
+    if item not in sys.path:
+        sys.path.insert(0, item)
+from btransform_unified_v1.h1_config import H1_SESSIONS_BY_DATE
+
+SPLIT_ID = "h1_last2_19250119_19250120"
+PREPARE_SCHEMA = "h1_chronological_last2_prepare_v1"
+SELECTION_SEAL_SCHEMA = "h1_chronological_last2_selection_seal_v1"
+TRAIN_RECEIPT_SCHEMA = "h1_chronological_last2_train_receipt_v1"
+SOURCE_DATES = ("1925-01-01", "1925-01-08", "1925-01-13", "1925-01-15")
+TARGET_DATES = ("1925-01-19", "1925-01-20")
+SOURCE_SESSIONS = tuple(s for d in SOURCE_DATES for s in H1_SESSIONS_BY_DATE[d])
+TARGET_SESSIONS = tuple(s for d in TARGET_DATES for s in H1_SESSIONS_BY_DATE[d])
+
+
+def _sha_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _load_legacy_prepare():
+    """Load the old data helper only in the standalone prepare process.
+
+    Train and audit import this module for split/seal metadata only.  They use
+    the streaming-calibration ``src`` package, whereas the frozen preparer
+    intentionally requires the old SPINT-main ``src.data`` package.
+    """
+    spint = ROOT.parent / "SPINT-main"
+    for item in (str(ROOT / "src"), str(spint), str(ROOT.parent / "btransform_unified_v1" / "src")):
+        if item in sys.path:
+            sys.path.remove(item)
+        sys.path.insert(0, item)
+    spec = importlib.util.spec_from_file_location("chronological_last2_legacy_h1_prepare", CROSS / "h1_prepare.py")
+    if spec is None or spec.loader is None:
+        raise RuntimeError("cannot load frozen cross-session H1 preparation helpers")
+    legacy = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(legacy)
+    return legacy
+
+
+def split_contract() -> dict[str, object]:
+    source, target = set(SOURCE_SESSIONS), set(TARGET_SESSIONS)
+    if source & target or len(source) != 9 or len(target) != 4:
+        raise RuntimeError("chronological split roster is invalid")
+    if not all(date < TARGET_DATES[0] for date in SOURCE_DATES):
+        raise RuntimeError("source dates must precede the target period")
+    return {"schema": "h1_chronological_last2_split_v1", "split_id": SPLIT_ID,
+            "source_dates": list(SOURCE_DATES), "target_dates": list(TARGET_DATES),
+            "source_sessions": list(SOURCE_SESSIONS), "target_sessions": list(TARGET_SESSIONS),
+            "time_order_disjoint": True,
+            "source_count": len(SOURCE_SESSIONS), "target_count": len(TARGET_SESSIONS)}
+
+
+def matches_split_contract(value: dict) -> bool:
+    return all(value.get(key) == expected for key, expected in split_contract().items() if key != "schema")
+
+
+def _write_manifest(dest: Path, surface: str, authority: dict, records: dict, legacy) -> None:
+    contract = split_contract()
+    manifest = {**contract, "schema": PREPARE_SCHEMA,
+                "surface": surface, "source_authority": authority,
+                "records": records,
+                "source_authority_files": {
+                    "json_sha256": _sha_file(dest.parent / "source" / "source_hc_plan.json"),
+                    "arrays_sha256": _sha_file(dest.parent / "source" / "source_hc_plan_arrays.npz"),
+                },
+                "implementation_sha256": {
+                    str(Path(__file__).resolve()): _sha_file(Path(__file__).resolve()),
+                    str(Path(legacy.__file__).resolve()): _sha_file(Path(legacy.__file__).resolve()),
+                }}
+    (dest / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+
+
+def validate_selection_seals(dest: Path) -> dict[str, dict]:
+    """Require each sealed source choice to be cryptographically tied to its receipt."""
+    contract = split_contract()
+    source_manifest = dest / "source" / "manifest.json"
+    if not source_manifest.is_file():
+        raise FileNotFoundError("target preparation requires chronological source manifest")
+    manifest = json.loads(source_manifest.read_text())
+    if manifest.get("schema") != PREPARE_SCHEMA or not matches_split_contract(manifest):
+        raise RuntimeError("source manifest is not this chronological preparation")
+    source_sha = _sha_file(source_manifest)
+    seals: dict[str, dict] = {}
+    for arm in ("Z_NONE", "B_ACTIVITY_ONLY", "D_JOINT"):
+        path = dest / "source" / f"selection_seal_{arm}.json"
+        if not path.is_file():
+            raise RuntimeError("target preparation requires all three source-only selection seals")
+        seal = json.loads(path.read_text())
+        if (seal.get("schema") != SELECTION_SEAL_SCHEMA or seal.get("split") != contract
+                or seal.get("arm") != arm or seal.get("source_manifest_sha256") != source_sha):
+            raise RuntimeError(f"invalid source-only selection seal: {path.name}")
+        receipt_path = Path(seal.get("train_receipt", "")).resolve()
+        if not receipt_path.is_file() or seal.get("train_receipt_sha256") != _sha_file(receipt_path):
+            raise RuntimeError(f"selection seal receipt hash mismatch: {arm}")
+        receipt = json.loads(receipt_path.read_text())
+        meta, selected = receipt.get("meta", {}), receipt.get("selected", {})
+        if (receipt.get("schema") != TRAIN_RECEIPT_SCHEMA or meta.get("split") != contract
+                or meta.get("arm") != arm or meta.get("source_manifest_sha256") != source_sha
+                or not isinstance(selected.get("epoch"), int)
+                or seal.get("selected_epoch") != selected["epoch"]
+                or seal.get("selected") != selected):
+            raise RuntimeError(f"selection seal receipt binding mismatch: {arm}")
+        seals[arm] = seal
+    return seals
+
+
+def prepare(dest: Path, surface: str) -> None:
+    contract = split_contract()
+    directory = dest / surface
+    if directory.exists() and any(directory.iterdir()):
+        raise FileExistsError(f"refusing to overwrite {directory}")
+    if surface == "target" and not (dest / "source" / "manifest.json").is_file():
+        raise FileNotFoundError("target preparation requires sealed chronological source authority")
+    if surface == "target":
+        validate_selection_seals(dest)
+    directory.mkdir(parents=True, exist_ok=False)
+    legacy = _load_legacy_prepare()
+    paths = legacy.index_heldin_calib(legacy.DATA)
+    chosen = SOURCE_SESSIONS if surface == "source" else TARGET_SESSIONS
+    if surface == "source":
+        # Only the nine chronological source sessions are opened for this fit.
+        records = {name: legacy.load_record(paths[name]) for name in SOURCE_SESSIONS}
+        plan, rms, authority = legacy.fresh_plan(SPLIT_ID, records)
+        authority = {**authority, **contract, "target_records_opened": 0,
+                     "authority_scope": "source dates only; no 1925-01-19/20 records"}
+        (directory / "source_hc_plan.json").write_text(json.dumps(authority, indent=2, sort_keys=True) + "\n")
+        np.savez_compressed(directory / "source_hc_plan_arrays.npz", mean=plan.mean, scale=plan.scale,
+                            pcs=plan.pcs, U=plan.U, mu=plan.mu, tau2=np.float64(plan.tau2),
+                            rms=np.float64(rms))
+    else:
+        plan, rms, authority = legacy.load_frozen_authority(dest / "source")
+        if tuple(authority.get("source_sessions", ())) != SOURCE_SESSIONS:
+            raise RuntimeError("target preparation rejected non-chronological source authority")
+        if authority.get("split_id") != SPLIT_ID or authority.get("target_records_opened") != 0:
+            raise RuntimeError("target preparation rejected unsealed source authority")
+        records = {name: legacy.load_record(paths[name]) for name in TARGET_SESSIONS}
+
+    result: dict[str, dict] = {}
+    for name in chosen:
+        record = records[name]
+        available = tuple(record.trial_values)
+        if len(available) < 6:
+            raise RuntimeError(f"{name}: need >= 6 available eval-valid native trials")
+        query = available[3:-2] if surface == "source" else available[3:]
+        result[name] = legacy.write_session(directory / f"{name}.npz", record, plan, rms, query,
+                                            stride=4 if surface == "source" else 1)
+        if surface == "source":
+            result[name]["validation"] = legacy.write_session(directory / f"{name}.val.npz", record,
+                                                                 plan, rms, available[-2:], stride=4)
+    _write_manifest(directory, surface, authority, result, legacy)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dest", type=Path, required=True)
+    parser.add_argument("--surface", choices=("source", "target"), required=True)
+    args = parser.parse_args()
+    prepare(args.dest.resolve(), args.surface)
+
+
+if __name__ == "__main__":
+    main()

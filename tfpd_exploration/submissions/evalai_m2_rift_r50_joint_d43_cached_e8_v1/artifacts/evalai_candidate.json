@@ -1,0 +1,48 @@
+{
+  "arm": "m2_rift_r50_joint_d43_e8_cached",
+  "budget_disclosure": "Official 13-tag M2 MOVE-T4 (same sealed T as 582047). Live FiLM E0 sealed from joint-D43 EMA e8 on public M33. RIFT R50 proj_add seed43 after 24-epoch source-seven train. ext6 equal-session 0.385523 is development selection, not official HO. Cached CPU runtime, no TTA, no ORT.",
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        2
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7": {
+      "last_shape": [
+        7,
+        2
+      ],
+      "max_abs": 1.30385160446167e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run2_20201019",
+        "Run1_20201020",
+        "Run2_20201020",
+        "Run1_20201027",
+        "Run2_20201027",
+        "Run1_20201028"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_joint_d43_cached_e8_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:a299275f723f159a94e57975eedeb8035ff5076bc9286d3139dbd168eda195b3",
+  "image_size": 9475954499,
+  "image_tag": "m2-rift-r50-joint-d43-cached-e8:v1",
+  "method_description": "M2 RIFT joint D43 (live FiLM M33 + proj_add R50/D4), recency, cached CPU KV. Same MOVE-T4 as 582047; E0 is trained FiLM on public M33. ext6 pick e8 mean 0.385523. Not BT-EORT, not ORT, not SPINT, not 582189.",
+  "method_label": "M2 RIFT R50 joint D43 e8 EMA cached CPU; architecture=RIFT backend=cached identity=live_film_e0_sealed; ext6 pick; not BT-EORT; not ORT; not SPINT",
+  "method_name": "M2 RIFT R50 joint D43 e8 cached",
+  "payload_sha256": "6d8ff0239a30bacf47d91a8d5ba0e3d7214c128f5ffba3ad51272d5f761fbd09",
+  "register": false,
+  "selection_mean": 0.385522723151031,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_joint_d43_cached_e8_v1/artifacts/evalai_push_state.json",
+  "window": 50
+}

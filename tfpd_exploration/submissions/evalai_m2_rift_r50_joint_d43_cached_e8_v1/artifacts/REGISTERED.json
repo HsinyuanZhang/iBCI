@@ -1,0 +1,14 @@
+{
+  "arm": "m2_rift_r50_joint_d43_e8_cached",
+  "challenge": 2319,
+  "host_verify_max_abs_b1": 0.0,
+  "host_verify_max_abs_b7": 1.30385160446167e-08,
+  "image_id": "sha256:a299275f723f159a94e57975eedeb8035ff5076bc9286d3139dbd168eda195b3",
+  "method_name": "M2 RIFT R50 joint D43 e8 cached",
+  "official_result": "OFFICIAL_582192.json",
+  "payload_sha256": "6d8ff0239a30bacf47d91a8d5ba0e3d7214c128f5ffba3ad51272d5f761fbd09",
+  "phase": 4599,
+  "status": "finished",
+  "submission_id": 582192,
+  "submitted_at": "2026-09-09T04:30:16.906043Z"
+}

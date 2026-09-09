@@ -1,0 +1,18 @@
+{
+  "submission_id": 582192,
+  "status": "finished",
+  "method_name": "M2 RIFT R50 joint D43 e8 cached",
+  "test_split_m2": {
+    "Normalized Latency": 0.1006815217395407,
+    "Held Out R2 Mean": 0.324817015260267,
+    "Held Out R2 Std.": 0.1413171537427737,
+    "Held In R2 Mean": 0.6505008975245143,
+    "Held In R2 Std.": 0.02780362635562052
+  },
+  "local_ext6_pick_eq": 0.385522723151031,
+  "prior_582189_official": {
+    "Held Out R2 Mean": 0.34654225938843214,
+    "Held In R2 Mean": 0.6561720684991756,
+    "Normalized Latency": 0.1040345790208448
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "arm": "h1_rift_r300_signed_state_e16_cached",
+  "budget_disclosure": "H1 C2-CAL-1 official 27-tag banks with signed_state14 T and rematerialized C2 M3 E0. RIFT R300 recency seed42 EMA e16 after 32-epoch official-13 train. Local HO-M3 0.467651 / worst 0.266229 is development selection, not official HO. Cached CPU runtime, no TTA, no ORT.",
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1"
+      ]
+    },
+    "B8": {
+      "last_shape": [
+        8,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1",
+        "S0_set_2",
+        "S1_set_1",
+        "S1_set_2",
+        "S1_set_3",
+        "S2_set_1",
+        "S2_set_2",
+        "S3_set_1"
+      ]
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_signed_state_e16_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:33bde6f1be82b61029cb64395ff29d51fcb66b1e6ed2381f39d3f2189ee08bf5",
+  "image_size": 9758761954,
+  "image_tag": "h1-rift-r300-signed-state-e16:v1",
+  "method_description": "H1 RIFT signed-state14 (R300/D4/P16 recency, cached CPU KV). Same 27 official tags and C2 M3 activity as 582073; only T/E0 change. HO-M3 pick e16 mean 0.4677 worst 0.2662. Not BT-EORT, not ORT, not SPINT, not 582073.",
+  "method_label": "H1 RIFT R300 signed-state e16 EMA cached CPU; architecture=RIFT backend=cached identity=signed_state14; not BT-EORT; not ORT; not SPINT; not 582073",
+  "method_name": "H1 RIFT R300 signed-state e16 cached",
+  "payload_sha256": "074db4d3774645f4e0fe38dd68c4f4762ff7b1091c88b4ae9dcdedfb7d52d97d",
+  "register": false,
+  "selection_mean": 0.46765143362182887,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_signed_state_e16_v1/artifacts/evalai_push_state.json",
+  "window": 300
+}

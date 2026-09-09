@@ -141,6 +141,9 @@ planB_tempconv/outputs/
 lightning_logs/
 wandb/
 *.log
+*.pid
+*.nohup
+*.ok
 
 # ---------------------------------------------------------------------------
 # Local decoder/B-transformer experiment products and generated environments
@@ -165,7 +168,13 @@ btransform_unified_v2/results/
 btransform_unified_v2/newresults/
 btransform_unified_v2/logs/
 btransform_unified_v2/outputs/
+btransform_unified_v2/dandi688_bench_v1/results/
+btransform_unified_v2/dandi688_bench_v1/cache/
+btransform_unified_v2/dandi688_bench_v1/logs/
 diagnostics_v1/results/
+**/artifacts/pkg/
+**/artifacts/vendor/
+**/artifacts/container_v1/
 **/ort_venv/
 **/.venv/
 **/site-packages/

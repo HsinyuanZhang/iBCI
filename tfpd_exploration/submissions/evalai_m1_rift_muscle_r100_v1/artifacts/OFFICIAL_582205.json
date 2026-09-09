@@ -1,0 +1,19 @@
+{
+  "submission_id": 582205,
+  "status": "finished",
+  "method_name": "M1 RIFT muscle-response R100 selected cached e3",
+  "submitted_at": "2026-09-09T11:26:48.359836Z",
+  "started_at": "2026-09-09T12:17:32.721602Z",
+  "completed_at": "2026-09-09T12:17:33.023719Z",
+  "test_split_m1": {
+    "Normalized Latency": 0.14040520785877766,
+    "Held Out R2 Mean": 0.6259910151098528,
+    "Held Out R2 Std.": 0.08911240389082414,
+    "Held In R2 Mean": 0.7926300410539316,
+    "Held In R2 Std.": 0.021132442722184144
+  },
+  "provenance": {
+    "metadata_endpoint": "GET /api/jobs/submission/582205",
+    "result_source": "evalai submission 582205 result"
+  }
+}

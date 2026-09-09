@@ -9,6 +9,10 @@
   "phase": 4599,
   "previous_submission_id": 582133,
   "resubmit_reason": "stuck_no_worker_1h",
-  "status": "submitted",
-  "submission_id": 582150
+  "status": "cancelled",
+  "submission_id": 582150,
+  "status_receipt": "STATUS_582150.json",
+  "submitted_at": "2026-09-08T07:55:05.056964Z",
+  "started_at": null,
+  "completed_at": null
 }

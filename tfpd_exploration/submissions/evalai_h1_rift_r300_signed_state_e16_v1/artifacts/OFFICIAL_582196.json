@@ -1,0 +1,23 @@
+{
+  "submission_id": 582196,
+  "status": "finished",
+  "method_name": "H1 RIFT R300 signed-state e16 cached",
+  "test_split_h1": {
+    "Normalized Latency": 0.14155118921267276,
+    "Held Out R2 Mean": 0.45665779063606854,
+    "Held Out R2 Std.": 0.11878803990661022,
+    "Held In R2 Mean": 0.6497448658416408,
+    "Held In R2 Std.": 0.05336948770680192
+  },
+  "local_ho_m3_pick": {
+    "epoch": 16,
+    "mean": 0.46765143362182887,
+    "worst": 0.2662288996535181
+  },
+  "prior_582073_official": {
+    "Held Out R2 Mean": 0.4027782688014744,
+    "Held Out R2 Std.": 0.14526658466582196,
+    "Held In R2 Mean": 0.6681165838896308,
+    "Normalized Latency": 0.14299749625157748
+  }
+}

@@ -1,0 +1,8 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!h1_rift_falcon_decoder.py
+!artifacts/h1_rift_r300_signed_state_e16.pkl
+!artifacts/pkg
+!artifacts/pkg/**

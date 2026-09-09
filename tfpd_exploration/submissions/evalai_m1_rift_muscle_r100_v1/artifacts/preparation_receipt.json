@@ -1,0 +1,141 @@
+{
+  "comparison_script_sha256": "3f76a36a1c1d2698cc6139f5b414acf6bcc984d00dbb62a44cb1c908b7d6685b",
+  "comparison_sha256": "71b532e58e66cccb9b7469aec9a49ac52be716c400cfaad3fe4216e42c37c5f4",
+  "container_smoke": {
+    "gpu_exposed": false,
+    "log_sha256": "d6e21325a758eb7c38042f69dcd67ed81386d0c74209da774594fb6a164992b2",
+    "network": "none",
+    "smoke_fixture_sha256": "09ca00bca1c12c0574a0e32a964f826910ebc7762ac28c2360e0180e52d94c4c",
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "created_utc": "2026-09-09T10:55:16.769193+00:00",
+  "fixture_correction": "First container smoke fixture supplied a bare date; corrected only fixture tag to full Falcon dataset filename stem and reran successfully; payload and image unchanged.",
+  "frozen_training_code_and_inputs_match": true,
+  "host_verify": {
+    "B1": {
+      "max_abs": 0.0,
+      "sessions": [
+        "20121004"
+      ],
+      "steps": 120
+    },
+    "B3": {
+      "max_abs": 4.76837158203125e-07,
+      "sessions": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ],
+      "steps": 120
+    },
+    "B4": {
+      "max_abs": 0.0,
+      "sessions": [
+        "20120924",
+        "20120926",
+        "20120927",
+        "20120928"
+      ],
+      "steps": 120
+    },
+    "full_window_stream_max_abs": 2.384185791015625e-07,
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_muscle_r100_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:7f8c750b4be163f886007fe184f7d26afaaa6c9a3fbc674abf9bdf3ff26c34d4",
+  "image_size": 9603647036,
+  "image_tag": "m1-rift-muscle-r100-cached:v1",
+  "official_hidden_test_score": null,
+  "payload_sha256": "b40ff5c5d63f0b54e31fae0b506a0393050b26cf9be8111952f528df8e1d26e1",
+  "physical_training_gpu": 1,
+  "pushed": false,
+  "read_only_preflight": {
+    "arm": "m1_rift_muscle_r100_cached",
+    "image_id": "sha256:7f8c750b4be163f886007fe184f7d26afaaa6c9a3fbc674abf9bdf3ff26c34d4",
+    "mode": "read_only_preflight",
+    "payload_sha256": "b40ff5c5d63f0b54e31fae0b506a0393050b26cf9be8111952f528df8e1d26e1",
+    "phase": 4599,
+    "private": true,
+    "quota": {
+      "active": 0,
+      "active_ids": [],
+      "max_concurrent": 3,
+      "max_per_day": 6,
+      "today": 3,
+      "total": 55
+    },
+    "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_muscle_r100_v1/artifacts/evalai_push_state.json",
+    "tta": false
+  },
+  "registered": false,
+  "schema": "m1_muscle_r100_submission_preparation_v1",
+  "scored_ema_epochs": 24,
+  "seal_validation": {
+    "comparison": "live_joint_new_muscle_T_raw_M10_vs_sealed_concat",
+    "per_session": {
+      "20120924": {
+        "e0_sha256": "2cd1d10ada032c3e6821f907a72d64e16ffa8f0ac61d3bfbda45e81df0b32e34",
+        "t_sha256": "80a201469da59a6c06f279acd1a6f5bd9c6a765f1558d7ec60d018d3c54a161c",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      },
+      "20120926": {
+        "e0_sha256": "69b048817e274667f52bf387eb2cd75f717c3ee23c29f2c080cc44dabfaaf92a",
+        "t_sha256": "a7081d370a495c171b4aa262e3ee8c5c4b3bb8ba747a5845f98f23808ecbabb6",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      },
+      "20120927": {
+        "e0_sha256": "67ecc62db53833dd6e23d45587c455500572a65d4d4268993019f687653d235b",
+        "t_sha256": "d12571c509d1dd69608c459866d7657bff571b3d86872440c9c1d242c3f61186",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      },
+      "20120928": {
+        "e0_sha256": "97bd9c98a3b822f668ab61393cfe5623370cf9f21380b7acbb7ccd53612ecbba",
+        "t_sha256": "205c82ae8eb6c3218e3e1c591b9351350eef877eda363ec3e184aae8d7052e91",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      },
+      "20121004": {
+        "e0_sha256": "e7cd418a70fdf0b4d587bfde6990456fe3c99a04d44bf1c90eb6dcec106be8d1",
+        "t_sha256": "cb1fa5562b0267fe316a1053f83d8e570ad5ef4198dce68b228d9349f8a10c9b",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      },
+      "20121017": {
+        "e0_sha256": "506e580d13b3b096c5854b612e221a47e1475dbd751276a9073ca94a3c4aa80a",
+        "t_sha256": "af26dd064302ef8fb007f08c89e94d924f8425c94bb8d945e428460268822958",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      },
+      "20121024": {
+        "e0_sha256": "ce613789b9589b81d8834a16f06a46dea31e4612a737185cd09d65841b5d46c0",
+        "t_sha256": "34837b3d8c2642cdb42da32841e6e48cdb1004b083303f3d7133d7449883e7be",
+        "valid_bins": 100,
+        "w100_max_abs": 0.0
+      }
+    },
+    "status": "PASSED"
+  },
+  "selection": {
+    "epoch": 3,
+    "equal_session_mean_channel_variance_weighted_r2": 0.5690750181674957,
+    "legacy_equal_session_mean_flattened_r2": 0.668062063990566,
+    "metric": "channel_variance_weighted_r2",
+    "official_test_used": false,
+    "surface": "visible HO3 M10"
+  },
+  "source_code_sha256": {
+    ".dockerignore": "b4469b7572e44e6586172107428cd490803f57030e95c2dc2d64b5f50719b8ea",
+    "Dockerfile": "335373909823478d6101fe4382f2e694bb89cd2aa499b94677f1955b5186695d",
+    "README.md": "d44e283df340ed7eded97fb80d6faa88657e5baabb4b8bd0b2a5212c0f86e91d",
+    "decode.py": "f6817ade232be6671b2bd7d1684a796adef270591929b2d3c090bbcb34fb1128",
+    "m1_rift_falcon_decoder.py": "f1f3f931be93e32bba026b47d1d96455650eed4ce90b560d2914e487909456a1",
+    "pack_and_verify.py": "2fdc38b3adb00864372f3eec5018c2141e45fa4e5cf8ee0dddc392aab52a7f20",
+    "submit.py": "2cae415e3d130b07127dd6c4d40219419c40bc15656b3d6d9fb4c3884b6d3ab1"
+  },
+  "status": "PREPARED_NOT_PUSHED_NOT_REGISTERED",
+  "train_epochs": 24,
+  "train_steps": 159960
+}

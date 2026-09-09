@@ -1,0 +1,19 @@
+{
+  "arm": "h1_rift_r300_signed_state_e16_cached",
+  "challenge": 2319,
+  "host_verify_max_abs_b1": 0.0,
+  "host_verify_max_abs_b8": 0.0,
+  "image_id": "sha256:33bde6f1be82b61029cb64395ff29d51fcb66b1e6ed2381f39d3f2189ee08bf5",
+  "method_name": "H1 RIFT R300 signed-state e16 cached",
+  "official_result": "OFFICIAL_582196.json",
+  "payload_sha256": "074db4d3774645f4e0fe38dd68c4f4762ff7b1091c88b4ae9dcdedfb7d52d97d",
+  "phase": 4599,
+  "status": "finished",
+  "submission_id": 582196,
+  "versus_582073_ho_m3": {
+    "clearly_better": true,
+    "mean": 0.46765143362182887,
+    "selected_epoch": 16,
+    "worst": 0.2662288996535181
+  }
+}

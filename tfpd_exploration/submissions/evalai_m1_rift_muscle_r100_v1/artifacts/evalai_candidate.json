@@ -1,0 +1,77 @@
+{
+  "arm": "m1_rift_muscle_r100_cached",
+  "budget_disclosure": "Official seven-tag M10 banks; visible held-out calibration used only for post-training EMA selection; no official test, no TTA.",
+  "container_verify": {
+    "gpu_exposed": false,
+    "log_sha256": "d6e21325a758eb7c38042f69dcd67ed81386d0c74209da774594fb6a164992b2",
+    "network": "none",
+    "smoke_fixture_sha256": "09ca00bca1c12c0574a0e32a964f826910ebc7762ac28c2360e0180e52d94c4c",
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "max_abs": 0.0,
+      "sessions": [
+        "20121004"
+      ],
+      "steps": 120
+    },
+    "B3": {
+      "max_abs": 4.76837158203125e-07,
+      "sessions": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ],
+      "steps": 120
+    },
+    "B4": {
+      "max_abs": 0.0,
+      "sessions": [
+        "20120924",
+        "20120926",
+        "20120927",
+        "20120928"
+      ],
+      "steps": 120
+    },
+    "full_window_stream_max_abs": 2.384185791015625e-07,
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_muscle_r100_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:7f8c750b4be163f886007fe184f7d26afaaa6c9a3fbc674abf9bdf3ff26c34d4",
+  "image_size": 9603647036,
+  "image_tag": "m1-rift-muscle-r100-cached:v1",
+  "legacy_selection_mean_flattened_r2": 0.668062063990566,
+  "method_description": "M1 RIFT R100/D4 with sealed muscle-response carrier and B3S EMA E0. HO3 channel-centered variance-weighted R2 pick e3: 0.569075.",
+  "method_label": "M1 RIFT muscle-response R100 concat selected EMA cached CPU; architecture=RIFT backend=cached identity=muscle_response16_svd4/global_rms_sealed; selected_epoch=3",
+  "method_name": "M1 RIFT muscle-response R100 selected cached e3",
+  "payload_sha256": "b40ff5c5d63f0b54e31fae0b506a0393050b26cf9be8111952f528df8e1d26e1",
+  "preparation_receipt": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_muscle_r100_v1/artifacts/preparation_receipt.json",
+  "preparation_receipt_sha256": "4a64e87ab2dee57339947a37923824377c33481372610db6595163d2e4610c12",
+  "read_only_preflight": {
+    "arm": "m1_rift_muscle_r100_cached",
+    "image_id": "sha256:7f8c750b4be163f886007fe184f7d26afaaa6c9a3fbc674abf9bdf3ff26c34d4",
+    "mode": "read_only_preflight",
+    "payload_sha256": "b40ff5c5d63f0b54e31fae0b506a0393050b26cf9be8111952f528df8e1d26e1",
+    "phase": 4599,
+    "private": true,
+    "quota": {
+      "active": 0,
+      "active_ids": [],
+      "max_concurrent": 3,
+      "max_per_day": 6,
+      "today": 3,
+      "total": 55
+    },
+    "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_muscle_r100_v1/artifacts/evalai_push_state.json",
+    "tta": false
+  },
+  "register": false,
+  "selection_epoch": 3,
+  "selection_mean": 0.5690750181674957,
+  "selection_metric": "channel_variance_weighted_r2",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_muscle_r100_v1/artifacts/evalai_push_state.json",
+  "window": 100
+}

@@ -1,0 +1,14 @@
+{
+  "submission_id": 582150,
+  "status": "cancelled",
+  "method_name": "M1 RIFT joint D R100 concat e3 cached",
+  "submitted_at": "2026-09-08T07:55:05.056964Z",
+  "started_at": null,
+  "completed_at": null,
+  "official_result": null,
+  "official_score": null,
+  "cancellation_reason": null,
+  "provenance": {
+    "metadata_endpoint": "GET /api/jobs/submission/582150"
+  }
+}
