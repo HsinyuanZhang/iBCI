@@ -809,9 +809,11 @@ def test_block_edges_rate_primitive_hand_computed():
     rates = vstate.block_rate_matrix(spikes, edges)
     assert rates.shape == (7, 1)
     assert rates[:, 0].tolist() == [10.0, 10.0, 0.0, 10.0, 0.0, 0.0, 10.0]
-    # interior edge: spike at exactly 1.3 counts in block [1.3, 1.4)
+    # single spike at ~1.3: counted exactly once, in the block whose float
+    # edge pair contains it (linspace interior edge is 1.2999..., so 1.3
+    # lands in block 3); no double counting across adjacent blocks
     spikes2 = [np.asarray([1.3])]
-    assert vstate.block_rate_matrix(spikes2, edges)[:, 0].tolist() == [0, 0, 10, 0, 0, 0, 0]
+    assert vstate.block_rate_matrix(spikes2, edges)[:, 0].tolist() == [0, 0, 0, 10, 0, 0, 0]
     # unsorted spike trains are refused
     with pytest.raises(ValueError, match="non-decreasing"):
         vstate.block_rate_matrix([np.asarray([1.5, 1.0])], edges)
