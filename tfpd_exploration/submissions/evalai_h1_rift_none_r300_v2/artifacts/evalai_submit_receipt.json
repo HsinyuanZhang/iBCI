@@ -1,0 +1,8 @@
+{
+  "image_id": "sha256:9a8af356f7dd4b9e7e2b3b188eacc238b9499396891d5b40d9d11dd60bdfa0f5",
+  "payload_sha256": "35d720ffc7b7d604be2d98573b09c6aea4661ca9765499c4e1185beb64a95671",
+  "profile": "h1_none",
+  "schema": "root_final_ablation_evalai_submit_receipt_v1",
+  "status": "submitted",
+  "submission_id": 582221
+}

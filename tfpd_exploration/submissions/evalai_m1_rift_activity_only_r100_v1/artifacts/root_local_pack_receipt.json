@@ -1,0 +1,322 @@
+{
+  "array_shapes": {
+    "20120924": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "09cde5d025b670ec64ac084122acb9f020ca4cb53883fd1db0706579db6c52b2",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "20120926": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "33754e05df3ac3417cc65e55998ddbeeffb428f959a114592bf14ac58accf06f",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "20120927": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "b29c871c23ada28efcd258c6962f3648a509c9db4504f9bf72bd4bc55a2f8ba0",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "20120928": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "89545d01eabb9f5ccd253ac855e31be54e82a1669a6c8f8c3b0466dd8e3b9bc3",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "20121004": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "7b070af0d21084f0d3863869c0c513c0727038e41aac3753c80f307a4e9cfb22",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "20121017": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "4745404e6c83f8310de227cdacfc07d1fdf901e86ab9c25166fc75973f2a4e22",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    },
+    "20121024": {
+      "E0": [
+        64,
+        100
+      ],
+      "T": [
+        64,
+        4
+      ],
+      "e0_sha256": "90cf3b9f0debc3bb5d5a998772f0d87f41ccefd66fe0585ea81c28cf4dd7328b",
+      "t_sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+    }
+  },
+  "build_source_sha256": {
+    ".dockerignore": "d79a9b1966270713c7c38683248f8c0d06da6754a83e5368e08b27800f3721ec",
+    "Dockerfile": "1afe012d4981ddceee46236e8476408d301fc2428eeac3a198d6f57b00298148",
+    "README.md": "e043944eb15160f3668920c82b21091b9ec98b8710dc520b3cb7ff7997f77321",
+    "artifacts/pkg/btransform_unified_v1/__init__.py": "c7a156c40f507f9dfac0cce710bcf4a657fd492f80c519e1f1f7cdcf4998f026",
+    "artifacts/pkg/btransform_unified_v1/adapters.py": "af7e24cfccf425febae9dcca08cf154f3dd1ea3727dd31ffcc0c47603ca013a4",
+    "artifacts/pkg/btransform_unified_v1/bank.py": "015776661ff2782cacdee1d49c0440a83fd52721b5481cdbca7be1e73f0e6dce",
+    "artifacts/pkg/btransform_unified_v1/c2_protocol.py": "44d2e53f1dd8297d0b95572bd5127468c9a441894b26130088611a5cef6b5819",
+    "artifacts/pkg/btransform_unified_v1/cal1_b2.py": "fb9c1cbc17fced7a10cb51208c9550ae17e3103a79170f67bb27ff6a5f4e42f5",
+    "artifacts/pkg/btransform_unified_v1/ema.py": "f9001b0fe3816dfcf2f0d7462c849c184cc237d09bb3adcbd619270b38e8da7c",
+    "artifacts/pkg/btransform_unified_v1/h1_config.py": "8c5608d2eb04a54ea4ed4c685c73ae65d9b838de7bcb79ff3da6036dedb82cbc",
+    "artifacts/pkg/btransform_unified_v1/identity_variant.py": "236640e54d48d9a7855de4a8103ad3281b053a3fc81c797517b624c50e734643",
+    "artifacts/pkg/btransform_unified_v1/m1_b3s_joint.py": "9318a4143dbf37292ceba030aa61ca2d60e785662910ad6a18a8577e3b9ca366",
+    "artifacts/pkg/btransform_unified_v1/m1_projadd.py": "5a76412922024d96a8fff417ef4dd7b34f09ea3493f6d55e12771c704477c7b3",
+    "artifacts/pkg/btransform_unified_v1/matrix_cells.py": "04873b5e9869f6f873d93eea6d2d656744bfd729833c36261db07d6165022cab",
+    "artifacts/pkg/btransform_unified_v1/model.py": "957b0dde89e7ef5750aa96242ed3a7de0c4e879d87d6a5298979aad006bd4482",
+    "artifacts/pkg/btransform_unified_v1/plan.py": "71c88b746e3a84a62cf55a3f24da7ef134de73621e85037f3c549cfd25ba34ef",
+    "artifacts/pkg/btransform_unified_v1/r2.py": "33bc0ebc6c32dd8205ff35ac04a14cf3ac2287ec1fca67ae10660a868aaef8cf",
+    "artifacts/pkg/btransform_unified_v1/receipts.py": "09d081d7ed63d3cb2da049db6374e8a1ee27ab2d003a0379a1d0345c714bd094",
+    "artifacts/pkg/btransform_unified_v1/scale_bridge.py": "b5b97e1bcb5ec56812a6a9f45127708b3742afd19c0eed59cc932572fff04241",
+    "artifacts/pkg/btransform_unified_v1/schedule.py": "8dcc5b830da1c05eaa862fccda5229193532f457e9006982b0e4f92c096d982c",
+    "artifacts/pkg/btransform_unified_v2/__init__.py": "5f9c675512d77ea0a9f103bba54e489d8c27e87bbb2a19aa5f02a1fcfa901868",
+    "artifacts/pkg/btransform_unified_v2/carrier_profile_v3.py": "8f2590eec139f6d22c7d1762903551647b8a8eac81f9a922e2d9ff8709e5bd3d",
+    "artifacts/pkg/btransform_unified_v2/concat_model.py": "ce6214bfd733df38a0b9c2a566eb380efc64ece9ecae80647f33cf6a58f0874f",
+    "artifacts/pkg/btransform_unified_v2/config.py": "0a8273aadb0222c3001e0d6e02a67cd468c15ff9979304822660940d762e8d95",
+    "artifacts/pkg/btransform_unified_v2/cpu_runtime.py": "90729daded828d02da8ef0931aa87ef17dc3fa86dfe63de33d408967b6d3605c",
+    "artifacts/pkg/btransform_unified_v2/cpu_temporal.py": "c27f2fb7aad8f66b1408fe63523d1ec252999a14b46fb9f14d5094f5555675c8",
+    "artifacts/pkg/btransform_unified_v2/cross_session_h1_model.py": "d5f174a5933780d6ce5a3428de619f84f0be28dd03084d0b2df17d1cfd102f89",
+    "artifacts/pkg/btransform_unified_v2/cross_session_m1_model.py": "0b9bd484c46bb76fbf5b799c6f53200f7a8b5cfe31de3420600eaddd02bbfc3e",
+    "artifacts/pkg/btransform_unified_v2/cross_session_m2_model.py": "0d30474a703014115897cd6cda65efc3341be2244a5b65428519d3d57c77e029",
+    "artifacts/pkg/btransform_unified_v2/m1_carrier_residual_candidate.py": "516f97e87c4400164201c4bc6c1c53d1b0538319b4088e4f2972eac9fb9d669e",
+    "artifacts/pkg/btransform_unified_v2/model.py": "482fe07122332f3ad5610e1348a98f139fe3a113a947c4d9a1d47787ea71efca",
+    "artifacts/pkg/btransform_unified_v2/streaming.py": "061bf81d0cc082d0173d2923f092ab89b3283fe4febe93b9e2ea59dd05ce41f9",
+    "artifacts/pkg/btransform_unified_v2/temporal.py": "c6080378ce46906a6dd6b214e9a739ecede012ca7ecea39c83c3166f70cda0d1",
+    "decode.py": "ea88c9b3c928dd7ad51d252648c579d11c83fd5d17cb78cf2d48ba65711d6d72",
+    "m1_rift_falcon_decoder.py": "6b31454773fb671e3aec276348580b0e329a52e386722de252f335d282366aeb",
+    "pack_and_verify.py": "47d3d65ce5a04003ffa68aa7c6be5db51dbd7610605df3d931a88d227ab2730b"
+  },
+  "checkpoint_sha256": "b93c51d1617dd36d862dd90a58c66bf07b413081cb37a70213a2113a07d9f7e8",
+  "completed_utc": "2026-09-09T16:05:09.220638+00:00",
+  "container_smoke": {
+    "exit_code": 0,
+    "kind": "rift_cached_activity_only",
+    "log_sha256": "c206850aba083de05760dbd16b57706afc630bd98fff0ce5d7980807cfc699df",
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "current_code_sha256": {
+    ".dockerignore": "d79a9b1966270713c7c38683248f8c0d06da6754a83e5368e08b27800f3721ec",
+    "Dockerfile": "1afe012d4981ddceee46236e8476408d301fc2428eeac3a198d6f57b00298148",
+    "artifacts/pkg/btransform_unified_v1/__init__.py": "c7a156c40f507f9dfac0cce710bcf4a657fd492f80c519e1f1f7cdcf4998f026",
+    "artifacts/pkg/btransform_unified_v1/adapters.py": "af7e24cfccf425febae9dcca08cf154f3dd1ea3727dd31ffcc0c47603ca013a4",
+    "artifacts/pkg/btransform_unified_v1/bank.py": "015776661ff2782cacdee1d49c0440a83fd52721b5481cdbca7be1e73f0e6dce",
+    "artifacts/pkg/btransform_unified_v1/c2_protocol.py": "44d2e53f1dd8297d0b95572bd5127468c9a441894b26130088611a5cef6b5819",
+    "artifacts/pkg/btransform_unified_v1/cal1_b2.py": "fb9c1cbc17fced7a10cb51208c9550ae17e3103a79170f67bb27ff6a5f4e42f5",
+    "artifacts/pkg/btransform_unified_v1/ema.py": "f9001b0fe3816dfcf2f0d7462c849c184cc237d09bb3adcbd619270b38e8da7c",
+    "artifacts/pkg/btransform_unified_v1/h1_config.py": "8c5608d2eb04a54ea4ed4c685c73ae65d9b838de7bcb79ff3da6036dedb82cbc",
+    "artifacts/pkg/btransform_unified_v1/identity_variant.py": "236640e54d48d9a7855de4a8103ad3281b053a3fc81c797517b624c50e734643",
+    "artifacts/pkg/btransform_unified_v1/m1_b3s_joint.py": "9318a4143dbf37292ceba030aa61ca2d60e785662910ad6a18a8577e3b9ca366",
+    "artifacts/pkg/btransform_unified_v1/m1_projadd.py": "5a76412922024d96a8fff417ef4dd7b34f09ea3493f6d55e12771c704477c7b3",
+    "artifacts/pkg/btransform_unified_v1/matrix_cells.py": "04873b5e9869f6f873d93eea6d2d656744bfd729833c36261db07d6165022cab",
+    "artifacts/pkg/btransform_unified_v1/model.py": "957b0dde89e7ef5750aa96242ed3a7de0c4e879d87d6a5298979aad006bd4482",
+    "artifacts/pkg/btransform_unified_v1/plan.py": "71c88b746e3a84a62cf55a3f24da7ef134de73621e85037f3c549cfd25ba34ef",
+    "artifacts/pkg/btransform_unified_v1/r2.py": "33bc0ebc6c32dd8205ff35ac04a14cf3ac2287ec1fca67ae10660a868aaef8cf",
+    "artifacts/pkg/btransform_unified_v1/receipts.py": "09d081d7ed63d3cb2da049db6374e8a1ee27ab2d003a0379a1d0345c714bd094",
+    "artifacts/pkg/btransform_unified_v1/scale_bridge.py": "b5b97e1bcb5ec56812a6a9f45127708b3742afd19c0eed59cc932572fff04241",
+    "artifacts/pkg/btransform_unified_v1/schedule.py": "8dcc5b830da1c05eaa862fccda5229193532f457e9006982b0e4f92c096d982c",
+    "artifacts/pkg/btransform_unified_v2/__init__.py": "5f9c675512d77ea0a9f103bba54e489d8c27e87bbb2a19aa5f02a1fcfa901868",
+    "artifacts/pkg/btransform_unified_v2/carrier_profile_v3.py": "8f2590eec139f6d22c7d1762903551647b8a8eac81f9a922e2d9ff8709e5bd3d",
+    "artifacts/pkg/btransform_unified_v2/concat_model.py": "ce6214bfd733df38a0b9c2a566eb380efc64ece9ecae80647f33cf6a58f0874f",
+    "artifacts/pkg/btransform_unified_v2/config.py": "0a8273aadb0222c3001e0d6e02a67cd468c15ff9979304822660940d762e8d95",
+    "artifacts/pkg/btransform_unified_v2/cpu_runtime.py": "90729daded828d02da8ef0931aa87ef17dc3fa86dfe63de33d408967b6d3605c",
+    "artifacts/pkg/btransform_unified_v2/cpu_temporal.py": "c27f2fb7aad8f66b1408fe63523d1ec252999a14b46fb9f14d5094f5555675c8",
+    "artifacts/pkg/btransform_unified_v2/cross_session_h1_model.py": "d5f174a5933780d6ce5a3428de619f84f0be28dd03084d0b2df17d1cfd102f89",
+    "artifacts/pkg/btransform_unified_v2/cross_session_m1_model.py": "0b9bd484c46bb76fbf5b799c6f53200f7a8b5cfe31de3420600eaddd02bbfc3e",
+    "artifacts/pkg/btransform_unified_v2/cross_session_m2_model.py": "0d30474a703014115897cd6cda65efc3341be2244a5b65428519d3d57c77e029",
+    "artifacts/pkg/btransform_unified_v2/m1_carrier_residual_candidate.py": "516f97e87c4400164201c4bc6c1c53d1b0538319b4088e4f2972eac9fb9d669e",
+    "artifacts/pkg/btransform_unified_v2/model.py": "482fe07122332f3ad5610e1348a98f139fe3a113a947c4d9a1d47787ea71efca",
+    "artifacts/pkg/btransform_unified_v2/streaming.py": "061bf81d0cc082d0173d2923f092ab89b3283fe4febe93b9e2ea59dd05ce41f9",
+    "artifacts/pkg/btransform_unified_v2/temporal.py": "c6080378ce46906a6dd6b214e9a739ecede012ca7ecea39c83c3166f70cda0d1",
+    "decode.py": "ea88c9b3c928dd7ad51d252648c579d11c83fd5d17cb78cf2d48ba65711d6d72",
+    "m1_rift_falcon_decoder.py": "6b31454773fb671e3aec276348580b0e329a52e386722de252f335d282366aeb",
+    "pack_and_verify.py": "efb7d032d2fe28a384fa2a869dea4a200aa6af0174587cf82d3f457e781484d0"
+  },
+  "docker": {
+    "build_log_sha256": "1756a61ce69ab40e419ade7189d6461b5fcfb0636cb58e4de06402d33d6b5e41",
+    "container_file_sha256": {
+      "/data/decoder.pkl": "650136399bd9f8582c88d7f721adcff6a70b2999f6c3c815e59a778fa8b451fc",
+      "/decode.py": "ea88c9b3c928dd7ad51d252648c579d11c83fd5d17cb78cf2d48ba65711d6d72",
+      "/m1_rift_falcon_decoder.py": "6b31454773fb671e3aec276348580b0e329a52e386722de252f335d282366aeb",
+      "/pkg/btransform_unified_v1/__init__.py": "c7a156c40f507f9dfac0cce710bcf4a657fd492f80c519e1f1f7cdcf4998f026",
+      "/pkg/btransform_unified_v1/adapters.py": "af7e24cfccf425febae9dcca08cf154f3dd1ea3727dd31ffcc0c47603ca013a4",
+      "/pkg/btransform_unified_v1/bank.py": "015776661ff2782cacdee1d49c0440a83fd52721b5481cdbca7be1e73f0e6dce",
+      "/pkg/btransform_unified_v1/c2_protocol.py": "44d2e53f1dd8297d0b95572bd5127468c9a441894b26130088611a5cef6b5819",
+      "/pkg/btransform_unified_v1/cal1_b2.py": "fb9c1cbc17fced7a10cb51208c9550ae17e3103a79170f67bb27ff6a5f4e42f5",
+      "/pkg/btransform_unified_v1/ema.py": "f9001b0fe3816dfcf2f0d7462c849c184cc237d09bb3adcbd619270b38e8da7c",
+      "/pkg/btransform_unified_v1/h1_config.py": "8c5608d2eb04a54ea4ed4c685c73ae65d9b838de7bcb79ff3da6036dedb82cbc",
+      "/pkg/btransform_unified_v1/identity_variant.py": "236640e54d48d9a7855de4a8103ad3281b053a3fc81c797517b624c50e734643",
+      "/pkg/btransform_unified_v1/m1_b3s_joint.py": "9318a4143dbf37292ceba030aa61ca2d60e785662910ad6a18a8577e3b9ca366",
+      "/pkg/btransform_unified_v1/m1_projadd.py": "5a76412922024d96a8fff417ef4dd7b34f09ea3493f6d55e12771c704477c7b3",
+      "/pkg/btransform_unified_v1/matrix_cells.py": "04873b5e9869f6f873d93eea6d2d656744bfd729833c36261db07d6165022cab",
+      "/pkg/btransform_unified_v1/model.py": "957b0dde89e7ef5750aa96242ed3a7de0c4e879d87d6a5298979aad006bd4482",
+      "/pkg/btransform_unified_v1/plan.py": "71c88b746e3a84a62cf55a3f24da7ef134de73621e85037f3c549cfd25ba34ef",
+      "/pkg/btransform_unified_v1/r2.py": "33bc0ebc6c32dd8205ff35ac04a14cf3ac2287ec1fca67ae10660a868aaef8cf",
+      "/pkg/btransform_unified_v1/receipts.py": "09d081d7ed63d3cb2da049db6374e8a1ee27ab2d003a0379a1d0345c714bd094",
+      "/pkg/btransform_unified_v1/scale_bridge.py": "b5b97e1bcb5ec56812a6a9f45127708b3742afd19c0eed59cc932572fff04241",
+      "/pkg/btransform_unified_v1/schedule.py": "8dcc5b830da1c05eaa862fccda5229193532f457e9006982b0e4f92c096d982c",
+      "/pkg/btransform_unified_v2/__init__.py": "5f9c675512d77ea0a9f103bba54e489d8c27e87bbb2a19aa5f02a1fcfa901868",
+      "/pkg/btransform_unified_v2/carrier_profile_v3.py": "8f2590eec139f6d22c7d1762903551647b8a8eac81f9a922e2d9ff8709e5bd3d",
+      "/pkg/btransform_unified_v2/concat_model.py": "ce6214bfd733df38a0b9c2a566eb380efc64ece9ecae80647f33cf6a58f0874f",
+      "/pkg/btransform_unified_v2/config.py": "0a8273aadb0222c3001e0d6e02a67cd468c15ff9979304822660940d762e8d95",
+      "/pkg/btransform_unified_v2/cpu_runtime.py": "90729daded828d02da8ef0931aa87ef17dc3fa86dfe63de33d408967b6d3605c",
+      "/pkg/btransform_unified_v2/cpu_temporal.py": "c27f2fb7aad8f66b1408fe63523d1ec252999a14b46fb9f14d5094f5555675c8",
+      "/pkg/btransform_unified_v2/cross_session_h1_model.py": "d5f174a5933780d6ce5a3428de619f84f0be28dd03084d0b2df17d1cfd102f89",
+      "/pkg/btransform_unified_v2/cross_session_m1_model.py": "0b9bd484c46bb76fbf5b799c6f53200f7a8b5cfe31de3420600eaddd02bbfc3e",
+      "/pkg/btransform_unified_v2/cross_session_m2_model.py": "0d30474a703014115897cd6cda65efc3341be2244a5b65428519d3d57c77e029",
+      "/pkg/btransform_unified_v2/m1_carrier_residual_candidate.py": "516f97e87c4400164201c4bc6c1c53d1b0538319b4088e4f2972eac9fb9d669e",
+      "/pkg/btransform_unified_v2/model.py": "482fe07122332f3ad5610e1348a98f139fe3a113a947c4d9a1d47787ea71efca",
+      "/pkg/btransform_unified_v2/streaming.py": "061bf81d0cc082d0173d2923f092ab89b3283fe4febe93b9e2ea59dd05ce41f9",
+      "/pkg/btransform_unified_v2/temporal.py": "c6080378ce46906a6dd6b214e9a739ecede012ca7ecea39c83c3166f70cda0d1"
+    },
+    "container_files_equal_host": true,
+    "files_compared": 33,
+    "image_id": "sha256:beae4356d303957cd9e33788c6702161fed497d9d579e44822c3cdfd4e2171ec",
+    "image_size_bytes": 9603640470,
+    "image_tag": "m1-rift-activity-only-r100-e3:v1"
+  },
+  "external": {
+    "pushed": false,
+    "registered": false,
+    "submitted": false
+  },
+  "host_attempts": [
+    {
+      "build_time_pack_code_sha256": "47d3d65ce5a04003ffa68aa7c6be5db51dbd7610605df3d931a88d227ab2730b",
+      "error": "Host test incorrectly demanded inactive returned score == previous score. Falcon discards inactive output; repair validates retained state and next active predictions.",
+      "exit_code": 1,
+      "log": "host_attempt01.log",
+      "log_sha256": "1bf2f78187f1f53d4bd32dd0fdc0d509e84fc0b22d3722ca310e36728379c82f"
+    },
+    {
+      "exit_code": 0,
+      "log": "host_attempt02.log",
+      "log_sha256": "c456d9744eb5e27e701f8d01d3d639c401948da6acb7045e6828dc7f9b5faf2f",
+      "pack_code_sha256": "6a20c6d37b1c0a7d95064c1c6a76e40fb6e2cdd583e1fd7e47a5b750ed7bcf51"
+    }
+  ],
+  "host_test_repair": "Replaced unsupported inactive returned-score assertion with raw4/last/KV/length retained-state checks plus resumed active full-reference parity. Final subsequent code change was comments only.",
+  "host_verify": {
+    "B8_cached_vs_full_max_abs": 7.152557373046875e-07,
+    "B8_inactive_row_checked": true,
+    "B8_true_zero_valid_checked": true,
+    "full_context_stream_truezero_max_abs": 1.1920928955078125e-07,
+    "full_stream_startup_truezero_checked": true,
+    "max_live_b_ema_vs_static": 0.0,
+    "max_packed_vs_full": 8.344650268554688e-07,
+    "payload_sha256": "650136399bd9f8582c88d7f721adcff6a70b2999f6c3c815e59a778fa8b451fc",
+    "per_ho_tag": {
+      "20121004": {
+        "full_context_endpoint_checked": 99,
+        "live_b_ema_vs_static_max_abs": 0.0,
+        "packed_vs_full_max_abs": 8.344650268554688e-07,
+        "startup_endpoints_checked": [
+          0,
+          1
+        ],
+        "steps": 128,
+        "true_zero_valid_endpoint": 1
+      },
+      "20121017": {
+        "full_context_endpoint_checked": 99,
+        "live_b_ema_vs_static_max_abs": 0.0,
+        "packed_vs_full_max_abs": 8.344650268554688e-07,
+        "startup_endpoints_checked": [
+          0,
+          1
+        ],
+        "steps": 128,
+        "true_zero_valid_endpoint": 1
+      },
+      "20121024": {
+        "full_context_endpoint_checked": 99,
+        "live_b_ema_vs_static_max_abs": 0.0,
+        "packed_vs_full_max_abs": 5.364418029785156e-07,
+        "startup_endpoints_checked": [
+          0,
+          1
+        ],
+        "steps": 128,
+        "true_zero_valid_endpoint": 1
+      }
+    },
+    "querypad_t0_full_stream_max_abs": 1.7881393432617188e-07,
+    "raw_input_contract": {
+      "query_pad_bins_stripped": 99,
+      "validity": "derived from raw end geometry, never neural amplitude"
+    },
+    "route": {
+      "live_b_ema_zero_side_vs_static_checked": true,
+      "sealed_t_literal_zero": true,
+      "static_e0_sha_checked_by_runtime": true
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_activity_only_r100_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "host_verify_sha256": "c982fc4c207a6886f8cea250bd8827ca97dc57573e91cccf4ac6813adf22a796",
+  "input_receipts_sha256": {
+    "replay_receipt.json": "4994ba520acdebfcb4476d14a24f5bce17ba39b7b0efe3e5e69916610b92c4fa",
+    "run_meta.json": "bc5b7b542ea99e53d2d2877efe708757d4b05848ff2d2a6fa454739588269e5e",
+    "score_receipt.json": "7ebb53eee59166e9db3d35a06171a692155392d334cf06eea5f19741085d4606",
+    "train_receipt.json": "53e4a3c86eb23080e13a121e46401b6e189572f5ea1f7a47c164715b797bac4b"
+  },
+  "official_result": null,
+  "official_submission_id": null,
+  "payload_sha256": "650136399bd9f8582c88d7f721adcff6a70b2999f6c3c815e59a778fa8b451fc",
+  "schema": "root_m1_activity_only_local_pack_v1",
+  "selection": {
+    "channel_metric_equal_session_mean": 0.5618270536263784,
+    "channel_replay_selected_epoch": 3,
+    "epoch": 3,
+    "official_test_used": false,
+    "old_metric_equal_session_mean": 0.6630568974542209,
+    "original_score_selected_epoch": 3
+  },
+  "smoke_window_sha256": "ea2114ec3033929beab0376857802fea6568e919faf55677e2ff10f4ebeae521",
+  "status": "LOCAL_PACKAGE_READY_NOT_SUBMITTED",
+  "tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ]
+}

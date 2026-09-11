@@ -1,0 +1,7 @@
+{
+  "official_result": null,
+  "official_submission_id": 582220,
+  "reason": "Duplicate retry of finished 582218; cancelled by user so official numbers exclude this ID.",
+  "schema": "root_final_ablation_evalai_cancelled_receipt_v1",
+  "status": "cancelled"
+}

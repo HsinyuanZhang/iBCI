@@ -1,0 +1,27 @@
+{
+  "submission_id": 582217,
+  "status": "finished",
+  "method_name": "M2 RIFT R50 ACTIVITY_ONLY",
+  "submitted_at": "2026-09-10T01:29:50.088957Z",
+  "started_at": "2026-09-10T01:57:41.444568Z",
+  "completed_at": "2026-09-10T01:57:41.558347Z",
+  "test_split_m2": {
+    "Normalized Latency": 0.10743839747764272,
+    "Held Out R2 Mean": 0.09302905280313856,
+    "Held Out R2 Std.": 0.2890513294030161,
+    "Held In R2 Mean": 0.6463020945769177,
+    "Held In R2 Std.": 0.031828683138622894
+  },
+  "local_ext6_pick": {
+    "epoch": 9,
+    "equal_session_mean": 0.18402467250439059
+  },
+  "versus_582189_rift_concat_e9": {
+    "official_ho": 0.34654225938843214,
+    "delta_ho": -0.2535132065852936
+  },
+  "provenance": {
+    "metadata_endpoint": "GET /api/jobs/submission/582217",
+    "result_source": "evalai submission 582217 result"
+  }
+}

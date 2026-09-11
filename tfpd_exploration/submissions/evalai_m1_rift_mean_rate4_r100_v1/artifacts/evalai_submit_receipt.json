@@ -1,0 +1,9 @@
+{
+  "image_id": "sha256:39a33f0eccf22aad5347a9421efa5ea141da905051a0702415b345903bcf0437",
+  "payload_sha256": "99818aa1e75f7de512b32309dca5964bdff84aa215ac286d879cd0617396b2c1",
+  "profile": "m1_mean_rate4",
+  "schema": "m1_mean_rate4_evalai_submit_receipt_v1",
+  "status": "submitted",
+  "submission_id": 582228,
+  "submitted_at": "2026-09-10T05:04:52.042156Z"
+}

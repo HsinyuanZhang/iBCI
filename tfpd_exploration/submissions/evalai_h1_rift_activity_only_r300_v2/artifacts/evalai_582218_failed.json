@@ -1,0 +1,20 @@
+{
+  "official_result": null,
+  "official_submission_id": 582218,
+  "payload_sha256": "6becdb88798a088d3fa4136eac1c5ce53e8660977e54c3f70d3718f377ac09d6",
+  "profile": "h1_activity_only",
+  "schema": "root_final_ablation_evalai_failed_receipt_v1",
+  "server_get": {
+    "completed_at": "2026-09-10T01:47:53.033466Z",
+    "execution_time": 828.072653,
+    "id": 582218,
+    "method_name": "H1 RIFT R300 ACTIVITY_ONLY",
+    "result_json": [],
+    "started_at": "2026-09-10T01:34:04.960813Z",
+    "status": "failed",
+    "stderr_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582218/e6a97831-26a4-4423-b16a-5f12d19b18f.txt",
+    "submitted_at": "2026-09-10T01:30:19.891655Z"
+  },
+  "status": "FAILED_EMPTY_RESULT",
+  "stderr_note": "No traceback. Evaluator listed 27 H1 eval NWBs, completed two 2-file progress bars, then printed the remote-eval sleep line. Result file is empty."
+}

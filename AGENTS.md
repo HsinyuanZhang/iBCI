@@ -31,6 +31,7 @@ Worker by product:
 
 - Cursor: Grok. Set the Task/subagent model to `grok-4.6` (or the current Grok slug). Do not inherit a non-Grok parent model.
 - Codex: Terra. Spawn with `model` `gpt-5.6-terra` and `fork_turns` `"none"` or a bounded integer so the override applies. Do not use a full-history fork for these workers.
+- ZCode: GLM 5.3 Flash. Always use the flash model for subagents/Task tool. Do not use the full GLM 5.3 model for child agents.
 
 Give each child a closed assignment: goal, in-scope paths, done criteria, and what to return. Children must not expand scope.
 

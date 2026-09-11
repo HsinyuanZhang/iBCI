@@ -1,0 +1,7 @@
+{
+  "official_result": null,
+  "official_submission_id": 582221,
+  "reason": "Queued H1 NONE cancelled by user; local package remains. Official numbers exclude this ID.",
+  "schema": "root_final_ablation_evalai_cancelled_receipt_v1",
+  "status": "cancelled"
+}

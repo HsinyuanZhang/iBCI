@@ -1,0 +1,32 @@
+{
+  "arm": "NONE",
+  "budget_disclosure": "Formal 32-epoch H1 NONE RIFT-R300; E0/T are literal zero; public local HO-label development selection is not official; IsHeldOutZeroShot=false.",
+  "created_utc": "2026-09-10T02:07:00+00:00",
+  "external": {
+    "pushed": true,
+    "registered": true,
+    "submitted": true,
+    "submission_id": 582221
+  },
+  "host_receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_none_r300_v2/host_verify.json",
+  "host_receipt_sha256": "1ee2eb56a5e93c935df0c1e9bfa657611ad1a459eae96aaab547d605603a428a",
+  "image_id": "sha256:9a8af356f7dd4b9e7e2b3b188eacc238b9499396891d5b40d9d11dd60bdfa0f5",
+  "image_tag": "h1-rift-none-r300-e15:v1",
+  "method_description": "H1 RIFT R300 cached CPU information ablation | formal h1_none selected epoch 15; local build/host/container verified.",
+  "method_label": "H1 RIFT R300 cached CPU information ablation",
+  "method_name": "H1 RIFT R300 NONE",
+  "official_result": null,
+  "official_submission_id": 582221,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_none_r300_v2/payload.pkl",
+  "payload_sha256": "35d720ffc7b7d604be2d98573b09c6aea4661ca9765499c4e1185beb64a95671",
+  "profile": "h1_none",
+  "register": false,
+  "schema": "root_final_ablation_fixed_control_evalai_candidate_v1",
+  "selection_epoch": 15,
+  "selection_mean": 0.002879623722468462,
+  "selection_metric": "ho_m3_grouped_seven_mean",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_none_r300_v2/artifacts/root_fixed_control_submit_state.json",
+  "status": "SUBMITTED",
+  "submit_manifest": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_none_r300_v2/artifacts/fixed_control_manifest.json",
+  "task": "h1"
+}

@@ -31,7 +31,7 @@ from btransform_unified_v2 import carrier_profile_v3 as v3
 R700_SECONDS = 0.7
 H300_SECONDS = 0.3
 N0 = 1.0
-VARIANTS = ("u1_m10", "u1_m30")
+VARIANTS = ("u1_m10", "u1_m30", "t4_dir16")
 
 
 def _dump(path: Path, payload: Any) -> None:
@@ -73,6 +73,11 @@ def _variant_spec(variant: str) -> dict[str, Any]:
         return {"positions": tuple(range(10)), "namespace": "candidate", "label_budget": 10}
     if variant == "u1_m30":
         return {"positions": tuple(range(30)), "namespace": "reliability_audit", "label_budget": 30}
+    if variant == "t4_dir16":
+        # C1 (user directive 2026-09-10): same M10 candidate support face as
+        # u1_m10/the t4 arm; only the direction design doubles to 16 bins.
+        return {"positions": tuple(range(10)), "namespace": "candidate",
+                "label_budget": 10, "n_dirs": 16}
     raise ValueError(variant)
 
 
@@ -132,6 +137,99 @@ def _raw_u1_profile(nwb_path: Path, spec: dict[str, Any]) -> tuple[np.ndarray, d
         if max_abs > 1e-4:
             raise AssertionError(f"{nwb_path.name}: identity gate failed max_abs={max_abs}")
     return raw, identity
+
+
+def _raw_dir16_profile(nwb_path: Path, spec: dict[str, Any]) -> tuple[np.ndarray, dict[str, Any]]:
+    """t4_dir16 (user directive 2026-09-10, plan C1): identical recipe to
+    _raw_u1_profile except the direction design doubles to 16 angle bins
+    (one-hot weights + 16-entry first-harmonic table, dandi688_bench_v1.dir16).
+
+    Degeneracy law (dir16 module docstring): on this dataset every target_dir
+    is exactly an 8-canonical angle landing on an EVEN 16-bin, so R16[:,2k]
+    == R8[:,k] exactly; a/c/m halve exactly (2/16 vs 2/8 table mean) and the
+    train-fit column normalizer cancels that power-of-two scale.  The fourth
+    column genuinely moves: b16 = M8/2 - H while b8 = M8 - H, a shift of
+    -H/2 (H = the H300 single-state hold response)."""
+    from dandi688_bench_v1 import dir16
+    from mc_maze.dandi688_sparse_event_t4_v1.descriptors import (
+        _phase_trials,
+        _window_trials,
+    )
+    from mc_maze.multisession_datamodule import list_datamodule_rewarded_trials
+    from mc_maze.unit_side_features import _pool_trial_rate_matrix
+    from mc_maze.dandi688_sparse_event_t4_v1 import plan as se_plan
+
+    trials = list_datamodule_rewarded_trials(
+        nwb_path, bin_size_ms=se_plan.BIN_SIZE_MS, window_size=se_plan.WINDOW_SIZE_BINS,
+        trial_result_filter=se_plan.REWARDED_RESULT,
+    )
+    selected, exclusions = _phase_trials(
+        trials, support_positions=spec["positions"], namespace=spec["namespace"]
+    )
+    target_dirs = np.asarray([float(row["target_dir"]) for row in selected], dtype=np.float64)
+    direction16 = dir16.direction16_indices(target_dirs)
+    rates = {
+        phase: _pool_trial_rate_matrix(nwb_path, _window_trials(selected, phase=phase))[0]
+        for phase in ("h300", "r700")
+    }
+    r700 = np.asarray(rates["r700"], dtype=np.float64).T
+    h300 = np.asarray(rates["h300"], dtype=np.float64).T
+    z_r, rate_mean, noise_rate = v3.poisson_standardize(r700, R700_SECONDS)
+    z_h = v3.apply_affine(h300, rate_mean, noise_rate)
+    weights = dir16.one_hot_directions16(direction16)
+    response = v3.conditional_response(z_r, weights, N0)
+    hold = v3.conditional_response(z_h, np.ones((len(selected), 1), dtype=np.float64), N0)
+    a, c, m = dir16.harmonic_readout16(response)
+    baseline = response.mean(axis=1) - hold[:, 0]
+    raw = v3.stack_t4(a, c, m, baseline)
+
+    present = sorted(set(direction16.tolist()))
+    identity: dict[str, Any] = {
+        "n_legal": int(len(selected)),
+        "exclusions": exclusions,
+        "n_dirs16_present": int(len(present)),
+        "odd_bins_occupied": int(len({k for k in present if k % 2 == 1})),
+    }
+    return raw, identity
+
+
+def _dir16_degeneracy_audit(
+    frozen_rows: dict[str, dict[str, Any]],
+    raw16_rows: dict[str, np.ndarray],
+    raw8_rows: dict[str, np.ndarray],
+    mean: np.ndarray,
+    std: np.ndarray,
+) -> dict[str, Any]:
+    """Honest evidence of what the 16-bin remap changes (see dir16 docstring).
+
+    (1) raw half-scale law: per column max |raw16 - raw8/2| over every real
+        row of every session -- expected ~0 for a/c/m, |hold|/2 for column b.
+    (2) end-to-end: per column max |normalized dir16 carrier - frozen cache
+        carrier| over real rows -- the delta the trained arm actually sees
+        relative to the 8-dir t4 bytes."""
+    half_dev = np.zeros(plan.CARRIER_DIM, dtype=np.float64)
+    end_to_end = np.zeros(plan.CARRIER_DIM, dtype=np.float64)
+    for name, row in frozen_rows.items():
+        mask = np.asarray(row["mask"], dtype=bool)
+        n_real = int(mask.sum())
+        raw16, raw8 = raw16_rows[name], raw8_rows[name]
+        half_dev = np.maximum(
+            half_dev,
+            np.abs(raw16[:n_real].astype(np.float64) - raw8[:n_real].astype(np.float64) / 2.0).max(axis=0),
+        )
+        norm16 = v3.apply_column_normalizer(raw16, mean, std)[:n_real].astype(np.float64)
+        frozen = np.asarray(row["carrier"], dtype=np.float64)[:n_real]
+        end_to_end = np.maximum(end_to_end, np.abs(norm16 - frozen).max(axis=0))
+    return {
+        "raw_half_scale_max_abs_per_column": half_dev.tolist(),
+        "raw_half_scale_reading": "columns a/c/m expected ~0 (exact power-of-"
+                                  "two halving); column b expected |hold|/2 "
+                                  "(b16 = M8/2 - H vs b8 = M8 - H)",
+        "normalized_vs_frozen_max_abs_per_column": end_to_end.tolist(),
+        "normalized_vs_frozen_reading": "end-to-end delta against the frozen "
+                                        "8-dir t4 carrier bytes per column",
+        "provenance": "dandi688_bench_v1.dir16 degeneracy audit (2026-09-10)",
+    }
 
 
 def _nwb_path(session_id: str) -> Path:
@@ -196,13 +294,26 @@ def main() -> None:
         dest = dests[variant]
         raw_rows: dict[str, np.ndarray] = {}
         identity_log: dict[str, Any] = {}
+        # dir16 needs the SAME-face raw 8-dir profile as its degeneracy
+        # comparator (the half-scale law is proven raw-vs-raw, see dir16.py)
+        raw8_comparator: dict[str, np.ndarray] | None = {}
         for name in sorted(frozen_rows):
-            raw, ident = _raw_u1_profile(_nwb_path(name), spec)
+            if variant == "t4_dir16":
+                raw, ident = _raw_dir16_profile(_nwb_path(name), spec)
+                raw8, _ = _raw_u1_profile(_nwb_path(name), spec)
+                raw8_comparator[name] = raw8
+            else:
+                raw, ident = _raw_u1_profile(_nwb_path(name), spec)
             raw_rows[name] = raw
             identity_log[name] = ident
-            print(f"  {variant} raw {name} units={raw.shape[0]} dirs={ident['n_dirs']}", flush=True)
+            dirs_key = "n_dirs16_present" if variant == "t4_dir16" else "n_dirs"
+            print(f"  {variant} raw {name} units={raw.shape[0]} dirs={ident[dirs_key]}", flush=True)
 
         mean, std = v3.fit_column_normalizer([raw_rows[n] for n in train_names])
+        degeneracy_audit = (
+            _dir16_degeneracy_audit(frozen_rows, raw_rows, raw8_comparator, mean, std)
+            if variant == "t4_dir16" else None
+        )
         dest.mkdir(parents=True, exist_ok=True)
         (dest / "sessions").mkdir(exist_ok=True)
         rows_hashes: dict[str, dict[str, str]] = {}
@@ -250,9 +361,20 @@ def main() -> None:
                 "normalizer_std": std.tolist(),
                 "source_cache": str(args.source_cache),
                 "source_cache_contract_sha256": _file_sha256(args.source_cache / "prepared_contract.json"),
-                "implementation_sha256": _file_sha256(Path(v3.__file__)),
-                "builder_sha256": _file_sha256(Path(__file__)),
-                "identity_log": identity_log,
+            "implementation_sha256": _file_sha256(Path(v3.__file__)),
+            "builder_sha256": _file_sha256(Path(__file__)),
+            "identity_log": identity_log,
+            **({"n_dirs": 16,
+                "dir16_module_sha256": _file_sha256(
+                    PKG_ROOT / "src" / "dandi688_bench_v1" / "dir16.py"),
+                "direction_mapping": "nearest 16-bin canonical of target_dir "
+                                     "(-3pi/4 + k*pi/8); one-hot weights + "
+                                     "16-entry first-harmonic closed-form "
+                                     "readout; blocks/rate primitives, Poisson "
+                                     "affine, n0 and M10 candidate support "
+                                     "face all identical to u1_m10",
+                "degeneracy_audit": degeneracy_audit}
+               if variant == "t4_dir16" else {}),
             },
             "built_utc": datetime.now(timezone.utc).isoformat(),
         }

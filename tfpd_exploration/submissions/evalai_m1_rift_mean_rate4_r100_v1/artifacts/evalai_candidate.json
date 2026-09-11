@@ -1,0 +1,70 @@
+{
+  "arm": "m1_rift_mean_rate4_r100_cached",
+  "budget_disclosure": "Official seven-tag M10 banks; visible held-out calibration used only for post-training EMA selection; no official test, no TTA. IsHeldOutZeroShot=false.",
+  "container_verify": {
+    "gpu_exposed": false,
+    "network": "none",
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "evalai_opened": true,
+  "external": {
+    "pushed": true,
+    "registered": true,
+    "submitted": true,
+    "submission_id": 582228
+  },
+  "host_verify": {
+    "B1": {
+      "max_abs": 0.0,
+      "sessions": [
+        "20121004"
+      ],
+      "steps": 120
+    },
+    "B3": {
+      "max_abs": 9.5367431640625e-07,
+      "sessions": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ],
+      "steps": 120
+    },
+    "B4": {
+      "max_abs": 0.0,
+      "sessions": [
+        "20120924",
+        "20120926",
+        "20120927",
+        "20120928"
+      ],
+      "steps": 120
+    },
+    "full_window_stream_max_abs": 1.7881393432617188e-07,
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_mean_rate4_r100_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:39a33f0eccf22aad5347a9421efa5ea141da905051a0702415b345903bcf0437",
+  "image_size": 9603660927,
+  "image_tag": "m1-rift-mean-rate4-r100-e4:v1",
+  "legacy_selection_mean_flattened_r2": 0.6827089600126767,
+  "method_description": "M1 RIFT R100/D4 with sealed mean-rate4 carrier and B3S EMA E0. HO3 channel-centered variance-weighted R2 pick e4: 0.587628.",
+  "method_label": "M1 RIFT mean-rate4 R100 concat selected EMA cached CPU; architecture=RIFT backend=cached identity=muscle_response_svd3_mean_rate4_matched_scale_sealed; selected_epoch=4",
+  "method_name": "M1 RIFT mean-rate4 R100 selected cached e4",
+  "payload_sha256": "99818aa1e75f7de512b32309dca5964bdff84aa215ac286d879cd0617396b2c1",
+  "official_result": {
+    "Held In R2 Mean": 0.7954639949771956,
+    "Held In R2 Std.": 0.020469295177764472,
+    "Held Out R2 Mean": 0.6135910493256053,
+    "Held Out R2 Std.": 0.06475544086887212,
+    "Normalized Latency": 0.1395917318632367
+  },
+  "official_submission_id": 582228,
+  "register": true,
+  "selection_epoch": 4,
+  "selection_mean": 0.5876280069351196,
+  "selection_metric": "channel_variance_weighted_r2",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_mean_rate4_r100_v1/artifacts/evalai_push_state.json",
+  "status": "OFFICIAL_FINISHED",
+  "window": 100
+}

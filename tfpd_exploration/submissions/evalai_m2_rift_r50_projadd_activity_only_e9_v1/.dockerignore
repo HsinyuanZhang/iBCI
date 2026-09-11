@@ -1,0 +1,3 @@
+artifacts/*
+!artifacts/pkg
+!artifacts/m2_rift_r50_projadd_activity_only_e9.pkl

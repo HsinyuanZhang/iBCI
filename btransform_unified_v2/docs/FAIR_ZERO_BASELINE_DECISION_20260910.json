@@ -1,0 +1,30 @@
+{
+  "schema": "fair_zero_baseline_decision_v1",
+  "date": "2026-09-10",
+  "main_contrast_unchanged": "FULL vs ACTIVITY_ONLY",
+  "submit_authorized": false,
+  "m1": {
+    "status": "PLANNED_RETRAIN",
+    "record": "使用发放率信息的重新训",
+    "construction": "HO M10 unlabeled per-unit mean firing rate as the only identity; T=0; 24-epoch retrain; do not swap banks on FULL weights",
+    "local_score": null,
+    "srcbank_rejected": true
+  },
+  "m2": {
+    "status": "LOCAL_RECORDED",
+    "construction": "last_source srcbank; copy ses-2020-10-28-Run1 E0/T onto HO/EXT tags; keep query unit_mask; 582189 e9 EMA; no retrain",
+    "surface": "EXT6 equal-session R2",
+    "equal_session_mean": 0.258669953325137,
+    "receipt": "../results/final_ablation_official_v1/m2_srcbank_ext6_v1/receipt.json",
+    "not_official": true
+  },
+  "h1": {
+    "status": "CANCELLED_BY_USER",
+    "construction": "last_source srcbank; copy ses-19250120T115537 E0/T; 582196 e16 EMA; no retrain",
+    "surface": "HO-M3 grouped-7",
+    "equal_session_mean": null,
+    "own_recovered": 0.46765148529862505,
+    "not_official": true,
+    "note": "Stopped mid last_source; another agent owns the new ablation."
+  }
+}

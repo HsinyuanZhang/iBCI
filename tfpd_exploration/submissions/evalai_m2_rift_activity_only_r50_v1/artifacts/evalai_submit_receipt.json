@@ -1,0 +1,21 @@
+{
+  "external_mutations": true,
+  "official_result": null,
+  "official_submission_id": 582217,
+  "payload_sha256": "d9e4041c5f20ed63370e170ee529680db69216ccf64eb591aa42d208d6f6e3f3",
+  "profile": "m2_activity_only",
+  "push_executed": true,
+  "register_executed": true,
+  "schema": "root_final_ablation_evalai_submit_receipt_v1",
+  "server_get": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "id": 582217,
+    "method_name": "M2 RIFT R50 ACTIVITY_ONLY",
+    "started_at": null,
+    "status": "submitted",
+    "submitted_at": "2026-09-10T01:29:50.088957Z"
+  },
+  "status": "REGISTERED_NOT_FINISHED",
+  "uploaded_manifest_digest": "sha256:9e0187c4eb02e777e18245a241ab2c28bd6f2eea684b3a1e17b5c5769fe5fcf4"
+}

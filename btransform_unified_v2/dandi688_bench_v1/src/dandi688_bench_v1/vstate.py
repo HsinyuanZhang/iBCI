@@ -1,4 +1,4 @@
-"""vstate-688 carrier math (user directive 2026-09-09).
+"""vstate-688 carrier math (user directive 2026-09-09; M2-alignment audit same day).
 
 Recipe (M2 vstate4 of PLAN_CARRIER_ITERATION_M2_688_20260909.md section 3.2,
 adapted to the 688 rate primitives), verbatim anchor from the user directive:
@@ -10,6 +10,27 @@ adapted to the 688 rate primitives), verbatim anchor from the user directive:
   （Δ=块时长）+ n0=10 块收缩；读出 a=R₊ₓ−R₋ₓ, c=R₊y−R₋y, m=hypot,
   b=meanₖR−R_hold（hold=H300 块的条件响应，保持 δ_b 语义）；列归一
   train-only mean/std。支持预算对齐现有 t4（M10 的同 10 个 trial）"
+
+M2-ALIGNMENT RULING (2026-09-09, final; see btransform_unified_v2/docs/
+CARRIER_M2_688_ALIGNMENT_MATRIX_20260909.md row "readout"): the MAIN variant
+of the 688 vstate carrier uses the M2-identical fourth column
+``b = mean_k R_u`` (最大对应优先).  The original delta_b readout
+``b = mean_k R_u - mean_k R_hold`` is preserved as the switchable
+``b_mode="hold_diff"`` ablation (vstate_b_hold cache variant); a/c/m are
+byte-identical between the two modes, so the ablation isolates exactly the
+fourth column.  Switch condition recorded in the alignment matrix: enable
+b_hold if the main variant's exp1 reading is significantly below t4.
+
+Per-part alignment status against M2 vstate4 (SAME / ALLOWED-DIFF, evidence
+in the matrix doc): blocks 100 ms non-overlapping SAME; rate primitive
+half-open spike counting SAME-formula (bin-sum parity audited exact, 183,658
+block-unit checks max abs diff 0); block-mean of bin-center-interpolated
+cursor_vel SAME semantics; 4 signed states + rms over train sessions SAME
+(M2: 7 held-in / 688: the active protocol's train sessions); Poisson
+standardization delta = block seconds SAME; n0 = 10 blocks SAME; window
+anchoring ALLOWED-DIFF (M2 trial-span bins vs 688 frozen R700/H300 event
+phases); support budget ALLOWED-DIFF (M33 vs M10, with the vstate_full M30
+variant defined to mirror M2's "all support" semantics).
 
 DISCLOSURE (against the legacy 688 sparse-label discipline): this carrier
 consumes DENSE cursor_vel calibration labels of the M10 support trials.
@@ -153,38 +174,59 @@ def fit_velocity_rms(block_velocities: Sequence[np.ndarray]) -> np.ndarray:
 def vstate_carrier_from_blocks(
     r700_rates: np.ndarray,
     r700_vel: np.ndarray,
-    h300_rates: np.ndarray,
-    h300_vel: np.ndarray,
-    rms: np.ndarray,
+    h300_rates: np.ndarray | None = None,
+    h300_vel: np.ndarray | None = None,
+    rms: np.ndarray | None = None,
     n0: float = plan.VSTATE_N0_BLOCKS,
     block_seconds: float = plan.VSTATE_BLOCK_SECONDS,
+    b_mode: str = plan.VSTATE_B_MODE_MAIN,
 ) -> np.ndarray:
     """Raw vstate carrier rows [n_units, 4] = [a, c, m, b].
 
-    Poisson standardization on the R700 blocks (delta = block duration, the
-    same affine then applied to the H300 blocks); signed-state conditional
-    responses R / R_hold with n0-block shrinkage; readout
-    a = R(+x) - R(-x), c = R(+y) - R(-y), m = hypot(a, c),
-    b = mean_k R - mean_k R_hold (hold = H300 blocks' own conditional
-    response, preserving the delta_b motion-minus-hold semantics)."""
+    Poisson standardization on the R700 blocks (delta = block duration);
+    signed-state conditional response R with n0-block shrinkage; readout
+    a = R(+x) - R(-x), c = R(+y) - R(-y), m = hypot(a, c) in every mode.
+
+    b_mode="mean_k" (MAIN, M2 vstate4-identical, user ruling 2026-09-09):
+      b = mean_k R_u.  The H300 arguments are ignored and may be None --
+      this is the maximal-correspondence column, byte-identical formula to
+      the M2 builder's ``_vstate_raw``.
+
+    b_mode="hold_diff" (688-local ablation, switchable): requires the H300
+    block rates/velocities; the R700-fitted Poisson affine is applied to the
+    H300 blocks, R_hold uses the H300 blocks' own signed-state weights, and
+      b = mean_k R_u - mean_k R_hold
+    preserving the original delta_b motion-minus-hold semantics.  a/c/m are
+    unaffected by b_mode, so the two modes isolate exactly the 4th column."""
+    if b_mode not in plan.VSTATE_B_MODES:
+        raise ValueError(
+            f"unknown b_mode {b_mode!r}; expected one of {plan.VSTATE_B_MODES}"
+        )
+    if rms is None:
+        raise ValueError("rms (per-axis velocity rms over train blocks) is required")
     r700_rates = np.asarray(r700_rates, dtype=np.float64)
-    h300_rates = np.asarray(h300_rates, dtype=np.float64)
     r700_vel = np.asarray(r700_vel, dtype=np.float64)
-    h300_vel = np.asarray(h300_vel, dtype=np.float64)
     if r700_rates.ndim != 2 or r700_rates.shape[1] == 0:
         raise ValueError(f"r700_rates must be [blocks, units], got {r700_rates.shape}")
-    if h300_rates.shape[1] != r700_rates.shape[1]:
-        raise ValueError("r700/h300 unit count mismatch")
     z_r, rate_mean, noise_rate = v3.poisson_standardize(r700_rates, block_seconds)
-    z_h = v3.apply_affine(h300_rates, rate_mean, noise_rate)
     w_r = v3.signed_state_weights(r700_vel, rms)
-    w_h = v3.signed_state_weights(h300_vel, rms)
     response = v3.conditional_response(z_r, w_r, n0)
-    hold = v3.conditional_response(z_h, w_h, n0)
     a = response[:, 0] - response[:, 1]
     c = response[:, 2] - response[:, 3]
     m = np.hypot(a, c)
-    b = response.mean(axis=1) - hold.mean(axis=1)
+    if b_mode == "mean_k":
+        b = response.mean(axis=1)
+    else:
+        if h300_rates is None or h300_vel is None:
+            raise ValueError("b_mode='hold_diff' requires h300_rates and h300_vel")
+        h300_rates = np.asarray(h300_rates, dtype=np.float64)
+        h300_vel = np.asarray(h300_vel, dtype=np.float64)
+        if h300_rates.shape[1] != r700_rates.shape[1]:
+            raise ValueError("r700/h300 unit count mismatch")
+        z_h = v3.apply_affine(h300_rates, rate_mean, noise_rate)
+        w_h = v3.signed_state_weights(h300_vel, rms)
+        hold = v3.conditional_response(z_h, w_h, n0)
+        b = response.mean(axis=1) - hold.mean(axis=1)
     raw = np.column_stack((a, c, m, b))
     if not np.isfinite(raw).all():
         raise RuntimeError("nonfinite raw vstate carrier")

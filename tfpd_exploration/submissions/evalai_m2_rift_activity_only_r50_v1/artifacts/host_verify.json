@@ -1,0 +1,47 @@
+{
+  "all_zero_valid_probe": [
+    [
+      -0.0006326317670755088,
+      -0.00013953447341918945
+    ]
+  ],
+  "arm": "ACTIVITY_ONLY",
+  "external_actions": false,
+  "inactive_resume_max_abs": 0.0,
+  "parity": {
+    "B1": {
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7_native": {
+      "max_abs": 3.725290298461914e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run1_20201020",
+        "Run1_20201027",
+        "Run1_20201028",
+        "Run2_20201019",
+        "Run2_20201020",
+        "Run2_20201027"
+      ],
+      "steps": 80
+    },
+    "mixed_partial": {
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019",
+        "Run1_20201030",
+        "Run1_20201020",
+        "Run1_20201118"
+      ],
+      "steps": 80
+    }
+  },
+  "partial_rows_raw4_kv_history_resume_checked": true,
+  "payload_sha256": "d9e4041c5f20ed63370e170ee529680db69216ccf64eb591aa42d208d6f6e3f3",
+  "query_padding_bins": 49,
+  "status": "HOST_REAL_PUBLIC_PARITY_PASS"
+}

@@ -1,0 +1,33 @@
+{
+  "submission_id": 582228,
+  "status": "finished",
+  "method_name": "M1 RIFT mean-rate4 R100 selected cached e4",
+  "submitted_at": "2026-09-10T05:04:52.042156Z",
+  "started_at": "2026-09-10T05:59:25.198021Z",
+  "completed_at": "2026-09-10T05:59:25.369063Z",
+  "test_split_m1": {
+    "Normalized Latency": 0.1395917318632367,
+    "Held Out R2 Mean": 0.6135910493256053,
+    "Held Out R2 Std.": 0.06475544086887212,
+    "Held In R2 Mean": 0.7954639949771956,
+    "Held In R2 Std.": 0.020469295177764472
+  },
+  "local_ho3_pick": {
+    "epoch": 4,
+    "mean": 0.5876280069351196,
+    "metric": "equal_session_mean_channel_variance_weighted_r2"
+  },
+  "versus_582205_muscle_full": {
+    "official_ho": 0.6259910151098528,
+    "delta_ho": -0.012399965784247546
+  },
+  "versus_582219_activity_only": {
+    "official_ho": 0.5709008472436213,
+    "delta_ho": 0.042690202081984
+  },
+  "provenance": {
+    "metadata_endpoint": "GET /api/jobs/submission/582228",
+    "result_source": "evalai submission 582228 submission_result_file",
+    "result_url": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582228/6a0a99bc-cb49-40bf-b70e-b5631a9983.json"
+  }
+}

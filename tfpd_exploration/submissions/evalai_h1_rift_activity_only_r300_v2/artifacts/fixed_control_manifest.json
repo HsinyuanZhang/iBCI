@@ -1,0 +1,30 @@
+{
+  "arm": "ACTIVITY_ONLY",
+  "budget_disclosure": "Formal 32-epoch H1 ACTIVITY_ONLY RIFT-R300; C2 is rematerialized with zero side and T=0, using 7/5/4/3 train budgets and M3 official identity; public local HO-label development selection is not official; IsHeldOutZeroShot=false.",
+  "build_receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/receipt.json",
+  "build_receipt_sha256": "5980ed5834402e125e9ff05ce4d9a04cd0f758b117f47adafb7aa2cbb413aab4",
+  "container_receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/artifacts/root_container_verify.json",
+  "container_receipt_sha256": "f98f3fe34eb5ef8da7265ad51316e52edec8eda472ac6326773d76d64ce0186d",
+  "external_actions": false,
+  "formal": true,
+  "formal_queue": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/results/final_ablation_official_v1/root_formal_queue.json",
+  "host_receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/host_verify.json",
+  "host_receipt_sha256": "3bc3469b9664317c7dfc4eb3ba9d4cbb5bf70bbcb4a22b8509a76399b32f8e0a",
+  "image_id": "sha256:475bc3e036fc9634e3d4caa6a4212d1e2378b9a49b142c1ecd3e81b4987e04a6",
+  "image_tag": "h1-rift-activity-only-r300-e15:v1",
+  "method_description": "H1 RIFT R300 cached CPU information ablation | formal h1_activity_only selected epoch 15; local build/host/container verified.",
+  "method_label": "H1 RIFT R300 cached CPU information ablation",
+  "method_name": "H1 RIFT R300 ACTIVITY_ONLY",
+  "official_result": {
+    "Held In R2 Mean": 0.608015116039874,
+    "Held Out R2 Mean": 0.3445956103610151,
+    "Normalized Latency": 0.1374597509210613
+  },
+  "official_submission_id": "582218",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/payload.pkl",
+  "payload_sha256": "6becdb88798a088d3fa4136eac1c5ce53e8660977e54c3f70d3718f377ac09d6",
+  "profile": "h1_activity_only",
+  "schema": "root_final_ablation_fixed_control_manifest_v1",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/artifacts/root_fixed_control_submit_state_retry582218.json",
+  "status": "RETRY_AFTER_582218_EMPTY_RESULT"
+}

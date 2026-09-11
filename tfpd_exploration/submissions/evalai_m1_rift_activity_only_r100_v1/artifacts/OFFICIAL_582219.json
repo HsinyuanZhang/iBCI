@@ -1,0 +1,26 @@
+{
+  "submission_id": 582219,
+  "status": "finished",
+  "method_name": "M1 RIFT R100 ACTIVITY_ONLY e3 cached final ablation",
+  "started_at": "2026-09-10T02:40:20.630351Z",
+  "completed_at": "2026-09-10T02:40:20.811670Z",
+  "test_split_m1": {
+    "Normalized Latency": 0.1413142769159171,
+    "Held Out R2 Mean": 0.5709008472436213,
+    "Held Out R2 Std.": 0.09520056074166157,
+    "Held In R2 Mean": 0.793379687455571,
+    "Held In R2 Std.": 0.021425871423936135
+  },
+  "local_ho3_pick": {
+    "epoch": 3,
+    "mean": 0.5618270536263784
+  },
+  "versus_582205_muscle_full": {
+    "official_ho": 0.6259910151098528,
+    "delta_ho": -0.0550901678662315
+  },
+  "provenance": {
+    "metadata_endpoint": "GET /api/jobs/submission/582219",
+    "result_source": "evalai submission 582219 result"
+  }
+}

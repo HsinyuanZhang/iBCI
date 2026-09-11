@@ -6,9 +6,19 @@ Carrier arms (design doc section 3), all operating on the frozen prepared-cache 
   t4  identity: the true carrier, byte-for-byte the frozen values.
   f0  carrier fully zeroed; the E0 [N, 50] activity identity provider is
       untouched (activity-only; f0 differs from t4 only through the carrier path).
-  z0  carrier and E0 both zeroed (query-window only; matches M1/M2/H1 Z_NONE).
-      Carrier transform is the same all-zero as f0; E0 zeroing is applied by
-      the runner after this module returns.
+  z0  E0 zeroed, carrier KEPT (the carrier-only cell of the component 2x2,
+      plan.COMPONENT_ABLATION; user clarification 2026-09-09).  Carrier
+      transform is the same identity as t4; E0 zeroing is applied by the
+      runner after this module returns.  (Before 2026-09-09 z0 meant
+      both-zero / query-only Z_NONE; that cell is now the floor arm.)
+  floor E0 and carrier both zeroed (the both-zero cell of the component
+      2x2): the absolute no-calibration-information floor.  Carrier
+      transform is the same all-zero as f0; E0 zeroing as z0.
+  equiv_zero carrier zeroed (f0's law) while E0 keeps the fixed random
+      projection melt of the equiv_zero variant cache (param-matched to the
+      t4 pathway, seed 42, never trained; see src/.../equiv_zero.py and
+      scripts/build_vstate_cache.py) -- the capacity/pathway control of the
+      component ablation.
   ts4 session-internal channel<->carrier row permutation
       (ts4_shuffle): destroys the channel<->carrier correspondence while
       leaving every per-column marginal distribution identical.
@@ -23,10 +33,16 @@ Fusion axis (orthogonal to the carrier axis, user ruling 2026-09-09):
 
 vstate-688 series (user directive 2026-09-09, verbatim: "立刻开始准备
 vstate-688，注意消融——z 系列 = 完全不在新日期校准（bank 复用旧日期/source），
-f 系列 = 不使用任何标签校准（label-free）"), all proj_add, all bound to their
-variant cache via --prepared-cache (plan.ARM_REQUIRED_CACHE_VARIANT):
-  vstate           carrier transform identity on the vstate variant cache
-                   (signed-velocity-state carrier; dense cursor_vel labels).
+f 系列 = 不使用任何标签校准（label-free）"), all bound to their variant cache
+family via --prepared-cache (plan.ARM_REQUIRED_CACHE_VARIANT):
+  vstate           carrier transform identity on a vstate-family variant
+                   cache (signed-velocity-state carrier; dense cursor_vel
+                   labels; variants vstate/vstate_full/vstate_b_hold).
+  vstate_concat    the vstate carrier again, fused through the matched
+                   concat frontend (M2-mainline fusion reading; alignment
+                   matrix row "fusion").  Carrier transform identical to
+                   vstate; only the model's identity fusion differs
+                   (token_in 70).  Readings only, never enters any gate.
   z_vstate_srcbank same identity transform, but the runner additionally
                    swaps each exam session's bank (carrier + E0 rows) for its
                    frozen nearest-date train session's bank AFTER this
@@ -39,11 +55,19 @@ variant cache via --prepared-cache (plan.ARM_REQUIRED_CACHE_VARIANT):
                    with a zero side (ACTIVITY-ONLY identity) -- "不使用任何
                    标签校准".  Zeroing here is belt-and-suspenders; the
                    label-free property lives in the cache bytes.
+  norm_only        NORM_ONLY zero-calibration baseline (guide
+                   NORM_ONLY_ZERO_BASELINE_GUIDE_20260910.md sections 2/3/6):
+                   the same zero-carrier law as f_labelfree, over the
+                   norm_only variant cache whose E0 is the broadcast per-unit
+                   rate deviation from the source rate distribution (no
+                   encoder, no labels, no carrier).  The identity lives in
+                   the cache bytes; the arm transform adds nothing.
 
 Every transform is a pure function returning a new array; the input carrier
 is never mutated.  ``verify_arm`` re-derives the digest-level assertions
-(column marginals equal per column for ts4, all-zero for f0, equality for
-t4/t4_concat) so callers can assert the contract at load and at scoring time.
+(column marginals equal per column for ts4, all-zero for the zero-action
+arms, byte equality for the identity-action arms) so callers can assert the
+contract at load and at scoring time.
 """
 from __future__ import annotations
 
@@ -60,13 +84,40 @@ ARM_SPECS: dict[str, dict[str, str]] = {
     "f0": {"carrier": "zero", "fusion": "proj_add", "e0": "identity"},
     "ts4": {"carrier": "shuffle", "fusion": "proj_add", "e0": "identity"},
     "t4_concat": {"carrier": "identity", "fusion": "concat", "e0": "identity"},
-    "z0": {"carrier": "zero", "fusion": "proj_add", "e0": "zero"},
-    # vstate-688 series (user directive 2026-09-09): variant-cache bound,
-    # proj_add fusion; the z-series bank swap is a runner-level cross-session
-    # operation recorded in the receipts (see module docstring).
+    # component ablation (user clarification 2026-09-09; plan.COMPONENT_ABLATION):
+    #   z0    REDEFINED to the carrier-only cell (E0 zeroed, carrier kept).
+    #         Before 2026-09-09 z0 meant both-zero (query-only Z_NONE); that
+    #         cell is now "floor", and the archived train_exp1_narrow_z0
+    #         results measure today's floor (plan.COMPONENT_ABLATION[
+    #         "note_z0_redefinition"]).
+    #   floor both-zero absolute floor: E0 zeroed (z0's E0 law) AND carrier
+    #         zeroed (f0's carrier law) -- no per-session calibration input
+    #         at all (raw spikes + weights only).
+    #   equiv_zero capacity control: carrier zeroed (same law as f_labelfree)
+    #         while the E0 pathway keeps its SHAPE and parameter count but
+    #         carries the FIXED RANDOM projection melt (seed 42, never
+    #         trained) stored in the equiv_zero variant cache bytes
+    #         (scripts/build_vstate_cache.py + src/.../equiv_zero.py); the
+    #         e0 action here is identity for the same reason as f_labelfree
+    #         -- the no-identity property lives in the cache bytes, zeroing
+    #         the carrier here is belt-and-suspenders.
+    "z0": {"carrier": "identity", "fusion": "proj_add", "e0": "zero"},
+    "floor": {"carrier": "zero", "fusion": "proj_add", "e0": "zero"},
+    "equiv_zero": {"carrier": "zero", "fusion": "proj_add", "e0": "identity"},
+    # vstate-688 series (user directive 2026-09-09): variant-cache bound;
+    # the z-series bank swap is a runner-level cross-session operation
+    # recorded in the receipts (see module docstring).  vstate_concat is the
+    # M2-mainline fusion reading of the vstate carrier (alignment matrix).
     "vstate": {"carrier": "identity", "fusion": "proj_add", "e0": "identity"},
+    "vstate_concat": {"carrier": "identity", "fusion": "concat", "e0": "identity"},
     "z_vstate_srcbank": {"carrier": "identity", "fusion": "proj_add", "e0": "identity"},
     "f_labelfree": {"carrier": "zero", "fusion": "proj_add", "e0": "identity"},
+    # norm_only (NORM_ONLY zero-calibration baseline, guide 2026-09-10): the
+    # same arm-level law as f_labelfree -- the no-carrier / no-label property
+    # and the broadcast rate-deviation identity both live in the norm_only
+    # variant cache bytes (src/.../norm_only.py; e0 "identity" keeps the
+    # cache's E0, unlike floor which zeroes it).
+    "norm_only": {"carrier": "zero", "fusion": "proj_add", "e0": "identity"},
 }
 E0_ACTIONS = ("identity", "zero")
 if set(ARM_SPECS) != set(plan.ARMS) or any(
@@ -191,7 +242,8 @@ def verify_arm(
         )
         record["rows_moved"] = 0
     elif action == "zero":
-        plan.require(not bool(np.any(transformed)), "f0 arm must be exactly zero")
+        plan.require(not bool(np.any(transformed)),
+                     f"{arm} arm must be exactly zero")
         record["rows_moved"] = int(len(real))
     else:
         # ts4: per-column marginals unchanged (whole matrix and real-row subset),

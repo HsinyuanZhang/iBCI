@@ -1,0 +1,16 @@
+{
+  "completed_at": "2026-09-10T16:00:12.995662Z",
+  "method_name": "M2 RIFT R50 proj_add learned default e10",
+  "result_file_url": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582240/ad70eadd-e9c0-4eba-926c-9644580fb0.json",
+  "scores": {
+    "test_split_m2": {
+      "Held In R2 Mean": 0.6536664169446127,
+      "Held In R2 Std.": 0.030776293256727347,
+      "Held Out R2 Mean": 0.33723487158667237,
+      "Held Out R2 Std.": 0.1405252728770834,
+      "Normalized Latency": 0.10844042177040299
+    }
+  },
+  "status": "finished",
+  "submission_id": 582240
+}

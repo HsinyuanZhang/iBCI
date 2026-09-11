@@ -1,0 +1,33 @@
+{
+  "submission_id": 582224,
+  "status": "finished",
+  "method_name": "M1 RIFT R100 NONE",
+  "submitted_at": "2026-09-10T03:45:22.162412Z",
+  "started_at": "2026-09-10T04:38:23.332712Z",
+  "completed_at": "2026-09-10T04:38:23.535529Z",
+  "test_split_m1": {
+    "Normalized Latency": 0.13951016955707982,
+    "Held Out R2 Mean": -0.6772461160545928,
+    "Held Out R2 Std.": 0.7994481590730023,
+    "Held In R2 Mean": 0.598250857063468,
+    "Held In R2 Std.": 0.02477536099161881
+  },
+  "local_ho3_pick": {
+    "epoch": 1,
+    "mean": -1.2152107258637745,
+    "metric": "equal_session_mean_channel_variance_weighted_r2"
+  },
+  "versus_582205_muscle_full": {
+    "official_ho": 0.6259910151098528,
+    "delta_ho": -1.3032371311644456
+  },
+  "versus_582219_activity_only": {
+    "official_ho": 0.5709008472436213,
+    "delta_ho": -1.2481469632982141
+  },
+  "provenance": {
+    "metadata_endpoint": "GET /api/jobs/submission/582224",
+    "result_source": "evalai submission 582224 submission_result_file",
+    "result_url": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582224/1eded010-e24e-441d-8122-e94b0fe0bb.json"
+  }
+}

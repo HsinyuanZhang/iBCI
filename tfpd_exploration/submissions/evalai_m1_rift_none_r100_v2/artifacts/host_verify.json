@@ -1,0 +1,106 @@
+{
+  "build_receipt_sha256": "d5737500979e1a4e007a3f42b7349c122839370b363393eede84270fc579ecbe",
+  "fixture": {
+    "path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_none_r100_v2/artifacts/smoke_window.npz",
+    "raw_bins": 40,
+    "sha256": "4436af4a9e3701fcb8876369d4e7c53b7c2964c33425d9beed184a393b8139bf",
+    "tag": "20121004"
+  },
+  "max_packed_cached_vs_full_r100": 1.6689300537109375e-06,
+  "mixed_seven_cached_vs_full_r100_max_abs": 1.6689300537109375e-06,
+  "native_b8_all_zero_valid_checked": true,
+  "native_b8_cached_vs_full_r100_max_abs": 9.5367431640625e-07,
+  "native_b8_inactive_row_state_unchanged": true,
+  "native_b8_packed_resume_after_inactive_checked": true,
+  "native_b8_packed_vs_cached_max_abs": 0.0,
+  "native_b8_packed_vs_full_r100_max_abs": 9.5367431640625e-07,
+  "native_b8_reset_vs_consumed_history_max_abs": 1.6391277313232422e-07,
+  "payload": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_none_r100_v2/artifacts/m1_rift_none_r100_selected.pkl",
+  "payload_sha256": "34083bb09cd4145df17666640edb769641921b99419031668f0b2c002864588f",
+  "per_tag": {
+    "20120924": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 7.152557373046875e-07,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    },
+    "20120926": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 7.152557373046875e-07,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    },
+    "20120927": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 7.152557373046875e-07,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    },
+    "20120928": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 1.430511474609375e-06,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    },
+    "20121004": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 9.5367431640625e-07,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    },
+    "20121017": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 1.6689300537109375e-06,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    },
+    "20121024": {
+      "all_zero_valid_endpoint": 40,
+      "full_context_endpoint_checked": 99,
+      "packed_cached_vs_full_r100_max_abs": 8.344650268554688e-07,
+      "startup_endpoints_checked": [
+        0,
+        1
+      ],
+      "steps": 128
+    }
+  },
+  "query_pad_99_full_stream_max_abs": 2.384185791015625e-07,
+  "raw_input_contract": {
+    "query_pad_bins_stripped": 99,
+    "validity": "derived from time coordinate; never neural amplitude"
+  },
+  "route": {
+    "direct_t_literal_zero": true,
+    "e0_literal_zero": true,
+    "encoder_never_called": true,
+    "exact_legal_tags": true
+  },
+  "schema": "m1_rift_none_r100_host_verify_v1",
+  "selected_epoch": 1,
+  "status": "HOST_VERIFIED"
+}

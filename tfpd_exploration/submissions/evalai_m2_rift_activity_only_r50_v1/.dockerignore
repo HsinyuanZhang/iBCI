@@ -1,0 +1,6 @@
+*
+!artifacts/pkg/**
+!artifacts/m2_rift_r50_ablation.pkl
+!m2_rift_falcon_decoder.py
+!decode.py
+!Dockerfile

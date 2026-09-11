@@ -1,0 +1,9 @@
+{
+  "image_id": "sha256:0672402b71dbc287747a5c830619ddc71983ec0cabf651ecfb65c864d1447c10",
+  "payload_sha256": "c572ebc1debefa64cfec74b788c74191f227880219a258dabae80ccac9e9de86",
+  "profile": "m1_none",
+  "schema": "root_final_ablation_evalai_submit_receipt_v1",
+  "status": "submitted",
+  "submission_id": 582224,
+  "submitted_at": "2026-09-10T03:45:22.162412Z"
+}

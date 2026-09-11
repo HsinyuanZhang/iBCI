@@ -1,0 +1,71 @@
+{
+  "arm": "h1_rift_r300_learned_slope_default_p32_e15_cached",
+  "task": "h1",
+  "image_tag": "h1-rift-r300-learned-slope-default-p32-e15:v1",
+  "image_id": "sha256:e3f8642d51231d115936895b4af8a3a170dc0298dc5504dab7caaa699cad7248",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_learnable_default_p32_e15_v1/artifacts/h1_rift_r300_learned_slope_default_p32_e15.pkl",
+  "payload_sha256": "4878de6c4b2a459dda8171e128ee3865e6eafa1e6e431541843cdbeab7e8f933",
+  "method_label": "H1 RIFT R300 learned_slope default-ladder P32 e15 EMA cached CPU; architecture=RIFT backend=cached identity=signed_state14 recency=learned_slope_default; not BT-EORT; not ORT; not SPINT; not 582241; not 582196",
+  "method_name": "H1 RIFT R300 learned_slope default P32 e15 cached",
+  "method_description": "H1 RIFT R300 P32 with per-layer learned_slope on default unscaled half-life ladder, epoch 15 EMA. HO-M3 grouped-seven pick e15 r2_mean 0.4797 worst 0.2984. Cached PyTorch FP32 CPU backend. Not BT-EORT, not ORT, not SPINT, not 582241 P16 e16, not 582196.",
+  "budget_disclosure": "Falcon H1 standard evaluation protocol: 27 official dataset tags, 3 trial calibration budget per test session.",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_learnable_default_p32_e15_v1/artifacts/evalai_push_state.json",
+  "selection": {
+    "surface": "C2 HO-M3 development",
+    "epoch": 15,
+    "mean": 0.47969556117250906,
+    "worst_session": "S7",
+    "worst": 0.2983765947484565,
+    "official_test_used": false
+  },
+  "host_verification": {
+    "B1": {
+      "steps": 80,
+      "max_abs": 0.0,
+      "last_shape": [
+        1,
+        7
+      ],
+      "sessions": [
+        "ses-19250101T111740"
+      ],
+      "tags": [
+        "S0_set_1"
+      ]
+    },
+    "B8": {
+      "steps": 80,
+      "max_abs": 0.0,
+      "last_shape": [
+        8,
+        7
+      ],
+      "sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633"
+      ],
+      "tags": [
+        "S0_set_1",
+        "S0_set_2",
+        "S1_set_1",
+        "S1_set_2",
+        "S1_set_3",
+        "S2_set_1",
+        "S2_set_2",
+        "S3_set_1"
+      ]
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_learnable_default_p32_e15_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "container_smoke": {
+    "status": "PASS",
+    "output": "CONTAINER_SMOKE_PASS diff=0.0"
+  }
+}

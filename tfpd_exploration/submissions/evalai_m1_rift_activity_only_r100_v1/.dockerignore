@@ -1,0 +1,8 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!m1_rift_falcon_decoder.py
+!artifacts/m1_rift_activity_only_e3.pkl
+!artifacts/pkg
+!artifacts/pkg/**

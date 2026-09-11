@@ -1,0 +1,66 @@
+{
+  "arm": "h1_rift_r300_learnable_activity_only_e14_cached",
+  "image_id": "sha256:f5e0b72801443dbb944f9a152717335dce5063787c644e23d853ec4ab3eb7027",
+  "image_tag": "h1-rift-r300-learnable-activity-only-e14:v1",
+  "payload_sha256": "95a1c76744cb4188c44716cf55a2fa4b354999fc7b97e4bd56c8e9578da1e8c3",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41817",
+  "schema_version": "h1_rift_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 66853,
+    "execution_time": "None",
+    "id": 582278,
+    "ignore_submission": false,
+    "input_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582278/dc87860f-dfa3-4ceb-98fd-51cfb7ab61.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "H1 RIFT R300 P16 ACTIVITY_ONLY control with per-layer learned_slope, epoch 14 EMA. C2 rematerialized E0, literal zero T. HO-M3 grouped-seven pick e14 r2_mean 0.2659 worst 0.1046. Cached PyTorch FP32 CPU backend. Not BT-EORT, not ORT, not SPINT, not 582218 frozen ACT, not 582241 Full.",
+    "method_name": "H1 RIFT R300 learned_slope ACT e14 cached",
+    "participant_team": 41817,
+    "participant_team_name": "falcon_m",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-11T00:45:51.235177Z",
+    "when_made_public": null
+  },
+  "submission_id": 582278,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41817:0613f641-a7a9-4683-8b85-b12cb4364307",
+  "uploaded_manifest_digest": "sha256:f5e0b72801443dbb944f9a152717335dce5063787c644e23d853ec4ab3eb7027",
+  "uuid_tag": "0613f641-a7a9-4683-8b85-b12cb4364307"
+}

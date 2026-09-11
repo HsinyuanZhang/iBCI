@@ -1,0 +1,65 @@
+{
+  "external_mutations": false,
+  "manifest_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/fixed_control_manifest.json",
+  "manifest_sha256": "31b5e62fd46747bdea3e4c2dd6415ac8526407b0c7ab509e88f8561f84e791f7",
+  "official_result": null,
+  "official_submission_id": null,
+  "ownership": "AWAITING_USER_OWNERSHIP_CLARIFICATION",
+  "push_executed": false,
+  "register_executed": false,
+  "report": {
+    "arm": "ACTIVITY_ONLY",
+    "image_id": "sha256:9e0187c4eb02e777e18245a241ab2c28bd6f2eea684b3a1e17b5c5769fe5fcf4",
+    "mode": "read_only_preflight",
+    "payload_sha256": "d9e4041c5f20ed63370e170ee529680db69216ccf64eb591aa42d208d6f6e3f3",
+    "phase": 4599,
+    "private": true,
+    "profile": "m2_activity_only",
+    "quota": {
+      "active": 0,
+      "active_ids": [],
+      "authoritative_phase_limits": {
+        "remaining_submissions_count": 58,
+        "remaining_submissions_this_month_count": 19,
+        "remaining_submissions_today_count": 6
+      },
+      "authoritative_remaining": {
+        "participant_team": "HKU-ECE",
+        "participant_team_id": 41975,
+        "phases": [
+          {
+            "end_date": "2099-05-31T23:59:59Z",
+            "id": 4598,
+            "limits": {
+              "remaining_submissions_count": 50,
+              "remaining_submissions_this_month_count": 50,
+              "remaining_submissions_today_count": 10
+            },
+            "name": "Minival Phase",
+            "slug": "few-shot-minival-2319",
+            "start_date": "2019-01-19T00:00:00Z"
+          },
+          {
+            "end_date": "2099-05-31T23:59:59Z",
+            "id": 4599,
+            "limits": {
+              "remaining_submissions_count": 58,
+              "remaining_submissions_this_month_count": 19,
+              "remaining_submissions_today_count": 6
+            },
+            "name": "Test Phase",
+            "slug": "few-shot-test-2319",
+            "start_date": "2019-01-01T00:00:00Z"
+          }
+        ]
+      },
+      "max_concurrent": 3
+    },
+    "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/root_fixed_control_submit_state.json",
+    "tta": false
+  },
+  "returncode": 0,
+  "schema": "root_final_ablation_readonly_submit_preflight_v1",
+  "status": "READ_ONLY_PREFLIGHT_PASSED",
+  "utc": "2026-09-10T01:26:11.436328+00:00"
+}

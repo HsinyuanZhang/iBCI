@@ -1,0 +1,25 @@
+{
+  "status": "BUILT_NOT_HOST_VERIFIED",
+  "arm": "ACTIVITY_ONLY",
+  "payload_sha256": "1e38eccd168ee15a2c6fb42091cc113a97908e777cd6114fa8b2e5dafebb3edf",
+  "selection_epoch": 15,
+  "official_test_used": false,
+  "binding": {
+    "run_meta_sha256": "6b7f4bf491d9d27e10d284faf1d7228018ebb62957113f91a5abc6fcd53d9f2b",
+    "train_receipt_sha256": "1cd0e9ff3b63141575a60d4507c21fec8233b5ede4dc5718b0a42b25b8b7b54a",
+    "selection_sha256": "beb438dca5afb8e98e48bcfd636e8ba7c0c8150f141d297931444631ed9fa6b6",
+    "source_manifest_sha256": {
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/scripts/rift_v1/h1_train.py": "2ef5daee9de79ac6f5dfc12c6830d3d8b926dbade3055f447ab7fdaefdd3b18e",
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/src/btransform_unified_v2/config.py": "0a8273aadb0222c3001e0d6e02a67cd468c15ff9979304822660940d762e8d95",
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/src/btransform_unified_v2/model.py": "482fe07122332f3ad5610e1348a98f139fe3a113a947c4d9a1d47787ea71efca",
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/src/btransform_unified_v2/temporal.py": "c6080378ce46906a6dd6b214e9a739ecede012ca7ecea39c83c3166f70cda0d1"
+    },
+    "ablation_implementation_sha256": {
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/scripts/h1_signed_state_r300_ablation_v1/build_banks.py": "49eecf4ed97d07f9c393114067eb14857a8ecb78509f129b0d97bfcad3c2bf33",
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/scripts/h1_signed_state_r300_ablation_v1/common.py": "c557b66dc3438d2dc63c0a3019a441bde2f06fb52c0883a64cce763eb6be1276",
+      "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/scripts/h1_signed_state_r300_ablation_v1/train.py": "82c1dd9a4069a77c7a1bed8a8992950516f1eb56d54b76cf1f417167ffab9f61"
+    },
+    "banks_27_sha256": "3b273ca47a1c798ce1c1f3ca079f508ac6825c4624bd96e322e6df90c7df335a",
+    "banks_receipt_sha256": "90f9325ee5e70c10a3f2db2e3662faf27a3a5b29312072cbbd43ec37658d1f7f"
+  }
+}

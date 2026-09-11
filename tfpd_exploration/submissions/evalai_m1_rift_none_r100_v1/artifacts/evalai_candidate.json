@@ -1,0 +1,38 @@
+{
+  "arm": "NONE",
+  "budget_disclosure": "Formal 24-epoch M1 NONE RIFT-R100; E0/T are literal zero and no calibration is used for identity, while all-24 local selection reads labeled public HO3 calibration; it is not an official metric; IsHeldOutZeroShot=false.",
+  "created_utc": "2026-09-10T03:45:22+00:00",
+  "external": {
+    "pushed": true,
+    "registered": true,
+    "submitted": true,
+    "submission_id": 582224
+  },
+  "host_receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/host_verify.json",
+  "host_receipt_sha256": "a5c5eb0a5912e40eb6cccae732252a39fd1fdb2e28361c08281adb7528e0f6cf",
+  "image_id": "sha256:0672402b71dbc287747a5c830619ddc71983ec0cabf651ecfb65c864d1447c10",
+  "image_tag": "m1-rift-none-r100-e1:v1",
+  "method_description": "M1 RIFT NONE R100 concat selected EMA cached CPU; architecture=RIFT backend=cached identity=literal_zero_e0_t_none_concat | formal m1_none selected epoch 1; local build/host/container verified.",
+  "method_label": "M1 RIFT NONE R100 concat selected EMA cached CPU; architecture=RIFT backend=cached identity=literal_zero_e0_t_none_concat",
+  "method_name": "M1 RIFT R100 NONE",
+  "official_result": {
+    "Held In R2 Mean": 0.598250857063468,
+    "Held In R2 Std.": 0.02477536099161881,
+    "Held Out R2 Mean": -0.6772461160545928,
+    "Held Out R2 Std.": 0.7994481590730023,
+    "Normalized Latency": 0.13951016955707982
+  },
+  "official_submission_id": 582224,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/m1_rift_none_r100_selected.pkl",
+  "payload_sha256": "c572ebc1debefa64cfec74b788c74191f227880219a258dabae80ccac9e9de86",
+  "profile": "m1_none",
+  "register": false,
+  "schema": "root_final_ablation_fixed_control_evalai_candidate_v1",
+  "selection_epoch": 1,
+  "selection_mean": -1.2152107258637745,
+  "selection_metric": "equal_session_mean_channel_variance_weighted_r2",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/root_fixed_control_submit_state.json",
+  "status": "OFFICIAL_FINISHED",
+  "submit_manifest": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/fixed_control_manifest.json",
+  "task": "m1"
+}

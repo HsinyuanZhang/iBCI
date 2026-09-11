@@ -1,0 +1,23 @@
+{
+  "completed_at": "2026-09-10T02:05:00.543425Z",
+  "local_ho_m3_pick": {
+    "epoch": 15,
+    "mean": 0.2660451704314089
+  },
+  "method_name": "H1 RIFT R300 ACTIVITY_ONLY",
+  "note": "First snapshot was failed/empty []; later flipped to finished, same pattern as 581658.",
+  "retry_duplicate": 582220,
+  "started_at": "2026-09-10T02:05:00.433282Z",
+  "status": "finished",
+  "submission_id": 582218,
+  "test_split_h1": {
+    "Held In R2 Mean": 0.608015116039874,
+    "Held In R2 Std.": 0.03628552987647595,
+    "Held Out R2 Mean": 0.3445956103610151,
+    "Held Out R2 Std.": 0.14416646424862264,
+    "Normalized Latency": 0.1374597509210613
+  },
+  "versus_582196": {
+    "official_ho": 0.45665779063606854
+  }
+}

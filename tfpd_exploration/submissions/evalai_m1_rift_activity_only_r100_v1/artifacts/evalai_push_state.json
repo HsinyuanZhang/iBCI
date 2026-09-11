@@ -1,0 +1,68 @@
+{
+  "arm": "m1_rift_activity_only_r100_cached",
+  "digest_binding": "local_manifest_digest",
+  "image_id": "sha256:beae4356d303957cd9e33788c6702161fed497d9d579e44822c3cdfd4e2171ec",
+  "image_tag": "m1-rift-activity-only-r100-e3:v1",
+  "payload_sha256": "650136399bd9f8582c88d7f721adcff6a70b2999f6c3c815e59a778fa8b451fc",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m1_rift_activity_only_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 582219,
+    "ignore_submission": false,
+    "input_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582219/5bec90e4-15b8-430d-a345-b33e6ad94d.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "M1 RIFT R100/D4 concat final ACTIVITY_ONLY ablation of muscle-response baseline 582205. Independently trained seed42 for all 24 epochs / 159960 updates. B3S EMA activity identity is materialized from legal M10 neural calibration with literal zero encoder side; direct T is zero. Earliest HO3 channel variance-weighted R2 EMA maximum e3 (local 0.5618270536263784). Fixed cached CPU inference; no test-time adaptation.",
+    "method_name": "M1 RIFT R100 ACTIVITY_ONLY e3 cached final ablation",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-10T01:48:52.399855Z",
+    "when_made_public": null
+  },
+  "submission_id": 582219,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:8e239f58-5ccc-459e-9526-cc6528c508ed",
+  "uploaded_config_digest": "sha256:d3f06daa131378400e9f989aa05ab2dbba96eea38f79d8496f94b5986c6150b2",
+  "uploaded_manifest_digest": "sha256:beae4356d303957cd9e33788c6702161fed497d9d579e44822c3cdfd4e2171ec",
+  "uuid_tag": "8e239f58-5ccc-459e-9526-cc6528c508ed"
+}

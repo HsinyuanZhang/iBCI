@@ -1,0 +1,1272 @@
+{
+  "schema": "final_ablation_official_plan_v1",
+  "status": "M1_M2_H1_ACTIVITY_ONLY_AND_M1_NONE_OFFICIAL_FINISHED",
+  "date": "2026-09-10",
+  "official_identity_audit": "../results/final_ablation_official_v1/root_main_official_identity_audit.json",
+  "rules": {
+    "main_submissions_count_as_ablation_slots": false,
+    "ablation_slots_total": 6,
+    "allowed_ablations_per_task": [
+      "ACTIVITY_ONLY",
+      "NONE"
+    ],
+    "carrier_only_allowed": false,
+    "fusion_grid_allowed": false,
+    "public_metrics_substitute_for_completed_official": false,
+    "external_submission_state": "package and required state must be reviewable before user-authorized submit"
+  },
+  "fair_zero_baseline_20260910": {
+    "doc": "FAIR_ZERO_BASELINE_DECISION_20260910.md",
+    "main_contrast_unchanged": "FULL vs ACTIVITY_ONLY",
+    "submit_authorized": false,
+    "m1": {
+      "status": "PLANNED_RETRAIN",
+      "record": "使用发放率信息的重新训",
+      "construction": "HO M10 unlabeled per-unit mean firing rate as the only identity; T=0; 24-epoch retrain; do not swap banks on FULL weights",
+      "local_score": null,
+      "srcbank_rejected": true
+    },
+    "m2": {
+      "status": "LOCAL_RECORDED",
+      "construction": "last_source srcbank; copy ses-2020-10-28-Run1 E0/T onto HO/EXT tags; keep query unit_mask; 582189 e9 EMA; no retrain",
+      "surface": "EXT6 equal-session R2",
+      "equal_session_mean": 0.258669953325137,
+      "receipt": "../results/final_ablation_official_v1/m2_srcbank_ext6_v1/receipt.json",
+      "not_official": true
+    },
+    "h1": {
+      "status": "CANCELLED_BY_USER",
+      "construction": "last_source srcbank; copy ses-19250120T115537 E0/T; 582196 e16 EMA; no retrain",
+      "surface": "HO-M3 grouped-7",
+      "equal_session_mean": null,
+      "own_recovered": 0.46765148529862505,
+      "not_official": true,
+      "note": "Stopped mid last_source; another agent owns the new ablation."
+    }
+  },
+  "main_submissions": {
+    "m1": {
+      "family": "muscle_response16_rift",
+      "submission_id": 582205,
+      "official_status": "finished",
+      "official": {
+        "held_out_r2_mean": 0.6259910151098528,
+        "held_in_r2_mean": 0.7926300410539316,
+        "normalized_latency": 0.14040520785877766
+      },
+      "next_main_status": "PENDING_IMPROVEMENT"
+    },
+    "m2": {
+      "family": "rift_concat_e9",
+      "submission_id": 582189,
+      "official_status": "finished",
+      "official": {
+        "held_out_r2_mean": 0.34654225938843214,
+        "held_in_r2_mean": 0.6561720684991756,
+        "normalized_latency": 0.1040345790208448
+      },
+      "local_ext6_equal_session_mean": 0.3900576650553506,
+      "execution_status": "BASELINE_CONFIRMED",
+      "user_confirmed_submission_id": 582189,
+      "selection_protocol": "Complete 24-epoch EMA scan on frozen six-session EXT6; earliest maximum equal-session mean",
+      "encoder_policy": "Frozen encoder materialized into static banks before decoder training; no new live/trainable encoder"
+    },
+    "h1": {
+      "family": "signed_state14",
+      "submission_id": 582196,
+      "official_status": "finished",
+      "official": {
+        "held_out_r2_mean": 0.45665779063606854,
+        "held_in_r2_mean": 0.6497448658416408,
+        "normalized_latency": 0.14155118921267276
+      },
+      "h1_nmf_or_fusion_reactivation_allowed": false
+    }
+  },
+  "ablation_slots": {
+    "m1_activity_only": {
+      "task": "m1",
+      "arm": "ACTIVITY_ONLY",
+      "status": "OFFICIAL_FINISHED",
+      "official_submission_id": 582219,
+      "official_status": "finished",
+      "official_receipt": "../../tfpd_exploration/submissions/evalai_m1_rift_activity_only_r100_v1/artifacts/OFFICIAL_582219.json",
+      "fresh_root_official_readonly_verification": {
+        "receipt": "../results/final_ablation_official_v1/root_m1_full_activity_official_readonly_20260910T031416Z.json",
+        "receipt_sha256": "d1bf796f13b752997e5c7ae0a5fdbbeaeb87ff558203c217d59ffb1241e6fe6a",
+        "status": "PASSED_FRESH_M1_DIRECT_GET_AND_ACTIVITY_PACKAGE_IDENTITY_BINDING",
+        "utc": "2026-09-10T03:14:16.938154+00:00",
+        "phase": 4599,
+        "http_methods": [
+          "GET"
+        ],
+        "queried_submission_ids": [
+          582205,
+          582219
+        ],
+        "m2_or_h1_queried": false,
+        "external_mutation": false,
+        "new_submission_performed": false,
+        "registry_push": false,
+        "official_activity_minus_full_held_out_r2_mean": -0.05509016786623144,
+        "interpretation": "FULL-to-ACT removes direct T and carrier-conditioned E0 together; it does not causally isolate CARRIER_ONLY."
+      },
+      "official_result": {
+        "held_out_r2_mean": 0.5709008472436213,
+        "held_in_r2_mean": 0.793379687455571,
+        "normalized_latency": 0.1413142769159171,
+        "held_out_r2_std": 0.09520056074166157,
+        "held_in_r2_std": 0.021425871423936135
+      },
+      "delta_vs_official_full_582205": {
+        "held_out_r2_mean": -0.05509016786623144
+      },
+      "official_note": "Cite OFFICIAL_582219.json only. Local HO3 selected e3 mean 0.5618270536263784 is not official and must not be subtracted from official HO. 582220 and 582221 are excluded. M1 NONE official 582224 is finished; cite OFFICIAL_582224.json. Earlier ROOT snapshots that called 582224 FAILED / no scored result are historical and superseded. M2/H1 NONE still have no finished official; current status is owned by the designated agent and their receipts.",
+      "training": {
+        "run_dir": "../results/rift_v1/m1_r100_joint_b_s42_formal_v1",
+        "fresh": true,
+        "resume": false,
+        "epochs": 24,
+        "updates": 159960,
+        "selected_epoch": 3,
+        "audit": "../results/m1_muscle_r100_multiseed_v1/root_activity_only_training_audit.json"
+      },
+      "local_package": {
+        "receipt": "../../tfpd_exploration/submissions/evalai_m1_rift_activity_only_r100_v1/artifacts/root_local_pack_receipt.json",
+        "host_verify": "../../tfpd_exploration/submissions/evalai_m1_rift_activity_only_r100_v1/artifacts/host_verify.json",
+        "image_tag": "m1-rift-activity-only-r100-e3:v1",
+        "image_id": "sha256:beae4356d303957cd9e33788c6702161fed497d9d579e44822c3cdfd4e2171ec",
+        "payload_sha256": "650136399bd9f8582c88d7f721adcff6a70b2999f6c3c815e59a778fa8b451fc",
+        "host_status": "HOST_PACK_VERIFY_PASS",
+        "container_smoke_status": "CONTAINER_SMOKE_PASS",
+        "container_files_equal_host": true,
+        "container_files_compared": 33,
+        "status": "SUPERSEDED_BY_OFFICIAL_FINISHED",
+        "pack_time_status": "LOCAL_PACKAGE_READY_NOT_SUBMITTED",
+        "external": {
+          "pushed": false,
+          "registered": false,
+          "submitted": false,
+          "note": "Pack-time preflight flags are historical; official finished result is 582219"
+        },
+        "official_submission_id": 582219,
+        "official_result": {
+          "held_out_r2_mean": 0.5709008472436213,
+          "held_in_r2_mean": 0.793379687455571,
+          "normalized_latency": 0.1413142769159171
+        },
+        "preflight_receipt": "../../tfpd_exploration/submissions/evalai_m1_rift_activity_only_r100_v1/artifacts/root_submit_preflight_receipt.json",
+        "preflight_status": "READ_ONLY_PREFLIGHT_PASSED",
+        "pack_time_submission_executor": "AWAITING_USER_OWNERSHIP_CLARIFICATION",
+        "root_current_role": "ROOT_NOT_SUBMISSION_EXECUTOR_READ_ONLY_GET_ONLY",
+        "executor_scope_note": "The pack-time executor field records only ROOT's then-pending authority. It does not negate official 582219 or attribute its external submission to an agent."
+      }
+    },
+    "m1_none": {
+      "task": "m1",
+      "arm": "NONE",
+      "status": "OFFICIAL_FINISHED",
+      "official_submission_id": 582224,
+      "official_status": "finished",
+      "official_receipt": "../../tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/OFFICIAL_582224.json",
+      "official_started_at": "2026-09-10T04:38:23.332712Z",
+      "official_completed_at": "2026-09-10T04:38:23.535529Z",
+      "official_result": {
+        "held_out_r2_mean": -0.6772461160545928,
+        "held_out_r2_std": 0.7994481590730023,
+        "held_in_r2_mean": 0.598250857063468,
+        "held_in_r2_std": 0.02477536099161881,
+        "normalized_latency": 0.13951016955707982
+      },
+      "delta_vs_official_full_582205": {
+        "held_out_r2_mean": -1.3032371311644456
+      },
+      "delta_vs_official_activity_582219": {
+        "held_out_r2_mean": -1.2481469632982141
+      },
+      "official_note": "Cite OFFICIAL_582224.json only. Metadata GET /api/jobs/submission/582224 had result=null; official metrics came from submission_result_file. Local HO3 selected e1 mean -1.2152107258637745 is not official and must not be subtracted from official HO. Earlier ROOT snapshots that called 582224 FAILED / no scored result are historical and superseded. M2/H1 NONE still have no finished official.",
+      "official_result_provenance": {
+        "metadata_endpoint": "GET /api/jobs/submission/582224",
+        "metadata_result": null,
+        "result_source": "evalai submission 582224 submission_result_file"
+      },
+      "training_status": "COMPLETED",
+      "formal_queue": {
+        "controller": "../results/final_ablation_official_v1/root_formal_queue.json",
+        "run_dir": "../results/final_ablation_official_v1/formal_m1_none_s42_v1",
+        "selection_dir": "../results/final_ablation_official_v1/formal_m1_none_s42_v1",
+        "stages": [
+          "train",
+          "score"
+        ],
+        "stage_status": [
+          "COMPLETED",
+          "COMPLETED"
+        ]
+      },
+      "local_validation": {
+        "smoke_audit": "../results/final_ablation_official_v1/root_five_arm_smoke_baseline_audit_v1.json",
+        "actual_optimizer_steps": 2,
+        "status": "PASSED",
+        "formal_train_started": true,
+        "bank_dir": null,
+        "package_status": "LOCAL_PACKAGE_VERIFIED_NOT_SUBMITTED"
+      },
+      "runtime_smoke": {
+        "audit": "../results/final_ablation_official_v1/root_five_arm_runtime_smoke_audit_v1.json",
+        "status": "PASSED_ACTUAL_TWO_STEP_PACKED_RUNTIME_AUDIT",
+        "actual_optimizer_steps": 2,
+        "receipt": "../results/final_ablation_official_v1/m1_none_runtime_smoke_v2/receipt.json",
+        "receipt_sha256": "c2403e977708390a3706c45cd42eb144640176e7190d5160211783b23e7b0c2d",
+        "max_abs_vs_full_context": 3.5762786865234375e-07,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_ready",
+          "submission_package"
+        ]
+      },
+      "local_pack_queue": {
+        "historical_failed_job": {
+          "job_id": 41231,
+          "failure_stage": "host_import",
+          "failure": "ModuleNotFoundError: btransform_unified_v2"
+        },
+        "current_v2_local_package_status": "LOCAL_PACKAGE_VERIFIED_NOT_SUBMITTED",
+        "external_actions": false
+      },
+      "formal_result_audit": "../results/final_ablation_official_v1/root_m1_full_activity_none_formal_result_audit_v1.json",
+      "formal_result_audit_sha256": "33ba82c6c34512459eb7b39abbcea4e853b61f7689897018d45c732fe5f36b21",
+      "formal_selection": {
+        "epochs": 24,
+        "updates": 159960,
+        "seed": 42,
+        "selection_rule": "earliest maximum equal-session mean current channel variance-weighted R2",
+        "shared_current_query_sessions": 3,
+        "official_test_used": false,
+        "full": {
+          "selected_epoch": 3,
+          "local_equal_session_mean": 0.5690750181674957
+        },
+        "activity_only": {
+          "selected_epoch": 3,
+          "local_equal_session_mean": 0.5618270536263784
+        },
+        "none": {
+          "selected_epoch": 1,
+          "local_equal_session_mean": -1.2152107258637745
+        },
+        "activity_only_minus_none": {
+          "local_mean_delta": 1.7770377794901528,
+          "positive_sessions": 3,
+          "sessions": 3
+        },
+        "interpretation": "FULL_to_ACTIVITY_ONLY jointly removes direct T and carrier-conditioned E0; ACTIVITY_ONLY_to_NONE removes activity E0.",
+        "local_only_not_official": true
+      },
+      "historical_official_snapshots": {
+        "historical": true,
+        "superseded": true,
+        "superseded_by": "OFFICIAL_FINISHED 582224 / OFFICIAL_582224.json",
+        "note": "Earlier ROOT snapshots that called 582224 FAILED / no scored result are historical and superseded.",
+        "official_readonly_receipt": "../results/final_ablation_official_v1/root_m1_none_official_readonly_20260910T035820Z.json",
+        "official_readonly_receipt_sha256": "6eb2678ca3d2fe8c6dce9c8983ab884e874fbdcfa9ad11f8333420362ef8c7cd",
+        "official_readonly_utc": "2026-09-10T03:58:20.160430+00:00",
+        "official_failure_evidence": "../results/final_ablation_official_v1/root_m1_none_official_failure_evidence_v1.json",
+        "official_failure_evidence_sha256": "e43ef3618b0d46809cd8845cf7ed112af316e302fbfa6c0d2d1cc9b5c1c0f330",
+        "official_failure_status": "HISTORICAL_SUPERSEDED_CALLED_FAILED_NO_SCORED_RESULT",
+        "official_failure_cause": "HISTORICAL_SUPERSEDED_UNDETERMINED_PENDING_PROTOCOL_AND_SCORING_DIAGNOSIS",
+        "official_phase": 4599
+      },
+      "official_binding": {
+        "submission_version": "v1",
+        "payload_sha256": "c572ebc1debefa64cfec74b788c74191f227880219a258dabae80ccac9e9de86",
+        "image_id": "sha256:0672402b71dbc287747a5c830619ddc71983ec0cabf651ecfb65c864d1447c10",
+        "not_the_v2_local_image_submission": true
+      },
+      "local_package": {
+        "destination": "../../tfpd_exploration/submissions/evalai_m1_rift_none_r100_v2",
+        "status": "LOCAL_PACKAGE_VERIFIED_NOT_SUBMITTED",
+        "host_status": "HOST_VERIFIED",
+        "host_cached_full_max_abs": 1.6689300537109375e-06,
+        "host_passed_cases": [
+          "7_tags",
+          "B8",
+          "mixed",
+          "zero",
+          "pad",
+          "reset"
+        ],
+        "payload_sha256": "34083bb09cd4145df17666640edb769641921b99419031668f0b2c002864588f",
+        "image_tag": "m1-rift-none-r100-e1:v2",
+        "image_id": "sha256:1110e2acc27bd41a09c0db5fc086e3bff5625392b55dde29e3f07d5bfb2a2580",
+        "corrected_manifest": "../results/final_ablation_official_v1/m1_none_image_metadata_v3/corrected_manifest.json",
+        "corrected_manifest_sha256": "5267ef308adf112be015904c7818dba696443be03225f7a3299c447174b97fc9",
+        "metadata_receipt": "../results/final_ablation_official_v1/m1_none_image_metadata_v3/metadata_receipt.json",
+        "metadata_receipt_sha256": "2cf20bde931c87746145bc01c156cca37490c33ab751947f8276a134781d98d8",
+        "corrected_container_verify": "../results/final_ablation_official_v1/m1_none_image_metadata_v3/corrected_container_verify.json",
+        "corrected_container_verify_sha256": "fac89587bdac0c5e83898fc4dbf6f1ee05d621cf45b3e6c1b623bad1d46d4ba7",
+        "offline_smoke_exit_code": 0,
+        "container_files_compared": 33,
+        "container_files_exact": true,
+        "metadata_correction": {
+          "rootfs_layers_env_cmd_entrypoint_equal": true,
+          "checkpoint_model_title_labels_correct": true,
+          "oci_revision": ""
+        },
+        "external_actions": false
+      },
+      "v1_v2_payload_binding": {
+        "receipt": "../results/final_ablation_official_v1/root_m1_none_pack_recovery_binding_v2.json",
+        "sha256": "a8bd4a5d2a65faea7f67581adf8e1b659a013cca83edc91eccc80c91bb3be960",
+        "status": "PASSED_EXACT_V1_V2_PAYLOAD_CONTENT_AND_SELECTED_CHECKPOINT_BINDING",
+        "selected_epoch": 1,
+        "all_payload_content_exact_equal": true,
+        "tensor_values": 107,
+        "numpy_arrays": 21,
+        "raw_pickle_bytes_equal": false
+      },
+      "historical_pack_failure": {
+        "job_id": 41231,
+        "stage": "host_import",
+        "failure": "ModuleNotFoundError: btransform_unified_v2",
+        "superseded_by_v2_verified_local_package": true
+      },
+      "root_external_actions": {
+        "push": false,
+        "register": false,
+        "submit": false,
+        "does_not_attribute_existing_v1_submission": true
+      },
+      "historical_metadata_v2_failure": {
+        "preserved": true,
+        "scope": "metadata_only",
+        "original_label_issue": "inherited checkpoint/model/title labels were not overridden; this motivated metadata correction",
+        "failure_reason": "source tag no longer resolved to the verified image ID because another workflow redirected the shared v1 tag; metadata_v2 generated no new image",
+        "failure_receipt": "../results/final_ablation_official_v1/m1_none_image_metadata_v2/failure.json",
+        "failure_receipt_sha256": "ace65cb417338eb3fe9ef8793a0fed1fcf2f3cba022a22fa9180b655ebf471f1",
+        "recovery_resolution": "metadata_v3 used immutable source image ID sha256:cf0ab615e362d392b93d24b0e6558feabcc1ba31b0eb1622748b2d9c95267d27 and succeeded",
+        "superseded_by": "../results/final_ablation_official_v1/m1_none_image_metadata_v3/corrected_manifest.json",
+        "payload_or_model_changed": false
+      }
+    },
+    "m2_activity_only": {
+      "task": "m2",
+      "arm": "ACTIVITY_ONLY",
+      "status": "OFFICIAL_FINISHED",
+      "official_submission_id": 582217,
+      "official_status": "finished",
+      "official_receipt": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/OFFICIAL_582217.json",
+      "official_result": {
+        "held_out_r2_mean": 0.09302905280313856,
+        "held_in_r2_mean": 0.6463020945769177,
+        "normalized_latency": 0.10743839747764272,
+        "held_out_r2_std": 0.2890513294030161,
+        "held_in_r2_std": 0.031828683138622894
+      },
+      "delta_vs_official_full_582189": {
+        "held_out_r2_mean": -0.2535132065852936
+      },
+      "baseline_submission_id": 582189,
+      "training_status": "COMPLETED",
+      "formal_queue": {
+        "controller": "../results/final_ablation_official_v1/root_formal_queue.json",
+        "run_dir": "../results/final_ablation_official_v1/formal_m2_activity_only_s42_v1",
+        "selection_dir": "../results/final_ablation_official_v1/selection_m2_activity_only_ext6_v1",
+        "stages": [
+          "train",
+          "score"
+        ],
+        "stage_status": [
+          "COMPLETED",
+          "COMPLETED"
+        ],
+        "train_child_pid": 372683,
+        "observed_utc": "2026-09-09T20:04:24Z",
+        "train_finished_utc": "2026-09-09T20:32:41.466031Z",
+        "score_finished_utc": "2026-09-09T20:35:42.225210Z"
+      },
+      "local_validation": {
+        "smoke_audit": "../results/final_ablation_official_v1/root_five_arm_smoke_baseline_audit_v1.json",
+        "actual_optimizer_steps": 2,
+        "status": "PASSED",
+        "formal_train_started": false,
+        "bank_dir": "../results/final_ablation_official_v1/m2_activity_only_banks_v2",
+        "package_status": "STATIC_IMPLEMENTATION_WAITING_FOR_FORMAL_WEIGHTS_AND_MEASURED_VERIFICATION"
+      },
+      "runtime_smoke": {
+        "audit": "../results/final_ablation_official_v1/root_five_arm_runtime_smoke_audit_v1.json",
+        "status": "PASSED_ACTUAL_TWO_STEP_PACKED_RUNTIME_AUDIT",
+        "actual_optimizer_steps": 2,
+        "receipt": "../results/final_ablation_official_v1/m2_activity_only_runtime_smoke_v1/receipt.json",
+        "receipt_sha256": "00724212e4677622cd0e6ae5e482ddc040262adc784dddcfe7d47d96adb12c74",
+        "max_abs_vs_full_context": 8.195638656616211e-08,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_ready",
+          "submission_package"
+        ]
+      },
+      "local_pack_queue": {
+        "controller": "../results/final_ablation_official_v1/root_pack_queue.json",
+        "status": "COMPLETED",
+        "destination": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1",
+        "is_held_out_zero_shot": false,
+        "external_actions": false,
+        "finished_utc": "2026-09-09T20:37:26.115550Z",
+        "exit_code": 0
+      },
+      "formal_result_audit": "../results/final_ablation_official_v1/root_m2_activity_only_formal_result_audit_v1.json",
+      "formal_selection": {
+        "completed_train_utc": "2026-09-09T20:32:41.466031Z",
+        "completed_score_utc": "2026-09-09T20:35:42.225210Z",
+        "epochs": 24,
+        "updates": 75960,
+        "selected_epoch": 9,
+        "local_ext6_equal_session_mean": 0.18402467250439059,
+        "local_ext6_equal_session_mean_not_official": true,
+        "official_result": {
+          "held_out_r2_mean": 0.09302905280313856,
+          "held_in_r2_mean": 0.6463020945769177,
+          "normalized_latency": 0.10743839747764272
+        },
+        "same_query_mainline_e9": 0.3900576650553506,
+        "delta_vs_same_query_mainline_e9": -0.20603299255096003,
+        "six_sessions_all_lower": true
+      },
+      "local_package": {
+        "destination": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1",
+        "manifest": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/fixed_control_manifest.json",
+        "status": "SUPERSEDED_BY_OFFICIAL_FINISHED",
+        "pack_time_status": "LOCAL_PACKAGE_READY_NOT_SUBMITTED",
+        "build_receipt": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/local_pack_receipt.json",
+        "host_verify": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/host_verify.json",
+        "host_status": "HOST_REAL_PUBLIC_PARITY_PASS",
+        "host_max_abs": 3.725290298461914e-08,
+        "host_B1_and_mixed_max_abs": 0.0,
+        "container_verify": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/root_container_verify.json",
+        "container_status": "PASSED",
+        "container_smoke_exit_code": 0,
+        "container_files_compared": 33,
+        "container_files_equal_host": true,
+        "image_tag": "m2-rift-activity-only-r50-e9:v1",
+        "image_id": "sha256:9e0187c4eb02e777e18245a241ab2c28bd6f2eea684b3a1e17b5c5769fe5fcf4",
+        "payload_sha256": "d9e4041c5f20ed63370e170ee529680db69216ccf64eb591aa42d208d6f6e3f3",
+        "preflight_receipt": "../../tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/root_submit_preflight_receipt.json",
+        "preflight_status": "READ_ONLY_PREFLIGHT_PASSED",
+        "preflight_completed_utc": "2026-09-09T20:39:13.879985Z",
+        "submission_executor": "AWAITING_USER_OWNERSHIP_CLARIFICATION",
+        "external": {
+          "pushed": false,
+          "registered": false,
+          "submitted": false,
+          "note": "Pack-time preflight flags are historical; official finished result is 582217"
+        },
+        "official_submission_id": 582217,
+        "official_result": {
+          "held_out_r2_mean": 0.09302905280313856,
+          "held_in_r2_mean": 0.6463020945769177,
+          "normalized_latency": 0.10743839747764272
+        }
+      }
+    },
+    "m2_none": {
+      "task": "m2",
+      "arm": "NONE",
+      "status": "LOCAL_PACKAGE_READY_NOT_SUBMITTED",
+      "official_submission_id": null,
+      "official_result": null,
+      "baseline_submission_id": 582189,
+      "training_status": "COMPLETED",
+      "formal_queue": {
+        "controller": "../results/final_ablation_official_v1/root_formal_queue.json",
+        "run_dir": "../results/final_ablation_official_v1/formal_m2_none_s42_v1",
+        "selection_dir": "../results/final_ablation_official_v1/selection_m2_none_ext6_v1",
+        "stages": [
+          "train",
+          "score"
+        ],
+        "stage_status": [
+          "COMPLETED",
+          "COMPLETED"
+        ],
+        "train_child_pid": 374209,
+        "observed_utc": "2026-09-09T20:35:42.800331Z",
+        "train_finished_utc": "2026-09-09T21:04:29.507151Z",
+        "score_finished_utc": "2026-09-09T21:07:30.282787Z"
+      },
+      "local_validation": {
+        "smoke_audit": "../results/final_ablation_official_v1/root_five_arm_smoke_baseline_audit_v1.json",
+        "actual_optimizer_steps": 2,
+        "status": "PASSED",
+        "formal_train_started": false,
+        "bank_dir": "../results/final_ablation_official_v1/m2_none_banks_v1",
+        "package_status": "STATIC_IMPLEMENTATION_WAITING_FOR_FORMAL_WEIGHTS_AND_MEASURED_VERIFICATION"
+      },
+      "runtime_smoke": {
+        "audit": "../results/final_ablation_official_v1/root_five_arm_runtime_smoke_audit_v1.json",
+        "status": "PASSED_ACTUAL_TWO_STEP_PACKED_RUNTIME_AUDIT",
+        "actual_optimizer_steps": 2,
+        "receipt": "../results/final_ablation_official_v1/m2_none_runtime_smoke_v1/receipt.json",
+        "receipt_sha256": "ef5a589cabcad7527ccd3a98704610dc5620edaf87709eac03d7ed36c548bf1e",
+        "max_abs_vs_full_context": 8.195638656616211e-08,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_ready",
+          "submission_package"
+        ]
+      },
+      "local_pack_queue": {
+        "controller": "../results/final_ablation_official_v1/root_pack_queue.json",
+        "status": "COMPLETED",
+        "destination": "../../tfpd_exploration/submissions/evalai_m2_rift_none_r50_v1",
+        "is_held_out_zero_shot": false,
+        "external_actions": false,
+        "child_pid": 376584,
+        "started_utc": "2026-09-09T21:07:58.352945Z",
+        "finished_utc": "2026-09-09T21:08:58.421104Z",
+        "exit_code": 0
+      },
+      "formal_result_audit": "../results/final_ablation_official_v1/root_m2_full_activity_none_formal_result_audit_v1.json",
+      "formal_selection": {
+        "train_completed_utc": "2026-09-09T21:04:29.507151Z",
+        "score_completed_utc": "2026-09-09T21:07:30.282787Z",
+        "epochs": 24,
+        "updates": 75960,
+        "selected_epoch": 6,
+        "local_ext6_equal_session_mean": -0.012659512830027883,
+        "pooled_r2": -0.011296108527419246,
+        "query_windows": 15403,
+        "same_sessions": 6,
+        "seed": 42,
+        "sampler_seed": 42,
+        "official_result": null
+      },
+      "local_package": {
+        "destination": "../../tfpd_exploration/submissions/evalai_m2_rift_none_r50_v1",
+        "manifest": "../../tfpd_exploration/submissions/evalai_m2_rift_none_r50_v1/artifacts/fixed_control_manifest.json",
+        "status": "LOCAL_PACKAGE_READY_NOT_SUBMITTED",
+        "host_verify": "../../tfpd_exploration/submissions/evalai_m2_rift_none_r50_v1/artifacts/host_verify.json",
+        "host_status": "HOST_REAL_PUBLIC_PARITY_PASS",
+        "host_max_abs": 3.585591912269592e-08,
+        "host_B1_mixed_resume_max_abs": 0.0,
+        "container_verify": "../../tfpd_exploration/submissions/evalai_m2_rift_none_r50_v1/artifacts/root_container_verify.json",
+        "container_status": "PASSED",
+        "container_smoke_exit_code": 0,
+        "container_files_compared": 33,
+        "container_files_equal_host": true,
+        "image_tag": "m2-rift-none-r50-e6:v1",
+        "image_id": "sha256:2a3bf465186fb471854efba0a185ca695375d089086c1b995359977c8665e0a1",
+        "payload_sha256": "7f7025f80f644a2fda5008f6833136a50ca22f3ffe01ea2af2a3e2ee6d08c998",
+        "preflight_receipt": "../../tfpd_exploration/submissions/evalai_m2_rift_none_r50_v1/artifacts/root_submit_preflight_receipt.json",
+        "preflight_status": "READ_ONLY_PREFLIGHT_PASSED",
+        "preflight_completed_utc": "2026-09-09T21:10:35.000413Z",
+        "submission_executor": "AWAITING_USER_OWNERSHIP_CLARIFICATION",
+        "external": {
+          "pushed": false,
+          "registered": false,
+          "submitted": false
+        },
+        "official_submission_id": null,
+        "official_result": null
+      }
+    },
+    "h1_activity_only": {
+      "task": "h1",
+      "arm": "ACTIVITY_ONLY",
+      "status": "OFFICIAL_FINISHED",
+      "official_submission_id": 582218,
+      "official_status": "finished",
+      "official_receipt": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/artifacts/OFFICIAL_582218.json",
+      "official_result": {
+        "held_out_r2_mean": 0.3445956103610151,
+        "held_in_r2_mean": 0.608015116039874,
+        "normalized_latency": 0.1374597509210613,
+        "held_out_r2_std": 0.14416646424862264,
+        "held_in_r2_std": 0.03628552987647595
+      },
+      "delta_vs_official_full_582196": {
+        "held_out_r2_mean": -0.11206218027505344
+      },
+      "official_note": "Cite OFFICIAL_582218.json only. First EvalAI snapshot was failed/empty []; later flipped to finished. 582220 is retry_duplicate, not official. 582221 is excluded.",
+      "training_status": "COMPLETED",
+      "formal_queue": {
+        "controller": "../results/final_ablation_official_v1/root_formal_queue.json",
+        "run_dir": "../results/final_ablation_official_v1/formal_h1_activity_only_s42_v1",
+        "selection_dir": "../results/final_ablation_official_v1/formal_h1_activity_only_s42_v1",
+        "stages": [
+          "train_and_score"
+        ],
+        "stage_status": [
+          "COMPLETED"
+        ],
+        "train_and_score_child_pid": 376511,
+        "started_utc": "2026-09-09T21:07:30.871126Z",
+        "training_epochs": 32,
+        "training_updates": 23392,
+        "checkpoint_bindings_complete": 32,
+        "score_status": "COMPLETED",
+        "selected_epoch": 15,
+        "formal_result": null,
+        "finished_utc": "2026-09-09T23:37:09.378413+00:00"
+      },
+      "local_validation": {
+        "smoke_audit": "../results/final_ablation_official_v1/root_five_arm_smoke_baseline_audit_v1.json",
+        "actual_optimizer_steps": 2,
+        "status": "PASSED",
+        "formal_train_started": false,
+        "bank_dir": "../results/final_ablation_official_v1/h1_activity_only_banks_v1",
+        "package_status": "HISTORICAL_STATIC_IMPLEMENTATION_AT_SMOKE_TIME_SUPERSEDED_BY_RECOVERY_V2_LOCAL_PACKAGE"
+      },
+      "runtime_smoke": {
+        "audit": "../results/final_ablation_official_v1/root_five_arm_runtime_smoke_audit_v1.json",
+        "status": "PASSED_ACTUAL_TWO_STEP_PACKED_RUNTIME_AUDIT",
+        "actual_optimizer_steps": 2,
+        "receipt": "../results/final_ablation_official_v1/h1_activity_only_runtime_smoke_v2/receipt.json",
+        "receipt_sha256": "7a842c7f517ab2f6606086f0c281041c6da53b72e1e47606c3ea6f7d1a1335a4",
+        "max_abs_vs_full_context": 2.1420419216156006e-08,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_ready",
+          "submission_package"
+        ]
+      },
+      "local_pack_queue": {
+        "controller": "../results/final_ablation_official_v1/pack_recovery_v1/root_pack_queue.json",
+        "status": "COMPLETED",
+        "destination": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2",
+        "is_held_out_zero_shot": false,
+        "external_actions": false,
+        "child_pid": 388094,
+        "started_utc": "2026-09-09T23:52:33.842215+00:00",
+        "finished_utc": "2026-09-09T23:55:18.995260+00:00",
+        "returncode": 0,
+        "original_controller": {
+          "controller": "../results/final_ablation_official_v1/root_pack_queue.json",
+          "pid": 369493,
+          "exec_id": 85279,
+          "status": "FAILED_CLOSED",
+          "destination": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v1",
+          "child_pid": 386656,
+          "started_utc": "2026-09-09T23:37:36.521989Z",
+          "finished_utc": "2026-09-09T23:37:51.537459+00:00",
+          "returncode": 1,
+          "failure": "ModuleNotFoundError: src.data.h1_m4_eb_pilot during host import h1_train -> v1/b2",
+          "host_passed": false,
+          "docker_started": false,
+          "preflight_created": false
+        }
+      },
+      "formal_result_audit": "../results/final_ablation_official_v1/root_h1_activity_only_formal_result_audit_v1.json",
+      "formal_selection": {
+        "finished_utc": "2026-09-09T23:37:09.378413+00:00",
+        "epochs": 32,
+        "updates": 23392,
+        "selected_epoch": 15,
+        "local_grouped7_mean": 0.2660451704314089,
+        "local_grouped7_mean_not_official": true,
+        "worst_group_r2": 0.12474186695147141,
+        "selected_checkpoint_sha256": "26caecd797a674e9ed732dd46133f54720a7b9cd2d1f3b127f46297257844208",
+        "official_result": {
+          "held_out_r2_mean": 0.3445956103610151,
+          "held_in_r2_mean": 0.608015116039874,
+          "normalized_latency": 0.1374597509210613
+        }
+      },
+      "local_package": {
+        "destination": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2",
+        "manifest": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/artifacts/fixed_control_manifest.json",
+        "status": "SUPERSEDED_BY_OFFICIAL_FINISHED",
+        "pack_time_status": "LOCAL_PACKAGE_READY_NOT_SUBMITTED",
+        "formal_weights_bound": true,
+        "host_verify": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/host_verify.json",
+        "host_status": "HOST_PACK_VERIFY_PASS",
+        "host_B1_max_abs": 5.587935447692871e-09,
+        "host_B8_max_abs": 6.05359673500061e-09,
+        "host_mixed_max_abs": 5.587935447692871e-09,
+        "host_reset_passed": true,
+        "host_valid_zero_passed": true,
+        "container_verify": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/artifacts/root_container_verify.json",
+        "container_status": "PASSED",
+        "container_smoke_exit_code": 0,
+        "container_files_compared": 33,
+        "container_files_equal_host": true,
+        "image_tag": "h1-rift-activity-only-r300-e15:v1",
+        "image_id": "sha256:475bc3e036fc9634e3d4caa6a4212d1e2378b9a49b142c1ecd3e81b4987e04a6",
+        "payload_sha256": "6becdb88798a088d3fa4136eac1c5ce53e8660977e54c3f70d3718f377ac09d6",
+        "preflight_receipt": "../../tfpd_exploration/submissions/evalai_h1_rift_activity_only_r300_v2/artifacts/root_submit_preflight_receipt.json",
+        "preflight_status": "READ_ONLY_PREFLIGHT_PASSED",
+        "preflight_completed_utc": "2026-09-09T23:57:58.211150+00:00",
+        "preflight_sha256": "ed81e157c5a96f3ebf9b3261e2ca159447622cccf1862e53c2a5e16ae0848fc7",
+        "preflight_mode": "read_only_preflight",
+        "preflight_execute_flag": false,
+        "submission_executor": "AWAITING_USER_OWNERSHIP_CLARIFICATION",
+        "external": {
+          "pushed": false,
+          "registered": false,
+          "submitted": false,
+          "note": "Pack-time preflight flags are historical; official finished result is 582218 from OFFICIAL_582218.json, not 582220"
+        },
+        "official_submission_id": 582218,
+        "official_result": {
+          "held_out_r2_mean": 0.3445956103610151,
+          "held_in_r2_mean": 0.608015116039874,
+          "normalized_latency": 0.1374597509210613
+        },
+        "host_B1_inactive_resume_checked": false,
+        "host_B8_inactive_resume_checked": true,
+        "host_mixed_inactive_resume_checked": true,
+        "preflight_returncode": 0,
+        "preflight_quota_snapshot": {
+          "daily_remaining": 2,
+          "month_remaining": 19,
+          "total_remaining": 58,
+          "active": 0,
+          "concurrent_limit": 3,
+          "note": "23:57 UTC read-only preflight snapshot; does not update the 23:04 official read-only list status",
+          "historical_snapshot": true,
+          "superseded_for_current_quota_by": "official_readonly_status_20260910T010957Z"
+        }
+      },
+      "recovery_binding": {
+        "receipt": "../results/final_ablation_official_v1/root_h1_activity_pack_recovery_binding_v1.json",
+        "sha256": "32ad669661c43d597ae150470747b2b57467b990270591a88bed96dd0c01c30a",
+        "status": "PASSED_EXACT_PAYLOAD_CONTENT_AND_FORMAL_SELECTED_CHECKPOINT_BINDING",
+        "payload_bytes_equal": false,
+        "payload_contents_exact_equal": true,
+        "selected_epoch": 15,
+        "selected_checkpoint_sha256": "26caecd797a674e9ed732dd46133f54720a7b9cd2d1f3b127f46297257844208"
+      }
+    },
+    "h1_none": {
+      "task": "h1",
+      "arm": "NONE",
+      "status": "FORMAL_TRAIN_COMPLETED_ALL32_SCORE_RUNNING_PACKAGE_PENDING",
+      "official_submission_id": null,
+      "official_result": null,
+      "training_status": "COMPLETED",
+      "formal_queue": {
+        "controller": "../results/final_ablation_official_v1/root_formal_queue.json",
+        "run_dir": "../results/final_ablation_official_v1/formal_h1_none_s42_v1",
+        "selection_dir": "../results/final_ablation_official_v1/formal_h1_none_s42_v1",
+        "stages": [
+          "train_and_score"
+        ],
+        "stage_status": [
+          "RUNNING"
+        ],
+        "train_and_score_child_pid": 386560,
+        "started_utc": "2026-09-09T23:37:09.978560Z",
+        "training_status": "COMPLETED",
+        "training_epochs": 32,
+        "training_updates": 23392,
+        "checkpoint_bindings_complete": 32,
+        "score_status": "RUNNING",
+        "score_checkpoints_total": 32,
+        "score_checkpoints_completed_observed": 1,
+        "selected_epoch": null,
+        "formal_result": null,
+        "train_completion_observed_utc": "2026-09-10T00:50:33.049775+00:00",
+        "train_completion_observation_note": "Observation time only; not asserted as the exact training completion time.",
+        "score_observed_first_checkpoint_utc": "2026-09-10T00:51:46.016882+00:00",
+        "score_observation": "All-32 scoring RUNNING; first checkpoint scoring log observed. No partial score is recorded as a selection or formal result; ho_m3_selection.json and train_receipt.json absent."
+      },
+      "local_validation": {
+        "smoke_audit": "../results/final_ablation_official_v1/root_five_arm_smoke_baseline_audit_v1.json",
+        "actual_optimizer_steps": 2,
+        "status": "PASSED",
+        "formal_train_started": false,
+        "bank_dir": "../results/final_ablation_official_v1/h1_none_banks_v1",
+        "package_status": "STATIC_IMPLEMENTATION_WAITING_FOR_FORMAL_WEIGHTS_AND_MEASURED_VERIFICATION"
+      },
+      "runtime_smoke": {
+        "audit": "../results/final_ablation_official_v1/root_five_arm_runtime_smoke_audit_v1.json",
+        "status": "PASSED_ACTUAL_TWO_STEP_PACKED_RUNTIME_AUDIT",
+        "actual_optimizer_steps": 2,
+        "receipt": "../results/final_ablation_official_v1/h1_none_runtime_smoke_v1/receipt.json",
+        "receipt_sha256": "dea3ed9a77eeafee6303cc6f154971c2a829a17ecd5043f8170c754004eaa461",
+        "max_abs_vs_full_context": 1.6763806343078613e-08,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_ready",
+          "submission_package"
+        ]
+      },
+      "local_pack_queue": {
+        "controller": "../results/final_ablation_official_v1/pack_recovery_v1/root_pack_queue.json",
+        "status": "PENDING_WAITING_FOR_REQUIRED_FORMAL_STAGES",
+        "destination": "../../tfpd_exploration/submissions/evalai_h1_rift_none_r300_v1",
+        "is_held_out_zero_shot": false,
+        "external_actions": false
+      }
+    }
+  },
+  "independent_non_slot_work": {
+    "m1_original_muscle_multiseed": {
+      "counts_as_ablation_slot": false,
+      "queue_record": "../results/m1_muscle_r100_multiseed_v1/root_formal_queue.json",
+      "priority_change_record": "../results/m1_muscle_r100_multiseed_v1/root_user_priority_change.json",
+      "priority_comparison_record": "../results/m1_muscle_r100_multiseed_v1/root_seed43_vs42_priority_comparison.json",
+      "candidate_geometry_record": "../results/m1_muscle_r100_multiseed_v1/root_candidate_geometry.json",
+      "queue_status": "COMPLETED",
+      "controller_phase": "ALL_FOUR_SUMMARY_COMPLETED",
+      "seed43": {
+        "train_status": "COMPLETED",
+        "full_score_status": "COMPLETED"
+      },
+      "meanrate_fourth_column_candidate": {
+        "seed": 42,
+        "train_status": "COMPLETED",
+        "full_score_status": "COMPLETED"
+      },
+      "seed44": {
+        "train_status": "COMPLETED",
+        "full_score_status": "COMPLETED"
+      },
+      "actual_execution_order": [
+        "mean_rate4_s42 train",
+        "mean_rate4_s42 full score",
+        "original_s44 train",
+        "original_s44 full score",
+        "all4 descriptive summary"
+      ],
+      "comparison_status": "ALL_FOUR_SUMMARY_COMPLETED_DESCRIPTIVE_ONLY",
+      "comparison_protocol": "The priority comparison records that seed43 and seed42 use the same original carrier and same B3S pretrained initialization source; decoder initialization and training/dropout seeds differ (42 vs 43). Finish the candidate full score before comparing it with the original-carrier record; then finish seed44 train and full score. No official metric, official result, or official selection is inferred from these local queue or comparison records.",
+      "official_metrics_status": "NOT_RECORDED_DO_NOT_INVENT",
+      "all_four_summary": {
+        "path": "../results/m1_muscle_r100_multiseed_v1/summary_all4_v1/summary.json",
+        "curves_png": "../results/m1_muscle_r100_multiseed_v1/summary_all4_v1/curves.png",
+        "status": "COMPLETED",
+        "completed_utc": "2026-09-09T20:03:45.439837Z"
+      }
+    }
+  },
+  "execution_goal_20260910": {
+    "repository_goal": "Preserve the completed M1 multi-seed/candidate evidence as historical, fix the paper M1 mainline to muscle_response16_svd4/global_rms FULL official 582205, stop further M1 carrier/architecture/seed search, and retain the fixed information-ablation contracts and finished EvalAI identities",
+    "external_submission_authorization": "READ_ONLY_PREFLIGHT_PASSED_AWAITING_USER_OWNERSHIP_CLARIFICATION",
+    "quota_records": [
+      "../results/final_ablation_official_v1/root_server_quota_20260909T171034Z.json",
+      "../results/final_ablation_official_v1/root_live_quota_20260909T171006Z.json",
+      "../results/final_ablation_official_v1/root_official_readonly_status_20260910T000935Z.json",
+      "../results/final_ablation_official_v1/root_official_readonly_status_20260910T010957Z.json"
+    ],
+    "quota_at_20260909T1710Z": {
+      "daily_limit": 6,
+      "daily_remaining": 2,
+      "month_remaining": 19,
+      "total_remaining": 58,
+      "active": 0,
+      "concurrent_limit": 3,
+      "reset_utc": "00:00",
+      "reset_hong_kong": "08:00"
+    },
+    "planned_priority_batches": [
+      [
+        "m1_activity_only",
+        "m2_activity_only"
+      ],
+      [
+        "m2_none",
+        "h1_activity_only",
+        "h1_none",
+        "m1_none"
+      ]
+    ],
+    "formal_controller": {
+      "record": "../results/final_ablation_official_v1/root_formal_queue.json",
+      "status": "RUNNING",
+      "physical_gpu": 1,
+      "frozen_inputs": "../results/final_ablation_official_v1/root_formal_inputs_v1.json",
+      "frozen_input_file_count": 556,
+      "frozen_inputs_sha256": "fd960824387c3b600f1132b233e85556eeb73f5b9023199b94c2d24b6eb2c3a6",
+      "formal_arms_not_started": 0,
+      "pending_stages": 0,
+      "execution_after_m1_candidate_and_original_seed44": [
+        "m2_activity_only train COMPLETED",
+        "m2_activity_only score COMPLETED",
+        "m2_none train COMPLETED",
+        "m2_none score COMPLETED",
+        "h1_activity_only train_and_score COMPLETED",
+        "h1_none subsequent state owned by USER_DESIGNATED_OTHER_AGENT",
+        "m1_none train COMPLETED",
+        "m1_none score COMPLETED"
+      ],
+      "not_evidence_of": [
+        "formal_weights",
+        "host_verification",
+        "container_smoke",
+        "official_submission"
+      ],
+      "pid": 363996,
+      "exec_id": 89094,
+      "main_queue_status": "ALL_6_JOBS_COMPLETED_EXIT_0",
+      "main_queue_exec_id": 90098,
+      "current_stage": {
+        "profile": "m1_none",
+        "status": "OFFICIAL_FINISHED",
+        "formal_result_audit": "../results/final_ablation_official_v1/root_m1_full_activity_none_formal_result_audit_v1.json",
+        "official_submission_id": 582224,
+        "official_status": "finished",
+        "official_receipt": "../../tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/OFFICIAL_582224.json",
+        "official_phase": 4599,
+        "local_package_status": "LOCAL_PACKAGE_VERIFIED_NOT_SUBMITTED",
+        "root_external_actions": false
+      },
+      "completed_stages": [
+        "m2_activity_only train",
+        "m2_activity_only score",
+        "m2_none train",
+        "m2_none score",
+        "h1_activity_only train_and_score",
+        "m1_none train",
+        "m1_none score"
+      ]
+    },
+    "preformal_runtime_bank_audits": {
+      "five_arm_actual_packed_runtime_smoke": {
+        "record": "../results/final_ablation_official_v1/root_five_arm_runtime_smoke_audit_v1.json",
+        "status": "PASSED_FIVE_ACTUAL_TWO_STEP_PACKED_RUNTIMES",
+        "gate": 1e-05,
+        "arms": 5,
+        "formal_weights_tested": false,
+        "formal_packages_ready": false,
+        "container_tested": false,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_ready",
+          "submission_package"
+        ]
+      },
+      "h1_runtime_bank_binding": {
+        "record": "../results/final_ablation_official_v1/root_h1_runtime_bank_binding_audit_v1.json",
+        "status": "PASSED_ALL27_RUNTIME_BANK_BINDINGS",
+        "rows": 27,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_smoke"
+        ]
+      },
+      "m2_package_bank_trace": {
+        "record": "../results/final_ablation_official_v1/root_m2_package_bank_trace_audit_v1.json",
+        "status": "PASSED_BOTH_ARMS_13_BANKS_REAL_TRACE",
+        "bank_rows_per_arm": 13,
+        "trace_cases": 26,
+        "declared_query_prefix_removed": 49,
+        "decoder_forward_tested": false,
+        "formal_weights_tested": false,
+        "not_evidence_of": [
+          "formal_weights",
+          "host_verification",
+          "container_smoke"
+        ]
+      }
+    },
+    "local_pack_controller": {
+      "record": "../results/final_ablation_official_v1/pack_recovery_v1/root_pack_queue.json",
+      "inputs": "../results/final_ablation_official_v1/pack_recovery_v1/root_pack_inputs_v1.json",
+      "launched_utc": "2026-09-09T23:52:33.291890+00:00",
+      "pid": 388088,
+      "exec_id": 95129,
+      "status": "FAILED",
+      "pack_jobs": 3,
+      "order": [
+        "h1_activity_only",
+        "h1_none",
+        "m1_none"
+      ],
+      "input_snapshot_file_count": 21,
+      "input_snapshot_sha256": "4a0cbc234a0a8b13b12d16db20335bd116897180506bdde64ce57ac16880d4ba",
+      "linked_formal_inputs_sha256": "fd960824387c3b600f1132b233e85556eeb73f5b9023199b94c2d24b6eb2c3a6",
+      "additional_fixed_inputs": [
+        "three_recovery_helpers",
+        "old_failed_queue",
+        "actual_h1_loader_extra_dependency"
+      ],
+      "runtime": "CPU_ONLY_TWO_THREADS",
+      "external_actions": false,
+      "official_submission_execution": "NOT_PART_OF_THIS_CONTROLLER",
+      "completed_jobs": [
+        "h1_activity_only"
+      ],
+      "pending_jobs": [
+        "h1_none",
+        "m1_none"
+      ],
+      "running_jobs": [],
+      "original_controller": {
+        "record": "../results/final_ablation_official_v1/root_pack_queue.json",
+        "inputs": "../results/final_ablation_official_v1/root_pack_inputs_v1.json",
+        "launched_utc": "2026-09-09T18:30:33Z",
+        "pid": 369493,
+        "exec_id": 85279,
+        "status": "FAILED",
+        "pack_jobs": 5,
+        "all_pack_jobs_status": "M2_CONTROLS_COMPLETED_H1_ACTIVITY_FAILED_OTHER_TWO_PENDING",
+        "order": [
+          "m2_activity_only",
+          "m2_none",
+          "h1_activity_only",
+          "h1_none",
+          "m1_none"
+        ],
+        "input_snapshot_file_count": 15,
+        "input_snapshot_sha256": "67997c53bcea30f3ea057375c3d7d2fdafb5746d84f99d7fd4e83deec304cc5f",
+        "linked_formal_inputs_sha256": "fd960824387c3b600f1132b233e85556eeb73f5b9023199b94c2d24b6eb2c3a6",
+        "runtime": "CPU_ONLY_TWO_THREADS",
+        "controller_actions_after_required_formal_stages": [
+          "local_build",
+          "host_verify",
+          "Docker_smoke",
+          "container_byte_SHA"
+        ],
+        "external_actions": false,
+        "not_evidence_of": [
+          "formal_training_complete",
+          "local_package_ready",
+          "external_upload_or_submission"
+        ],
+        "completed_jobs": [
+          "m2_activity_only",
+          "m2_none"
+        ],
+        "pending_jobs": [
+          "h1_none",
+          "m1_none"
+        ],
+        "running_jobs": [],
+        "failed_profile": "h1_activity_only",
+        "failed_utc": "2026-09-09T23:37:51.537459+00:00",
+        "failure": {
+          "profile": "h1_activity_only",
+          "returncode": 1,
+          "reason": "ModuleNotFoundError: src.data.h1_m4_eb_pilot during host import h1_train -> v1/b2",
+          "host_passed": false,
+          "docker_started": false,
+          "preflight_created": false
+        }
+      },
+      "closed_historical_record": true,
+      "failure_reason": "frozen H1 decode.py input changed after start; not an M1 formal or M1 pack dependency",
+      "not_current_for_m1": true
+    },
+    "selection_disclosure": {
+      "is_held_out_zero_shot": false,
+      "meaning": "NONE literal-zero identity does not make the controls strict zero-shot: each uses labeled public HO data for its all-24/32-epoch selection."
+    },
+    "quota_at_20260909T1840Z_snapshot": {
+      "daily_remaining": 2,
+      "month_remaining": 19,
+      "total_remaining": 58,
+      "active": 0,
+      "concurrent_limit": 3,
+      "note": "last actual query at 18:40 UTC; not a refreshed quota claim"
+    },
+    "quota_at_20260909T2110Z_snapshot": {
+      "daily_remaining": 2,
+      "month_remaining": 19,
+      "total_remaining": 58,
+      "active": 0,
+      "concurrent_limit": 3,
+      "reset_utc": "00:00",
+      "reset_hong_kong": "08:00",
+      "note": "M2 NONE read-only preflight snapshot"
+    },
+    "h1_full_reference_binding": {
+      "audit": "../results/final_ablation_official_v1/root_h1_full_reference_actual_formal_binding_audit_v1.json",
+      "audit_status": "PASSED_FULL_REFERENCE_AND_RUNNING_ACTIVITY_RECIPE_BINDING",
+      "audit_utc": "2026-09-09T21:19:22.364786Z",
+      "full_run": "../results/h1_signed_state_r300_v1/recency_s42_formal_20260909",
+      "epochs": 32,
+      "updates": 23392,
+      "selected_epoch": 16,
+      "local_grouped7_mean": 0.46765143362182887,
+      "running_activity_recipe_binding": "PASSED",
+      "replay_receipt": "../results/final_ablation_official_v1/h1_full_selected_cached_replay_v1/receipt.json",
+      "replay_status": "PASSED_FULL_E16_CURRENT_PUBLIC_QUERY_CACHED_REPLAY",
+      "replay_utc": "2026-09-09T21:33:07.493740Z",
+      "replay_mean": 0.467651490064873,
+      "replay_minus_original": 5.6443044127441055e-08,
+      "replay_max_abs_group_delta": 1.7721179190743896e-07,
+      "meaning": "Binds existing FULL e16 local result/submission weights to current public query replay; does not alter all32 selection or create official/ACT result."
+    },
+    "h1_ablation_query_binding": {
+      "receipt": "../results/final_ablation_official_v1/h1_ablation_query_binding_v1/receipt.json",
+      "receipt_sha256": "ca0386ee2e761b57a5e2e25ce6204c13218a58f5368012f8c79ac83192ea30ed",
+      "status": "PASSED_BOTH_ARMS_CURRENT_PUBLIC_QUERY_AND_SEALED_BANK_BINDING",
+      "utc": "2026-09-09T21:44:51.075301+00:00",
+      "arms": [
+        "ACTIVITY_ONLY",
+        "NONE"
+      ],
+      "public_recordings": 14,
+      "query_endpoints": 33613,
+      "full_query_arrays_identical": true,
+      "arms_ends_and_unit_masks_identical": true,
+      "sealed_bank_binding": {
+        "T_literal_zero_both": true,
+        "none_E0_literal_zero": true,
+        "activity_E0_nonzero": true
+      },
+      "decoder_training_or_scoring_executed": false,
+      "meaning": "Binds query and sealed-bank inputs only; creates no ablation score and does not complete H1 NONE training."
+    },
+    "m1_full_activity_reference_binding": {
+      "receipt": "../results/final_ablation_official_v1/root_m1_full_activity_reference_binding_v1.json",
+      "receipt_sha256": "9c9bf91c8b3ae90ee84a5da216b204c74118640c971291354397ccaabd944063",
+      "utc": "2026-09-09T22:55:49.343244+00:00",
+      "status": "PASSED_FULL_ACTIVITY_ALL24_RECEIPT_CHECKPOINT_QUERY_BINDING",
+      "full_run": "../results/m1_muscle_r100_v1/formal_s42_gpu1",
+      "activity_run": "../results/rift_v1/m1_r100_joint_b_s42_formal_v1",
+      "epochs": 24,
+      "updates": 159960,
+      "query_windows": 3881,
+      "selected_epoch": 3,
+      "full_local_mean": 0.5690750181674957,
+      "activity_local_mean": 0.5618270536263784,
+      "activity_minus_full": -0.007247964541117313,
+      "meaning": "Receipt/file-hash binding of existing FULL and ACT all24 current-query evidence only; not official, NONE, or new decoder execution."
+    },
+    "official_readonly_status_20260909T230431Z": {
+      "record": "../results/final_ablation_official_v1/root_official_readonly_status_20260909T230431Z.json",
+      "sha256": "6c1304c7362bdc158b024dbb95eb49e50aaf9974092693c7f653b06b8021dc24",
+      "utc": "2026-09-09T23:04:31.673818+00:00",
+      "http_get_only": true,
+      "submission_rows": 56,
+      "new_since_previous_ids": [],
+      "active": 0,
+      "max_concurrent": 3,
+      "remaining_today": 2,
+      "remaining_month": 19,
+      "remaining_total": 58,
+      "external_mutations": false,
+      "historical_snapshot": true,
+      "superseded_by": "official_readonly_status_20260910T000935Z"
+    },
+    "planned_priority_batches_status": "NOT_EXECUTED_NO_EXTERNAL_MUTATIONS",
+    "current_official_readonly_status": "official_readonly_status_20260910T010957Z",
+    "official_readonly_status_20260910T000935Z": {
+      "record": "../results/final_ablation_official_v1/root_official_readonly_status_20260910T000935Z.json",
+      "sha256": "c607f716087173aad5d9a541c7dfad0dc54ad9c63cd2a03e0426848750497881",
+      "utc": "2026-09-10T00:09:35.984259+00:00",
+      "http_get_only": true,
+      "submission_rows": 56,
+      "new_since_previous_ids": [],
+      "previous_receipt_sha256": "6c1304c7362bdc158b024dbb95eb49e50aaf9974092693c7f653b06b8021dc24",
+      "active": 0,
+      "max_concurrent": 3,
+      "remaining_today": 6,
+      "remaining_month": 19,
+      "remaining_total": 58,
+      "utc_daily_window_reset_observed": true,
+      "external_mutations": false,
+      "push": false,
+      "register": false,
+      "historical_snapshot": true,
+      "historical_reset_observation": true,
+      "superseded_by": "official_readonly_status_20260910T010957Z"
+    },
+    "official_readonly_status_20260910T010957Z": {
+      "record": "../results/final_ablation_official_v1/root_official_readonly_status_20260910T010957Z.json",
+      "sha256": "bc14442b5acb78e681544dea438144a0024cafb813591372513f1a5bdae3c820",
+      "utc": "2026-09-10T01:09:57.768925+00:00",
+      "http_get_only": true,
+      "submission_rows": 56,
+      "new_since_previous_ids": [],
+      "previous_receipt_sha256": "c607f716087173aad5d9a541c7dfad0dc54ad9c63cd2a03e0426848750497881",
+      "active": 0,
+      "max_concurrent": 3,
+      "remaining_today": 6,
+      "remaining_month": 19,
+      "remaining_total": 58,
+      "utc_daily_window_reset_observed": true,
+      "external_mutations": false,
+      "push": false,
+      "register": false
+    },
+    "execution_ownership_handoff_20260910": {
+      "record": "M2_H1_ABLATION_HANDOFF_20260910.md",
+      "decision_utc_approx": "2026-09-10T01:31:00+00:00",
+      "root_thread_scope": [
+        "m1_carrier_analysis",
+        "m1_local_ablations"
+      ],
+      "m2_h1_scope_owner": "USER_DESIGNATED_OTHER_AGENT",
+      "m2_h1_scope": [
+        "training",
+        "packaging",
+        "official_result_followup"
+      ],
+      "does_not_claim": [
+        "other_agent_started",
+        "other_agent_accepted",
+        "other_agent_submitted",
+        "queue_split_or_migrated"
+      ],
+      "m1_external_submission_authorization": "UNCHANGED_NOT_GRANTED_TO_ROOT_THREAD",
+      "shared_queue_coupling": {
+        "formal_queue": "../results/final_ablation_official_v1/root_formal_queue.json",
+        "formal_controller_pid": 363996,
+        "formal_exec_id": 89094,
+        "h1_none_child_pid": 386560,
+        "formal_status_at_handoff": "FIVE_COMPLETED_H1_NONE_COMBINED_RUNNING_M1_NONE_TRAIN_SCORE_PENDING",
+        "recovery_pack_queue": "../results/final_ablation_official_v1/pack_recovery_v1/root_pack_queue.json",
+        "recovery_controller_pid": 388088,
+        "recovery_exec_id": 95129,
+        "recovery_status_at_handoff": "H1_ACTIVITY_V2_COMPLETED_H1_NONE_M1_NONE_PENDING",
+        "automatic_sequence": [
+          "h1_none completion then m1_none formal train/score",
+          "h1_none pack then m1_none pack"
+        ],
+        "not_split_or_migrated": true
+      },
+      "h1_none_last_historical_score_progress": {
+        "observed_utc": "2026-09-10T01:31:31+00:00",
+        "checkpoints_scored": 19,
+        "checkpoints_total": 32,
+        "not_a_final_selection_or_performance": true
+      },
+      "frozen_artifacts_unchanged": [
+        "formal_manifest_556",
+        "old_pack_snapshot_15",
+        "recovery_input_snapshot_21",
+        "formal_controller",
+        "recovery_pack_controller"
+      ],
+      "official_readonly_observation_20260910T010957Z_is_historical_only": true
+    },
+    "m1_local_pack_controller": {
+      "record": "../results/final_ablation_official_v1/m1_pack_recovery_v1/root_pack_queue.json",
+      "inputs": "../results/final_ablation_official_v1/m1_pack_recovery_v1/root_pack_inputs_v1.json",
+      "status": "OFFICIAL_FINISHED",
+      "pack_jobs": 1,
+      "order": [
+        "m1_none"
+      ],
+      "input_snapshot_file_count": 7,
+      "input_snapshot_sha256": "34deb9b53c26cc09c6b0c69b2011eb854b8fbb4413d075065a143ac62c54af7f",
+      "linked_formal_inputs_sha256": "fd960824387c3b600f1132b233e85556eeb73f5b9023199b94c2d24b6eb2c3a6",
+      "job_status": "V2_LOCAL_PACKAGE_VERIFIED_NOT_SUBMITTED",
+      "external_actions": false,
+      "official_submission_execution": "NOT_PART_OF_THIS_CONTROLLER",
+      "formal_result_audit": "../results/final_ablation_official_v1/root_m1_full_activity_none_formal_result_audit_v1.json",
+      "formal_result_audit_sha256": "33ba82c6c34512459eb7b39abbcea4e853b61f7689897018d45c732fe5f36b21",
+      "note": "The prior controller metadata is historical. M1 local train/score and the three-arm audit completed before job 41231 failed at host import. Official 582224 is finished; cite OFFICIAL_582224.json. Earlier ROOT snapshots that called 582224 FAILED / no scored result are historical and superseded.",
+      "current_v2_destination": "../../tfpd_exploration/submissions/evalai_m1_rift_none_r100_v2",
+      "historical_failed_job": {
+        "job_id": 41231,
+        "failure": "ModuleNotFoundError: btransform_unified_v2"
+      },
+      "official_submission_id": 582224,
+      "official_status": "finished",
+      "official_receipt": "../../tfpd_exploration/submissions/evalai_m1_rift_none_r100_v1/artifacts/OFFICIAL_582224.json",
+      "official_phase": 4599,
+      "root_external_actions": false
+    }
+  }
+}

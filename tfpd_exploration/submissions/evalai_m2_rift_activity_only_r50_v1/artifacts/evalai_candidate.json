@@ -1,0 +1,38 @@
+{
+  "arm": "ACTIVITY_ONLY",
+  "budget_disclosure": "Formal 24-epoch M2 ACTIVITY_ONLY RIFT-R50 concat; frozen M33 activity encoder is rematerialized with zero side and direct T=0; public local EXT6 HO-label selection chooses EMA, never an official metric; IsHeldOutZeroShot=false.",
+  "created_utc": "2026-09-10T01:22:00+00:00",
+  "external": {
+    "pushed": true,
+    "registered": true,
+    "submitted": true,
+    "submission_id": 582217
+  },
+  "host_receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/host_verify.json",
+  "host_receipt_sha256": "0b0083c957a1ae26f5e0235f8e4d1aa9df40ee050fbcf16d1e96b5376b18932e",
+  "image_id": "sha256:9e0187c4eb02e777e18245a241ab2c28bd6f2eea684b3a1e17b5c5769fe5fcf4",
+  "image_tag": "m2-rift-activity-only-r50-e9:v1",
+  "method_description": "M2 RIFT R50 concat selected-EMA static ACTIVITY_ONLY/NONE control | formal m2_activity_only selected epoch 9; local build/host/container verified.",
+  "method_label": "M2 RIFT R50 concat selected-EMA static ACTIVITY_ONLY/NONE control",
+  "method_name": "M2 RIFT R50 ACTIVITY_ONLY",
+  "official_result": {
+    "Held In R2 Mean": 0.6463020945769177,
+    "Held In R2 Std.": 0.031828683138622894,
+    "Held Out R2 Mean": 0.09302905280313856,
+    "Held Out R2 Std.": 0.2890513294030161,
+    "Normalized Latency": 0.10743839747764272
+  },
+  "official_submission_id": 582217,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/m2_rift_r50_ablation.pkl",
+  "payload_sha256": "d9e4041c5f20ed63370e170ee529680db69216ccf64eb591aa42d208d6f6e3f3",
+  "profile": "m2_activity_only",
+  "register": false,
+  "schema": "root_final_ablation_fixed_control_evalai_candidate_v1",
+  "selection_epoch": 9,
+  "selection_mean": 0.18402467250439059,
+  "selection_metric": "ext6_equal_session_mean",
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/root_fixed_control_submit_state.json",
+  "status": "OFFICIAL_FINISHED",
+  "submit_manifest": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_activity_only_r50_v1/artifacts/fixed_control_manifest.json",
+  "task": "m2"
+}

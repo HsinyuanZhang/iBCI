@@ -44,14 +44,30 @@
 | **F0** | 无 carrier | T4 的总增量 |
 | **TS4** | session 内置换 | 增量是否依赖正确 channel↔carrier 对应（内容 vs 容量） |
 | **T4-concat**（融合消融，2026-09-09 增补） | 真值原样（与 T4 同字节） | 融合方式消融：concat 前端下主效应是否变化（不进验收门，只报读数） |
-| E0-zero | T4 + E0 置零 | identity 贡献分解（可选，M1 RIFT 的 25-condition 方法移植） |
+| E0-zero | T4 + E0 置零 | identity 贡献分解（可选，M1 RIFT 的 25-condition 方法移植；已被组件消融的 z0/floor 定式化，见下） |
 | support-resample | M5/M8/M10 各 n 次重采样 | carrier 支持稳定性（可选，同 M1 协议） |
 
-**vstate-688 系列（2026-09-09 用户指令增补，指令原文："立刻开始准备 vstate-688，注意消融——z 系列 = 完全不在新日期校准（bank 复用旧日期/source），f 系列 = 不使用任何标签校准（label-free）"）**：
+**组件消融（2026-09-09 用户澄清定版 + 同日嵌套阶梯终版裁定，本协议的主对比轴；澄清原文："我不是要对比离散标签和连续标签，而是 carrier + activity 对于跨 session 能力的消融实验，各自有多少效果"；终版裁定："算 carrier 已经拿到 activity 信息，不用白不用"）**——**嵌套阶梯**贡献分解（信息包含：算 carrier 必须先读校准神经数据，activity 已到手——"有标签无身份"非现实部署场景，**无 CARRIER_ONLY 阶级**），基于 t4（离散方向标签基线），结构化定义冻结在 `dandi688_bench_v1/plan.COMPONENT_ABLATION`，全部在 **exp1_narrow exam 面**（0713/0714/0715/0716 四个跨日期 session——"跨 session 能力"的面；辅报 ts4 内容对照）判读（`plan.component_ablation_report`）：
+
+```
+FULL（满配）          = t4            E0 = activity + carrier side 熔炼；direct T 在
+  ⊃ ACTIVITY_ONLY    = f_labelfree   E0 = 零 side 重熔（encoder 权重与活动内容保留）；T = 0
+      ⊃ NONE（地板） = floor         E0 = 0（零张量）；T = 0 —— raw spike + 权重
+附属：equiv_zero = 参数量对照（同参数量固定随机投影 seed42 不训练，作用于
+      pre_pool 活动均值，零 side，无身份无标签、非零；T 形状保留值置零）；
+      z0 = carrier-only 网格（E0 置零 + carrier 保留）降为附属探索；z_vstate_srcbank 降为附属
+```
+
+- **预注册分解（三项，exp1_narrow exam 面）**：**activity 独立贡献** = ACTIVITY_ONLY − NONE（f_labelfree − floor）；**carrier 标签增量贡献** = FULL − ACTIVITY_ONLY（t4 − f_labelfree）；**校准总价值** = FULL − NONE（t4 − floor）。算术律：前两项之和 = 总价值（嵌套阶梯）。附属读数（不进门）：equiv_zero 通路价值 = equiv_zero − floor、信息价值 = t4 − equiv_zero；z0 carrier-only 读数 = t4 − z0；f0 direct-carrier 边际 = t4 − f0。
+- **f_labelfree vs floor**（易混披露）：f_labelfree 保留 E0 通路（冻结 encoder 权重 + 活动内容，仅标签 side 置零）——"activity 校准（无标签）能带来多少跨 session 能力"；floor 把 E0 整个置零张量 + carrier 置零——"零校准信息"的绝对地板。二者差 = E0 的纯 activity 成分（不含标签）的贡献。
+- **z0 语义迁移**：2026-09-09 澄清把 z0 从旧"双零 Z_NONE"重定义为 carrier-only；旧语义归 floor；已存档 `train_exp1_narrow_z0`（旧定义训练）测的是今天的 floor；嵌套阶梯终版把 z0 与 z_vstate_srcbank 降为附属探索（不进预注册分解）。
+- **equiv_zero 实现契约**：同 model class 下严格断言可训练参数量 == t4；随机投影参数量 == 被替换的 post_pool 通路；投影权重 SHA 记入 receipt；无任何训练后身份注入。实现：`src/dandi688_bench_v1/equiv_zero.py` + `build_vstate_cache.py --variant equiv_zero`（E0 熔炼落在 cache 字节）。
+
+**vstate-688 系列（2026-09-09 用户指令增补；组件消融澄清后降级为**附属探索**，不再作为主对比轴。指令原文："立刻开始准备 vstate-688，注意消融——z 系列 = 完全不在新日期校准（bank 复用旧日期/source），f 系列 = 不使用任何标签校准（label-free）"）**：
 
 | 臂 | carrier | 回答 |
 |---|---|---|
-| **vstate**（主臂） | M2 vstate4 配方适配 688：M10 同集 trial 的 R700/H300 窗口内 100ms 块，searchsorted 半开计数/块时长；状态 W=[softplus(v_x/rms_x), softplus(−v_x/rms_x), softplus(v_y/rms_y), softplus(−v_y/rms_y)]（v=cursor_vel 块均值，rms 与列归一都只用协议 train sessions 拟合）；Poisson 标准化（Δ=0.1s）+ n0=10 块收缩；读出 [a,c,m,b=meanₖR−R_hold] | 有符号速度状态在支持集不变（只有标签从方向换速度）时能否 ≥ t4+0.03；E0 同变重算 post_pool(cat(pre_pool 均值, vstate carrier)) |
+| **vstate**（主臂） | M2 vstate4 配方适配 688：M10 同集 trial 的 R700/H300 窗口内 100ms 块，searchsorted 半开计数/块时长；状态 W=[softplus(v_x/rms_x), softplus(−v_x/rms_x), softplus(v_y/rms_y), softplus(−v_y/rms_y)]（v=cursor_vel 块均值，rms 拟合于各支持面自己的 R700 块总体、只用协议 train sessions；列归一 train-only）；Poisson 标准化（Δ=0.1s）+ n0=10 块收缩；读出 [a,c,m,b=meanₖR]（第 4 列按"最大对应"最终裁定与 M2 逐字同公式；δ_b=b−meanₖR_hold 降为 `vstate_b_hold` 消融变体，a/c/m 与主变体逐位相同，逐部件矩阵见 `CARRIER_M2_688_ALIGNMENT_MATRIX_20260909.md`） | 有符号速度状态在支持集不变（只有标签从方向换速度）时能否 ≥ t4+0.03；E0 同变重算 post_pool(cat(pre_pool 均值, vstate carrier)) |
 | **z_vstate_srcbank**（z 系列消融） | 模型/训练同 vstate；exam session 的 bank（E0+carrier）在加载后被冻结的最近日期 train session bank 替换（exp1 全部 4 个 exam→2015-07-10；exp2 全部 6 个 val→2015-07-16；映射表与泄漏断言冻结在 plan.Z_SRCBANK_MAPS） | "完全不在新日期校准、只带旧 bank"的部署退化 = z − vstate |
 | **f_labelfree**（f 系列消融） | carrier 全零；E0 = post_pool(cat(pre_pool 活动均值, 零 side))——ACTIVITY-ONLY identity（此前诊断缺失的干净消融；legacy f0 保留的是标签熔炼的冻结 E0，测不出该量） | "纯活动校准、无任何标签信息"的地板；vstate − f_labelfree = 标签信息总增量 |
 
@@ -65,7 +81,14 @@
 1. T4 − F0 ≥ **+0.03** 且 T4 − TS4 ≥ +0.03（增量成立的双门——比照 pseudo-MUA 先例里两组比较全正的组级判据）；
 2. RIFT+T4 对封存参照 **SPINT+T4 0.5750**（dev-6 同域）非劣（≥ −0.01）为"架构可迁移"判据；超过则为新冠军；
 3. 过门后 formal test 一次性解封：报 T4/F0/TS4 三臂终局。
-4. vstate-688 系列门（2026-09-09 增补，exam 面同口径）：**vstate − t4 ≥ +0.03** 为增益门；z_vstate_srcbank − vstate（校准缺失代价）与 f_labelfree − vstate（标签信息总增量的负值）为消融读数，不设 pass/fail（`plan.vstate_gate_report`）。
+4. vstate-688 系列门（2026-09-09 增补，exam 面同口径；附属探索）：**vstate − t4 ≥ +0.03** 为增益门；z_vstate_srcbank − vstate（校准缺失代价）与 f_labelfree − vstate（标签信息总增量的负值）为消融读数，不设 pass/fail（`plan.vstate_gate_report`）。
+5. 组件消融读数（2026-09-09 澄清定版 + 嵌套阶梯终版，主对比轴）：阶梯 FULL=t4 ⊃ ACTIVITY_ONLY=f_labelfree ⊃ NONE=floor 在 exp1_narrow exam 面经 `plan.component_ablation_report` 分解为三项预注册读数（activity 独立贡献 / carrier 标签增量贡献 / 校准总价值；前两项之和 = 总价值），不设 pass/fail；equiv_zero 参数量对照与 z0 carrier-only 为附属读数；ts4 同面内容对照为辅报。
+
+> **ADDENDUM-CONDITION-AXIS（2026-09-10 用户指令：方案 B/C1/D1/D2 都要）**：新增**消融条件轴**——同一嵌套阶梯在不同数据/几何条件下的重测，全部只报读数、不进预注册门；对比报告 = `plan.ablation_condition_comparison`（基线冻结 exp1_narrow 读数 t4 0.8729 / f_labelfree 0.8257 / floor 0.3247）。判读问题：**哪个条件下 carrier 边际价值被放大**。
+> - **B `exp1_poverty`**：train 只用最早 3 session（0629/0630/0701，~65k 窗），exam 面不变；纯协议过滤（`PROTOCOLS["exp1_poverty"]`），跑 t4/f_labelfree/floor。
+> - **C1 `t4_dir16`**：方向设计 8→16 bin（22.5°），其余配方不动；`build_carrier_cache.py --variant t4_dir16` + `--arm t4 --prepared-cache`。**退化披露**：全数据集 target_dir 精确正则（68 session / 20089 trial 零偏差），16-bin 全落偶数 bin；实测 a/c/m 列与 u1_m10 逐位相同（半缩放被列归一化抵消），仅第 4 列 b 移动（≤0.083 归一化单位）；干净对比器 = u1_m10（0.8826，同族逐位同 a/c/m），vs 冻结 t4 的差异属估计器家族差。
+> - **D1 `shortwin`**：`--model-override shortwin`，W 50→10（模型只看每窗最后 10 bin，查询目标逐位不变）；t4 + f_labelfree。
+> - **D2 `shallow`**：`--model-override shallow`，temporal 4→1 层（同 50-bin 感受野，bench 包内子类 RiftShallowDecoder，不改 rift_v1 主包）；t4 + f_labelfree。override 进合同/receipt，train/score 同参 fail-closed。
 
 ## 4. 与外部队友线的边界
 

@@ -1,0 +1,8 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!m1_rift_falcon_decoder.py
+!artifacts/m1_rift_mean_rate4_r100.pkl
+!artifacts/pkg
+!artifacts/pkg/**

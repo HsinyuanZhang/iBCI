@@ -1,0 +1,10 @@
+{
+  "failed_predecessor": 582218,
+  "image_id": "sha256:475bc3e036fc9634e3d4caa6a4212d1e2378b9a49b142c1ecd3e81b4987e04a6",
+  "payload_sha256": "6becdb88798a088d3fa4136eac1c5ce53e8660977e54c3f70d3718f377ac09d6",
+  "profile": "h1_activity_only",
+  "schema": "root_final_ablation_evalai_retry_receipt_v1",
+  "status": "submitted",
+  "submission_id": 582220,
+  "submitted_at": "2026-09-10T02:05:37.989177Z"
+}

@@ -1,0 +1,58 @@
+{
+  "arm": "m2_rift_r50_projadd_activity_only_e9_cached",
+  "budget_disclosure": "Official 13-tag M2 banks with native E0 and zero carrier (carrier T=0, activity_only). RIFT R50 proj_add P16 seed42 EMA e9 after 24-epoch source-seven train, per-layer learned_slope on the unscaled default half-life ladder. ext6 equal-session 0.359483 is development selection, not official HO. Cached CPU learnable runtime, no TTA, no ORT.",
+  "container_smoke": {
+    "kind": "rift_cached_projadd_activity_only",
+    "pred": [
+      [
+        -0.00025748609914444387,
+        -0.0007520318031311035
+      ]
+    ],
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        2
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7": {
+      "last_shape": [
+        7,
+        2
+      ],
+      "max_abs": 2.421438694000244e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run2_20201019",
+        "Run1_20201020",
+        "Run2_20201020",
+        "Run1_20201027",
+        "Run2_20201027",
+        "Run1_20201028"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_projadd_activity_only_e9_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:6468a2adda595ed0f5a4b5ed9864e6dbb0fbca0a15d04f7dc84aa26aefe555ce",
+  "image_size": 9476052564,
+  "image_tag": "m2-rift-r50-projadd-activity-only-e9:v1",
+  "method_description": "M2 RIFT (Recency-biased Incremental Finite-context Transformer) R50, D4/width256, proj_add P16 identity with carrier T=0 (activity_only), per-layer learned recency slopes on the default (H1-scale) half-life ladder, cached CPU KV. Official 13-tag banks with zero carrier. ext6 pick e9 mean 0.359483. Not BT-EORT, not ORT, not SPINT.",
+  "method_label": "M2 RIFT R50 proj_add P16 activity_only (carrier T=0) learned_slope default-ladder e9 EMA cached CPU; architecture=RIFT backend=cached identity=activity_only; ext6 pick 0.359483; not BT-EORT; not ORT; not SPINT",
+  "method_name": "M2 RIFT R50 proj_add activity_only e9",
+  "payload_sha256": "1070d75678cab8fb80e2b20b793ea337bfc2fbd8cf668f168ed6680d214f1108",
+  "register": false,
+  "selection_mean": 0.3594833960225496,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_projadd_activity_only_e9_v1/artifacts/evalai_push_state.json",
+  "window": 50
+}

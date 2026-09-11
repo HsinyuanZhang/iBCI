@@ -1,0 +1,69 @@
+{
+  "status": "HOST_PACK_VERIFY_PASS",
+  "arm": "NONE",
+  "payload_sha256": "35d720ffc7b7d604be2d98573b09c6aea4661ca9765499c4e1185beb64a95671",
+  "B": {
+    "B1": {
+      "full_endpoints": [
+        0,
+        1,
+        79,
+        299,
+        319,
+        359
+      ],
+      "max_full_abs": 4.4674379751086235e-09,
+      "inactive_resume_checked": false,
+      "reset_fresh_checked": true,
+      "roster_stems": [
+        "sub-HumanPitt-held-in-minival_ses-19250101T111740"
+      ]
+    },
+    "B8": {
+      "full_endpoints": [
+        0,
+        1,
+        79,
+        299,
+        319,
+        359
+      ],
+      "max_full_abs": 3.725290298461914e-09,
+      "inactive_resume_checked": true,
+      "reset_fresh_checked": true,
+      "roster_stems": [
+        "sub-HumanPitt-held-in-minival_ses-19250101T111740",
+        "sub-HumanPitt-held-in-minival_ses-19250101T112404",
+        "sub-HumanPitt-held-in-minival_ses-19250108T110520",
+        "sub-HumanPitt-held-in-minival_ses-19250108T111022",
+        "sub-HumanPitt-held-in-minival_ses-19250108T111455",
+        "sub-HumanPitt-held-in-minival_ses-19250113T120811",
+        "sub-HumanPitt-held-in-minival_ses-19250113T121303",
+        "sub-HumanPitt-held-in-minival_ses-19250115T110633"
+      ]
+    },
+    "MIXED_2HI_2HO": {
+      "full_endpoints": [
+        0,
+        1,
+        79,
+        299,
+        319,
+        359
+      ],
+      "max_full_abs": 2.9831426218152046e-09,
+      "inactive_resume_checked": true,
+      "reset_fresh_checked": true,
+      "roster_stems": [
+        "sub-HumanPitt-held-in-minival_ses-19250101T111740",
+        "sub-HumanPitt-held-in-minival_ses-19250101T112404",
+        "sub-HumanPitt-held-out-calib_ses-19250126T113454",
+        "sub-HumanPitt-held-out-calib_ses-19250126T114029"
+      ]
+    }
+  },
+  "true_zero_valid_checked": true,
+  "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_none_r300_v2/smoke_window.npz",
+  "fixture": "unaltered_first_40_raw_bins_with_per_bin_expected",
+  "official_test_used": false
+}

@@ -1,0 +1,8 @@
+artifacts/evalai_*
+artifacts/logs
+artifacts/remote_eval_artifacts
+artifacts/*.log
+artifacts/smoke_window.npz
+.git
+__pycache__
+*.pyc

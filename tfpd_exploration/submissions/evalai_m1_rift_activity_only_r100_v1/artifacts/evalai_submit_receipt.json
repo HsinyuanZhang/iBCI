@@ -1,0 +1,21 @@
+{
+  "external_mutations": true,
+  "official_result": null,
+  "official_submission_id": 582219,
+  "payload_sha256": "650136399bd9f8582c88d7f721adcff6a70b2999f6c3c815e59a778fa8b451fc",
+  "profile": "m1_activity_only",
+  "push_executed": true,
+  "register_executed": true,
+  "schema": "root_final_ablation_evalai_submit_receipt_v1",
+  "server_get": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "id": 582219,
+    "method_name": "M1 RIFT R100 ACTIVITY_ONLY e3 cached final ablation",
+    "started_at": null,
+    "status": "submitted",
+    "submitted_at": "2026-09-10T01:48:52.399855Z"
+  },
+  "status": "REGISTERED_NOT_FINISHED",
+  "uploaded_manifest_digest": "sha256:beae4356d303957cd9e33788c6702161fed497d9d579e44822c3cdfd4e2171ec"
+}

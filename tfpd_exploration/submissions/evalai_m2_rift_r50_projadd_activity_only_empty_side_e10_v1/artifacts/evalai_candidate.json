@@ -1,0 +1,58 @@
+{
+  "arm": "m2_rift_r50_projadd_activity_only_empty_side_e10_cached",
+  "budget_disclosure": "Official 13-tag M2 ACTIVITY_ONLY banks: EMPTY-head E0 from M33 calib_activity (no MOVE-T4 / no contrast side) and literal-zero T. RIFT R50 proj_add P16 seed42 EMA e10 after 24-epoch source-seven train, identity=activity_only_empty_side, per-layer learned_slope on the unscaled default half-life ladder. ext6 equal-session 0.119355 is development selection, not official HO. Cached CPU learnable runtime, no TTA, no ORT. Not 582217 frozen ACT, not leaked activity_only e9.",
+  "container_smoke": {
+    "kind": "rift_cached_projadd_activity_only_empty_side",
+    "pred": [
+      [
+        -9.924173355102539e-06,
+        -0.00047315360279753804
+      ]
+    ],
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        2
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7": {
+      "last_shape": [
+        7,
+        2
+      ],
+      "max_abs": 2.421438694000244e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run2_20201019",
+        "Run1_20201020",
+        "Run2_20201020",
+        "Run1_20201027",
+        "Run2_20201027",
+        "Run1_20201028"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_projadd_activity_only_empty_side_e10_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:e716304074208b9b419f5da8802270870ff82c60310c3b6c99fd6c56a4dd97d2",
+  "image_size": 9476057052,
+  "image_tag": "m2-rift-r50-projadd-activity-only-empty-side-e10:v1",
+  "method_description": "M2 RIFT (Recency-biased Incremental Finite-context Transformer) R50, D4/width256, proj_add P16 identity=activity_only_empty_side (EMPTY-head E0, literal-zero T), per-layer learned recency slopes on the default (H1-scale) half-life ladder, cached CPU KV. Official 13-tag empty-side ACT banks. ext6 pick e10 mean 0.119355. Not BT-EORT, not ORT, not SPINT, not 582217, not leaked activity_only e9.",
+  "method_label": "M2 RIFT R50 proj_add P16 activity_only_empty_side learned_slope default-ladder e10 EMA cached CPU; architecture=RIFT backend=cached identity=activity_only_empty_side; ext6 pick 0.119355; not BT-EORT; not ORT; not SPINT; not 582217; not leaked activity_only e9",
+  "method_name": "M2 RIFT R50 proj_add empty_side ACT e10",
+  "payload_sha256": "bbae47b80867170094d52999760b738e3f6a53b2e862bff2a1b639902e7cc0c6",
+  "register": false,
+  "selection_mean": 0.11935460497961686,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_projadd_activity_only_empty_side_e10_v1/artifacts/evalai_push_state.json",
+  "window": 50
+}

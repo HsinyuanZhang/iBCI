@@ -1,0 +1,21 @@
+{
+  "external_mutations": true,
+  "official_result": null,
+  "official_submission_id": 582218,
+  "payload_sha256": "6becdb88798a088d3fa4136eac1c5ce53e8660977e54c3f70d3718f377ac09d6",
+  "profile": "h1_activity_only",
+  "push_executed": true,
+  "register_executed": true,
+  "schema": "root_final_ablation_evalai_submit_receipt_v1",
+  "server_get": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "id": 582218,
+    "method_name": "H1 RIFT R300 ACTIVITY_ONLY",
+    "started_at": null,
+    "status": "submitted",
+    "submitted_at": "2026-09-10T01:30:19.891655Z"
+  },
+  "status": "REGISTERED_NOT_FINISHED",
+  "uploaded_manifest_digest": "sha256:475bc3e036fc9634e3d4caa6a4212d1e2378b9a49b142c1ecd3e81b4987e04a6"
+}

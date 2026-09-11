@@ -1,0 +1,21 @@
+{
+  "arm": "m1_rift_r100_projadd_learnable_default_e3_cached",
+  "image_id": "sha256:d73b332f203a1523997b0eeb56f2677ebe8cf7090e0bab7f1ff0fea4812ed625",
+  "image_size": 9603479762,
+  "image_tag": "m1-rift-r100-projadd-learnable-default-e3:v1",
+  "method_description": "M1 RIFT (Recency-biased Incremental Finite-context Transformer) R100, D4/width256, proj_add P16 identity, per-layer learned recency slopes on the default half-life ladder, cached CPU KV. Same official 7-tag banks. HO-M10 pick e3 mean 0.707514. Not BT-EORT, not ORT, not SPINT.",
+  "method_label": "M1 RIFT R100 proj_add P16 learned_slope default-ladder e3 EMA cached CPU; architecture=RIFT backend=cached identity=proj_add; HO-M10 pick 0.707514; not BT-EORT; not ORT; not SPINT",
+  "method_name": "M1 RIFT R100 proj_add learned default e3",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_learnable_default_e3_v1/artifacts/m1_rift_r100_projadd_learnable_default_e3.pkl",
+  "payload_sha256": "2e9406644edfa021321842cc9f4cc6991ec2ba2326c50eb49a5b1b2cb21f61de",
+  "receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_learnable_default_e3_v1/artifacts/evalai_submit_receipt.json",
+  "schema_version": "m1_rift_evalai_candidate_v1",
+  "selection": {
+    "epoch": 3,
+    "equal_session_mean": 0.7075138586588596,
+    "n_windows": 3881,
+    "official_test_used": false,
+    "surface": "visible HO3 M10"
+  },
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_learnable_default_e3_v1/artifacts/evalai_push_state.json"
+}

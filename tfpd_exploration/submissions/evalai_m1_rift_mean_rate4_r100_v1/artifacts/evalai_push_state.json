@@ -1,0 +1,68 @@
+{
+  "arm": "m1_rift_mean_rate4_r100_cached",
+  "digest_binding": "local_manifest_digest",
+  "image_id": "sha256:39a33f0eccf22aad5347a9421efa5ea141da905051a0702415b345903bcf0437",
+  "image_tag": "m1-rift-mean-rate4-r100-e4:v1",
+  "payload_sha256": "99818aa1e75f7de512b32309dca5964bdff84aa215ac286d879cd0617396b2c1",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "schema_version": "m1_rift_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67178,
+    "execution_time": "None",
+    "id": 582228,
+    "ignore_submission": false,
+    "input_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582228/8ae15671-ce5d-43e1-99c0-5edb5a5a4c.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "M1 RIFT R100/D4 with sealed mean-rate4 carrier and B3S EMA E0. HO3 channel-centered variance-weighted R2 pick e4: 0.587628.",
+    "method_name": "M1 RIFT mean-rate4 R100 selected cached e4",
+    "participant_team": 41975,
+    "participant_team_name": "HKU-ECE",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-10T05:04:52.042156Z",
+    "when_made_public": null
+  },
+  "submission_id": 582228,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:464b1aa4-7139-4dee-b216-bdb01724b2bf",
+  "uploaded_config_digest": "sha256:66588f67317c2cbd409c06032b26b1d2b5cc2741a819a0dd1bc5903a324bc8fa",
+  "uploaded_manifest_digest": "sha256:39a33f0eccf22aad5347a9421efa5ea141da905051a0702415b345903bcf0437",
+  "uuid_tag": "464b1aa4-7139-4dee-b216-bdb01724b2bf"
+}
