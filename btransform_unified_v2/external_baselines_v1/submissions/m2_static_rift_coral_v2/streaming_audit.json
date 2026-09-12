@@ -1,0 +1,69 @@
+{
+  "elapsed_seconds": 24.485974096984137,
+  "max_abs_error": 7.264316082000732e-08,
+  "method": "static_rift_coral",
+  "payload_sha256": "8f4f83fe30954b648c754b3872eb54514665518c6b7db7216480395d9c1e6d1c",
+  "schema": "fair_v2_static_streaming_audit_v1",
+  "sessions": {
+    "ses-2020-10-30-Run1": {
+      "max_abs_error": 5.960464477539063e-08,
+      "pass": true,
+      "raw_bins_streamed": 2727,
+      "raw_predictions_appended": 2727,
+      "scored_rows": 2727,
+      "tag": "Run1_20201030",
+      "tolerance": 2e-05
+    },
+    "ses-2020-10-30-Run2": {
+      "max_abs_error": 7.264316082000732e-08,
+      "pass": true,
+      "raw_bins_streamed": 2550,
+      "raw_predictions_appended": 2550,
+      "scored_rows": 2550,
+      "tag": "Run2_20201030",
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-18-Run1": {
+      "max_abs_error": 7.171183824539185e-08,
+      "pass": true,
+      "raw_bins_streamed": 2517,
+      "raw_predictions_appended": 2517,
+      "scored_rows": 2517,
+      "tag": "Run1_20201118",
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-19-Run1": {
+      "max_abs_error": 5.960464477539063e-08,
+      "pass": true,
+      "raw_bins_streamed": 3045,
+      "raw_predictions_appended": 3045,
+      "scored_rows": 3045,
+      "tag": "Run1_20201119",
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-24-Run1": {
+      "max_abs_error": 7.078051567077637e-08,
+      "pass": true,
+      "raw_bins_streamed": 2214,
+      "raw_predictions_appended": 2214,
+      "scored_rows": 2214,
+      "tag": "Run1_20201124",
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-24-Run2": {
+      "max_abs_error": 7.264316082000732e-08,
+      "pass": true,
+      "raw_bins_streamed": 2350,
+      "raw_predictions_appended": 2350,
+      "scored_rows": 2350,
+      "tag": "Run2_20201124",
+      "tolerance": 2e-05
+    }
+  },
+  "task": "m2",
+  "tolerance": 2e-05,
+  "tolerance_note": "cached CPU streaming vs sealed offline windows; not bit-exact",
+  "total_raw_bins_streamed": 15403,
+  "total_raw_predictions_appended": 15403,
+  "total_scored_rows": 15403
+}

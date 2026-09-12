@@ -1,0 +1,52 @@
+{
+  "budget_disclosure": "Static frontend settings were fixed in advance for CORAL (diagonal shrinkage 0.1, ridge 0.001), not source-selected. Existing official RIFT candidates used public calibration query labels for epoch pick; this package uses a sealed fixed-final EMA checkpoint and does not replace those official candidates. No remote push or EvalAI submission has been performed.",
+  "challenge_id": 2319,
+  "checks": {
+    "all_sessions_and_partial_batches": true,
+    "container_full_heldout_streaming_replay": true,
+    "host_full_heldout_streaming_replay": true,
+    "image_embedded_files_match_context": true,
+    "official_evaluator_constructor": true,
+    "payload_export_replay": true
+  },
+  "evalai_registration_performed": false,
+  "evalai_submission_performed": false,
+  "evalai_team": "HKU-ECE",
+  "evalai_team_id": 41975,
+  "image_id": "sha256:02945998f9ea37fc2b80374adab231820e48dbeab98b73ce59af22c208ed1de3",
+  "image_size": 9752817141,
+  "image_tag": "fair-v2-h1-static_rift_coral:cpu",
+  "local_public_calibration_scores": {
+    "legacy": 0.277351,
+    "standard": 0.276458
+  },
+  "manifest_sha256": "c63cdf6ee57f1ca70218fce314441993c45f2cec01ad04c9837f11a274f08ebb",
+  "method": "static_rift_coral",
+  "method_description": "Same-capacity static-RIFT control: same frozen EMA checkpoint as static+diag-z; only the pre-local_conv neural calibration changes. No WF smoothing. Static CORAL was fixed in advance (diagonal covariance shrinkage 0.1, ridge 0.001), not source-selected like the linear CORAL arm. Local standard R2=0.276458 (not official). H1 physical cross-date channel correspondence is unverified; positional unit rows are assumed. New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "method_name": "Fair v2 H1 static-RIFT + CORAL",
+  "payload_sha256": "1ac260fe423eb0cf00758fe846b2109885ccee19adab7a36676e14c404048b43",
+  "phase_id": 4599,
+  "phase_slug": "few-shot-test-2319",
+  "remote_push_performed": false,
+  "schema": "fair_v2_evalai_candidate_v1",
+  "selected_hyperparameters": {
+    "checkpoint_sha256": "b79adeda51955c14bb60e4643835a5d8d6862cdb2480134fd9fd42a04a765b51",
+    "coral": {
+      "kind": "fixed_in_advance_diagonal",
+      "ridge": 0.001,
+      "shrinkage": 0.1
+    },
+    "frontend": "coral"
+  },
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "state_path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/external_baselines_v1/submissions/h1_static_rift_coral_v2/artifacts/evalai_push_state.json",
+  "status": "PACKED_HOST_AND_CONTAINER_VERIFIED",
+  "submission_attributes": {
+    "IsHeldOutZeroShot": false,
+    "IsPretrained": false,
+    "IsTestTimeAdaptive": false
+  },
+  "submission_command": "CUDA_VISIBLE_DEVICES='' /usr/bin/python3 /home/xinyuan/Work_host/SPINT/btransform_unified_v2/external_baselines_v1/fair_v2/pack/submit.py --manifest /home/xinyuan/Work_host/SPINT/btransform_unified_v2/external_baselines_v1/submissions/h1_static_rift_coral_v2/evalai_candidate.json --execute --confirm-image-id sha256:02945998f9ea37fc2b80374adab231820e48dbeab98b73ce59af22c208ed1de3 --confirm-payload-sha256 1ac260fe423eb0cf00758fe846b2109885ccee19adab7a36676e14c404048b43",
+  "submission_eligible": true,
+  "task": "h1"
+}

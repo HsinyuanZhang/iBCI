@@ -1,0 +1,111 @@
+{
+  "budget_disclosure": "Linear arm used source-only selection. Local scores are public-calibration diagnostics, not official held-out results. No remote push or EvalAI submission has been performed for this package.",
+  "challenge_id": 2319,
+  "checks": {
+    "all_sessions_and_partial_batches": true,
+    "container_full_heldout_streaming_replay": true,
+    "host_full_heldout_streaming_replay": true,
+    "image_embedded_files_match_context": true,
+    "official_evaluator_constructor": true,
+    "payload_export_replay": true
+  },
+  "evalai_registration_performed": false,
+  "evalai_submission_performed": false,
+  "evalai_team": "HKU-ECE",
+  "evalai_team_id": 41975,
+  "image_id": "sha256:1713dfc84f94ba04d237c040324a0b72ebd03eb0cabdadb44e5db30ee3ac0f72",
+  "image_size": 9457701300,
+  "image_tag": "fair-v2-m2-aligned_fa_stable_wf:cpu",
+  "local_public_calibration_scores": {
+    "legacy": 0.081057,
+    "standard": 0.081052
+  },
+  "manifest_sha256": "8b7841b667e5b1940ef739bdf7ee0fec853cfb2a1e8d684abc34dd0fea23f10e",
+  "method": "aligned_fa_stable_wf",
+  "method_description": "Fair-v2 AlignedFA STABLE-SUBSET POSTERIOR variant + WF (not the author-form all-electrode posterior). Shared WF: 240 ms causal exponential smooth (FALCON 12-tap, tau=240ms, extent=1) on each full unpadded raw 20-ms recording from zero state, no trial reset; per-session z-score from that session's native calibration bins after the same filter; then aligner; 10-bin causal history; unpenalized-intercept ridge readout. No interpolated support. Source-selected K=40, stable fraction=1.0. Fits passed convergence checks. Solver settings and normalized input differ from the original raw-count MATLAB experiment. Local standard R2=0.081052 (not official). New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "method_name": "Fair v2 M2 AlignedFA stable-posterior + WF",
+  "payload_sha256": "2f5116442de56b169754549cc3af8356d9cad6e212d767c993d5aeece4e38341",
+  "phase_id": 4599,
+  "phase_slug": "few-shot-test-2319",
+  "remote_push_performed": false,
+  "schema": "fair_v2_evalai_candidate_v1",
+  "selected_hyperparameters": {
+    "alpha": 100.0,
+    "configuration": {
+      "history_bins": 10,
+      "latent_dim": 40,
+      "posterior": "stable",
+      "stable_fraction": 1.0
+    },
+    "eligible": true,
+    "source_validation_per_session": {
+      "ses-2020-10-19-Run1": {
+        "legacy_flattened_r2": 0.24449818979446292,
+        "legacy_sst": 0.7312778351169034,
+        "n_windows": 3551,
+        "sse": 0.5524817281940068,
+        "standard_sst": 0.7312764021882141,
+        "standard_variance_weighted_r2": 0.24449670939633233
+      },
+      "ses-2020-10-19-Run2": {
+        "legacy_flattened_r2": 0.2718724633701727,
+        "legacy_sst": 0.7814036225061571,
+        "n_windows": 3598,
+        "sse": 0.5689614947690317,
+        "standard_sst": 0.7814025521702848,
+        "standard_variance_weighted_r2": 0.27187146600841344
+      },
+      "ses-2020-10-20-Run1": {
+        "legacy_flattened_r2": 0.19852317113857965,
+        "legacy_sst": 0.6910475255542282,
+        "n_windows": 2671,
+        "sse": 0.5538585793737342,
+        "standard_sst": 0.6910333772396399,
+        "standard_variance_weighted_r2": 0.19850676158922317
+      },
+      "ses-2020-10-20-Run2": {
+        "legacy_flattened_r2": 0.16563366202773921,
+        "legacy_sst": 0.5469798352520092,
+        "n_windows": 2605,
+        "sse": 0.45638156208388947,
+        "standard_sst": 0.5469465936729976,
+        "standard_variance_weighted_r2": 0.16558295204093668
+      },
+      "ses-2020-10-27-Run1": {
+        "legacy_flattened_r2": 0.2360995741216242,
+        "legacy_sst": 0.40927170872923535,
+        "n_windows": 2025,
+        "sse": 0.31264283259823344,
+        "standard_sst": 0.4092434796437451,
+        "standard_variance_weighted_r2": 0.23604688125905793
+      },
+      "ses-2020-10-27-Run2": {
+        "legacy_flattened_r2": 0.22002211063620092,
+        "legacy_sst": 0.4016446141862413,
+        "n_windows": 2519,
+        "sse": 0.3132739184473219,
+        "standard_sst": 0.4016001993323431,
+        "standard_variance_weighted_r2": 0.21993584921487241
+      },
+      "ses-2020-10-28-Run1": {
+        "legacy_flattened_r2": 0.19275854537890058,
+        "legacy_sst": 0.6958953482320283,
+        "n_windows": 3128,
+        "sse": 0.561755573170879,
+        "standard_sst": 0.6958890725280462,
+        "standard_variance_weighted_r2": 0.19275126547092244
+      }
+    },
+    "source_validation_standard_mean": 0.21845598356853693
+  },
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "status": "PACKED_HOST_AND_CONTAINER_VERIFIED",
+  "submission_attributes": {
+    "IsHeldOutZeroShot": false,
+    "IsPretrained": false,
+    "IsTestTimeAdaptive": false
+  },
+  "submission_command": "CUDA_VISIBLE_DEVICES='' /usr/bin/python3 /home/xinyuan/Work_host/SPINT/btransform_unified_v2/external_baselines_v1/fair_v2/pack/submit.py --manifest /home/xinyuan/Work_host/SPINT/btransform_unified_v2/external_baselines_v1/submissions/m2_aligned_fa_stable_wf_v2/evalai_candidate.json --execute --confirm-image-id sha256:1713dfc84f94ba04d237c040324a0b72ebd03eb0cabdadb44e5db30ee3ac0f72 --confirm-payload-sha256 2f5116442de56b169754549cc3af8356d9cad6e212d767c993d5aeece4e38341",
+  "submission_eligible": true,
+  "task": "m2"
+}

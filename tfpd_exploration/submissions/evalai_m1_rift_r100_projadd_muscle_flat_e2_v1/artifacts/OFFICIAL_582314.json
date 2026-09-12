@@ -1,0 +1,17 @@
+{
+  "local_selection": {
+    "epoch": 2,
+    "equal_session_mean_channel_variance_weighted_r2": 0.6170499324798584,
+    "legacy_equal_session_mean_flattened_r2": 0.705003660530611,
+    "metric": "channel_variance_weighted_r2",
+    "seed": 42
+  },
+  "method_name": "M1 RIFT muscle proj_add flat s42 e2",
+  "replaced_by": 582318,
+  "scores": null,
+  "status": "cancelled",
+  "submission_id": 582314,
+  "submitted_at": "2026-09-11T09:22:20.526301Z",
+  "team": "HKU-ECE",
+  "team_id": 41975
+}

@@ -1,0 +1,74 @@
+{
+  "arm": "h1_rift_r300_flat_e15_cached",
+  "budget_disclosure": "Falcon H1 standard evaluation protocol: 27 official dataset tags, 3 trial calibration budget per test session.",
+  "container_smoke": {
+    "output": "CONTAINER_SMOKE_PASS diff=4.469256964512169e-09",
+    "status": "PASS"
+  },
+  "evalai_opened": true,
+  "host_verification": {
+    "B1": {
+      "last_shape": [
+        1,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1"
+      ]
+    },
+    "B8": {
+      "last_shape": [
+        8,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1",
+        "S0_set_2",
+        "S1_set_1",
+        "S1_set_2",
+        "S1_set_3",
+        "S2_set_1",
+        "S2_set_2",
+        "S3_set_1"
+      ]
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_flat_e15_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:60e120c8d2fe1996b6f3a6981611d9b6e0db2ead293ac8267330133e6d8d18d6",
+  "image_tag": "h1-rift-r300-flat-e15:v1",
+  "is_public": true,
+  "method_description": "H1 RIFT R300 with per-layer fixed zero slopes (flat control), epoch 15 EMA. HO-M3 grouped-seven pick e15 r2_mean 0.4658 worst 0.2241. Cached PyTorch FP32 CPU backend. Not BT-EORT, not ORT, not SPINT, not 582196.",
+  "method_label": "H1 RIFT R300 flat zero-slope e15 EMA cached CPU; architecture=RIFT backend=cached identity=signed_state14 recency=flat_fixed; not BT-EORT; not ORT; not SPINT; not 582196",
+  "method_name": "H1 RIFT R300 flat e15 cached",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_flat_e15_v1/artifacts/h1_rift_r300_flat_e15.pkl",
+  "payload_sha256": "f502075d1808e1be169313c533d8eb6da5e1f65428d602bc2023b1fcc8f5dc8b",
+  "register": false,
+  "selection": {
+    "epoch": 15,
+    "mean": 0.4658142024695514,
+    "official_test_used": false,
+    "surface": "C2 HO-M3 development",
+    "worst": 0.22411711984409033,
+    "worst_session": "S7"
+  },
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_flat_e15_v1/artifacts/evalai_push_state.json",
+  "task": "h1"
+}

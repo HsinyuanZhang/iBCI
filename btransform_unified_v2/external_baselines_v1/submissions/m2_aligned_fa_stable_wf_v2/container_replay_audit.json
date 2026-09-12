@@ -1,0 +1,88 @@
+{
+  "container_numpy_version": "1.26.4",
+  "elapsed_seconds": 0.17992151202633977,
+  "image": {
+    "image": "fair-v2-m2-aligned_fa_stable_wf:cpu",
+    "image_id": "sha256:1713dfc84f94ba04d237c040324a0b72ebd03eb0cabdadb44e5db30ee3ac0f72",
+    "labels": {
+      "ai.eval.checkpoint.sha256": "",
+      "ai.eval.cpu_only": "true",
+      "ai.eval.decoder.sha256": "2829d4287d99bf054c845051e10a3511cb343f313b94a268ecb01c1a13cfe43c",
+      "ai.eval.method": "fair-v2-aligned_fa_stable_wf",
+      "ai.eval.model.sha256": "2f5116442de56b169754549cc3af8356d9cad6e212d767c993d5aeece4e38341",
+      "ai.eval.payload.sha256": "2f5116442de56b169754549cc3af8356d9cad6e212d767c993d5aeece4e38341",
+      "ai.eval.task": "m2",
+      "org.opencontainers.image.description": "Fair v2 CPU NumPy aligned_fa_stable_wf Wiener-filter linear decoder",
+      "org.opencontainers.image.revision": "fair-v2-linear",
+      "org.opencontainers.image.title": "fair-v2-m2-aligned_fa_stable_wf:cpu",
+      "org.opencontainers.image.version": "24.04"
+    }
+  },
+  "manifest_sha256": "8b7841b667e5b1940ef739bdf7ee0fec853cfb2a1e8d684abc34dd0fea23f10e",
+  "max_abs_error": 0.0,
+  "method": "aligned_fa_stable_wf",
+  "payload_sha256": "2f5116442de56b169754549cc3af8356d9cad6e212d767c993d5aeece4e38341",
+  "runtime_decoder_sha256": "2829d4287d99bf054c845051e10a3511cb343f313b94a268ecb01c1a13cfe43c",
+  "schema": "fair_v2_linear_container_streaming_audit_v1",
+  "sessions": {
+    "ses-2020-10-30-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2727,
+      "raw_predictions_appended": 2727,
+      "scored_rows": 2727,
+      "tag": "Run1_20201030",
+      "tolerance": 0.0
+    },
+    "ses-2020-10-30-Run2": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2550,
+      "raw_predictions_appended": 2550,
+      "scored_rows": 2550,
+      "tag": "Run2_20201030",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-18-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2517,
+      "raw_predictions_appended": 2517,
+      "scored_rows": 2517,
+      "tag": "Run1_20201118",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-19-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3045,
+      "raw_predictions_appended": 3045,
+      "scored_rows": 3045,
+      "tag": "Run1_20201119",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-24-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2214,
+      "raw_predictions_appended": 2214,
+      "scored_rows": 2214,
+      "tag": "Run1_20201124",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-24-Run2": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2350,
+      "raw_predictions_appended": 2350,
+      "scored_rows": 2350,
+      "tag": "Run2_20201124",
+      "tolerance": 0.0
+    }
+  },
+  "task": "m2",
+  "tolerance": 0.0,
+  "total_raw_bins_streamed": 15403,
+  "total_raw_predictions_appended": 15403,
+  "total_scored_rows": 15403
+}

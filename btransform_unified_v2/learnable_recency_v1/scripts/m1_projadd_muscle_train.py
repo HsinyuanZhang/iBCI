@@ -193,11 +193,11 @@ def shared_init_sha(model: nn.Module, names: list[str]) -> str:
     return digest.hexdigest()
 
 
-def learnable_decoder(device: torch.device, recency_cfg, proj_dim: int = PROJ_DIM) -> LearnableRiftDecoder:
+def learnable_decoder(device: torch.device, recency_cfg, proj_dim: int = PROJ_DIM, seed: int = SEED) -> LearnableRiftDecoder:
     # P8 is a rank-8 truncation of the P16 build (the v1 operator requires a
     # multiple of 16); see learnable_recency_v1.p8.
     build_dim = 16 if proj_dim == 8 else proj_dim
-    model = LearnableRiftDecoder("m1", recency_cfg, context_bins=CONTEXT, seed=SEED, proj_dim=build_dim).to(device)
+    model = LearnableRiftDecoder("m1", recency_cfg, context_bins=CONTEXT, seed=seed, proj_dim=build_dim).to(device)
     maybe_truncate_p8(model, proj_dim)
     model.temporal.set_attention_backend("local")
     expected = tuple(recency_cfg.temporal_config.windows)
@@ -210,37 +210,37 @@ def learnable_decoder(device: torch.device, recency_cfg, proj_dim: int = PROJ_DI
     return model
 
 
-def stock_decoder(device: torch.device, layers: int, proj_dim: int = PROJ_DIM) -> RiftDecoder:
+def stock_decoder(device: torch.device, layers: int, proj_dim: int = PROJ_DIM, seed: int = SEED) -> RiftDecoder:
     """Same-seed stock RiftDecoder with the DEFAULT (unscaled) ladder."""
     build_dim = 16 if proj_dim == 8 else proj_dim
-    model = RiftDecoder("m1", context_bins=CONTEXT, bias_mode="recency", seed=SEED, proj_dim=build_dim).to(device)
+    model = RiftDecoder("m1", context_bins=CONTEXT, bias_mode="recency", seed=seed, proj_dim=build_dim).to(device)
     maybe_truncate_p8(model, proj_dim)
     if layers != 4:
-        install_temporal(model, dataset_config("m1", tier="fixed", layers=layers, ladder="default"), SEED)
+        install_temporal(model, dataset_config("m1", tier="fixed", layers=layers, ladder="default"), seed)
     model.temporal.set_attention_backend("local")
     return model
 
 
-def fixed_ladder_reference(device: torch.device, recency_cfg, proj_dim: int = PROJ_DIM) -> RiftDecoder:
+def fixed_ladder_reference(device: torch.device, recency_cfg, proj_dim: int = PROJ_DIM, seed: int = SEED) -> RiftDecoder:
     """Plain fixed-recency RiftDecoder on the *same* ladder as the learnable run."""
     build_dim = 16 if proj_dim == 8 else proj_dim
-    model = RiftDecoder("m1", context_bins=CONTEXT, bias_mode="recency", seed=SEED, proj_dim=build_dim).to(device)
+    model = RiftDecoder("m1", context_bins=CONTEXT, bias_mode="recency", seed=seed, proj_dim=build_dim).to(device)
     maybe_truncate_p8(model, proj_dim)
     ladder_cfg = dataset_config(
         "m1", tier="fixed", layers=recency_cfg.layers, half_life_seconds=recency_cfg.half_life_seconds
     )
-    install_temporal(model, ladder_cfg, SEED)
+    install_temporal(model, ladder_cfg, seed)
     model.temporal.set_attention_backend("local")
     return model
 
 
-def assert_paired(model: nn.Module, device: torch.device, recency_cfg, proj_dim: int = PROJ_DIM) -> dict[str, Any]:
+def assert_paired(model: nn.Module, device: torch.device, recency_cfg, proj_dim: int = PROJ_DIM, seed: int = SEED) -> dict[str, Any]:
     """Pair against a locally built same-seed stock decoder (no external formal run)."""
-    stock = stock_decoder(device, recency_cfg.layers, proj_dim)
+    stock = stock_decoder(device, recency_cfg.layers, proj_dim, seed)
     shared = assert_shared_byte_equal(model, stock)
     extra = new_parameter_names(model)
     hashed = shared_init_sha(model, shared)
-    ladder_ref = fixed_ladder_reference(device, recency_cfg, proj_dim)
+    ladder_ref = fixed_ladder_reference(device, recency_cfg, proj_dim, seed)
     z = torch.randn(1, CONTEXT, model.temporal_config.width, device=device)
     mask = torch.ones(1, CONTEXT, dtype=torch.bool, device=device)
     with torch.inference_mode():
@@ -308,7 +308,7 @@ def bias_snapshot(model: nn.Module, x: torch.Tensor, bank: Any, valid: torch.Ten
 def _checkpoint_payload(model, optimizer, ema, *, epoch: int, step: int, smoke: bool, meta: Mapping[str, Any], device: torch.device) -> dict[str, Any]:
     return {"schema": CHECKPOINT_SCHEMA, "cell": meta["cell"], "epoch": epoch, "global_step": step, "smoke": smoke,
             "tier": meta["tier"], "bias_mode": meta["bias_mode"], "new_parameter_names": meta["new_parameter_names"],
-            "config": {"seed": SEED, "sampler_seed": FROZEN_SAMPLER_SEED, "context_bins": CONTEXT,
+            "config": {"seed": meta["seed"], "sampler_seed": FROZEN_SAMPLER_SEED, "context_bins": CONTEXT,
                        "proj_dim": int(meta["proj_dim"]), "epochs": EPOCHS, "batch": BATCH, "lr": LR,
                        "bias_mode": meta["bias_mode"], "attention_backend": "local", "carrier_variant": CARRIER_VARIANT},
             "source_hashes": meta["source_hashes"], "source_contract": meta["source_contract"],
@@ -329,7 +329,7 @@ def _validate_checkpoint(path: Path, meta: Mapping[str, Any], *, expected_epoch:
     if epoch < 1 or int(state.get("global_step", -1)) != epoch * UPDATES_PER_EPOCH:
         raise RuntimeError(f"checkpoint step/epoch mismatch: {path}")
     config = state.get("config", {})
-    if config != {"seed": SEED, "sampler_seed": FROZEN_SAMPLER_SEED, "context_bins": CONTEXT,
+    if config != {"seed": meta["seed"], "sampler_seed": FROZEN_SAMPLER_SEED, "context_bins": CONTEXT,
                   "proj_dim": int(meta["proj_dim"]), "epochs": EPOCHS, "batch": BATCH, "lr": LR,
                   "bias_mode": meta["bias_mode"], "attention_backend": "local", "carrier_variant": CARRIER_VARIANT}:
         raise RuntimeError(f"checkpoint configuration mismatch: {path}")
@@ -344,9 +344,9 @@ def _validate_checkpoint(path: Path, meta: Mapping[str, Any], *, expected_epoch:
 
 
 def rebuild_model(meta: Mapping[str, Any], device: torch.device) -> LearnableRiftDecoder:
-    """Rebuild the learnable decoder for scoring from the run's recorded proj_dim."""
+    """Rebuild the learnable decoder for scoring from the run's recorded seed/proj_dim."""
     recency_cfg = config_from_run_meta(meta, "m1")
-    return learnable_decoder(device, recency_cfg, int(meta.get("proj_dim", PROJ_DIM)))
+    return learnable_decoder(device, recency_cfg, int(meta.get("proj_dim", PROJ_DIM)), int(meta.get("seed", SEED)))
 
 
 def run_train(args: argparse.Namespace) -> dict[str, Any]:
@@ -359,7 +359,8 @@ def run_train(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("resume is not used in this drop; rerun into a fresh --dest")
     device = torch.device(args.device)
     torch.set_num_threads(args.cpu_threads)
-    torch.manual_seed(SEED); np.random.seed(SEED); random.seed(SEED)
+    seed = int(args.seed)
+    torch.manual_seed(seed); np.random.seed(seed); random.seed(seed)
     dest = args.dest.resolve()
     if dest.exists() and any(dest.iterdir()):
         raise FileExistsError("new learnable destination must be empty")
@@ -381,8 +382,8 @@ def run_train(args: argparse.Namespace) -> dict[str, Any]:
     contract["raw_m10_calib_sha256"] = {name: frozen._array_sha(value) for name, value in source_calib.items()}
     if contract != paired["source_contract"]:
         raise RuntimeError("muscle proj_add source contract differs from frozen muscle reference")
-    model = learnable_decoder(device, recency_cfg, proj_dim)
-    init = assert_paired(model, device, recency_cfg, proj_dim)
+    model = learnable_decoder(device, recency_cfg, proj_dim, seed)
+    init = assert_paired(model, device, recency_cfg, proj_dim, seed)
     ema = DecoderEMA(model, decay=plan.EMA_DECAY)
     # Shared parameters keep the frozen trainer's name-based no-decay grouping
     # so this arm's recipe matches the frozen muscle pipeline; new recency
@@ -421,7 +422,7 @@ def run_train(args: argparse.Namespace) -> dict[str, Any]:
         "new_parameter_names": init["new_parameter_names"],
         "new_parameter_counts": init["new_parameter_counts"],
         "trainable_new_parameter_count": init["trainable_new_parameter_count"],
-        "seed": SEED, "sampler_seed": FROZEN_SAMPLER_SEED, "context_bins": CONTEXT, "query_pad_bins": QUERY_PAD_BINS,
+        "seed": seed, "sampler_seed": FROZEN_SAMPLER_SEED, "context_bins": CONTEXT, "query_pad_bins": QUERY_PAD_BINS,
         "proj_dim": proj_dim, "layer_windows": list(recency_cfg.temporal_config.windows), "depth": recency_cfg.layers,
         "width": int(model.temporal_config.width), "ladder": recency_cfg.ladder_metadata(), "attention_backend": "local",
         "epochs": args.epochs, "batch": BATCH, "updates_per_epoch": UPDATES_PER_EPOCH,
@@ -462,7 +463,7 @@ def run_train(args: argparse.Namespace) -> dict[str, Any]:
             lr = frozen.warmup_cosine_lr(step, total_steps=EPOCHS * UPDATES_PER_EPOCH, warmup_steps=UPDATES_PER_EPOCH,
                                          peak=LR, min_factor=plan.LR_MIN_FACTOR)
             apply_group_lrs(optimizer, lr)
-            keep_rng = torch.Generator(device="cpu"); keep_rng.manual_seed(unit_dropout_seed(SEED, epoch, batch_id))
+            keep_rng = torch.Generator(device="cpu"); keep_rng.manual_seed(unit_dropout_seed(seed, epoch, batch_id))
             keep = whole_unit_dropout(banks[sessions[0]].unit_mask, p=0.1, generator=keep_rng)
             valid = torch.ones((len(x), CONTEXT), dtype=torch.bool, device=device)
             optimizer.zero_grad(set_to_none=True)
@@ -620,7 +621,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_learnable_flags(parser)
     parser.add_argument("--dest", type=Path, default=None)
     parser.add_argument("--stage", choices=("train", "score"), default="train")
-    parser.add_argument("--seed", type=int, choices=(42,), default=42)
+    parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--proj-dim", type=int, default=PROJ_DIM)
     parser.add_argument("--carrier-pack", type=Path, default=m1_flat.DEFAULT_PACK)
     parser.add_argument("--paired-reference", type=Path, default=m1_flat.DEFAULT_REFERENCE)
@@ -637,6 +638,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.tier not in ("learned_slope", "fixed"):
         parser.error("this runner accepts only --tier learned_slope or fixed")
+    if args.seed <= 0:
+        parser.error("seed must be positive")
     if args.epochs < 1 or args.epochs > EPOCHS:
         parser.error("--epochs must be 1..24")
     if args.proj_dim <= 0:

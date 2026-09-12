@@ -1,0 +1,238 @@
+{
+  "conclusion": {
+    "action_taken": "None; this was a read-only status check.",
+    "configuration_or_image_error_evidence": "No specific configuration or image error is exposed. Absence of logs is not treated as proof that no failure exists; it only means the currently returned detail record exposes no stderr/stdout/result artifact to inspect.",
+    "execution_time_empty_meaning": "For these two current detail records it is consistent with no completed evaluation runtime being recorded. It is not, by itself, an image or configuration failure signal.",
+    "queue_interpretation": "At the precise list snapshot there are exactly two nonterminal records, both of these submissions, no older queued record, and no newer finished submission. This is more consistent with a common current queue/scheduler pause or a two-item wait than with one isolated waiting submission, but it is not proof of a platform-wide scheduler outage.",
+    "runtime_health_verdict": "Indeterminate pending a terminal result or execution artifact. queued does not confirm that execution has not started.",
+    "started_at_limitation": "Both queued records received started_at about 1\u20133 seconds after submitted_at. In this API it cannot establish that the container or model began running; it is treated only as a server-side job/scheduling timestamp."
+  },
+  "phase_at_sample": {
+    "challenge": 2319,
+    "disable_logs": false,
+    "id": 4599,
+    "is_active": true,
+    "is_submission_paused": false,
+    "max_concurrent_submissions_allowed": 3,
+    "max_submissions_per_day": 6,
+    "max_submissions_per_month": 50,
+    "submission_artifact_retention_policy": "keep_forever"
+  },
+  "query_path": {
+    "authenticated_read_endpoint": "/api/jobs/submission/{id}",
+    "credentials": "Existing local EvalAI CLI credential configuration was used only for authenticated GET requests; no credential value is recorded here.",
+    "local_cli": "/home/xinyuan/.local/bin/evalai",
+    "phase_endpoint": "/api/challenges/phase/few-shot-test-2319/",
+    "team_phase_list_endpoint": "/api/jobs/challenge/2319/challenge_phase/4599/submission/"
+  },
+  "same_phase_comparison": {
+    "interpretation": "The same phase exposes numeric execution_time, completed_at, and usually stdout/stderr only after a job becomes finished. The two inspected submissions instead have queued status, null completion/results/log URLs, and raw execution_time string 'None'.",
+    "recent_finished_examples": [
+      {
+        "completed_at": "2026-09-10T05:59:25.369063Z",
+        "execution_time": 0.171042,
+        "id": 582228,
+        "started_at": "2026-09-10T05:59:25.198021Z",
+        "status": "finished",
+        "stderr_file_present": false,
+        "stdout_file_present": true,
+        "submitted_at": "2026-09-10T05:04:52.042156Z"
+      },
+      {
+        "completed_at": "2026-09-10T04:38:23.535529Z",
+        "execution_time": 0.202817,
+        "id": 582224,
+        "started_at": "2026-09-10T04:38:23.332712Z",
+        "status": "finished",
+        "stderr_file_present": true,
+        "stdout_file_present": true,
+        "submitted_at": "2026-09-10T03:45:22.162412Z"
+      },
+      {
+        "completed_at": "2026-09-10T02:05:00.543425Z",
+        "execution_time": 0.110143,
+        "id": 582218,
+        "started_at": "2026-09-10T02:05:00.433282Z",
+        "status": "finished",
+        "stderr_file_present": true,
+        "stdout_file_present": true,
+        "submitted_at": "2026-09-10T01:30:19.891655Z"
+      }
+    ],
+    "team_phase_list_count": 63,
+    "wall_clock_examples_submitted_to_completed": [
+      {
+        "completed_at": "2026-09-10T05:59:25.369063Z",
+        "execution_time_reported": 0.171042,
+        "id": 582228,
+        "submitted_at": "2026-09-10T05:04:52.042156Z",
+        "wall_seconds": 3273.326907
+      },
+      {
+        "completed_at": "2026-09-10T04:38:23.535529Z",
+        "execution_time_reported": 0.202817,
+        "id": 582224,
+        "submitted_at": "2026-09-10T03:45:22.162412Z",
+        "wall_seconds": 3181.373117
+      },
+      {
+        "completed_at": "2026-09-10T02:05:00.543425Z",
+        "execution_time_reported": 0.110143,
+        "id": 582218,
+        "submitted_at": "2026-09-10T01:30:19.891655Z",
+        "wall_seconds": 2080.65177
+      },
+      {
+        "completed_at": "2026-09-09T12:17:33.023719Z",
+        "execution_time_reported": 0.302117,
+        "id": 582205,
+        "submitted_at": "2026-09-09T11:26:48.359836Z",
+        "wall_seconds": 3044.663883
+      }
+    ],
+    "wall_clock_interpretation": "The small execution_time values are not end-to-end model wall time: recent completed entries waited about 34.7\u201354.6 minutes from submitted_at to completed_at. Queue interpretation therefore uses submitted_at\u2192completed_at when terminal data exist, not execution_time."
+  },
+  "sampling": {
+    "challenge_id": 2319,
+    "detail_get_sampled_at_utc": "2026-09-11T11:12:05.838974Z",
+    "note": "Authenticated GET requests returned this snapshot. No credential value is included. A preceding transient transport failure was retried successfully and did not alter this result.",
+    "phase_id": 4599,
+    "phase_slug": "few-shot-test-2319",
+    "team_phase_list_sampled_at_utc": "2026-09-11T11:12:05.838974Z"
+  },
+  "schema": "evalai_queue_readonly_check_v1",
+  "scope": "Read-only EvalAI GET inspection. No submission, push, cancellation, registration, retry, or remote mutation was issued.",
+  "submissions": {
+    "582314": {
+      "challenge_phase": 4599,
+      "completed_at": null,
+      "execution_time_raw": "None",
+      "job_name": [
+        "submission-582314"
+      ],
+      "metadata": {
+        "IsHeldOutZeroShot": false,
+        "IsPretrained": false,
+        "IsTestTimeAdaptive": false
+      },
+      "method_description": "M1 RIFT R100 D4/width256 proj_add P16, per-layer fixed zero slopes (flat control), muscle_response16_svd4/global_rms official4 carrier. HO3 channel-variance pick e2 seed 42: 0.617050. Not BT-EORT, not ORT, not SPINT.",
+      "method_name": "M1 RIFT muscle proj_add flat s42 e2",
+      "server_execution_artifacts": {
+        "rerun_resumed_at": null,
+        "stderr_file": null,
+        "stdout_file": null,
+        "submission_input_file": null,
+        "submission_result_file": null
+      },
+      "server_flags": {
+        "ignore_submission": false,
+        "is_baseline": false,
+        "is_flagged": false,
+        "is_public": false,
+        "is_verified_by_host": false
+      },
+      "started_at": "2026-09-11T09:22:23.447729Z",
+      "status": "queued",
+      "submitted_at": "2026-09-11T09:22:20.526301Z",
+      "submitted_image": {
+        "image_tag": "m1-rift-r100-projadd-muscle-flat-s42-e2:v1",
+        "local_image_id_and_uploaded_manifest_digest": "sha256:5182ef4746df89f2b5179b17499935c9c17627f24dde5e02add28e9f9e753190",
+        "local_push_state_path": "tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_flat_e2_v1/artifacts/evalai_push_state.json",
+        "payload_sha256": "e405fae3d7815c249ff5b97b35d2eed1e834118783bbca25a37cabeb26f1a300",
+        "remote_repository": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+        "submitted_image_tag_suffix": "41349ce9-4931-4bc8-aea0-70e06cf8c5df"
+      },
+      "task": "M1 flat",
+      "team": {
+        "id": 41975,
+        "name": "HKU-ECE"
+      }
+    },
+    "582315": {
+      "challenge_phase": 4599,
+      "completed_at": null,
+      "execution_time_raw": "None",
+      "job_name": [
+        "submission-582315"
+      ],
+      "metadata": {
+        "IsHeldOutZeroShot": false,
+        "IsPretrained": false,
+        "IsTestTimeAdaptive": false
+      },
+      "method_description": "H1 RIFT R300 with per-layer fixed zero slopes (flat control), epoch 15 EMA. HO-M3 grouped-seven pick e15 r2_mean 0.4658 worst 0.2241. Cached PyTorch FP32 CPU backend. Not BT-EORT, not ORT, not SPINT, not 582196.",
+      "method_name": "H1 RIFT R300 flat e15 cached",
+      "server_execution_artifacts": {
+        "rerun_resumed_at": null,
+        "stderr_file": null,
+        "stdout_file": null,
+        "submission_input_file": null,
+        "submission_result_file": null
+      },
+      "server_flags": {
+        "ignore_submission": false,
+        "is_baseline": false,
+        "is_flagged": false,
+        "is_public": false,
+        "is_verified_by_host": false
+      },
+      "started_at": "2026-09-11T09:23:06.429644Z",
+      "status": "queued",
+      "submitted_at": "2026-09-11T09:23:05.179592Z",
+      "submitted_image": {
+        "image_tag": "h1-rift-r300-flat-e15:v1",
+        "local_image_id_and_uploaded_manifest_digest": "sha256:60e120c8d2fe1996b6f3a6981611d9b6e0db2ead293ac8267330133e6d8d18d6",
+        "local_push_state_path": "tfpd_exploration/submissions/evalai_h1_rift_r300_flat_e15_v1/artifacts/evalai_push_state.json",
+        "payload_sha256": "f502075d1808e1be169313c533d8eb6da5e1f65428d602bc2023b1fcc8f5dc8b",
+        "remote_repository": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+        "submitted_image_tag_suffix": "ee232301-56f5-4cc7-8556-0197dc4ae2e3"
+      },
+      "task": "H1 flat",
+      "team": {
+        "id": 41975,
+        "name": "HKU-ECE"
+      }
+    }
+  },
+  "team_phase_nonterminal_snapshot": {
+    "all_nonterminal": [
+      {
+        "completed_at": null,
+        "execution_time": "None",
+        "id": 582314,
+        "job_name": [
+          "submission-582314"
+        ],
+        "method_name": "M1 RIFT muscle proj_add flat s42 e2",
+        "started_at": "2026-09-11T09:22:23.447729Z",
+        "status": "queued",
+        "stderr_file": null,
+        "stdout_file": null,
+        "submitted_at": "2026-09-11T09:22:20.526301Z"
+      },
+      {
+        "completed_at": null,
+        "execution_time": "None",
+        "id": 582315,
+        "job_name": [
+          "submission-582315"
+        ],
+        "method_name": "H1 RIFT R300 flat e15 cached",
+        "started_at": "2026-09-11T09:23:06.429644Z",
+        "status": "queued",
+        "stderr_file": null,
+        "stdout_file": null,
+        "submitted_at": "2026-09-11T09:23:05.179592Z"
+      }
+    ],
+    "interpretation": "The only nonterminal entries in the 63-row team/phase list are 582314 and 582315. No older queued entry was returned, and no later-submitted finished entry precedes them in the submitted_at-descending list.",
+    "list_count": 63,
+    "newer_than_582315_finished_exists": false,
+    "older_queued_excluding_582314_582315": [],
+    "terminal_statuses_used": [
+      "finished",
+      "failed",
+      "cancelled"
+    ]
+  }
+}

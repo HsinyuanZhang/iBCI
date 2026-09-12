@@ -1,0 +1,39 @@
+{
+  "B1": {
+    "last_shape": [
+      1,
+      2
+    ],
+    "sessions": [
+      "Run1_20201019"
+    ],
+    "steps": 80,
+    "stream_vs_cached_max_abs": 0.0,
+    "stream_vs_offline_max_abs": 4.7672074288129807e-08
+  },
+  "B7": {
+    "last_shape": [
+      7,
+      2
+    ],
+    "sessions": [
+      "Run1_20201019",
+      "Run2_20201019",
+      "Run1_20201020",
+      "Run2_20201020",
+      "Run1_20201027",
+      "Run2_20201027",
+      "Run1_20201028"
+    ],
+    "steps": 80,
+    "stream_vs_cached_max_abs": 3.632158041000366e-08,
+    "stream_vs_offline_max_abs": 4.1676685214042664e-08
+  },
+  "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_static_e15_v1/artifacts/smoke_window.npz",
+  "status": "HOST_PACK_VERIFY_PASS",
+  "tolerance": {
+    "note": "left-pad bins are invalid in the offline window; Falcon predict bins are valid observations",
+    "stream_vs_cached_gate": 1e-05,
+    "stream_vs_offline_gate": 1e-05
+  }
+}

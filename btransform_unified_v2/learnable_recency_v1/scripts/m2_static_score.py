@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Score the prespecified final EMA checkpoint of a static M2 run on EXT6.
+"""Score a static M2 run on EXT6.
+
+Default scores the last-epoch EMA as a sidecar.  ``--pick`` scans all 24 EMA
+checkpoints with the same earliest-max equal_session_mean rule as FULL.
 
 The EXT6 reader is query-only: it opens X_store, target_store,
 eligible_starts, and mapping metadata.  No support/calibration identity files
@@ -33,6 +36,8 @@ from scripts.rift_v1 import m2_ext6_epoch_pick as frozen
 
 RESULTS = PKG / "results"
 SCHEMA = "m2_static_ext6_final_ema_score_v1"
+PICK_SCHEMA = "m2_static_ext6_earliest_max_score_v1"
+SELECTION_RULE = "earliest maximum finite unweighted equal_session_mean"
 
 
 def read(p: Path) -> dict[str, Any]:
@@ -131,12 +136,6 @@ def run(args):
         raise RuntimeError("--allow-smoke is valid only for a smoke run")
     if args.max_batches is not None and args.max_batches < 1:
         raise ValueError("--max-batches must be positive")
-    sel = receipt.get("selection", {})
-    if not is_smoke and (
-        sel.get("checkpoint") != "epoch_024.pt"
-        or sel.get("rule") != "prespecified fixed final; source_only"
-    ):
-        raise RuntimeError("static score only permits prespecified final EMA")
     ckpt = run_dir / ("epoch_001.pt" if is_smoke else "epoch_024.pt")
     state = torch.load(ckpt, map_location=args.device, weights_only=False)
     if state.get("schema") != train.CKPT_SCHEMA or (
@@ -188,6 +187,79 @@ def run(args):
     return out
 
 
+def apply_ema(model, state, device):
+    model.load_state_dict(state["raw_state_dict"], strict=True)
+    shadow = state.get("ema", {}).get("shadow")
+    named = dict(model.named_parameters())
+    if not isinstance(shadow, Mapping) or set(shadow) != set(named):
+        raise RuntimeError("EMA state does not match static model")
+    with torch.no_grad():
+        for n, p in named.items():
+            p.copy_(shadow[n].to(p.device, p.dtype))
+    model.to(device)
+    model.eval()
+
+
+def pick(args):
+    started = time.monotonic()
+    run_dir = args.run_dir.resolve()
+    meta = read(run_dir / "run_meta.json")
+    receipt = read(run_dir / "train_receipt.json")
+    if (
+        meta.get("schema") != train.SCHEMA
+        or receipt.get("status") != "COMPLETED"
+        or meta.get("status") != "FORMAL"
+    ):
+        raise RuntimeError("completed formal static train run required")
+    if args.allow_smoke or args.max_batches is not None:
+        raise RuntimeError("pick is formal full-surface only")
+    dest = args.dest.resolve()
+    dest.mkdir(parents=True, exist_ok=True)
+    device = torch.device(args.device)
+    torch.set_num_threads(args.cpu_threads)
+    cfg = config_from_run_meta(meta, "m2")
+    model = StaticLearnableRiftDecoder("m2", cfg, context_bins=50, seed=42).to(device)
+    model.temporal.set_attention_backend("local")
+    surface = query_surface(args.query_cache.resolve())
+    progress_path = dest / "pick_progress.json"
+    progress = read(progress_path) if progress_path.is_file() else {"completed": {}}
+    curve = progress.get("completed", {})
+    for epoch in range(1, train.EPOCHS + 1):
+        if str(epoch) in curve:
+            continue
+        ckpt = run_dir / f"epoch_{epoch:03d}.pt"
+        state = torch.load(ckpt, map_location=args.device, weights_only=False)
+        if state.get("schema") != train.CKPT_SCHEMA or int(state.get("epoch", -1)) != epoch:
+            raise RuntimeError(f"static checkpoint drift at epoch {epoch}")
+        apply_ema(model, state, device)
+        report = train.score_surface(model, surface, device)
+        curve[str(epoch)] = {**report, "checkpoint_sha256": train.sha(ckpt)}
+        atom(progress_path, {"completed": curve})
+    values = {epoch: float(curve[str(epoch)]["equal_session_mean"]) for epoch in range(1, train.EPOCHS + 1)}
+    best = max(range(1, train.EPOCHS + 1), key=lambda epoch: (values[epoch], -epoch))
+    out = {
+        "schema": PICK_SCHEMA,
+        "status": "COMPLETED",
+        "formal_claim": True,
+        "partial": False,
+        "run_dir": str(run_dir),
+        "view": "EMA",
+        "selection": {
+            "epoch": best,
+            "equal_session_mean": values[best],
+            "rule": SELECTION_RULE,
+        },
+        "ema_by_epoch": curve,
+        "query_only": True,
+        "query_data_hashes": {s: v["hashes"] for s, v in surface.items()},
+        "official_test_used": False,
+        "runtime_seconds": time.monotonic() - started,
+        "utc": datetime.now(timezone.utc).isoformat(),
+    }
+    atom(dest / "score_receipt.json", out)
+    return out
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--run-dir", type=Path, required=True)
@@ -197,12 +269,15 @@ def main():
     p.add_argument("--cpu-threads", type=int, default=2)
     p.add_argument("--max-batches", type=int)
     p.add_argument("--allow-smoke", action="store_true")
+    p.add_argument("--pick", action="store_true")
     a = p.parse_args()
     if a.max_batches is not None and a.max_batches < 1:
         p.error("--max-batches must be positive")
-    if a.dest is None:
+    if a.pick and a.dest is None:
+        a.dest = RESULTS / "selection_m2_static_ext6_earliest_max_s42"
+    elif a.dest is None:
         a.dest = RESULTS / "selection_m2_static_final_ema_ext6_s42"
-    print(json.dumps(run(a), indent=2))
+    print(json.dumps(pick(a) if a.pick else run(a), indent=2))
     return 0
 
 

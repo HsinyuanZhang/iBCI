@@ -1,0 +1,24 @@
+{
+  "budget_disclosure": "Frozen archive; no remote push, registration, or submission has been performed.",
+  "challenge_id": 2319,
+  "image_id": "sha256:57f21ae624dbdf000e52a5bab68b56d35b60d62b98c4fe9e25b89c7b9d10f06e",
+  "image_tag": "external-gf-m2-aligned_fa-v1:cpu",
+  "manifest_sha256": "9209820a3d3a8f589951f878b0aebbe6dddb201b31957e0953a7fa3af9c48b27",
+  "method": "aligned_fa",
+  "method_description": "Frozen CPU NumPy streaming decoder: session-specific neural-only aligned_fa plus source Wiener readout.",
+  "method_name": "External GF M2 aligned_fa",
+  "payload_sha256": "6ef847c171ea5655ebc98f199dba26bb62bda5b4d5c7ce0ba413e1bdbf18ef65",
+  "phase_id": 4599,
+  "phase_slug": "few-shot-test-2319",
+  "schema": "external_gf_evalai_candidate_v1",
+  "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+  "submission_eligible": false,
+  "freeze_reason": "Original single-source ridge=1 protocol lacks the official preprocessing control, so it is not a fair RIFT comparison or submission candidate.",
+  "submission_attributes": {
+    "IsHeldOutZeroShot": false,
+    "IsPretrained": false,
+    "IsTestTimeAdaptive": false
+  },
+  "submission_command": null,
+  "task": "m2"
+}

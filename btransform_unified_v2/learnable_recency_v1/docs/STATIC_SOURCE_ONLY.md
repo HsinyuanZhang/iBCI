@@ -22,12 +22,12 @@
 | Identity | `64×16` source-trained table | `96×16` source-trained table | `176×16` source-trained table |
 | 参数张量元素总数 | 3,533,072（相对 FULL −576） | 3,531,778（相对 FULL +736） | 3,533,703（相对 FULL −8,384） |
 | 全训预算 | 24 × 6,665 = 159,960 updates | 24 × 3,165 = 75,960 updates | 32 × 731 = 23,392 updates |
-| 默认 checkpoint | 第 24 轮 EMA | 第 24 轮 EMA | 第 32 轮 EMA |
+| 默认 checkpoint | HO3 all24 earliest-max（末轮 e24 仅 sidecar） | EXT6 all24 earliest-max（末轮 e24 仅 sidecar） | HO-M3 all32 earliest-max（末轮 e32 仅 sidecar） |
 | 本地评分面 | HO3 query | EXT6 query | 当前 H1 HO development query，沿用 grouped-seven 指标 |
 
 三条入口均固定 `seed=42`、P16、`learned_slope`、per-layer、D4，以及半衰期 `4,8,16,32,64,128` bins 和两个固定 flat heads。沿用各任务现有的采样、目标缩放、AdamW、warmup-cosine、EMA `0.9995` 和 whole-unit dropout `0.1`。通道表使用普通 decoder 参数组；新增 recency 参数沿用 `weight_decay=0` 参数组。M1 另外保留当前主线按参数名称划分的 norm/bias 免衰减组，监督目标使用原生 EMG 数值。
 
-默认 checkpoint 是训练前预先指定的最后一轮 EMA，目标评分只作报告，不参与选轮。此前 NORM / FULL 的本地报告使用目标 development 集的最佳轮次，因此不能把两者分数之差全部归因于身份表示。若做严格 source-only 对照，应让所有比较臂采用相同的预先指定或 source-only 选轮规则。
+选轮与同任务 FULL 相同：目标 development 面完整扫描 + earliest-max（M1 HO3 all24、M2 EXT6 all24、H1 HO-M3 all32）。末轮 EMA 只作 sidecar 对照，**不得作为此后 EvalAI 选点**。入口：`m1_static_train.py --stage pick`、`m2_static_score.py --pick`、`h1_static_train.py --stage pick`。提交必须使用扫描收据中的 `selected_epoch`。已交 582290 是末轮 e32 例外，扫描后若不是 32 另交。
 
 M1 / H1 当前本地 query 面的 NWB 文件名含 `held-out-calib`；这里沿用原评分代码的 raw neural、endpoint 和 eval mask，不构建独立 support，也不调用 calibration materializer。常规 causal 输入历史是 decoder 的观察，不用于更新权重或校准统计。
 
@@ -74,7 +74,7 @@ env -u PYTHONPATH PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES='' \
 正式训练命令已准备好，本次未运行：
 
 ```bash
-# M1：24 epochs，之后另行评分固定第 24 轮 EMA。
+# M1：24 epochs，之后 --stage score 报末轮，--stage pick 做 HO3 earliest-max。
 env -u PYTHONPATH PYTHONNOUSERSITE=1 \
   "$STATIC_PY" "$RECENCY_PKG/scripts/m1_static_train.py" \
   --stage train --device cuda:0 --dest "$RECENCY_PKG/results/m1_static_s42"
@@ -82,7 +82,7 @@ env -u PYTHONPATH PYTHONNOUSERSITE=1 \
   "$STATIC_PY" "$RECENCY_PKG/scripts/m1_static_train.py" \
   --stage score --device cuda:0 --dest "$RECENCY_PKG/results/m1_static_s42"
 
-# M2：24 epochs，之后另行评分固定第 24 轮 EMA。
+# M2：24 epochs，之后 m2_static_score.py 报末轮，加 --pick 做 EXT6 earliest-max。
 env -u PYTHONPATH PYTHONNOUSERSITE=1 \
   "$STATIC_PY" "$RECENCY_PKG/scripts/m2_static_train.py" \
   --device cuda:0 --dest "$RECENCY_PKG/results/m2_static_learned_slope_s42"
@@ -92,7 +92,7 @@ env -u PYTHONPATH PYTHONNOUSERSITE=1 \
   --dest "$RECENCY_PKG/results/selection_m2_static_final_ema_ext6_s42" \
   --device cuda:0
 
-# H1：32 epochs，训练完成后评分固定第 32 轮 EMA。
+# H1：32 epochs，训练完成后 --stage score 报末轮，--stage pick 做 HO-M3 earliest-max。
 env -u PYTHONPATH PYTHONNOUSERSITE=1 \
   "$STATIC_PY" "$RECENCY_PKG/scripts/h1_static_train.py" \
   --device cuda:0 --dest "$RECENCY_PKG/results/h1_static_s42"

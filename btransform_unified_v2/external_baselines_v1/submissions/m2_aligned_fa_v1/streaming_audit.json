@@ -1,0 +1,81 @@
+{
+  "code_sha256": {
+    "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+    "replay_streaming.py": "ce6874be34563ec480a270c197f6ec391198befd57cbc33de51580963a41d865"
+  },
+  "elapsed_seconds": 0.18053211399819702,
+  "manifest_sha256": "9209820a3d3a8f589951f878b0aebbe6dddb201b31957e0953a7fa3af9c48b27",
+  "max_abs_error": 0.0,
+  "method": "aligned_fa",
+  "payload_sha256": "6ef847c171ea5655ebc98f199dba26bb62bda5b4d5c7ce0ba413e1bdbf18ef65",
+  "schema": "external_gf_falcon_streaming_audit_v1",
+  "sessions": {
+    "ses-2020-10-30-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2727,
+      "raw_predictions_appended": 2727,
+      "scored_rows": 2727,
+      "tag": "Run1_20201030",
+      "tolerance": 2e-06
+    },
+    "ses-2020-10-30-Run2": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2550,
+      "raw_predictions_appended": 2550,
+      "scored_rows": 2550,
+      "tag": "Run2_20201030",
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-18-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2517,
+      "raw_predictions_appended": 2517,
+      "scored_rows": 2517,
+      "tag": "Run1_20201118",
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-19-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3045,
+      "raw_predictions_appended": 3045,
+      "scored_rows": 3045,
+      "tag": "Run1_20201119",
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-24-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2214,
+      "raw_predictions_appended": 2214,
+      "scored_rows": 2214,
+      "tag": "Run1_20201124",
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-24-Run2": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2350,
+      "raw_predictions_appended": 2350,
+      "scored_rows": 2350,
+      "tag": "Run2_20201124",
+      "tolerance": 2e-06
+    }
+  },
+  "stream_contract": {
+    "batch_size": 1,
+    "bin_ms": 20,
+    "padding": "reset supplies literal transformed-space zero history",
+    "reset_per_session": 1,
+    "reset_per_trial": 0
+  },
+  "task": "m2",
+  "tolerance": 2e-06,
+  "total_raw_bins_streamed": 15403,
+  "total_raw_predictions_appended": 15403,
+  "total_scored_rows": 15403,
+  "training_method": "aligned_fa_wf"
+}

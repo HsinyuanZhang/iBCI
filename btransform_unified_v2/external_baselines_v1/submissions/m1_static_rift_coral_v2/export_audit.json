@@ -1,0 +1,44 @@
+{
+  "checkpoint_sha256": "562e0febc2818e2fc6952e383a5dea7fadbc6493034cee3557a315e1538cf4df",
+  "checks": {
+    "20121004": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 1.7881393432617188e-06,
+      "n": 1305,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "20121017": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 1.7881393432617188e-06,
+      "n": 1295,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "20121024": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 2.0265579223632812e-06,
+      "n": 1281,
+      "pass": true,
+      "tolerance": 2e-05
+    }
+  },
+  "elapsed_seconds": 145.94115458702436,
+  "frontend": "coral",
+  "max_abs_error": 2.0265579223632812e-06,
+  "method": "static_rift_coral",
+  "payload_bytes": 20104695,
+  "payload_sha256": "99d5033ad7f61722445e638b8147f85d861ac0a0d107d8ec9f2131138c812923",
+  "schema": "fair_v2_static_export_audit_v1",
+  "tag_count": 7,
+  "tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "task": "m1"
+}

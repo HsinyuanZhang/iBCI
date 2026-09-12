@@ -1,0 +1,61 @@
+{
+  "container_numpy_version": "1.26.4",
+  "elapsed_seconds": 0.15934997104341164,
+  "image": {
+    "image": "fair-v2-m1-aligned_fa_stable_wf:cpu",
+    "image_id": "sha256:d5bc123afd690a289cc730e8111d922b85dd8be6dd6b830e19d5b1c1113ffb08",
+    "labels": {
+      "ai.eval.checkpoint.sha256": "",
+      "ai.eval.cpu_only": "true",
+      "ai.eval.decoder.sha256": "2829d4287d99bf054c845051e10a3511cb343f313b94a268ecb01c1a13cfe43c",
+      "ai.eval.method": "fair-v2-aligned_fa_stable_wf",
+      "ai.eval.model.sha256": "28fb5a6590d0afde86d54a86791ffb25cdf689c9fa05ba5f5d9967486da5d085",
+      "ai.eval.payload.sha256": "28fb5a6590d0afde86d54a86791ffb25cdf689c9fa05ba5f5d9967486da5d085",
+      "ai.eval.task": "m1",
+      "org.opencontainers.image.description": "Fair v2 CPU NumPy aligned_fa_stable_wf Wiener-filter linear decoder",
+      "org.opencontainers.image.revision": "fair-v2-linear",
+      "org.opencontainers.image.title": "fair-v2-m1-aligned_fa_stable_wf:cpu",
+      "org.opencontainers.image.version": "24.04"
+    }
+  },
+  "manifest_sha256": "7a02e4fa75e99994615b0703f4dcd76ffe69d502f6b56aac53e9ecb42402d76e",
+  "max_abs_error": 0.0,
+  "method": "aligned_fa_stable_wf",
+  "payload_sha256": "28fb5a6590d0afde86d54a86791ffb25cdf689c9fa05ba5f5d9967486da5d085",
+  "runtime_decoder_sha256": "2829d4287d99bf054c845051e10a3511cb343f313b94a268ecb01c1a13cfe43c",
+  "schema": "fair_v2_linear_container_streaming_audit_v1",
+  "sessions": {
+    "20121004": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3442,
+      "raw_predictions_appended": 3442,
+      "scored_rows": 1305,
+      "tag": "20121004",
+      "tolerance": 0.0
+    },
+    "20121017": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3342,
+      "raw_predictions_appended": 3342,
+      "scored_rows": 1295,
+      "tag": "20121017",
+      "tolerance": 0.0
+    },
+    "20121024": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 6671,
+      "raw_predictions_appended": 6671,
+      "scored_rows": 1281,
+      "tag": "20121024",
+      "tolerance": 0.0
+    }
+  },
+  "task": "m1",
+  "tolerance": 0.0,
+  "total_raw_bins_streamed": 13455,
+  "total_raw_predictions_appended": 13455,
+  "total_scored_rows": 3881
+}

@@ -1,0 +1,76 @@
+{
+  "elapsed_seconds": 0.19458779104752466,
+  "manifest_sha256": "0e05036bbbf3c1606e79fb0add2fdead934f391179f2d857126b2c4f20253f2b",
+  "max_abs_error": 0.0,
+  "method": "diag_z_wf",
+  "payload_sha256": "c915321bb21edb63fc391fa70ef1212d30f1e396a2b3cfeba7442454bd5c971d",
+  "schema": "fair_v2_linear_streaming_audit_v1",
+  "sessions": {
+    "ses-2020-10-30-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2727,
+      "raw_predictions_appended": 2727,
+      "scored_rows": 2727,
+      "tag": "Run1_20201030",
+      "tolerance": 0.0
+    },
+    "ses-2020-10-30-Run2": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2550,
+      "raw_predictions_appended": 2550,
+      "scored_rows": 2550,
+      "tag": "Run2_20201030",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-18-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2517,
+      "raw_predictions_appended": 2517,
+      "scored_rows": 2517,
+      "tag": "Run1_20201118",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-19-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3045,
+      "raw_predictions_appended": 3045,
+      "scored_rows": 3045,
+      "tag": "Run1_20201119",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-24-Run1": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2214,
+      "raw_predictions_appended": 2214,
+      "scored_rows": 2214,
+      "tag": "Run1_20201124",
+      "tolerance": 0.0
+    },
+    "ses-2020-11-24-Run2": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2350,
+      "raw_predictions_appended": 2350,
+      "scored_rows": 2350,
+      "tag": "Run2_20201124",
+      "tolerance": 0.0
+    }
+  },
+  "stream_contract": {
+    "batch_size": 1,
+    "bin_ms": 20,
+    "padding": "reset supplies literal zero filter and history",
+    "reset_per_session": 1,
+    "reset_per_trial": 0
+  },
+  "task": "m2",
+  "tolerance": 0.0,
+  "total_raw_bins_streamed": 15403,
+  "total_raw_predictions_appended": 15403,
+  "total_scored_rows": 15403
+}

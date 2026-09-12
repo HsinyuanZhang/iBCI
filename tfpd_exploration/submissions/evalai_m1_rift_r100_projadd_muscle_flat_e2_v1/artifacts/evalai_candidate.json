@@ -1,0 +1,25 @@
+{
+  "arm": "m1_rift_r100_projadd_muscle_flat_cached",
+  "budget_disclosure": "Official seven-tag M10 banks; visible held-out calibration used only for post-training EMA selection; no official test, no TTA.",
+  "image_id": "sha256:5182ef4746df89f2b5179b17499935c9c17627f24dde5e02add28e9f9e753190",
+  "image_size": 9603462992,
+  "image_tag": "m1-rift-r100-projadd-muscle-flat-s42-e2:v1",
+  "method_description": "M1 RIFT R100 D4/width256 proj_add P16, per-layer fixed zero slopes (flat control), muscle_response16_svd4/global_rms official4 carrier. HO3 channel-variance pick e2 seed 42: 0.617050. Not BT-EORT, not ORT, not SPINT.",
+  "method_label": "M1 RIFT R100 proj_add P16 flat muscle official4 s42 e2 cached CPU; architecture=RIFT backend=cached identity=proj_add carrier=muscle_response16_svd4/global_rms; HO3 ch-var 0.617050",
+  "method_name": "M1 RIFT muscle proj_add flat s42 e2",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_flat_e2_v1/artifacts/m1_rift_r100_projadd_muscle_flat.pkl",
+  "payload_sha256": "e405fae3d7815c249ff5b97b35d2eed1e834118783bbca25a37cabeb26f1a300",
+  "receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_flat_e2_v1/artifacts/evalai_submit_receipt.json",
+  "schema_version": "m1_rift_evalai_candidate_v1",
+  "selection": {
+    "epoch": 2,
+    "equal_session_mean_channel_variance_weighted_r2": 0.6170499324798584,
+    "legacy_equal_session_mean_flattened_r2": 0.705003660530611,
+    "metric": "channel_variance_weighted_r2",
+    "n_windows": 3881,
+    "official_test_used": false,
+    "seed": 42,
+    "surface": "visible HO3 M10"
+  },
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_flat_e2_v1/artifacts/evalai_push_state.json"
+}

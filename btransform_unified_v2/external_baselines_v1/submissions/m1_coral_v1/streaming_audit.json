@@ -1,0 +1,54 @@
+{
+  "code_sha256": {
+    "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+    "replay_streaming.py": "ce6874be34563ec480a270c197f6ec391198befd57cbc33de51580963a41d865"
+  },
+  "elapsed_seconds": 0.18271094298688695,
+  "manifest_sha256": "f34c2f1303096cb326e667770dfeb0d6c0b1649143f8fcbe55072cc473312dfb",
+  "max_abs_error": 0.0,
+  "method": "coral",
+  "payload_sha256": "3ee7acbd09e8539cb2716907603cf837b4535ad056e2c9c32cfc9d77212da6a3",
+  "schema": "external_gf_falcon_streaming_audit_v1",
+  "sessions": {
+    "20121004": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3442,
+      "raw_predictions_appended": 3442,
+      "scored_rows": 1305,
+      "tag": "20121004",
+      "tolerance": 2e-06
+    },
+    "20121017": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3342,
+      "raw_predictions_appended": 3342,
+      "scored_rows": 1295,
+      "tag": "20121017",
+      "tolerance": 2e-06
+    },
+    "20121024": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 6671,
+      "raw_predictions_appended": 6671,
+      "scored_rows": 1281,
+      "tag": "20121024",
+      "tolerance": 2e-06
+    }
+  },
+  "stream_contract": {
+    "batch_size": 1,
+    "bin_ms": 20,
+    "padding": "reset supplies literal transformed-space zero history",
+    "reset_per_session": 1,
+    "reset_per_trial": 0
+  },
+  "task": "m1",
+  "tolerance": 2e-06,
+  "total_raw_bins_streamed": 13455,
+  "total_raw_predictions_appended": 13455,
+  "total_scored_rows": 3881,
+  "training_method": "coral_wf"
+}

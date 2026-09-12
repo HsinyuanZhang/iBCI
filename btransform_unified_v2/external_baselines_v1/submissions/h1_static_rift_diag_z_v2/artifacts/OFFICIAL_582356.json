@@ -1,0 +1,15 @@
+{
+  "image_id": "sha256:06909b8688f1d6521c380b623d50c5b817481139d94f19e3aca164ef7c530f8a",
+  "local_standard_r2": 0.256093,
+  "method_name": "Fair v2 H1 static-RIFT + diag-z",
+  "payload_sha256": "17bcb4753a1fe5eb9b631cdfca3b8aa4190d6397b4dde856635fad708b8af799",
+  "purpose": "account_queue_diagnostic",
+  "scores": null,
+  "status": "cancelled",
+  "cancelled_at": "2026-09-12T01:29:25.850332Z",
+  "cancellation_reason": "user withdrew all pending submissions",
+  "submission_id": 582356,
+  "submitted_at": "2026-09-11T15:30:44.436233Z",
+  "team": "sustechhku",
+  "team_id": 42279
+}

@@ -1,0 +1,251 @@
+{
+  "gradient_free_definition": "No target-day reverse-mode/backpropagation. Closed-form fitting, SVD, CCA, and other non-backprop target-day calibration are allowed.",
+  "not_a_published_spint_table_row": [
+    "CCA",
+    "AlignedFA+WF",
+    "linear-CORAL+WF"
+  ],
+  "primary_source": {
+    "authors_year": "Le et al., 2025",
+    "metric": "held-out R2 mean plus/minus standard deviation across held-out sessions",
+    "page": 6,
+    "table": "Table 1",
+    "title": "SPINT: Spatial Permutation-Invariant Neural Transformer for Consistent Intracortical Motor Decoding",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2025/file/24c8d2fe8520746f0084174b75b93ebe-Paper-Conference.pdf",
+    "venue": "NeurIPS 2025"
+  },
+  "results": [
+    {
+      "class": "OR",
+      "fairness": "oracle_upper_bound",
+      "h1": {
+        "mean": 0.21,
+        "sd": 0.04
+      },
+      "m1": {
+        "mean": 0.53,
+        "sd": 0.04
+      },
+      "m2": {
+        "mean": 0.26,
+        "sd": 0.03
+      },
+      "method": "Wiener Filter (WF)",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": false,
+      "target_closed_form_fit": true,
+      "target_day_protocol_note": "oracle uses unreleased/private held-out labelled data",
+      "target_labels": true
+    },
+    {
+      "class": "OR",
+      "fairness": "oracle_upper_bound",
+      "h1": {
+        "mean": 0.44,
+        "sd": 0.13
+      },
+      "m1": {
+        "mean": 0.75,
+        "sd": 0.05
+      },
+      "m2": {
+        "mean": 0.56,
+        "sd": 0.04
+      },
+      "method": "RNN",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": true,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "oracle uses unreleased/private held-out labelled data",
+      "target_labels": true
+    },
+    {
+      "class": "OR",
+      "fairness": "oracle_upper_bound",
+      "h1": {
+        "mean": 0.63,
+        "sd": 0.08
+      },
+      "m1": {
+        "mean": 0.78,
+        "sd": 0.04
+      },
+      "m2": {
+        "mean": 0.58,
+        "sd": 0.04
+      },
+      "method": "NDT2 Multi",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": true,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "oracle uses unreleased/private held-out labelled data",
+      "target_labels": true
+    },
+    {
+      "class": "FSS",
+      "fairness": "label_assisted_reference",
+      "h1": {
+        "mean": 0.52,
+        "sd": 0.04
+      },
+      "m1": {
+        "mean": 0.59,
+        "sd": 0.07
+      },
+      "m2": {
+        "mean": 0.43,
+        "sd": 0.08
+      },
+      "method": "NDT2 Multi",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": true,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "held-out few-shot calibration with supervision",
+      "target_labels": true
+    },
+    {
+      "class": "ZS",
+      "fairness": "direct_main_table_comparator",
+      "h1": {
+        "mean": 0.16,
+        "sd": 0.03
+      },
+      "m1": {
+        "mean": 0.34,
+        "sd": 0.06
+      },
+      "m2": {
+        "mean": 0.06,
+        "sd": 0.04
+      },
+      "method": "WF",
+      "source_backprop": false,
+      "source_labels": true,
+      "source_training": "supervised ridge/Wiener fit",
+      "target_backprop": false,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "fixed source-session model is applied zero-shot",
+      "target_labels": false
+    },
+    {
+      "class": "ZS",
+      "fairness": "direct_main_table_comparator",
+      "h1": {
+        "mean": 0.09,
+        "sd": 0.18
+      },
+      "m1": {
+        "mean": -0.6,
+        "sd": 0.45
+      },
+      "m2": {
+        "mean": -0.07,
+        "sd": 0.23
+      },
+      "method": "RNN",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": false,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "fixed source-session model is applied zero-shot",
+      "target_labels": false
+    },
+    {
+      "class": "FSU",
+      "fairness": "unlabeled_target_gradient_adaptation_reference",
+      "h1": {
+        "mean": 0.12,
+        "sd": 0.06
+      },
+      "m1": {
+        "mean": 0.43,
+        "sd": 0.04
+      },
+      "m2": {
+        "mean": 0.22,
+        "sd": 0.06
+      },
+      "method": "CycleGAN + WF",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": true,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "unlabeled neural calibration but target alignment is trained",
+      "target_labels": false
+    },
+    {
+      "class": "FSU",
+      "fairness": "unlabeled_target_gradient_adaptation_reference",
+      "h1": {
+        "mean": 0.13,
+        "sd": 0.1
+      },
+      "m1": {
+        "mean": 0.49,
+        "sd": 0.03
+      },
+      "m2": {
+        "mean": 0.2,
+        "sd": 0.1
+      },
+      "method": "NoMAD + WF",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "supervised neural-network training",
+      "target_backprop": true,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "unlabeled neural calibration but target alignment is trained",
+      "target_labels": false
+    },
+    {
+      "class": "GF-FSU",
+      "fairness": "direct_main_table_comparator",
+      "h1": {
+        "mean": 0.29,
+        "sd": 0.15
+      },
+      "m1": {
+        "mean": 0.66,
+        "sd": 0.07
+      },
+      "m2": {
+        "mean": 0.26,
+        "sd": 0.13
+      },
+      "method": "SPINT",
+      "source_backprop": true,
+      "source_labels": true,
+      "source_training": "end-to-end MSE training",
+      "target_backprop": false,
+      "target_closed_form_fit": false,
+      "target_day_protocol_note": "unlabeled calibration forward inference without parameter updates",
+      "target_labels": false
+    }
+  ],
+  "schema": "spint_published_baselines_v1",
+  "scope": "published private held-out EvalAI FALCON movement results; never aggregate with local public-calibration development metrics",
+  "supporting_falcon_source": {
+    "authors_year": "Karpowicz et al., 2024",
+    "pages": [
+      6,
+      8,
+      31,
+      32,
+      33,
+      34
+    ],
+    "title": "Few-shot Algorithms for Consistent Neural Decoding (FALCON) Benchmark",
+    "url": "https://papers.neurips.cc/paper_files/paper/2024/file/8c2e6bb15be1894b8fb4e0f9bcad1739-Paper-Datasets_and_Benchmarks_Track.pdf",
+    "venue": "NeurIPS 2024 Datasets and Benchmarks"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "arm": "m2_rift_r50_concat_full_e8_cached",
+  "budget_disclosure": "Official 13-tag M2 banks (ConcatSideTrunk E0 + sealed MOVE-T4). RIFT R50 seed42 EMA e8 after B3S concat stage-2. ext6 earliest-max equal-session 0.383150 is development selection, not official HO. Cached CPU learnable runtime, no TTA, no ORT.",
+  "evalai_opened": true,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        2
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7": {
+      "last_shape": [
+        7,
+        2
+      ],
+      "max_abs": 3.585591912269592e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run2_20201019",
+        "Run1_20201020",
+        "Run2_20201020",
+        "Run1_20201027",
+        "Run2_20201027",
+        "Run1_20201028"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_full_e8_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:0865404d280685a70bb6f17e350001c5c4a89d61f8a84fcd4a7b3151302dcf5e",
+  "image_size": 9475968534,
+  "image_tag": "m2-rift-r50-concat-full-e8:v1",
+  "is_public": true,
+  "method_description": "M2 RIFT (Recency-biased Incremental Finite-context Transformer) R50, D4/width256, concat-side trunk E0 plus proj_add P16 token fusion, learned recency slopes, cached CPU KV. ext6 pick e8 mean 0.383150. Not BT-EORT, not ORT, not SPINT.",
+  "method_label": "M2 RIFT R50 concat-side E0 + proj_add P16 learned_slope default-ladder e8 EMA cached CPU; architecture=RIFT backend=cached identity=proj_add e0_source=concat_side_trunk; EXT6 pick; not BT-EORT; not ORT; not SPINT; not 582189; not 582240",
+  "method_name": "M2 RIFT R50 concat-full e8",
+  "payload_sha256": "8ef00d20c7494226ece7f2890779ef79934aee4af4882ac6a30c0a4c87efabf9",
+  "register": false,
+  "selection_mean": 0.3831502206899133,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_concat_full_e8_v1/artifacts/evalai_push_state.json",
+  "team": "HKU-ECE",
+  "team_id": 41975,
+  "window": 50
+}

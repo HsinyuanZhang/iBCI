@@ -1,0 +1,49 @@
+{
+  "elapsed_seconds": 0.16653294896241277,
+  "manifest_sha256": "522be8ee1b1b338bcb8a5f7464bc328fffe22e904580dd998f802d7593df09ef",
+  "max_abs_error": 0.0,
+  "method": "diag_z_wf",
+  "payload_sha256": "30ea96c58601679dea382e5a9e032f937b42c25baf8cb164dbc616754dbdbd5e",
+  "schema": "fair_v2_linear_streaming_audit_v1",
+  "sessions": {
+    "20121004": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3442,
+      "raw_predictions_appended": 3442,
+      "scored_rows": 1305,
+      "tag": "20121004",
+      "tolerance": 0.0
+    },
+    "20121017": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 3342,
+      "raw_predictions_appended": 3342,
+      "scored_rows": 1295,
+      "tag": "20121017",
+      "tolerance": 0.0
+    },
+    "20121024": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 6671,
+      "raw_predictions_appended": 6671,
+      "scored_rows": 1281,
+      "tag": "20121024",
+      "tolerance": 0.0
+    }
+  },
+  "stream_contract": {
+    "batch_size": 1,
+    "bin_ms": 20,
+    "padding": "reset supplies literal zero filter and history",
+    "reset_per_session": 1,
+    "reset_per_trial": 0
+  },
+  "task": "m1",
+  "tolerance": 0.0,
+  "total_raw_bins_streamed": 13455,
+  "total_raw_predictions_appended": 13455,
+  "total_scored_rows": 3881
+}

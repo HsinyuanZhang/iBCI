@@ -1,0 +1,48 @@
+{
+  "arm": "m2_rift_r50_projadd_flat_e7_cached",
+  "budget_disclosure": "Official 13-tag M2 banks (33-trial native E0 + MOVE-T4, same sealed banks as 582047). RIFT R50 proj_add P16 seed42 EMA e7 after 24-epoch source-seven train, flat control: per-layer fixed zero recency slopes. ext6 all24 earliest-max equal-session 0.361094 is development selection, not official HO. Cached CPU learnable runtime, no TTA, no ORT.",
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        2
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "Run1_20201019"
+      ],
+      "steps": 80
+    },
+    "B7": {
+      "last_shape": [
+        7,
+        2
+      ],
+      "max_abs": 2.421438694000244e-08,
+      "sessions": [
+        "Run1_20201019",
+        "Run2_20201019",
+        "Run1_20201020",
+        "Run2_20201020",
+        "Run1_20201027",
+        "Run2_20201027",
+        "Run1_20201028"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_projadd_flat_e7_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:4c2723a48b76fac3cf6f7d988886bd056417c83cd0df3920b4f7c7f40777a83e",
+  "image_size": 9476053968,
+  "image_tag": "m2-rift-r50-projadd-flat-e7:v1",
+  "method_description": "M2 RIFT (Recency-biased Incremental Finite-context Transformer) R50, D4/width256, proj_add P16 identity, flat control with per-layer zero recency slopes, cached CPU KV. Same official 13-tag banks as 582047. ext6 all24 pick e7 mean 0.361094. Not BT-EORT, not ORT, not SPINT. Not 582240 learned, not 582189 concat.",
+  "method_label": "M2 RIFT R50 proj_add P16 flat zero-slope e7 EMA cached CPU; architecture=RIFT backend=cached identity=proj_add; ext6 all24 pick; not BT-EORT; not ORT; not SPINT; not 582240 learned; not 582189 concat",
+  "method_name": "M2 RIFT R50 proj_add flat e7",
+  "payload_sha256": "e663da6e00c75f276ebbf7ca06aa11a329228d47d56a8ad9b90abc66e15647cc",
+  "register": false,
+  "selection_mean": 0.36109424441104815,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_projadd_flat_e7_v1/artifacts/evalai_push_state.json",
+  "window": 50
+}

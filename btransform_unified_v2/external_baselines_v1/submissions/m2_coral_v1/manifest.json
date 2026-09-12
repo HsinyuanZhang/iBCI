@@ -1,0 +1,343 @@
+{
+  "calibration": {
+    "fa_hyperparameters": {
+      "latent_dim": 10,
+      "max_iter": 1000,
+      "n_init": 3,
+      "stable_fraction": 0.5
+    },
+    "heldout_adapters": "reused from completed models.pkl without refit",
+    "missing_heldin_adapters": "fit from each session activity.reshape(-1,C) only",
+    "target_backprop_used": false,
+    "target_labels_used": false
+  },
+  "channels": 96,
+  "expected_prediction_fields": {
+    "channels": 96,
+    "history": 10,
+    "outputs": 2,
+    "task": "m2"
+  },
+  "history": 10,
+  "max_batch": 7,
+  "method": "coral",
+  "model_feature_channels": 96,
+  "outputs": 2,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "payload.npz",
+    "keys": [
+      "s_Run1_20201019_source_mean",
+      "s_Run1_20201019_source_root",
+      "s_Run1_20201019_target_invroot",
+      "s_Run1_20201019_target_mean",
+      "s_Run1_20201020_source_mean",
+      "s_Run1_20201020_source_root",
+      "s_Run1_20201020_target_invroot",
+      "s_Run1_20201020_target_mean",
+      "s_Run1_20201027_source_mean",
+      "s_Run1_20201027_source_root",
+      "s_Run1_20201027_target_invroot",
+      "s_Run1_20201027_target_mean",
+      "s_Run1_20201028_source_mean",
+      "s_Run1_20201028_source_root",
+      "s_Run1_20201028_target_invroot",
+      "s_Run1_20201028_target_mean",
+      "s_Run1_20201030_source_mean",
+      "s_Run1_20201030_source_root",
+      "s_Run1_20201030_target_invroot",
+      "s_Run1_20201030_target_mean",
+      "s_Run1_20201118_source_mean",
+      "s_Run1_20201118_source_root",
+      "s_Run1_20201118_target_invroot",
+      "s_Run1_20201118_target_mean",
+      "s_Run1_20201119_source_mean",
+      "s_Run1_20201119_source_root",
+      "s_Run1_20201119_target_invroot",
+      "s_Run1_20201119_target_mean",
+      "s_Run1_20201124_source_mean",
+      "s_Run1_20201124_source_root",
+      "s_Run1_20201124_target_invroot",
+      "s_Run1_20201124_target_mean",
+      "s_Run2_20201019_source_mean",
+      "s_Run2_20201019_source_root",
+      "s_Run2_20201019_target_invroot",
+      "s_Run2_20201019_target_mean",
+      "s_Run2_20201020_source_mean",
+      "s_Run2_20201020_source_root",
+      "s_Run2_20201020_target_invroot",
+      "s_Run2_20201020_target_mean",
+      "s_Run2_20201027_source_mean",
+      "s_Run2_20201027_source_root",
+      "s_Run2_20201027_target_invroot",
+      "s_Run2_20201027_target_mean",
+      "s_Run2_20201030_source_mean",
+      "s_Run2_20201030_source_root",
+      "s_Run2_20201030_target_invroot",
+      "s_Run2_20201030_target_mean",
+      "s_Run2_20201124_source_mean",
+      "s_Run2_20201124_source_root",
+      "s_Run2_20201124_target_invroot",
+      "s_Run2_20201124_target_mean",
+      "wf_coef",
+      "wf_mean",
+      "wf_scale"
+    ],
+    "numeric_only": true,
+    "sha256": "647edb1844696e33e7ef917882150588ab2c09c15696a8c14e8780fac3435fae"
+  },
+  "schema": "external_gf_falcon_payload_v1",
+  "sessions": {
+    "Run1_20201019": {
+      "array_prefix": "s_Run1_20201019",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0032090049935504794,
+        "kind": "new_heldin_neural_only_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-19-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-19-Run1",
+      "support_activity_sha256": "1c5dbbeb77d93b2e96feec7f58a5927b19a63d1858a35208fefd9d7991694f9d"
+    },
+    "Run1_20201020": {
+      "array_prefix": "s_Run1_20201020",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.002402287966106087,
+        "kind": "new_heldin_neural_only_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-20-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-20-Run1",
+      "support_activity_sha256": "c3a73564cdd649491f54e32cdb50225b9de54c466b06eea5741f66eebf9038dc"
+    },
+    "Run1_20201027": {
+      "array_prefix": "s_Run1_20201027",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.002273945021443069,
+        "kind": "new_heldin_neural_only_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-27-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-27-Run1",
+      "support_activity_sha256": "fd6a834813458e5f471a324a2b911d232f08b5e7cf666c5908f86cc23b771cd5"
+    },
+    "Run1_20201028": {
+      "array_prefix": "s_Run1_20201028",
+      "calibration": {
+        "calibration_samples": 3300,
+        "fit_seconds": 0.0,
+        "kind": "source_reference_identity",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-28-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-28-Run1",
+      "support_activity_sha256": "9fdbc268782c621f02d46a40e36bcd4550c13ecad67b283ba69c9b30ecda0907"
+    },
+    "Run1_20201030": {
+      "array_prefix": "s_Run1_20201030",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0,
+        "kind": "reused_heldout_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-10-30-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-10-30-Run1",
+      "support_activity_sha256": "3b01bb8cd9f401acf028082a528246b960dfce303829bfdab32a556d0e2ddf63"
+    },
+    "Run1_20201118": {
+      "array_prefix": "s_Run1_20201118",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0,
+        "kind": "reused_heldout_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-18-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-18-Run1",
+      "support_activity_sha256": "b0a5a150366879d17f3323d945576ea20ea3e6316b181da1196bc228bee02ed8"
+    },
+    "Run1_20201119": {
+      "array_prefix": "s_Run1_20201119",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0,
+        "kind": "reused_heldout_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-19-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-19-Run1",
+      "support_activity_sha256": "4987e35962b19bd87bedaf2b7ae05c50bd4ec39b643205aea08645f87fa77204"
+    },
+    "Run1_20201124": {
+      "array_prefix": "s_Run1_20201124",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0,
+        "kind": "reused_heldout_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-24-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-24-Run1",
+      "support_activity_sha256": "a413acdd34693a990b6fa121ba5c81148aa03d26e9e0fb2b45eb7be978758b18"
+    },
+    "Run2_20201019": {
+      "array_prefix": "s_Run2_20201019",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0023588149924762547,
+        "kind": "new_heldin_neural_only_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-19-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-19-Run2",
+      "support_activity_sha256": "db5bfa216e976cb77f0d5076c26f5d23d40c54a87b337bdb0bf27dceb7399002"
+    },
+    "Run2_20201020": {
+      "array_prefix": "s_Run2_20201020",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.002798939007334411,
+        "kind": "new_heldin_neural_only_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-20-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-20-Run2",
+      "support_activity_sha256": "84b1b8b8354acf290d0cd15a9844265ad8c4faeeb8aab0de22d657af5bc51d9e"
+    },
+    "Run2_20201027": {
+      "array_prefix": "s_Run2_20201027",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0021251639700494707,
+        "kind": "new_heldin_neural_only_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-27-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-27-Run2",
+      "support_activity_sha256": "2ddeff2b70997a1e0f84752d0ec32a1f40e5cdfbe190f418f6eb2de798014ebf"
+    },
+    "Run2_20201030": {
+      "array_prefix": "s_Run2_20201030",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0,
+        "kind": "reused_heldout_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-10-30-Run2_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-10-30-Run2",
+      "support_activity_sha256": "4ee0deb30f8253337cd505139d7237afe5804ce9703f9fd1ca6a04900341ef12"
+    },
+    "Run2_20201124": {
+      "array_prefix": "s_Run2_20201124",
+      "calibration": {
+        "calibration_samples": 3300,
+        "channels": 96,
+        "fit_seconds_export": 0.0,
+        "kind": "reused_heldout_adapter",
+        "method": "CORAL",
+        "ridge": 0.001,
+        "shrinkage": 0.1,
+        "target_backpropagation": false,
+        "target_labels_used": false,
+        "target_samples": 3300
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-24-Run2_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-24-Run2",
+      "support_activity_sha256": "e90bd6550db3bf96bbae2ae8827a941ca278678fa2fcc08585f835ca764f4ddc"
+    }
+  },
+  "source": {
+    "models_pkl_sha256": "4a13e60f3ded8efff28bd4d2dc3e6ebf70dead0437cb08ef86c54947bc6f7239",
+    "reference_session": "ses-2020-10-28-Run1",
+    "source_activity_sha256": "a113392c1049d0a1c2640b1efb380bca2aa43b51ff81b7bb979809e08901e131",
+    "source_fa": "saved completed sklearn FactorAnalysis; reference rotation is identity",
+    "wf": "saved source-only WienerRidge; coef final row is intercept"
+  },
+  "task": "m2",
+  "training_method": "coral_wf"
+}

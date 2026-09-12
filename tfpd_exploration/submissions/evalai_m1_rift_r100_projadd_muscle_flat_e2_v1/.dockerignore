@@ -1,0 +1,11 @@
+**/.git
+**/.cache
+**/__pycache__
+**/*.pyc
+artifacts/*.json
+artifacts/*.npz
+artifacts/*.log
+artifacts/evalai_*
+submit.py
+pack_and_verify.py
+README.md

@@ -1,0 +1,61 @@
+{
+  "arm": "m1_rift_r100_concat_full_e2_cached",
+  "budget_disclosure": "Official 7-tag M1 banks (ConcatSideTrunk E0 + muscle_response16_svd4/global_rms T). RIFT R100 seed42 EMA e2 after B3S concat stage-2. HO3 earliest-max equal-session 0.712398 is development selection, not official HO. Cached CPU learnable runtime, no TTA, no ORT.",
+  "evalai_opened": true,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        16
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "20121004"
+      ],
+      "steps": 80
+    },
+    "B3": {
+      "last_shape": [
+        3,
+        16
+      ],
+      "max_abs": 5.960464477539062e-07,
+      "sessions": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ],
+      "steps": 80
+    },
+    "B4": {
+      "last_shape": [
+        4,
+        16
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "20120924",
+        "20120926",
+        "20120927",
+        "20120928"
+      ],
+      "steps": 80
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_concat_full_e2_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:d2bfaccb5605ed62e4b535cf581caa9c46fadf872ea9ef9ea08ad4d1cec44beb",
+  "image_size": 9603509819,
+  "image_tag": "m1-rift-r100-concat-full-e2:v1",
+  "is_public": true,
+  "method_description": "M1 RIFT R100, concat-side trunk E0 plus proj_add P16 token fusion, muscle_response16_svd4/global_rms carrier, learned recency slopes, cached CPU KV. HO3 pick e2 mean 0.712398. Not BT-EORT, not ORT, not SPINT.",
+  "method_label": "M1 RIFT R100 concat-side E0 + proj_add P16 muscle learned_slope e2 EMA cached CPU; architecture=RIFT backend=cached identity=proj_add e0_source=concat_side_trunk carrier=muscle_response16_svd4/global_rms",
+  "method_name": "M1 RIFT R100 concat-full e2",
+  "payload_sha256": "511461bd823a466d34990cd390d8cfd65c7ce0d8f9bb7989c2702f71774c1494",
+  "register": false,
+  "selection_mean": 0.7123982407983781,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_concat_full_e2_v1/artifacts/evalai_push_state.json",
+  "team": "HKU-ECE",
+  "team_id": 41975,
+  "window": 100
+}

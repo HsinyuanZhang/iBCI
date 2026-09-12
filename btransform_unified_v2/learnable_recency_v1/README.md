@@ -11,6 +11,8 @@ env -u PYTHONPATH PYTHONNOUSERSITE=1 /home/xinyuan/miniconda3/envs/spint/bin/pyt
 
 Formal launch matrix, ladders (seconds and bins), `--layers`, and the wave-1 M2 pair: `docs/DESIGN.md`.
 
-M1 / M2 / H1 的严格 source-only static 全训路线使用共享可学习通道表和固定最后一轮 EMA，不读取目标 support。模型、数据边界、配方及 smoke 说明见 [STATIC_SOURCE_ONLY.md](docs/STATIC_SOURCE_ONLY.md)。
+M1 / M2 / H1 的严格 source-only static 全训路线使用共享可学习通道表，不读取目标 support。EvalAI 选点与 FULL 相同：完整目标面 epoch 扫描 + earliest-max；末轮 EMA 只作 sidecar。模型、数据边界、配方及 smoke 说明见 [STATIC_SOURCE_ONLY.md](docs/STATIC_SOURCE_ONLY.md)。
 
 当前 FULL learned-slope 的 M1 / M2 / H1 flat 对照使用相同 P16、seed 42 和训练 / 选轮配方，仅将全部 recency slopes 固定为零。准备入口只生成配对清单与未来命令，不启动训练，见 [FULL_FLAT_CONTROL.md](docs/FULL_FLAT_CONTROL.md)。
+
+ACT-only v2 保留现有 B3/B3S/C2 encoder 的 early-pool activity 主干，参考 SPINT 的校准协议，与当前 P16/D4 learned-recency decoder 从头联合训练。M1 / M2 / H1 均提供训练和评分入口；本地评估沿用 FULL，最终结果以 EvalAI 为准。机制与数据协议见 [ACTIVITY_ONLY_V2.md](docs/ACTIVITY_ONLY_V2.md)，CPU smoke 与 M2 调度交接见 [ACTIVITY_ONLY_V2_HANDOFF.md](docs/ACTIVITY_ONLY_V2_HANDOFF.md)。

@@ -1,0 +1,621 @@
+{
+  "channels": 176,
+  "expected_prediction_fields": {
+    "channels": 176,
+    "history": 10,
+    "outputs": 7,
+    "task": "h1"
+  },
+  "h1_channel_correspondence": "positional rows; physical cross-date correspondence unverified",
+  "history": 10,
+  "local_public_calibration_scores": {
+    "legacy": 0.058838,
+    "standard": 0.057677
+  },
+  "max_batch": 8,
+  "method": "aligned_fa_stable_wf",
+  "model_feature_channels": 40,
+  "outputs": 7,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "payload.npz",
+    "keys": [
+      "ridge_coef",
+      "ridge_intercept",
+      "s_S0_set_1_A",
+      "s_S0_set_1_b",
+      "s_S0_set_1_z_mean",
+      "s_S0_set_1_z_scale",
+      "s_S0_set_2_A",
+      "s_S0_set_2_b",
+      "s_S0_set_2_z_mean",
+      "s_S0_set_2_z_scale",
+      "s_S10_set_1_A",
+      "s_S10_set_1_b",
+      "s_S10_set_1_z_mean",
+      "s_S10_set_1_z_scale",
+      "s_S10_set_2_A",
+      "s_S10_set_2_b",
+      "s_S10_set_2_z_mean",
+      "s_S10_set_2_z_scale",
+      "s_S11_set_1_A",
+      "s_S11_set_1_b",
+      "s_S11_set_1_z_mean",
+      "s_S11_set_1_z_scale",
+      "s_S11_set_2_A",
+      "s_S11_set_2_b",
+      "s_S11_set_2_z_mean",
+      "s_S11_set_2_z_scale",
+      "s_S12_set_1_A",
+      "s_S12_set_1_b",
+      "s_S12_set_1_z_mean",
+      "s_S12_set_1_z_scale",
+      "s_S12_set_2_A",
+      "s_S12_set_2_b",
+      "s_S12_set_2_z_mean",
+      "s_S12_set_2_z_scale",
+      "s_S1_set_1_A",
+      "s_S1_set_1_b",
+      "s_S1_set_1_z_mean",
+      "s_S1_set_1_z_scale",
+      "s_S1_set_2_A",
+      "s_S1_set_2_b",
+      "s_S1_set_2_z_mean",
+      "s_S1_set_2_z_scale",
+      "s_S1_set_3_A",
+      "s_S1_set_3_b",
+      "s_S1_set_3_z_mean",
+      "s_S1_set_3_z_scale",
+      "s_S2_set_1_A",
+      "s_S2_set_1_b",
+      "s_S2_set_1_z_mean",
+      "s_S2_set_1_z_scale",
+      "s_S2_set_2_A",
+      "s_S2_set_2_b",
+      "s_S2_set_2_z_mean",
+      "s_S2_set_2_z_scale",
+      "s_S3_set_1_A",
+      "s_S3_set_1_b",
+      "s_S3_set_1_z_mean",
+      "s_S3_set_1_z_scale",
+      "s_S3_set_2_A",
+      "s_S3_set_2_b",
+      "s_S3_set_2_z_mean",
+      "s_S3_set_2_z_scale",
+      "s_S4_set_1_A",
+      "s_S4_set_1_b",
+      "s_S4_set_1_z_mean",
+      "s_S4_set_1_z_scale",
+      "s_S4_set_2_A",
+      "s_S4_set_2_b",
+      "s_S4_set_2_z_mean",
+      "s_S4_set_2_z_scale",
+      "s_S5_set_1_A",
+      "s_S5_set_1_b",
+      "s_S5_set_1_z_mean",
+      "s_S5_set_1_z_scale",
+      "s_S5_set_2_A",
+      "s_S5_set_2_b",
+      "s_S5_set_2_z_mean",
+      "s_S5_set_2_z_scale",
+      "s_S6_set_1_A",
+      "s_S6_set_1_b",
+      "s_S6_set_1_z_mean",
+      "s_S6_set_1_z_scale",
+      "s_S6_set_2_A",
+      "s_S6_set_2_b",
+      "s_S6_set_2_z_mean",
+      "s_S6_set_2_z_scale",
+      "s_S7_set_1_A",
+      "s_S7_set_1_b",
+      "s_S7_set_1_z_mean",
+      "s_S7_set_1_z_scale",
+      "s_S7_set_2_A",
+      "s_S7_set_2_b",
+      "s_S7_set_2_z_mean",
+      "s_S7_set_2_z_scale",
+      "s_S8_set_1_A",
+      "s_S8_set_1_b",
+      "s_S8_set_1_z_mean",
+      "s_S8_set_1_z_scale",
+      "s_S8_set_2_A",
+      "s_S8_set_2_b",
+      "s_S8_set_2_z_mean",
+      "s_S8_set_2_z_scale",
+      "s_S9_set_1_A",
+      "s_S9_set_1_b",
+      "s_S9_set_1_z_mean",
+      "s_S9_set_1_z_scale",
+      "s_S9_set_2_A",
+      "s_S9_set_2_b",
+      "s_S9_set_2_z_mean",
+      "s_S9_set_2_z_scale",
+      "wf_kernel"
+    ],
+    "numeric_only": true,
+    "sha256": "3999d32aee2c8663f4fdf2ef882af9c7f556f1ea3bb673275462dcd553b3be9a"
+  },
+  "protocol": "Shared WF: 240 ms causal exponential smooth (FALCON 12-tap, tau=240ms, extent=1) on each full unpadded raw 20-ms recording from zero state, no trial reset; per-session z-score from that session's native calibration bins after the same filter; then aligner; 10-bin causal history; unpenalized-intercept ridge readout. No interpolated support.",
+  "schema": "fair_v2_linear_falcon_payload_v1",
+  "selected": {
+    "alpha": 1000.0,
+    "configuration": {
+      "history_bins": 10,
+      "latent_dim": 40,
+      "posterior": "stable",
+      "stable_fraction": 1.0
+    },
+    "eligible": true,
+    "source_validation_per_session": {
+      "ses-19250101T111740": {
+        "legacy_flattened_r2": 0.14171272536091417,
+        "legacy_sst": 0.044736807773507026,
+        "n_windows": 370,
+        "sse": 0.038397032819976015,
+        "standard_sst": 0.04466389398909404,
+        "standard_variance_weighted_r2": 0.1403115718179042
+      },
+      "ses-19250101T112404": {
+        "legacy_flattened_r2": 0.33212125591218733,
+        "legacy_sst": 0.02661176800675786,
+        "n_windows": 146,
+        "sse": 0.017773434194309674,
+        "standard_sst": 0.02636292890789286,
+        "standard_variance_weighted_r2": 0.3258171633202542
+      },
+      "ses-19250108T110520": {
+        "legacy_flattened_r2": 0.1894816850985408,
+        "legacy_sst": 0.0538590671455097,
+        "n_windows": 445,
+        "sse": 0.04365376034494307,
+        "standard_sst": 0.05379442046882438,
+        "standard_variance_weighted_r2": 0.18850765628673763
+      },
+      "ses-19250108T111022": {
+        "legacy_flattened_r2": 0.23630059877935383,
+        "legacy_sst": 0.021082844068199602,
+        "n_windows": 161,
+        "sse": 0.01610095539091229,
+        "standard_sst": 0.020249445947284225,
+        "standard_variance_weighted_r2": 0.20486933653255354
+      },
+      "ses-19250108T111455": {
+        "legacy_flattened_r2": 0.2968702297058642,
+        "legacy_sst": 0.027631082251052652,
+        "n_windows": 145,
+        "sse": 0.019428236516161025,
+        "standard_sst": 0.027123344393154763,
+        "standard_variance_weighted_r2": 0.28370792942981604
+      },
+      "ses-19250113T120811": {
+        "legacy_flattened_r2": 0.18398385006626483,
+        "legacy_sst": 0.05085442595516821,
+        "n_windows": 411,
+        "sse": 0.041498032875026576,
+        "standard_sst": 0.05066753466588876,
+        "standard_variance_weighted_r2": 0.18097390866414778
+      },
+      "ses-19250113T121303": {
+        "legacy_flattened_r2": 0.15330246219741483,
+        "legacy_sst": 0.05083429439666652,
+        "n_windows": 428,
+        "sse": 0.043041271901589295,
+        "standard_sst": 0.05045367847555638,
+        "standard_variance_weighted_r2": 0.14691508722318672
+      },
+      "ses-19250115T110633": {
+        "legacy_flattened_r2": 0.13358321881487945,
+        "legacy_sst": 0.04802811389011179,
+        "n_windows": 336,
+        "sse": 0.041612363843063035,
+        "standard_sst": 0.04791814043267351,
+        "standard_variance_weighted_r2": 0.1315947683418626
+      },
+      "ses-19250115T111328": {
+        "legacy_flattened_r2": 0.1742536612395662,
+        "legacy_sst": 0.04771115312901323,
+        "n_windows": 449,
+        "sse": 0.03939731001432109,
+        "standard_sst": 0.04746021967975851,
+        "standard_variance_weighted_r2": 0.16988774430128126
+      },
+      "ses-19250119T113543": {
+        "legacy_flattened_r2": 0.15279518092773015,
+        "legacy_sst": 0.04983656851843088,
+        "n_windows": 420,
+        "sse": 0.04222178101484001,
+        "standard_sst": 0.04967961024314903,
+        "standard_variance_weighted_r2": 0.15011851324533093
+      },
+      "ses-19250119T114045": {
+        "legacy_flattened_r2": 0.16465320568514186,
+        "legacy_sst": 0.04793044617262965,
+        "n_windows": 428,
+        "sse": 0.04003854456038704,
+        "standard_sst": 0.04763095591962549,
+        "standard_variance_weighted_r2": 0.15940077650446732
+      },
+      "ses-19250120T115044": {
+        "legacy_flattened_r2": 0.1936686411444991,
+        "legacy_sst": 0.05492239756996438,
+        "n_windows": 437,
+        "sse": 0.04428565146419144,
+        "standard_sst": 0.05483620745135831,
+        "standard_variance_weighted_r2": 0.19240127057520615
+      },
+      "ses-19250120T115537": {
+        "legacy_flattened_r2": 0.1826468908893194,
+        "legacy_sst": 0.056975171951177135,
+        "n_windows": 409,
+        "sse": 0.04656883393641027,
+        "standard_sst": 0.056658980104942094,
+        "standard_variance_weighted_r2": 0.17808555942664586
+      }
+    },
+    "source_validation_standard_mean": 0.18866086812841493
+  },
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "sessions": {
+    "S0_set_1": {
+      "array_prefix": "s_S0_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2401,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250101T111740",
+      "role": "heldin",
+      "source_session": "ses-19250101T111740",
+      "support_activity_sha256": ""
+    },
+    "S0_set_2": {
+      "array_prefix": "s_S0_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2517,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250101T112404",
+      "role": "heldin",
+      "source_session": "ses-19250101T112404",
+      "support_activity_sha256": ""
+    },
+    "S10_set_1": {
+      "array_prefix": "s_S10_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2299,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250203T113515",
+      "role": "heldout",
+      "source_session": "19250203T113515",
+      "support_activity_sha256": ""
+    },
+    "S10_set_2": {
+      "array_prefix": "s_S10_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2263,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250203T114018",
+      "role": "heldout",
+      "source_session": "19250203T114018",
+      "support_activity_sha256": ""
+    },
+    "S11_set_1": {
+      "array_prefix": "s_S11_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2391,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250206T112219",
+      "role": "heldout",
+      "source_session": "19250206T112219",
+      "support_activity_sha256": ""
+    },
+    "S11_set_2": {
+      "array_prefix": "s_S11_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2389,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250206T112712",
+      "role": "heldout",
+      "source_session": "19250206T112712",
+      "support_activity_sha256": ""
+    },
+    "S12_set_1": {
+      "array_prefix": "s_S12_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2631,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250209T111826",
+      "role": "heldout",
+      "source_session": "19250209T111826",
+      "support_activity_sha256": ""
+    },
+    "S12_set_2": {
+      "array_prefix": "s_S12_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2539,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250209T112327",
+      "role": "heldout",
+      "source_session": "19250209T112327",
+      "support_activity_sha256": ""
+    },
+    "S1_set_1": {
+      "array_prefix": "s_S1_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2283,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250108T110520",
+      "role": "heldin",
+      "source_session": "ses-19250108T110520",
+      "support_activity_sha256": ""
+    },
+    "S1_set_2": {
+      "array_prefix": "s_S1_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2723,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250108T111022",
+      "role": "heldin",
+      "source_session": "ses-19250108T111022",
+      "support_activity_sha256": ""
+    },
+    "S1_set_3": {
+      "array_prefix": "s_S1_set_3",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2666,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250108T111455",
+      "role": "heldin",
+      "source_session": "ses-19250108T111455",
+      "support_activity_sha256": ""
+    },
+    "S2_set_1": {
+      "array_prefix": "s_S2_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2327,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250113T120811",
+      "role": "heldin",
+      "source_session": "ses-19250113T120811",
+      "support_activity_sha256": ""
+    },
+    "S2_set_2": {
+      "array_prefix": "s_S2_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2178,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250113T121303",
+      "role": "heldin",
+      "source_session": "ses-19250113T121303",
+      "support_activity_sha256": ""
+    },
+    "S3_set_1": {
+      "array_prefix": "s_S3_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2297,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250115T110633",
+      "role": "heldin",
+      "source_session": "ses-19250115T110633",
+      "support_activity_sha256": ""
+    },
+    "S3_set_2": {
+      "array_prefix": "s_S3_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2242,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250115T111328",
+      "role": "heldin",
+      "source_session": "ses-19250115T111328",
+      "support_activity_sha256": ""
+    },
+    "S4_set_1": {
+      "array_prefix": "s_S4_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2487,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250119T113543",
+      "role": "heldin",
+      "source_session": "ses-19250119T113543",
+      "support_activity_sha256": ""
+    },
+    "S4_set_2": {
+      "array_prefix": "s_S4_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2378,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250119T114045",
+      "role": "heldin",
+      "source_session": "ses-19250119T114045",
+      "support_activity_sha256": ""
+    },
+    "S5_set_1": {
+      "array_prefix": "s_S5_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2217,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250120T115044",
+      "role": "heldin",
+      "source_session": "ses-19250120T115044",
+      "support_activity_sha256": ""
+    },
+    "S5_set_2": {
+      "array_prefix": "s_S5_set_2",
+      "calibration": {
+        "algebra": "source_fa_reference",
+        "calibration_samples": 2163,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250120T115537",
+      "role": "heldin",
+      "source_session": "ses-19250120T115537",
+      "support_activity_sha256": ""
+    },
+    "S6_set_1": {
+      "array_prefix": "s_S6_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2313,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250126T113454",
+      "role": "heldout",
+      "source_session": "19250126T113454",
+      "support_activity_sha256": ""
+    },
+    "S6_set_2": {
+      "array_prefix": "s_S6_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2350,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250126T114029",
+      "role": "heldout",
+      "source_session": "19250126T114029",
+      "support_activity_sha256": ""
+    },
+    "S7_set_1": {
+      "array_prefix": "s_S7_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2387,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250127T120333",
+      "role": "heldout",
+      "source_session": "19250127T120333",
+      "support_activity_sha256": ""
+    },
+    "S7_set_2": {
+      "array_prefix": "s_S7_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2554,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250127T120826",
+      "role": "heldout",
+      "source_session": "19250127T120826",
+      "support_activity_sha256": ""
+    },
+    "S8_set_1": {
+      "array_prefix": "s_S8_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2418,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250129T112555",
+      "role": "heldout",
+      "source_session": "19250129T112555",
+      "support_activity_sha256": ""
+    },
+    "S8_set_2": {
+      "array_prefix": "s_S8_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2289,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250129T113059",
+      "role": "heldout",
+      "source_session": "19250129T113059",
+      "support_activity_sha256": ""
+    },
+    "S9_set_1": {
+      "array_prefix": "s_S9_set_1",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2349,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250202T113958",
+      "role": "heldout",
+      "source_session": "19250202T113958",
+      "support_activity_sha256": ""
+    },
+    "S9_set_2": {
+      "array_prefix": "s_S9_set_2",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2441,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250202T114452",
+      "role": "heldout",
+      "source_session": "19250202T114452",
+      "support_activity_sha256": ""
+    }
+  },
+  "source": {
+    "filter": "FALCON 12-tap causal exponential, tau=240ms, extent=1",
+    "models_pkl_sha256": "7797d4daa70aa6511a536dbbb8cf109f8997e018a5b67a14e40d2b722e933593",
+    "reference_session": "ses-19250120T115537",
+    "ridge": "source-selected unpenalized-intercept ridge; no feature z-score",
+    "selection_sha256": "43967af0a4afc032e3ea79410baeed5cc4820a0a2472fd0962041721a8bcf693"
+  },
+  "task": "h1",
+  "training_method": "aligned_fa_stable_wf"
+}

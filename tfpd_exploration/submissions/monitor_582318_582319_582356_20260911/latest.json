@@ -1,0 +1,50 @@
+{
+  "api_read_only": true,
+  "checked_at_utc": "2026-09-12T01:30:30.943209+00:00",
+  "complete": true,
+  "phase": 4599,
+  "submissions": [
+    {
+      "challenge_phase": 4599,
+      "completed_at": null,
+      "has_submission_result_file": false,
+      "id": 582318,
+      "is_public": false,
+      "method_name": "M1 RIFT muscle proj_add flat s42 e2",
+      "participant_team": 41975,
+      "participant_team_name": "HKU-ECE",
+      "score_saved": false,
+      "started_at": null,
+      "status": "cancelled",
+      "submitted_at": "2026-09-11T12:06:07.275325Z"
+    },
+    {
+      "challenge_phase": 4599,
+      "completed_at": null,
+      "has_submission_result_file": false,
+      "id": 582319,
+      "is_public": false,
+      "method_name": "H1 RIFT R300 flat e15 cached",
+      "participant_team": 41975,
+      "participant_team_name": "HKU-ECE",
+      "score_saved": false,
+      "started_at": null,
+      "status": "cancelled",
+      "submitted_at": "2026-09-11T12:06:13.717466Z"
+    },
+    {
+      "challenge_phase": 4599,
+      "completed_at": null,
+      "has_submission_result_file": false,
+      "id": 582356,
+      "is_public": false,
+      "method_name": "Fair v2 H1 static-RIFT + diag-z",
+      "participant_team": 42279,
+      "participant_team_name": "sustechhku",
+      "score_saved": false,
+      "started_at": null,
+      "status": "cancelled",
+      "submitted_at": "2026-09-11T15:30:44.436233Z"
+    }
+  ]
+}

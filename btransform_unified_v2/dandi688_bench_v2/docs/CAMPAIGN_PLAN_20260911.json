@@ -1,0 +1,114 @@
+{
+  "baseline_grid_candidates": 144,
+  "baseline_root": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/baselines_dev_formal",
+  "baseline_status": "COMPLETED_144_CANDIDATES_RETAINED",
+  "baseline_b3s_compatibility_proof": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/b3s_migration_v1/BASELINE_COMPATIBILITY.json",
+  "batch": 32,
+  "campaign_root": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_2015_m33_allseeds",
+  "b3s_contract": {
+    "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/docs/B3S_ENCODER_CONTRACT.md",
+    "status": "HISTORICAL_CLASS_SCHEMA_AND_SMOKE_EVIDENCE",
+    "architecture": "pre_pool Linear(T100,64)+ReLU -> mean over M33 -> post_pool three-affine stack -> E0=50",
+    "full_side": "append representation-matched MOVE-T4 side after mean and before post_pool; initialize post_pool first-layer side columns to zero",
+    "activity": "pooled activity only; no carrier",
+    "raw_set": "no encoder",
+    "m1_weights_direct_transfer": false
+  },
+  "encoder_line": {
+    "name": "concat",
+    "contract": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/docs/CONCAT_ENCODER_CONTRACT.md",
+    "status": "CPU_SMOKE_PASSED_FORMAL_NOT_RUN",
+    "architecture": "pre_pool Linear(T100,64)+ReLU -> mean over M33 -> Full-only post_pool-input concat(T4) -> post_pool three-layer MLP -> E0=50",
+    "carrier_fusion": "post_pool_input_concat",
+    "film": false,
+    "smoke_receipt_planned": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/smoke_concat_2015_m33_v1/receipt.json"
+  },
+  "created_utc": "2026-09-11T13:22:32.562128+00:00",
+  "data": "DANDI000688/sub-C/CO/2015-only",
+  "encoder_seed_scope": "shared source-only representation-matched s42 encoder; reported SD is conditional decoder variability",
+  "encoders": [
+    "sua_s42",
+    "pmua_s42"
+  ],
+  "final_allowed_after": [
+    "concat CPU smoke evidence reviewed",
+    "new concat neural tasks complete from fresh directories",
+    "all CPU grid candidates attempted; FA may be unavailable with evidence",
+    "Astra first and partial-results second review findings closed",
+    "all model/parameter selections sealed including four supplements"
+  ],
+  "final_sessions_opened": 0,
+  "b3s_cpu_validation": {
+    "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/docs/VALIDATION_B3S_CPU_20260911.md",
+    "smoke_receipt": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/smoke_b3s_2015_m33_v1/receipt.json",
+    "status": "PASSED_SMOKE_ONLY_FORMAL_B3S_NOT_RUN",
+    "gpu_used": false,
+    "final_sessions_opened": 0
+  },
+  "full_seed_reporting": "all seeds42/43/44; mean and sample SD; matched-seed SUA minus PMUA; never best seed",
+  "gpu_profile": {
+    "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/gpu_profile_2015_m33/receipt.json",
+    "sha256": "c36aab8dc5594da6aa64275f3b869700dfd5c2807263ff0dda9e5417b80fdb6d"
+  },
+  "main_neural_cells": [
+    "full_sua_s42",
+    "full_pmua_s42",
+    "activity_sua_s42",
+    "activity_pmua_s42",
+    "raw_set_sua_s42",
+    "raw_set_pmua_s42"
+  ],
+  "main_score_cells": 15,
+  "neural_training_tasks": 12,
+  "old_film_campaign": {
+    "status": "GPU_TERMINATED_BY_USER_NO_AUTOMATIC_RESTART",
+    "termination_receipt": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_2015_m33_allseeds/TERMINATED_BY_USER.json",
+    "old_implementation": "Full empty-contrast FiLM; not B3S and does not satisfy B3S Full side-column zero initialization",
+    "persisted_pretrain_per_representation": {
+      "segments": 4,
+      "updates": 12660
+    },
+    "old_weights_eligible_for_b3s": false,
+    "automatic_restart_allowed": false,
+    "final_sessions_opened": 0
+  },
+  "reviews": [
+    {
+      "decision": "PASS_WITH_FIXES: neural GPU profile required; baseline M33 fix verified; final R2-R4 outstanding",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/docs/ASTRA_REVIEW_1_DESIGN.md",
+      "sha256": "8d3c08066896fbe89bedb508319ebac2c471834c477ced610fc7214286d747ef"
+    }
+  ],
+  "schema": "dandi688_v2_preregistered_full_campaign",
+  "segments_per_task": 24,
+  "selection": "earliest maximum on complete dev six separately per decoder; encoder fixed last EMA",
+  "split": {
+    "dev": 6,
+    "final": 6,
+    "train": 18
+  },
+  "concat_cpu_smoke": {
+    "receipt": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/smoke_concat_2015_m33_v1/receipt.json",
+    "audit": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/concat_line_v1/SMOKE_AUDIT.json",
+    "validation": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/concat_line_v1/VALIDATION.json",
+    "status": "SMOKE_INELIGIBLE_FOR_FORMAL",
+    "pretrains": 2,
+    "neural_arms": 6,
+    "exact_ema_reload_checks": 6,
+    "cpu_baselines": 7,
+    "raw_pmua_static_adapters": 2,
+    "gpu_used": false,
+    "final_sessions_opened": 0
+  },
+  "status": "CONCAT_CPU_SMOKE_PASSED_FORMAL_NOT_RUN_GPU_DISABLED",
+  "strict_m33_calibration": true,
+  "supplemental_full_cells": [
+    "full_sua_s43",
+    "full_pmua_s43",
+    "full_sua_s44",
+    "full_pmua_s44"
+  ],
+  "total_final_prediction_cells_including_supplement": 19,
+  "updates_per_segment": 3165,
+  "updates_per_task": 75960
+}

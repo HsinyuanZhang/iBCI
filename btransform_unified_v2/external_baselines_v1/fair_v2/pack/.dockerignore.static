@@ -1,0 +1,8 @@
+**
+!.dockerignore
+!Dockerfile
+!static_falcon_decoder.py
+!static_decode.py
+!artifacts/decoder.pkl
+!artifacts/pkg
+!artifacts/pkg/**

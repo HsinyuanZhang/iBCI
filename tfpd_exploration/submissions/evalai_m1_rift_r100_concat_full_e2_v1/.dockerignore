@@ -1,0 +1,8 @@
+**
+!.dockerignore
+!Dockerfile
+!decode.py
+!m1_rift_falcon_decoder.py
+!artifacts/m1_rift_r100_concat_full_e2.pkl
+!artifacts/pkg
+!artifacts/pkg/**

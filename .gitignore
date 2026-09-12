@@ -171,6 +171,10 @@ btransform_unified_v2/outputs/
 btransform_unified_v2/dandi688_bench_v1/results/
 btransform_unified_v2/dandi688_bench_v1/cache/
 btransform_unified_v2/dandi688_bench_v1/logs/
+btransform_unified_v2/dandi688_bench_v2/results/
+btransform_unified_v2/dandi688_bench_v2/cache/
+btransform_unified_v2/dandi688_bench_v2/logs/
+btransform_unified_v2/external_baselines_v1/**/results/
 btransform_unified_v2/learnable_recency_v1/results/
 btransform_unified_v2/learnable_recency_v1/logs/
 tfpd_exploration/submissions/.evalai_*/

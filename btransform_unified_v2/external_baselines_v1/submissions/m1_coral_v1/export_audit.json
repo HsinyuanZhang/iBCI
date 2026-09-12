@@ -1,0 +1,49 @@
+{
+  "checks": {
+    "20121004": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1305,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "20121017": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1295,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "20121024": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1281,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-20120928": {
+      "kind": "source_pipeline_first32",
+      "max_abs_error": 0.0,
+      "n": 32,
+      "pass": true,
+      "tolerance": 2e-06
+    }
+  },
+  "fit_seconds_total": 9.047512512013782,
+  "method": "coral_wf",
+  "new_heldin_fa_diagnostics": {},
+  "payload_bytes": 373590,
+  "payload_sha256": "3ee7acbd09e8539cb2716907603cf837b4535ad056e2c9c32cfc9d77212da6a3",
+  "schema": "external_gf_falcon_payload_export_audit_v1",
+  "tag_count": 7,
+  "tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "task": "m1"
+}

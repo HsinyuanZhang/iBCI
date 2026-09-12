@@ -32,7 +32,7 @@ def test_recipe_is_locked_to_formal_m1_static_contract():
     with pytest.raises(ValueError):
         train.recipe(train.build_parser().parse_args(["--ladder", "scaled"]))
     source = inspect.getsource(train)
-    assert "fixed final EMA epoch 24" in source
+    assert "earliest maximum equal_session_mean" in source
     assert "no_support_or_e0_or_banks" in source
 
 

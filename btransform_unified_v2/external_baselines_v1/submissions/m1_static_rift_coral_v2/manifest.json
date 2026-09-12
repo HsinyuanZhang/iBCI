@@ -1,0 +1,80 @@
+{
+  "channels": 64,
+  "checkpoint_sha256": "562e0febc2818e2fc6952e383a5dea7fadbc6493034cee3557a315e1538cf4df",
+  "expected_prediction_fields": {
+    "channels": 64,
+    "history": 100,
+    "outputs": 16,
+    "task": "m1"
+  },
+  "frontend": "coral",
+  "history": 100,
+  "local_public_calibration_scores": {
+    "legacy": 0.643304,
+    "standard": 0.536408
+  },
+  "max_batch": 4,
+  "method": "static_rift_coral",
+  "outputs": 16,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "artifacts/decoder.pkl",
+    "numeric_frontend_only": true,
+    "sha256": "99d5033ad7f61722445e638b8147f85d861ac0a0d107d8ec9f2131138c812923"
+  },
+  "schema": "fair_v2_static_rift_frontend_v1",
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "sessions": {
+    "20120924": {
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120924",
+      "support_n": 1287,
+      "target_labels_used": false
+    },
+    "20120926": {
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120926",
+      "support_n": 1330,
+      "target_labels_used": false
+    },
+    "20120927": {
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120927",
+      "support_n": 1297,
+      "target_labels_used": false
+    },
+    "20120928": {
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120928",
+      "support_n": 1296,
+      "target_labels_used": false
+    },
+    "20121004": {
+      "raw_basename": "sub-MonkeyL-held-out-calib_ses-20121004_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "20121004",
+      "support_n": 1305,
+      "target_labels_used": false
+    },
+    "20121017": {
+      "raw_basename": "sub-MonkeyL-held-out-calib_ses-20121017_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "20121017",
+      "support_n": 1295,
+      "target_labels_used": false
+    },
+    "20121024": {
+      "raw_basename": "sub-MonkeyL-held-out-calib_ses-20121024_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "20121024",
+      "support_n": 1281,
+      "target_labels_used": false
+    }
+  },
+  "task": "m1"
+}

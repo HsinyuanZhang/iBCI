@@ -1,0 +1,16 @@
+{
+  "arm": "h1_rift_r300_flat_e15_cached",
+  "cancelled_submission_id": 582319,
+  "image_id": "sha256:60e120c8d2fe1996b6f3a6981611d9b6e0db2ead293ac8267330133e6d8d18d6",
+  "image_tag": "h1-rift-r300-flat-e15:v1",
+  "payload_sha256": "f502075d1808e1be169313c533d8eb6da5e1f65428d602bc2023b1fcc8f5dc8b",
+  "prior_cancelled_submission_id": 582319,
+  "pushed": true,
+  "registered": false,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975",
+  "resubmit_visible": true,
+  "schema_version": "h1_rift_evalai_push_state",
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41975:ee232301-56f5-4cc7-8556-0197dc4ae2e3",
+  "uploaded_manifest_digest": "sha256:60e120c8d2fe1996b6f3a6981611d9b6e0db2ead293ac8267330133e6d8d18d6",
+  "uuid_tag": "ee232301-56f5-4cc7-8556-0197dc4ae2e3"
+}

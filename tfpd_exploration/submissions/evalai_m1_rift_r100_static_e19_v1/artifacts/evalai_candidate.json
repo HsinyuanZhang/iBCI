@@ -1,0 +1,115 @@
+{
+  "arm": "m1_rift_r100_static_e19_cached",
+  "budget_disclosure": "M1 RIFT R100 static_identity[64,16], no E0 / no e0_proj / no muscle carrier / no calibration bank. Source-only train 24 epochs; HO3 query labels used only to pick earliest-max EMA epoch 19 (equal_session_mean -0.142517). This query-label epoch pick is different from source-selected linear WF. No official test, no TTA, no ORT, not fair_v2 diag-z/CORAL/WF.",
+  "container_smoke": {
+    "kind": "rift_cached_static_identity",
+    "pred": [
+      [
+        0.4926456809043884,
+        0.5301936268806458,
+        0.7824372053146362,
+        0.10349133610725403,
+        0.23091068863868713,
+        0.350216269493103,
+        0.15420961380004883,
+        0.27634331583976746,
+        0.4006822407245636,
+        1.149814486503601,
+        1.10968017578125,
+        1.0795637369155884,
+        0.4858085513114929,
+        0.06946320831775665,
+        0.15129773318767548,
+        1.2649259567260742
+      ]
+    ],
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        16
+      ],
+      "sessions": [
+        "20121004"
+      ],
+      "steps": 80,
+      "stream_vs_cached_max_abs": 0.0,
+      "stream_vs_offline_max_abs": 1.430511474609375e-06,
+      "tags": [
+        "20121004"
+      ]
+    },
+    "B3": {
+      "last_shape": [
+        3,
+        16
+      ],
+      "sessions": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ],
+      "steps": 80,
+      "stream_vs_cached_max_abs": 8.344650268554688e-07,
+      "stream_vs_offline_max_abs": 1.3113021850585938e-06,
+      "tags": [
+        "20121004",
+        "20121017",
+        "20121024"
+      ]
+    },
+    "B4": {
+      "last_shape": [
+        4,
+        16
+      ],
+      "sessions": [
+        "20120924",
+        "20120926",
+        "20120927",
+        "20120928"
+      ],
+      "steps": 80,
+      "stream_vs_cached_max_abs": 0.0,
+      "stream_vs_offline_max_abs": 1.2516975402832031e-06,
+      "tags": [
+        "20120924",
+        "20120926",
+        "20120927",
+        "20120928"
+      ]
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_static_e19_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS",
+    "tolerance": {
+      "note": "left-pad bins are invalid in the offline window; Falcon predict bins are valid observations",
+      "stream_vs_cached_gate": 1e-05,
+      "stream_vs_offline_gate": 1e-05
+    }
+  },
+  "image_id": "sha256:03c320d462254209f50a4c0bb8002a0c43c8df062ad272cc66275ae1ee298d3d",
+  "image_size": 9603466453,
+  "image_tag": "m1-rift-r100-static-e19:v1",
+  "method_description": "M1 RIFT R100 P16 static_identity (shared 64x16 table, literal-zero carrier), per-layer learned_slope on the default half-life ladder, cached CPU KV. HO3 all24 earliest-max e19 equal_session_mean -0.142517. Not muscle, not e24, not BT-EORT, not ORT, not SPINT, not WF.",
+  "method_label": "M1 RIFT R100 static_identity learned_slope default-ladder e19 EMA cached CPU; architecture=RIFT backend=cached identity=static recency=learned_slope_default; HO3 all24 earliest-max equal_session_mean -0.142517; not muscle; not e24; not WF",
+  "method_name": "M1 RIFT R100 static e19",
+  "payload_sha256": "e13af98508ba5bb72ac4e8f997bf502147c54dfa92ac6ebe1ed1f5da0a00b5e0",
+  "register": false,
+  "selection": {
+    "epoch": 19,
+    "equal_session_mean": -0.14251702679952535,
+    "local_ho_labels_used_for_selection": true,
+    "metric": "equal_session_mean",
+    "n_windows": 3881,
+    "official_test_used": false,
+    "rule": "HO3 all24 earliest maximum equal_session_mean (same as FULL)",
+    "seed": 42,
+    "surface": "HO3 query all24 earliest-max"
+  },
+  "selection_mean": -0.14251702679952535,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_static_e19_v1/artifacts/evalai_push_state.json",
+  "window": 100
+}

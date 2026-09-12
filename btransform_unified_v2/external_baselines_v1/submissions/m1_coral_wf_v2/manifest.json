@@ -1,0 +1,208 @@
+{
+  "channels": 64,
+  "expected_prediction_fields": {
+    "channels": 64,
+    "history": 10,
+    "outputs": 16,
+    "task": "m1"
+  },
+  "h1_channel_correspondence": "fixed delivered unit rows",
+  "history": 10,
+  "local_public_calibration_scores": {
+    "legacy": 0.583432,
+    "standard": 0.461263
+  },
+  "max_batch": 4,
+  "method": "coral_wf",
+  "model_feature_channels": 64,
+  "outputs": 16,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "payload.npz",
+    "keys": [
+      "ridge_coef",
+      "ridge_intercept",
+      "s_20120924_A",
+      "s_20120924_b",
+      "s_20120924_z_mean",
+      "s_20120924_z_scale",
+      "s_20120926_A",
+      "s_20120926_b",
+      "s_20120926_z_mean",
+      "s_20120926_z_scale",
+      "s_20120927_A",
+      "s_20120927_b",
+      "s_20120927_z_mean",
+      "s_20120927_z_scale",
+      "s_20120928_A",
+      "s_20120928_b",
+      "s_20120928_z_mean",
+      "s_20120928_z_scale",
+      "s_20121004_A",
+      "s_20121004_b",
+      "s_20121004_z_mean",
+      "s_20121004_z_scale",
+      "s_20121017_A",
+      "s_20121017_b",
+      "s_20121017_z_mean",
+      "s_20121017_z_scale",
+      "s_20121024_A",
+      "s_20121024_b",
+      "s_20121024_z_mean",
+      "s_20121024_z_scale",
+      "wf_kernel"
+    ],
+    "numeric_only": true,
+    "sha256": "a00529bd89ddd6604133718259213fb30d22d356b79ab3c1dff2438730915772"
+  },
+  "protocol": "Shared WF: 240 ms causal exponential smooth (FALCON 12-tap, tau=240ms, extent=1) on each full unpadded raw 20-ms recording from zero state, no trial reset; per-session z-score from that session's native calibration bins after the same filter; then aligner; 10-bin causal history; unpenalized-intercept ridge readout. No interpolated support.",
+  "schema": "fair_v2_linear_falcon_payload_v1",
+  "selected": {
+    "alpha": 100.0,
+    "configuration": {
+      "coral_ridge": 0.001,
+      "history_bins": 10,
+      "shrinkage": 1.0
+    },
+    "eligible": true,
+    "source_validation_per_session": {
+      "ses-20120924": {
+        "legacy_flattened_r2": 0.6779273769321041,
+        "legacy_sst": 33309.86884561025,
+        "n_windows": 10950,
+        "sse": 10728.196833153279,
+        "standard_sst": 25678.44503118717,
+        "standard_variance_weighted_r2": 0.5822100278999138
+      },
+      "ses-20120926": {
+        "legacy_flattened_r2": 0.7008399955105935,
+        "legacy_sst": 30285.629493509347,
+        "n_windows": 10876,
+        "sse": 9060.249055242757,
+        "standard_sst": 24070.522721762125,
+        "standard_variance_weighted_r2": 0.6235956667841107
+      },
+      "ses-20120927": {
+        "legacy_flattened_r2": 0.6727594682980514,
+        "legacy_sst": 26819.41522145729,
+        "n_windows": 9826,
+        "sse": 8776.399697005016,
+        "standard_sst": 21182.829843920932,
+        "standard_variance_weighted_r2": 0.5856833217435461
+      },
+      "ses-20120928": {
+        "legacy_flattened_r2": 0.6946258441666293,
+        "legacy_sst": 29587.76839363691,
+        "n_windows": 10941,
+        "sse": 9035.339796200158,
+        "standard_sst": 23593.705409844857,
+        "standard_variance_weighted_r2": 0.6170444769379029
+      }
+    },
+    "source_validation_standard_mean": 0.6021333733413684
+  },
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "sessions": {
+    "20120924": {
+      "array_prefix": "s_20120924",
+      "calibration": {
+        "algebra": "coral",
+        "calibration_samples": 1287,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120924_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120924",
+      "support_activity_sha256": ""
+    },
+    "20120926": {
+      "array_prefix": "s_20120926",
+      "calibration": {
+        "algebra": "coral",
+        "calibration_samples": 1330,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120926_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120926",
+      "support_activity_sha256": ""
+    },
+    "20120927": {
+      "array_prefix": "s_20120927",
+      "calibration": {
+        "algebra": "coral",
+        "calibration_samples": 1297,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120927_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120927",
+      "support_activity_sha256": ""
+    },
+    "20120928": {
+      "array_prefix": "s_20120928",
+      "calibration": {
+        "algebra": "identity_after_z",
+        "calibration_samples": 1296,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-in-calib_ses-20120928_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-20120928",
+      "support_activity_sha256": ""
+    },
+    "20121004": {
+      "array_prefix": "s_20121004",
+      "calibration": {
+        "algebra": "coral",
+        "calibration_samples": 1305,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-out-calib_ses-20121004_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "20121004",
+      "support_activity_sha256": ""
+    },
+    "20121017": {
+      "array_prefix": "s_20121017",
+      "calibration": {
+        "algebra": "coral",
+        "calibration_samples": 1295,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-out-calib_ses-20121017_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "20121017",
+      "support_activity_sha256": ""
+    },
+    "20121024": {
+      "array_prefix": "s_20121024",
+      "calibration": {
+        "algebra": "coral",
+        "calibration_samples": 1281,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyL-held-out-calib_ses-20121024_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "20121024",
+      "support_activity_sha256": ""
+    }
+  },
+  "source": {
+    "filter": "FALCON 12-tap causal exponential, tau=240ms, extent=1",
+    "models_pkl_sha256": "c4eb9105ed6a0214859c55d7cce6d5aac3e994554a1037c5a06ec2a7037c9f82",
+    "reference_session": "ses-20120928",
+    "ridge": "source-selected unpenalized-intercept ridge; no feature z-score",
+    "selection_sha256": "25809f1b85cd7dd0719a4e786634f8a3cfc9b9f31df324c470898df10029036b"
+  },
+  "task": "m1",
+  "training_method": "coral_wf"
+}

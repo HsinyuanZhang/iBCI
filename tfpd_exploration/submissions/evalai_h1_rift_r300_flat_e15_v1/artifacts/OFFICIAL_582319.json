@@ -1,0 +1,20 @@
+{
+  "local_selection": {
+    "epoch": 15,
+    "mean": 0.4658142024695514,
+    "metric": "val_ho_m3_grouped/r2_mean",
+    "seed": 42,
+    "worst": 0.22411711984409033,
+    "worst_session": "S7"
+  },
+  "method_name": "H1 RIFT R300 flat e15 cached",
+  "replaces": 582315,
+  "scores": null,
+  "status": "cancelled",
+  "cancelled_at": "2026-09-12T01:29:25.850332Z",
+  "cancellation_reason": "user withdrew all pending submissions",
+  "submission_id": 582319,
+  "submitted_at": "2026-09-11T12:06:07Z",
+  "team": "HKU-ECE",
+  "team_id": 41975
+}

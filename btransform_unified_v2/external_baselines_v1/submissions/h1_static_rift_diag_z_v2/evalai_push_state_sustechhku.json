@@ -1,0 +1,65 @@
+{
+  "image_id": "sha256:06909b8688f1d6521c380b623d50c5b817481139d94f19e3aca164ef7c530f8a",
+  "image_tag": "fair-v2-h1-static_rift_diag_z:cpu",
+  "payload_sha256": "17bcb4753a1fe5eb9b631cdfca3b8aa4190d6397b4dde856635fad708b8af799",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-42279",
+  "schema_version": "fair_v2_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 67679,
+    "execution_time": "None",
+    "id": 582356,
+    "ignore_submission": false,
+    "input_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582356/0d7f98e9-9ebe-4967-bdbb-c2c707c02c.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "Same-capacity static-RIFT control: one already-trained static EMA checkpoint; only the pre-local_conv neural calibration changes. Network keeps raw-input processing; no WF smoothing is added. Frontend is per-session diag-z mapping target raw support onto pooled source raw-support mean/std. Same frozen network weights as the static+CORAL sibling. Local standard R2=0.256093 (not official). H1 physical cross-date channel correspondence is unverified; positional unit rows are assumed. New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+    "method_name": "Fair v2 H1 static-RIFT + diag-z",
+    "participant_team": 42279,
+    "participant_team_name": "sustechhku",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "cancelled",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-11T15:30:44.436233Z",
+    "when_made_public": null
+  },
+  "submission_id": 582356,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-42279:5bb453f4-45c4-448c-958c-7b9e6a5dca95",
+  "uploaded_manifest_digest": "sha256:06909b8688f1d6521c380b623d50c5b817481139d94f19e3aca164ef7c530f8a",
+  "uuid_tag": "5bb453f4-45c4-448c-958c-7b9e6a5dca95"
+}

@@ -45,7 +45,8 @@ def test_static_recipe_and_selection_are_fixed_final_source_only():
         train.recipe(train.build_parser().parse_args(["--layers", "3"]))
     source = inspect.getsource(train)
     assert (
-        "fixed final EMA epoch 24" in source and "no_target_support_loading" in source
+        "earliest maximum equal_session_mean" in source
+        and "no_target_support_loading" in source
     )
 
 

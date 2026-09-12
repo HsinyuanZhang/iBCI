@@ -1,0 +1,327 @@
+{
+  "schema": "external_gf_submission_readiness_v1",
+  "created_at_utc": "2026-09-11T09:41:50.498084+00:00",
+  "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+  "submission_eligible": false,
+  "freeze_reason": "The archived single-source ridge=1 protocol lacks an official preprocessing control, so it is not a fair RIFT comparison and must not be submitted.",
+  "archival_policy": "Retain payloads, manifests, predictions, audits, image IDs, and their existing hashes unchanged for traceability; do not push or register these images.",
+  "package_count": 6,
+  "cpu_only": true,
+  "remote_push_performed": false,
+  "evalai_registration_performed": false,
+  "challenge_id": 2319,
+  "phase_id": 4599,
+  "phase_slug": "few-shot-test-2319",
+  "runtime_tests": {
+    "passed": 3,
+    "test_file": "../tests/test_submission_runtime.py"
+  },
+  "packages": [
+    {
+      "package": "h1_aligned_fa_v1",
+      "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+      "submission_eligible": false,
+      "task": "h1",
+      "method": "aligned_fa",
+      "image_tag": "external-gf-h1-aligned_fa-v1:cpu",
+      "image_id": "sha256:825bb42d735e9541a80414583888bb830b1ebef262b80171d1644c07bd07147d",
+      "payload_bytes": 474670,
+      "session_roster": {
+        "heldin": 13,
+        "heldout": 14
+      },
+      "batch_size": 8,
+      "input_channels": 176,
+      "output_dimensions": 7,
+      "history_bins": 10,
+      "checks": {
+        "official_evaluator_constructor": true,
+        "all_sessions_and_partial_batches": true,
+        "payload_export_replay": true,
+        "host_full_heldout_streaming_replay": true,
+        "container_full_heldout_streaming_replay": true,
+        "image_embedded_files_match_context_and_shared_runtime": true,
+        "image_labels_environment_and_command": true
+      },
+      "host_max_abs_error": 0,
+      "container_max_abs_error": 0,
+      "container_numpy_version": "1.26.4",
+      "heldout_raw_bins_streamed": 34490,
+      "heldout_scored_rows": 33613,
+      "file_sha256": {
+        "payload.npz": "40b07db9e6f72bf4b8921aa5ab9b53de8c4464355ecd34f1b7c8adf02bd3aad2",
+        "manifest.json": "2a36fdf6b05d6376a0ab41e0efb540c1a59bb8e44b4abc125f70c3b46fc867c3",
+        "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+        "decode.py": "24838628a425948f5e78976cf6224aa546d31eb400e8e72effc42bd6e0980a35",
+        "Dockerfile": "3617ec124ff3b476f3dfc95ab0a91c1f730b1354d37392259378cebf800d1595",
+        "evalai_candidate.json": "8277b4a1dae136b8b34e53b8b605c6106e6c70ac974769e07b5b830df777c0bd",
+        "export_audit.json": "5eee42eed4677dda05fbc687168db586e6c2d1f9d44ce399969bc6ae171215c0",
+        "streaming_audit.json": "498bc127ad392ceac973be4d1b0c8023699ce3822c5d02d44ab6d303bc600d6e",
+        "container_replay_audit.json": "c27f99efa4316a56d1c38431530bc66ad4f7a9b09d58fafe1ddbfd55a9c8469c",
+        "container_smoke.json": "66110f910505b11bc73cc58543544330442470beeb0231fadd811388d2c20c36"
+      },
+      "evidence": {
+        "export": "h1_aligned_fa_v1/export_audit.json",
+        "streaming": "h1_aligned_fa_v1/streaming_audit.json",
+        "container_streaming": "h1_aligned_fa_v1/container_replay_audit.json",
+        "container_smoke": "h1_aligned_fa_v1/container_smoke.json",
+        "evalai_candidate": "h1_aligned_fa_v1/evalai_candidate.json"
+      }
+    },
+    {
+      "package": "h1_coral_v1",
+      "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+      "submission_eligible": false,
+      "task": "h1",
+      "method": "coral",
+      "image_tag": "external-gf-h1-coral-v1:cpu",
+      "image_id": "sha256:3d9613e11f3362c81ce19502beada7548fbd661582d58e55c2ec6ba34e2e3066",
+      "payload_bytes": 11829855,
+      "session_roster": {
+        "heldin": 13,
+        "heldout": 14
+      },
+      "batch_size": 8,
+      "input_channels": 176,
+      "output_dimensions": 7,
+      "history_bins": 10,
+      "checks": {
+        "official_evaluator_constructor": true,
+        "all_sessions_and_partial_batches": true,
+        "payload_export_replay": true,
+        "host_full_heldout_streaming_replay": true,
+        "container_full_heldout_streaming_replay": true,
+        "image_embedded_files_match_context_and_shared_runtime": true,
+        "image_labels_environment_and_command": true
+      },
+      "host_max_abs_error": 0,
+      "container_max_abs_error": 0,
+      "container_numpy_version": "1.26.4",
+      "heldout_raw_bins_streamed": 34490,
+      "heldout_scored_rows": 33613,
+      "file_sha256": {
+        "payload.npz": "72884cc50181990a98e1acb66245b8d24f4955dc32b15716ec15e05ad9e780c4",
+        "manifest.json": "533a4be67cea8bebda7420777ee7ebc4528424bc86d83702ac43a308f7504713",
+        "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+        "decode.py": "24838628a425948f5e78976cf6224aa546d31eb400e8e72effc42bd6e0980a35",
+        "Dockerfile": "a509072da10965e80381937508bfede46e3f00e095d508c73c102071cb3c8e6a",
+        "evalai_candidate.json": "597e134216946a99c4b1c14b8253ecd60c233d6707fc7b0f94ec37fdacc8f226",
+        "export_audit.json": "7cab68631ab3bd59bb2a8a5d9af1afe43898d6f1622790fd6a932cb50ebb0e87",
+        "streaming_audit.json": "24513ab7755495e9bf7212fd85bc107715d5ea120ab1edc254007ad1c352cedd",
+        "container_replay_audit.json": "96dfc11b504d52ea0557e5da0fe4d713cb005f7f18351f3843abaaafb0a25ac3",
+        "container_smoke.json": "9540fb2616f32b2473ee71a80a95cdfad2cb5b44ebea8c8affd73282bc8edc42"
+      },
+      "evidence": {
+        "export": "h1_coral_v1/export_audit.json",
+        "streaming": "h1_coral_v1/streaming_audit.json",
+        "container_streaming": "h1_coral_v1/container_replay_audit.json",
+        "container_smoke": "h1_coral_v1/container_smoke.json",
+        "evalai_candidate": "h1_coral_v1/evalai_candidate.json"
+      }
+    },
+    {
+      "package": "m1_aligned_fa_v1",
+      "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+      "submission_eligible": false,
+      "task": "m1",
+      "method": "aligned_fa",
+      "image_tag": "external-gf-m1-aligned_fa-v1:cpu",
+      "image_id": "sha256:97eb6b067617ec7b6d739b5d7f3766afd04b11584240a9f08242ded9898b7ef3",
+      "payload_bytes": 69184,
+      "session_roster": {
+        "heldin": 4,
+        "heldout": 3
+      },
+      "batch_size": 4,
+      "input_channels": 64,
+      "output_dimensions": 16,
+      "history_bins": 10,
+      "checks": {
+        "official_evaluator_constructor": true,
+        "all_sessions_and_partial_batches": true,
+        "payload_export_replay": true,
+        "host_full_heldout_streaming_replay": true,
+        "container_full_heldout_streaming_replay": true,
+        "image_embedded_files_match_context_and_shared_runtime": true,
+        "image_labels_environment_and_command": true
+      },
+      "host_max_abs_error": 0,
+      "container_max_abs_error": 0,
+      "container_numpy_version": "1.26.4",
+      "heldout_raw_bins_streamed": 13455,
+      "heldout_scored_rows": 3881,
+      "file_sha256": {
+        "payload.npz": "115e59a220bbfa6d0fd5e82fabf82797b7db6cbc7d4bd1b01ff0dce3419952cf",
+        "manifest.json": "8c9ccd3924f6d6b6c2c3e4af58a761e566ceff48338a1c0d0c73872c73122914",
+        "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+        "decode.py": "24838628a425948f5e78976cf6224aa546d31eb400e8e72effc42bd6e0980a35",
+        "Dockerfile": "df3463127acd3df4d4fbd017f6a7402e28e6bceceb58b2c91588413b741a8f78",
+        "evalai_candidate.json": "887cc2fcaaa6b1944a5d64392e09047de826f02314426336936a92f702e6595b",
+        "export_audit.json": "0ce6cb3402fcf93047d9402b20d5302005cf7986f6273d8a04cc3a271cc3a61f",
+        "streaming_audit.json": "dd948436eb389f94fb4987bf1248c5fad95889289f1ce4c521c5fe4952ceed04",
+        "container_replay_audit.json": "d7a90282ffbe215cdcad4dcd24f198c31138ef7c0138d42d000f160469382576",
+        "container_smoke.json": "9624f1a47aa9582a1340fd969b3f993ef92a069b337b0a4024aa7e0b659b674d"
+      },
+      "evidence": {
+        "export": "m1_aligned_fa_v1/export_audit.json",
+        "streaming": "m1_aligned_fa_v1/streaming_audit.json",
+        "container_streaming": "m1_aligned_fa_v1/container_replay_audit.json",
+        "container_smoke": "m1_aligned_fa_v1/container_smoke.json",
+        "evalai_candidate": "m1_aligned_fa_v1/evalai_candidate.json"
+      }
+    },
+    {
+      "package": "m1_coral_v1",
+      "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+      "submission_eligible": false,
+      "task": "m1",
+      "method": "coral",
+      "image_tag": "external-gf-m1-coral-v1:cpu",
+      "image_id": "sha256:db8839f07fc182c0a06376f19448c2c62e3eed4a95be511e282bdb259557d82f",
+      "payload_bytes": 373590,
+      "session_roster": {
+        "heldin": 4,
+        "heldout": 3
+      },
+      "batch_size": 4,
+      "input_channels": 64,
+      "output_dimensions": 16,
+      "history_bins": 10,
+      "checks": {
+        "official_evaluator_constructor": true,
+        "all_sessions_and_partial_batches": true,
+        "payload_export_replay": true,
+        "host_full_heldout_streaming_replay": true,
+        "container_full_heldout_streaming_replay": true,
+        "image_embedded_files_match_context_and_shared_runtime": true,
+        "image_labels_environment_and_command": true
+      },
+      "host_max_abs_error": 0,
+      "container_max_abs_error": 0,
+      "container_numpy_version": "1.26.4",
+      "heldout_raw_bins_streamed": 13455,
+      "heldout_scored_rows": 3881,
+      "file_sha256": {
+        "payload.npz": "3ee7acbd09e8539cb2716907603cf837b4535ad056e2c9c32cfc9d77212da6a3",
+        "manifest.json": "f34c2f1303096cb326e667770dfeb0d6c0b1649143f8fcbe55072cc473312dfb",
+        "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+        "decode.py": "24838628a425948f5e78976cf6224aa546d31eb400e8e72effc42bd6e0980a35",
+        "Dockerfile": "fe657aaafe6894598821435d1cb3f7b9459ac1c931507699c54868b4dbe86b81",
+        "evalai_candidate.json": "e0dba3aa1d47e28248d40279cb940cd925f5d164deef5a77433e9bfcd03d065f",
+        "export_audit.json": "43e8439ce4b85cfbcb5c1738c32e335b4d631d59692b075b522a2b08867f2d9f",
+        "streaming_audit.json": "b3aa4096bcf82386cde00ab8fadd9d50810c56982d14035aedb788f88f5d13e9",
+        "container_replay_audit.json": "d7bf49efa35769f96df45975237805b57fbfbf726fff9ef404bbf5b6044b7574",
+        "container_smoke.json": "4001050fdb5c8996ccb714efeca2d7e60e0345dcc31b86cfba7b112b31f57fc9"
+      },
+      "evidence": {
+        "export": "m1_coral_v1/export_audit.json",
+        "streaming": "m1_coral_v1/streaming_audit.json",
+        "container_streaming": "m1_coral_v1/container_replay_audit.json",
+        "container_smoke": "m1_coral_v1/container_smoke.json",
+        "evalai_candidate": "m1_coral_v1/evalai_candidate.json"
+      }
+    },
+    {
+      "package": "m2_aligned_fa_v1",
+      "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+      "submission_eligible": false,
+      "task": "m2",
+      "method": "aligned_fa",
+      "image_tag": "external-gf-m2-aligned_fa-v1:cpu",
+      "image_id": "sha256:57f21ae624dbdf000e52a5bab68b56d35b60d62b98c4fe9e25b89c7b9d10f06e",
+      "payload_bytes": 141864,
+      "session_roster": {
+        "heldin": 7,
+        "heldout": 6
+      },
+      "batch_size": 7,
+      "input_channels": 96,
+      "output_dimensions": 2,
+      "history_bins": 10,
+      "checks": {
+        "official_evaluator_constructor": true,
+        "all_sessions_and_partial_batches": true,
+        "payload_export_replay": true,
+        "host_full_heldout_streaming_replay": true,
+        "container_full_heldout_streaming_replay": true,
+        "image_embedded_files_match_context_and_shared_runtime": true,
+        "image_labels_environment_and_command": true
+      },
+      "host_max_abs_error": 0,
+      "container_max_abs_error": 0,
+      "container_numpy_version": "1.26.4",
+      "heldout_raw_bins_streamed": 15403,
+      "heldout_scored_rows": 15403,
+      "file_sha256": {
+        "payload.npz": "6ef847c171ea5655ebc98f199dba26bb62bda5b4d5c7ce0ba413e1bdbf18ef65",
+        "manifest.json": "9209820a3d3a8f589951f878b0aebbe6dddb201b31957e0953a7fa3af9c48b27",
+        "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+        "decode.py": "24838628a425948f5e78976cf6224aa546d31eb400e8e72effc42bd6e0980a35",
+        "Dockerfile": "5f90b405371b9f5db3a8c8797b46b28eae08f7855a05f6391a81e09f12336f76",
+        "evalai_candidate.json": "7d8edbb7b40db9885c5fdd1d57080243b33bffaedbc18efc1a15b58c12aab10a",
+        "export_audit.json": "8d814961038c9ea4a60fc19db39a5bcf938d0e6f3c59b9eeadec7773d99ca76a",
+        "streaming_audit.json": "6fafb258db41ed9231a86561c0b5e0478041b3ffe19c022e50451f3e9970ab4d",
+        "container_replay_audit.json": "86088c46cc1197688ff115825232813f0a75301ce76202337a8672af327832fb",
+        "container_smoke.json": "d79c40d124f3100161c3409d6f03dbcaa54b0a85e05e26a6102e6ced514980a5"
+      },
+      "evidence": {
+        "export": "m2_aligned_fa_v1/export_audit.json",
+        "streaming": "m2_aligned_fa_v1/streaming_audit.json",
+        "container_streaming": "m2_aligned_fa_v1/container_replay_audit.json",
+        "container_smoke": "m2_aligned_fa_v1/container_smoke.json",
+        "evalai_candidate": "m2_aligned_fa_v1/evalai_candidate.json"
+      }
+    },
+    {
+      "package": "m2_coral_v1",
+      "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+      "submission_eligible": false,
+      "task": "m2",
+      "method": "coral",
+      "image_tag": "external-gf-m2-coral-v1:cpu",
+      "image_id": "sha256:662523265b3c386348949d48cf81d0f88aa9863688a30a0a18ffc18df3b2f745",
+      "payload_bytes": 1441384,
+      "session_roster": {
+        "heldin": 7,
+        "heldout": 6
+      },
+      "batch_size": 7,
+      "input_channels": 96,
+      "output_dimensions": 2,
+      "history_bins": 10,
+      "checks": {
+        "official_evaluator_constructor": true,
+        "all_sessions_and_partial_batches": true,
+        "payload_export_replay": true,
+        "host_full_heldout_streaming_replay": true,
+        "container_full_heldout_streaming_replay": true,
+        "image_embedded_files_match_context_and_shared_runtime": true,
+        "image_labels_environment_and_command": true
+      },
+      "host_max_abs_error": 0,
+      "container_max_abs_error": 0,
+      "container_numpy_version": "1.26.4",
+      "heldout_raw_bins_streamed": 15403,
+      "heldout_scored_rows": 15403,
+      "file_sha256": {
+        "payload.npz": "647edb1844696e33e7ef917882150588ab2c09c15696a8c14e8780fac3435fae",
+        "manifest.json": "98106b327117448c361ec2bb70100295bdc72a18a6d22e1fc550d58da5f11c1e",
+        "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+        "decode.py": "24838628a425948f5e78976cf6224aa546d31eb400e8e72effc42bd6e0980a35",
+        "Dockerfile": "25629ce7398cd707dd887332fdffe511097bab023a1a6fd7e0d2373c9ff2462d",
+        "evalai_candidate.json": "d5f8572133bbae932b9f1f103dce2c44bfdcc8840c80f45faed94e96366ddc35",
+        "export_audit.json": "4e62e5340acdfa46ca9030dac1975071b89961bad90dd3a554b1093fa692604f",
+        "streaming_audit.json": "2a82228833506ba818035b6b68154cec1d199362baecdb5d659c4c46bbc274d7",
+        "container_replay_audit.json": "f8e7bc0d78f698aa72869b54bbd0d2062b97470491b832c9b67062595b990caf",
+        "container_smoke.json": "48cd4659a7036ba0c4ba1a4f269d633d7f8a1f0e8f21b5f6dbfb4893d920b8cd"
+      },
+      "evidence": {
+        "export": "m2_coral_v1/export_audit.json",
+        "streaming": "m2_coral_v1/streaming_audit.json",
+        "container_streaming": "m2_coral_v1/container_replay_audit.json",
+        "container_smoke": "m2_coral_v1/container_smoke.json",
+        "evalai_candidate": "m2_coral_v1/evalai_candidate.json"
+      }
+    }
+  ]
+}

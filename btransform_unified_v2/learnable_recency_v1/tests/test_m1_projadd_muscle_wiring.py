@@ -79,11 +79,13 @@ def muscle_banks():
     ``src`` bindings for the build and restore the previous state afterwards.
     """
     saved = _src_modules()
+    saved_path = list(sys.path)
     for name in list(saved):
         sys.modules.pop(name, None)
     streaming_root = str(runner.WS / "streaming_calibration_exp")
-    if streaming_root not in sys.path:
-        sys.path.insert(0, streaming_root)
+    if streaming_root in sys.path:
+        sys.path.remove(streaming_root)
+    sys.path.insert(0, streaming_root)
     try:
         carriers, _binding = runner._carrier_binding(runner.m1_flat.DEFAULT_PACK)
         dataset, _sampler = runner.frozen.legacy.build_fullsession_face()
@@ -94,6 +96,7 @@ def muscle_banks():
         for name in _src_modules():
             sys.modules.pop(name, None)
         sys.modules.update(saved)
+        sys.path[:] = saved_path
 
 
 def test_replace_carriers_matches_pack_bitwise(muscle_banks) -> None:

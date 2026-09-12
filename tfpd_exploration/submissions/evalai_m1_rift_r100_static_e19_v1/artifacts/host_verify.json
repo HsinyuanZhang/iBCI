@@ -1,0 +1,64 @@
+{
+  "B1": {
+    "last_shape": [
+      1,
+      16
+    ],
+    "sessions": [
+      "20121004"
+    ],
+    "steps": 80,
+    "stream_vs_cached_max_abs": 0.0,
+    "stream_vs_offline_max_abs": 1.430511474609375e-06,
+    "tags": [
+      "20121004"
+    ]
+  },
+  "B3": {
+    "last_shape": [
+      3,
+      16
+    ],
+    "sessions": [
+      "20121004",
+      "20121017",
+      "20121024"
+    ],
+    "steps": 80,
+    "stream_vs_cached_max_abs": 8.344650268554688e-07,
+    "stream_vs_offline_max_abs": 1.3113021850585938e-06,
+    "tags": [
+      "20121004",
+      "20121017",
+      "20121024"
+    ]
+  },
+  "B4": {
+    "last_shape": [
+      4,
+      16
+    ],
+    "sessions": [
+      "20120924",
+      "20120926",
+      "20120927",
+      "20120928"
+    ],
+    "steps": 80,
+    "stream_vs_cached_max_abs": 0.0,
+    "stream_vs_offline_max_abs": 1.2516975402832031e-06,
+    "tags": [
+      "20120924",
+      "20120926",
+      "20120927",
+      "20120928"
+    ]
+  },
+  "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_static_e19_v1/artifacts/smoke_window.npz",
+  "status": "HOST_PACK_VERIFY_PASS",
+  "tolerance": {
+    "note": "left-pad bins are invalid in the offline window; Falcon predict bins are valid observations",
+    "stream_vs_cached_gate": 1e-05,
+    "stream_vs_offline_gate": 1e-05
+  }
+}

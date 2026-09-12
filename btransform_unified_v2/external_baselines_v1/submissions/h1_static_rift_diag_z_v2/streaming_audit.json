@@ -1,0 +1,141 @@
+{
+  "elapsed_seconds": 65.92175029899227,
+  "max_abs_error": 3.725290298461914e-08,
+  "method": "static_rift_diag_z",
+  "payload_sha256": "17bcb4753a1fe5eb9b631cdfca3b8aa4190d6397b4dde856635fad708b8af799",
+  "schema": "fair_v2_static_streaming_audit_v1",
+  "sessions": {
+    "19250126T113454": {
+      "max_abs_error": 2.7008354663848877e-08,
+      "pass": true,
+      "raw_bins_streamed": 2376,
+      "raw_predictions_appended": 2376,
+      "scored_rows": 2313,
+      "tag": "S6_set_1",
+      "tolerance": 2e-05
+    },
+    "19250126T114029": {
+      "max_abs_error": 2.60770320892334e-08,
+      "pass": true,
+      "raw_bins_streamed": 2408,
+      "raw_predictions_appended": 2408,
+      "scored_rows": 2350,
+      "tag": "S6_set_2",
+      "tolerance": 2e-05
+    },
+    "19250127T120333": {
+      "max_abs_error": 2.2351741790771484e-08,
+      "pass": true,
+      "raw_bins_streamed": 2454,
+      "raw_predictions_appended": 2454,
+      "scored_rows": 2387,
+      "tag": "S7_set_1",
+      "tolerance": 2e-05
+    },
+    "19250127T120826": {
+      "max_abs_error": 3.725290298461914e-08,
+      "pass": true,
+      "raw_bins_streamed": 2647,
+      "raw_predictions_appended": 2647,
+      "scored_rows": 2554,
+      "tag": "S7_set_2",
+      "tolerance": 2e-05
+    },
+    "19250129T112555": {
+      "max_abs_error": 2.8870999813079834e-08,
+      "pass": true,
+      "raw_bins_streamed": 2469,
+      "raw_predictions_appended": 2469,
+      "scored_rows": 2418,
+      "tag": "S8_set_1",
+      "tolerance": 2e-05
+    },
+    "19250129T113059": {
+      "max_abs_error": 2.9802322387695312e-08,
+      "pass": true,
+      "raw_bins_streamed": 2347,
+      "raw_predictions_appended": 2347,
+      "scored_rows": 2289,
+      "tag": "S8_set_2",
+      "tolerance": 2e-05
+    },
+    "19250202T113958": {
+      "max_abs_error": 2.421438694000244e-08,
+      "pass": true,
+      "raw_bins_streamed": 2406,
+      "raw_predictions_appended": 2406,
+      "scored_rows": 2349,
+      "tag": "S9_set_1",
+      "tolerance": 2e-05
+    },
+    "19250202T114452": {
+      "max_abs_error": 2.0954757928848267e-08,
+      "pass": true,
+      "raw_bins_streamed": 2496,
+      "raw_predictions_appended": 2496,
+      "scored_rows": 2441,
+      "tag": "S9_set_2",
+      "tolerance": 2e-05
+    },
+    "19250203T113515": {
+      "max_abs_error": 3.725290298461914e-08,
+      "pass": true,
+      "raw_bins_streamed": 2369,
+      "raw_predictions_appended": 2369,
+      "scored_rows": 2299,
+      "tag": "S10_set_1",
+      "tolerance": 2e-05
+    },
+    "19250203T114018": {
+      "max_abs_error": 2.421438694000244e-08,
+      "pass": true,
+      "raw_bins_streamed": 2303,
+      "raw_predictions_appended": 2303,
+      "scored_rows": 2263,
+      "tag": "S10_set_2",
+      "tolerance": 2e-05
+    },
+    "19250206T112219": {
+      "max_abs_error": 2.1886080503463745e-08,
+      "pass": true,
+      "raw_bins_streamed": 2470,
+      "raw_predictions_appended": 2470,
+      "scored_rows": 2391,
+      "tag": "S11_set_1",
+      "tolerance": 2e-05
+    },
+    "19250206T112712": {
+      "max_abs_error": 2.421438694000244e-08,
+      "pass": true,
+      "raw_bins_streamed": 2442,
+      "raw_predictions_appended": 2442,
+      "scored_rows": 2389,
+      "tag": "S11_set_2",
+      "tolerance": 2e-05
+    },
+    "19250209T111826": {
+      "max_abs_error": 2.8405338525772095e-08,
+      "pass": true,
+      "raw_bins_streamed": 2713,
+      "raw_predictions_appended": 2713,
+      "scored_rows": 2631,
+      "tag": "S12_set_1",
+      "tolerance": 2e-05
+    },
+    "19250209T112327": {
+      "max_abs_error": 2.7008354663848877e-08,
+      "pass": true,
+      "raw_bins_streamed": 2590,
+      "raw_predictions_appended": 2590,
+      "scored_rows": 2539,
+      "tag": "S12_set_2",
+      "tolerance": 2e-05
+    }
+  },
+  "task": "h1",
+  "tolerance": 2e-05,
+  "tolerance_note": "cached CPU streaming vs sealed offline windows; not bit-exact",
+  "total_raw_bins_streamed": 34490,
+  "total_raw_predictions_appended": 34490,
+  "total_scored_rows": 33613
+}

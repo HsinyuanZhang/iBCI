@@ -1,0 +1,153 @@
+{
+  "code_sha256": {
+    "falcon_decoder.py": "884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07",
+    "replay_streaming.py": "ce6874be34563ec480a270c197f6ec391198befd57cbc33de51580963a41d865"
+  },
+  "elapsed_seconds": 0.39491676999023184,
+  "manifest_sha256": "2a36fdf6b05d6376a0ab41e0efb540c1a59bb8e44b4abc125f70c3b46fc867c3",
+  "max_abs_error": 0.0,
+  "method": "aligned_fa",
+  "payload_sha256": "40b07db9e6f72bf4b8921aa5ab9b53de8c4464355ecd34f1b7c8adf02bd3aad2",
+  "schema": "external_gf_falcon_streaming_audit_v1",
+  "sessions": {
+    "19250126T113454": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2376,
+      "raw_predictions_appended": 2376,
+      "scored_rows": 2313,
+      "tag": "S6_set_1",
+      "tolerance": 2e-06
+    },
+    "19250126T114029": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2408,
+      "raw_predictions_appended": 2408,
+      "scored_rows": 2350,
+      "tag": "S6_set_2",
+      "tolerance": 2e-06
+    },
+    "19250127T120333": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2454,
+      "raw_predictions_appended": 2454,
+      "scored_rows": 2387,
+      "tag": "S7_set_1",
+      "tolerance": 2e-06
+    },
+    "19250127T120826": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2647,
+      "raw_predictions_appended": 2647,
+      "scored_rows": 2554,
+      "tag": "S7_set_2",
+      "tolerance": 2e-06
+    },
+    "19250129T112555": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2469,
+      "raw_predictions_appended": 2469,
+      "scored_rows": 2418,
+      "tag": "S8_set_1",
+      "tolerance": 2e-06
+    },
+    "19250129T113059": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2347,
+      "raw_predictions_appended": 2347,
+      "scored_rows": 2289,
+      "tag": "S8_set_2",
+      "tolerance": 2e-06
+    },
+    "19250202T113958": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2406,
+      "raw_predictions_appended": 2406,
+      "scored_rows": 2349,
+      "tag": "S9_set_1",
+      "tolerance": 2e-06
+    },
+    "19250202T114452": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2496,
+      "raw_predictions_appended": 2496,
+      "scored_rows": 2441,
+      "tag": "S9_set_2",
+      "tolerance": 2e-06
+    },
+    "19250203T113515": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2369,
+      "raw_predictions_appended": 2369,
+      "scored_rows": 2299,
+      "tag": "S10_set_1",
+      "tolerance": 2e-06
+    },
+    "19250203T114018": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2303,
+      "raw_predictions_appended": 2303,
+      "scored_rows": 2263,
+      "tag": "S10_set_2",
+      "tolerance": 2e-06
+    },
+    "19250206T112219": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2470,
+      "raw_predictions_appended": 2470,
+      "scored_rows": 2391,
+      "tag": "S11_set_1",
+      "tolerance": 2e-06
+    },
+    "19250206T112712": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2442,
+      "raw_predictions_appended": 2442,
+      "scored_rows": 2389,
+      "tag": "S11_set_2",
+      "tolerance": 2e-06
+    },
+    "19250209T111826": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2713,
+      "raw_predictions_appended": 2713,
+      "scored_rows": 2631,
+      "tag": "S12_set_1",
+      "tolerance": 2e-06
+    },
+    "19250209T112327": {
+      "max_abs_error": 0.0,
+      "pass": true,
+      "raw_bins_streamed": 2590,
+      "raw_predictions_appended": 2590,
+      "scored_rows": 2539,
+      "tag": "S12_set_2",
+      "tolerance": 2e-06
+    }
+  },
+  "stream_contract": {
+    "batch_size": 1,
+    "bin_ms": 20,
+    "padding": "reset supplies literal transformed-space zero history",
+    "reset_per_session": 1,
+    "reset_per_trial": 0
+  },
+  "task": "h1",
+  "tolerance": 2e-06,
+  "total_raw_bins_streamed": 34490,
+  "total_raw_predictions_appended": 34490,
+  "total_scored_rows": 33613,
+  "training_method": "aligned_fa_wf"
+}

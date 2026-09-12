@@ -4,8 +4,8 @@
 This route intentionally has no TaskBank, C2 identity materialization, carrier,
 or calibration support input.  It learns ``static_identity[176,16]`` from the
 source-supervised raw H1 cache and uses the local public held-out-calibration
-NWB only as a development query surface.  Epoch 32 EMA is prespecified; local
-HO labels are never used to select an epoch.
+NWB as the HO-M3 development query surface.  Epoch pick is the same
+earliest-max grouped-seven rule as FULL (``--stage pick``).
 """
 
 from __future__ import annotations
@@ -37,7 +37,9 @@ for path in (PKG / "src", ROOT / "src", V1 / "src", V1 / "scripts", ROOT.parent,
 from btransform_unified_v1 import adapters, h1_config  # noqa: E402
 from btransform_unified_v1.c2_protocol import (
     HELDOUT_SESSION_TO_FALCON_KEY,
+    HO_SELECTION_METRIC,
     grouped_session_metrics,
+    select_epoch,
 )  # noqa: E402
 from btransform_unified_v1.ema import DecoderEMA  # noqa: E402
 from btransform_unified_v1.model import (
@@ -62,6 +64,10 @@ from learnable_recency_v1.wrap import (
 CONTEXT, EPOCHS, UPDATES, SEED, BATCH, MICRO = 300, 32, 731, 42, 32, 32
 SCALE = h1_config.TARGET_MULTIPLIER
 RESULTS = PKG / "results"
+OLD_SELECTION_RULE = (
+    "fixed final EMA checkpoint: epoch 32; local HO labels never select epoch"
+)
+SELECTION_RULE = "HO-M3 grouped-seven, all32, earliest maximum (same as FULL)"
 
 
 def _sha(path: Path) -> str:
@@ -398,7 +404,7 @@ def train(args: Any) -> dict[str, Any]:
         "endpoint_valid_sha256": data["endpoint_valid_sha256"],
         "fixed_channel_index_assumption": "H1 raw 176 columns are fixed and all unit-mask columns are true; no channel remap",
         "input_valid_mask": "end-anchored R300 left padding is explicit invalid evidence",
-        "selection_rule": "fixed final EMA checkpoint: epoch 32; local HO labels never select epoch",
+        "selection_rule": SELECTION_RULE,
         "local_ho_surface": "held-out-calib NWB raw neural/labels/score masks only; local development query scoring",
         "epochs": 1 if smoke else EPOCHS,
         "updates_per_epoch": UPDATES,
@@ -627,14 +633,18 @@ def train(args: Any) -> dict[str, Any]:
     return score(args)
 
 
+def _formal_meta(dest: Path) -> dict[str, Any]:
+    meta = json.loads((dest / "run_meta.json").read_text())
+    if meta.get("status") != "FORMAL" or meta.get("selection_rule") not in {
+        OLD_SELECTION_RULE,
+        SELECTION_RULE,
+    }:
+        raise RuntimeError("only completed formal STATIC run may score or pick")
+    return meta
+
+
 def score(args: Any) -> dict[str, Any]:
-    meta = json.loads((args.dest / "run_meta.json").read_text())
-    if (
-        meta.get("status") != "FORMAL"
-        or meta.get("selection_rule")
-        != "fixed final EMA checkpoint: epoch 32; local HO labels never select epoch"
-    ):
-        raise RuntimeError("only completed formal STATIC run may score")
+    meta = _formal_meta(args.dest)
     device = torch.device(args.device)
     model = _rebuild(meta, device)
     ema = DecoderEMA(model, decay=0.9995)
@@ -651,17 +661,17 @@ def score(args: Any) -> dict[str, Any]:
         or int(state["ema"].get("n_updates", -1)) != EPOCHS * UPDATES
     ):
         raise RuntimeError(
-            "final static EMA checkpoint is not the fixed complete epoch-32 checkpoint"
+            "final static EMA checkpoint is not the complete epoch-32 checkpoint"
         )
     if tuple(model.static_identity.shape) != (176, 16) or bool(
         model.static_carrier.any()
     ):
         raise RuntimeError("static final model invariant drift")
     report = _score(model, ema, _load_ho(), device)
-    selected = {
+    last = {
         "epoch": 32,
         "epoch_zero_based": 31,
-        "val_ho_m3_grouped/r2_mean": report["r2_mean"],
+        HO_SELECTION_METRIC: report["r2_mean"],
         "worst_session_r2": report["worst_session_r2"],
         "session_std_population": report["r2_std_population"],
         "per_session_r2": report["per_session_r2"],
@@ -669,22 +679,94 @@ def score(args: Any) -> dict[str, Any]:
     _atomic(
         args.dest / "local_ho_static_report.json",
         {
-            "status": "LOCAL_HO_REPORT_FIXED_FINAL_EMA",
-            "selected": selected,
-            "selection_rule": meta["selection_rule"],
+            "status": "LOCAL_HO_REPORT_FINAL_EMA",
+            "selected": last,
+            "selection_rule": "last-epoch sidecar; official pick is --stage pick",
             "local_ho_labels_used_for_selection": False,
+        },
+    )
+    if (args.dest / "ho_m3_selection.json").is_file():
+        return json.loads((args.dest / "train_receipt.json").read_text())
+    receipt = {
+        "status": "COMPLETED",
+        "epochs": EPOCHS,
+        "updates": EPOCHS * UPDATES,
+        "selected_epoch": 32,
+        "selection_pending_pick": True,
+        "official_test_used": False,
+        "local_ho_labels_used_for_selection": False,
+    }
+    _atomic(args.dest / "train_receipt.json", receipt)
+    return receipt
+
+
+def pick(args: Any) -> dict[str, Any]:
+    meta = _formal_meta(args.dest)
+    device = torch.device(args.device)
+    model = _rebuild(meta, device)
+    ema = DecoderEMA(model, decay=0.9995)
+    ho = _load_ho()
+    progress_path = args.dest / "pick_progress.json"
+    progress = (
+        json.loads(progress_path.read_text())
+        if progress_path.is_file()
+        else {"completed": {}}
+    )
+    curve_map = {int(k): v for k, v in progress.get("completed", {}).items()}
+    for epoch in range(1, EPOCHS + 1):
+        if epoch in curve_map:
+            continue
+        state = torch.load(
+            args.dest / f"epoch_{epoch:03d}.pt",
+            map_location=device,
+            weights_only=False,
+        )
+        model.load_state_dict(state["raw_state_dict"], strict=True)
+        ema.load_state_dict(state["ema"])
+        if (
+            state.get("smoke")
+            or state.get("variant") != "static"
+            or int(state.get("epoch", -1)) != epoch
+        ):
+            raise RuntimeError(f"static checkpoint drift at epoch {epoch}")
+        report = _score(model, ema, ho, device)
+        curve_map[epoch] = {
+            "epoch": epoch,
+            "epoch_zero_based": epoch - 1,
+            HO_SELECTION_METRIC: report["r2_mean"],
+            "worst_session_r2": report["worst_session_r2"],
+            "session_std_population": report["r2_std_population"],
+            "per_session_r2": report["per_session_r2"],
+        }
+        _atomic(
+            progress_path,
+            {"completed": {str(k): curve_map[k] for k in sorted(curve_map)}},
+        )
+    curve = [curve_map[epoch] for epoch in range(1, EPOCHS + 1)]
+    selected = select_epoch(curve)
+    meta["selection_rule"] = SELECTION_RULE
+    _atomic(args.dest / "run_meta.json", meta)
+    _atomic(
+        args.dest / "ho_m3_selection.json",
+        {
+            "status": "HO_M3_DEVELOPMENT_SELECTION",
+            "selected": selected,
+            "curve": curve,
+            "selection_rule": SELECTION_RULE,
         },
     )
     receipt = {
         "status": "COMPLETED",
         "epochs": EPOCHS,
         "updates": EPOCHS * UPDATES,
-        "selected_epoch": 32,
+        "selected_epoch": selected["epoch"],
+        "selection_pending_pick": False,
         "official_test_used": False,
-        "local_ho_labels_used_for_selection": False,
+        "local_ho_labels_used_for_selection": True,
+        "selection_rule": SELECTION_RULE,
     }
     _atomic(args.dest / "train_receipt.json", receipt)
-    return receipt
+    return {"status": "PICK_COMPLETED", "selected_epoch": selected["epoch"]}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -694,7 +776,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--config", default="h1")
     parser.add_argument("--dest", type=Path)
     parser.add_argument("--device", default="cuda:0")
-    parser.add_argument("--stage", choices=("train", "score"), default="train")
+    parser.add_argument("--stage", choices=("train", "score", "pick"), default="train")
     parser.add_argument("--max-updates-smoke", type=int)
     parser.add_argument("--smoke-steps", type=int)
     parser.add_argument("--resume", type=Path)
@@ -720,11 +802,8 @@ def main() -> None:
         args.dest = args.dest.resolve()
     if args.max_updates_smoke is not None and args.device == "cuda:0":
         args.device = "cpu"
-    print(
-        json.dumps(
-            score(args) if args.stage == "score" else train(args), indent=2, default=str
-        )
-    )
+    stage = {"train": train, "score": score, "pick": pick}[args.stage]
+    print(json.dumps(stage(args), indent=2, default=str))
 
 
 if __name__ == "__main__":

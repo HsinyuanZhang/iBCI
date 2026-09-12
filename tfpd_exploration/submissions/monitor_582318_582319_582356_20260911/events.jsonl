@@ -1,0 +1,115 @@
+{"checked_at_utc": "2026-09-11T15:38:48.646550+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582318, "is_public": false, "method_name": "M1 RIFT muscle proj_add flat s42 e2", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:07.275325Z"}}
+{"checked_at_utc": "2026-09-11T15:38:48.646550+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582319, "is_public": false, "method_name": "H1 RIFT R300 flat e15 cached", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:13.717466Z"}}
+{"checked_at_utc": "2026-09-11T15:38:48.646550+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582356, "is_public": false, "method_name": "Fair v2 H1 static-RIFT + diag-z", "participant_team": 42279, "participant_team_name": "sustechhku", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T15:30:44.436233Z"}}
+{"checked_at_utc": "2026-09-11T15:38:48.646550+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:40:58.371196+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582318, "is_public": false, "method_name": "M1 RIFT muscle proj_add flat s42 e2", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:07.275325Z"}}
+{"checked_at_utc": "2026-09-11T15:40:58.371196+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582319, "is_public": false, "method_name": "H1 RIFT R300 flat e15 cached", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:13.717466Z"}}
+{"checked_at_utc": "2026-09-11T15:40:58.371196+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582356, "is_public": false, "method_name": "Fair v2 H1 static-RIFT + diag-z", "participant_team": 42279, "participant_team_name": "sustechhku", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T15:30:44.436233Z"}}
+{"checked_at_utc": "2026-09-11T15:40:58.371196+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:42:04.149394+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:43:05.484557+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:44:07.183939+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:45:08.563900+00:00", "event": "state_change", "submission": {"error": "SSLError", "id": 582318}}
+{"checked_at_utc": "2026-09-11T15:45:08.563900+00:00", "event": "state_change", "submission": {"error": "SSLError", "id": 582319}}
+{"checked_at_utc": "2026-09-11T15:45:08.563900+00:00", "event": "state_change", "submission": {"error": "SSLError", "id": 582356}}
+{"checked_at_utc": "2026-09-11T15:45:08.563900+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:46:13.629054+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582318, "is_public": false, "method_name": "M1 RIFT muscle proj_add flat s42 e2", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:07.275325Z"}}
+{"checked_at_utc": "2026-09-11T15:46:13.629054+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582319, "is_public": false, "method_name": "H1 RIFT R300 flat e15 cached", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:13.717466Z"}}
+{"checked_at_utc": "2026-09-11T15:46:13.629054+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582356, "is_public": false, "method_name": "Fair v2 H1 static-RIFT + diag-z", "participant_team": 42279, "participant_team_name": "sustechhku", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T15:30:44.436233Z"}}
+{"checked_at_utc": "2026-09-11T15:46:13.629054+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:47:16.144902+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:48:27.147155+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:49:31.632953+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:50:40.790541+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:51:51.825939+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:52:56.228736+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:54:02.679739+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:55:07.403734+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:56:09.410843+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:57:11.424238+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:58:15.103769+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T15:59:16.750120+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:00:21.886004+00:00", "event": "state_change", "submission": {"error": "SSLError", "id": 582318}}
+{"checked_at_utc": "2026-09-11T16:00:21.886004+00:00", "event": "state_change", "submission": {"error": "SSLError", "id": 582356}}
+{"checked_at_utc": "2026-09-11T16:00:21.886004+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:01:27.595012+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582318, "is_public": false, "method_name": "M1 RIFT muscle proj_add flat s42 e2", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:07.275325Z"}}
+{"checked_at_utc": "2026-09-11T16:01:27.595012+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582356, "is_public": false, "method_name": "Fair v2 H1 static-RIFT + diag-z", "participant_team": 42279, "participant_team_name": "sustechhku", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T15:30:44.436233Z"}}
+{"checked_at_utc": "2026-09-11T16:01:27.595012+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:02:30.888052+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:03:32.316306+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:04:34.441359+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:05:36.076768+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:06:39.285099+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:07:40.738955+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:08:44.812077+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:09:49.312668+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:10:51.586737+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:11:53.031366+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:12:54.607707+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:13:55.890753+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:14:57.325883+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:15:58.764434+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:17:00.372742+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:18:05.484716+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:19:03.922865+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582318, "is_public": false, "method_name": "M1 RIFT muscle proj_add flat s42 e2", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:07.275325Z"}}
+{"checked_at_utc": "2026-09-11T16:19:03.922865+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582319, "is_public": false, "method_name": "H1 RIFT R300 flat e15 cached", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T12:06:13.717466Z"}}
+{"checked_at_utc": "2026-09-11T16:19:03.922865+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582356, "is_public": false, "method_name": "Fair v2 H1 static-RIFT + diag-z", "participant_team": 42279, "participant_team_name": "sustechhku", "score_saved": false, "started_at": null, "status": "submitted", "submitted_at": "2026-09-11T15:30:44.436233Z"}}
+{"checked_at_utc": "2026-09-11T16:19:03.922865+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:29:05.068715+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:39:06.886895+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:49:08.058489+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T16:59:09.181720+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T17:09:10.740822+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T17:19:11.870167+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T17:29:13.137405+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T17:39:15.073373+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T17:49:16.515581+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T17:59:17.924811+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T18:09:19.301096+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T18:19:20.838179+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T18:29:22.003019+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T18:39:23.690787+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T18:49:24.759397+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T18:59:26.258246+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T19:09:27.641013+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T19:19:28.819501+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T19:29:30.165456+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T19:39:31.312094+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T19:49:32.478681+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T19:59:33.696582+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T20:09:35.094886+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T20:19:36.555094+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T20:29:38.093714+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T20:39:39.503024+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T20:49:40.795152+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T20:59:42.168560+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T21:09:43.990393+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T21:19:45.605540+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T21:29:47.228504+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T21:39:48.720808+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T21:49:49.952062+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T21:59:51.332948+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T22:09:52.759176+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T22:19:53.912272+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T22:29:55.393325+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T22:39:56.645434+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T22:49:58.406552+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T23:00:00.053203+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T23:10:02.451409+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T23:20:03.955207+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T23:30:05.641498+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T23:40:07.589068+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-11T23:50:09.108420+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T00:00:10.898909+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T00:10:17.189710+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T00:20:18.746660+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T00:30:20.426218+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T00:40:22.306790+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T00:50:23.711314+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T01:00:25.400359+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T01:10:28.135719+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T01:20:29.383010+00:00", "complete": false, "event": "heartbeat"}
+{"checked_at_utc": "2026-09-12T01:30:30.943209+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582318, "is_public": false, "method_name": "M1 RIFT muscle proj_add flat s42 e2", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "cancelled", "submitted_at": "2026-09-11T12:06:07.275325Z"}}
+{"checked_at_utc": "2026-09-12T01:30:30.943209+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582319, "is_public": false, "method_name": "H1 RIFT R300 flat e15 cached", "participant_team": 41975, "participant_team_name": "HKU-ECE", "score_saved": false, "started_at": null, "status": "cancelled", "submitted_at": "2026-09-11T12:06:13.717466Z"}}
+{"checked_at_utc": "2026-09-12T01:30:30.943209+00:00", "event": "state_change", "submission": {"challenge_phase": 4599, "completed_at": null, "has_submission_result_file": false, "id": 582356, "is_public": false, "method_name": "Fair v2 H1 static-RIFT + diag-z", "participant_team": 42279, "participant_team_name": "sustechhku", "score_saved": false, "started_at": null, "status": "cancelled", "submitted_at": "2026-09-11T15:30:44.436233Z"}}
+{"checked_at_utc": "2026-09-12T01:30:30.943209+00:00", "complete": true, "event": "heartbeat"}

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Source-only STATIC M1 R100/D4/P16 training and fixed-final HO3 scoring.
+"""Source-only STATIC M1 R100/D4/P16 training and HO3 scoring.
 
 The route consumes raw M1 query windows only.  It has no E0, support set, or
 session bank: ``StaticLearnableRiftDecoder`` learns its 64-by-16 identity in
-the decoder.  Formal runs are exactly 24 fixed sampler epochs; held-out data
-is score-only and can never choose an epoch.
+the decoder.  Formal runs are exactly 24 fixed sampler epochs.  ``--stage
+score`` reports the last-epoch EMA; ``--stage pick`` uses the same HO3
+earliest-max equal-session mean rule as FULL.
 """
 
 from __future__ import annotations
@@ -51,11 +52,13 @@ EMA_DECAY, WEIGHT_DECAY, UNIT_DROPOUT, LR, LR_MIN, CLIP = (
     1.0,
 )
 RESULTS = PKG / "results"
-SCHEMA, CKPT_SCHEMA, SCORE_SCHEMA = (
+SCHEMA, CKPT_SCHEMA, SCORE_SCHEMA, PICK_SCHEMA = (
     "m1_static_train_v1",
     "m1_static_epoch_checkpoint_v1",
     "m1_static_ho3_final_ema_score_v1",
+    "m1_static_ho3_earliest_max_score_v1",
 )
+SELECTION_RULE = "HO3 all24 earliest maximum equal_session_mean (same as FULL)"
 
 
 def sha(path: Path) -> str:
@@ -257,8 +260,8 @@ def run_train(args):
         "identity_interface": "static_identity",
         "no_support_or_e0_or_banks": True,
         "selection": {
-            "rule": "fixed final EMA epoch 24; source_only",
-            "fixedfinal": True,
+            "rule": "HO3 all24 earliest maximum equal_session_mean (same as FULL)",
+            "fixedfinal": False,
         },
         "learnable_config": cfg.__dict__,
         "context_bins": CONTEXT,
@@ -443,7 +446,7 @@ def run_train(args):
         "selection": {
             "checkpoint": "epoch_024.pt",
             "view": "EMA",
-            "rule": "prespecified fixed final; source_only",
+            "rule": "pending HO3 earliest-max pick; source_only",
         },
         "epochs": EPOCHS,
         "global_step": step,
@@ -508,7 +511,7 @@ def run_score(args):
         "view": "EMA",
         "selection": {
             "epoch": state["epoch"],
-            "rule": "fixed final; no held-out tuning",
+            "rule": "last-epoch sidecar; official pick is --stage pick",
         },
         "heldout_contract": held["contract"],
         "metrics": report,
@@ -517,11 +520,79 @@ def run_score(args):
     return out
 
 
+def run_pick(args):
+    run = args.dest.resolve()
+    meta = json.loads((run / "run_meta.json").read_text())
+    receipt = json.loads((run / "train_receipt.json").read_text())
+    now_hashes = source_hashes()
+    skip = {str(Path(__file__))}
+    locked = {k: v for k, v in now_hashes.items() if k not in skip}
+    recorded = {k: v for k, v in (meta.get("source_hashes") or {}).items() if k not in skip}
+    if (
+        receipt.get("status") != "COMPLETED"
+        or meta.get("status") != "FORMAL"
+        or meta.get("schema") != SCHEMA
+        or locked != recorded
+    ):
+        raise RuntimeError("pick requires a completed formal static run")
+    if args.max_batches is not None or args.allow_smoke:
+        raise RuntimeError("pick is formal full-surface only")
+    device = torch.device(args.device)
+    torch.set_num_threads(args.cpu_threads)
+    model = decoder(config_from_run_meta(meta, "m1"), device)
+    held = load_heldout()
+    progress_path = run / "pick_progress.json"
+    progress = (
+        json.loads(progress_path.read_text())
+        if progress_path.is_file()
+        else {"completed": {}}
+    )
+    curve = progress.get("completed", {})
+    for epoch in range(1, EPOCHS + 1):
+        if str(epoch) in curve:
+            continue
+        ckpt = run / f"epoch_{epoch:03d}.pt"
+        state = torch.load(ckpt, map_location=args.device, weights_only=False)
+        if (
+            state.get("schema") != CKPT_SCHEMA
+            or bool(state.get("smoke"))
+            or state.get("source_hashes") != meta["source_hashes"]
+            or int(state.get("epoch", -1)) != epoch
+        ):
+            raise RuntimeError(f"static checkpoint drift at epoch {epoch}")
+        _ema_load(model, state)
+        report = score_surface(model, held, device)
+        curve[str(epoch)] = {**report, "checkpoint_sha256": sha(ckpt)}
+        atom(progress_path, {"completed": curve})
+    values = {
+        epoch: float(curve[str(epoch)]["equal_session_mean"])
+        for epoch in range(1, EPOCHS + 1)
+    }
+    best = max(range(1, EPOCHS + 1), key=lambda epoch: (values[epoch], -epoch))
+    out = {
+        "schema": PICK_SCHEMA,
+        "status": "COMPLETED",
+        "formal_claim": True,
+        "partial": False,
+        "view": "EMA",
+        "selection": {
+            "epoch": best,
+            "equal_session_mean": values[best],
+            "rule": SELECTION_RULE,
+        },
+        "ema_by_epoch": curve,
+        "heldout_contract": held["contract"],
+        "official_test_used": False,
+    }
+    atom(run / "ho3_selection.json", out)
+    return out
+
+
 def build_parser():
     p = argparse.ArgumentParser(description=__doc__)
     add_learnable_flags(p)
     p.set_defaults(ladder="default")
-    p.add_argument("--stage", choices=("train", "score"), default="train")
+    p.add_argument("--stage", choices=("train", "score", "pick"), default="train")
     p.add_argument("--dest", type=Path)
     p.add_argument("--device", default="cuda:0")
     p.add_argument("--cpu-threads", type=int, default=4)
@@ -546,14 +617,8 @@ def main():
         )
     if a.max_updates_smoke is not None and a.device == "cuda:0":
         a.device = "cpu"
-    print(
-        json.dumps(
-            run_train(a) if a.stage == "train" else run_score(a),
-            indent=2,
-            sort_keys=True,
-            default=str,
-        )
-    )
+    stage = {"train": run_train, "score": run_score, "pick": run_pick}[a.stage]
+    print(json.dumps(stage(a), indent=2, sort_keys=True, default=str))
 
 
 if __name__ == "__main__":

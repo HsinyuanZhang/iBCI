@@ -1,0 +1,29 @@
+{
+  "completed_at": "2026-09-11T08:26:45.882259Z",
+  "local_selection": {
+    "epoch": 3,
+    "equal_session_mean_channel_variance_weighted_r2": 0.6208121577898661,
+    "legacy_equal_session_mean_flattened_r2": 0.7078211802071809,
+    "metric": "channel_variance_weighted_r2",
+    "seed": 42
+  },
+  "method_name": "M1 RIFT muscle proj_add learned s42 e3",
+  "rejected_seed": {
+    "ch_var": 0.5820105274518331,
+    "legacy": 0.677280613835414,
+    "seed": 43,
+    "selection_epoch": 3
+  },
+  "result_file_url": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582308/499a40aa-1b82-4296-9c30-9592798033.json",
+  "scores": {
+    "test_split_m1": {
+      "Held In R2 Mean": 0.7898387959711295,
+      "Held In R2 Std.": 0.02052248784236259,
+      "Held Out R2 Mean": 0.641125522559134,
+      "Held Out R2 Std.": 0.07275371662794622,
+      "Normalized Latency": 0.15159889867859874
+    }
+  },
+  "status": "finished",
+  "submission_id": 582308
+}

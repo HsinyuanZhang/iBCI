@@ -1,0 +1,66 @@
+{
+  "arm": "h1_rift_r300_static_e32_cached",
+  "image_id": "sha256:77f37966f0e56b91ca5b70372a9e958ee2ded5ba2c6fe4cd8aa2a3f8b612f201",
+  "image_tag": "h1-rift-r300-static-e32:v1",
+  "payload_sha256": "f0e0f475894dc532781edef46696df2018dad2ff1ae0adcfca1eb6c8deaeebac",
+  "pushed": true,
+  "registered": true,
+  "repository_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41817",
+  "schema_version": "h1_rift_evalai_push_state",
+  "server_response": {
+    "challenge_phase": 4599,
+    "completed_at": null,
+    "created_by": 66853,
+    "execution_time": "None",
+    "id": 582290,
+    "ignore_submission": false,
+    "input_file": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582290/e4a898a8-2f41-4ae2-a5a2-fab35dbb1b.json",
+    "is_baseline": false,
+    "is_flagged": false,
+    "is_public": false,
+    "is_verified_by_host": false,
+    "job_name": [],
+    "method_description": "H1 RIFT R300 P16 static_identity (shared 176x16 table, literal-zero carrier), per-layer learned_slope on the default half-life ladder, cached CPU KV. Prespecified e32 EMA. HO-M3 report 0.209015. Not BT-EORT, not ORT, not SPINT, not 582196, not 582241.",
+    "method_name": "H1 RIFT R300 static e32",
+    "participant_team": 41817,
+    "participant_team_name": "falcon_m",
+    "project_url": "",
+    "publication_url": "",
+    "rerun_resumed_at": null,
+    "started_at": null,
+    "status": "submitted",
+    "stderr_file": null,
+    "stdout_file": null,
+    "submission_input_file": null,
+    "submission_metadata": [
+      {
+        "description": "Is held out prediction Zero Shot?",
+        "name": "IsHeldOutZeroShot",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Test Time Adaptive?",
+        "name": "IsTestTimeAdaptive",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      },
+      {
+        "description": "Pretrained outside FALCON?",
+        "name": "IsPretrained",
+        "required": true,
+        "type": "boolean",
+        "value": false
+      }
+    ],
+    "submission_result_file": null,
+    "submitted_at": "2026-09-11T03:51:17.424002Z",
+    "when_made_public": null
+  },
+  "submission_id": 582290,
+  "submitted_image_uri": "905418259932.dkr.ecr.us-east-1.amazonaws.com/few-shot-algorithms-for-consistent-neural-decoding-falcon-2319-participant-team-41817:54e44f32-734f-4080-b655-c461c5f43b3a",
+  "uploaded_manifest_digest": "sha256:77f37966f0e56b91ca5b70372a9e958ee2ded5ba2c6fe4cd8aa2a3f8b612f201",
+  "uuid_tag": "54e44f32-734f-4080-b655-c461c5f43b3a"
+}

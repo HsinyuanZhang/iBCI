@@ -1,0 +1,122 @@
+{
+  "channels": 96,
+  "checkpoint_sha256": "8313e7bb202d43def2885b7e7c4c74dc8466af81aaccb18b437333ae86801612",
+  "expected_prediction_fields": {
+    "channels": 96,
+    "history": 50,
+    "outputs": 2,
+    "task": "m2"
+  },
+  "frontend": "coral",
+  "history": 50,
+  "local_public_calibration_scores": {
+    "legacy": 0.248889,
+    "standard": 0.248885
+  },
+  "max_batch": 7,
+  "method": "static_rift_coral",
+  "outputs": 2,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "artifacts/decoder.pkl",
+    "numeric_frontend_only": true,
+    "sha256": "8f4f83fe30954b648c754b3872eb54514665518c6b7db7216480395d9c1e6d1c"
+  },
+  "schema": "fair_v2_static_rift_frontend_v1",
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "sessions": {
+    "Run1_20201019": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-19-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-19-Run1",
+      "support_n": 2001,
+      "target_labels_used": false
+    },
+    "Run1_20201020": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-20-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-20-Run1",
+      "support_n": 2136,
+      "target_labels_used": false
+    },
+    "Run1_20201027": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-27-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-27-Run1",
+      "support_n": 1966,
+      "target_labels_used": false
+    },
+    "Run1_20201028": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-28-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-28-Run1",
+      "support_n": 1991,
+      "target_labels_used": false
+    },
+    "Run1_20201030": {
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-10-30-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-10-30-Run1",
+      "support_n": 2154,
+      "target_labels_used": false
+    },
+    "Run1_20201118": {
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-18-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-18-Run1",
+      "support_n": 2040,
+      "target_labels_used": false
+    },
+    "Run1_20201119": {
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-19-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-19-Run1",
+      "support_n": 2355,
+      "target_labels_used": false
+    },
+    "Run1_20201124": {
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-24-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-24-Run1",
+      "support_n": 2211,
+      "target_labels_used": false
+    },
+    "Run2_20201019": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-19-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-19-Run2",
+      "support_n": 1938,
+      "target_labels_used": false
+    },
+    "Run2_20201020": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-20-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-20-Run2",
+      "support_n": 2368,
+      "target_labels_used": false
+    },
+    "Run2_20201027": {
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-27-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-27-Run2",
+      "support_n": 1960,
+      "target_labels_used": false
+    },
+    "Run2_20201030": {
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-10-30-Run2_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-10-30-Run2",
+      "support_n": 2007,
+      "target_labels_used": false
+    },
+    "Run2_20201124": {
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-24-Run2_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-24-Run2",
+      "support_n": 2345,
+      "target_labels_used": false
+    }
+  },
+  "task": "m2"
+}

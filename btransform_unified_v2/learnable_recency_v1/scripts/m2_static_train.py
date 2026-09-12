@@ -321,9 +321,9 @@ def run(args):
         "static_carrier": "zero internal",
         "fixedindex_assumption": "96 real unit columns; all-true mask; query padding is metadata mask (49)",
         "selection": {
-            "rule": "fixed final EMA epoch 24",
+            "rule": "EXT6 all24 earliest maximum equal_session_mean (same as FULL)",
             "source_only": True,
-            "fixedfinal": True,
+            "fixedfinal": False,
         },
         "learnable_config": cfg.__dict__,
         "context_bins": CONTEXT,
@@ -505,7 +505,7 @@ def run(args):
         "selection": {
             "checkpoint": "epoch_024.pt",
             "view": "EMA",
-            "rule": "prespecified fixed final; source_only",
+            "rule": "pending EXT6 earliest-max pick; source_only",
         },
         "epochs": EPOCHS,
         "global_step": step,

@@ -1,5 +1,7 @@
 # dandi688_bench_v1 — 688 本地基准实验系列（骨架包）
 
+> **v2 已完成代码与 CPU smoke：**[DANDI000688 SUA／PMUA v2 设计](../../docs/DESIGN_DANDI688_SUA_PMUA_V2_20260911.md)，2015-only 18/6/6、M33 MOVE-T4 余弦 OLS、M2 learned RIFT；[执行入口](../../dandi688_bench_v2/README.md)。正式训练尚未运行。本 README 保留旧 v1 骨架和历史结果，不作为 v2 主矩阵结果。
+
 - 创建：2026-09-09。上位设计：`btransform_unified_v2/docs/DESIGN_688_LOCAL_BENCHMARK_PROTOCOL_V1_20260909.md`（划分/对照臂/验收门 + ADDENDUM-TWO-STAGE 两段协议 + vstate-688 系列增补 + 组件消融定版）。
 - 数据/模型合同（冻结，只读引用）：`btransform_unified_v2/docs/EXECUTION_688_RIFT_V1_20260907.md`（prepared_cache、50-bin 窗、B3S E0、carrier `[a_R,c_R,m_R,δ_b]`、12ep e8–e11 平均、Nmax padding）。
 

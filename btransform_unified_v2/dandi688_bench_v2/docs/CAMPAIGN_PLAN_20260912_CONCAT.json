@@ -1,0 +1,96 @@
+{
+  "schema": "dandi688_v2_concat_campaign_plan",
+  "created_utc": "2026-09-12T01:33:00Z",
+  "status": "BASE_19CELL_FORMAL_GPU_CAMPAIGN_COMPLETED_FINAL_SCORED",
+  "campaign_root": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912",
+  "prepared_cache": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2",
+  "execution_policy": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/GPU_EXECUTION_POLICY.json",
+  "final_sessions_opened": 6,
+  "completion_evidence": {
+    "pre_final_training_verification": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/PRE_FINAL_TRAINING_VERIFICATION.json",
+    "pre_final_status": "TWELVE_FORMAL_TASKS_VERIFIED",
+    "verified_checkpoint_count": 288,
+    "selection_seal": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/selection_seal_concat_19/selection_seal.json",
+    "final_receipt": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/final_concat_19/final_score_receipt.json",
+    "final_status": "FINAL_SCORED",
+    "final_cell_count": 19,
+    "unavailable_cell_count": 0,
+    "report_directory": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/report_concat_19",
+    "final_integrity_verification": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/FINAL_RESULTS_INTEGRITY_VERIFICATION.json",
+    "final_integrity_status": "PASS"
+  },
+  "split": {
+    "source": 18,
+    "development": 6,
+    "final": 6
+  },
+  "encoder": {
+    "line": "concat",
+    "representation_specific": true,
+    "film": false,
+    "selection": "fixed_last_ema",
+    "sharing": "each representation shares only its own seed42 encoder across Full decoder seeds"
+  },
+  "training_recipe": {
+    "segments": 24,
+    "updates_per_segment": 3165,
+    "updates_per_task": 75960,
+    "batch": 32
+  },
+  "neural_training_tasks": [
+    "pretrain_sua_s42",
+    "train_sua_full_s42",
+    "train_sua_activity_s42",
+    "train_sua_raw_set_s42",
+    "train_sua_full_s43",
+    "train_sua_full_s44",
+    "pretrain_pmua_s42",
+    "train_pmua_full_s42",
+    "train_pmua_activity_s42",
+    "train_pmua_raw_set_s42",
+    "train_pmua_full_s43",
+    "train_pmua_full_s44"
+  ],
+  "neural_training_task_count": 12,
+  "main_cells": [
+    "full_sua",
+    "full_pmua",
+    "activity_sua",
+    "activity_pmua",
+    "raw_set_sua",
+    "raw_set_pmua",
+    "wf_zs_h0_pmua",
+    "diag_z_wf_pmua",
+    "coral_wf_pmua",
+    "aligned_fa_wf_pmua",
+    "aligned_fa_stable_wf_pmua",
+    "wf_fss_sua",
+    "wf_fss_pmua",
+    "raw_set_diag_z_pmua",
+    "raw_set_coral_pmua"
+  ],
+  "main_cell_count": 15,
+  "full_supplement_cells": [
+    "full_sua_s43",
+    "full_pmua_s43",
+    "full_sua_s44",
+    "full_pmua_s44"
+  ],
+  "full_supplement_cell_count": 4,
+  "total_final_prediction_cells": 19,
+  "decoder_selection": "complete_dev6_24_ema_checkpoints_earliest_maximum",
+  "full_reporting": "seed42_main; seed42_43_44_mean_and_sample_sd; matched_seed_sua_minus_pmua",
+  "old_film_weights": {
+    "reusable": false,
+    "reason": "different FiLM encoder; fresh concat training required"
+  },
+  "gpu_profiles": {
+    "sua": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/gpu_profile_concat_20260912_sua/receipt.json",
+    "pmua": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/gpu_profile_concat_20260912_pmua/receipt.json"
+  },
+  "logs": {
+    "sua": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/sua.stdout.log",
+    "pmua": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/pmua.stdout.log"
+  },
+  "main_neural_seed": 42
+}

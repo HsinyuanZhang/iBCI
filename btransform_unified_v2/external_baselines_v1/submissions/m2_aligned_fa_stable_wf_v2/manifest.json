@@ -1,0 +1,335 @@
+{
+  "channels": 96,
+  "expected_prediction_fields": {
+    "channels": 96,
+    "history": 10,
+    "outputs": 2,
+    "task": "m2"
+  },
+  "h1_channel_correspondence": "fixed delivered unit rows",
+  "history": 10,
+  "local_public_calibration_scores": {
+    "legacy": 0.081057,
+    "standard": 0.081052
+  },
+  "max_batch": 7,
+  "method": "aligned_fa_stable_wf",
+  "model_feature_channels": 40,
+  "outputs": 2,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "payload.npz",
+    "keys": [
+      "ridge_coef",
+      "ridge_intercept",
+      "s_Run1_20201019_A",
+      "s_Run1_20201019_b",
+      "s_Run1_20201019_z_mean",
+      "s_Run1_20201019_z_scale",
+      "s_Run1_20201020_A",
+      "s_Run1_20201020_b",
+      "s_Run1_20201020_z_mean",
+      "s_Run1_20201020_z_scale",
+      "s_Run1_20201027_A",
+      "s_Run1_20201027_b",
+      "s_Run1_20201027_z_mean",
+      "s_Run1_20201027_z_scale",
+      "s_Run1_20201028_A",
+      "s_Run1_20201028_b",
+      "s_Run1_20201028_z_mean",
+      "s_Run1_20201028_z_scale",
+      "s_Run1_20201030_A",
+      "s_Run1_20201030_b",
+      "s_Run1_20201030_z_mean",
+      "s_Run1_20201030_z_scale",
+      "s_Run1_20201118_A",
+      "s_Run1_20201118_b",
+      "s_Run1_20201118_z_mean",
+      "s_Run1_20201118_z_scale",
+      "s_Run1_20201119_A",
+      "s_Run1_20201119_b",
+      "s_Run1_20201119_z_mean",
+      "s_Run1_20201119_z_scale",
+      "s_Run1_20201124_A",
+      "s_Run1_20201124_b",
+      "s_Run1_20201124_z_mean",
+      "s_Run1_20201124_z_scale",
+      "s_Run2_20201019_A",
+      "s_Run2_20201019_b",
+      "s_Run2_20201019_z_mean",
+      "s_Run2_20201019_z_scale",
+      "s_Run2_20201020_A",
+      "s_Run2_20201020_b",
+      "s_Run2_20201020_z_mean",
+      "s_Run2_20201020_z_scale",
+      "s_Run2_20201027_A",
+      "s_Run2_20201027_b",
+      "s_Run2_20201027_z_mean",
+      "s_Run2_20201027_z_scale",
+      "s_Run2_20201030_A",
+      "s_Run2_20201030_b",
+      "s_Run2_20201030_z_mean",
+      "s_Run2_20201030_z_scale",
+      "s_Run2_20201124_A",
+      "s_Run2_20201124_b",
+      "s_Run2_20201124_z_mean",
+      "s_Run2_20201124_z_scale",
+      "wf_kernel"
+    ],
+    "numeric_only": true,
+    "sha256": "2f5116442de56b169754549cc3af8356d9cad6e212d767c993d5aeece4e38341"
+  },
+  "protocol": "Shared WF: 240 ms causal exponential smooth (FALCON 12-tap, tau=240ms, extent=1) on each full unpadded raw 20-ms recording from zero state, no trial reset; per-session z-score from that session's native calibration bins after the same filter; then aligner; 10-bin causal history; unpenalized-intercept ridge readout. No interpolated support.",
+  "schema": "fair_v2_linear_falcon_payload_v1",
+  "selected": {
+    "alpha": 100.0,
+    "configuration": {
+      "history_bins": 10,
+      "latent_dim": 40,
+      "posterior": "stable",
+      "stable_fraction": 1.0
+    },
+    "eligible": true,
+    "source_validation_per_session": {
+      "ses-2020-10-19-Run1": {
+        "legacy_flattened_r2": 0.24449818979446292,
+        "legacy_sst": 0.7312778351169034,
+        "n_windows": 3551,
+        "sse": 0.5524817281940068,
+        "standard_sst": 0.7312764021882141,
+        "standard_variance_weighted_r2": 0.24449670939633233
+      },
+      "ses-2020-10-19-Run2": {
+        "legacy_flattened_r2": 0.2718724633701727,
+        "legacy_sst": 0.7814036225061571,
+        "n_windows": 3598,
+        "sse": 0.5689614947690317,
+        "standard_sst": 0.7814025521702848,
+        "standard_variance_weighted_r2": 0.27187146600841344
+      },
+      "ses-2020-10-20-Run1": {
+        "legacy_flattened_r2": 0.19852317113857965,
+        "legacy_sst": 0.6910475255542282,
+        "n_windows": 2671,
+        "sse": 0.5538585793737342,
+        "standard_sst": 0.6910333772396399,
+        "standard_variance_weighted_r2": 0.19850676158922317
+      },
+      "ses-2020-10-20-Run2": {
+        "legacy_flattened_r2": 0.16563366202773921,
+        "legacy_sst": 0.5469798352520092,
+        "n_windows": 2605,
+        "sse": 0.45638156208388947,
+        "standard_sst": 0.5469465936729976,
+        "standard_variance_weighted_r2": 0.16558295204093668
+      },
+      "ses-2020-10-27-Run1": {
+        "legacy_flattened_r2": 0.2360995741216242,
+        "legacy_sst": 0.40927170872923535,
+        "n_windows": 2025,
+        "sse": 0.31264283259823344,
+        "standard_sst": 0.4092434796437451,
+        "standard_variance_weighted_r2": 0.23604688125905793
+      },
+      "ses-2020-10-27-Run2": {
+        "legacy_flattened_r2": 0.22002211063620092,
+        "legacy_sst": 0.4016446141862413,
+        "n_windows": 2519,
+        "sse": 0.3132739184473219,
+        "standard_sst": 0.4016001993323431,
+        "standard_variance_weighted_r2": 0.21993584921487241
+      },
+      "ses-2020-10-28-Run1": {
+        "legacy_flattened_r2": 0.19275854537890058,
+        "legacy_sst": 0.6958953482320283,
+        "n_windows": 3128,
+        "sse": 0.561755573170879,
+        "standard_sst": 0.6958890725280462,
+        "standard_variance_weighted_r2": 0.19275126547092244
+      }
+    },
+    "source_validation_standard_mean": 0.21845598356853693
+  },
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "sessions": {
+    "Run1_20201019": {
+      "array_prefix": "s_Run1_20201019",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2001,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-19-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-19-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201020": {
+      "array_prefix": "s_Run1_20201020",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2136,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-20-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-20-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201027": {
+      "array_prefix": "s_Run1_20201027",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 1966,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-27-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-27-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201028": {
+      "array_prefix": "s_Run1_20201028",
+      "calibration": {
+        "algebra": "source_fa_reference",
+        "calibration_samples": 1991,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-28-Run1_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-28-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201030": {
+      "array_prefix": "s_Run1_20201030",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2154,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-10-30-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-10-30-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201118": {
+      "array_prefix": "s_Run1_20201118",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2040,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-18-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-18-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201119": {
+      "array_prefix": "s_Run1_20201119",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2355,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-19-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-19-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run1_20201124": {
+      "array_prefix": "s_Run1_20201124",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2211,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-24-Run1_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-24-Run1",
+      "support_activity_sha256": ""
+    },
+    "Run2_20201019": {
+      "array_prefix": "s_Run2_20201019",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 1938,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-19-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-19-Run2",
+      "support_activity_sha256": ""
+    },
+    "Run2_20201020": {
+      "array_prefix": "s_Run2_20201020",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2368,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-20-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-20-Run2",
+      "support_activity_sha256": ""
+    },
+    "Run2_20201027": {
+      "array_prefix": "s_Run2_20201027",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 1960,
+        "kind": "source_map",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-in-calib_ses-2020-10-27-Run2_behavior+ecephys",
+      "role": "heldin",
+      "source_session": "ses-2020-10-27-Run2",
+      "support_activity_sha256": ""
+    },
+    "Run2_20201030": {
+      "array_prefix": "s_Run2_20201030",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2007,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-10-30-Run2_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-10-30-Run2",
+      "support_activity_sha256": ""
+    },
+    "Run2_20201124": {
+      "array_prefix": "s_Run2_20201124",
+      "calibration": {
+        "algebra": "aligned_fa_stable",
+        "calibration_samples": 2345,
+        "kind": "target_adapter",
+        "target_labels_used": false
+      },
+      "raw_basename": "sub-MonkeyN-held-out-calib_ses-2020-11-24-Run2_behavior+ecephys",
+      "role": "heldout",
+      "source_session": "ses-2020-11-24-Run2",
+      "support_activity_sha256": ""
+    }
+  },
+  "source": {
+    "filter": "FALCON 12-tap causal exponential, tau=240ms, extent=1",
+    "models_pkl_sha256": "8ce00dc9b903efc331f0488e62b8f912765008a0206613b5594c2f5934f6e8fa",
+    "reference_session": "ses-2020-10-28-Run1",
+    "ridge": "source-selected unpenalized-intercept ridge; no feature z-score",
+    "selection_sha256": "30eb6312bcb3e51abd3cb4071b732a782409c6adac76f01b7b107ed97374650b"
+  },
+  "task": "m2",
+  "training_method": "aligned_fa_stable_wf"
+}

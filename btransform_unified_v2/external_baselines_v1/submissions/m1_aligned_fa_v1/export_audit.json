@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "20121004": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1305,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "20121017": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1295,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "20121024": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1281,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-20120928": {
+      "kind": "source_pipeline_first32",
+      "max_abs_error": 0.0,
+      "n": 32,
+      "pass": true,
+      "tolerance": 2e-06
+    }
+  },
+  "fit_seconds_total": 32.78403316100594,
+  "method": "aligned_fa_wf",
+  "new_heldin_fa_diagnostics": {
+    "20120924": {
+      "converged": true,
+      "implementation": "sklearn FactorAnalysis iterative SVD solver; no target backprop",
+      "log_likelihood_per_sample": -22.64114781833459,
+      "n_init": 3,
+      "n_iter": 425
+    },
+    "20120926": {
+      "converged": true,
+      "implementation": "sklearn FactorAnalysis iterative SVD solver; no target backprop",
+      "log_likelihood_per_sample": -32.14694325437047,
+      "n_init": 3,
+      "n_iter": 87
+    },
+    "20120927": {
+      "converged": true,
+      "implementation": "sklearn FactorAnalysis iterative SVD solver; no target backprop",
+      "log_likelihood_per_sample": -20.92559310773816,
+      "n_init": 3,
+      "n_iter": 157
+    }
+  },
+  "payload_bytes": 69184,
+  "payload_sha256": "115e59a220bbfa6d0fd5e82fabf82797b7db6cbc7d4bd1b01ff0dce3419952cf",
+  "schema": "external_gf_falcon_payload_export_audit_v1",
+  "tag_count": 7,
+  "tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "task": "m1"
+}

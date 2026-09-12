@@ -1,0 +1,16 @@
+{
+  "completed_at": "2026-09-11T05:07:40.100085Z",
+  "method_name": "M2 RIFT R50 proj_add flat e7",
+  "result_file_url": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582292/3f73b77b-79eb-4ca5-a546-5ac3ba5229.json",
+  "scores": {
+    "test_split_m2": {
+      "Held In R2 Mean": 0.640483070544619,
+      "Held In R2 Std.": 0.028663829847434586,
+      "Held Out R2 Mean": 0.3165150046024224,
+      "Held Out R2 Std.": 0.15658327854425844,
+      "Normalized Latency": 0.10306945083834601
+    }
+  },
+  "status": "finished",
+  "submission_id": 582292
+}

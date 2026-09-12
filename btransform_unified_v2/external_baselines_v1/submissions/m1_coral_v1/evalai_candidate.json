@@ -1,0 +1,24 @@
+{
+  "budget_disclosure": "Frozen archive; no remote push, registration, or submission has been performed.",
+  "challenge_id": 2319,
+  "image_id": "sha256:db8839f07fc182c0a06376f19448c2c62e3eed4a95be511e282bdb259557d82f",
+  "image_tag": "external-gf-m1-coral-v1:cpu",
+  "manifest_sha256": "f34c2f1303096cb326e667770dfeb0d6c0b1649143f8fcbe55072cc473312dfb",
+  "method": "coral",
+  "method_description": "Frozen CPU NumPy streaming decoder: session-specific neural-only coral plus source Wiener readout.",
+  "method_name": "External GF M1 coral",
+  "payload_sha256": "3ee7acbd09e8539cb2716907603cf837b4535ad056e2c9c32cfc9d77212da6a3",
+  "phase_id": 4599,
+  "phase_slug": "few-shot-test-2319",
+  "schema": "external_gf_evalai_candidate_v1",
+  "status": "FROZEN_PROTOCOL_INVALID_FOR_COMPARISON",
+  "submission_eligible": false,
+  "freeze_reason": "Original single-source ridge=1 protocol lacks the official preprocessing control, so it is not a fair RIFT comparison or submission candidate.",
+  "submission_attributes": {
+    "IsHeldOutZeroShot": false,
+    "IsPretrained": false,
+    "IsTestTimeAdaptive": false
+  },
+  "submission_command": null,
+  "task": "m1"
+}

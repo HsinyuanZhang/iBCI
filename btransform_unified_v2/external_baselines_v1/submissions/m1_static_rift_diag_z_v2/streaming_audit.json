@@ -1,0 +1,42 @@
+{
+  "elapsed_seconds": 29.105344975017942,
+  "max_abs_error": 2.6226043701171875e-06,
+  "method": "static_rift_diag_z",
+  "payload_sha256": "8d0f28ae139a5b22af59d13f7977088e7740b9f6946f739cd8dea9d64d53b2da",
+  "schema": "fair_v2_static_streaming_audit_v1",
+  "sessions": {
+    "20121004": {
+      "max_abs_error": 2.4437904357910156e-06,
+      "pass": true,
+      "raw_bins_streamed": 3442,
+      "raw_predictions_appended": 3442,
+      "scored_rows": 1305,
+      "tag": "20121004",
+      "tolerance": 2e-05
+    },
+    "20121017": {
+      "max_abs_error": 2.6226043701171875e-06,
+      "pass": true,
+      "raw_bins_streamed": 3342,
+      "raw_predictions_appended": 3342,
+      "scored_rows": 1295,
+      "tag": "20121017",
+      "tolerance": 2e-05
+    },
+    "20121024": {
+      "max_abs_error": 2.1457672119140625e-06,
+      "pass": true,
+      "raw_bins_streamed": 6671,
+      "raw_predictions_appended": 6671,
+      "scored_rows": 1281,
+      "tag": "20121024",
+      "tolerance": 2e-05
+    }
+  },
+  "task": "m1",
+  "tolerance": 2e-05,
+  "tolerance_note": "cached CPU streaming vs sealed offline windows; not bit-exact",
+  "total_raw_bins_streamed": 13455,
+  "total_raw_predictions_appended": 13455,
+  "total_scored_rows": 3881
+}

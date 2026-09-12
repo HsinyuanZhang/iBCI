@@ -1,0 +1,140 @@
+{
+  "common_protocol": {
+    "adapter_hyperparameters": {
+      "coral_ridge": 0.001,
+      "coral_shrinkage": 0.1,
+      "fa_dim": 10,
+      "fa_max_iter": 1000,
+      "fa_n_init": 3,
+      "fa_stable_fraction": 0.5
+    },
+    "methods": {
+      "aligned_fa_wf": "target FactorAnalysis plus stable-loading-row orthogonal Procrustes (closed-form SVD) plus Wiener filter",
+      "coral_wf": "target neural-only linear CORAL plus Wiener filter",
+      "fa_wf": "source FactorAnalysis plus Wiener filter",
+      "wf_raw": "raw source-trained Wiener filter paired control"
+    },
+    "source_decoder": "one latest fixed source session; causal history=10 ridge Wiener filter with ridge=1.0",
+    "target_backprop_used": false,
+    "target_labels_used_for_fit": false
+  },
+  "formal_claim": false,
+  "official_test_used": false,
+  "published_results_must_remain_separate": "SPINT_PUBLISHED_BASELINES.md contains private held-out published/EvalAI results and must not be aggregated with these local values.",
+  "schema": "external_baselines_local_first_pass_results_v1",
+  "scope": "public_calibration_local_development_only",
+  "status": "completed_cpu_local_screens_m2_then_m1_then_h1",
+  "tasks": {
+    "h1": {
+      "decision": "low_priority_exploratory_positional_row_assumption",
+      "main_metric": "grouped_seven.r2_mean",
+      "n_windows": 33613,
+      "physical_channel_correspondence_unverified": true,
+      "receipt": "../results/h1_full_v1/receipt.json",
+      "reports": {
+        "aligned_fa_wf": {
+          "grouped_seven_mean": -0.09967742914308664,
+          "grouped_seven_population_sd": 0.039973013672245934,
+          "recording_mean_diagnostic": -0.09963133304334197
+        },
+        "coral_wf": {
+          "grouped_seven_mean": -4.734247163973604,
+          "grouped_seven_population_sd": 0.12614944790330807,
+          "recording_mean_diagnostic": -4.734878963471495
+        },
+        "fa_wf": {
+          "grouped_seven_mean": -0.07170989532410321,
+          "grouped_seven_population_sd": 0.03330056925269659,
+          "recording_mean_diagnostic": -0.07185088709224928
+        },
+        "wf_raw": {
+          "grouped_seven_mean": -8.325311633426496,
+          "grouped_seven_population_sd": 0.7992338711624941,
+          "recording_mean_diagnostic": -8.326162085970989
+        }
+      },
+      "runtime_seconds": 21.690514225978404,
+      "source_session": "ses-19250120T115537"
+    },
+    "m1": {
+      "aligned_fa_caveat": {
+        "fa_max_iter": 1000,
+        "interpretation": "finite budget-limited first-pass screen, not numerical divergence or a stable completed benchmark",
+        "noise_variances": "positive_and_finite",
+        "relative_improvement_approximately": 3.76e-09,
+        "solver_tolerance": 0.001,
+        "source_fit_converged": false,
+        "target_final_log_likelihood_improvement": 0.002351,
+        "target_fit_converged": false,
+        "target_session": "20121017"
+      },
+      "decision": "continue_coral_and_alignedfa_after_convergence_audit",
+      "metric_contract": "both full_compatible_flattened and standard_variance_weighted",
+      "n_windows": 3881,
+      "receipt": "../results/m1_full_v1/receipt.json",
+      "reports": {
+        "aligned_fa_wf": {
+          "flattened_mean": 0.4796419039850431,
+          "flattened_pooled": 0.48116881667739797,
+          "standard_vw_mean": 0.32539061705271405,
+          "standard_vw_pooled": 0.33402398228645325
+        },
+        "coral_wf": {
+          "flattened_mean": 0.49715024801409174,
+          "flattened_pooled": 0.49648590588351715,
+          "standard_vw_mean": 0.35115063687165576,
+          "standard_vw_pooled": 0.35368505120277405
+        },
+        "fa_wf": {
+          "flattened_mean": -1.5830864382833,
+          "flattened_pooled": -1.5933596864191517,
+          "standard_vw_mean": -2.329934994379679,
+          "standard_vw_pooled": -2.328859567642212
+        },
+        "wf_raw": {
+          "flattened_mean": -1.6431056859199742,
+          "flattened_pooled": -1.6901245792951172,
+          "standard_vw_mean": -2.370743910471598,
+          "standard_vw_pooled": -2.453065872192383
+        }
+      },
+      "runtime_seconds": 81.78065653098747,
+      "source_session": "ses-20120928"
+    },
+    "m2": {
+      "decision": "prioritize_coral",
+      "metric_contract": "both full_compatible_flattened and standard_variance_weighted",
+      "n_windows": 15403,
+      "receipt_diagnostics": "../results/m2_full_v1/receipt.json",
+      "receipt_metrics": "../results/m2_full_v1_corrected/receipt.json",
+      "reports": {
+        "aligned_fa_wf": {
+          "flattened_mean": -0.1506299909338482,
+          "flattened_pooled": -0.13848895731539557,
+          "standard_vw_mean": -0.15063727647066116,
+          "standard_vw_pooled": -0.13849826157093048
+        },
+        "coral_wf": {
+          "flattened_mean": 0.08296234925248926,
+          "flattened_pooled": 0.0927028900053034,
+          "standard_vw_mean": 0.08295645813147227,
+          "standard_vw_pooled": 0.09269321709871292
+        },
+        "fa_wf": {
+          "flattened_mean": -0.006680109265887912,
+          "flattened_pooled": -0.008467926855906693,
+          "standard_vw_mean": -0.006686182226985693,
+          "standard_vw_pooled": -0.008478079922497272
+        },
+        "wf_raw": {
+          "flattened_mean": -0.16935944158824764,
+          "flattened_pooled": -0.14060828691011085,
+          "standard_vw_mean": -0.16936669064064822,
+          "standard_vw_pooled": -0.14061971008777618
+        }
+      },
+      "runtime_seconds": 30.912628836988006,
+      "source_session": "ses-2020-10-28-Run1"
+    }
+  }
+}

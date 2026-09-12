@@ -1,0 +1,42 @@
+{
+  "checks": {
+    "20121004": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1305,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "20121017": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1295,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "20121024": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1281,
+      "pass": true,
+      "tolerance": 0.0
+    }
+  },
+  "elapsed_seconds": 6.270671902981121,
+  "max_abs_error": 0.0,
+  "method": "diag_z_wf",
+  "payload_bytes": 93924,
+  "payload_sha256": "30ea96c58601679dea382e5a9e032f937b42c25baf8cb164dbc616754dbdbd5e",
+  "schema": "fair_v2_linear_export_audit_v1",
+  "tag_count": 7,
+  "tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "task": "m1"
+}

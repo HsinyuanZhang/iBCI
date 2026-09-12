@@ -1,0 +1,1 @@
+{"schema":"external_gf_container_smoke_v1","image":"external-gf-m1-coral-v1:cpu","image_id":"sha256:db8839f07fc182c0a06376f19448c2c62e3eed4a95be511e282bdb259557d82f","runtime_sha256":"884350699865ab3ab1d58ff0565f7dff8fd67c96661b30f91a7f825813697b07","roster":7,"chunks":[[4,16],[3,16]],"falcon_evaluator_constructed":true,"dtype":"float32","finite":true,"cuda_visible_devices":""}

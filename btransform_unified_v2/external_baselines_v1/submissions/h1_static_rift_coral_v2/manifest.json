@@ -1,0 +1,220 @@
+{
+  "channels": 176,
+  "checkpoint_sha256": "b79adeda51955c14bb60e4643835a5d8d6862cdb2480134fd9fd42a04a765b51",
+  "expected_prediction_fields": {
+    "channels": 176,
+    "history": 300,
+    "outputs": 7,
+    "task": "h1"
+  },
+  "frontend": "coral",
+  "history": 300,
+  "local_public_calibration_scores": {
+    "legacy": 0.277351,
+    "standard": 0.276458
+  },
+  "max_batch": 8,
+  "method": "static_rift_coral",
+  "outputs": 7,
+  "payload": {
+    "contains_raw_data": false,
+    "contains_target_y": false,
+    "file": "artifacts/decoder.pkl",
+    "numeric_frontend_only": true,
+    "sha256": "1ac260fe423eb0cf00758fe846b2109885ccee19adab7a36676e14c404048b43"
+  },
+  "schema": "fair_v2_static_rift_frontend_v1",
+  "selection_budget_disclosure": "New linear baselines used source-only hyperparameter selection (80/20 chronological per source recording, 21-native-bin gap). Query labels did not enter fit or selection. Existing official RIFT candidates used public calibration query labels for epoch pick; that is a different selection budget. Fixed-final RIFT rows are local diagnostics only and do not replace existing official RIFT candidates.",
+  "sessions": {
+    "S0_set_1": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250101T111740",
+      "role": "heldin",
+      "source_session": "ses-19250101T111740",
+      "support_n": 2401,
+      "target_labels_used": false
+    },
+    "S0_set_2": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250101T112404",
+      "role": "heldin",
+      "source_session": "ses-19250101T112404",
+      "support_n": 2517,
+      "target_labels_used": false
+    },
+    "S10_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250203T113515",
+      "role": "heldout",
+      "source_session": "19250203T113515",
+      "support_n": 2299,
+      "target_labels_used": false
+    },
+    "S10_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250203T114018",
+      "role": "heldout",
+      "source_session": "19250203T114018",
+      "support_n": 2263,
+      "target_labels_used": false
+    },
+    "S11_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250206T112219",
+      "role": "heldout",
+      "source_session": "19250206T112219",
+      "support_n": 2391,
+      "target_labels_used": false
+    },
+    "S11_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250206T112712",
+      "role": "heldout",
+      "source_session": "19250206T112712",
+      "support_n": 2389,
+      "target_labels_used": false
+    },
+    "S12_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250209T111826",
+      "role": "heldout",
+      "source_session": "19250209T111826",
+      "support_n": 2631,
+      "target_labels_used": false
+    },
+    "S12_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250209T112327",
+      "role": "heldout",
+      "source_session": "19250209T112327",
+      "support_n": 2539,
+      "target_labels_used": false
+    },
+    "S1_set_1": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250108T110520",
+      "role": "heldin",
+      "source_session": "ses-19250108T110520",
+      "support_n": 2283,
+      "target_labels_used": false
+    },
+    "S1_set_2": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250108T111022",
+      "role": "heldin",
+      "source_session": "ses-19250108T111022",
+      "support_n": 2723,
+      "target_labels_used": false
+    },
+    "S1_set_3": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250108T111455",
+      "role": "heldin",
+      "source_session": "ses-19250108T111455",
+      "support_n": 2666,
+      "target_labels_used": false
+    },
+    "S2_set_1": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250113T120811",
+      "role": "heldin",
+      "source_session": "ses-19250113T120811",
+      "support_n": 2327,
+      "target_labels_used": false
+    },
+    "S2_set_2": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250113T121303",
+      "role": "heldin",
+      "source_session": "ses-19250113T121303",
+      "support_n": 2178,
+      "target_labels_used": false
+    },
+    "S3_set_1": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250115T110633",
+      "role": "heldin",
+      "source_session": "ses-19250115T110633",
+      "support_n": 2297,
+      "target_labels_used": false
+    },
+    "S3_set_2": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250115T111328",
+      "role": "heldin",
+      "source_session": "ses-19250115T111328",
+      "support_n": 2242,
+      "target_labels_used": false
+    },
+    "S4_set_1": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250119T113543",
+      "role": "heldin",
+      "source_session": "ses-19250119T113543",
+      "support_n": 2487,
+      "target_labels_used": false
+    },
+    "S4_set_2": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250119T114045",
+      "role": "heldin",
+      "source_session": "ses-19250119T114045",
+      "support_n": 2378,
+      "target_labels_used": false
+    },
+    "S5_set_1": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250120T115044",
+      "role": "heldin",
+      "source_session": "ses-19250120T115044",
+      "support_n": 2217,
+      "target_labels_used": false
+    },
+    "S5_set_2": {
+      "raw_basename": "sub-HumanPitt-held-in-calib_ses-19250120T115537",
+      "role": "heldin",
+      "source_session": "ses-19250120T115537",
+      "support_n": 2163,
+      "target_labels_used": false
+    },
+    "S6_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250126T113454",
+      "role": "heldout",
+      "source_session": "19250126T113454",
+      "support_n": 2313,
+      "target_labels_used": false
+    },
+    "S6_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250126T114029",
+      "role": "heldout",
+      "source_session": "19250126T114029",
+      "support_n": 2350,
+      "target_labels_used": false
+    },
+    "S7_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250127T120333",
+      "role": "heldout",
+      "source_session": "19250127T120333",
+      "support_n": 2387,
+      "target_labels_used": false
+    },
+    "S7_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250127T120826",
+      "role": "heldout",
+      "source_session": "19250127T120826",
+      "support_n": 2554,
+      "target_labels_used": false
+    },
+    "S8_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250129T112555",
+      "role": "heldout",
+      "source_session": "19250129T112555",
+      "support_n": 2418,
+      "target_labels_used": false
+    },
+    "S8_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250129T113059",
+      "role": "heldout",
+      "source_session": "19250129T113059",
+      "support_n": 2289,
+      "target_labels_used": false
+    },
+    "S9_set_1": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250202T113958",
+      "role": "heldout",
+      "source_session": "19250202T113958",
+      "support_n": 2349,
+      "target_labels_used": false
+    },
+    "S9_set_2": {
+      "raw_basename": "sub-HumanPitt-held-out-calib_ses-19250202T114452",
+      "role": "heldout",
+      "source_session": "19250202T114452",
+      "support_n": 2441,
+      "target_labels_used": false
+    }
+  },
+  "task": "h1"
+}

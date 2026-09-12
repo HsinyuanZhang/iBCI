@@ -1,0 +1,42 @@
+{
+  "B1": {
+    "last_shape": [
+      1,
+      16
+    ],
+    "max_abs": 0.0,
+    "sessions": [
+      "20121004"
+    ],
+    "steps": 80
+  },
+  "B3": {
+    "last_shape": [
+      3,
+      16
+    ],
+    "max_abs": 4.76837158203125e-07,
+    "sessions": [
+      "20121004",
+      "20121017",
+      "20121024"
+    ],
+    "steps": 80
+  },
+  "B4": {
+    "last_shape": [
+      4,
+      16
+    ],
+    "max_abs": 0.0,
+    "sessions": [
+      "20120924",
+      "20120926",
+      "20120927",
+      "20120928"
+    ],
+    "steps": 80
+  },
+  "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_learnable_v1/artifacts/smoke_window.npz",
+  "status": "HOST_PACK_VERIFY_PASS"
+}

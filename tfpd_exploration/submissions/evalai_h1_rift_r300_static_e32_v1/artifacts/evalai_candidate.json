@@ -1,0 +1,77 @@
+{
+  "arm": "h1_rift_r300_static_e32_cached",
+  "budget_disclosure": "H1 RIFT R300 static_identity table, no E0/no carrier/no calibration bank. Prespecified last-epoch EMA e32 after 32-epoch source-only train. HO-M3 report 0.209015 is not epoch selection. Cached CPU learnable runtime, no TTA, no ORT.",
+  "container_smoke": {
+    "kind": "rift_cached_static_identity",
+    "pred": [
+      [
+        0.0006020411965437233,
+        0.0007229410111904144,
+        -0.00041398656321689487,
+        0.0020125065930187702,
+        -0.0003961719630751759,
+        0.001374623505398631,
+        0.00015726192214060575
+      ]
+    ],
+    "status": "CONTAINER_SMOKE_PASS"
+  },
+  "evalai_opened": false,
+  "host_verify": {
+    "B1": {
+      "last_shape": [
+        1,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1"
+      ]
+    },
+    "B8": {
+      "last_shape": [
+        8,
+        7
+      ],
+      "max_abs": 0.0,
+      "sessions": [
+        "ses-19250101T111740",
+        "ses-19250101T112404",
+        "ses-19250108T110520",
+        "ses-19250108T111022",
+        "ses-19250108T111455",
+        "ses-19250113T120811",
+        "ses-19250113T121303",
+        "ses-19250115T110633"
+      ],
+      "steps": 80,
+      "tags": [
+        "S0_set_1",
+        "S0_set_2",
+        "S1_set_1",
+        "S1_set_2",
+        "S1_set_3",
+        "S2_set_1",
+        "S2_set_2",
+        "S3_set_1"
+      ]
+    },
+    "smoke_window": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_static_e32_v1/artifacts/smoke_window.npz",
+    "status": "HOST_PACK_VERIFY_PASS"
+  },
+  "image_id": "sha256:77f37966f0e56b91ca5b70372a9e958ee2ded5ba2c6fe4cd8aa2a3f8b612f201",
+  "image_size": 9746442767,
+  "image_tag": "h1-rift-r300-static-e32:v1",
+  "method_description": "H1 RIFT R300 P16 static_identity (shared 176x16 table, literal-zero carrier), per-layer learned_slope on the default half-life ladder, cached CPU KV. Prespecified e32 EMA. HO-M3 report 0.209015. Not BT-EORT, not ORT, not SPINT, not 582196, not 582241.",
+  "method_label": "H1 RIFT R300 static_identity learned_slope default-ladder e32 EMA cached CPU; architecture=RIFT backend=cached identity=static recency=learned_slope_default; ho-m3 report 0.209015; not BT-EORT; not ORT; not SPINT; not 582196; not 582241",
+  "method_name": "H1 RIFT R300 static e32",
+  "payload_sha256": "f0e0f475894dc532781edef46696df2018dad2ff1ae0adcfca1eb6c8deaeebac",
+  "register": false,
+  "selection_mean": 0.20901458725628483,
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_h1_rift_r300_static_e32_v1/artifacts/evalai_push_state.json",
+  "window": 300
+}

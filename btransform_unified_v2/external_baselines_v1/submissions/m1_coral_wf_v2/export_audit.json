@@ -1,0 +1,42 @@
+{
+  "checks": {
+    "20121004": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1305,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "20121017": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1295,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "20121024": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 1281,
+      "pass": true,
+      "tolerance": 0.0
+    }
+  },
+  "elapsed_seconds": 5.085844799992628,
+  "max_abs_error": 0.0,
+  "method": "coral_wf",
+  "payload_bytes": 97166,
+  "payload_sha256": "a00529bd89ddd6604133718259213fb30d22d356b79ab3c1dff2438730915772",
+  "schema": "fair_v2_linear_export_audit_v1",
+  "tag_count": 7,
+  "tags": [
+    "20120924",
+    "20120926",
+    "20120927",
+    "20120928",
+    "20121004",
+    "20121017",
+    "20121024"
+  ],
+  "task": "m1"
+}

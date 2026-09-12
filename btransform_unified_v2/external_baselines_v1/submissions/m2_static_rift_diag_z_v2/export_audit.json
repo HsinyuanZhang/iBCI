@@ -1,0 +1,71 @@
+{
+  "checkpoint_sha256": "8313e7bb202d43def2885b7e7c4c74dc8466af81aaccb18b437333ae86801612",
+  "checks": {
+    "ses-2020-10-30-Run1": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 4.842877388000488e-08,
+      "n": 2727,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "ses-2020-10-30-Run2": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 7.82310962677002e-08,
+      "n": 2550,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-18-Run1": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 5.960464477539063e-08,
+      "n": 2517,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-19-Run1": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 5.960464477539063e-08,
+      "n": 3045,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-24-Run1": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 5.960464477539063e-08,
+      "n": 2214,
+      "pass": true,
+      "tolerance": 2e-05
+    },
+    "ses-2020-11-24-Run2": {
+      "kind": "offline_windowed_vs_sealed",
+      "max_abs_error": 4.842877388000488e-08,
+      "n": 2350,
+      "pass": true,
+      "tolerance": 2e-05
+    }
+  },
+  "elapsed_seconds": 379.19691308698384,
+  "frontend": "diag_z",
+  "max_abs_error": 7.82310962677002e-08,
+  "method": "static_rift_diag_z",
+  "payload_bytes": 19898940,
+  "payload_sha256": "444bfd56add3dd52f5eb3cbd2a2eab5a1d7c187e01e894013220816033351dd5",
+  "schema": "fair_v2_static_export_audit_v1",
+  "tag_count": 13,
+  "tags": [
+    "Run1_20201019",
+    "Run1_20201020",
+    "Run1_20201027",
+    "Run1_20201028",
+    "Run1_20201030",
+    "Run1_20201118",
+    "Run1_20201119",
+    "Run1_20201124",
+    "Run2_20201019",
+    "Run2_20201020",
+    "Run2_20201027",
+    "Run2_20201030",
+    "Run2_20201124"
+  ],
+  "task": "m2"
+}

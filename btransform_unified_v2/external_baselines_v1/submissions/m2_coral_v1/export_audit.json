@@ -1,0 +1,76 @@
+{
+  "checks": {
+    "ses-2020-10-28-Run1": {
+      "kind": "source_pipeline_first32",
+      "max_abs_error": 0.0,
+      "n": 32,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-2020-10-30-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2727,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-2020-10-30-Run2": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2550,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-18-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2517,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-19-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 3045,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-24-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2214,
+      "pass": true,
+      "tolerance": 2e-06
+    },
+    "ses-2020-11-24-Run2": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2350,
+      "pass": true,
+      "tolerance": 2e-06
+    }
+  },
+  "fit_seconds_total": 2.8364626110414974,
+  "method": "coral_wf",
+  "new_heldin_fa_diagnostics": {},
+  "payload_bytes": 1441384,
+  "payload_sha256": "647edb1844696e33e7ef917882150588ab2c09c15696a8c14e8780fac3435fae",
+  "schema": "external_gf_falcon_payload_export_audit_v1",
+  "tag_count": 13,
+  "tags": [
+    "Run1_20201019",
+    "Run2_20201019",
+    "Run1_20201020",
+    "Run2_20201020",
+    "Run1_20201027",
+    "Run2_20201027",
+    "Run1_20201028",
+    "Run1_20201030",
+    "Run2_20201030",
+    "Run1_20201118",
+    "Run1_20201119",
+    "Run1_20201124",
+    "Run2_20201124"
+  ],
+  "task": "m2"
+}

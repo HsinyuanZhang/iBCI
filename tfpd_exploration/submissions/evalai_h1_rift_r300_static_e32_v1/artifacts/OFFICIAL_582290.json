@@ -1,0 +1,16 @@
+{
+  "completed_at": "2026-09-11T04:12:17.330326Z",
+  "method_name": "H1 RIFT R300 static e32",
+  "result_file_url": "https://media.eval.ai/media/submission_files/challenge_2319/phase_4599/submission_582290/9f687f85-d6da-44a9-9fe3-c1a275fa78.json",
+  "scores": {
+    "test_split_h1": {
+      "Held In R2 Mean": 0.5365167206916602,
+      "Held In R2 Std.": 0.06053084106339388,
+      "Held Out R2 Mean": 0.3135397887878839,
+      "Held Out R2 Std.": 0.19348902569487061,
+      "Normalized Latency": 0.14153322725537387
+    }
+  },
+  "status": "finished",
+  "submission_id": 582290
+}

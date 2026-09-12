@@ -1,0 +1,69 @@
+{
+  "checks": {
+    "ses-2020-10-30-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2727,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "ses-2020-10-30-Run2": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2550,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "ses-2020-11-18-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2517,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "ses-2020-11-19-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 3045,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "ses-2020-11-24-Run1": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2214,
+      "pass": true,
+      "tolerance": 0.0
+    },
+    "ses-2020-11-24-Run2": {
+      "kind": "stored_heldout_query",
+      "max_abs_error": 0.0,
+      "n": 2350,
+      "pass": true,
+      "tolerance": 0.0
+    }
+  },
+  "elapsed_seconds": 11.26759463903727,
+  "max_abs_error": 0.0,
+  "method": "coral_wf",
+  "payload_bytes": 58572,
+  "payload_sha256": "7aa0459d4a7480089411be1476788aff0d9daead372ca76db6c6e8ac08d825fb",
+  "schema": "fair_v2_linear_export_audit_v1",
+  "tag_count": 13,
+  "tags": [
+    "Run1_20201019",
+    "Run2_20201019",
+    "Run1_20201020",
+    "Run2_20201020",
+    "Run1_20201027",
+    "Run2_20201027",
+    "Run1_20201028",
+    "Run1_20201030",
+    "Run2_20201030",
+    "Run1_20201118",
+    "Run1_20201119",
+    "Run1_20201124",
+    "Run2_20201124"
+  ],
+  "task": "m2"
+}

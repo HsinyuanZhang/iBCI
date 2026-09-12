@@ -1,0 +1,25 @@
+{
+  "arm": "m1_rift_r100_projadd_muscle_learnable_cached",
+  "budget_disclosure": "Official seven-tag M10 banks; visible held-out calibration used only for post-training EMA selection; no official test, no TTA.",
+  "image_id": "sha256:fa4efc593e8ebb05c99fd10c01ea254db0920b410500e2380a23efb39320d0aa",
+  "image_size": 9603480001,
+  "image_tag": "m1-rift-r100-projadd-muscle-learnable-s42-e3:v1",
+  "method_description": "M1 RIFT R100 D4/width256 proj_add P16, per-layer learned recency slopes on the default ladder, muscle_response16_svd4/global_rms official4 carrier. HO3 channel-variance pick e3 seed 42: 0.620812. Not BT-EORT, not ORT, not SPINT.",
+  "method_label": "M1 RIFT R100 proj_add P16 learned_slope muscle official4 s42 e3 cached CPU; architecture=RIFT backend=cached identity=proj_add carrier=muscle_response16_svd4/global_rms; HO3 ch-var 0.620812",
+  "method_name": "M1 RIFT muscle proj_add learned s42 e3",
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_learnable_v1/artifacts/m1_rift_r100_projadd_muscle_learnable.pkl",
+  "payload_sha256": "4fad5dc8a4ee20b7e7b0dabb80f97b9accef495c5e9c468a67fdd05c6b63b6b3",
+  "receipt_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_learnable_v1/artifacts/evalai_submit_receipt.json",
+  "schema_version": "m1_rift_evalai_candidate_v1",
+  "selection": {
+    "epoch": 3,
+    "equal_session_mean_channel_variance_weighted_r2": 0.6208121577898661,
+    "legacy_equal_session_mean_flattened_r2": 0.7078211802071809,
+    "metric": "channel_variance_weighted_r2",
+    "n_windows": 3881,
+    "official_test_used": false,
+    "seed": 42,
+    "surface": "visible HO3 M10"
+  },
+  "state_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m1_rift_r100_projadd_muscle_learnable_v1/artifacts/evalai_push_state.json"
+}
