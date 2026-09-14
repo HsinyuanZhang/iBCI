@@ -1,0 +1,332 @@
+{
+  "schema": "dandi_pmua_t4_session_consistency_v1",
+  "seed": 20260914,
+  "n_permutations": 200,
+  "sessions": [
+    {
+      "id": "sub-C_ses-CO-20150309",
+      "date": "20150309",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150309.pmua.npz",
+      "sha": "f9b83522fcffce3387999cd11e8e7f355720bf3d7d4c1c4ec23820f2b743af2a",
+      "n_channels": 49
+    },
+    {
+      "id": "sub-C_ses-CO-20150311",
+      "date": "20150311",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150311.pmua.npz",
+      "sha": "e50d2277f511b816eab75d30457f68e3f48186fac965234acd7a1bad43c63445",
+      "n_channels": 53
+    },
+    {
+      "id": "sub-C_ses-CO-20150312",
+      "date": "20150312",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150312.pmua.npz",
+      "sha": "7d62ef21a31eef5f0fb2a4ba2967cb12a0824a2b4f4bbc978019b53cc5cf6d36",
+      "n_channels": 56
+    },
+    {
+      "id": "sub-C_ses-CO-20150313",
+      "date": "20150313",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150313.pmua.npz",
+      "sha": "24f7f85a418e2bec70f113b8be9d15dfca1bf7e9e02a93cea6cedfc076b2479c",
+      "n_channels": 51
+    },
+    {
+      "id": "sub-C_ses-CO-20150319",
+      "date": "20150319",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150319.pmua.npz",
+      "sha": "8e86a59ac209005d2cfb2aa542bb910e6b38da883dbca7999dccac26026ecb1a",
+      "n_channels": 42
+    },
+    {
+      "id": "sub-C_ses-CO-20150629",
+      "date": "20150629",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150629.pmua.npz",
+      "sha": "0aca96621f35f2bbe1c6d89feff2399b54a69d34dd3468a42cfeee0c7b7e0238",
+      "n_channels": 34
+    },
+    {
+      "id": "sub-C_ses-CO-20150630",
+      "date": "20150630",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150630.pmua.npz",
+      "sha": "4b1f96c59aaf9a78423e06cfd5dbb1d43f3a1210885e9af6b4d82018087d8c88",
+      "n_channels": 30
+    },
+    {
+      "id": "sub-C_ses-CO-20150701",
+      "date": "20150701",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150701.pmua.npz",
+      "sha": "b824eab4dddb0bfe26974b9eed4d14d40a01997f5f2d6a77080cde629b42e630",
+      "n_channels": 33
+    },
+    {
+      "id": "sub-C_ses-CO-20150703",
+      "date": "20150703",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150703.pmua.npz",
+      "sha": "6bc06183682a98ed63c7689fb6cec97181b885e48d55f89ce268e29351f6e9f3",
+      "n_channels": 35
+    },
+    {
+      "id": "sub-C_ses-CO-20150706",
+      "date": "20150706",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150706.pmua.npz",
+      "sha": "c7481ed795f05a25b74ba44a38d57750a0aaef1c57b03e088cf0aaed813e08ce",
+      "n_channels": 30
+    },
+    {
+      "id": "sub-C_ses-CO-20150707",
+      "date": "20150707",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150707.pmua.npz",
+      "sha": "6255a0d032c1a18801262f74d268336d7e320df79baabf6333723e12336466b3",
+      "n_channels": 27
+    },
+    {
+      "id": "sub-C_ses-CO-20150708",
+      "date": "20150708",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150708.pmua.npz",
+      "sha": "3b9468dd248045eb56caf1a4c90dee1db88c6b334e2eff5c3930dfc0741360ac",
+      "n_channels": 39
+    },
+    {
+      "id": "sub-C_ses-CO-20150709",
+      "date": "20150709",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150709.pmua.npz",
+      "sha": "98bef5f287a8fe6e57f602cc6fe8ebc990c25ed0ef67b5021f4ab12f2c454a8d",
+      "n_channels": 32
+    },
+    {
+      "id": "sub-C_ses-CO-20150710",
+      "date": "20150710",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150710.pmua.npz",
+      "sha": "86113d09c46e045f5e05c21682ba79ddc61b3cb67a88efd5c9f51cb1ec95921b",
+      "n_channels": 28
+    },
+    {
+      "id": "sub-C_ses-CO-20150713",
+      "date": "20150713",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150713.pmua.npz",
+      "sha": "d8c6c3ecb8008f3f4b4786cbfa5e964fd3a45ffbfb20b68d61fde01b53562369",
+      "n_channels": 34
+    },
+    {
+      "id": "sub-C_ses-CO-20150714",
+      "date": "20150714",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150714.pmua.npz",
+      "sha": "c78c952446b9d55004c49db62f11856696b755c99d84afaa8e96dcffdceb4b53",
+      "n_channels": 36
+    },
+    {
+      "id": "sub-C_ses-CO-20150715",
+      "date": "20150715",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150715.pmua.npz",
+      "sha": "3866bc679e1e890189058ea8c0bb39dbcaf721d3078d2a5b2fce35243c46e4ee",
+      "n_channels": 35
+    },
+    {
+      "id": "sub-C_ses-CO-20150716",
+      "date": "20150716",
+      "split": "train",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20150716.pmua.npz",
+      "sha": "18be746c6103d6bcfc1f7a1b4b2cec9d1a190405c51c055c333f4d16c395d881",
+      "n_channels": 34
+    },
+    {
+      "id": "sub-C_ses-CO-20151103",
+      "date": "20151103",
+      "split": "dev",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20151103.pmua.npz",
+      "sha": "67cf667529e586fb7b626880780e77d1b5a65af7fb3e93ff348c5942e1f29344",
+      "n_channels": 25
+    },
+    {
+      "id": "sub-C_ses-CO-20151104",
+      "date": "20151104",
+      "split": "dev",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20151104.pmua.npz",
+      "sha": "525c8cb7490166d91d9979c28d3805ea0f0d4bb01cf2fdbc33f24f437481fe82",
+      "n_channels": 40
+    },
+    {
+      "id": "sub-C_ses-CO-20151106",
+      "date": "20151106",
+      "split": "dev",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20151106.pmua.npz",
+      "sha": "b6da98ae62567d76cac3051da9b471a09e1c0c71ab0fa9fe3a75d2a6c7c38f6c",
+      "n_channels": 39
+    },
+    {
+      "id": "sub-C_ses-CO-20151109",
+      "date": "20151109",
+      "split": "dev",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20151109.pmua.npz",
+      "sha": "274d37907770e95b13d74bde4185ad16f362e8fe694702f45f74dd2f224b2343",
+      "n_channels": 41
+    },
+    {
+      "id": "sub-C_ses-CO-20151110",
+      "date": "20151110",
+      "split": "dev",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20151110.pmua.npz",
+      "sha": "3f2f1dda1b28e6968b0b5b9b2d23abc21f88801c2b0d0d64490b939aba3e43ea",
+      "n_channels": 39
+    },
+    {
+      "id": "sub-C_ses-CO-20151112",
+      "date": "20151112",
+      "split": "dev",
+      "path": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/prepared_2015_m33_v2/sub-C_ses-CO-20151112.pmua.npz",
+      "sha": "a2327209ea44552ee740ee98519cfcec8e1c4a09d0196328207535386523df68",
+      "n_channels": 33
+    }
+  ],
+  "input_source_stats": "/home/xinyuan/Work_host/SPINT/btransform_unified_v2/dandi688_bench_v2/results/formal_campaign_concat_2015_m33_allseeds_20260912/pretrain_pmua_s42/source_stats.json",
+  "input_source_stats_sha256": "7cc65acaa10ba55a8f2e18ff552d8ef7872a2cfb023180cdef9e3c81c5ba6733",
+  "carrier_normalizer": {
+    "mean": [
+      0.012559105642139912,
+      0.054878488183021545,
+      0.12597626447677612,
+      0.4155745506286621
+    ],
+    "std": [
+      0.11159693449735641,
+      0.11053036898374557,
+      0.10940827429294586,
+      0.36848706007003784
+    ]
+  },
+  "method": "estimate_move_t4 from 33 support trials then source-fixed normalizer; no session-wise alignment/rotation/refit",
+  "date_span_days": 248,
+  "pairs_total": 276,
+  "pairs_sufficient_ncommon_ge8": 276,
+  "minimum_n_common": 14,
+  "pair_summary": {
+    "r_norm_flat": {
+      "n": 276,
+      "median": 0.47265518726070616,
+      "q25": 0.34611807431554253,
+      "q75": 0.7672242965864959
+    },
+    "rmse_norm": {
+      "n": 276,
+      "median": 1.1192021369934082,
+      "q25": 0.7460879236459732,
+      "q75": 1.284949153661728
+    },
+    "actual_minus_null": {
+      "n": 276,
+      "median": 0.4696379558746675,
+      "q25": 0.3443357131370989,
+      "q75": 0.7674191126991242
+    },
+    "null_r_mean": {
+      "n": 276,
+      "median": 0.002175816478984592,
+      "q25": -0.00408417754316053,
+      "q75": 0.00879889409780764
+    },
+    "jaccard": {
+      "n": 276,
+      "median": 0.521780303030303,
+      "q25": 0.4573507737656595,
+      "q75": 0.7069805194805195
+    },
+    "r_raw_a": {
+      "n": 276,
+      "median": 0.5803628117561168,
+      "q25": 0.3414292436356519,
+      "q75": 0.7666969290042843
+    },
+    "r_raw_c": {
+      "n": 276,
+      "median": 0.5191990717331522,
+      "q25": 0.39150850540067644,
+      "q75": 0.7825788467186333
+    },
+    "r_raw_magnitude": {
+      "n": 276,
+      "median": 0.49171917319874514,
+      "q25": 0.2952926175179479,
+      "q75": 0.7064975202086208
+    },
+    "r_raw_baseline": {
+      "n": 276,
+      "median": 0.5746458467600936,
+      "q25": 0.36930276900082243,
+      "q75": 0.8917966998581572
+    }
+  },
+  "split_half_summary": {
+    "r_norm_flat": {
+      "n": 24,
+      "median": 0.9009153250158701,
+      "q25": 0.8551408179981246,
+      "q75": 0.926619397811401
+    },
+    "rmse_norm": {
+      "n": 24,
+      "median": 0.47445301711559296,
+      "q25": 0.4357132464647293,
+      "q75": 0.5640646368265152
+    },
+    "r_raw_a": {
+      "n": 24,
+      "median": 0.890501021932361,
+      "q25": 0.8411216188388823,
+      "q75": 0.9129697478065438
+    },
+    "r_raw_c": {
+      "n": 24,
+      "median": 0.8861534606299226,
+      "q25": 0.8140107218370336,
+      "q75": 0.9216614279042203
+    },
+    "r_raw_magnitude": {
+      "n": 24,
+      "median": 0.8867712909720347,
+      "q25": 0.8361036450646179,
+      "q75": 0.9332859565811844
+    },
+    "r_raw_baseline": {
+      "n": 24,
+      "median": 0.9937721982418234,
+      "q25": 0.9922650306181328,
+      "q75": 0.9952976231139481
+    }
+  },
+  "caveat": "Pair summaries are descriptive: date pairs share sessions and no p-values are computed. Split-half is within-session estimator-noise context, not a drift correction.",
+  "output_sha256": {
+    "pairs.csv": "30b4e0cd4bdfc507745256d73942a1ba5b35bf75affe26d9c7341aa81cacaf04",
+    "split_half.csv": "6b121221a393e5fd028768a8a9caead98b808469d76d426465e6ef0f211ccc92",
+    "dandi_pmua_profile_consistency.pdf": "32d4a3205b242b6f4d7895a502b5b7333f1fd248b2867950fa41d0dd4837d04b",
+    "dandi_pmua_profile_consistency.png": "8ee6565cd2a40ff541c4544e6f3bc306eb9ce752925c6c83a23e3a5514b137a1",
+    "analyze_pmua_profiles.py": "455df89e383c9ce698e4a4a22f4b3d3ca9401bbf35406ecf8a37ce8a81bb96b7"
+  },
+  "validation": {
+    "all_sessions_covered": true,
+    "all_pairs_expected": true,
+    "date_span_check_20150309_to_20151112": true,
+    "finite_profile_values": true,
+    "strictly_sorted_unique_ids": true,
+    "observed_mask_matches_ids": true,
+    "null_permutation": "whole 4D electrode rows; fixed seed 20260914; 200 per pair",
+    "diagonal_heatmap": "set to 1 by definition; off-diagonal n_common<8 masked"
+  }
+}

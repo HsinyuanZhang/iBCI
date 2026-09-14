@@ -1,0 +1,18 @@
+{
+  "schema": "m2_move_t4_output_hashes_v1",
+  "script": "analyze_m2_move_t4.py",
+  "note": "hashes generated outputs only; excludes this manifest and the script to avoid self-reference",
+  "sha256": {
+    "README.md": "01c5d448ba9405173509486e47ff3a1cf4df335b796d83bf5cd9306d731a4793",
+    "input_sources.json": "0256155c0d4bb496dbdcff5c14945debcc68795a7c3701529c0a09822649659b",
+    "m2_move_t4_profile_session_consistency.pdf": "5fa293605a638a09eaa3eb2f3a997d4be971dd61ed8d07a48b01b4cdc1cfff10",
+    "m2_move_t4_profile_session_consistency.png": "deb48eded9bbef1a6ad277aad4adbcfc0bc2257a8d0170919ef6c690638f134a",
+    "m2_move_t4_profile_daygap.png": "748b51acd5b87753ba669fdfd83f57c8d2f30a2a9f2b4be044941ed1e03583f4",
+    "m2_move_t4_profile_actual_vs_shuffle_null.png": "63b52a4ae641679691c89e9c1d85ee006e9b60d70b2106278612840c70fd14e1",
+    "pairs.csv": "dc78cdb29c1f117adcdbde4fec0e388917491bc3b89af251ad26f11a75da82a3",
+    "profile_rows.csv": "3d98f35d3ee59313c6d663dffe7b1edb4e0fe4142984d98d953b022fe2c653c6",
+    "sessions.csv": "5f63f30a89f075d4b83dc357871d41ea675aa6fb19d5a8c948bf5353f8abd438",
+    "shuffle_null.csv": "ca164cd13e0f47286ea02ed77502f7bc1f7f409fdc06332f0209f32890b467dd",
+    "summary.json": "d48f1cfbda5424e56463daf57015e8f0d10201e838ef77cfef48cf4338fb4bde"
+  }
+}

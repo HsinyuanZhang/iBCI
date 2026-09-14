@@ -1,0 +1,14 @@
+session_order,tag,date,run,source_or_public,n_units,n_total_channels,coverage,t_shape,t_dtype
+0,Run1_20201019,2020-10-19,Run1,source_held_in,96,96,1.0,96x4,float32
+1,Run2_20201019,2020-10-19,Run2,source_held_in,96,96,1.0,96x4,float32
+2,Run1_20201020,2020-10-20,Run1,source_held_in,96,96,1.0,96x4,float32
+3,Run2_20201020,2020-10-20,Run2,source_held_in,96,96,1.0,96x4,float32
+4,Run1_20201027,2020-10-27,Run1,source_held_in,96,96,1.0,96x4,float32
+5,Run2_20201027,2020-10-27,Run2,source_held_in,96,96,1.0,96x4,float32
+6,Run1_20201028,2020-10-28,Run1,source_held_in,96,96,1.0,96x4,float32
+7,Run1_20201030,2020-10-30,Run1,public_held_out_calibration,96,96,1.0,96x4,float32
+8,Run2_20201030,2020-10-30,Run2,public_held_out_calibration,96,96,1.0,96x4,float32
+9,Run1_20201118,2020-11-18,Run1,public_held_out_calibration,96,96,1.0,96x4,float32
+10,Run1_20201119,2020-11-19,Run1,public_held_out_calibration,96,96,1.0,96x4,float32
+11,Run1_20201124,2020-11-24,Run1,public_held_out_calibration,96,96,1.0,96x4,float32
+12,Run2_20201124,2020-11-24,Run2,public_held_out_calibration,96,96,1.0,96x4,float32

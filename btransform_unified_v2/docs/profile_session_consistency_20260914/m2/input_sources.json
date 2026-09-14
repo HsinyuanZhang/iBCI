@@ -1,0 +1,46 @@
+{
+  "analysis": "M2 Full 582481 deployed MOVE-T4 session consistency",
+  "read_only": true,
+  "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_s1formal_flat_e9_v1/artifacts/m2_rift_r50_s1formal_flat_e9.pkl",
+  "payload_sha256": "608116d363aa7353ad7bec6ca407c815e7d8a9eddce2863ae72c3faae93833fd",
+  "bank_source_payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_concat_ort_v1/artifacts/m2_small_trf_s42_ema_e08_ext6.pkl",
+  "bank_source_payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+  "normalizer_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/results/m2_dual_track_v1/20260905_101500/cache/move_t4_normalizer.json",
+  "normalizer_sha256": "57ad812ee22ad5a08b8ed6c8a06b5d2ed104f3d74ec83839475ce8b641facd1e",
+  "normalizer_mean": [
+    -0.012686138972640038,
+    0.009905640967190266,
+    0.05819733813405037,
+    0.14269712567329407
+  ],
+  "normalizer_std": [
+    0.07923196256160736,
+    0.09495468437671661,
+    0.11030062288045883,
+    0.28347960114479065
+  ],
+  "profile_space": "fixed source-normalized MOVE-T4; no sessionwise re-normalization, rotation, or alignment",
+  "profile_shape_per_session": [
+    96,
+    4
+  ],
+  "features": [
+    "m_cos_phi",
+    "m_sin_phi",
+    "modulation_magnitude",
+    "baseline_rate"
+  ],
+  "n_sessions": 13,
+  "n_unordered_pairs": 78,
+  "n_shuffles_per_pair": 200,
+  "shuffle": "fixed seed 20260914; a whole 4-D electrode row of the right session is permuted; no pairwise p-values",
+  "all_payload_T_byte_equal_to_bank_source": true,
+  "source_cache_T_byte_equal_to_payload_for_all_7_heldin": true,
+  "heldout_ext6_artifact": "/mnt/data/SPINT_cold_archive/2026-09-11/btransform_unified_v2/results/rift_v1/m2_joint_ext6_raw_m33_v1",
+  "heldout_ext6_note": "six-session raw-M33 manifest gives public-NWB provenance and seals T equality against query cache",
+  "channel_correspondence": "NWB 13-file audit supports fixed electrode/channel coordinate 0..95; not longitudinal same-neuron identity",
+  "exact_per_trial_t4_sufficient_statistics_cached": false,
+  "split_half_not_run": "No cached trial spike sums, valid-prefix lengths, and target angles. Do not treat interpolated calib_activity as exact deployed-T split-half input.",
+  "query_labels_opened": false,
+  "decoder_scored": false
+}

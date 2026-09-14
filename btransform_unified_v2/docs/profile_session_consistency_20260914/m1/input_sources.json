@@ -1,0 +1,9 @@
+{
+  "input": "carrier_pack.npz",
+  "input_sha256": "68dc80c8734f4310c0ec378f599fd041a439906e90973db4351d582c9a30887e",
+  "fit": "fit.npz",
+  "fit_sha256": "2fea6e917259294fdb8f040f007940550269f601c7cfe8dba6ab14a5420c5434",
+  "metadata": "carrier_pack.json",
+  "metadata_sha256": "82547c06c1ba29ed1a50f705a934324f673968b6e739044fc0e855947273e2dc",
+  "definition": "M1 official Full 582413 carrier profile: frozen source-only muscle-response16 SVD4, then fixed source normalizer; fixed input columns 0..63."
+}

@@ -1,0 +1,8 @@
+order,tag,date,source_or_held_out,n_fixed_columns,profile_shape
+0,ses-20120924,2012-09-24,source_held_in,64,64x4
+1,ses-20120926,2012-09-26,source_held_in,64,64x4
+2,ses-20120927,2012-09-27,source_held_in,64,64x4
+3,ses-20120928,2012-09-28,source_held_in,64,64x4
+4,20121004,2012-10-04,held_out,64,64x4
+5,20121017,2012-10-17,held_out,64,64x4
+6,20121024,2012-10-24,held_out,64,64x4

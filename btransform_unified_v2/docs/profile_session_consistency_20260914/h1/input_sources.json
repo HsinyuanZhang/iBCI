@@ -1,0 +1,9 @@
+{
+  "input": "banks_27.npz",
+  "input_sha256": "6cff806fdf55daa0cf2bd6ac09b6db94d66188d5941490fcff10a403d1e8686b",
+  "fit": "signed_state14_plan.npz",
+  "fit_sha256": "625720559b4a514a6674663b92bde24272f223780e1a8ea2bf2be6184999386a",
+  "metadata": "receipt.json",
+  "metadata_sha256": "5a62b35078a014f5389fea4d6a0743034fbae622865495f6e8217fd741642893",
+  "definition": "H1 official Full 582241 signed-state14 profile: source-plan projection/normalization; fixed columns 0..175."
+}

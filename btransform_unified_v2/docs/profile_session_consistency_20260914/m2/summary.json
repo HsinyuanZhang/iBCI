@@ -1,0 +1,378 @@
+{
+  "provenance": {
+    "analysis": "M2 Full 582481 deployed MOVE-T4 session consistency",
+    "read_only": true,
+    "payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_rift_r50_s1formal_flat_e9_v1/artifacts/m2_rift_r50_s1formal_flat_e9.pkl",
+    "payload_sha256": "608116d363aa7353ad7bec6ca407c815e7d8a9eddce2863ae72c3faae93833fd",
+    "bank_source_payload_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/submissions/evalai_m2_small_concat_ort_v1/artifacts/m2_small_trf_s42_ema_e08_ext6.pkl",
+    "bank_source_payload_sha256": "4db109e75276d6e8f47df6540b0a4c8f6e955f81af1212127723976795f2eaa4",
+    "normalizer_path": "/home/xinyuan/Work_host/SPINT/tfpd_exploration/results/m2_dual_track_v1/20260905_101500/cache/move_t4_normalizer.json",
+    "normalizer_sha256": "57ad812ee22ad5a08b8ed6c8a06b5d2ed104f3d74ec83839475ce8b641facd1e",
+    "normalizer_mean": [
+      -0.012686138972640038,
+      0.009905640967190266,
+      0.05819733813405037,
+      0.14269712567329407
+    ],
+    "normalizer_std": [
+      0.07923196256160736,
+      0.09495468437671661,
+      0.11030062288045883,
+      0.28347960114479065
+    ],
+    "profile_space": "fixed source-normalized MOVE-T4; no sessionwise re-normalization, rotation, or alignment",
+    "profile_shape_per_session": [
+      96,
+      4
+    ],
+    "features": [
+      "m_cos_phi",
+      "m_sin_phi",
+      "modulation_magnitude",
+      "baseline_rate"
+    ],
+    "n_sessions": 13,
+    "n_unordered_pairs": 78,
+    "n_shuffles_per_pair": 200,
+    "shuffle": "fixed seed 20260914; a whole 4-D electrode row of the right session is permuted; no pairwise p-values",
+    "all_payload_T_byte_equal_to_bank_source": true,
+    "source_cache_T_byte_equal_to_payload_for_all_7_heldin": true,
+    "heldout_ext6_artifact": "/mnt/data/SPINT_cold_archive/2026-09-11/btransform_unified_v2/results/rift_v1/m2_joint_ext6_raw_m33_v1",
+    "heldout_ext6_note": "six-session raw-M33 manifest gives public-NWB provenance and seals T equality against query cache",
+    "channel_correspondence": "NWB 13-file audit supports fixed electrode/channel coordinate 0..95; not longitudinal same-neuron identity",
+    "exact_per_trial_t4_sufficient_statistics_cached": false,
+    "split_half_not_run": "No cached trial spike sums, valid-prefix lengths, and target angles. Do not treat interpolated calib_activity as exact deployed-T split-half input.",
+    "query_labels_opened": false,
+    "decoder_scored": false
+  },
+  "sessions": [
+    {
+      "session_order": 0,
+      "tag": "Run1_20201019",
+      "date": "2020-10-19",
+      "run": "Run1",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 1,
+      "tag": "Run2_20201019",
+      "date": "2020-10-19",
+      "run": "Run2",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 2,
+      "tag": "Run1_20201020",
+      "date": "2020-10-20",
+      "run": "Run1",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 3,
+      "tag": "Run2_20201020",
+      "date": "2020-10-20",
+      "run": "Run2",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 4,
+      "tag": "Run1_20201027",
+      "date": "2020-10-27",
+      "run": "Run1",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 5,
+      "tag": "Run2_20201027",
+      "date": "2020-10-27",
+      "run": "Run2",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 6,
+      "tag": "Run1_20201028",
+      "date": "2020-10-28",
+      "run": "Run1",
+      "source_or_public": "source_held_in",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 7,
+      "tag": "Run1_20201030",
+      "date": "2020-10-30",
+      "run": "Run1",
+      "source_or_public": "public_held_out_calibration",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 8,
+      "tag": "Run2_20201030",
+      "date": "2020-10-30",
+      "run": "Run2",
+      "source_or_public": "public_held_out_calibration",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 9,
+      "tag": "Run1_20201118",
+      "date": "2020-11-18",
+      "run": "Run1",
+      "source_or_public": "public_held_out_calibration",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 10,
+      "tag": "Run1_20201119",
+      "date": "2020-11-19",
+      "run": "Run1",
+      "source_or_public": "public_held_out_calibration",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 11,
+      "tag": "Run1_20201124",
+      "date": "2020-11-24",
+      "run": "Run1",
+      "source_or_public": "public_held_out_calibration",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    },
+    {
+      "session_order": 12,
+      "tag": "Run2_20201124",
+      "date": "2020-11-24",
+      "run": "Run2",
+      "source_or_public": "public_held_out_calibration",
+      "n_units": 96,
+      "n_total_channels": 96,
+      "coverage": 1.0,
+      "t_shape": "96x4",
+      "t_dtype": "float32"
+    }
+  ],
+  "summary_statistics": {
+    "all_pairs": {
+      "n": 78,
+      "median": 0.5705046952532218,
+      "q25": 0.45030802079979576,
+      "q75": 0.668747124175236,
+      "mean": 0.5768097719468884,
+      "min": 0.32176365467913676,
+      "max": 0.9437142244632379
+    },
+    "all_pairs_rmse_source_normalized_units": {
+      "n": 78,
+      "median": 0.877615213394165,
+      "q25": 0.7474304586648941,
+      "q75": 1.0674922466278076,
+      "mean": 0.9021754089074258,
+      "min": 0.2858532667160034,
+      "max": 1.2721768617630005
+    },
+    "shuffle_null_flattened_r": {
+      "n": 15600,
+      "median": -0.011148440504258407,
+      "q25": -0.04013087574014906,
+      "q75": 0.028271128180825302,
+      "mean": 0.0018875818017410591,
+      "min": -0.12459313498940218,
+      "max": 0.5240358245689779
+    },
+    "same_date_different_run": {
+      "flattened_r_actual": {
+        "n": 5,
+        "median": 0.9010283592798043,
+        "q25": 0.8856352695227402,
+        "q75": 0.9436878154369647,
+        "mean": 0.8950932321874964,
+        "min": 0.8014004922347351,
+        "max": 0.9437142244632379
+      },
+      "rmse_fixed_source_normalized_units": {
+        "n": 5,
+        "median": 0.4463587701320648,
+        "q25": 0.4073953330516815,
+        "q75": 0.5531704425811768,
+        "mean": 0.45112295150756837,
+        "min": 0.2858532667160034,
+        "max": 0.5628369450569153
+      }
+    },
+    "adjacent_date": {
+      "flattened_r_actual": {
+        "n": 7,
+        "median": 0.48135115560338004,
+        "q25": 0.45867267658794714,
+        "q75": 0.5867746239054626,
+        "mean": 0.5177514733291212,
+        "min": 0.4412001453456306,
+        "max": 0.6108144113680181
+      },
+      "rmse_fixed_source_normalized_units": {
+        "n": 7,
+        "median": 1.1214948892593384,
+        "q25": 0.850912868976593,
+        "q75": 1.1673504710197449,
+        "mean": 1.01601699420384,
+        "min": 0.7734427452087402,
+        "max": 1.1806546449661255
+      }
+    },
+    "other_different_date": {
+      "flattened_r_actual": {
+        "n": 66,
+        "median": 0.567306637969154,
+        "q25": 0.44854991743415307,
+        "q75": 0.6644140449172486,
+        "mean": 0.5589611475396358,
+        "min": 0.32176365467913676,
+        "max": 0.7894073208478164
+      },
+      "rmse_fixed_source_normalized_units": {
+        "n": 66,
+        "median": 0.8842791318893433,
+        "q25": 0.7696847021579742,
+        "q75": 1.0569792687892914,
+        "mean": 0.9242719420880983,
+        "min": 0.5920223593711853,
+        "max": 1.2721768617630005
+      }
+    },
+    "all_different_date": {
+      "definition": "all pairs with actual calendar day_gap > 0",
+      "flattened_r_actual": {
+        "n": 73,
+        "median": 0.5656542356280493,
+        "q25": 0.4501268938549692,
+        "q75": 0.6490036537220083,
+        "mean": 0.555009534944107,
+        "min": 0.32176365467913676,
+        "max": 0.7894073208478164
+      },
+      "rmse_fixed_source_normalized_units": {
+        "n": 73,
+        "median": 0.8861717581748962,
+        "q25": 0.773914635181427,
+        "q75": 1.083359956741333,
+        "mean": 0.9330694128389228,
+        "min": 0.5920223593711853,
+        "max": 1.2721768617630005
+      }
+    },
+    "pair_level_null_comparison": {
+      "null_r_mean_across_pairs": {
+        "n": 78,
+        "median": 0.0019037683961848663,
+        "q25": -0.0047660779969183045,
+        "q75": 0.007024252348777199,
+        "mean": 0.0018875818017410593,
+        "min": -0.018153045640406915,
+        "max": 0.024280956593705057
+      },
+      "actual_minus_pair_null_r_mean": {
+        "n": 78,
+        "median": 0.5692304430991331,
+        "q25": 0.44923288409435297,
+        "q75": 0.6626155574383896,
+        "mean": 0.5749221901451472,
+        "min": 0.3284457873480499,
+        "max": 0.9394282518991991
+      },
+      "interpretation": "descriptive paired contrast only; no independent-pair p-value"
+    }
+  },
+  "feature_pair_medians": {
+    "m_cos_phi": {
+      "n": 78,
+      "median": 0.43927339491052675,
+      "q25": 0.2998671053467421,
+      "q75": 0.5662828633476285,
+      "mean": 0.42482389648295016,
+      "min": 0.02118490826480864,
+      "max": 0.9412938778198664
+    },
+    "m_sin_phi": {
+      "n": 78,
+      "median": 0.5566711667577309,
+      "q25": 0.46098797553227877,
+      "q75": 0.6355871397491554,
+      "mean": 0.5628878768640492,
+      "min": 0.2913099412060134,
+      "max": 0.9494507937835968
+    },
+    "modulation_magnitude": {
+      "n": 78,
+      "median": 0.5837713366768525,
+      "q25": 0.4937063447561527,
+      "q75": 0.7713584317163699,
+      "mean": 0.6155795592877306,
+      "min": 0.3064661623378281,
+      "max": 0.9703980909112503
+    },
+    "baseline_rate": {
+      "n": 78,
+      "median": 0.7715580036411618,
+      "q25": 0.6819762395607754,
+      "q75": 0.8256358565675721,
+      "mean": 0.7611270630323518,
+      "min": 0.6017817122423643,
+      "max": 0.9919036937860091
+    }
+  },
+  "all_pairs_have_ncommon_at_least_8": true,
+  "all_pairs_unit_mask_jaccard_one": true,
+  "date_span_days": 36
+}
